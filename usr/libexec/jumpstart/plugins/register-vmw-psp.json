@@ -1,0 +1,26 @@
+/***********************************************************
+ * Copyright 2010-2011 VMware, Inc.  All rights reserved.
+ * VMware Confidential
+ ***********************************************************/
+
+{
+   "operations" :
+   {
+      "start" :
+      [
+         "storage core plugin registration add -m vmw_psp_fixed -N PSP -P VMW_PSP_FIXED -d vmw_psp_lib",
+         "storage core plugin registration add -m vmw_psp_rr -N PSP -P VMW_PSP_RR -d vmw_psp_lib",
+         "storage core plugin registration add -m vmw_psp_mru -N PSP -P VMW_PSP_MRU -d vmw_psp_lib",
+
+         "storage core plugin registration add -m vmw_psp_lib -N PSP -P None"
+      ]
+   }
+   ,
+   "metadata" :
+   {
+      "version"  : 1,
+      "requires" : [],
+      "provides" : ["NMP PSP registration"]
+   }
+}
+

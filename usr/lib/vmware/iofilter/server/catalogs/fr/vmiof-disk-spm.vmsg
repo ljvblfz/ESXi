@@ -1,0 +1,13 @@
+# en language catalog for the 'spm' iofilter
+
+iofilters.disk.spm.capability.limit.label = Limite d'IOPS
+iofilters.disk.spm.capability.limit.summary = Nombre limite d'IOPS (illimité : -1 ; valeurs valides : 16 à 1 000 000).
+
+iofilters.disk.spm.capability.reservation.label = Réservation d'IOPS
+iofilters.disk.spm.capability.reservation.summary = Nombre d'IOPS réservées.
+
+iofilters.disk.spm.name.label = VMware Storage I/O Control
+iofilters.disk.spm.name.summary = Filtre de VMware Storage I/O Control.
+
+iofilters.disk.spm.capability.shares.label = Partages d'IOPS
+iofilters.disk.spm.capability.shares.summary = Nombre de partages d'IOPS.

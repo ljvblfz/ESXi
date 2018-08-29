@@ -1,0 +1,84 @@
+<div ng-if="tabs.sensors.loaded || hostMonitorHardwareTabs.tabs[getSelectedTab()].state === tabs.sensors.state"
+     ng-controller="HostMonitorHardwareSensorsController" class="esx-tertiary-tab-content">
+
+   <div ng-show="!loaded && !error" class="loading"></div>
+
+   <div ng-if="error" style="text-align: center;">{{error}}</div>
+
+   <div class="notification-area" ng-if="notifications.length > 0">
+      <div esx-notification
+            ng-repeat="notification in notifications"
+            type="{{notification.type}}">
+         {{notification.text}}
+      </div>
+   </div>
+
+   <div ng-show="loaded" id="{{sensorGrid.id}}" vui-datagrid="sensorGrid"></div>
+
+   <hr ng-if="currentSensor !== null" style="margin-top: 20px; margin-bottom: 20px;"/>
+
+   <div ng-if="currentSensor !== null" class="row header-area no-margin key-information" style="margin-top: 20px;">
+      <div class="col-sm-12 col-lg-12 info-block no-padding">
+         <div class="col-sm-1 col-lg-1 no-padding identifying-graphic">
+            <img ng-src="images/metric32.png" alt="{{'host.hardware.sensors.alt'|translate}}"/>
+         </div>
+
+         <div class="key-information col-sm-10 col-lg-10">
+            <div class="row" style="margin-bottom: 6px;">
+               <div class="col-sm-12 title no-padding">
+                  <span class="object-title" ng-bind="currentSensor.name"></span>
+               </div>
+            </div>
+
+            <div class="row" style="margin-bottom: 6px;">
+               <span class="col-sm-4 col-lg-4 control-label esx-label no-padding">{{'host.monitor.hardware.sensors.type' | translate}}</span>
+               <div class="col-sm-6 col-lg-6 no-padding">
+                  <p class="form-control-static">{{currentSensor.sensorType}}</p>
+               </div>
+            </div>
+
+            <div class="row" ng-if="currentSensor.sensorType !== 'Software Components'" style="margin-bottom: 6px;">
+               <span class="col-sm-4 col-lg-4 control-label esx-label no-padding">{{'host.monitor.hardware.sensors.health' | translate}}</span>
+               <div class="col-sm-6 col-lg-6 no-padding">
+                  <p class="form-control-static">{{'host.monitor.hardware.sensors.state.' + currentSensor.healthState.key | translate}}</p>
+               </div>
+            </div>
+
+            <div class="row" style="margin-bottom: 6px;"
+                  ng-if="currentSensor.sensorType !== 'Software Components' &&
+                     currentSensor.sensorType !== 'system' &&
+                     currentSensor.sensorType !== 'Processors'">
+               <span class="col-sm-4 col-lg-4 control-label esx-label no-padding">{{'host.monitor.hardware.sensors.currentReading' | translate}}</span>
+               <div class="col-sm-6 col-lg-6 no-padding">
+                  <p class="form-control-static">{{currentSensor.currentReadingCalculated}}</p>
+               </div>
+            </div>
+
+            <div class="row" ng-if="currentSensor.timeStamp" style="margin-bottom: 6px;">
+               <span class="col-sm-4 col-lg-4 control-label esx-label no-padding">{{'host.monitor.hardware.sensors.lastUpdated' | translate}}</span>
+               <div class="col-sm-6 col-lg-6 no-padding">
+                  <p class="form-control-static">{{currentSensor.timeStamp}}</p>
+               </div>
+            </div>
+
+            <div class="row" ng-if="currentSensor.fru" style="margin-bottom: 6px;">
+               <span class="col-sm-4 col-lg-4 control-label esx-label no-padding">{{'host.monitor.hardware.sensors.fru' | translate}}</span>
+               <div class="col-sm-6 col-lg-6 no-padding">
+                  <p class="form-control-static">{{currentSensor.fru.partName}} {{currentSensor.fru.partNumber}}</p>
+               </div>
+            </div>
+
+            <div class="row" ng-if="currentSensor.numSelEntries > 0" style="margin-bottom: 6px;">
+               <span class="col-sm-4 col-lg-4 control-label esx-label no-padding">{{'host.monitor.hardware.sensors.eventLogEntries' | translate}}</span>
+               <div class="col-sm-6 col-lg-6 no-padding">
+                  <p class="form-control-static">
+                     <ul>
+                        <li ng-repeat="selEntry in currentSensor.selEntries">{{selEntry.message}} at {{selEntry.when}}</li>
+                     </ul>
+                  </p>
+               </div>
+            </div>
+         </div>
+      </div>
+   </div>
+</div>

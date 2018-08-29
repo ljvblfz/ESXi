@@ -1,0 +1,7 @@
+#!/usr/bin/python
+# **********************************************************
+# Copyright 2014-2015 VMware, Inc.  All rights reserved. -- VMware Confidential
+# **********************************************************
+import hostprofiles
+from utilities.applyProfile import applyHostProfile
+applyHostProfile.main()

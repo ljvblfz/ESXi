@@ -1,0 +1,18 @@
+<div
+   ng-controller="StorageAdapterConfigureISCSISettingsController">
+
+   <div class="vui-stack-view">
+      <div class="stack-view-table">
+
+         <div ng-include="'views/storage/adapter/configure-iscsi-auth.html'"></div>
+
+         <esx-portlet-content
+            data="advancedBlock.data"
+            no-top-border="true"
+            item-scope="scope"
+            ng-if="device !== null"></esx-portlet-content>
+
+      </div>
+   </div>
+
+</div>

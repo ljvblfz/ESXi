@@ -1,0 +1,117 @@
+#!/usr/bin/python
+
+# **********************************************************
+# Copyright 2011 VMware, Inc.  All rights reserved.
+# **********************************************************
+
+import os
+import sys, traceback
+from vmware.esximage import Errors
+from vmware.esxsoftwarecli import IFace
+
+# This must come before anything that tries to import runcommand. runcommand
+# imports vmkuser, which links to libvmkuser, and libvmkuser has an annoying
+# habit of calling exit() when it can't do something.
+if os.getuid():
+   IFace.OutputErr(Errors.NotRootError())
+   sys.exit()
+
+import logging, logging.handlers
+import optparse
+
+from vmware.esximage import HostImage
+from vmware.esximage import ImageProfile
+from vmware.esxsoftwarecli import List, Struct
+
+class Mapname:
+   '''  Class to build a mapping for all the
+        payloads to it's corresponding vib's name
+   '''
+
+   STRUCT_TYPE = 'MapSummary'
+
+   @classmethod
+   def FromVibStates(cls, local_payload_filename , **kwargs):
+      res = dict()
+      res['PayloadName']= local_payload_filename
+      res['VibID'] = kwargs.pop('Vibname')
+      res['structtype'] = cls.STRUCT_TYPE
+      res.update(kwargs)
+      return Struct(**res)
+
+def GetProfile():
+   host = HostImage.HostImage()
+   profile = host.GetProfile(database=host.DB_VISORFS)
+   return profile
+
+# Map each of the payload local filename to the corresponding vib name.
+# For example, sata_sat.v00 ----> VMware_bootbank_sata-sata-nv_3.5-3vmw.510.0.0.486075.
+#The output is formated as table.
+def MapCmd(opts):
+   profile = GetProfile()
+   maplist = List("structure")
+   for vibid in profile.vibIDs:
+      vibstate = profile.vibstates[vibid]
+      payload_dict = vibstate.payloads
+      for payload, payload_local_filename in payload_dict.items():
+          maplist.append(Mapname.FromVibStates(payload_local_filename, Vibname = vibid))
+   return maplist
+
+def AcceptanceSetCmd(opts):
+   """Set the acceptance level of the host to that of the installed image profile"""
+   host = HostImage.HostImage()
+   profile = host.GetProfile(database=host.DB_VISORFS)
+   if host.GetHostAcceptance() == '':
+      host.SetHostAcceptance(profile.acceptancelevel);
+   return profile.acceptancelevel
+
+def setupLogging():
+   loghandler = False
+   try:
+      handler = logging.handlers.SysLogHandler(address='/dev/log')
+      formatter = 'esxupdate: %(name)s: %(levelname)s: %(message)s'
+      handler.setFormatter(logging.Formatter(formatter))
+
+      # override the original value, which adds \000 at the end of a msg
+      # This shows up as ^@ in editor
+      handler.log_format_string = '<%d>%s'
+      loghandler = True
+   except Exception as e:
+      pass
+
+   global log
+   log = logging.getLogger()
+   if loghandler:
+      for h in log.handlers:
+         log.removeHandler(h)
+      log.addHandler(handler)
+   # set this back to logging.INFO closer to release.
+   log.setLevel(logging.DEBUG)
+
+CMDTABLE = {"profile.getvibmap": MapCmd,
+            "profile.setacceptance": AcceptanceSetCmd}
+
+def main():
+   # Add options
+   # default action is 'store', dest defaults to long option name
+   parser = IFace.CliOptParser()
+   (options, args) = parser.parse_args()
+   command = args[0].strip()
+   log.info("Command = %s" % (command))
+   log.info("Options = %s" % (options))
+   ret = CMDTABLE[command](options)
+   log.debug("Finished execution of command = %s" % (command))
+   IFace.OutputEsxcli(ret)
+   log.debug("Completed esxcli output, going to exit esxcli-softwareinternal")
+
+##
+setupLogging()
+try:
+   main()
+except Exception as e:
+   # Note: log.exception will truncate long message, here just
+   # log each line of the traceback.
+   for line in traceback.format_exc().splitlines():
+      log.error(line)
+   IFace.OutputErr(e)
+   IFace.OutputErr("Please refer to the log file for more details.")

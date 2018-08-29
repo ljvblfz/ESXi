@@ -1,0 +1,16 @@
+# vSAN features
+com.vmware.vim.license.Feature.vit.label                              = "iSCS"
+com.vmware.vim.license.Feature.vit.summary                            = "iSCSI"
+com.vmware.vim.license.Feature.allflash.label                         = "オールフラッシュ"
+com.vmware.vim.license.Feature.allflash.summary                       = "オールフラッシュ"
+com.vmware.vim.license.Feature.stretchedcluster.label                 = "ストレッチ クラスタ"
+com.vmware.vim.license.Feature.stretchedcluster.summary               = "ストレッチ クラスタ"
+com.vmware.vim.license.Feature.erasurecoding.label                    = "RAID5/RAID6 サポート"
+com.vmware.vim.license.Feature.erasurecoding.summary                  = "RAID5/RAID6 サポート"
+com.vmware.vim.license.Feature.iopslimit.label                        = "仮想マシン/VMDK ごとの最大 IOPS を設定します"
+com.vmware.vim.license.Feature.iopslimit.summary                      = "仮想マシン/VMDK ごとの最大 IOPS を設定します"
+com.vmware.vim.license.Feature.storageefficiency.label                = "デデュープおよび圧縮によるストレージの節約"
+com.vmware.vim.license.Feature.storageefficiency.summary              = "デデュープおよび圧縮によるストレージの節約"
+com.vmware.vim.license.Feature.encryption.label                       = "vSAN 暗号化"
+com.vmware.vim.license.Feature.encryption.summary                     = "vSAN 暗号化"
+

@@ -1,0 +1,61 @@
+<div ng-controller="HostManageSecurityUsersAddController"
+   class="content-padding" style="margin: 10px;">
+
+   <div ng-if="!loaded">
+      <div style="position: absolute;
+            top: 31px; left: 0; bottom: 41px; right: 0;
+            z-index: 11;
+            background-position: 50% 50%;
+            background-repeat: no-repeat;
+            background-image: url('images/tiny_loader_transparent_bg.gif');
+            text-align: center;">
+      </div>
+      <div style="position: absolute; top: 31px; left: 0; bottom: 41px; right: 0;
+         background-color: #ffffff; z-index: 10; opacity: 0.7;">
+      </div>
+   </div>
+
+   <div class="vui-stack-view">
+      <div class="stack-view-table">
+
+       <div vui-stack-block="userNameBlock">
+          <span vui-sb-label>
+             {{"host.manage.system.security.users.addUser.userNameBlockLabel"|translate}}</span>
+          <div vui-sb-content>
+             <input type="text" ng-pattern="SANITIZE_INPUT_REGEX" ng-model="data.user.id"
+                focus-me="true"
+                title="{{'host.manage.system.security.users.addUser.userNameBlockLabel'|translate}}"/>
+          </div>
+       </div>
+
+       <div vui-stack-block="userDescriptionBlock">
+          <span vui-sb-label>
+             {{"host.manage.system.security.users.addUser.userDescriptionBlockLabel"|translate}}</span>
+          <div vui-sb-content>
+             <input type="text" ng-pattern="SANITIZE_INPUT_REGEX"  ng-model="data.user.description"
+                title="{{'host.manage.system.security.users.addUser.userDescriptionBlockLabel'|translate}}"/>
+          </div>
+       </div>
+
+       <div vui-stack-block="userPasswordBlock">
+          <span vui-sb-label>
+             {{"host.manage.system.security.users.addUser.userPasswordBlockLabel"|translate}}</span>
+          <div vui-sb-content>
+             <input type="password" ng-model="data.user.password"
+                title="{{'host.manage.system.security.users.addUser.userPasswordBlockLabel'|translate}}"/>
+          </div>
+       </div>
+
+       <div vui-stack-block="userConfirmPasswordBlock">
+          <span vui-sb-label>
+             {{"host.manage.system.security.users.addUser.userConfirmPasswordBlockLabel"|translate}}</span>
+          <div vui-sb-content>
+             <input type="password" ng-model="data.user.confirmPassword" ng-class="{invalid: !passwordsMatch}"
+                title="{{'host.manage.system.security.users.addUser.userConfirmPasswordBlockLabel'|translate}}"/>
+          </div>
+       </div>
+
+     </div>
+   </div>
+
+</div>

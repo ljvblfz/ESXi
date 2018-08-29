@@ -1,0 +1,417 @@
+# en_US resources
+signature="sIgNaTuRe"
+
+#
+# Licensing faults
+com.vmware.vim.license.error.featureUnavailable = "La fonctionnalité '{feature.@enum.com.vmware.vim.license.Feature}' n'est pas sous licence, nécessite {need} a {have}"
+com.vmware.vim.license.error.featureMissing = "La fonctionnalité '{feature.@enum.com.vmware.vim.license.Feature}' n'est pas sous licence avec cette édition"
+com.vmware.vim.license.error.evalPeriodOver = "La période d’évaluation est terminée, {info.@enum.com.vmware.vim.license.msgs}"
+com.vmware.vim.license.error.LicenseExpired = "La licence a expiré, {info.@enum.com.vmware.vim.license.msgs}"
+com.vmware.vim.license.error.BadInput = "Le sous-système de licence a été appelé avec un argument {vm} non valide"
+com.vmware.vim.license.error.nolicense = "Veuillez installer une licence valide pour utiliser ce produit"
+
+# Feature names defined in enum.vmsg
+com.vmware.vim.license.features.info = "{feature.@enum.com.vmware.vim.license.Feature}"
+
+# Start System Error messages
+com.vmware.vim.uuid.transientFailure = "Erreur de génération d'UUID transitoire : {arg}"
+# End System Error messages
+
+#
+vim.hostd.vdisksvc.diskNotThinProvisioned = "Le disque n’est pas provisionné dynamiquement."
+vim.hostd.vdisksvc.diskNotZeroedThick = "Le disque n'a pas d'espace entièrement alloué."
+vim.hostd.vdisksvc.noIOBeyondEndOfDisk= "Impossible d'effectuer une E/S au-delà de la fin du disque virtuel."
+vim.hostd.vdisksvc.doesNotStartAtSectorZero = "L'opération ne commence pas au secteur 0."
+vim.hostd.vdisksvc.badReparentSpec = "La spécification de définition d'un nouveau parent n'est pas valide."
+vim.hostd.vdisksvc.cannotMarkParentReadonly = "Impossible de marquer le disque parent comme étant en lecture seule."
+vim.hostd.vdisksvc.diskSizeTooSmall = "La taille du disque virtuel est trop petite."
+vim.hostd.vdisksvc.fileNameTooLong = "Le nom du fichier est trop long."
+vim.hostd.vdisksvc.attachRootLink = "Les disques virtuels parents et enfants sont des disques de base."
+
+#
+vim.hostd.hostsvc.invalidDiskPartitioningFormatChange = "Le changement de format de partitionnement de disque n'est pas pris en charge. Le disque doit disposer de partitions non-VMware."
+vim.hostd.hostsvc.invalidDiskSizeForPartitioningFormat = "Le format de partitionnement ne prend pas en charge la taille de disque spécifiée."
+
+vim.hostd.hostsvc.HBA.ipv4.unsupportedEnabled = "IPv4 ne peut pas être activé, car il n'est pas pris en charge par l'adaptateur de bus hôte."
+vim.hostd.hostsvc.HBA.ipv4.unsupportedDHCPSet = "IPv4 DHCP n'est pas pris en charge par l'adaptateur de bus hôte."
+vim.hostd.hostsvc.HBA.ipv4.invalidAddressAndNetmask = "Configuration d'adresse IPv4 et de masque de sous-réseau non valide spécifiée. Les deux valeurs doivent être spécifiées."
+vim.hostd.hostsvc.HBA.ipv4.unsupportedAddressAndNetmaskSet = "La configuration d'adresse IPv4 et de masque de sous-réseau n'est pas prise en charge par l'adaptateur de bus hôte."
+vim.hostd.hostsvc.HBA.ipv4.unsupportedDefaultGatewaySet = "La configuration de passerelle IPv4 par défaut n'est pas prise en charge par l'adaptateur de bus hôte."
+
+vim.hostd.hostsvc.HBA.ipv6.unsupportedEnabled = "IPv6 ne peut pas être activé, car il n'est pas pris en charge par l'adaptateur de bus hôte."
+vim.hostd.hostsvc.HBA.ipv6.unspecifiedProperties = "Les propriétés IPv6 doivent être spécifiées pour l'adaptateur de bus hôte."
+vim.hostd.hostsvc.HBA.ipv6.unsupportedDHCP = "IPv6 DHCP n'est pas pris en charge par l'adaptateur de bus hôte."
+vim.hostd.hostsvc.HBA.ipv6.unsupportedLinkLocalAutoConf = "La méthode de configuration automatique de la liaison locale IPv6 n'est pas prise en charge par l'adaptateur de bus hôte."
+vim.hostd.hostsvc.HBA.ipv6.unsupportedRouterAdvertisement = "La méthode de configuration par annonce de routeur IPv6 n'est pas prise en charge par l'adaptateur de bus hôte."
+vim.hostd.hostsvc.HBA.ipv6.unsupportedDefaultGW = "La configuration de passerelle IPv6 par défaut n'est pas prise en charge par l'adaptateur de bus hôte."
+vim.hostd.hostsvc.HBA.ipv6.defaultGWNotApplicable = "La passerelle IPv6 par défaut ne peut pas être définie si DHCPv6 ou la méthode d'annonce par routeur doit être utilisée."
+vim.hostd.hostsvc.HBA.ipv6.invalidStaticAddressAdd = "Impossible de plomber l'adresse statique IPv6 si DHCPv6 et/ou la méthode d'annonce par routeur doit être utilisée."
+vim.hostd.hostsvc.HBA.ipv6.invalidLinkLocalAddressAdd = "Impossible de plomber l'adresse de liaison locale IPv6 si la méthode de configuration automatique par liaison locale doit être utilisée."
+
+vim.hostd.hostsvc.HBA.common.unsupportedMTUSet = "La configuration MTU n'est pas prise en charge par l'adaptateur de bus hôte."
+vim.hostd.hostsvc.HBA.common.unsupportedAprRedirect = "La configuration de la redirection APR n'est pas prise en charge par l'adaptateur de bus hôte."
+vim.hostd.hostdvc.HBA.common.unsupportedDNSSet = "La configuration DNS n'est pas prise en charge par l'adaptateur de bus hôte."
+vim.hostd.hostdvc.HBA.common.invalidDNS = "Configurations DNS principale et secondaire spécifiées non valides. Les deux valeurs doivent être spécifiées."
+
+vim.hostd.hostsvc.lockedVmknics = "Vmknic {id} est protégé des modifications de vCenter par l'option avancée de l'hôte Config.HostAgent.plugins.hostsvc.lockedVmknics."
+vim.hostd.hostsvc.opUnsupportedOnEncryptedVm = "Cette opération n'est pas prise en charge sur une VM chiffrée."
+
+#
+vim.hostd.snapshot.unknownuid = "Le snapshot spécifié n'existe pas."
+vim.hostd.snapshot.inuse = "Le fichier de snapshot spécifié est en cours d'utilisation."
+
+# Start NPIV related messages
+com.vmware.vim.npiv.lessNodeWwn.label = "Le numéro {num1} de nom WWN du nœud demandé doit être supérieur aux numéros {num2} existants dans la VM"
+com.vmware.vim.npiv.lessPortWwn.label = "Le numéro {num1} de nom WWN du port demandé doit être supérieur aux numéros {num2} existants dans la VM"
+# End NPIV related messages
+
+# Start property path validity checks error messages
+com.vmware.vim.propertyPath.error.managedObjectInPath = "Le nom de propriété '{propName}' ne peut traverser l’objet géré pour '{typeName}#{propPath}'."
+com.vmware.vim.propertyPath.error.unexpectedArray = "Le composant de propriété '{propName}' n’attendait pas une baie dans le chemin d’accès '{typeName}#{propPath}'"
+com.vmware.vim.propertyPath.error.notAnObject = "Le nom de propriété '{propName}' doit se référer à des données ou un objet géré pour '{typeName}#{propPath}'."
+com.vmware.vim.propertyPath.error.notFound = "Propriété '{propName}' introuvable dans le chemin d’accès '{typeName}#{propPath}'."
+com.vmware.vim.propertyPath.error.stringKeyTypeMismatch.data = "Le composant de chemin d’accès '{propName}' n’est pas un objet de données avec une clé STRING ou MOREF pour '{typeName}#{propPath}'."
+com.vmware.vim.propertyPath.error.stringKeyTypeMismatch = "Le composant de chemin d’accès '{propName}' n’est pas un objet de données avec une clé MOREF pour '{typeName}#{propPath}'"}'."
+com.vmware.vim.propertyPath.error.intKeyTypeMismatch.data = "Le composant de chemin d’accès '{propName}' n’est pas un objet de données avec une clé INT pour '{typeName}#{propPath}'."
+com.vmware.vim.propertyPath.error.intKeyTypeMismatch = "Le composant de chemin d’accès '{propName}' n’est pas un objet de données avec une clé pour '{typeName}#{propPath}'."
+com.vmware.vim.propertyPath.error.notAnArray = "Le composant de chemin d’accès '{propName}' n’est pas une baie dans le chemin d’accès '{typeName}#{propPath}'."
+com.vmware.vim.propertyPath.error.lenghAlreadySeen = "Un nom de propriété ne peut suivre '{propName}' pour '{typeName}#{propPath}'."
+# End property path validity checks error messages
+
+# HostCtlExceptions w/o Vobs
+com.vmware.esx.hostctl.default = "Échec de l’opération, rapport de diagnostic : {reason}"
+# End HostCtlException w/o Vobs
+
+# Start datastore related  messages
+com.vmware.vim.datastore.error.removeDatastoreFailed = "Impossible de supprimer la banque de données '{name}' car {reason.@enum.com.vmware.vim.datastore.error.value}. Résolvez le problème et relancez l'opération."
+com.vmware.vim.datastore.error.tooManyDatastoresInStoragePod = "Impossible d'ajouter plus de {maxDatastores} banques de données à un cluster de banques de données."
+com.vmware.vim.datastore.error.noDiskSpace = "Impossible de trouver une banque de données disposant de suffisamment d'espace pour créer un nouveau disque, car une affinité intraVMDK est définie."
+com.vmware.vim.datastore.error.multiExtentIorm = "La gestion de ressources d'E/S de stockage n'est pas prise en charge pour une banque de données VMFS à plusieurs extensions {name}"
+# End datastore related messages
+
+# Start VM related messages
+com.vmware.vim.vm.error.removeDiskAfterVMSnapshot = "Impossible de supprimer le disque virtuel à partir de la machine virtuelle, car lui-même ou un de ses disques parents fait partie d'un snapshot de la machine virtuelle."
+com.vmware.vim.vm.delete.filesRemaining = "La suppression d'une machine virtuelle a échoué. Il peut rester des fichiers dans la banque de données."
+com.vmware.vim.vm.error.forkchild.extendDisk = "L'extension de disques virtuels n'est pas prise en charge pour les machines virtuelles d'enfant de déviation."
+com.vmware.vim.vm.error.forkchild.updateSP = "La mise à jour des profils de stockage n'est pas prise en charge pour les machines virtuelles d'enfant de déviation."
+com.vmware.vim.vm.error.forkchild.addNonDiskDevice = "L'ajout de nouveaux périphériques (sauf un disque virtuel) n'est pas pris en charge pour les machines virtuelles d'enfant de déviation."
+com.vmware.vim.vm.error.forkchild.removeDevice = "Le retrait des périphériques virtuels existants n'est pas pris en charge pour les machines virtuelles d'enfant de déviation."
+com.vmware.vim.vm.error.vmMigrationInProgress = "Impossible d'effectuer l'opération, car la migration de VM est en cours."
+com.vmware.vim.vm.error.invalidSecondary = "Impossible de trouver la machine virtuelle principale pour une machine virtuelle secondaire FT."
+com.vmware.vim.vm.error.invalidConfiguration = "La configuration de la machine virtuelle n'est pas valide."
+com.vmware.vim.vm.error.invalidParentResPoolChange = "La VM ne se trouve plus dans le pool de ressources parent '{pool}'."
+com.vmware.vim.vm.error.vmNotInCluster = "L'opération ne peut pas être effectuée, car la VM ne se trouve pas dans un cluster."
+com.vmware.vim.vm.error.vmPinnedToCluster = "La VM {arg} est épinglée à son cluster actuel."
+com.vmware.vim.vm.error.vmPowerStateChange = "L'opération ne peut pas être effectuée, car la VM a changé son état d'alimentation"
+# End VM related messages
+
+# Start resource pool related messages
+com.vmware.vim.resourcePool.error.invalidRPNodeInfo = "Les informations de configuration pour le nœud du pool de ressources ne sont pas valides : le nombre de VCpu n'est pas valide."
+com.vmware.vim.resourcePool.error.inconsistentState = "Le nœud du pool de ressources est dans un état incohérent : le nœud du pool de ressources de la VM, son nœud de pool de ressources parent ou le nœud du pool de ressources de destination est déjà supprimé."
+
+# Start storage related  messages
+com.vmware.vim.datastore.error.unmountVmfsVolumeFailed = "Impossible de démonter le volume '{name}' car {reason.@enum.com.vmware.vim.datastore.error.value}. Résolvez le problème et relancez l'opération."
+# End storage related messages
+
+# Start iSCSI related messages
+com.vmware.vim.iscsi.error.vnicInUse = "Cette opération ne peut pas être effectuée pendant que l'adaptateur réseau VMkernel {name} est en cours d'utilisation par l'adaptateur iSCSI. Supprimez l'adaptateur réseau VMkernel de l'adaptateur iSCSI afin d'effectuer correctement cette opération."
+com.vmware.vim.iscsi.error.AddUplinks =  "L'adaptateur réseau VMkernel {name} n'est pas associé à un adaptateur réseau physique. Pour pouvoir utiliser un adaptateur réseau VMkernel pour la liaison de port iSCSI, il doit être associé à un adaptateur réseau physique."
+com.vmware.vim.iscsi.error.MultipleUplinks = "L'adaptateur réseau VMkernel {name} est associé à plus d'un adaptateur réseau physique. Pour pouvoir utiliser un adaptateur réseau VMkernel pour la liaison de port iSCSI, l'adaptateur réseau VMkernel doit être associé à un seul adaptateur réseau physique."
+com.vmware.vim.iscsi.error.FixUplink = "Associez l'adaptateur réseau physique à l'adaptateur réseau VMkernel {name} qui est associé à l'Adaptateur de bus hôte iSCSI."
+com.vmware.vim.iscsi.error.VnicNotFound = "L'adaptateur réseau VMkernel {name} a peut-être été supprimé. Annuler la liaison à l'adaptateur réseau VMkernel."
+# End iSCSI related messages
+
+# Start CacheConfigurationManager messages
+com.vmware.vim.host.cacheConfiguration.swapSizeNegative = "La taille d'échange ne peut pas être négative."
+com.vmware.vim.host.cacheConfiguration.nonSsdDatastore = "La taille d'échange ne peut être configurée qu'à partir des banques de données basées sur Disque SSD."
+com.vmware.vim.host.cacheConfiguration.unsupportedDatastore = "L'échange ne peut pas être configuré sur la banque de données indiquée."
+# End CacheConfigurationManager messages
+
+# Start LocalAccountManager messages
+com.vmware.vim.host.LocalAccountManager.lastDcuiUser       = "Impossible de supprimer le dernier utilisateur local avec l'accès DCUI"
+com.vmware.vim.host.LocalAccountManager.lastLocalFullAdmin = "Impossible de supprimer le dernier utilisateur local avec des privilèges d'administration complet"
+com.vmware.vim.host.LocalAccountManager.passwdError        = "Impossible de définir le mot de passe. Il est possible que votre mot de passe ne réponde pas aux critères de complexité définis par le système."
+com.vmware.vim.host.LocalAccountManager.longPassword       = "Ce mot de passe peut être trop long pour certains services. Choisissez-en un autre."
+com.vmware.vim.host.LocalAccountManager.weakPassword       = "Mot de passe faible : {reason.@enum.com.vmware.vim.host.LocalAccountManager.weakPassword}."
+# End LocalAccountManager messages
+
+# Start InfraUpdateHa messages
+com.vmware.vim.host.unMonitored = "L'hôte n'est pas surveillé par les fournisseurs de mise à jour de santé suivants enregistrés pour le cluster : {providers}"
+com.vmware.vim.healthUpdateManager.duplicateName = "Nom dupliqué : {arg}"
+com.vmware.vim.healthUpdateManager.associatedEntity = "L'entité {arg} est déjà associée."
+com.vmware.vim.healthUpdateManager.notAssociatedEntity = "L'entité {arg} n'est pas associée."
+com.vmware.vim.healthUpdateManager.unknownEntity = "Entité inconnue : {arg}"
+com.vmware.vim.healthUpdateManager.greenUpdate = "Dans la mise à jour {arg}, certaines corrections de l'icône d'état verte ne sont pas vides."
+com.vmware.vim.healthUpdateManager.grayUpdate = "La mise à jour {arg} est grisée."
+com.vmware.vim.healthUpdateManager.invalidComponent = "Le composant {arg} n'est pas valide."
+com.vmware.vim.healthUpdateManager.stringBound = "La longueur de la chaîne dépasse la limite autorisée : {arg}"
+# End InfraUpdateHa messages
+
+# Start host unavailable mode messages
+com.vmware.vim.host.unavailableMode.standbyTimeout = "L'hôte {host} n'a pas été mis hors tension."
+com.vmware.vim.host.unavailableMode.powerOnTimeout = "L'hôte {host} n'a pas été mis sous tension."
+com.vmware.vim.host.unavailableMode.vmotionsTimeout = "Des opérations Vmotion depuis/vers l'hôte {host} n'ont pas abouti."
+com.vmware.vim.host.unavailableMode.poweredOnVmsTimeout = "Il y a des VM sous tension dans l'hôte {host}."
+# end host unavailable mode messages
+
+# Start host error messages
+com.vmware.vim.host.error.unavailableForVm = "L'hôte n'est pas disponible pour les opérations de VM"
+# End host error messages
+
+# Start AuthorizationManager messages
+com.vmware.vim.AuthorizationManager.lockdownModeProtection = "L'opération annule le mode verrouillage."
+com.vmware.vim.AuthorizationManager.lockdownModeDcui = "Impossible de modifier le statut du service DCUI lorsque l'hôte est en mode verrouillage."
+# End AuthorizationManager messages
+
+# Start VR related messages
+com.vmware.vim.hbr.error.interop.faultTolerance = "vSphere Replication et Fault Tolerance ne peuvent pas être activées sur la même machine virtuelle."
+com.vmware.vim.hbr.error.interop.diskLengthChange = "vSphere Replication ne prend pas en charge les changements de longueur d'un disque répliqué."
+com.vmware.vim.hbr.error.interop.sharedBus = "vSphere Replication n'est pas compatible avec le partage de bus SCSI."
+com.vmware.vim.hbr.error.interop.ideHostedEmulation = "vSphere Replication n'est pas compatible avec l'émulation IDE hébergé."
+com.vmware.vim.hbr.error.fullsync.while.fullsync = "Impossible de démarrer une synchronisation complète, car une synchronisation complète est déjà en cours."
+com.vmware.vim.hbr.error.fullsync.while.fullsync.server = "Impossible de démarrer une synchronisation complète, car une synchronisation complète demandée par le serveur VR est déjà en cours."
+com.vmware.vim.hbr.error.delta.while.fullsync = "Impossible de démarrer une synchronisation delta, car une synchronisation complète est déjà en cours."
+com.vmware.vim.hbr.error.delta.while.delta = "Impossible de démarrer une synchronisation delta, car une synchronisation delta est déjà en cours."
+com.vmware.vim.hbr.error.interop.unsupportedDiskType = "vSphere Replication ne prend pas en charge le type de disque du disque virtuel '{diskName}'."
+# End VR related messages
+
+# Start of OvfManager messages
+com.vmware.vim.ovfManager.ovfParserOption.lax = "Les erreurs sont traitées comme étant des avertissements, toutes les sections sont considérées comme optionnelles et le matériel non pris en charge est ignoré."
+
+com.vmware.vim.ovfManager.ovfParserOption.mac = "L'adresse MAC est exportée pour tous les périphériques Ethernet."
+com.vmware.vim.ovfManager.ovfParserOption.uuid = "L'UUID est exporté pour toutes les machines virtuelles."
+com.vmware.vim.ovfManager.ovfParserOption.extraconf = "Toutes les options de configuration supplémentaires sont exportées pour une machine virtuelle."
+com.vmware.vim.ovfManager.ovfParserOption.nodevicesubtypes = "Les sous-types de ressources pour les lecteurs CD/DVD, les lecteurs de disquettes et les ports série et parallèles ne sont pas exportés."
+
+# End of OvfManager messages
+
+# Replay check messages
+com.vmware.vim.vm.monitorTypeHotChange.notSupportedError = "La modification du type de moniteur n'est pas prise en charge pour les machines virtuelles en ligne."
+# End of Replay check messages
+
+# VM device messages
+com.vmware.vim.vm.device.video.hardware3dNotAvailable = "Aucun récepteur 3D matériel n'est disponible sur l'hôte."
+# end of VM device messages
+
+#Start VmInventory messages
+com.vmware.vim.Folder.error.registeredVmLimitReached = "La limite maximale enregistrée de machine virtuelle a été atteinte."
+com.vmware.vim.Folder.error.supportedVmLimitReached = "Le nombre maximal de machines virtuelles prises en charge a été atteint."
+#end of VmInventory messages
+
+# VM provisioning messages
+com.vmware.vim.vm.error.AttemptToFindUniqueDirectoryNameLimitReached = "Le nombre maximal de tentatives de recherche de nom de répertoire unique a été atteint."
+com.vmware.vim.vm.error.NoValidHostDueToDasState = "Aucun hôte valide n'a été trouvé à cause de l'état du DAS."
+com.vmware.vim.vm.error.NoValidHostDueToDatastoreAccess = "Aucun hôte valide n'a été trouvé à cause de l'accessibilité de la banque de données."
+com.vmware.vim.vm.error.NoValidHostDueToDiskSize = "Aucun hôte valide n'a été trouvé à cause de la taille de disque de « {disksize} » Ko."
+com.vmware.vim.vm.error.NoValidHostDueToHwVersion = "Aucun hôte valide n'a été trouvé à cause de la version matérielle « {hwversion} »."
+com.vmware.vim.vm.error.NoValidHostDueToNVDIMMSupport = "Aucun hôte valide n'a été trouvé à cause de la prise en charge de NVDIMM."
+com.vmware.vim.vm.error.NoValidHostDueToPMemAdmissionFailure = "Aucun hôte valide n'a pu être trouvé pour satisfaire la capacité totale de disques NVDIMM et PMem requise."
+com.vmware.vim.vm.error.HostNotValidDueToPMemAdmissionFailure = "Dépasse la capacité PMem disponible sur l'hôte {host}. La capacité disponible sur l'hôte est {availableRes} Mo et la mémoire demandée est {change} Mo"
+com.vmware.vim.vm.error.InsufficientPMemCapacity = "Capacité PMem insuffisante sur l'hôte."
+# End of VM provisioning messages
+
+#
+vim.hostd.vsanDecommissioning.enteringMM = "Passage en mode de maintenance vSAN."
+vim.hostd.vsanDecommissioning.noResources = "Impossible d'entrer en mode de maintenance dans le mode actuel de migration des données vSAN en raison d'un nombre insuffisant de nœuds ou de disques dans le cluster. Recommencez l'opération dans un autre mode ou après avoir augmenté les ressources allouées au cluster."
+vim.hostd.vsanDecommissioning.invalidStateEnterMM = "Impossible d'entrer en mode maintenance dans l'état actuel de l'hôte. Recommencez l'opération."
+vim.hostd.vsanDecommissioning.invalidStateExitMM = "Impossible de quitter le mode maintenance dans l'état actuel de l'hôte. Recommencez l'opération."
+vim.hostd.vsanDecommissioning.objectInaccessible = "Impossible d'entrer en mode de maintenance, car un ou plusieurs objets candidats à la migration sont actuellement inaccessibles. Recommencez l'opération dans un mode différent de migration des données vSAN."
+vim.hostd.vsanDecommissioning.networkPartitionError = "Impossible d'entrer en mode maintenance en raison de la perte d'accessibilité à certains objets. Vérifiez la connectivité du réseau et recommencez l'opération."
+vim.hostd.vsanDecommissioning.concurrentDecom = "Un autre hôte dans le cluster est déjà en train d'entrer en mode maintenance. Recommencez l'opération une fois cela terminé."
+vim.hostd.vsanDecommissioning.canceledAborted = "L'utilisateur a annulé l'opération de passage en mode de maintenance ou celle-ci a échoué en raison d'une erreur vSAN interne. Recommencez l'opération."
+vim.hostd.vsanDecommissioning.generalError = "Impossible d'entrer en mode de maintenance en raison d'une erreur vSAN interne. Recommencez l'opération."
+vim.hostd.vsanDecommissioning.badParam = "Impossible de prendre en charge l'opération dans l'état actuel. L'état '{expected}' est attendu mais l'état actuel est '{current}'"
+vim.hostd.vsanDecommissioning.whatIfNotSupportedOnWitnessHost = "Le résultat What-If de la requête sur l'hôte témoin n'est pas pris en charge"
+vim.hostd.vsanDiskOperation.autoModeEnabled = "Impossible de supprimer les disques vSAN : le mode de réclamation automatique de stockage vSAN est activé"
+vim.hostd.vsanDiskOperation.diskMappingNotFound = "Mappage du disque '{diskMap}' introuvable."
+vim.hostd.vsanDiskOperation.allFlashExceed = "Impossible d'ajouter des disques au groupe de disques allFlash, car les disques vSAN ont atteint la taille maximale."
+vim.hosts.vsanDiskOperation.diskIs4K = "Impossible d'ajouter un périphérique 4K à un nœud vSAN, car la prise en charge de ces périphériques est actuellement désactivée"
+vim.hostd.vsanDiskOperation.hybridExceed = "Impossible d'ajouter des disques au groupe de disques hybrides, car les disques vSAN ont atteint la taille maximale."
+
+# Start of VC health status messages
+vc.health.error.connToHealthStatusEndPointHttpError = "La demande HTTP a échoué ; service : {0}, url : {1}, état HTTP : {2}"
+vc.health.error.HealthStatusEndPointRequestFailed = "Erreur d'obtention de l'état de santé ; service : {0}, url : {1}, erreur : {2}"
+vc.health.statuscode = "La santé de {0} est {1}"
+vc.health.error.dbjobexec = "Impossible de déterminer l'état du cumul de statistiques de performances dans la base de données"
+vc.health.error.dbjob1 = "Le cumul des statistiques de performances du jour passé à la semaine passée ne se fait pas dans la base de données"
+vc.health.error.dbjob2 = "Le cumul des statistiques de performances de la semaine passée au mois passé ne se fait pas dans la base de données"
+vc.health.error.dbjob3 = "Le cumul des statistiques de performances du mois passé à l'année passée ne se fait pas dans la base de données"
+vc.health.error.spacecheck = "Impossible de surveiller l'utilisation du stockage de base de données. Pour plus de détails, voir l'article 2078305 de la base de connaissances VMware."
+vc.health.error.datafile = "Impossible d'interroger la table DBA_DATA_FILES. Le compte d'utilisateur de la base de données vCenter Server a besoin des privilèges de lecture pour surveiller l'utilisation du stockage de base de données. Pour plus de détails, voir l'article 2078305 de la base de connaissances VMware."
+vc.health.error.autoextend = "L'extension automatique n'est pas activée pour les espaces de table de la base de données vCenter Server. L'extension automatique doit être activée pour assurer un fonctionnement correct. Pour plus de détails, voir l'article 2078305 de la base de connaissances VMware."
+
+# End of VC health status messages
+
+vc.vdb.health.threshold.error = "Valeur non valide pour {k} : {v}. Le pourcentage d'avertissement doit être inférieur au pourcentage d'erreur."
+
+### Start vpxd test email subject and body
+vpxd.email.smtp.test.subject = "Message de configuration SMTP de test envoyé à partir de : {from}"
+vpxd.email.smtp.test.body = "Message de configuration SMTP de test envoyé à partir de : {from}\nserveur SMTP : {server}"
+### End vpxd test email subject and body
+
+#Start EnvironmentBrowser messages
+com.vmware.vim.EnvironmentBrowser.unknown.hardware.version = "EnvironmentBrowser ne peut pas exécuter la requête en raison d'une version matérielle inconnue."
+#end of EnvironmentBrowser messages
+
+#Start mark disk ssd/local messages
+com.vmware.vim.hostsvc.storage.markDiskFailed = "Impossible de marquer le disque {disk} comme {desiredState.@enum.com.vmware.vim.hostsvc.markDisk.diskState}. {reason.@enum.com.vmware.vim.hostsvc.markDisk.fault}"
+#end of mark disk ssd/local message
+
+#Start VM PromoteDisk messages
+com.vmware.vim.vm.promoteDisk.error.vmInaccessible            = "La machine virtuelle n'est actuellement pas accessible. Vérifiez que l'hôte de la VM est accessible et que la VM est sous tension. Ensuite, recommencez l'opération."
+com.vmware.vim.vm.promoteDisk.error.unrecoverableError        = "Une erreur irrécupérable s'est produite lors de la promotion d'un disque virtuel. Cette erreur peut se produire lorsque la machine virtuelle génère des opérations de disque en continu. Retentez l'opération lorsque la charge d'E/S a diminué."
+com.vmware.vim.vm.promoteDisk.error.diskError                 = "Un disque virtuel est absent ou non valide. Recommencez l'opération."
+com.vmware.vim.vm.promoteDisk.error.hasSnapshots              = "Les disques de la machine virtuelle comprennent des snapshots. Supprimez les snapshots et retentez l'opération."
+com.vmware.vim.vm.promoteDisk.error.numLinksError             = "Le nombre de liens différentiels est supérieur à un pour un ou plusieurs disques virtuels. Supprimez les liens et retentez l'opération."
+com.vmware.vim.vm.promoteDisk.error.invalidArguments          = "Vérifiez que la valeur d'offsetFromBottom est 0 et celle de numLinks est 1."
+com.vmware.vim.vm.promoteDisk.error.online = "La promotion du disque en ligne n'est pas prise en charge. Mettez hors tension {arg} et recommencez."
+com.vmware.vim.vm.promoteDisk.error.notNativeUnmanagedLinkedClone = "La promotion du disque en ligne « {arg} » est uniquement prise en charge sur les disques clones liés non gérés natifs."
+com.vmware.vim.vm.promoteDisk.error.offNativeUnmanagedLinkedClone = "La promotion du disque clone lié non géré natif « {diskName} » est uniquement prise en charge sur les machines virtuelles sous tension."
+com.vmware.vim.vm.promoteDisk.error.notUnlink = "La promotion d'un disque en ligne est uniquement prise en charge sur les clones liés non gérés natifs avec l'option {arg} activée."
+com.vmware.vim.vm.promoteDisk.error.hasParent = "La promotion du disque en ligne « {diskName} » est uniquement prise en charge sur les clones liés non gérés natifs sans sauvegarde parent."
+#end of VM PromoteDisk messages
+
+#Start VCHA messages
+
+com.vmware.vim.vcha.error.invalidClusterNicConfig     = "Échec de l'obtention des informations réseau vCenter HA. Vérifiez si l'interface vCenter HA (NIC1) est configurée correctement et est accessible."
+com.vmware.vim.vcha.error.invalidFailoverNicConfig    = "Impossible d'obtenir des informations du réseau de gestion. Vérifiez que l'interface de gestion (NIC0) est correctement configurée et accessible, et vérifiez qu'un mappage DNS approprié est fourni pour la recherche de nom d'hôte directe et inversée."
+com.vmware.vim.vcha.error.invalidPostgresConfig       = "Le serveur PostgreSQL n'est pas configuré correctement. Vérifiez que le serveur PostgreSQL écoute l'adresse '{ipaddress}'."
+com.vmware.vim.vcha.error.cannotCreateCluster         = "Impossible de créer un cluster vCenter HA."
+com.vmware.vim.vcha.error.cannotCreateFile            = "Impossible de créer le fichier de configuration {filename} de vCenter HA sur le nœud {ip}."
+com.vmware.vim.vcha.error.failedBringUpIf             = "Impossible d'afficher l'interface de gestion (NIC0). Vérifiez les journaux système et contactez GSS si nécessaire."
+com.vmware.vim.vcha.error.clusterInStateTransition    = "Impossible de traiter la demande. Une opération de transition d'état en conflit est détectée. Réessayez ultérieurement."
+com.vmware.vim.vcha.error.invalidModeForRequest       = "Impossible de traiter la demande lorsque vCenter HA est désactivé."
+com.vmware.vim.vcha.error.invalidNodeCountForRequest  = "Impossible de traiter la demande lorsque le cluster vCenter HA dispose de moins de 3 nœuds. Vérifiez que le nœud {nodeip} est configuré et accessible."
+com.vmware.vim.vcha.error.clusterAlreadyPresetup      = "vCenter Server a déjà été préconfiguré pour un déploiement de vCenter HA."
+com.vmware.vim.vcha.error.clusterNotPresetup          = "vCenter Server n'a pas été préconfiguré pour un déploiement de vCenter HA. Reportez-vous aux conditions préalables du déploiement vCenter HA."
+com.vmware.vim.vcha.error.clusterAlreadyConfigured    = "vCenter HA est déjà configuré."
+com.vmware.vim.vcha.error.clusterNotConfigured        = "vCenter HA n'est pas configuré."
+com.vmware.vcha.health.replication.postgresql.norepl             = "La réplication PostgreSQL n'est pas en cours."
+com.vmware.vcha.health.replication.postgresql.mode.async         = "Le mode de réplication PostgreSQL est Asynchrone."
+com.vmware.vcha.health.replication.postgresql.hasdataloss        = "La réplication PostgreSQL sur le nœud passif rattrape le nœud actif."
+com.vmware.vcha.health.replication.file.state         = "Le dispositif {fileProviderType} est {state}."
+com.vmware.vim.vcha.error.embeddedNode                = "Impossible d'activer vCenter HA avec PSC intégré."
+com.vmware.vim.vcha.error.embeddedDb                  = "Impossible d'activer vCenter HA avec une base de données externe."
+com.vmware.vim.vcha.error.sshdNotRunning              = "vCenter HA requiert l'exécution du démon SSH. Activez SSH pour pouvoir configurer vCenter HA."
+com.vmware.vim.vcha.error.opRunning                   = "Une opération de création ou de modification du cluster vCenter HA est déjà en cours."
+com.vmware.vim.vcha.error.passiveExists               = "Le nœud passif existe déjà dans le cluster vCenter HA. Reportez-vous aux paramètres vCenter HA."
+com.vmware.vim.vcha.error.witnessExists               = "Le nœud témoin existe déjà dans le cluster vCenter HA. Reportez-vous aux paramètres vCenter HA."
+com.vmware.vcha.cluster.nic.not.created               = "Échec de la création de l'adaptateur réseau vCenter HA sur l'instance de vCenter Server. Vérifiez les journaux système et contactez GSS si nécessaire."
+com.vmware.vcha.error.failedGetPassiveIp              = "Échec de l'obtention de l'adresse IP de basculement sur le nœud passif. Vérifiez que l'adresse {passiveip} est activée et accessible à partir du nœud actif."
+com.vmware.vcha.checkPassiveWitness                   = "Vérifiez si les nœuds passif et témoin sont activés et accessibles."
+com.vmware.vcha.checkWitness                          = "Vérifiez que le nœud témoin à l'adresse IP {ip} est actif et accessible."
+com.vmware.vcha.checkPassive                          = "Vérifiez que le nœud passif à l'adresse IP {ip} est actif et accessible."
+com.vmware.vcha.waitForPassiveCatchUp                 = "Il pourrait s'agir d'une condition temporaire. Patientez jusqu'à ce que le nœud passif soit mis à niveau. Si le problème persiste, vérifiez la connectivité réseau entre les nœuds actif et passif."
+com.vmware.vcha.activeIsolated                        = "Un nœud actif du cluster vCenter HA est isolé."
+com.vmware.vcha.checkPassiveDb                        = "Vérifiez si le serveur PostgreSQL s'exécute sur le nœud passif et si ce dernier est accessible sur le réseau vCenter HA."
+com.vmware.vcha.nodeLoss                              = "Le cluster vCenter HA a perdu un nœud."
+com.vmware.vcha.error.ipNotSameFamily                 = "Les nœuds actif, passif et témoin doivent avoir la même famille d'adresses IP."
+com.vmware.vcha.error.differentClusterIp              = "L'adresse IP {given} spécifiée pour le réseau vCenter HA est différente de l'adresse IP d'origine {orig} utilisée pour configurer vCenter HA. Vous devez utiliser la même adresse IP."
+com.vmware.vcha.error.differentFailoverIp             = "L'adresse IP {given} de l'interface de gestion (NIC0) spécifiée pour le nœud passif est différente de l'adresse IP d'origine {orig} utilisée pour configurer vCenter HA. Vous devez utiliser la même adresse IP."
+com.vmware.vcha.error.tooManyAddress                  = "Seule une adresse IPv6 est autorisée sur l'interface réseau vCenter HA. Supprimez les adresses IPv6 supplémentaires et réessayez."
+com.vmware.vcha.error.unresolvedFailoverIp            = "L'adresse IP de l'interface de gestion (NIC0) ne correspond pas au PNID de vCenter Server."
+com.vmware.vcha.error.bothNetworksInSameSubnet        = "L'interface de gestion (NIC0) et l'interface vCenter HA (NIC1) doivent être dans des sous-réseaux différents."
+com.vmware.vcha.error.vchaReqsVmOneDs                 = "vCenter HA ne prend pas en charge un nœud actif ayant des disques sur plusieurs banques de données."
+com.vmware.vcha.error.vchaReqsHostMatchDs             = "Un ou plusieurs hôtes utilisés pour le déploiement vCenter HA ont des banques de données qui ne sont pas montées sur l'hôte."
+com.vmware.vcha.error.vchaDrsHosts                    = "Le cluster DRS utilisé pour le déploiement des nœuds vCenter HA doit comporter au moins trois hôtes."
+com.vmware.vcha.error.pnidHostnameMismatch            = "Le nom d'hôte pour {nodeIp} ne correspond pas au PNID de vCenter Server. Révisez le nom d'hôte spécifié pendant l'étape de personnalisation du clone de la VM."
+com.vmware.vcha.error.managementVcNotReachable        = "L'instance de vCenter Server de gestion peut ne pas être accessible, vérifiez la connectivité réseau."
+com.vmware.vcha.error.lazyimport.upgrade.state.unsafe = "Le déploiement de vCenter HA est impossible, car le processus d'importation des données de l'historique est en cours."
+#End VCHA messages
+
+#Start SDRS messages
+com.vmware.sdrs.hms.unreachable                       = "Storage DRS ne peut pas effectuer l'opération, car vSphere Replication Management Server n'est pas accessible."
+com.vmware.sdrs.disk.dsUnspecified                    = "Une banque de données n'est pas spécifiée pour le disque {arg}."
+com.vmware.sdrs.disk.moveTypeIvd                      = "Le type de déplacement de disque {arg} n'est pas valide."
+com.vmware.sdrs.disk.dsNotInPod                       = "La banque de données de destination {arg} n'est pas dans l'espace de stockage."
+com.vmware.sdrs.disk.unsetValue                       = "La valeur est vide ou non définie."
+com.vmware.sdrs.disk.dsInPodInvldState                = "L'état du disque empêche le placement SDRS du disque, qui est déjà dans l'espace."
+com.vmware.intraVmRules.invalidDiskCnt                = "Impossible d'ajouter la règle de disque virtuel, en raison du nombre de disques incorrect, du nombre minimal de disques {arg} attendus."
+com.vmware.intraVmRules.disabledDisk                  = "Impossible d'ajouter la règle de disque virtuel, car SDRS est désactivé pour le disque {arg}."
+com.vmware.intraVmRules.conflict                      = "Impossible d'ajouter la règle de disque virtuel, car la nouvelle règle est en conflit avec la règle d'affinité existante {arg}."
+com.vmware.intraVmRules.unknown                       = "Impossible d'ajouter la règle de disque virtuel, car un type de règle inconnu {arg} est spécifié."
+com.vmware.sdrs.datastore.excessVMXlimit              = "Impossible de migrer la VM vers la banque de données, car le nombre maximal de VM sous tension est atteint."
+com.vmware.sdrs.pod.noHostForPartialConnectedPod      = "Impossible de placer les disques sur cet espace partiellement connecté. Essayez de créer la VM sur un espace entièrement connecté."
+#End SDRS messages
+
+#Start CDRS/PlaceVm messages
+com.vmware.cdrs.error.clusterManaged                  = "Impossible de désactiver le DRS. Le cluster est en cours de gestion."
+com.vmware.cdrs.placeVm.noCombination                 = "Impossible de trouver une combinaison d'hôte et de banque de données dans le cluster de destination pour la VM d'entrée."
+com.vmware.cdrs.placeVm.RpAdmissionFailure            = "La vérification d'admission de pool de ressources échoue dans le cluster de destination pour la VM d'entrée."
+com.vmware.cdrs.placeVm.noValidHostOrDatastore        = "Impossible de trouver un hôte ou une banque de données candidat valide dans le cluster de destination pour la VM d'entrée."
+com.vmware.cdrs.placeVm.noPreferredHost               = "Impossible de trouver un hôte approprié spécifié dans PlacementSpec ou RelocateSpec pour la VM d'entrée."
+com.vmware.cdrs.placeVm.noConfigInfo                  = "Les informations de configuration (ConfigInfo) de la VM spécifiée ne sont pas disponibles."
+com.vmware.cdrs.placeVm.emptyCompatSet                = "L'hôte spécifié par l'utilisateur n'est pas compatible."
+com.vmware.cdrs.placeVm.concurrentAccess              = "Panne de violation d'accès simultané, car le thread {threadID} fonctionne sur la même VM."
+#End CDRS/PlaceVm messages
+
+#Start CDRS/MM messages
+com.vmware.cdrs.maintenancemode.manual                = "Impossible de sortir une VM d'un hôte candidat en mode de maintenance, car la VM est en mode manuel."
+com.vmware.cdrs.maintenancemode.vmotionfailure        = "Échec du placement de l'hôte en mode de maintenance, car vmotion a échoué de manière inattendue. Recommencez l'opération."
+com.vmware.cdrs.maintenancemode.powerfailure          = "Impossible de passer l'hôte en mode de maintenance, car l'hôte en veille a échoué de manière inattendue. Recommencez l'opération."
+com.vmware.cdrs.maintenancemode.preCheckFailure       = "Impossible d'utiliser le workflow de mode de maintenance amélioré, car la vérification préalable a échoué. Utilisez l'API queryWhatIfEnterMaintenance pour consulter les erreurs."
+com.vmware.cdrs.maintenancemode.drsNotEnabled         = "Impossible d'interroger le résultat d'enterMaintenance, car le DRS n'est pas activé."
+com.vmware.cdrs.maintenancemode.hostNotInCluster      = "Impossible d'interroger le résultat d'enterMaintenance, car l'hôte n'est pas dans le cluster."
+com.vmware.cdrs.maintenancemode.clusterNotInAutomatedMode  = "L'hôte ne peut pas entrer en mode de maintenance, car le DRS n'est pas en mode entièrement automatisé pour le cluster."
+com.vmware.cdrs.maintenancemode.clusterLoadViolated  = "L'hôte ne peut pas entrer en mode de maintenance, car la charge restante ({clustload} %) du cluster {resource} dépasse le seuil de tolérance ({threshold} %)."
+#End CDRS/MM messages
+
+#Start CDRS/Rules messages.
+com.vmware.vim.cdrs.invalidGroupName = "Une règle vm-host existante comporte un groupe sous le nom {arg} et son type est différent du type de groupe spécifié"
+#End CDRS/Rules messages.
+
+# Start HA messages.
+com.vmware.vc.HA.error.cyclicDependencyOrchestration  = "Dépendance cyclique dans l'orchestration de VM dans le groupe de VM : {arg}"
+com.vmware.vc.HA.error.missingVmGroup                 = "Groupe de VM manquant dans une règle de dépendance VM-VM {arg}"
+com.vmware.vc.HA.error.vmToVmGroupValidation          = "Violation de règle de dépendance : VM appartenant à plusieurs groupes de VM : {arg}"
+com.vmware.vc.HA.error.restartDisabledVmInChain       = "Redémarrez la VM désactivée {arg} dans la chaîne de dépendance."
+com.vmware.vc.HA.error.vmInDependencyRule             = "La VM {arg} est très dépendante d'autres machines virtuelles du cluster."
+com.vmware.vc.HA.error.vmHasOrchestrationSettings     = "VM {arg} contenant des paramètres d'orchestration non compatibles avec vCenter Server 6.0 ou version antérieure."
+com.vmware.vc.HA.error.vmcHaPolicyViolation           = "Les emplacements {required} sont requis pour satisfaire la stratégie de basculement HA ; seuls les emplacements {placed} peuvent être placés sans violation de la réservation."
+# End HA messages.
+
+# Start Fault Tolerance messages.
+com.vmware.vim.ft.encryptionNotSupported = "Fault Tolerance n'est pas pris en charge pour les VM sur lesquelles le chiffrement est activé."
+com.vmware.vim.ft.vsanDpNotSupported = "Fault Tolerance n'est pas pris en charge pour les VM sur lesquelles vSAN Data Protection est activé."
+com.vmware.vim.ft.rrFtVmNotSupported = "L'option Fault Tolerance héritée est activée sur la VM {arg}, ce qui n'est pas pris en charge par cette instance de vCenter Server."
+# End Fault Tolerance messages.
+
+# Start of nvdimmsystem error messages
+vim.hostd.nvdimmsystem.error.noperm = "Le système n'est pas en mode de maintenance. Opération sur NVDIMM non autorisée"
+vim.hostd.nvdimmsystem.error.nomem = "Mémoire insuffisante sur le système"
+vim.hostd.nvdimmsystem.error.notinit = "État NVDIMM non initialisé"
+vim.hostd.nvdimmsystem.error.notready = "Périphérique NVDIMM non prêt"
+vim.hostd.nvdimmsystem.error.limitexceed = "Limite de taille d'espace de noms NVDIMM dépassée"
+vim.hostd.nvdimmsystem.error.vendorerror = "Erreur spécifique au fournisseur NVDIMM"
+vim.hostd.nvdimmsystem.error.addressinvalid = "Adresse d'utilisateur non valide"
+vim.hostd.nvdimmsystem.error.readonly = "Mode lecture seule, écritures permanentes non acceptées"
+vim.hostd.nvdimmsystem.nameTooLong = "Nom NVDIMM trop long"
+vim.hostd.nvdimmsystem.error.deleteGpt = "Impossible de supprimer GPT de l'espace de noms"
+# End of nvdimmsystem error messages
+
+# Start of TPM2.0 host attestation failure messages
+vim.vmware.tpm.error.internalFailure = "Échec interne."
+vim.vmware.tpm.error.invalidInput = "Une ou plusieurs entrées du vérificateur ne sont pas valides."
+vim.vmware.tpm.error.nonceMismatch = "Discordance nonce."
+vim.vmware.tpm.error.badQuote = "Échec de l'authentification de l'opération quote du TPM de l'hôte."
+vim.vmware.tpm.error.quoteInvalid = "Les valeurs PCR ne peuvent pas être vérifiées par rapport à l'opération quote du TPM de l'hôte."
+vim.vmware.tpm.error.badVibDescriptor = "Échec de l'authentification du descripteur VIB de l'hôte."
+vim.vmware.tpm.error.logValidate = "Une ou plusieurs entrées du journal des événements de l'hôte ne sont pas valides."
+vim.vmware.tpm.error.secureBoot = "Le démarrage sécurisé de l'hôte a été désactivé."
+vim.vmware.tpm.error.logReplay = "Échec de la relecture PCR."
+# End of TPM2.0 host attestation failure messages
+
+# Start of TPM2.0 host TPM error messages
+vim.vmware.tpm.error.ek.notFound = "Clé d'approbation introuvable."
+vim.vmware.tpm.error.ek.parse = "Échec d'analyse de la clé d'approbation."
+vim.vmware.tpm.error.ek.templateParse = "Échec d'analyse du modèle de clé d'approbation."
+vim.vmware.tpm.error.ek.creation = "Échec de création de la clé d'approbation."
+vim.vmware.tpm.error.ek.certificateMismatch = "La clé d'approbation ne correspond pas au certificat EK."
+vim.vmware.tpm.error.ek.provisionFailure = "Une erreur s'est produite lors du provisionnement de la clé d'approbation."
+vim.vmware.tpm.error.deviceCommand = "Échec de la commande TPM « {commandName} » avec l'erreur : {errorCode}."
+# End of TPM2.0 host TPM error messages
+
+
+# Start Improved Virtual Disk messages.
+com.vmware.vim.fcd.error.infrastructureNamespaceFailed = "Échec d'ouverture de l'espace de noms suivant : {arg}"
+# End Improved Virtual Disk messages.

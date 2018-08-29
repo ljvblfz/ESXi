@@ -1,0 +1,71 @@
+#!/bin/sh
+# chkconfig: on 20 20
+
+NICMGMTD=/usr/sbin/nicmgmtd
+NICMGMTD_TAG=nicmgmtd
+NICMGMTD_RP="host/vim/vmvisor/nicmgmtd"
+NICMGMTD_MEM_SZ=10
+MAX_RETRIES=5
+CONFIGRP="/usr/lib/vmware/rp/bin/configRP"
+
+nicmgmtd_start() {
+   if [ -z "$(pidof -xs "${NICMGMTD}")" ] ; then
+      $CONFIGRP setRPMemMaxSize ${NICMGMTD_RP} ${NICMGMTD_MEM_SZ}
+      if [ $? -ne 0 ]; then
+         echo "Failed to set nicmgmtd memory reservation"
+         exit 1
+      fi
+      /sbin/watchdog.sh ++memreliable,group=${NICMGMTD_RP} -d -s "${NICMGMTD_TAG}" -t "${MAX_RETRIES}" "${NICMGMTD}" >/dev/null 2>&1
+      echo "nicmgmtd started"
+   else
+      echo "nicmgmtd already running"
+   fi
+}
+
+nicmgmtd_stop() {
+   if [ -n "$(pidof -xs "${NICMGMTD}")" ] ; then
+      /sbin/watchdog.sh -k "${NICMGMTD_TAG}"
+      pkill -15 "${NICMGMTD_TAG}"
+      while [ -n "$(pidof -xs ${NICMGMTD})" ] ; do
+         pkill -15 "${NICMGMTD_TAG}"
+         sleep 1
+      done
+
+      $CONFIGRP setRPMemMaxSize ${NICMGMTD_RP} 0
+      if [ $? -ne 0 ]; then
+         echo "Failed to clear nicmgmtd memory reservation"
+         exit 1
+      fi
+
+      echo "nicmgmtd stopped"
+   else
+      echo "nicmgmtd is not running"
+   fi
+}
+
+case "${1}" in
+   "start")
+      nicmgmtd_start
+   ;;
+   "stop")
+      nicmgmtd_stop
+   ;;
+   "status")
+      if [ -n "$(pidof -xs "${NICMGMTD}")" ] ; then
+         echo "nicmgmtd is running"
+         exit 0
+      else
+         echo "nicmgmtd is not running"
+         exit 3
+      fi
+   ;;
+   "restart")
+      nicmgmtd_stop
+      nicmgmtd_start
+   ;;
+   *)
+      echo "Usage: $(basename ${0}) {start|stop|status|restart}"
+      exit 1
+   ;;
+esac
+

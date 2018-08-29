@@ -1,0 +1,95 @@
+<div vui-stack-block="securityBlock">
+   <span vui-sb-label>{{'network.vswitch.add.security'|translate}}</span>
+   <div vui-sb-content>
+      {{'network.vswitch.add.clickToExpand'|translate}}
+   </div>
+
+   <div vui-sb-content-expanded></div>
+
+   <!-- children -->
+   <div vui-stack-block>
+      <span vui-sb-label>
+         {{'network.vswitch.add.promiscuousMode'|translate}}</span>
+
+      <div vui-sb-content>
+         <label style="margin-bottom: 0; margin-right: 5px;">
+            <input
+               type="radio"
+               ng-model="data.promiscuousMode"
+               ng-value="true"/> {{'network.vswitch.add.accept'|translate}}
+         </label>
+
+         <label style="margin-bottom: 0; margin-right: 5px;">
+            <input
+               type="radio"
+               ng-model="data.promiscuousMode"
+               ng-value="false"/> {{'network.vswitch.add.reject'|translate}}
+         </label>
+
+         <label ng-if="portgroup" style="margin-bottom: 0;">
+            <input
+               type="radio"
+               ng-model="data.promiscuousMode"
+               ng-value="'vswitch'"/> {{'network.vswitch.add.useVswitch'|translate}}
+         </label>
+      </div>
+   </div>
+
+   <div vui-stack-block>
+      <span vui-sb-label>
+         {{'network.vswitch.add.macChanges'|translate}}</span>
+
+      <div vui-sb-content>
+         <label style="margin-bottom: 0; margin-right: 5px;">
+            <input
+               type="radio"
+               ng-model="data.macChanges"
+               ng-value="true"/> {{'network.vswitch.add.accept'|translate}}
+         </label>
+
+         <label style="margin-bottom: 0; margin-right: 5px;">
+            <input
+               type="radio"
+               ng-model="data.macChanges"
+               ng-value="false"/> {{'network.vswitch.add.reject'|translate}}
+         </label>
+
+         <label ng-if="portgroup" style="margin-bottom: 0;">
+            <input
+               type="radio"
+               ng-model="data.macChanges"
+               ng-value="'vswitch'"/> {{'network.vswitch.add.useVswitch'|translate}}
+         </label>
+      </div>
+   </div>
+
+   <div vui-stack-block>
+      <span vui-sb-label>
+         {{'network.vswitch.add.forgedTransmits'|translate}}</span>
+
+      <div vui-sb-content>
+         <label style="margin-bottom: 0; margin-right: 5px;">
+            <input
+               type="radio"
+               ng-model="data.forgedTransmits"
+               ng-value="true"/> {{'network.vswitch.add.accept'|translate}}
+         </label>
+
+         <label style="margin-bottom: 0; margin-right: 5px;">
+            <input
+               type="radio"
+               ng-model="data.forgedTransmits"
+               ng-value="false"/> {{'network.vswitch.add.reject'|translate}}
+         </label>
+
+         <label ng-if="portgroup" style="margin-bottom: 0;">
+            <input
+               type="radio"
+               ng-model="data.forgedTransmits"
+               ng-value="'vswitch'"/> {{'network.vswitch.add.useVswitch'|translate}}
+         </label>
+      </div>
+   </div>
+
+</div> <!-- /securityBlock -->
+

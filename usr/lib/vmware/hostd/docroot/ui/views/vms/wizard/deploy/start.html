@@ -1,0 +1,39 @@
+<div ng-controller="VMDeployFromOVFWizardStartController" class="content-padding vm-wizard">
+   <div class="form-group">
+      <label for="vmName" class="control-label esx-label" placeholder="{{'vm.wizard.deploy.name.placeholder' | translate}}">
+         {{'vm.wizard.deploy.name.label' | translate}}</label>
+      <input id="vmName"
+         type="text"
+         focus-me="true"
+         class="form-control row-spacer"
+         aria-label="{{'vm.wizard.deploy.name.placeholder' | translate}}"
+         ng-model="newVMName"/>
+      <span>{{'vm.wizard.deploy.name.desc' | translate}}</span>
+   </div>
+
+   <div ng-file-select ng-file-drop ng-model="files" ng-model-rejected="rejFiles"
+        class="dropArea"
+        ng-multiple="true"
+        drag-over-class="{accept: 'fileAccept', reject: 'fileReject', delay: 100}"
+        allow-dir="true" drop-available="dropAvailable">
+      <span ng-show="noFiles">{{'vm.wizard.deploy.select.click' | translate}}<span ng-show="dropAvailable">{{'vm.wizard.deploy.select.drag' | translate}}</span></span>
+
+      <ul>
+         <li ng-repeat="ovf in wizardOptions.data.ovfFiles">
+            <button type="button" class="delete" ng-click="deleteOVF($event)">
+               <span aria-hidden="true">&times;</span>
+            </button>
+            <div class="ovf"></div>
+            {{ovf.name}}
+         </li>
+
+         <li ng-repeat="vmdk in wizardOptions.data.vmdkFiles track by $index">
+            <button type="button" class="delete" ng-click="deleteDisk($index, $event)">
+               <span aria-hidden="true">&times;</span>
+            </button>
+            <div class="disk"></div>
+            {{vmdk.name}}
+         </li>
+      </ul>
+   </div>
+</div>

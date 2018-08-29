@@ -1,0 +1,180 @@
+#!/bin/sh
+#
+# Simple script used by vm-support to gather information about potentially hung
+# VMs.  All of these commands will likely leave the VM in a non-running/functioning
+# state.
+
+vmcfg="$1"
+vmDir="$(dirname "$vmcfg")"
+command="$2"
+wid=""
+
+
+# usage
+#
+#	Function: usage prints how to use this script
+#
+usage() {
+   echo "Usage: $0 vmcfg coredump|suspend|nmi"
+   exit 1
+}
+
+#
+# VMDumper
+#
+# Run the vmdumper command and add its output to the vmdumper log
+#
+VMDumper() {
+   echo "Running /sbin/vmdumper $@" >> "$vmDir/vmdumper.log"
+   /sbin/vmdumper "$@" 2>&1 >> "$vmDir/vmdumper.log"
+}
+
+# samples
+# gathers 60 seconds of VMSAMPLES (will show up in vmware.log)
+samples() {
+   trap "VMDumper $wid samples_off; exit;" HUP INT QUIT TERM EXIT KILL
+   VMDumper $wid samples_on
+   sleep 60
+   VMDumper $wid samples_off
+   trap - HUP INT QUIT TERM EXIT KILL
+}
+
+# screenshot
+# Takes a screenshot of the guest
+screenshot() {
+   VMDumper $wid screenshot
+
+   # wait for screenshot to complete
+   sleep 5
+}
+
+# coredump:
+# takes a guest screenshot, guest samples, and then coredumps the vmm and vmx
+coredump() {
+
+   screenshot
+   samples
+
+   VMDumper $wid unsync
+   sleep 60
+   if [ -f "$vmDir/vmmcores.gz" ]; then
+      mv -f "$vmDir/vmmcores.gz" "$vmDir/vmmcores-unsync.gz" > /dev/null 2>&1
+   fi
+   if [ -f "$vmDir/vmmcores.ve" ]; then
+      mv -f "$vmDir/vmmcores.ve" "$vmDir/vmmcores-unsync.ve" > /dev/null 2>&1
+   fi
+   VMDumper $wid sync
+   sleep 60
+   VMDumper $wid vmx
+   sleep 120
+
+   if [ ! -f "$vmDir"/${VMX_BIN}-zdump.* ]; then
+      VMDumper $wid vmx_force
+      sleep 120
+   fi
+
+   # output tar to stdout for vm-support
+   cd "$vmDir" && tar -cz *zdump* *.png vmmcore* *.log
+}
+
+# nmi:
+# takes a guest screenshot, guest samples, sends an NMI, and then takes another screenshot
+nmi() {
+   screenshot
+   samples
+   VMDumper $wid nmi
+   sleep 10
+   mv "$vmDir/vmdumper.png" "$vmDir/vmdumper-before.png"
+   screenshot
+
+   # output tar to stdout for vm-support
+   cd "$vmDir" && tar -cz *.png *.log
+}
+
+# suspend:
+# takes a guest screenshot, guest samples, and then suspends the VM (and includes the
+# suspend image in vm-support
+suspend() {
+   screenshot
+   samples
+
+   touch "$vmDir/temp.vmsupport.timestamp.$$"
+   local time_before_suspend=`stat -c "%Z" "$vmDir/temp.vmsupport.timestamp.$$"`
+   rm "$vmDir/temp.vmsupport.timestamp.$$"
+
+   VMDumper $wid suspend_vm
+
+   local suspend_vmss_file=""
+   local count=0
+
+   while [ $count -lt 180 ] && ! [ -f "$suspend_vmss_file" ]; do
+      count=`expr $count + 1`
+      sleep 1
+
+      for possible_vmss in "$vmDir/"*.vmss
+      do
+           local possible_vmss_timestamp=`stat -c "%Z" "$possible_vmss" 2>/dev/null`
+           if [ $possible_vmss_timestamp -gt $time_before_suspend ] ; then
+                suspend_vmss_file="$possible_vmss"
+                break
+            fi
+      done
+   done
+
+   if [ -f "$suspend_vmss_file" ] ; then
+      while ! [ "`/sbin/vmdumper -l 2>/dev/null | grep "^wid=$wid"`" = "" ] ; do
+         sleep 1
+      done
+
+      count=0
+
+      # wait 10 more seconds to guarantee everything gets finalized
+      while [ $count -lt 10 ] ; do
+         sleep 1
+         count=`expr $count + 1`
+      done
+   fi
+
+   # output tar to stdout for vm-support
+   cd "$vmDir" && tar -cz *.png *.log *.vmss
+}
+
+
+if [ -z "$vmcfg" ]; then
+   usage
+fi
+
+if [ -z "$command" ]; then
+   usage
+fi
+
+if [ ! -e "$vmcfg" ]; then
+   echo "Must specify a valid path to a vm config file"
+   usage
+fi
+
+if ! /sbin/vmdumper -l | grep -q "$vmcfg" ; then
+   cd "$vmDir"                               
+   logFile="vmNotRunning$$.log"
+   echo "VM $vmcfg, isn't running" > $logFile
+   tar -cz  $logFile                                                        
+   rm $logFile                               
+   exit 1 
+fi
+
+wid=$(/sbin/vmdumper -l | grep "$vmcfg" | awk '{print $1}' | sed 's/wid=//')
+
+if [ -z "$wid" ]; then
+   echo "Failed to find world id correspending to "$vmcfg""
+fi
+
+if [ "$command" = "coredump" ]; then
+   coredump
+elif [ "$command" = "suspend" ]; then
+   suspend
+elif [ "$command" = "nmi" ]; then
+   nmi
+else
+   echo "Unknown command '$command'."
+   usage
+fi

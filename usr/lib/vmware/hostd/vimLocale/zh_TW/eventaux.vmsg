@@ -1,0 +1,2565 @@
+# en_US resources
+signature="sIgNaTuRe"
+###
+###
+
+HostInventoryFullEvent.longDescription = "\
+    <EventLongDescription id="vim.event.HostInventoryFullEvent">\
+       <description>\
+          vCenter Server Foundation 授權金鑰目前只允許將三台主機新增至詳細目錄。新增額外主機會導致發生錯誤並記錄此事件。 \
+       </description>\
+       <cause>\
+            <description>正在嘗試新增的主機數目超過指派給 vCenter Server 之授權金鑰所允許的數目</description>\
+            <action>將允許更多主機或無主機數目限制的授權金鑰指派給 vCenter Server</action>\
+       </cause>\
+    </EventLongDescription>\
+    "
+
+LicenseNonComplianceEvent.longDescription = "\
+    <EventLongDescription id="vim.event.LicenseNonComplianceEvent">\
+       <description>\
+          vCenter Server 不會嚴格強制執行授權使用率，而是會定期檢查授權超用情況。如果 vCenter Server 偵測到超用情況，則會記錄此事件並觸發警示。\
+       </description>\
+       <cause>\
+            <description>授權超用</description>\
+            <action>透過 vSphere Client 查看授權報告，並減少使用授權金鑰的實體數目，或者新增容量更大的授權金鑰</action>\
+       </cause>\
+    </EventLongDescription>\
+    "
+
+LicenseServerUnavailableEvent.longDescription = "\
+    <EventLongDescription id="vim.event.LicenseServerUnavailableEvent">\
+       <description>\
+          如果授權伺服器已停止回應，則 vCenter Server 會追蹤授權伺服器狀態並記錄此事件。 \
+       </description>\
+       <cause>\
+            <description>授權伺服器沒有回應，無法供 vCenter Server 使用</description>\
+            <action>確認授權伺服器是否正在執行中。若是，請檢查 vCenter Server 與授權伺服器之間的連線。</action>\
+       </cause>\
+    </EventLongDescription>\
+    "
+
+NoLicenseEvent.longDescription = "\
+    <EventLongDescription id="vim.event.NoLicenseEvent">\
+       <description>\
+          如果由於未知原因而導致 vCenter Server 無法從授權伺服器取得功能，則 vCenter Server 會記錄此事件。 \
+       </description>\
+       <cause>\
+            <description>未知原因導致取得功能授權失敗</description>\
+            <action>確認授權伺服器是否具有該功能的授權</action>\
+       </cause>\
+    </EventLongDescription>\
+    "
+
+
+InvalidEditionEvent.longDescription = "\
+    <EventLongDescription id="vim.event.InvalidEditionEvent">\
+       <description>\
+          vCenter Server 嘗試從授權伺服器取得未定義的功能 \
+       </description>\
+       <cause>\
+            <description>如果未在授權伺服器上定義功能，則需要提供功能授權 (如 vMotion、DRS、vSphere HA) 的任何作業都可能導致發生此事件</description>\
+            <action>確認授權伺服器上是否存在所涉及的功能</action>\
+       </cause>\
+    </EventLongDescription>\
+    "
+
+HostLicenseExpiredEvent.longDescription = "\
+    <EventLongDescription id="vim.event.HostLicenseExpiredEvent">\
+       <description>\
+          vCenter Server 會追蹤授權伺服器上主機授權的到期時間，並使用此事件來通知您即將到期的任何主機授權\
+       </description>\
+       <cause>\
+            <description>授權伺服器上的主機授權即將到期</description>\
+            <action>更新授權伺服器以取得新版本的主機授權</action>\
+       </cause>\
+    </EventLongDescription>\
+    "
+
+VMotionLicenseExpiredEvent.longDescription = "\
+    <EventLongDescription id="vim.event.VMotionLicenseExpiredEvent">\
+       <description>\
+          vCenter Server 會追蹤授權伺服器上 vMotion 授權的到期時間，並使用此事件來通知您即將到期的任何 vMotion 授權\
+       </description>\
+       <cause>\
+            <description>授權伺服器上的 vMotion 授權即將到期</description>\
+            <action>更新授權伺服器以取得較新版本的 vMotion 授權</action>\
+       </cause>\
+    </EventLongDescription>\
+    "
+
+LicenseRestrictedEvent.longDescription = "\
+    <EventLongDescription id="vim.event.LicenseRestrictedEvent">\
+       <description>\
+          如果因授權檔案限制而導致 vCenter Server 無法從授權伺服器簽出授權，則 vCenter Server 會記錄此事件 \
+       </description>\
+       <cause>\
+            <description>授權伺服器中的授權檔案具有禁止簽出的限制</description>\
+            <action>檢查授權檔案，並移除任何可移除的限制</action>\
+       </cause>\
+    </EventLongDescription>\
+    "
+
+VmFailedToPowerOffEvent.longDescription = "\
+   <EventLongDescription id="vim.event.VmFailedToPowerOffEvent">\
+      <description>虛擬機器無法關閉電源</description>\
+      <cause>\
+         <description>\
+            虛擬機器可能正在執行並行作業\
+         </description>\
+         <action>完成並行作業，然後重試關閉電源作業</action>\
+      </cause>\
+      <cause>\
+         <description>虛擬機器處於無效狀態。導致虛擬機器進入無效狀態的原因有多種，例如，無法存取資料存放區。 </description>\
+         <action>\
+            確定虛擬機器進入無效狀態的原因，並更正問題，然後重試該作業。\
+         </action>\
+      </cause>\
+   </EventLongDescription>\
+   "
+
+VmFailedToPowerOnEvent.longDescription = "\
+   <EventLongDescription id="vim.event.VmFailedToPowerOnEvent">\
+      <description>\
+         虛擬機器無法開啟電源\
+      </description>\
+      <cause>\
+         <description>\
+            虛擬機器開啟電源嘗試失敗的原因可能包括: 虛擬機器已處於開啟電源狀態、虛擬機器正在執行並行作業等。 </description>\
+         <action>\
+	  在事件訊息中查看原因，以找出開啟電源失敗的原因並修正此問題。\
+         </action>\
+      </cause>\
+   </EventLongDescription>\
+   "
+
+VmFailedToRebootGuestEvent.longDescription = "\
+   <EventLongDescription id="vim.event.VmFailedToRebootGuestEvent">\
+      <description>\
+         虛擬機器上的客體作業系統無法重新啟動。\
+      </description>\
+      <cause>\
+         <description>\
+            發生客體作業系統重新啟動失敗的原因可能包括: 虛擬機器未處於開啟電源狀態、虛擬機器正在執行並行作業等。\
+         </description>\
+	 <action>\
+	  在事件訊息中查看原因，以找出重新啟動失敗的原因並修正此問題。\
+         </action>\
+       </cause>\
+   </EventLongDescription>\
+   "
+
+VmFailedToResetEvent.longDescription = "\
+   <EventLongDescription id="vim.event.VmFailedToResetEvent">\
+      <description>虛擬機器無法重設</description>\
+      <cause>\
+         <description>\
+		虛擬機器可能正在等待問題或提示的回應</description>\
+         <action>\
+            移至 vSphere Client 中虛擬機器的「摘要」索引標籤，然後回應問題或提示\
+         </action>\
+      </cause>\
+      <cause>\
+         <description>可能沒有足夠的可用授權來執行此作業。</description>\
+         <action>\
+            取得必要授權，然後重試重設作業\
+         </action>\
+      </cause>\
+      <cause>\
+         <description>\
+            虛擬機器可能正在執行並行作業\
+         </description>\
+         <action>完成並行作業，然後重試重設作業</action>\
+      </cause>\
+      <cause>\
+         <description>\
+            正在執行虛擬機器的主機即將進入維護模式\
+         </description>\
+         <action>\
+            等待主機結束維護模式，然後重試該作業\
+         </action>\
+      </cause>\
+      <cause>\
+         <description>虛擬機器處於無效狀態。導致虛擬機器進入無效狀態的原因有多種，例如，無法存取資料存放區。</description>\
+         <action>\
+            確定虛擬機器進入無效狀態的原因，並更正問題，然後重試該作業。\
+         </action>\
+      </cause>\
+   </EventLongDescription>\
+   "
+
+VmUpgradingEvent.longDescription = "\
+   <EventLongDescription id="vim.event.VmUpgradingEvent">\
+      <description>正在升級此虛擬機器上的虛擬硬體</description>\
+      <cause>\
+         <description>使用者啟動的動作觸發了虛擬機器硬體升級</description>\
+      </cause>\
+      <cause>\
+         <description>排定的工作啟動了虛擬機器硬體升級</description>\
+      </cause>\
+   </EventLongDescription>\
+   "
+
+VmUuidAssignedEvent.longDescription = "\
+   <EventLongDescription id="vim.event.VmUuidAssignedEvent">\
+      <description>已將新的 BIOS UUID 指派給虛擬機器</description>\
+      <cause>\
+         <description>建立虛擬機器的使用者在建立時未指定 BIOS UUID。vCenter Server 產生了新的 UUID，並將其指派給虛擬機器。\
+         </description>\
+      </cause>\
+   </EventLongDescription>\
+   "
+
+VmInstanceUuidAssignedEvent.longDescription = "\
+   <EventLongDescription id="vim.event.VmInstanceUuidAssignedEvent">\
+      <description>已將 vCenter Server 專屬的新執行個體 UUID 指派給虛擬機器\
+      </description>\
+      <cause>\
+         <description> \
+             建立虛擬機器的使用者在建立時未指定 vCenter Server 專屬的執行個體 UUID。vCenter Server 產生了新的 UUID，並將其指派給虛擬機器。\
+         </description>\
+      </cause>\
+   </EventLongDescription>\
+   "
+
+VmUuidChangedEvent.longDescription = "\
+   <EventLongDescription id="vim.event.VmUuidChangedEvent">\
+      <description>虛擬機器 BIOS UUID 已變更</description>\
+      <cause>\
+         <description>\
+            使用者直接在主機上變更了虛擬機器 BIOS UUID\
+         </description>\
+      </cause>\
+   </EventLongDescription>\
+   "
+
+VmInstanceUuidChangedEvent.longDescription = "\
+   <EventLongDescription id="vim.event.VmInstanceUuidChangedEvent">\
+      <description> \
+         虛擬機器的 vCenter Server 專屬執行個體 UUID 已變更\
+      </description> \
+      <cause>\
+         <description>\
+            使用者動作導致虛擬機器的 vCenter Server 專屬執行個體 UUID 發生變更\
+         </description>\
+      </cause>\
+      <cause>\
+         <description>\
+            由於偵測到衝突，vCenter Server 變更了虛擬機器的執行個體 UUID\
+         </description>\
+      </cause>\
+   </EventLongDescription>\
+   "
+
+VmInstanceUuidConflictEvent.longDescription = "\
+   <EventLongDescription id="vim.event.VmInstanceUuidChangedEvent">\
+      <description> \
+         虛擬機器的 vCenter Server 專屬執行個體 UUID 與另一台虛擬機器的執行個體 UUID 相衝突。 \
+      </description>\
+      <cause>\
+         <description>\
+             如果您手動複製虛擬機器檔案而不使用 vCenter Server，則可能會發生虛擬機器執行個體 UUID 衝突。 \
+         </description>\
+      </cause>\
+   </EventLongDescription>\
+   "
+
+VmRelocateFailedEvent.longDescription = "\
+   <EventLongDescription id="vim.event.VmRelocateFailedEvent">\
+      <description>\
+         無法將虛擬機器重新放置到其他主機或資料存放區上\
+      </description>\
+      <cause>\
+         <description>\
+            導致虛擬機器重新放置失敗的原因有多種，包括網路中斷、磁碟空間不足等\
+         </description>\
+         <action>\
+            考慮與此事件相關的工作、評估失敗原因，然後採取相應動作\
+         </action>\
+      </cause>\
+   </EventLongDescription>\
+   "
+
+VmUnsupportedStartingEvent.longDescription = "\
+   <EventLongDescription id="vim.event.VmUnsupportedStartingEvent">\
+      <description>\
+         正在嘗試開啟具有不支援之客體作業系統的虛擬機器的電源\
+      </description>\
+      <cause>\
+         <description>\
+            使用者動作啟動了虛擬機器開啟電源作業，但虛擬機器具有不支援的客體作業系統。\
+         </description>\
+      </cause>\
+   </EventLongDescription>\
+   "
+
+# VmRegisteredEvent: Basic event has enough details
+# VmRenamedEvent: Basic event has enough details
+# VmUuidConflictEvent: Not used anymore
+
+VmFailedToShutdownGuestEvent.longDescription = "\
+   <EventLongDescription id="vim.event.VmFailedToShutdownGuestEvent">\
+      <description>\
+         關閉虛擬機器的客體作業系統失敗\
+      </description>\
+      <cause>\
+         <description>\
+            如果虛擬機器中未安裝 VMware Tools，則關閉客體作業系統可能會失敗。\
+         </description>\
+         <action>安裝 VMware Tools。</action>\
+      </cause>\
+      <cause>\
+         <description>\
+	    虛擬機器可能正在等待問題或提示的回應</description>\
+         <action>\
+            移至 vSphere Client 中虛擬機器的「摘要」索引標籤，然後回應問題或提示\
+         </action>\
+      </cause>\
+      <cause>\
+         <description>\
+            虛擬機器可能正在執行並行作業\
+         </description>\
+         <action>完成並行作業，然後重試關閉作業</action>\
+      </cause>\
+      <cause>\
+         <description>虛擬機器處於無效狀態。導致虛擬機器進入無效狀態的原因有多種，例如，無法存取資料存放區。</description>\
+         <action>\
+            確定虛擬機器進入無效狀態的原因，並更正問題，然後重試該作業。\
+         </action>\
+      </cause>\
+   </EventLongDescription>\
+   "
+
+AlarmEmailFailedEvent.longDescription = "\
+    <EventLongDescription id="vim.event.AlarmEmailFailedEvent">\
+       <description>\
+          傳送已觸發警示的電子郵件通知時發生錯誤\
+       </description>\
+       <cause>\
+            <description>無法傳送已觸發警示的電子郵件</description>\
+            <action>檢查用於傳送電子郵件通知的 vCenter Server SMTP 設定</action>\
+       </cause>\
+    </EventLongDescription>\
+    "
+    
+AlarmReconfiguredEvent.longDescription = "\
+    <EventLongDescription id="vim.event.AlarmReconfiguredEvent">\
+       <description>\
+          已重新設定警示 \
+       </description>\
+       <cause>\
+            <description>使用者已重新設定警示</description>\
+       </cause>\
+    </EventLongDescription>\
+    "
+        
+AlarmScriptFailedEvent.longDescription = "\
+    <EventLongDescription id="vim.event.AlarmScriptFailedEvent">\
+       <description>\
+          如果在警示觸發後執行指令碼時發生錯誤，則 vCenter Server 會記錄此事件。\
+       </description>\
+       <cause>\
+            <description>執行指令碼時發生錯誤</description>\
+            <action>修復指令碼或失敗狀況</action>\
+       </cause>\
+    </EventLongDescription>\
+    "
+
+    
+AlarmSnmpFailedEvent.longDescription = "\
+    <EventLongDescription id="vim.event.AlarmSnmpFailedEvent">\
+       <description>\
+          如果在警示觸發後傳送 SNMP 設陷時發生錯誤，則 vCenter Server 會記錄此事件。\
+       </description>\
+       <cause>\
+            <description>無法傳送已觸發警示的 SNMP 設陷</description>\
+            <action>檢查 vCenter Server SNMP 設定。確認 vCenter Server 網路可以處理 SNMP 封包。</action>\
+       </cause>\
+    </EventLongDescription>\
+    "
+   
+   
+ScheduledTaskEmailFailedEvent.longDescription = "\
+    <EventLongDescription id="vim.event.ScheduledTaskEmailFailedEvent">\
+       <description>\
+          傳送「排定的工作正在執行中」的電子郵件通知時發生錯誤\
+       </description>\
+       <cause>\
+            <description>無法傳送排定的工作電子郵件</description>\
+            <action>檢查用於傳送電子郵件的 vCenter Server SMTP 設定</action>\
+       </cause>\
+    </EventLongDescription>\
+    "
+
+ScheduledTaskFailedEvent.longDescription = "\
+    <EventLongDescription id="vim.event.ScheduledTaskFailedEvent">\
+       <description>\
+          執行排定的工作時發生錯誤 \
+       </description>\
+       <cause>\
+            <description>無法執行排定的工作</description>\
+            <action>更正失敗狀況</action>\
+       </cause>\
+    </EventLongDescription>\
+    "
+
+
+DasAgentUnavailableEvent.longDescription = "\
+    <EventLongDescription id="vim.event.DasAgentUnavailableEvent">\
+       <description>\
+          vCenter Server 無法連絡 vSphere HA 叢集中任何狀況良好的主要主機。在叢集中執行的虛擬機器可能無法使用 vSphere HA 保護。此外，在 vCenter Server 與狀況良好的主要主機之間的連絡還原之前，您無法在叢集中的主機上啟用或重新設定 vSphere HA。\
+       </description>\
+       <cause>\
+          <description>\
+             發生網路中斷，詳細目錄中的所有主機皆顯示為「沒有回應」\
+          </description>\
+          <action>還原網路</action>\
+       </cause>\
+       <cause>\
+          <description>叢集中的所有主要主機都發生故障</description>\
+          <action>\
+             如果無法還原發生故障的主要主機，請停用叢集上的 vSphere HA，等待所有主機上的「取消設定 vSphere HA」工作完成，然後再重新啟用叢集上的 vSphere HA\
+          </action>\
+       </cause>\
+    </EventLongDescription>\
+    "
+
+DasDisabledEvent.longDescription = "\
+    <EventLongDescription id="vim.event.DasDisabledEvent">\
+       <description>\
+          由於使用者動作，此主機已停用 vSphere HA。當主機與 vCenter Server 中斷連線或置於維護或待命模式時，vSphere HA 會停用。主機發生故障時，叢集中其他主機上的虛擬機器不會容錯移轉至此主機。此外，如果主機中斷連線，則即使主機發生故障，在此主機上執行的任何虛擬機器也不會發生故障。另外，vSphere HA 虛擬機器和應用程式監控不會嘗試重設虛擬機器。 \
+       </description>\
+    </EventLongDescription>\
+    "
+
+DasEnabledEvent.longDescription = "\
+    <EventLongDescription id="vim.event.DasEnabledEvent">\
+       <description>\
+          由於使用者動作，此主機上已啟用 vSphere HA。當主機 \
+          新增或移動至 vSphere HA 叢集時，或者在叢集上啟用 vSphere HA 時，vSphere HA 會啟用。如果主機 \
+          已位於 vSphere HA 叢集中，則在主機重新連線至 vCenter \
+          Server 或退出維護或待命模式時，vSphere HA 將會啟用。在主機上啟用 HA 時，\
+          vSphere HA 將嘗試保護在該主機上執行的任何虛擬機器。 \
+       </description>\
+    </EventLongDescription>\
+    "
+
+HostDasEnablingEvent.longDescription = "\
+     <EventLongDescription id="vim.event.HostDasEnablingEvent">\
+        <description>\
+           正在此主機上啟用 vSphere HA。\
+        </description>\
+     </EventLongDescription>\
+     "
+
+InsufficientFailoverResourcesEvent.longDescription = "\
+     <EventLongDescription id="vim.event.InsufficientFailoverResourcesEvent">\
+        <description>\
+            叢集的未保留容量不足，無法滿足 vSphere HA 許可控制的設定層級。vSphere HA 可能仍會執行容錯移轉，但只會盡力而為。\
+        </description>\
+        <cause>\
+            <description>\
+                如果已設定「容許的主機故障次數」原則，且有數台虛擬機器的 CPU 或記憶體保留區遠大於其他虛擬機器，則 vSphere HA 許可控制會採取極度保守的原則，以確保在主機發生故障時有足夠的完整資源。\
+            </description>\
+            <action>\
+                叢集中的所有虛擬機器均使用相似的 CPU 和記憶體保留區。如果無法實現，請考慮使用不同的 vSphere HA 許可控制原則，例如，保留一定比例的叢集資源用於容錯移轉。或者，可以使用進階選項來指定插槽大小的限定。如需詳細資料，請參閱《vSphere 可用性指南》。\
+            </action>\
+        </cause>\
+        <cause>\
+           <description>\
+                存在 vSphere HA 代理程式錯誤的主機不適合在叢集中提供容錯移轉容量，且這些主機的資源不會考慮用於 vSphere HA 許可控制。如果多台主機存在 vSphere HA 代理程式錯誤，則 vCenter Server 會產生此事件。\
+           </description>\
+           <action>\
+                檢查主機的事件記錄，以判定 vSphere HA 代理程式錯誤的原因。解決所有組態問題後，請在受影響的主機上或在叢集上重新設定 vSphere HA。\
+           </action>\
+        </cause>\
+     </EventLongDescription>\
+     "
+
+VmDasBeingResetEvent.longDescription = "\
+     <EventLongDescription id="vim.event.VmDasBeingResetEvent">\
+        <description>\
+           vSphere HA 已重設虛擬機器。視 vSphere HA 的設定方式而定，系統可能會因 VMware Tools 活動訊號或應用程式活動訊號的狀態變為紅色而重設虛擬機器。\
+        </description>\
+        <cause>\
+           <description>\
+                VMware Tools 活動訊號變為紅色。如果作業系統出現藍色畫面或無回應等故障，則可能會發生此情況。VMware Tools 發生故障或已關閉也可能會導致此情況。\
+           </description>\
+           <action>\
+                如果虛擬機器頻繁重設，請檢查作業系統是否持續存在需要引起注意的問題。請考慮設定叢集，使 vSphere HA 在失去活動訊號之後，先等待一段較長的時間，然後再採取動作。指定較長時間可避免因暫時性問題而觸發重設。您可以在「編輯叢集」精靈的「虛擬機器監控」區段中降低「監控敏感度」，以強制設定較長時間。\
+           </action>\
+        </cause>\
+        <cause>\
+           <description>\
+                應用程式活動訊號變為紅色。如果已設定為傳送活動訊號的應用程式發生故障或無回應，則可能會發生此情況。\
+           </description>\
+           <action>\
+                判定應用程式是否因組態錯誤而停止傳送活動訊號，並修復問題。\
+           </action>\
+        </cause>\
+     </EventLongDescription>\
+     "
+
+VmDasBeingResetWithScreenshotEvent.longDescription = "\
+     <EventLongDescription id="vim.event.VmDasBeingResetWithScreenshotEvent">\
+        <description>\
+           vSphere HA 已重設虛擬機器。視 vSphere HA 的設定方式而定，發生此情況可能是因為 VMware Tools 活動訊號或應用程式活動訊號的狀態變為紅色。該事件包含客體主控台重設之前產生的螢幕擷取畫面的位置。您可以使用此資訊來判定活動訊號發生故障的原因。\
+        </description>\
+        <cause>\
+           <description>\
+                VMware Tools 活動訊號變為紅色。如果作業系統出現藍色畫面或無回應等故障，則可能會發生此情況。VMware Tools 發生故障或已關閉也可能會導致此情況。\
+           </description>\
+           <action>\
+                檢查螢幕擷取畫面影像，以查看此問題是否因客體作業系統故障所致。如果虛擬機器頻繁重設，請檢查作業系統是否持續存在需要引起注意的問題。請考慮設定叢集，使 vSphere HA 在失去活動訊號之後，先等待一段較長的時間，然後再採取動作。指定較長時間可避免因暫時性問題而觸發重設。您可以在「編輯叢集」精靈的「虛擬機器監控」區段中降低「監控敏感度」，以強制設定較長時間。\
+           </action>\
+        </cause>\
+        <cause>\
+           <description>\
+                應用程式活動訊號變為紅色。如果已設定為傳送活動訊號的應用程式發生故障或無回應，則可能會發生此情況。\
+           </description>\
+           <action>\
+                判定應用程式是否因組態錯誤而停止傳送活動訊號，並修復問題。\
+           </action>\
+        </cause>\
+     </EventLongDescription>\
+     "
+
+VmDasResetFailedEvent.longDescription = "\
+     <EventLongDescription id="vim.event.VmDasResetFailedEvent">\
+        <description>\
+            視 vSphere HA 的設定方式而定，vSphere HA 已在 VMware Tools 或客體應用程式發生活動訊號故障後嘗試重設虛擬機器。然而，重設作業失敗。\
+        </description>\
+        <cause>\
+            <description>\
+                重設失敗很可能是因為在系統啟動重設時，虛擬機器正在執行另一項工作。\
+            </description>\
+            <action>檢查虛擬機器是否需要引起注意，並在必要時手動重設虛擬機器。</action>\
+        </cause>\
+     </EventLongDescription>\
+     "
+
+VmFailoverFailed.longDescription = "\
+     <EventLongDescription id="vim.event.VmFailoverFailed">\
+        <description>\
+           vSphere HA 未對此虛擬機器進行容錯移轉。該事件包含在 vSphere HA 嘗試 \
+           進行容錯移轉時所產生錯誤的詳細資料。vSphere HA 將在另一台主機 \
+           上重試容錯移轉，直至達到容錯移轉嘗試次數上限。在許多情況下，重試 \
+           都會成功。\
+        </description>\
+        <cause>\
+           <description>\
+                容錯移轉失敗，因為在 vSphere HA 嘗試重新啟動 \
+                虛擬機器時發生問題。可能的問題包括無法\
+                在新主機上登錄或重新設定虛擬機器，\
+                因為在同一台虛擬機器上已在執行另一項作業，或者因為虛擬機器仍處於開啟電源狀態。如果虛擬機器的組態檔已損毀，\
+                也可能會發生此情況。\
+           </description>\
+           <action> \
+                   如果 vSphere HA 在不斷嘗試後仍然無法對虛擬機器進行容錯移轉，請調查 \
+                   每次發生此事件時所報告的錯誤，或者嘗試開啟虛擬 \
+                   機器電源並調查任何傳回的錯誤。\
+           </action> \
+           <action> \
+                   如果該錯誤報告檔案 \
+                   已鎖定，則虛擬機器可能已在 vSphere HA 主要代理程式無法再 \
+                   使用管理網路或活動訊號資料存放區來監控的主機上開啟電源，或者虛擬機器可能已由 \
+                   叢集外部主機上的使用者開啟電源。如果任何主機已被宣告為無作用，請調查是否由 \
+                   網路/儲存區問題引起。 \
+           </action> \
+           <action> \
+                   但是，如果該錯誤報告虛擬機器 \
+                   處於無效狀態，則可能是某項進行中的作業導致無法存取 \
+                   虛擬機器檔案。請調查是否有進行中的作業，例如，\
+                   需要很長時間才能完成的複製作業。\
+           </action>\
+        </cause>\
+     </EventLongDescription>\
+     "
+
+VmMaxRestartCountReached.longDescription = "\
+     <EventLongDescription id="vim.event.VmMaxRestartCountReached">\
+        <description>\
+           vSphere HA 已達到此虛擬機器的容錯移轉嘗試次數上限，\
+           因此無法將其重新啟動。將不會再嘗試容錯移轉。\
+           依預設，vSphere HA 會嘗試對虛擬機器進行 5 次容錯移轉。 \
+        </description>\
+        <cause>\
+           <description>\
+                導致容錯移轉失敗的原因有多種，\
+                包括虛擬機器的組態檔已損毀，或者 \
+                由於所有路徑失效情況而導致叢集中的任何主機都無法存取\
+                一或多個虛擬機器資料存放區。此外，虛擬機器可能已在 vSphere HA 主要代理程式 \
+                無法再使用管理網路或活動訊號資料存放區來監控的主機上開啟電源，或者虛擬機器已由 \
+                叢集外部主機上的使用者開啟電源。 \
+           </description>\
+           <action>\
+                若要判定先前容錯移轉嘗試失敗的原因，請在為虛擬機器記錄的 \
+                事件中搜尋容錯移轉失敗時 vSphere HA 報告的事件。這些事件 \
+                將報告容錯移轉失敗的原因。透過搜尋片語「vSphere HA」可找到 vSphere HA 事件。 \
+                若要判定是否仍存在任何問題，請嘗試 \
+                手動開啟虛擬機器電源。如果開啟電源失敗，請調查 \
+                傳回的錯誤。但是，如果開啟電源時擱置時間過長， \
+                請調查是否存在所有路徑失效情況。此外，如果任何主機已被宣告為無作用，\
+                請調查是否由網路/儲存區問題引起。 \
+           </action>\
+        </cause>\
+     </EventLongDescription>\
+     "
+
+VmPowerOffOnIsolationEvent.longDescription = "\
+     <EventLongDescription id="vim.event.VmPowerOffOnIsolationEvent">\
+        <description>\
+           vSphere HA 已關閉此虛擬機器的電源，因為執行虛擬機器的主機已與管理網路隔離。 \
+        </description>\
+     </EventLongDescription>\
+     "
+
+VmShutdownOnIsolationEvent.longDescription = "\
+     <EventLongDescription id="vim.event.VmShutdownOnIsolationEvent">\
+        <description>\
+           vSphere HA 已關閉此虛擬機器的電源，因為執行虛擬機器的主機已與管理網路隔離。\
+        </description>\
+     </EventLongDescription>\
+     "
+
+VmAutoRenameEvent.longDescription = "\
+    <EventLongDescription id="vim.event.VmAutoRenameEvent">\
+       <description>\
+          已重新命名虛擬機器，因為可能與另一台虛擬機器的名稱衝突\
+       </description>\
+       <cause>\
+            <description>在掃描已新增至詳細目錄之主機的資料存放區時，可能已將虛擬機器新增至 vCenter Server 詳細目錄。在此類動作的執行期間，新增之虛擬機器的名稱可能與詳細目錄中已存在的虛擬機器名稱衝突。為解決此問題，vCenter Server 會重新命名新增的虛擬機器。\
+            </description>\
+        </cause>\
+    </EventLongDescription>\
+    "
+
+VmBeingDeployedEvent.longDescription = "\
+     <EventLongDescription id="vim.event.VmBeingDeployedEvent">\
+        <description>\
+           正從範本建立虛擬機器\
+        </description>\
+        <cause>\
+             <description>\
+                使用者動作提示要從此範本建立虛擬機器。\
+             </description>\
+         </cause>\
+     </EventLongDescription>\
+     "
+
+VmBeingHotMigratedEvent.longDescription = "\
+  <EventLongDescription id="vim.event.VmBeingHotMigratedEvent">\
+     <description>\
+        正透過 vMotion 移轉已開啟電源的虛擬機器\
+     </description>\
+     <cause>\
+          <description> 使用者動作可能造成已開啟電源的虛擬機器透過 vMotion 而移轉\
+          </description>\
+      </cause>\
+       <cause>\
+          <description> DRS 建議可能造成已開啟電源的虛擬機器透過 vMotion 而移轉\
+          </description>\
+      </cause>\
+  </EventLongDescription>\
+  "
+
+DatastoreDiscoveredEvent.longDescription = "\
+  <EventLongDescription id="vim.event.DatastoreDiscoveredEvent">\
+     <description>\
+        在主機上探索到資料存放區\
+     </description>\
+     <cause>\
+        <description>\
+           已將有權存取此資料存放區的主機新增至資料中心\
+        </description>\
+     </cause>\
+     <cause>\
+        <description>\
+           已向資料中心的主機取消遮罩支援此資料存放區的儲存空間\
+        </description>\
+     </cause>\
+     <cause>\
+        <description>\
+           使用者或系統動作導致在主機上建立此資料存放區\
+        </description>\
+     </cause>\
+     <cause>\
+        <description>\
+           使用者或系統動作導致在主機上建立此資料存放區，在此作業之前，在資料中心的至少一台其他主機上可以看到此資料存放區。 \
+        </description>\
+     </cause>\
+   </EventLongDescription>\
+   "
+
+DatastoreRenamedOnHostEvent.longDescription = "\
+   <EventLongDescription id="vim.event.DatastoreRenamedOnHostEvent">\
+      <description>\
+         已重新命名 vCenter Server 所管理主機上的資料存放區\
+      </description>\
+      <cause>\
+         <description>\
+            vCenter Server 在主機上探索到資料存放區並將其重新命名，因為此資料存放區已經以不同名稱存在於 vCenter Server 詳細目錄中。vCenter Server 也可能因為該名稱與同一個資料中心內另一個資料存放區的名稱相衝突而重新命名此資料存放區。 \
+         </description>\
+      </cause>\
+   </EventLongDescription>\
+  "
+
+VMFSDatastoreExtendedEvent.longDescription = "\
+   <EventLongDescription id="vim.event.VMFSDatastoreExtendedEvent">\
+      <description>\
+         已延伸現有的 VMFS 磁碟區以增加其容量\
+      </description>\
+      <cause>\
+         <description>\
+            使用者或系統動作導致系統在 LUN 上使用磁碟分割來延伸資料存放區，以增加其容量。 \
+         </description>\
+      </cause>\
+   </EventLongDescription>\
+   "
+
+VMFSDatastoreExpandedEvent.longDescription = "\
+   <EventLongDescription id="vim.event.VMFSDatastoreExpandedEvent">\
+      <description>\
+         VMFS 磁碟區中的現有範圍已增長，以增加其容量\
+      </description>\
+      <cause>\
+         <description>\
+            使用者或系統動作導致現有 VMFS 資料存放區的範圍增長。只有緊隨其後且具有可用空間的範圍才可延伸。因此，該動作會在 LUN 上填入可用的相鄰容量。\
+         </description>\
+      </cause>\
+   </EventLongDescription>\
+   "
+
+VmConfigMissingEvent.longDescription = "\
+   <EventLongDescription id="vim.event.VmConfigMissingEvent">\
+      <description>\
+         找不到虛擬機器的一或多個組態檔\
+      </description>\
+      <cause>\
+         <description>\
+            此虛擬機器所在的資料存放區可能無法存取\
+         </description>\
+         <action>\
+             檢查此虛擬機器所在之資料存放區的連線。如果資料存放區具有支援 LUN，請查看是否存在任何暫時性磁碟故障。\
+         </action>\
+      </cause>\
+   </EventLongDescription>\
+   "
+
+VmDeployedEvent.longDescription = "\
+   <EventLongDescription id="vim.event.VmDeployedEvent">\
+      <description>\
+         已從指定範本建立虛擬機器\
+      </description>\
+      <cause>\
+         <description>\
+            使用者動作導致從範本建立虛擬機器\
+         </description>\
+      </cause>\
+      <cause>\
+         <description>\
+            排定的工作導致從範本建立虛擬機器\
+         </description>\
+      </cause>\
+   </EventLongDescription>\
+   "
+
+VmMacChangedEvent.longDescription = "\
+   <EventLongDescription id="vim.event.VmMacChangedEvent">\
+      <description>\
+         虛擬機器 MAC 位址已變更\
+      </description>\
+      <cause>\
+         <description>\
+            使用者動作已變更虛擬機器 MAC 位址\
+         </description>\
+      </cause>\
+      <cause>\
+         <description>\
+            由於 vCenter 偵測到 MAC 位址衝突，因此變更了虛擬機器 MAC 位址\
+         </description>\
+      </cause>\
+   </EventLongDescription>\
+   "
+
+VmMacConflictEvent.longDescription = "\
+   <EventLongDescription id="vim.event.VmMacConflictEvent">\
+      <description>\
+         該虛擬機器的 MAC 位址與另一台虛擬機器的 MAC 位址衝突\
+      </description>\
+      <cause>\
+         <description> 此虛擬機器的 MAC 位址與另一台虛擬機器的 MAC 位址相同。如需有關導致衝突之虛擬機器的詳細資訊，請參閱事件詳細資料。\
+         </description>\
+      </cause>\
+   </EventLongDescription>\
+   "
+
+VmOrphanedEvent.longDescription = "\
+   <EventLongDescription id="vim.event.VmOrphanedEvent">\
+      <description>\
+         虛擬機器不存在於與其相關聯的主機上\
+      </description>\
+      <cause>\
+         <description> 已在虛擬機器與 vCenter Server 中斷連線時刪除該虛擬機器。 \
+         </description>\
+      </cause>\
+   </EventLongDescription>\
+   "
+
+VmConnectedEvent.longDescription = "\
+   <EventLongDescription id="vim.event.VmConnectedEvent">\
+      <description>\
+         虛擬機器在詳細目錄中處於連線狀態，且 vCenter Server 可存取該虛擬機器\
+      </description>\
+      <cause>\
+         <description>\
+            使用者或系統動作導致建立、登錄、複製或部署虛擬機器等作業發生，此動作也將虛擬機器的存取權限授予 vCenter Server\
+         </description>\
+      </cause>\
+       <cause>\
+         <description>\
+            使用者或系統動作導致新增或重新連線主機等作業發生，此動作也將虛擬機器的存取權限授予 vCenter Server\
+         </description>\
+      </cause>\
+      <cause>\
+         <description>\
+            虛擬機器主機的狀態已從「沒有回應」變更為「已連線」，且該主機將存取虛擬機器的權限授予給 vCenter Server\
+         </description>\
+      </cause>\
+    </EventLongDescription>\
+    "
+   MigrationErrorEvent.longDescription = "\
+         <EventLongDescription id="vim.event.MigrationErrorEvent">\
+            <description>\
+               虛擬機器不符合所有相容性準則，因此無法移轉\
+            </description>\
+            <cause>\
+                 <description> 從來源主機移轉虛擬機器失敗，因為 \
+                     虛擬機器不符合所有相容性準則\
+                 </description>\
+                  <action> \
+                      在失敗時使用 vSphere Client 查看錯誤， \
+                     以找出此問題的可能原因\
+                  </action>\
+             </cause>\
+         </EventLongDescription>\
+         "
+
+ MigrationHostErrorEvent.longDescription = "\
+         <EventLongDescription id="vim.event.MigrationHostErrorEvent">\
+            <description>\
+               虛擬機器不符合所有相容性準則，因此無法移轉\
+            </description>\
+            <cause>\
+                 <description> 將虛擬機器移轉至目的地主機或資料存放區失敗， \
+                     因為虛擬機器不符合所有相容性準則\
+                 </description>\
+                  <action> \
+                      在失敗時使用 vSphere Client 查看錯誤， \
+                     以找出此問題的可能原因\
+                  </action>\
+             </cause>\
+         </EventLongDescription>\
+         "
+
+VmBeingMigratedEvent.longDescription = "\
+     <EventLongDescription id="vim.event.VmBeingMigratedEvent">\
+        <description>\
+           正在變更虛擬機器執行所在的主機\
+        </description>\
+        <cause>\
+           <description>\
+                使用者動作導致將虛擬機器移轉至其他主機\
+           </description>\
+        </cause>\
+     </EventLongDescription>\
+     "
+
+VmMigratedEvent.longDescription = "\
+   <EventLongDescription id="vim.event.VmMigratedEvent">\
+      <description>\
+         已成功變更虛擬機器的主機\
+      </description>\
+      <cause>\
+         <description>\
+            使用者動作導致虛擬機器成功移轉至其他主機\
+         </description>\
+      </cause>\
+   </EventLongDescription>\
+   "
+
+VmBeingRelocatedEvent.longDescription = "\
+     <EventLongDescription id="vim.event.VmBeingRelocatedEvent">\
+        <description>\
+           正在重新放置虛擬機器執行和/或儲存空間\
+        </description>\
+        <cause>\
+           <description>\
+                使用者動作可能導致虛擬機器執行和/或儲存空間變更\
+           </description>\
+        </cause>\
+     </EventLongDescription>\
+     "
+
+VmRelocatedEvent.longDescription = "\
+   <EventLongDescription id="vim.event.VmRelocatedEvent">\
+      <description>\
+         已成功重新放置虛擬機器執行和/或儲存空間\
+      </description>\
+      <cause>\
+         <description>\
+            使用者動作導致虛擬機器執行和/或儲存空間成功變更\
+         </description>\
+      </cause>\
+   </EventLongDescription>\
+   "
+
+VmCloneFailedEvent.longDescription = "\
+     <EventLongDescription id="vim.event.VmCloneFailedEvent">\
+        <description>\
+           複製虛擬機器失敗\
+        </description>\
+        <cause>\
+           <description>\
+                由於發生錯誤，無法複製虛擬機器\
+           </description>\
+        </cause>\
+     </EventLongDescription>\
+     "
+
+MigrationHostWarningEvent.longDescription = "\
+         <EventLongDescription id="vim.event.MigrationHostWarningEvent">\
+            <description>\
+               您可以移轉虛擬機器，但在完成移轉 \
+	       後，虛擬機器可能會失去某些功能\
+            </description>\
+            <cause>\
+                 <description> 將虛擬機器移轉至目的地主機或資料存放區可能會 \
+                     成功，但在移轉之後某些功能可能無法正常運作，因為虛擬 \
+	    	     機器不符合所有相容性準則。\
+                 </description>\
+                  <action> \
+                      在失敗時使用 vSphere Client 查看警告， \
+                     以找出此問題的可能原因\
+                  </action>\
+             </cause>\
+         </EventLongDescription>\
+         "
+
+MigrationResourceErrorEvent.longDescription = "\
+         <EventLongDescription id="vim.event.MigrationResourceErrorEvent">\
+            <description>\
+               由於與目標資源集區不相容，虛擬機器無法移轉\
+            </description>\
+            <cause>\
+                 <description>由於與目標資源集區不相容，無法將虛擬機器移轉至目的地主機或資料存放區。\
+                 </description>\
+                  <action> \
+                      在失敗時使用 vSphere Client 查看錯誤，以找出此問題的可能原因\
+                  </action>\
+             </cause>\
+         </EventLongDescription>\
+         "
+
+MigrationResourceWarningEvent.longDescription = "\
+         <EventLongDescription id="vim.event.MigrationResourceWarningEvent">\
+            <description>\
+               您可以移轉虛擬機器，但在完成移轉後，虛擬機器可能會失去某些功能\
+            </description>\
+            <cause>\
+                 <description> 將虛擬機器移轉至目的地資源集區可能會成功，但在移轉之後某些功能可能無法正常運作，因為虛擬機器不符合所有相容性準則。\
+                 </description>\
+                  <action> \
+                      在失敗時使用 vSphere Client 查看警告，以找出此問題的可能原因\
+                  </action>\
+             </cause>\
+         </EventLongDescription>\
+         "
+
+VmDeployFailedEvent.longDescription = "\
+    <EventLongDescription id="vim.event.VmDeployFailedEvent">\
+        <description>\
+           由於事件訊息中所述原因，無法部署虛擬機器\
+        </description>\
+        <cause>\
+           <description>\
+                虛擬機器無法部署。在磁碟空間不足、主機或虛擬機器中斷網路連線、主機中斷連線等條件下，可能會發生此情況。\
+           </description>\
+          <action>\
+	    在事件訊息中查看原因以找到失敗原因，並更正問題。\
+         </action>\
+	</cause>\
+     </EventLongDescription>\
+     "
+
+VmDiskFailedEvent.longDescription = "\
+    <EventLongDescription id="vim.event.VmDiskFailedEvent">\
+        <description>\
+           由於事件訊息中所述原因，無法為虛擬機器建立虛擬磁碟\
+        </description>\
+        <cause>\
+           <description>\
+                沒有為虛擬機器建立虛擬磁碟。在該作業無法存取磁碟、磁碟空間不足、您不具有執行該作業的權限等條件下，可能會發生此情況。\
+           </description>\
+           <action>\
+                在事件訊息中查看原因以找到失敗原因。確認磁碟可供存取並具有足夠的空間，且權限設定允許執行該作業。\
+           </action>\
+        </cause>\
+     </EventLongDescription>\
+     "
+
+VmFailedMigrateEvent.longDescription = "\
+    <EventLongDescription id="vim.event.VmFailedMigrateEvent">\
+        <description>\
+           由於事件訊息中所述原因，無法移轉虛擬機器\
+        </description>\
+        <cause> \
+            <description> \
+                未移轉虛擬機器。在未設定 vMotion IP、來源主機和目的地主機無法存取等條件下，可能會發生此情況。\
+            </description> \
+            <action> \
+                在事件訊息中查看原因以找到失敗原因。確認來源主機和目的地主機已設定 vMotion IP、這些主機可供存取等事項。\
+            </action> \
+        </cause> \
+     </EventLongDescription>\
+     "
+
+VmFailedRelayoutOnVmfs2DatastoreEvent.longDescription = "\
+    <EventLongDescription id="vim.event.VmFailedRelayoutOnVmfs2DatastoreEvent">\
+        <description>\
+           無法移轉 VMFS2 資料存放區上的虛擬機器\
+        </description>\
+        <cause>\
+           <description>\
+                嘗試移轉虛擬機器失敗，因為虛擬機器在 VMFS2 資料存放區上仍有磁碟。對於 ESX 3.0 及更新版本的主機，VMFS2 資料存放區為唯讀。\
+           </description>\
+           <action> \
+                將資料存放區從 VMFS2 升級至 VMFS3\
+           </action> \
+        </cause>\
+     </EventLongDescription>\
+     "
+
+VmFailedRelayoutEvent.longDescription = "\
+    <EventLongDescription id="vim.event.VmFailedRelayoutEvent">\
+        <description>\
+           無法配置虛擬機器 \
+        </description>\
+        <cause>\
+           <description>\
+                由於事件訊息中所述原因，嘗試在磁碟上配置虛擬機器失敗。此情況可能是由多種原因中的任一種造成，例如，無法存取磁碟。\
+           </description>\
+        <action>\
+	    在事件訊息中查看原因以找到失敗原因，並更正問題。\
+         </action>\
+	</cause>\
+     </EventLongDescription>\
+     "
+
+VmAcquiredMksTicketEvent.longDescription = "\
+    <EventLongDescription id="vim.event.VmAcquiredMksTicketEvent">\
+        <description>\
+           已成功取得虛擬機器的 MKS 票證\
+        </description>\
+        <cause>\
+           <description>\
+                已成功取得用於連線到虛擬機器遠端主控台的 MKS 票證。\
+           </description>\
+        </cause>\
+     </EventLongDescription>\
+     "
+
+VmWwnAssignedEvent.longDescription = "\
+   <EventLongDescription id="vim.event.VmWwnAssignedEvent">\
+      <description>\
+         已向虛擬機器指派 WWN (全球名稱)\
+      </description>\
+      <cause>\
+         <description>由於虛擬機器是使用 RDM (原始裝置對應) 磁碟建立的或重新設定為存取 RDM 磁碟，因此向虛擬機器指派了 WWN\
+         </description>\
+      </cause>\
+   </EventLongDescription>\
+   "
+
+VmWwnChangedEvent.longDescription = "\
+   <EventLongDescription id="vim.event.VmWwnChangedEvent">\
+      <description>\
+         指派給虛擬機器的 WWN (全球名稱) 已變更 \
+      </description>\
+      <cause>\
+         <description>已向虛擬機器指派新的 WWN，這可能是由於向另一台虛擬機器指派了相同的 WWN 而導致衝突\
+         </description>\
+      </cause>\
+   </EventLongDescription>\
+   "
+
+VmWwnConflictEvent.longDescription = "\
+   <EventLongDescription id="vim.event.VmWwnConflictEvent">\
+      <description>\
+         指派給虛擬機器的 WWN (全球名稱) 存在衝突 \
+      </description>\
+      <cause>\
+         <description>指派給此虛擬機器的 WWN 與其他虛擬機器的 WWN 相同。\
+       </description>\
+      <action>\
+	    查看事件詳細資料以瞭解有關衝突的詳細資訊，並更正問題。\
+         </action>\</cause>\
+   </EventLongDescription>\
+   "
+
+VmReloadFromPathFailedEvent.longDescription = "\
+   <EventLongDescription id="vim.event.VmReloadFromPathFailedEvent">\
+      <description>\
+         從新的資料存放區路徑重新載入虛擬機器失敗 \
+      </description>\
+      <cause>\
+         <description>目的地資料存放區路徑無法存取或無效\
+         </description>\
+         <action>使用有效的目的地資料存放區路徑 \
+         </action> \
+      </cause>\
+      <cause>\
+         <description>虛擬機器處於無效狀態 \
+         </description>\
+         <action>檢查虛擬機器的電源狀態。如果虛擬機器已開啟電源，請關閉其電源 \
+         </action>\
+      </cause>\
+      <cause>\
+         <description>虛擬機器已啟用 Fault Tolerance\
+         </description>\
+         <action>停用虛擬機器的 Fault Tolerance，然後重試該作業 \
+         </action>\
+      </cause>\
+   </EventLongDescription>\
+   "
+
+CustomizationLinuxIdentityFailed.longDescription = "\
+   <EventLongDescription id="vim.event.CustomizationLinuxIdentityFailed">\
+      <description>\
+         自訂指令碼不支援客體作業系統 Linux 散發。如需支援的 Linux 散發清單，請參閱《VMware vSphere 相容性矩陣圖》。\
+      </description>\
+      <cause>\
+         <description>\
+            不支援自訂目標客體作業系統 Linux 散發。\
+         </description>\
+         <action>\
+            諮詢 VMware 以瞭解何時會支援特定 Linux 散發。如果較新版本已支援 Linux 散發，請考慮進行升級。\
+         </action>\
+      </cause>\
+   </EventLongDescription>\
+   "
+
+CustomizationNetworkSetupFailed.longDescription = "\
+   <EventLongDescription id="vim.event.CustomizationNetworkSetupFailed">\
+      <description>\
+         自訂指令碼無法在對應的 Linux 組態檔或 Windows 登錄中設定參數\
+      </description>\
+      <cause>\
+         <description>\
+            自訂規格包含無效的主機名稱或網域名稱\
+         </description>\
+         <action>\
+            檢閱此事件的客體作業系統記錄檔，以瞭解詳細資料\
+         </action>\
+         <action>\
+            為目標客體作業系統提供有效的主機名稱。該名稱必須符合 RFC 952、1035、1123、2181 中的主機名稱和網域名稱定義。\
+         </action>\
+      </cause>\
+      <cause>\
+         <description>\
+            找不到具有自訂套件中所指定 MAC 位址的 NIC \
+         </description>\
+         <action>\
+            檢閱此事件的客體作業系統記錄檔，以瞭解詳細資料\
+         </action>\
+         <action>\
+            確認從建立到部署自訂套件的期間未變更虛擬 NIC MAC 位址。排程自訂後，在虛擬機器首次開機時會進行部署。\
+         </action>\
+      </cause>\
+      <cause>\
+         <description>\
+            自訂程式碼需要特定組態檔的讀取/寫入權限。這些權限未授予給 Linux 上的「root」帳戶，也未授予給 Windows 客體作業系統上 VMware Tools 服務所使用的帳戶。\
+         </description>\
+         <action>\
+            檢閱此事件的客體作業系統記錄檔，以瞭解詳細資料\
+         </action>\
+         <action>\
+            將讀取/寫入權限授予給 Linux 的「root」帳戶，或授予給 Windows 客體作業系統上 VMware Tools 服務所使用的帳戶，以及需要由自訂程式碼修改的登錄機碼\
+         </action>\
+      </cause>\
+   </EventLongDescription>\
+   "
+
+CustomizationSysprepFailed.longDescription = "\
+   <EventLongDescription id="vim.event.CustomizationSysprepFailed">\
+      <description>\
+         與所選目標客體作業系統對應之資料夾中的 sysprep 檔案，與該客體作業系統的實際版本不相容\
+      </description>\
+      <cause>\
+         <description>\
+            與目標客體作業系統 (如 Windows XP) 對應之資料夾中的 sysprep 檔案適用於其他客體作業系統 (如 Windows 2003)\
+         </description>\
+         <action>\
+            在執行 vCenter Server 的電腦上，將正確的 sysprep 檔案置於與目標客體作業系統對應的資料夾中\
+         </action>\
+      </cause>\
+      <cause>\
+         <description>\
+            與客體作業系統對應之資料夾中的 sysprep 檔案適用於其他 Service Pack，例如，客體作業系統是 Windows XP SP2，但 sysprep 檔案卻適用於 Windows XP SP1。\
+         </description>\
+         <action>\
+            在執行 vCenter Server 的電腦上，將正確的 sysprep 檔案置於與目標客體作業系統對應的資料夾中\
+         </action>\
+      </cause>\
+   </EventLongDescription>\
+   "
+
+CustomizationUnknownFailure.longDescription = "\
+   <EventLongDescription id="vim.event.CustomizationUnknownFailure">\
+      <description>\
+         自訂元件無法在客體作業系統內設定必要參數\
+      </description>\
+      <cause>\
+         <description>\
+            在 Windows 上，自訂程式碼在使用者帳戶之下執行，但該使用者帳戶不具有自訂程式碼所使用的登錄機碼的讀取/寫入權限。自訂程式碼通常是在「本機系統」帳戶之下執行，但您可以為 VMware Tools 服務執行選取其他帳戶來加以變更。\
+         </description>\
+         <action>\
+            檢閱此事件的客體作業系統記錄檔，以瞭解詳細資料\
+         </action>\
+         <action>\
+            判定為 VMware Tools 服務執行選取的使用者帳戶，並確認此帳戶對自訂程式碼使用的登錄機碼具有讀取/寫入權限\
+         </action>\
+      </cause>\
+      <cause>\
+         <description>\
+            在 Windows 上，自訂程式碼在使用者帳戶之下執行，該使用者帳戶不具有自訂程式碼所使用的檔案和資料夾的讀取/寫入權限。自訂程式碼通常是在「本機系統」帳戶之下執行，但您可以為 VMware Tools 服務執行選取其他帳戶來加以變更。\
+         </description>\
+         <action>\
+            檢閱此事件的客體作業系統記錄檔，以瞭解詳細資料\
+         </action>\
+         <action>\
+            判定為 VMware Tools 服務執行選取的使用者帳戶，並確認此帳戶對自訂程式碼使用的檔案和資料夾具有讀取/寫入權限\
+         </action>\
+      </cause>\
+      <cause>\
+         <description>\
+            在 Linux 上，向自訂指令碼傳遞了無效或不支援的時區，導致時區組態失敗\
+         </description>\
+         <action>\
+            檢閱此事件的客體作業系統記錄檔，以瞭解詳細資料\
+         </action>\
+         <action>\
+            確認在自訂規格中傳遞的是支援的時區。\
+         </action>\
+      </cause>\
+      <cause>\
+         <description>\
+            在 Linux 上，客體作業系統「root」帳戶對自訂指令碼需要修改的組態檔 (「/etc/hosts」) 不具有讀取/寫入權限\
+         </description>\
+         <action>\
+            將這些組態檔的讀取/寫入權限授予給客體作業系統「root」帳戶\
+         </action>\
+      </cause>\
+      <cause>\
+         <description>\
+            若要在 Linux 上啟用客體自訂，如果已使用開啟虛擬機器工具，您還必須安裝部署套件外掛程式。\
+         </description>\
+         <action>\
+            依照 kb.vmware.com/kb/2075048 安裝開啟虛擬機器工具部署套件外掛程式。\
+         </action>\
+      </cause>\
+      <cause>\
+         <description>\
+            不支援自訂目標客體作業系統\
+         </description>\
+         <action>\
+            請諮詢 VMware 以瞭解何時會支援特定 Linux 散發。如果較新版本已支援 Linux 散發，請考慮進行升級。\
+         </action>\
+      </cause>\
+   </EventLongDescription>\
+   "
+#
+# FT Related Events
+#
+
+VmFailedStartingSecondaryEvent.longDescription = "\
+    <EventLongDescription id="vim.event.VmFailedStartingSecondaryEvent">\
+       <description>\
+          由於發生錯誤，vCenter Server 無法啟動次要虛擬機器\
+       </description>\
+       <cause>\
+            <description>\
+              遠端主機與次要虛擬機器不相容。例如，當主機無權存取虛擬機器的網路或資料存放區時，便可能會發生此情況。\
+            </description>\
+            <action>確認叢集中的主機與 FT 相容</action>\
+        </cause>\
+        <cause>\
+            <description>登入遠端主機失敗。如果該主機是新增至詳細目錄或剛剛重新開機，則 SSL 憑證指紋可能需要一點時間才能散佈到主機。\
+            </description>\
+            <action>如果問題仍然存在，請中斷主機連線後再重新連線。</action>\
+        </cause>\
+        <cause>\
+            <description>在遠端主機上登錄次要虛擬機器失敗</description>\
+            <action>判定遠端主機是否有權存取 FT 虛擬機器所在的資料存放區</action>\
+        </cause>\
+        <cause>\
+            <description>啟動次要虛擬機器時發生錯誤</description>\
+            <action>判定移轉錯誤的原因。vCenter Server 將在可能的情況下嘗試重新啟動次要虛擬機器。</action>\
+        </cause>\
+    </EventLongDescription>\
+    "
+
+VmFailedUpdatingSecondaryConfig.longDescription = "\
+    <EventLongDescription id="vim.event.VmFailedUpdatingSecondaryConfig">\
+       <description>\
+          在容錯移轉後，新的主要虛擬機器無法更新次要虛擬機器的組態\
+       </description>\
+       <cause>\
+            <description> </description>\
+            <action></action>\
+        </cause>\
+    </EventLongDescription>\
+    "
+
+VmFaultToleranceStateChangedEvent.longDescription = "\
+    <EventLongDescription id="vim.event.VmFaultToleranceStateChangedEvent">\
+       <description>\
+          虛擬機器的 Fault Tolerance 狀態已變更\
+       </description>\
+       <cause>\
+            <description> </description>\
+            <action></action>\
+        </cause>\
+    </EventLongDescription>\
+    "
+
+VmFaultToleranceTurnedOffEvent.longDescription = "\
+    <EventLongDescription id="vim.event.VmFaultToleranceTurnedOffEvent">\
+       <description>\
+          所有次要虛擬機器均已移除，且此虛擬機器的 Fault Tolerance 保護已關閉。\
+       </description>\
+       <cause>\
+            <description> </description>\
+            <action></action>\
+        </cause>\
+    </EventLongDescription>\
+    "
+
+
+VmFaultToleranceVmTerminatedEvent.longDescription = "\
+    <EventLongDescription id="vim.event.VmFaultToleranceVmTerminatedEvent">\
+       <description>\
+          主要虛擬機器或次要虛擬機器變為非作用中狀態\
+       </description>\
+       <cause>\
+            <description> 次要虛擬機器變為非作用中狀態，因為其作業不再與主要虛擬機器的作業同步</description>\
+            <action>vSphere HA 將嘗試重新啟動次要虛擬機器</action>\
+        </cause>\
+       <cause>\
+            <description> 次要虛擬機器變為非作用中狀態，因為硬體或網路故障導致主要虛擬機器與次要虛擬機器中斷連線</description>\
+            <action>vSphere HA 將嘗試重新啟動次要虛擬機器</action>\
+        </cause>\
+       <cause>\
+            <description> 容錯虛擬機變為非作用中，因為實體主機上的部分硬體發生故障</description>\
+            <action>vSphere HA 將嘗試重新啟動次要虛擬機器</action>\
+        </cause>\
+       <cause>\
+            <description> 使用者已停止容錯虛擬機器</description>\
+            <action>剩餘的容錯虛擬機器會接任為主要虛擬機器。vSphere HA 將嘗試重新啟動次要虛擬機器。</action>\
+        </cause>\
+    </EventLongDescription>\
+    "
+
+
+VmMaxFTRestartCountReached.longDescription = "\
+    <EventLongDescription id="vim.event.VmMaxFTRestartCountReached">\
+       <description>\
+          系統在嘗試重新啟動次要虛擬機器時已達到重新啟動次數上限\
+       </description>\
+       <cause>\
+            <description>系統在嘗試重新建立 Fault Tolerance 時，已超過允許的次要虛擬機器重新啟動嘗試次數</description>\
+            <action>檢查重新啟動失敗的原因並進行修復。然後，停用 Fault Tolerance 保護後再重新啟用。</action>\
+        </cause>\
+    </EventLongDescription>\
+    "
+
+VmNoCompatibleHostForSecondaryEvent.longDescription = "\
+    <EventLongDescription id="vim.event.VmNoCompatibleHostForSecondaryEvent">\
+       <description>\
+          嘗試放置次要虛擬機器時找不到相容主機\
+       </description>\
+       <cause>\
+            <description>沒有可用於放置次要虛擬機器的相容主機</description>\
+            <action>解決不相容問題，然後重試該作業</action>\
+        </cause>\
+    </EventLongDescription>\
+    "
+
+VmSecondaryDisabledBySystemEvent.longDescription = "\
+    <EventLongDescription id="vim.event.VmSecondaryDisabledBySystemEvent">\
+       <description>\
+          由於無法開啟次要虛擬機器的電源，vCenter Server 已停用該次要虛擬機器\
+       </description>\
+       <cause>\
+            <description>vCenter Server 無法開啟次要虛擬機器的電源 </description>\
+            <action>在事件訊息中查看原因以瞭解詳細資料、修復失敗問題，然後重新啟用 Fault Tolerance 保護以開啟次要虛擬機器的電源。</action>\
+        </cause>\
+    </EventLongDescription>\
+    "
+
+
+VmTimedoutStartingSecondaryEvent.longDescription = "\
+    <EventLongDescription id="vim.event.VmTimedoutStartingSecondaryEvent">\
+       <description> 嘗試啟動次要虛擬機器逾時。\
+       </description>\
+       <cause>\
+            <description>使用者嘗試開啟或啟用 Fault Tolerance，由此觸發次要虛擬機器的啟動。啟動作業逾時，因此，vCenter Server 會停用 Fault Tolerance。 </description>\
+            <action>修復任何問題並重新啟用 Fault Tolerance 保護</action>\
+        </cause>\
+       <cause>\
+            <description>失敗導致次要虛擬機器啟動，但啟動嘗試逾時</description>\
+            <action> vSphere HA 將嘗試開啟次要虛擬機器的電源</action>\
+        </cause>\
+    </EventLongDescription>\
+    "
+
+CanceledHostOperationEvent.longDescription = "\
+	<EventLongDescription id="vim.event.CanceledHostOperationEvent">\
+		<description>\
+			已取消對主機執行的作業\
+		</description>\
+		<cause>\
+			<description>\
+		一系列事件中的前一個事件將提供有關此次取消作業之原因的詳細資訊\
+			</description>\
+		</cause>\
+	</EventLongDescription>\
+    "
+
+ChangeOwnerOfFileFailedEvent.longDescription = "\
+	<EventLongDescription id="vim.event.ChangeOwnerOfFileFailedEvent">\
+		<description>\
+			變更檔案或資料夾的擁有者失敗\
+		</description>\
+	</EventLongDescription>\
+    "
+
+HostAddFailedEvent.longDescription = "\
+	<EventLongDescription id="vim.event.HostAddFailedEvent">\
+		<description>\
+			新增主機失敗\
+		</description>\
+	</EventLongDescription>\
+    "
+
+HostAdminDisableEvent.longDescription = "\
+	<EventLongDescription id="vim.event.HostAdminDisableEvent">\
+		<description>\
+			主機權限已變更，因此，只有用於 vCenter Server 作業的帳戶才具有系統管理員權限\
+		</description>\
+		<cause>\
+			<description>\
+				由於主機已置於鎖定模式而使 vCenter Server 移除對主機的所有其他系統管理員存取權時，便會發生此情況。主機只能由 vCenter Server 管理，並且只有 vCenter Server 才能重新啟用其他帳戶的系統管理員存取權。\
+			</description>\
+		</cause>\
+	</EventLongDescription>\
+    "
+
+HostAdminEnableEvent.longDescription = "\
+	<EventLongDescription id="vim.event.HostAdminEnableEvent">\
+		<description>\
+			對於權限遭鎖定模式停用的主機使用者帳戶，vCenter Server 已還原其系統管理員權限\
+		</description>\
+		<cause>\
+			<description>\
+				當 vCenter Server 還原主機使用者帳戶 (在主機置於鎖定模式時失去系統管理員權限) 的系統管理員存取權時，便會發生此情況\
+			</description>\
+		</cause>\
+	</EventLongDescription>\
+    "
+
+HostCnxFailedAccountFailedEvent.longDescription = "\
+	<EventLongDescription id="vim.event.HostCnxFailedAccountFailedEvent">\
+		<description>\
+			由於設定管理帳戶失敗，無法連線到主機\
+		</description>\
+		<cause>\
+			<description>\
+			無法設定 vCenter Server 用於管理主機的帳戶\
+			</description>\
+		</cause>\
+	</EventLongDescription>\
+    "
+
+HostCnxFailedAlreadyManagedEvent.longDescription = "\
+	<EventLongDescription id="vim.event.HostCnxFailedAlreadyManagedEvent">\
+		<description>\
+			由於主機已由其他 vCenter Server 執行個體管理，因此無法連線到主機。\
+		</description>\
+		<cause>\
+			<description>\
+				主機已由其他 vCenter Server 執行個體管理\
+			</description>\
+			<action>\
+				從其他 vCenter Server 執行個體的詳細目錄中移除主機\
+			</action>\
+			<action>\
+				強制將主機新增至目前的 vCenter Server 執行個體\
+			</action>\
+		</cause>\
+	</EventLongDescription>\
+    "
+
+HostCnxFailedBadCcagentEvent.longDescription = "\
+	<EventLongDescription id="vim.event.HostCnxFailedBadCcagentEvent">\
+		<description>\
+			由於主機代理程式沒有回應，無法連線到主機\
+		</description>\
+		<cause>\
+			<description>\
+				未收到主機代理程式的回應\
+			</description>\
+			<action>\
+				在 ESX/ESXi 主機上重新啟動主機代理程式\
+			</action>\
+		</cause>\
+	</EventLongDescription>\
+    "
+
+HostCnxFailedBadUsernameEvent.longDescription = "\
+	<EventLongDescription id="vim.event.HostCnxFailedBadUsernameEvent">\
+		<description>\
+			由於使用者名稱與密碼組合無效，無法連線到主機\
+		</description>\
+		<cause>\
+			<description>\
+				無效的使用者名稱與密碼組合\
+			</description>\
+			<action>\
+				使用正確的使用者名稱和密碼\
+			</action>\
+		</cause>\
+	</EventLongDescription>\
+    "
+
+HostCnxFailedBadVersionEvent.longDescription = "\
+	<EventLongDescription id="vim.event.HostCnxFailedBadVersionEvent">\
+		<description>\
+			由於 vSphere Client 版本不相容，無法連線到主機\
+		</description>\
+		<cause>\
+			<description>\
+			vSphere Client 的版本與 ESX/ESXi 主機不相容，因此連線嘗試失敗\
+			</description>\
+			<action>\
+			下載並使用相容的 vSphere Client 版本，以連線到主機\
+			</action>\
+		</cause>\
+	</EventLongDescription>\
+    "
+
+HostCnxFailedCcagentUpgradeEvent.longDescription = "\
+	<EventLongDescription id="vim.event.HostCnxFailedCcagentUpgradeEvent">\
+		<description>\
+			由於正在進行主機代理程式升級或安裝，無法連線到主機\
+		</description>\
+		<cause>\
+			<description>\
+				正在主機上升級或安裝主機代理程式\
+			</description>\
+			<action>\
+				等待主機代理程式升級或安裝完成\
+			</action>\
+		</cause>\
+	</EventLongDescription>\
+    "
+
+HostCnxFailedEvent.longDescription = "\
+	<EventLongDescription id="vim.event.HostCnxFailedEvent">\
+		<description>\
+			由於未指定的情況，無法連線到主機\
+		</description>\
+		<cause>\
+			<description>\
+				失敗原因未知\
+			</description>\
+		</cause>\
+	</EventLongDescription>\
+    "
+
+HostCnxFailedNetworkErrorEvent.longDescription = "\
+	<EventLongDescription id="vim.event.HostCnxFailedNetworkErrorEvent">\
+		<description>\
+			由於網路錯誤，無法連線到主機\
+		</description>\
+		<cause>\
+			<description>\
+				連線到主機時發生網路錯誤\
+			</description>\
+			<action>\
+				確認已正確設定主機網路\
+			</action>\
+		</cause>\
+	</EventLongDescription>\
+    "
+
+HostCnxFailedNoAccessEvent.longDescription = "\
+	<EventLongDescription id="vim.event.HostCnxFailedNoAccessEvent">\
+		<description>\
+			由於帳戶權限不足，無法連線到主機\
+		</description>\
+		<cause>\
+			<description>\
+				用於連線到主機的帳戶不具有主機存取權限\
+			</description>\
+			<action>\
+				使用具有足夠權限的帳戶連線到主機\
+			</action>\
+		</cause>\
+	</EventLongDescription>\
+    "
+
+HostCnxFailedNoConnectionEvent.longDescription = "\
+	<EventLongDescription id="vim.event.HostCnxFailedNoConnectionEvent">\
+		<description>\
+			由於主機不在網路中，無法連線到主機\
+		</description>\
+		<cause>\
+			<description>\
+				您正嘗試連線的主機不在網路中\
+			</description>\
+			<action>\
+				確認已正確設定主機網路，且主機連線到與 vCenter Server 相同的網路\
+			</action>\
+		</cause>\
+	</EventLongDescription>\
+    "
+
+HostCnxFailedNoLicenseEvent.longDescription = "\
+	<EventLongDescription id="vim.event.HostCnxFailedNoLicenseEvent">\
+		<description>\
+			由於授權問題，無法連線到主機\
+		</description>\
+		<cause>\
+			<description>\
+				授權不足，無法將主機新增至 vCenter Server 詳細目錄。此事件引發的錯誤指出，遺失成功新增主機所需的授權。\
+			</description>\
+			<action>\
+				將必要授權新增至 vCenter Server，然後再次嘗試新增主機\
+			</action>\
+		</cause>\
+	</EventLongDescription>\
+    "
+
+HostCnxFailedNotFoundEvent.longDescription = "\
+	<EventLongDescription id="vim.event.HostCnxFailedNotFoundEvent">\
+		<description>\
+			由於 vCenter Server 無法解析主機名稱，因此無法連線到主機\
+		</description>\
+		<cause>\
+			<description>\
+				無法解析主機的主機名稱\
+			</description>\
+			<action>\
+				確認已為主機提供正確的主機名稱\
+			</action>\
+			<action>\
+				將主機設定為使用正確 (可解析) 的主機名稱\
+			</action>\
+			<action>\
+				將主機名稱新增至 DNS 伺服器\
+			</action>\
+		</cause>\
+	</EventLongDescription>\
+    "
+
+HostCnxFailedTimeoutEvent.longDescription = "\
+	<EventLongDescription id="vim.event.HostCnxFailedTimeoutEvent">\
+		<description>\
+			由於連線嘗試逾時，無法連線到主機\
+		</description>\
+		<cause>\
+			<description>\
+				嘗試連線到主機時發生逾時\
+			</description>\
+		</cause>\
+	</EventLongDescription>\
+    "
+
+HostConnectionLostEvent.longDescription = "\
+	<EventLongDescription id="vim.event.HostConnectionLostEvent">\
+		<description>\
+			與主機的連線已中斷\
+		</description>\
+		<cause>\
+			<description>\
+				主機處於無法回應的狀態\
+			</description>\
+		</cause>\
+	</EventLongDescription>\
+    "
+
+HostReconnectionFailedEvent.longDescription = "\
+	<EventLongDescription id="vim.event.HostReconnectionFailedEvent">\
+		<description>\
+			無法重新建立與主機的連線\
+		</description>\
+		<cause>\
+			<description>\
+				主機處於無法回應的狀態\
+			</description>\
+		</cause>\
+	</EventLongDescription>\
+    "
+
+TimedOutHostOperationEvent.longDescription = "\
+	<EventLongDescription id="vim.event.TimedOutHostOperationEvent">\
+		<description>\
+			對主機執行的作業逾時\
+		</description>\
+		<cause>\
+			<description>\
+			一系列事件中的前一個事件將提供有關逾時原因的資訊\
+			</description>\
+		</cause>\
+	</EventLongDescription>\
+    "
+
+AccountCreatedEvent.longDescription = "\
+	<EventLongDescription id="vim.event.AccountCreatedEvent">\
+		<description>\
+			已在主機上建立帳戶\
+		</description>\
+	</EventLongDescription>\
+    "
+
+AccountRemovedEvent.longDescription = "\
+	<EventLongDescription id="vim.event.AccountRemovedEvent">\
+		<description>\
+			已從主機中移除帳戶\
+		</description>\
+	</EventLongDescription>\
+    "
+
+AccountUpdatedEvent.longDescription = "\
+	<EventLongDescription id="vim.event.AccountUpdatedEvent">\
+		<description>\
+			已更新主機上的帳戶\
+		</description>\
+	</EventLongDescription>\
+    "
+
+AdminPasswordNotChangedEvent.longDescription = "\
+	<EventLongDescription id="vim.event.AdminPasswordNotChangedEvent">\
+		<description>\
+			尚未變更主機上系統管理員使用者的預設密碼\
+		</description>\
+		<cause>\
+			<description>\
+			您尚未變更主機上系統管理員使用者的密碼，因此，預設密碼仍處於作用中狀態\
+			</description>\
+			<action>\
+				變更主機上系統管理員使用者的密碼\
+			</action>\
+		</cause>\
+	</EventLongDescription>\
+    "
+
+BadUsernameSessionEvent.longDescription = "\
+	<EventLongDescription id="vim.event.BadUsernameSessionEvent">\
+		<description>\
+			使用者嘗試使用未知或無效的使用者名稱登入\
+		</description>\
+		<cause>\
+            <description>\
+			使用者名稱是系統未知的名稱\
+			</description>\
+            <action>\
+			使用包含在系統使用者目錄中的使用者名稱\
+			</action>\
+            <action>\
+			在 Linux 上，確認已正確設定使用者目錄\
+			</action>\
+            <action>\
+			如果使用的是 Active Directory，請檢查網域控制站的健全狀況\
+			</action>\
+        </cause>\
+        <cause>\
+            <description>\
+			使用者提供的密碼無效\
+			</description>\
+            <action>\
+			提供正確的密碼\
+			</action>\
+        </cause>\
+	</EventLongDescription>\
+    "
+
+ErrorUpgradeEvent.longDescription = "\
+	<EventLongDescription id="vim.event.ErrorUpgradeEvent">\
+		<description>\
+			代理程式升級期間發生錯誤\
+		</description>\
+	</EventLongDescription>\
+    "
+
+GeneralHostErrorEvent.longDescription = "\
+	<EventLongDescription id="vim.event.GeneralHostErrorEvent">\
+		<description>\
+			主機發生錯誤\
+		</description>\
+		<cause>\
+            <description>\
+			由於主機發生網路相關故障，代理程式無法傳送活動訊號\
+			</description>\
+        </cause>\
+        <cause>\
+            <description>\
+			代理程式無法更新主機上的組態檔\
+			</description>\
+        </cause>\
+        <cause>\
+            <description>\
+			代理程式無法將組態檔儲存至主機上的磁碟\
+			</description>\
+        </cause>\
+        <cause>\
+            <description>\
+			無法載入佈建模組。因此，主機上的所有佈建作業都將失敗。\
+			</description>\
+        </cause>\
+	</EventLongDescription>\
+    "
+
+GeneralHostInfoEvent.longDescription = "\
+	<EventLongDescription id="vim.event.GeneralHostInfoEvent">\
+		<description>\
+			主機發生一般資訊事件\
+		</description>\
+	</EventLongDescription>\
+    "
+
+GeneralHostWarningEvent.longDescription = "\
+	<EventLongDescription id="vim.event.GeneralHostWarningEvent">\
+		<description>\
+			主機發生一般警告事件\
+		</description>\
+		<cause>\
+            <description>\
+			虛擬機器建立可能會失敗，因為代理程式無法從主機擷取虛擬機器建立選項\
+			</description>\
+        </cause>\
+	</EventLongDescription>\
+    "
+
+GeneralUserEvent.longDescription = "\
+	<EventLongDescription id="vim.event.GeneralUserEvent">\
+		<description>\
+			主機發生一般使用者事件\
+		</description>\
+		<cause>\
+            <description>\
+			使用者在主機上啟動了動作\
+			</description>\
+        </cause>\
+	</EventLongDescription>\
+    "
+
+GeneralVmErrorEvent.longDescription = "\
+	<EventLongDescription id="vim.event.GeneralVmErrorEvent">\
+		<description>\
+			虛擬機器發生錯誤\
+		</description>\
+	</EventLongDescription>\
+    "
+
+GeneralVmInfoEvent.longDescription = "\
+	<EventLongDescription id="vim.event.GeneralVmInfoEvent">\
+		<description>\
+			虛擬機器發生一般資訊事件\
+		</description>\
+	</EventLongDescription>\
+    "
+
+GeneralVmWarningEvent.longDescription = "\
+	<EventLongDescription id="vim.event.GeneralVmWarningEvent">\
+		<description>\
+			虛擬機器發生一般警告事件\
+		</description>\
+	</EventLongDescription>\
+    "
+
+HostSyncFailedEvent.longDescription = "\
+	<EventLongDescription id="vim.event.HostSyncFailedEvent">\
+		<description>\
+			無法與主機上的 vCenter Agent 同步\
+		</description>\
+		<cause>\
+            <description>\
+				該事件包含有關此次失敗之原因的詳細資料\
+			</description>\
+        </cause>\
+	</EventLongDescription>\
+    "
+
+HostUpgradeFailedEvent.longDescription = "\
+	<EventLongDescription id="vim.event.HostUpgradeFailedEvent">\
+		<description>\
+			由於安裝或升級問題，無法連線到主機\
+		</description>\
+	</EventLongDescription>\
+    "
+
+NoAccessUserEvent.longDescription = "\
+	<EventLongDescription id="vim.event.NoAccessUserEvent">\
+		<description>\
+			由於存取權限不足，使用者無法登入\
+		</description>\
+		<cause>\
+            <description>\
+			使用者帳戶的存取權限不足\
+			</description>\
+			<action>\
+			使用具有必要存取權限的使用者帳戶登入，或者將額外存取權限授予給目前的使用者\
+			</action>\
+        </cause>\
+	</EventLongDescription>\
+    "
+
+SessionTerminatedEvent.longDescription = "\
+	<EventLongDescription id="vim.event.SessionTerminatedEvent">\
+		<description>\
+			工作階段已終止\
+		</description>\
+	</EventLongDescription>\
+    "
+
+TaskTimeoutEvent.longDescription = "\
+	<EventLongDescription id="vim.event.TaskTimeoutEvent">\
+		<description>\
+			工作因逾時而遭清理\
+		</description>\
+	</EventLongDescription>\
+    "
+
+UserUpgradeEvent.longDescription = "\
+	<EventLongDescription id="vim.event.UserUpgradeEvent">\
+		<description>\
+			因升級導致發生一般使用者事件\
+		</description>\
+	</EventLongDescription>\
+    "
+
+VcAgentUninstalledEvent.longDescription = "\
+	<EventLongDescription id="vim.event.VcAgentUninstalledEvent">\
+		<description>\
+			已從主機中解除安裝 vCenter Agent\
+		</description>\
+	</EventLongDescription>\
+    "
+
+VcAgentUninstallFailedEvent.longDescription = "\
+	<EventLongDescription id="vim.event.VcAgentUninstallFailedEvent">\
+		<description>\
+			嘗試在主機上解除安裝 vCenter Agent 失敗\
+		</description>\
+		<cause>\
+            <description>\
+				該事件包含有關此次失敗之原因的詳細資料\
+			</description>\
+        </cause>\
+	</EventLongDescription>\
+    "
+
+VcAgentUpgradedEvent.longDescription = "\
+	<EventLongDescription id="vim.event.VcAgentUpgradedEvent">\
+		<description>\
+			已在主機上升級 vCenter Agent\
+		</description>\
+	</EventLongDescription>\
+    "
+
+VcAgentUpgradeFailedEvent.longDescription = "\
+	<EventLongDescription id="vim.event.VcAgentUpgradeFailedEvent">\
+		<description>\
+			嘗試在主機上升級 vCenter Agent 失敗\
+		</description>\
+		<cause>\
+            <description>\
+				該事件包含有關此次失敗之原因的詳細資料\
+			</description>\
+        </cause>\
+	</EventLongDescription>\
+    "
+
+VimAccountPasswordChangedEvent.longDescription = "\
+	<EventLongDescription id="vim.event.VimAccountPasswordChangedEvent">\
+		<description>\
+			主機上 Vim 帳戶使用者的密碼已變更。此帳戶由 vCenter Server 建立，用於管理主機。\
+		</description>\
+		<cause>\
+            <description>\
+			vCenter Server 會定期變更用於管理主機之 Vim 帳戶的密碼\
+			</description>\
+        </cause>\
+	</EventLongDescription>\
+    "
+
+VmMessageErrorEvent.longDescription = "\
+	<EventLongDescription id="vim.event.VmMessageErrorEvent">\
+		<description>\
+			虛擬機器已報告錯誤訊息，其中列出一系列觀察結果\
+		</description>\
+		<cause>\
+            <description>\
+				該事件包含有關此錯誤之原因的詳細資料\
+			</description>\
+        </cause>\
+	</EventLongDescription>\
+    "
+
+VmMessageEvent.longDescription = "\
+	<EventLongDescription id="vim.event.VmMessageEvent">\
+		<description>\
+			虛擬機器已報告資訊訊息，其中列出一系列觀察結果\
+		</description>\
+		<cause>\
+            <description>\
+				該事件包含有關虛擬機器報告之訊息的詳細資料\
+			</description>\
+        </cause>\
+	</EventLongDescription>\
+    "
+
+VmMessageWarningEvent.longDescription = "\
+	<EventLongDescription id="vim.event.VmMessageWarningEvent">\
+		<description>\
+			虛擬機器已報告警告訊息，其中列出一系列觀察結果\
+		</description>\
+		<cause>\
+            <description>\
+				該事件包含有關發出此警告之原因的詳細資料\
+			</description>\
+        </cause>\
+	</EventLongDescription>\
+    "
+
+DvsHostWentOutOfSyncEvent.longDescription = "\
+    <EventLongDescription id="vim.event.DvsHostWentOutOfSyncEvent">\
+       <description> 主機上的 vSphere Distributed Switch 組態與 vCenter Server 的該組態不同\
+       </description>\
+       <cause>\
+         <description> 傳送更新時，主機未連線到 vCenter Server </description>\
+       </cause>\
+       <cause>\
+         <description> vCenter Server 過去無法將 vSphere Distributed Switch 組態推送至主機</description>\
+       </cause>\
+    </EventLongDescription>\
+    "
+
+GhostDvsProxySwitchDetectedEvent.longDescription = "\
+    <EventLongDescription id="vim.event.GhostDvsProxySwitchDetectedEvent">\
+       <description> \
+          vCenter Server 發現主機上的 vSphere Distributed Switch 代理交換器與 vCenter Server 中的任何 vSphere Distributed Switch 都不相符 \
+       </description>\
+       <cause>\
+            <description> \
+               主機與 vCenter Server 中斷連線時，與主機上 vSphere Distributed Switch 代理交換器對應的 vSphere Distributed Switch 遭到刪除\
+            </description>\
+        </cause>\
+       <cause>\
+            <description> \
+               該主機不再屬於主機中代理交換器所對應的 vSphere Distributed Switch \
+            </description>\
+        </cause>\
+    </EventLongDescription>\
+    "
+
+IncorrectHostInformationEvent.longDescription = "\
+    <EventLongDescription id="vim.event.IncorrectHostInformationEvent">\
+       <description> 主機未提供取得正確授權集所需的資訊 </description>\
+       <cause>\
+            <description> 主機上的 cpuCores、cpuPackages 或 hostType 資訊無效 </description>\
+        </cause>\
+       <cause>\
+            <description> 由於主機是以中斷連線的狀態進行新增的，因此，主機資訊無法使用 </description>\
+        </cause>\
+    </EventLongDescription>\
+    "
+
+HostWwnConflictEvent.longDescription = "\
+    <EventLongDescription id="vim.event.HostWwnConflictEvent">\
+       <description> \
+          此主機的 WWN (全球名稱) 與另一台主機或虛擬機器的 WWN 衝突\
+       </description>\
+       <cause>\
+            <description> 此主機的 WWN 與另一台主機的 WWN 衝突 </description>\
+       </cause>\
+       <cause>\
+            <description> 此主機的 WWN 與另一台虛擬機器的 WWN 衝突</description>\
+       </cause>\
+    </EventLongDescription>\
+    "
+
+HostIpChangedEvent.longDescription = "\
+    <EventLongDescription id="vim.event.HostIpChangedEvent">\
+       <description> \
+          主機的 IP 位址已變更\
+       </description>\
+       <cause>\
+            <description> 已透過 vCenter Server 變更主機的 IP 位址 </description>\
+       </cause>\
+       <cause>\
+            <description> 已透過主機變更主機的 IP 位址 </description>\
+       </cause>\
+    </EventLongDescription>\
+    "
+
+DrsExitStandbyModeFailedEvent.longDescription = "\
+    <EventLongDescription id="vim.event.DrsExitStandbyModeFailedEvent">\
+       <description>\
+          DPM 無法開啟處於待命模式之主機的電源。DPM 嘗試使用 IPMI、iLO 或網路喚醒通訊協定來開啟主機電源，但主機並未開啟電源。\
+       </description>\
+       <cause>\
+            <description>DPM 無法與主機上的 BMC 通訊</description>\
+            <action>驗證 vCenter Server 中輸入的 IPMI/iLO 認證</action>\
+            <action>確認 BMC 中已啟用 LAN 存取</action>\
+        </cause>\
+        <cause>\
+            <description>主機上的 vMotion NIC 不支援網路喚醒</description>\
+            <action>選取支援網路喚醒的 vMotion NIC</action>\
+        </cause>\
+    </EventLongDescription>\
+    "
+
+ClusterOvercommittedEvent.longDescription = "\
+    <EventLongDescription id="vim.event.ClusterOvercommittedEvent">\
+       <description>\
+          叢集中所有主機的累計 CPU 和/或記憶體資源不足，無法滿足叢集中所有虛擬機器的資源保留區需求\
+       </description>\
+       <cause>\
+            <description>您嘗試略過 vCenter Server 來開啟虛擬機器電源。嘗試使用直接連線到主機的 vSphere Client 來開啟電源時，便會發生此情況。</description>\
+            <action>在 DRS 叢集中，請勿略過 vCenter Server 來開啟虛擬機器電源</action>\
+        </cause>\
+        <cause>\
+            <description>主機置於維護、待命或已中斷連線模式</description>\
+            <action>讓處於維護、待命或已中斷連線模式的所有主機退出這些模式</action>\
+        </cause>\
+    </EventLongDescription>\
+    "
+
+ResourceViolatedEvent.longDescription = "\
+    <EventLongDescription id="vim.event.ResourceViolatedEvent">\
+       <description>\
+          資源集區中所有虛擬機器累計耗用的 CPU 和/或記憶體資源超過資源集區組態 \
+       </description>\
+       <cause>\
+            <description>您嘗試略過 vCenter Server 在資源集區之間移動虛擬機器。嘗試使用直接連線到主機的 vSphere Client 進行移動時，便會發生此情況。\
+		</description>\
+            <action>在 DRS 叢集中，請勿略過 vCenter Server 來移動虛擬機器及開啟其電源</action>\
+        </cause>\
+    </EventLongDescription>\
+    "
+
+HostComplianceCheckedEvent.longDescription = "\
+   <EventLongDescription id="vim.event.HostComplianceCheckedEvent">\
+      <description>\
+         已檢查主機與主機設定檔的符合性\
+      </description>\
+      <cause>\
+         <description>\
+            使用者已啟動主機與主機設定檔的符合性檢查 \
+          </description>\
+      </cause>\
+      <cause>\
+         <description>\
+            排定的工作已啟動主機與主機設定檔的符合性檢查 \
+         </description>\
+      </cause>\
+    </EventLongDescription>\
+    "
+
+ClusterComplianceCheckedEvent.longDescription = "\
+   <EventLongDescription id="vim.event.ClusterComplianceCheckedEvent">\
+      <description>\
+         已檢查叢集與叢集設定檔的符合性\
+      </description>\
+      <cause>\
+         <description>\
+            使用者已啟動叢集與叢集設定檔的符合性檢查 \
+         </description>\
+      </cause>\
+      <cause>\
+         <description>\
+            排定的工作已啟動叢集與叢集設定檔的符合性檢查 \
+         </description>\
+      </cause>\
+    </EventLongDescription>\
+    "
+
+HostNonCompliantEvent.longDescription = "\
+   <EventLongDescription id="vim.event.HostNonCompliantEvent">\
+      <description>\
+         主機與主機設定檔不符\
+       </description>\
+       <cause>\
+          <description>\
+             主機與附加的設定檔不符 \
+          </description>\
+       <action>\
+          在 vSphere Client 中查看主機的「摘要」索引標籤，以判定不符合標準的可能原因 \
+       </action>\
+       </cause>\
+</EventLongDescription>\
+   "
+
+ClusterReconfiguredEvent.longDescription = "\
+    <EventLongDescription id="vim.event.ClusterReconfiguredEvent">\
+       <description>\
+          叢集組態已變更。叢集組態包含有關叢集的 DRS、DPM、EVC 和 vSphere HA 設定的資訊。所有 DRS 規則也儲存在叢集組態中。編輯叢集組態可能會在叢集中的每台主機上觸發 DRS 叫用和/或 vSphere HA 啟用/停用。 \
+       </description>\
+    </EventLongDescription>\
+    "
+
+ClusterStatusChangedEvent.longDescription = "\
+    <EventLongDescription id="vim.event.ClusterStatusChangedEvent">\
+       <description>\
+          叢集狀態已變更。此狀態是包含整個叢集之根資源集區的狀態。叢集狀態變更可能表示可排除組態問題 (如果先前已偵測到組態問題)。叢集狀態為綠色時表示一切正常。黃色狀態表示根資源集區沒有資源可滿足其子系的保留區需求。紅色狀態表示資源集區中某個節點之子系的保留區超過該節點的組態。 \
+       </description>\
+       <cause>\
+            <description>叢集狀態變更為黃色</description>\
+            <action>新增更多資源 (更多主機)，或者直接在根目錄下減少資源集區的保留區，以符合新容量需求</action>\
+        </cause>\
+        <cause>\
+            <description>叢集狀態變更為紅色</description>\
+            <action>在狀態為紅色的資源集區上變更資源設定，以便這些資源集區可以容納其子系虛擬機器。如果無法執行此動作，請減少虛擬機器保留區。如果也無法執行此動作，請關閉部分虛擬機器的電源。</action>\
+        </cause>\
+    </EventLongDescription>\
+    "
+
+DrsInvocationFailedEvent.longDescription = "\
+    <EventLongDescription id="vim.event.DrsInvocationFailedEvent">\
+       <description>\
+          無法成功完成 DRS 叫用。導致此情況的原因有多種，其中部分原因可能是暫時性的。 \
+       </description>\
+       <cause>\
+            <description>DRS 叫用期間發生錯誤</description>\
+            <action>停用 DRS 後再重新啟用</action>\
+        </cause>\
+    </EventLongDescription>\
+    "
+
+DrsResourceConfigureFailedEvent.longDescription = "\
+    <EventLongDescription id="vim.event.DrsResourceConfigureFailedEvent">\
+       <description>\
+          無法成功將 DRS 資源設定套用到叢集中的主機。此情況通常是暫時性的。 \
+       </description>\
+       <cause>\
+            <description>無法將 DRS 資源設定套用到主機。</description>\
+            <action>DRS 會產生將叢集值對應到主機的資源設定。但是，在這種情況下，無法成功將這些值套用到主機。這通常是由於從 DRS 同步到主機發生延遲而導致的暫時性錯誤。如果此情況持續存在，請在 vpxa 中啟用偵錯記錄，並連絡 VMware 支援人員。 </action>\
+        </cause>\
+    </EventLongDescription>\
+    "
+
+DrsVmMigratedEvent.longDescription = "\
+    <EventLongDescription id="vim.event.DrsVmMigratedEvent">\
+       <description>\
+          已根據 DRS 建議移轉虛擬機器。提出此建議可能是為了改善叢集中的負載平衡，或者是為了撤除叢集中置於待命或維護模式的主機。 \
+       </description>\
+       <cause>\
+            <description>DRS 建議移轉虛擬機器</description>\
+        </cause>\
+    </EventLongDescription>\
+    "
+
+DrsVmPoweredOnEvent.longDescription = "\
+    <EventLongDescription id="vim.event.DrsVmPoweredOnEvent">\
+       <description>\
+          使用者已開啟虛擬機器電源，且 DRS 已根據目前的叢集負載分佈和虛擬機器的資源需求為該虛擬機器選擇主機 \
+       </description>\
+       <cause>\
+            <description>DRS 已為開啟電源的虛擬機器選擇主機</description>\
+        </cause>\
+    </EventLongDescription>\
+    "
+
+HostOvercommittedEvent.longDescription = "\
+    <EventLongDescription id="vim.event.HostOvercommittedEvent">\
+       <description>\
+          主機的 CPU 和/或記憶體容量不足，無法滿足其資源組態。該主機具有自己的許可控制，因此絕不會發生此情況。\
+       </description>\
+       <cause>\
+            <description>主機的容量不足，無法滿足其資源組態</description>\
+            <action>如果發生此情況，請連絡 VMware 支援人員 </action>\
+	</cause>\
+    </EventLongDescription>\
+    "
+
+HostStatusChangedEvent.longDescription = "\
+    <EventLongDescription id="vim.event.HostStatusChangedEvent">\
+       <description>\
+          主機狀態已變更。此狀態是包含整台主機之根資源集區的狀態。主機狀態變更可能表示可排除組態問題 (如果先前已偵測到組態問題)。叢集狀態為綠色時表示一切正常。黃色狀態表示根資源集區沒有資源可滿足其子系的保留區需求。紅色狀態表示資源集區中某個節點之子系的保留區超過該節點的組態。 \
+       </description>\
+       <cause>\
+            <description>主機狀態變更為黃色</description>\
+            <action>直接在根目錄下減少資源集區的保留區，以符合新容量需求</action>\
+        </cause>\
+        <cause>\
+            <description>主機狀態變更為紅色</description>\
+            <action>在狀態為紅色的資源集區上變更資源設定，以便這些資源集區可以容納其子系虛擬機器。如果無法執行此動作，請減少虛擬機器保留區。如果也無法執行此動作，請關閉部分虛擬機器的電源。</action>\
+        </cause>\
+    </EventLongDescription>\
+    "
+
+NoMaintenanceModeDrsRecommendationForVM.longDescription = "\
+    <EventLongDescription id="vim.event.NoMaintenanceModeDrsRecommendationForVM">\
+       <description>\
+          DRS 無法針對進入維護模式之主機上的虛擬機器產生 vMotion 建議。發生此情況通常是因為 DRS 叢集中的任何其他主機皆與該虛擬機器不相容。除非您手動移轉此虛擬機器或關閉其電源，否則該主機將無法進入維護模式。 \
+       </description>\
+       <cause>\
+            <description>DRS 無法撤除已開啟電源的虛擬機器</description>\
+            <action>手動將虛擬機器移轉至叢集中的另一台主機</action>\
+            <action>關閉虛擬機器電源</action>\
+            <action>讓處於維護模式的任何主機退出該模式</action>\
+            <action>取消正在讓該主機進入維護模式的工作 </action>\
+        </cause>\
+    </EventLongDescription>\
+    "
+
+NotEnoughResourcesToStartVmEvent.longDescription = "\
+    <EventLongDescription id="vim.event.NotEnoughResourcesToStartVmEvent">\
+       <description>\
+          當主要代理程式無法將虛擬機器容錯移轉至其中一台相容主機時，vSphere HA 便會發出此事件。此情況是由下列一或多種原因引起。當此情況發生時，vSphere HA 將會在事件摘要中報告其原因，但請注意，也可能存在其他原因。如果 vSphere HA 許可控制已停用，或者發生故障的主機數目超過已佈建的數目，則更可能發生此情況。當無法放置虛擬機器時，vSphere HA 將在叢集狀態變更時重新嘗試放置虛擬機器。此外，如果 vSphere DRS 已啟用，則系統會叫用 vSphere DRS 來嘗試重組叢集或讓主機退出待命模式。\
+       </description>\
+       <cause>\
+            <description>\
+            虛擬機器具有 CPU、記憶體、vFlash 快取或虛擬 NIC 的頻寬保留區。但相容主機的資源均不足，無法滿足保留區需求。\
+            </description>\
+            <action>減少虛擬機器的資源保留區</action>\
+            <action>新增更多主機至叢集</action>\
+            <action>將任何發生故障的主機上線，或者解析網路磁碟分割 (如果存在)</action>\
+            <action>如果 DRS 處於手動模式，請尋找任何擱置中的建議，並核准這些建議以便 vSphere HA 容錯移轉可以繼續執行</action>\
+        </cause>\
+        <cause>\
+            <description>\
+	         該叢集已啟用 vSAN，並且向叢集提供儲存區的一或多台主機無法存取，導致 vSphere HA 無法開啟虛擬機器電源。此情況適用於在 vSAN 資料存放區上擁有一或多個檔案的虛擬機器。\
+            </description>\
+            <action>將任何發生故障的主機上線，或者解析網路磁碟分割 (如果存在一個包含向 vSAN 叢集提供儲存區的主機的網路磁碟分割)</action>\
+        </cause>\
+        <cause>\
+            <description>叢集中的任意相容主機無法存取一或多個與虛擬機器相關聯的資料存放區。</description>\
+            <action>將掛接虛擬機器資料存放區之所有無回應的主機上線</action>\
+            <action>修正所有路徑失效 (APD) 或永久裝置遺失 (PDL) 問題。</action>\
+        </cause>\
+        <cause>\
+            <description>vSphere HA 正對每台虛擬機器強制執行反相似性規則，但都無法滿足該規則。 </description>\
+            <action>將更多主機新增至叢集</action>\
+            <action>將所有無回應的主機上線，或者解析網路磁碟分割 (如果存在)</action>\
+            <action>移除限制放置的所有反相似性規則</action>\
+        </cause>\
+        <cause>\
+            <description>可在每個主機上執行的虛擬機器數目受限。若不超過該限制，將沒有主機可以開啟虛擬機器電源。</description>\
+            <action>如果您已設定 limitVmsPerESXHost HA 進階選項，請增加該限制。</action>\
+            <action>將任何無回應的主機上線或將主機新增至叢集</action>\
+        </cause>\
+    </EventLongDescription>\
+    "
+
+ResourcePoolReconfiguredEvent.longDescription = "\
+    <EventLongDescription id="vim.event.ResourcePoolReconfiguredEvent">\
+       <description>\
+          資源集區組態已變更。資源集區組態包含有關資源集區及其子系之資源保留區的資訊。 \
+       </description>\
+    </EventLongDescription>\
+    "
+
+DasHostIsolatedEvent.longDescription = "\
+    <EventLongDescription id="vim.event.DasHostIsolatedEvent">\
+       <description>\
+          vSphere HA 偵測到主機處於網路隔離狀態。當主機處於此狀態時，vSphere HA 會向主機上執行的虛擬機器套用關閉電源或關閉主機隔離回應，然後繼續監控保持電源開啟的虛擬機器。當主機處於此狀態時，vSphere HA 在發生故障後重新啟動虛擬機器的能力會受到影響。僅在主機上的代理程式判定由主要代理程式負責該虛擬機器時，vSphere HA 才會關閉虛擬機器電源或關閉虛擬機器。 \
+       </description>\
+       <cause>\
+            <description> \
+                如果同時符合下列兩個條件，則主機處於網路隔離狀態: (1) 隔離位址已設定，而主機無法對這些位址執行 Ping 動作；(2) 主機上的 vSphere HA 代理程式無法存取其他叢集主機上執行的任何代理程式。 \
+            </description>\
+            <action>\
+                 解決導致該主機無法對其隔離位址執行 Ping 動作且無法與其他主機通訊的網路問題。確認 vSphere HA 使用的管理網路中存在冗餘。若有冗餘，vSphere HA 便可透過多條路徑進行通訊，從而降低主機隔離的機率。 \
+            </action>\
+       </cause>\
+    </EventLongDescription>\
+    "
+
+HostMissingNetworksEvent.longDescription = "\
+    <EventLongDescription id="vim.event.HostMissingNetworksEvent">\
+       <description>\
+       要新增至 vSphere HA 叢集的主機比叢集中的現有主機具有更少的管理網路。為主機設定 vSphere HA 時，系統會檢查叢集中的現有主機是否存在由 vSphere HA 用於活動訊號及其他 vSphere HA 通訊的網路。加入的主機應具有相同的管理網路數目，且最好具有一般子網路。這有助於配對用於活動訊號的來源/目的地對。如果在要新增的成員與叢集的現有成員之間未偵測到一般子網路 (使用 IP 位址/子網路遮罩)，則系統會產生此事件，且組態工作會失敗。事件詳細資料將報告不在加入成員中的現有成員之子網路。 \
+       </description>\
+       <cause>\
+            <description>\
+                主機沒有與現有叢集成員相容的網路\
+            </description>\
+            <action>\
+                變更主機的網路組態，以便在叢集中現有主機所在的子網路上啟用 vSphere HA 流量。在 ESX 上，vSphere HA 將使用服務主控台連接埠群組；在 ESXi 主機上，vSphere HA 將使用已選取「管理流量」核取方塊的連接埠群組。變更主機的網路組態後，請重新設定此主機的 vSphere HA。\
+            </action>\
+            <action>\
+                使用進階選項來覆寫用於 vSphere HA 叢集通訊的預設連接埠群組選取項目。您可以使用 das.allowNetwork[X] 進階選項來告知 vSphere HA 使用此選項中指定的連接埠群組。對於每個應使用的連接埠群組名稱，請指定一個 das.allowNetwork[X] 進階選項。vSphere HA 組態會檢查要新增的主機是否存在與指定名稱相符的連接埠群組。組態工作還會檢查其連接埠群組與指定名稱相符的現有成員。每台主機上相符的連接埠群組名稱數目必須相同。設定進階選項後，請重新啟用此叢集的 vSphere HA。\
+            </action>\
+       </cause>\
+    </EventLongDescription>\
+    "
+
+HostExtraNetworksEvent.longDescription = "\
+    <EventLongDescription id="vim.event.HostExtraNetworksEvent">\
+       <description>\
+       要新增至 vSphere HA 叢集的主機比叢集中的現有主機具有更多的管理網路。為主機設定 vSphere HA 時，系統會檢查叢集中的現有主機是否存在由 vSphere HA 用於活動訊號及其他 vSphere HA 通訊的網路。加入的主機應具有相同的管理網路數目，且最好位於相同的子網路上。這有助於配對用於活動訊號的來源/目的地對。如果在要新增的成員與叢集的現有成員之間未偵測到一般子網路 (使用 IP 位址/子網路遮罩)，則系統會產生此事件，且組態工作會失敗。事件詳細資料將報告不在現有成員中的加入成員之子網路。 \
+       </description>\
+       <cause>\
+            <description>\
+                主機擁有現有叢集成員遺失的額外網路\
+            </description>\
+            <action>\
+                變更主機的網路組態，以便在叢集中現有主機所在的子網路上啟用 vSphere HA 流量。在 ESX 上，vSphere HA 將使用服務主控台連接埠群組；在 ESXi 主機上，vSphere HA 將使用已選取「管理流量」核取方塊的連接埠群組。\
+            </action>\
+            <action>\
+                使用進階選項來覆寫用於 vSphere HA 叢集通訊的預設連接埠群組選取項目。您可以使用 das.allowNetwork[X] 進階選項來告知 vSphere HA 使用此選項中指定的連接埠群組。對於每個應使用的連接埠群組名稱，請指定一個 das.allowNetwork[X] 進階選項。vSphere HA 組態會檢查要新增的主機是否存在與指定名稱相符的連接埠群組。組態工作還會檢查其連接埠群組與指定名稱相符的現有成員。每台主機上相符的連接埠群組名稱數目必須相同。設定進階選項後，請重新啟用此叢集的 vSphere HA。\
+            </action>\
+       </cause>\
+    </EventLongDescription>\
+    "
+
+HostNoHAEnabledPortGroupsEvent.longDescription = "\
+    <EventLongDescription id="vim.event.HostNoHAEnabledPortGroupsEvent">\
+       <description>\
+       vSphere HA 已判定主機上沒有可用於 vSphere HA 代理程式間通訊的管理網路。\
+       </description>\
+       <cause>\
+            <description>\
+                主機沒有可用的 vSphere HA 管理網路\
+            </description>\
+            <action>\
+                如果在主機新增至 vSphere HA 叢集時發生此事件，請變更主機的網路組態，以便在一或多個連接埠群組上啟用 vSphere HA 流量。依預設，在 ESX 主機上，vSphere HA 將使用服務主控台連接埠群組；在 ESXi 主機上，vSphere HA 將使用已選取 [管理流量] 核取方塊的連接埠群組。如果主機上已設定 vSphere HA，則可能是主機的網路設定已變更，且管理網路組態已失效。請檢閱設定以確認主機上仍存在為管理網路設定的連接埠群組，且已啟用 ESXi 的 [管理流量] 選項。修正任何組態問題後，請在主機上重新設定 vSphere HA。\
+            </action>\
+       </cause>\
+    </EventLongDescription>\
+    "
+
+HostNoAvailableNetworksEvent.longDescription = "\
+    <EventLongDescription id="vim.event.HostNoAvailableNetworksEvent">\
+       <description>\
+       要新增至 vSphere HA 叢集的主機沒有可用於 vSphere HA 叢集通訊的管理網路。進階選項 das.allowNetwork[X] 已設定，但沒有任何連接埠群組名稱與此主機的進階選項相符。\
+       </description>\
+       <cause>\
+            <description>\
+                主機沒有任何連接埠群組與進階選項用來控制 vSphere HA 所用之連接埠群組的名稱相符\
+            </description>\
+            <action>\
+                刪除進階選項 das.allowNetwork[X]，以允許 vSphere HA 選取預設的管理連接埠群組\
+            </action>\
+            <action>\
+                更正進階選項中指定之連接埠群組的名稱，以便與 vSphere HA 用於此主機的名稱相符\
+            </action>\
+            <action>\
+                指定其他的 das.allowNetwork[X] 進階選項，以便與此主機的連接埠群組名稱相符\
+            </action>\
+       </cause>\
+    </EventLongDescription>\
+    "
+
+HostIsolationIpPingFailedEvent.longDescription = "\
+    <EventLongDescription id="vim.event.HostIsolationIpPingFailedEvent">\
+       <description>\
+        vSphere HA 無法對一或多個隔離 IP 位址執行 Ping 動作。無法對這些位址執行 Ping 動作可能會導致 HA 將主機錯誤宣告為處於網路隔離狀態。如果主機無法對已設定的隔離位址執行 Ping 動作，且主機上的 vSphere HA 代理程式無法存取其他叢集主機上執行的任何代理程式，則主機會被宣告為處於隔離狀態。 \
+       </description>\
+       <cause>\
+            <description>無法對隔離位址執行 Ping 動作</description>\
+            <action>更正無法對該位址執行 Ping 動作的原因</action>\
+            <action>\
+                使用進階選項來變更 vSphere HA 用於判定主機是否處於網路隔離狀態的位址。依預設，隔離位址是管理網路的預設閘道。您可以使用進階選項覆寫預設值，或者指定其他位址以用於判定主機是否處於網路隔離狀態。如果您不希望 vSphere HA 使用預設閘道做為隔離位址，請將 das.useDefaultIsolationAddress 進階選項設定為「false」。對於每個要指定的隔離位址，請指定 das.isolationAddress[X] 進階選項。重新設定每台主機的 vSphere HA 後，新值即會生效。\
+            </action>\
+       </cause>\
+    </EventLongDescription>\
+    "
+
+HostNoRedundantManagementNetworkEvent.longDescription = "\
+    <EventLongDescription id="vim.event.HostNoRedundantManagementNetworkEvent">\
+       <description>\
+       vSphere HA 已判定只有一條路徑可用於 vSphere HA 管理流量，這導致單一失敗點。根據最佳實務，必須提供多條路徑供 vSphere HA 用於活動訊號和叢集通訊。發生網路故障後，具有單一路徑的主機更可能被宣告為無作用、已對網路進行磁碟分割或已隔離。如果被宣告為無作用，vSphere HA 將不會在主機隨後發生實際故障時作出回應；如果被宣告為已隔離，vSphere HA 可能會套用隔離回應，從而影響主機上所執行之虛擬機器的運作時間。\
+       </description>\
+       <cause>\
+            <description>只有一個連接埠群組可用於 vSphere HA 通訊</description>\
+            <action>在 ESX 主機上設定另一個服務主控台連接埠群組</action>\
+            <action>\
+                透過選取「管理流量」核取方塊，在 ESXi 主機上設定另一個連接埠群組\
+            </action>\
+            <action>\
+                在管理連接埠群組上使用 NIC 整併，以便在路徑發生故障時，允許 ESX 或 ESXi 將管理流量導向至多個實體 NIC 外部\
+            </action>\
+            <action>\
+                如果您願意冒險不為 vSphere HA 通訊提供冗餘，則可以將 das.ignoreRedundantNetWarning 進階選項設定為「true」以消除組態問題\
+            </action>\
+       </cause>\
+    </EventLongDescription>\
+    "
+
+HostIpToShortNameFailedEvent.longDescription = "\
+    <EventLongDescription id="vim.event.HostIpToShortNameFailedEvent">\
+       <description>\
+          無法將主機的 IP 位址解析為簡短名稱 \
+       </description>\
+       <cause>\
+            <description>未正確設定主機或 DNS 記錄</description>\
+            <action>檢查主機網路組態</action>\
+            <action>檢查 DNS 組態</action>\
+        </cause>\
+    </EventLongDescription>\
+    "
+
+HostGetShortNameFailedEvent.longDescription = "\
+    <EventLongDescription id="vim.event.HostGetShortNameFailedEvent">\
+       <description>\
+          在主機上執行 hostname -s 命令失敗 \
+       </description>\
+       <cause>\
+            <description>未正確設定主機網路</description>\
+            <action>檢查主機網路組態</action>\
+        </cause>\
+    </EventLongDescription>\
+    "
+
+HostPrimaryAgentNotShortNameEvent.longDescription = "\
+    <EventLongDescription id="vim.event.HostPrimaryAgentNotShortNameEvent">\
+       <description>\
+          未以簡短名稱格式指定主要代理程式 \
+       </description>\
+       <cause>\
+            <description>未正確設定主機網路</description>\
+            <action>檢查主機網路組態</action>\
+        </cause>\
+    </EventLongDescription>\
+    "
+
+HostShortNameInconsistentEvent.longDescription = "\
+    <EventLongDescription id="vim.event.HostShortNameInconsistentEvent">\
+       <description>\
+          主機名稱解析檢查傳回不同的主機名稱 \
+       </description>\
+       <cause>\
+            <description>未正確設定主機網路</description>\
+            <action>檢查主機網路組態</action>\
+            <action>檢查 DNS 組態</action>\
+        </cause>\
+    </EventLongDescription>\
+    "
+
+HostShortNameToIpFailedEvent.longDescription = "\
+    <EventLongDescription id="vim.event.HostShortNameToIpFailedEvent">\
+       <description>\
+          無法將主機的簡短名稱解析為 IP 位址 \
+       </description>\
+       <cause>\
+            <description>未正確設定主機網路</description>\
+            <action>檢查主機網路組態</action>\
+            <action>檢查 DNS 組態</action>\
+        </cause>\
+    </EventLongDescription>\
+    "

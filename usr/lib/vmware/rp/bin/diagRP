@@ -1,0 +1,59 @@
+#!/usr/bin/env python
+########################################################################
+# Copyright (C) 2016 VMWare, Inc. All Rights Reserved.
+########################################################################
+import sys
+import json
+import time
+import socket
+
+from argparse import ArgumentParser
+import vmware.vsi as vsi
+
+def ReportGroup(formatter):
+   grps = {}
+   GetRPGroup("", "0", grps)
+   if formatter == "text":
+      print("host: %s" % socket.gethostname())
+      print("time: %s" % time.strftime("%Y-%m-%dT%H:%M:%S %Z"))
+      print("%-20s %-128s" % ("GID", "PATH"))
+      for gid in sorted(grps.keys()):
+         print("%-20s %s" % (gid, grps[gid]))
+      print("Report complete, %s entries printed." % len(grps))
+   elif formatter == "json":
+      json.dump(grps, sys.stdout, sort_keys=True, indent=4)
+
+def GetRPGroup(parentPath, gid, grps):
+   try:
+      name = vsi.get("/sched/groups/%s/groupName"% gid)
+      for c_gid in vsi.list("/sched/groups/%s/members/groups" % gid):
+         GetRPGroup("%s/%s" % (parentPath, name), c_gid, grps)
+      grps[int(gid)] =  "%s/%s" % (parentPath, name)
+   except:
+       pass
+
+def main(argv=None):
+   # Initialize the parser
+   usage = "%(prog)s [parameters]"
+   formatter = "text"
+   description = "%(prog)s provide diagnostic reports on resource pools"
+   parser = ArgumentParser(usage=usage, description=description)
+   parser.add_argument("--path-to-gid", action="store_true", dest="p2g",
+                       help="Print resource path to GID assignment")
+   parser.add_argument("--format-json", action="store_true", dest="formatJson",
+                       help="Change output format of report to json")
+   (options, args) = parser.parse_known_args()
+   if (options.formatJson == True):
+      formatter = "json"
+   if (options.p2g == True):
+      ReportGroup(formatter)
+      sys.exit(0)
+   if len(sys.argv) == 1:
+      parser.print_help()
+      sys.exit(1)
+
+if __name__ == '__main__':
+    try:
+        sys.exit(main(sys.argv))
+    except KeyboardInterrupt:
+        pass

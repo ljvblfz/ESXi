@@ -1,0 +1,75 @@
+#!/bin/sh
+# chkconfig: on 18 82
+
+export PATH=/bin:/sbin
+CGI_SRV_TAG=hostdCgiServer
+CGI_SRV_LOGDIR=/var/log/vmware
+CGI_SRV_NAME="VMware CGI Server"
+KILL_SIGNAL=15
+ISRUNNING="${CGI_SRV_NAME} is running."
+ISNOTRUNNING="${CGI_SRV_NAME} is not running."
+CGI_SRV_PID="$(pidof -s $CGI_SRV_TAG)"
+
+start() {
+   # A highly-threaded app performs better with per-thread arenas
+   export MALLOC_PER_THREAD=1
+   export MALLOC_ARENA_MAX=4
+   ulimit -c unlimited
+   SCHED_OPTS='++memreliable,group=hostdCgiServer,min=0,swapscope=system'
+   /sbin/watchdog.sh $SCHED_OPTS -d -s $CGI_SRV_TAG $CGI_SRV_TAG
+   if [ $? -eq 0 ]; then
+      echo "$CGI_SRV_NAME started."
+   fi
+}
+
+stop() {
+   if [ -n "${CGI_SRV_PID}" ]; then
+      vmkbacktrace ${CGI_SRV_PID} ${CGI_SRV_LOGDIR} hostdCgiServer%
+   fi
+   /sbin/watchdog.sh -k $CGI_SRV_TAG
+   kill "-${KILL_SIGNAL}" $CGI_SRV_PID && echo "$CGI_SRV_NAME stopped."
+}
+
+usage() {
+   echo "Usage: $0 {start|stop|restart|status}"
+}
+
+if [ $# -ne 1 ]; then
+   usage
+   exit 1
+fi
+
+case $1 in
+   "start")
+      if [ -z "${CGI_SRV_PID}" ] ; then
+         start
+      else
+         echo "${ISRUNNING}"
+      fi
+      ;;
+   "stop")
+      if [ -n "${CGI_SRV_PID}" ] ; then
+         stop
+      else
+         echo "${ISNOTRUNNING}"
+      fi
+     ;;
+   "restart")
+      stop
+      start
+      ;;
+   "status")
+      if [ -n "${CGI_SRV_PID}" ] ; then
+         echo "${ISRUNNING}"
+         exit 0
+      else
+         echo "${ISNOTRUNNING}"
+         exit 3
+      fi
+      ;;
+   *)
+      usage
+      exit 1
+      ;;
+esac
+

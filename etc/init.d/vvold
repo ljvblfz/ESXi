@@ -1,0 +1,481 @@
+#!/bin/sh
+# chkconfig: on 18 82
+
+export PATH=/bin:/sbin
+VVOL_TAG=vvold
+VVOL_CONFIG=/etc/vmware/vvold/config.xml
+VVOL_RUN_DIR=/var/run/vmware
+VVOL_PIDFILE=${VVOL_RUN_DIR}/vmware-vvold.PID;
+#This file should be same as vvoldRunningMarker in vvolMain.cpp
+VVOL_RUNNING_MARKER=${VVOL_RUN_DIR}/.vmware-vvol.started
+VVOL_LOGDIR=/usr/local
+VVOL_KILL_SIGNAL=15 #SIGTERM; should match the value in vvolMain.cpp
+VVOL_HUP_SIGNAL=1   #SIGHUP;  should match the value in vvolMain.cpp
+ISRUNNING="${VVOL_TAG} is running."
+ISNOTRUNNING="${VVOL_TAG} is not running."
+VVOL_PID="$(pidof -s $VVOL_TAG)"
+VVOLD_RES_POOL="host/vim/vmvisor/vvold"
+CONFIGRP=/usr/lib/vmware/rp/bin/configRP
+#
+# These should be same as the corresponding variables in vvolMain.cpp
+#
+VVOLD_STOPPED_AFTER_START="VVOLD_STOPPED_AFTER_START"
+VVOLD_STARTED="VVOLD_STARTED"
+#
+# On an average each VP consumes 200KB.
+# StorageContainers, ProtocolEndpoints and StorageArrays take 160KB of memory.
+# The memory requirment for 47 VPs, 83 StorageContainers, 83 StorageArrays and
+# 83 PEs comes to 48MB. Addition of each VP takes an average of 200KB.
+# We support a max of 255 VPs. So 200 more VPs will take 40MB more.
+# We also observed that 52 threads takes 5MB of memory. 52 threads is the max
+# num of threads in vvold. So 48 + 40 + 5 gives us 93 and that is rounded up to
+# 100 MB. We take the double this value as the max vvold memory requirement.
+#
+VVOLD_MEM_MAX_MB=200
+#
+# Some defines for single threading the start, stop.
+#
+VVOLD_LOCK_DIR="${VVOL_RUN_DIR}/.vmware-vvol.lock-dir"
+VVOLD_CLEANUP_LOCK_DIR="${VVOLD_LOCK_DIR}/cleanup-lock-dir"
+VVOLD_LOCK_DIR_PID_FILE="${VVOLD_LOCK_DIR}/vvold-lock-dir-pid"
+VVOLD_START_DONE_FILE="${VVOL_RUN_DIR}/vvold-done-calling-start"
+#Handy msg strings to avoid >80 col lines
+VVOLD_NO_LD_PID_FILE_MSG="Can't find ${VVOLD_LOCK_DIR_PID_FILE}"
+VVOLD_NO_DONE_FILE_MSG="Can't find ${VVOLD_START_DONE_FILE}"
+VVOLD_RESTART_MSG="Cleaned up ${VVOLD_LOCK_DIR}. Starting afresh"
+VVOLD_NO_LD_DF_MSG="${VVOLD_NO_LD_PID_FILE_MSG}. ${VVOLD_NO_DONE_FILE_MSG}"
+
+# logger doesn't put timestamp. Lets put the stamp in same format as other logs
+syslog() {
+   echo "$@"
+   logger -p daemon.info -t VVold "`date +'%Y-%m-%dT%H:%M:%S.%3NZ'` [/etc/init.d/vvold[$$]: $@]"
+}
+
+reserveMemForVvold() {
+   local TIMEOUT=10
+
+   while [ $((TIMEOUT--)) -gt 0 ]; do
+      $CONFIGRP setRPMemMaxSize $VVOLD_RES_POOL $VVOLD_MEM_MAX_MB
+      if [ $? -eq 0 ]; then
+         syslog "vvold max reserve memory set to $VVOLD_MEM_MAX_MB"
+         return 0
+      fi
+      # sleep for 1 sec and retry
+      sleep 1
+   done
+
+   syslog "Memory Reservation for vvold failed"
+   exit 1
+}
+
+clearVvoldMem() {
+   local TIMEOUT=10
+
+   rm -f "$VVOL_RUNNING_MARKER" || syslog "Failed to unlink $VVOL_RUNNING_MARKER";
+
+   while [ $((TIMEOUT--)) -gt 0 ]; do
+      $CONFIGRP setRPMemMaxSize $VVOLD_RES_POOL 0
+      if [ $? -eq 0 ]; then
+         syslog "Successfully cleared vvold memory reservation"
+         return 0
+       fi
+       # sleep for 1 sec and retry
+       sleep 1
+   done
+
+   syslog "Cannot clear vvold memory reservation"
+   exit 1
+}
+
+# We create VVOL_RUNNING_MARKER immediately after starting vvold.
+# We wait for the creation of VVOL_RUNNING_MARKER. This is to
+# accommodate watchdog delay in vvol daemon start.
+WaitVvoldToComeUp() {
+   local TIMEOUT=30
+   while [ $((TIMEOUT--)) -gt 0 ]; do
+      if [ -f "$VVOL_RUNNING_MARKER" ]; then
+         syslog "WaitVvoldToComeUp $VVOL_RUNNING_MARKER created"
+         return 0
+      fi
+      sleep 1
+   done
+
+   if [ ! -f "$VVOL_RUNNING_MARKER" ]; then
+      syslog "WaitVvoldToComeUp $VVOL_RUNNING_MARKER is not created"
+      return 1
+   fi
+   return 0
+}
+
+isLockDirPIDAlive() {
+   local lockDirPID
+   local isLockDirPIDRunning
+
+   lockDirPID=`cat ${VVOLD_LOCK_DIR_PID_FILE} | head -1`
+   [[ "${lockDirPID}" = "" ]] && {
+      syslog "Could not get lockDirPID"
+      return 1
+   }
+   isLockDirPIDRunning=`ps -c | egrep "${lockDirPID}" | egrep -v egrep`
+   [[ -z ${isLockDirPIDRunning} ]] && {
+      syslog "Lock Dir PID ${lockDirPID} not found"
+      return 2
+   }
+   return 0
+}
+
+#
+# This function acts like a lock by doing a mkdir (only one process will
+# successfully create a non-existing dir and hence will get the "lock").
+# The expectation is that the process calling getLock() will eventually call
+# removeLock() so that the next waiting process can proceed.
+#
+# Returns only when mkdir succeeds. So if dir already exists, it will wait for
+# the dir to be rm-ed
+#
+# Argument: doWait == true means wait till mkdir can be successful
+#
+# Return value 0: Got lock
+#              1: if doWait == false and dir could not be created.
+#
+getLock() {
+   local i
+   local doWait=$1
+
+   i=0
+   while :
+   do
+      let i=i+1
+      mkdir ${VVOLD_LOCK_DIR} && {
+         # Record the PID and return
+         echo $$ > ${VVOLD_LOCK_DIR_PID_FILE}
+         syslog "Added $$ to ${VVOLD_LOCK_DIR_PID_FILE} ($i)"
+         return 0
+      }
+      [[ "${doWait}" != "true" ]] && return 1
+      sleep 1
+      isLockDirPIDAlive || {
+         # This is a case where the PID which created VVOLD_LOCK_DIR is not
+         # found. The problem now is that there could be a race again with
+         # cleaning up VVOLD_LOCK_DIR as multiple processes could try the same.
+         # For this, we will minimize the window and create another dir inside
+         # VVOLD_LOCK_DIR and rm VVOLD_LOCK_DIR only if that succeeds
+         # Note that such cases should not happen ideally but its best to take
+         # care of these situations given that the scripts can be called either
+         # through jumpstart or vmkctl.
+         mkdir ${VVOLD_CLEANUP_LOCK_DIR} && {
+            syslog "Created ${VVOLD_CLEANUP_LOCK_DIR}"
+            removeLock # This will remove VVOLD_CLEANUP_LOCK_DIR too
+         } || {
+            syslog "Could not create ${VVOLD_CLEANUP_LOCK_DIR}"
+         }
+         continue
+      }
+      syslog "Waiting for PID `cat ${VVOLD_LOCK_DIR_PID_FILE}` to finish ($i)"
+   done
+}
+
+removeLock() {
+   rm -rf ${VVOLD_LOCK_DIR}
+   syslog "Removed ${VVOLD_LOCK_DIR}"
+}
+
+createStartDoneFile() {
+   echo $$ > ${VVOLD_START_DONE_FILE}
+   syslog "PID $$ Created ${VVOLD_START_DONE_FILE}"
+}
+
+removeStartDoneFile() {
+   rm ${VVOLD_START_DONE_FILE}
+   syslog "PID $$ removed ${VVOLD_START_DONE_FILE}"
+}
+
+#
+# This function tries to resolve clashes between simultaneous calls to this
+# script. For example, "vvold start" getting called twice, or "vvold stop"
+# getting called when "vvold start" was still in progress and such.
+#
+# Return of 0 indicates no clash
+#           1 indicates this process waited for another process to finish
+# Arg 1: opNameStr (caller func name)
+# Arg 2: doWait ("true" or "false")
+#
+resolveClash() {
+   local i
+   local opNamestr=$1
+   local doWait=$2
+
+   while :
+   do
+      getLock ${doWait} && {
+         # mkdir succeeded
+         return 0 # Tells caller to continue with its work
+      }
+      #
+      # Clash or repeat call.
+      # Do some checks to make sure the other process is indeed running and
+      # then just wait for that to be done if it is.
+      # If the other process has exited prematurely, we should do some cleanup
+      # and restart the process.
+      #
+      syslog "'${opNameStr}' clashed with another operation"
+      i=0
+      while [ ! -e ${VVOLD_START_DONE_FILE} ]
+      do
+         let i=i+1
+         sleep 1; # Give other thread some time to create the file
+         [[ ! -d ${VVOLD_LOCK_DIR} ]] && {
+            syslog "${VVOLD_LOCK_DIR} is no longer there; Try again"
+            break
+         }
+         # Check if the "in-progress" file is there with the PID
+         # If not, give it a couple more seconds and check again
+         # Then check if that PID doing the work is still alive
+         #
+         [[ ! -f ${VVOLD_LOCK_DIR_PID_FILE} ]] && {
+            # Give it 2 more seconds if its the 1st time and check
+            [[ $i = 1 ]] && sleep 2
+
+            [[ ! -f ${VVOLD_LOCK_DIR_PID_FILE} ]] && {
+               # Still no file; Lets start from the beginning
+               removeLock
+               syslog "${VVOLD_NO_FILE_MSG}. ${VVOLD_RESTART_MSG}"
+               break
+            }
+         }
+
+         isLockDirPIDAlive || {
+            # lockDirPID not found
+            [[ -e ${VVOLD_START_DONE_FILE} ]] && {
+               # Found the "done" file. Nothing else to do
+               # All done. Remove lock dir and return
+               removeLock
+               syslog "Found ${VVOLD_START_DONE_FILE}. rm-ed ${VVOLD_LOCK_DIR}"
+               # All done. Remove lock dir and return non-zero value since some
+               # other process did the work. Different non-zero values just show
+               # where we returned from.
+               return 1
+            }
+            # Lock-dir PID and the "start-done" file are not found.
+            # Better to cleanup and start afresh
+            removeLock
+            syslog "${VVOLD_NO_LD_DF_MSG}. ${VVOLD_RESTART_MSG}"
+            break
+         } || {
+            syslog "PID $$ waiting for PID ${lockDirPID} to finish ($i)"
+         }
+      done
+      sleep 1
+      [[ -e ${VVOLD_START_DONE_FILE} ]] && {
+         # All done. Remove lock dir and return non-zero value since some other
+         # process did the work Different non-zero values just show where we
+         # returned from.
+         removeLock
+         return 2
+      }
+   done
+}
+
+start() {
+   # As a highly-threaded app, vvold performs better with per-thread arenas
+   export MALLOC_PER_THREAD=1
+   export LOCPATH="/usr/lib/locale"
+   export VMWARE_VMX_FULLPATH=/bin/vmx
+   export VMWARE_VMX_DEBUG_FULLPATH=/bin/vmx-debug
+   ulimit -c unlimited
+   ulimit -n 2048
+
+   resolveClash start false || {
+      syslog "resolved clash. Exiting"
+      exit 1
+   }
+
+   reserveMemForVvold
+   # The -f option specifies config.xml and -L specifies log output to syslog
+   # and log identifier
+   # -i option of watchdog.sh makes vvold immortal. i.e. watchdog script would
+   # not kill vvold after too many consecutive "quick" failures. Instead it
+   # will just backoff and sleep for 60 seconds and then restart again.
+   rm -f "$VVOL_RUNNING_MARKER" || syslog "Failed to unlink $VVOL_RUNNING_MARKER";
+   /sbin/watchdog.sh ++memreliable,group=${VVOLD_RES_POOL} -d -s $VVOL_TAG -i 60 vvold -o -8090 -V vvol.version.version1 -f $VVOL_CONFIG -L syslog:Vvold
+
+   needMemClear=0
+   # Wait for vvold to start running
+   WaitVvoldToComeUp
+
+   # We need to clear memory, if vvol daemon is not running and
+   # VVOL_RUNNING_MARKER file is not created.
+   if [[ ! -f "$VVOL_RUNNING_MARKER" && -z "$(pidof -s $VVOL_TAG)" ]]; then
+      needMemClear=1
+   elif [ -f "$VVOL_RUNNING_MARKER" ]; then
+      local TIMEOUT=15
+      while [ $((TIMEOUT--)) -gt 0 ]; do
+         if $(grep -q $VVOLD_STOPPED_AFTER_START $VVOL_RUNNING_MARKER); then
+            syslog "vvold stopped after start!";
+            needMemClear=1;
+            break;
+         elif $(grep -q $VVOLD_STARTED $VVOL_RUNNING_MARKER); then
+            syslog "vvold started successfully!"
+            break;
+         else
+             syslog "None of '$VVOLD_STARTED' or '$VVOLD_STOPPED_AFTER_START' written yet";
+             sleep 1;
+             continue;
+         fi
+      done
+   else
+      syslog "$VVOL_RUNNING_MARKER not created, letting vvold run!";
+   fi
+
+   #
+   # If we decided to clear vvold memory, do so now.
+   #
+   if [ $needMemClear -eq 1 ]; then
+      syslog "$VVOL_RUNNING_MARKER is not created"
+      waitForExit
+      clearVvoldMem
+   else
+      #
+      # Now vvoltraced definitely has work to do, start it.
+      # If vvoltraced is not present (f.e. in release build), don't bother.
+      #
+      if [ -x /etc/init.d/vvoltraced ]; then
+         syslog "Starting vvoltraced"
+         /etc/init.d/vvoltraced start
+      fi
+   fi
+
+   createStartDoneFile
+   removeLock
+}
+
+stopNoMemClear() {
+   #
+   # Kill the watchdog thread and send SIGTERM to vvold
+   #
+   /sbin/watchdog.sh -k $VVOL_TAG
+   kill "-${VVOL_KILL_SIGNAL}" $VVOL_PID && syslog "$VVOL_TAG stopped."
+   localcli network firewall ruleset set --ruleset-id vvold --enabled false
+   waitForExit
+   #
+   # We don't unload the vvol module here as it may be in use by
+   # existing VVols and currently this script is in no position
+   # to shutdown the complete VVol sub-system.
+   #
+}
+
+stop() {
+   resolveClash stop true
+   stopNoMemClear
+   clearVvoldMem
+   #
+   # vvoltraced doesn't have much to do w/o a running vvold.
+   # If vvoltraced is not present (f.e. in release build), don't bother.
+   #
+   if [ -x /etc/init.d/vvoltraced ]; then
+      syslog "Stopping vvoltraced"
+      /etc/init.d/vvoltraced stop
+   fi
+   removeStartDoneFile
+   removeLock
+}
+
+waitForExit() {
+   # Wait at most 10 seconds
+   local TIMEOUT=10
+   while [ $((TIMEOUT--)) -gt 0 ]; do
+      if [ -z "$(pidof -s $VVOL_TAG)" ]; then
+         break
+      fi
+      # sleep for 1 sec and retry
+      sleep 1
+   done
+
+   if [ -n "$(pidof -s $VVOL_TAG)" ]; then
+      syslog "${VVOL_TAG} is alive 10 seconds after receiving kill signal"
+      return 1
+   fi
+   return 0
+}
+
+ssl_reset() {
+   #
+   # Send SIGHUP to vvold (which it handles)
+   # Note that vvold or the watchdog is NOT being killed here
+   #
+   kill "-${VVOL_HUP_SIGNAL}" $VVOL_PID && syslog "$VVOL_TAG signalled for SSL reset"
+}
+
+usage() {
+   syslog "Usage: $0 {start|stop|restart|status|ssl_reset}"
+}
+
+if [ $# -ne 1 ]; then
+   syslog "Called with $# args ('$@')"
+   usage
+   exit 1
+fi
+
+syslog "/etc/init.d/vvold $1, PID $$"
+
+case $1 in
+   "start")
+      if [ -z "${VVOL_PID}" ] ; then
+         start
+      else
+         syslog "${ISRUNNING}"
+         exit 0
+      fi
+      ;;
+   "stop")
+      if [ -n "${VVOL_PID}" ] ; then
+         stop # Calls removeStartDoneFile()
+      else
+         syslog "${ISNOTRUNNING}"
+         exit 3
+      fi
+      ;;
+   "stopnomemclear")
+      if [ -n "${VVOL_PID}" ] ; then
+         # We don't call resolveClash here because stopnomemclear can be called as
+         # part of start (for example vvold (ie vvolMain.cpp) calls StopDaemon()
+         # which calls the init script with 'stopnomemclear' and if resolveClash
+         # were called here, it will wait for the lockDirPID (which will be the
+         # script that called the init script with start), we have a deadlock
+         stopNoMemClear
+         removeStartDoneFile
+      else
+         syslog "${ISNOTRUNNING}"
+         exit 3
+      fi
+      ;;
+   "restart")
+      stop # Calls removeStartDoneFile()
+      start
+      ;;
+   "status")
+      if [ -n "${VVOL_PID}" ] ; then
+         syslog "${ISRUNNING}"
+         exit 0
+      else
+         syslog "${ISNOTRUNNING}"
+         exit 3
+      fi
+      ;;
+   "ssl_reset")
+      if [ -n "${VVOL_PID}" ] ; then
+         ssl_reset
+      else
+         syslog "${ISNOTRUNNING}"
+         #
+         # Exit with success as this is actually a no-op, and we
+         # don't want hostd to worry about it.
+         #
+      fi
+      ;;
+   *)
+      syslog "$0 called with $1."
+      usage
+      exit 1
+      ;;
+esac

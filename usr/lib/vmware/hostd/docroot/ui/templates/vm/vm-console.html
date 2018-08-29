@@ -1,0 +1,107 @@
+<div class="vmConsole" ng-class="{collapsed: !open && !shrunk, 'shrunk': shrunk}">
+   <div class="panel-inner">
+
+      <div class="titlebar"
+         ng-click="toggleIfMinimized($event);"
+         ng-dblclick="maximize($event);"
+         ng-right-click="showContextMenu($event);">
+
+         <em class="icon-console"
+            style="float: left; margin-top: 5px !important; margin-right: 7px !important"></em>
+
+         <div class="title"
+            style="float: left;">{{title}}</div>
+
+         <em class="icon-close"
+            title="{{'vm.console.close' | translate}}"
+            alt="{{'vm.console.close' | translate}}"
+            style="float: right;" ng-click="close($event);"></em>
+
+         <span style="float: right; padding-top: 5px; margin-right: 5px;"
+            class="window-bar-button"
+            ng-click="showContextMenu($event);">
+            <span ng-if="open" class="window-bar">{{'vm.console.actions' | translate}}</span>
+            <em class="icon-actions"
+               ng-class="{
+                  'icon-actions-open': open
+               }"
+               title="{{'vm.console.actions' | translate}}"
+               alt="{{'vm.console.actions' | translate}}"
+               style="float: right;"></em>
+         </span>
+
+         <em ng-if="open"
+            ng-class="kbIcon"
+            title="{{'vm.console.keyboardLayout' | translate}}"
+            alt="{{'vm.console.keyboardLayout' | translate}}"
+            class="keyboard-menu"
+            ng-click="showKeyboardMenu($event);"></em>
+
+         <em ng-if="(open && !isMobileSafari) || !open"
+            title="{{open ?
+               translate('vm.console.fullscreen') :
+               translate('vm.console.maximize')}}"
+            alt="{{open ?
+               translate('vm.console.fullscreen') :
+               translate('vm.console.maximize')}}"
+            class="icon-maximize"
+            style="float: right;" ng-click="maximize($event);"></em>
+
+         <em
+            ng-if="open && isMobileSafari"
+            title="Show keyboard"
+            alt="{{'vm.console.showKeyboard' | translate}}"
+            class="icon-show-keyboard"
+            ng-class="{
+               'icon-show-keyboard-open': open
+            }"
+            style="float: right;"
+            ng-click="showKeyboard($event);">
+            <span ng-if="open">
+               {{'vm.console.showKeyboard' | translate}}</span>
+         </em>
+
+         <em class="icon-minimize"
+            title="{{'vm.console.minimize' | translate}}"
+            alt="{{'vm.console.minimize' | translate}}"
+            ng-if="open || shrunk"
+            style="float: right;" ng-click="toggle($event);"></em>
+         <em ng-class="{'icon-shrink': !shrunk}"
+            title="{{'vm.console.shrink' | translate}}"
+            alt="{{'vm.console.shrink' | translate}}"
+            style="float: right;" ng-click="toggleShrink($event);"></em>
+      </div>
+
+      <div ng-if="multipleConnectionsNotification &&
+               !multipleConnectionsNotification.closed"
+            class="row notification-area no-margin"
+            style="position: relative;">
+         <div esx-notification
+               type="warning"
+               close="multipleConnectionsNotification.closed = true;"
+               ng-if="!multipleConnectionsNotification.closed">
+            <span>{{multipleConnectionsNotification.message}}</span>
+         </div>
+      </div>
+
+      <div class="panel-content"
+            contenteditable="true"
+            id="vm-console-{{moid}}-console"
+            ng-class="{hidden: !open && !shrunk, loading: connecting}">
+         <div ng-show="isFullScreen"
+            id="tray-handle"
+            ng-click="showTray($event)"
+            class="tray-handle">
+         </div>
+
+         <div ng-show="cloaked" class="console-cloak">
+            <div class="play" ng-show="!connecting" ng-click="powerOnVM();"></div>
+            <div class="connecting" ng-show="connecting"></div>
+         </div>
+
+         <div class="panel-error" ng-show="error">{{errorMessage}}</div>
+
+      </div>
+
+   </div>
+</div>

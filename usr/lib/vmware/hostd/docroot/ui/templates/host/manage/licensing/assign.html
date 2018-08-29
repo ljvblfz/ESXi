@@ -1,0 +1,34 @@
+<div ng-controller="HostManageLicensingAssignController"
+   class="content-padding" style="margin: 10px;">
+
+   <div vui-action-bar="actionBarOptions" style="margin-bottom: 5px;"></div>
+
+   <div class="vui-stack-view">
+      <div class="stack-view-table">
+
+         <div vui-stack-block="keyBlock"
+            ng-class="{'stack-warning': !keyValid}">
+            <span vui-sb-label
+               vui-sb-icon-class="esx-icon-license-key">{{"host.manage.system.licensing.license"|translate}}</span>
+            <div vui-sb-content>
+               <input type="text" ng-model="data.key" style="width: 242px; float: left;" title="{{'host.manage.system.licensing.license'|translate}}"
+                  focus-me="true" placeholder="XXXXX-XXXXX-XXXXX-XXXXX-XXXXX"/>
+            </div>
+         </div>
+
+      </div>
+   </div>
+
+   <div ng-if="checking" ng-include src="'views/loading-dialog.html'"></div>
+
+   <div ng-if="keyAccepted" style="text-align: center; padding-top: 25px;">
+      <img src="images/success48.png" style="margin-bottom: 5px;"/><br />
+      <p ng-bind-html="'host.manage.system.licensing.valid'|translate:{name: license.name}|linebreak"></p>
+   </div>
+
+   <div ng-if="keyRejected" style="text-align: center; padding-top: 25px;">
+      <img src="images/failure48.png" style="margin-bottom: 5px;"/><br />
+      <p>{{rejectionMessage}}</p>
+   </div>
+
+</div>

@@ -1,0 +1,202 @@
+#!/bin/sh
+#
+# Copyright 2016 VMware, Inc.  All rights reserved.
+#
+# chkconfig: on 17 99
+# description: embedded host client post-install fixes
+#
+# This script will remove /ui and add /ticket to the reverse proxy
+# configuration if necessary. If the file is changed, the reverse proxy
+# will be restarted. If no changes are necessary, this is a no-op.
+#
+# This script will also add some user configurable advanced options to
+# allow server-side persistance of configuration.
+#
+# The script is set up to run at every boot before hostd or the reverse
+# proxy start. However, it can be run after boot but may require that
+# hostd be restarted to have it re-read the advanced options that were
+# added/removed.
+
+PATH=/sbin:/usr/sbin:/bin:/usr/bin
+export PATH
+
+HOSTD_INIT=/etc/init.d/hostd
+RHTTPPROXY_ENDPOINTS=/etc/vmware/rhttpproxy/endpoints.conf
+RHTTPPROXY_RELOAD=0
+
+# Add an advanced config option and mark hostd for restart if we ended uo
+# actaully adding one that was missing.
+add_adv_option() {
+   # key, description, type, default, min, max
+   esxcfg-advcfg \
+      -A "$1" \
+      -E "$2" \
+      -T "$3" \
+      -F "$4" \
+      -N "$5" \
+      -M "$6" > /dev/null 2>&1
+
+   if [ $? -eq 0 ]; then
+      echo "added advanced option: ${1}"
+
+      $HOSTD_INIT status;
+      if [ $? -eq 0 ]; then
+         # call esxcli to have hostd refresh its cached list of options
+         esxcli system settings advanced set -o /UserVars/${1} -d
+      fi
+   else
+      echo "didn't add advanced option: ${1}"
+   fi
+}
+
+remove_adv_option() {
+   esxcfg-advcfg -L $1
+
+   if [ $? -eq 0 ]; then
+      echo "removed advanced option: ${1}"
+
+      $HOSTD_INIT status;
+      if [ $? -eq 0 ]; then
+         # call esxcli to have hostd refresh its list of options
+         # this call will actually fail because the option has been removed, but
+         # it will cause hostd to update its cache.
+         esxcli system settings advanced set -o /UserVars/${1} -d >/dev/null 2>&1
+      fi
+   else
+      echo "didn't remove advanced option: ${1}"
+   fi
+}
+
+
+reload_rhttpproxy_if_needed() {
+   if [ ${RHTTPPROXY_RELOAD} -eq 1 ]; then
+      kill -sighup `pidof rhttpproxy` 2>/dev/null
+   fi
+}
+
+
+remove_ui_endpoint_if_needed() {
+   if [ ! -e ${RHTTPPROXY_ENDPOINTS} ]; then
+      echo "no endpoints file"
+      exit 0;
+   fi
+
+   grep -q "^/ui" ${RHTTPPROXY_ENDPOINTS}
+
+   if [ $? -eq 0 ]; then
+      echo "removing /ui from reverse proxy configuration"
+      sed -i '/^\/ui/ d' ${RHTTPPROXY_ENDPOINTS}
+      RHTTPPROXY_RELOAD=1
+   else
+      echo "no /ui endpoint found"
+   fi
+}
+
+
+add_ticket_endpoint_if_needed() {
+   if [ ! -e ${RHTTPPROXY_ENDPOINTS} ]; then
+      echo "no endpoints file"
+      exit 0;
+   fi
+
+   grep -q "^/ticket" ${RHTTPPROXY_ENDPOINTS}
+
+   if [ $? -eq 1 ]; then
+      echo "adding /ticket to reverse proxy configuration"
+      echo "/ticket    tickettunnel    /var/run/vmware/ticket/%1    redirect    allow" >> ${RHTTPPROXY_ENDPOINTS}
+      RHTTPPROXY_RELOAD=1
+   else
+      echo "/ticket endpoint found"
+   fi
+}
+
+
+for action in "$@"; do
+   echo "Running '${action}' action";
+
+   case "$action" in
+      start)
+         remove_ui_endpoint_if_needed
+
+         add_ticket_endpoint_if_needed
+
+         restart_rhttpproxy_if_needed
+
+         # Add advanced configuration options for several Host Client configuration settings
+
+         # ESXi 5.5 does not support branched UserVars, so remove them
+         remove_adv_option "HostClient.SessionTimeout"
+         remove_adv_option "HostClient.EnableVisualEffects"
+         remove_adv_option "HostClient.EnableMOTDNotification"
+         remove_adv_option "HostClient.CEIPOptIn"
+         remove_adv_option "HostClient.ShowOnlyRecentObjects"
+         remove_adv_option "HostClient.DefaultConsole"
+         remove_adv_option "HostClient.WelcomeMessage"
+
+         add_adv_option "HostClientSessionTimeout" \
+            "Default timeout for Host Client sessions in seconds" \
+            "int" 900 0 7200
+
+         add_adv_option "HostClientEnableVisualEffects" \
+            "Whether or not to enable visual effects for Host Client" \
+            "int" 1 0 1
+
+         add_adv_option "HostClientEnableMOTDNotification" \
+            "Whether or not to enable MOTD notification on login for Host Client" \
+            "int" 1 0 1
+
+         add_adv_option "HostClientCEIPOptIn" \
+            "Whether or not to opt-in for CEIP in Host Client, 0 for ask, 1 for yes, 2 for no" \
+            "int" 0 0 2
+
+         add_adv_option "HostClientShowOnlyRecentObjects" \
+            "Whether or not to show only recent objects in Host Client" \
+            "int" 1 0 1
+
+         add_adv_option "HostClientDefaultConsole" \
+            "Default console type in Host Client" \
+            "string" "webmks"
+
+         add_adv_option "HostClientWelcomeMessage" \
+            "Welcome message displayed on login in Host Client" \
+            "string" "Welcome to {{hostname}}"
+         ;;
+
+      remove)
+         remove_adv_option "HostClientSessionTimeout"
+         remove_adv_option "HostClientEnableVisualEffects"
+         remove_adv_option "HostClientEnableMOTDNotification"
+         remove_adv_option "HostClientCEIPOptIn"
+         remove_adv_option "HostClientShowOnlyRecentObjects"
+         remove_adv_option "HostClientDefaultConsole"
+         remove_adv_option "HostClientWelcomeMessage"
+         ;;
+
+      stop)
+         true
+         ;;
+
+      status)
+         true
+         ;;
+
+      install)
+         true
+         ;;
+
+      upgrade)
+         true
+         ;;
+
+      restart)
+         "$0" stop
+         "$0" start
+         ;;
+
+      *)
+         echo "Usage: `basename "$0"` {start|stop|status|restart}"
+         exit 1
+   esac
+done
+
+exit 0

@@ -1,0 +1,209 @@
+[$ClassProvider$]
+   provider: ClassProvider
+   location: sfcClassProviderGz
+   type: class method
+   group: vmware_aux
+   vendor: VMware
+   memsize: 70
+   unload: never
+   namespace: *
+   parameters: cacheLimit=10
+#
+[$DefaultProvider$]
+   provider: InternalProvider
+   location: sfcInternalProvider
+   type: instance association method
+   group: vmware_aux
+   vendor: VMware
+   unload: never
+   namespace: *
+#
+[$InterOpProvider$]
+   provider: InteropProvider
+   location: sfcInteropProvider
+   type: instance method
+   group: vmware_int
+   vendor: VMware
+   memsize: 70
+   unload: never
+   namespace: root/interop
+#
+[$ProfileProvider$]
+   provider: ProfileProvider
+   location: sfcProfileProvider
+   type: instance method
+   group: vmware_aux
+   vendor: VMware
+   unload: never
+   namespace: root/interop
+#
+[$QualifierProvider$]
+   provider: QualifierProvider
+   location: sfcQualifierProvider
+   type: qualifier
+   group: vmware_aux
+   vendor: VMware
+   unload: never
+   namespace: *
+#
+[CIM_IndicationHandlerCIMXML]
+   provider: IndCIMXMLHandler
+   location: sfcIndCIMXMLHandler
+   type: instance method
+   group: vmware_int
+   vendor: VMware
+   namespace: root/interop
+#
+[CIM_ListenerDestinationCIMXML]
+   provider: IndCIMXMLHandler
+   location: sfcIndCIMXMLHandler
+   type: instance method
+   group: vmware_int
+   vendor: VMware
+   namespace: root/interop
+#
+[CIM_IndicationSubscription]
+   provider: InteropProvider
+   location: sfcInteropProvider
+   type: instance method
+   group: vmware_int
+   vendor: VMware
+   namespace: root/interop
+#
+[SFCB_IndicationSubscription]
+   provider: InteropProvider
+   location: sfcInteropProvider
+   type: instance method
+   group: vmware_int
+   vendor: VMware
+   namespace: root/interop
+#
+[SFCB_ProviderDiagnostics]
+   provider: ProvDiag
+   location: sfcInteropServerProvider
+   type: instance method
+   group: vmware_int
+   vendor: VMware
+   namespace: root/interop
+#
+[SFCB_ServiceDiagnostics]
+   provider: SrvDiag
+   location: sfcInteropServerProvider
+   type: method
+   group: vmware_int
+   vendor: VMware
+   namespace: root/interop
+#
+[SFCB_RunningIndication]
+   provider: SrvDiag
+   location: sfcInteropServerProvider
+   type: indication
+   group: vmware_int
+   vendor: VMware
+   namespace: root/interop
+#
+[VMware_UserAuthorizationService]
+   provider: VmwAuth
+   location: sfcInteropServerProvider
+   type: method
+   group: vmware_int
+   vendor: VMware
+   namespace: root/cimv2
+#
+[CIM_IndicationFilter]
+   provider: InteropProvider
+   location: sfcInteropProvider
+   type: instance method
+   group: vmware_int
+   vendor: VMware
+   namespace: root/interop
+#
+[SFCB_IndicationServiceCapabilities]
+   provider: ServerProvider
+   location: sfcInteropServerProvider
+   type: instance
+   group: vmware_aux
+   vendor: VMware
+   namespace: root/interop
+#
+[SFCB_ElementCapabilities]
+   provider: ElementCapabilities
+   location: sfcElementCapabilitiesProvider
+   type: association
+   group: vmware_aux
+   vendor: VMware
+   namespace: root/interop
+#
+[SFCB_RegisteredProfile]
+   provider: ProfileProvider
+   location: sfcProfileProvider
+   type: instance method
+   group: vmware_aux
+   vendor: VMware
+   unload: never
+   namespace: root/interop
+#
+[CIM_Namespace]
+   provider: ServerProvider
+   location: sfcInteropServerProvider
+   type: instance
+   group: vmware_aux
+   vendor: VMware
+   namespace: root/interop
+#
+[__Namespace]
+   provider: ServerProvider
+   location: sfcInteropServerProvider
+   type: instance
+   group: vmware_aux
+   vendor: VMware
+   namespace: *
+#
+[CIM_ObjectManager]
+   provider: ServerProvider
+   location: sfcInteropServerProvider
+   type: instance
+   group: vmware_aux
+   vendor: VMware
+   namespace: root/interop
+#
+[CIM_ObjectManagerCommunicationMechanism]
+   provider: ServerProvider
+   location: sfcInteropServerProvider
+   type: instance
+   group: vmware_aux
+   vendor: VMware
+   namespace: root/interop
+#
+[CIM_IndicationService]
+   provider: ServerProvider
+   location: sfcInteropServerProvider
+   type: instance
+   group: vmware_aux
+   vendor: VMware
+   namespace: root/interop
+#
+[SFCB_ServiceAffectsElement]
+   provider: ServerProvider
+   location: sfcInteropServerProvider
+   type: instance association
+   group: vmware_aux
+   vendor: VMware
+   namespace: root/interop
+#
+[CIM_HostedService]
+   provider: ServerProvider
+   location: sfcInteropServerProvider
+   type: instance association
+   group: vmware_aux
+   vendor: VMware
+   namespace: root/interop
+#
+[CIM_ElementConformsToProfile]
+   provider: ServerProvider
+   location: sfcInteropServerProvider
+   type: instance association
+   group: vmware_aux
+   vendor: VMware
+   namespace: root/interop
+#

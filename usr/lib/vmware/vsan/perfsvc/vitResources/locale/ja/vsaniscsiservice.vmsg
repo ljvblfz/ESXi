@@ -1,0 +1,95 @@
+# VSAN iSCSI target service related
+# msgId = 001
+com.vmware.vsan.iscsi.common.comma = 、
+com.vmware.vsan.iscsi.common.colon = :
+com.vmware.vsan.iscsi.common.ok = OK
+com.vmware.vsan.iscsi.common.yes = はい
+com.vmware.vsan.iscsi.common.no = いいえ
+com.vmware.vsan.iscsi.msg.installVibFailed = EAM を使用してクラスタに VIB をインストールするときに不明なエラーが発生しました
+com.vmware.vsan.iscsi.msg.createHomeObjectFailed = クラスタにホーム オブジェクトを作成できませんでした
+com.vmware.vsan.iscsi.msg.settingsFailed = クラスタに vSAN iSCSI ターゲット サービスを設定できませんでした
+com.vmware.vsan.iscsi.host.issues.notConnected = ホストが接続されていません
+com.vmware.vsan.iscsi.host.issues.notVITInstall = ホストに vSAN iSCSI ターゲット サービスがインストールされていません
+com.vmware.vsan.iscsi.host.issues.notVITServiceFound = ホストに vSAN iSCSI ターゲット サービスが見つかりません。ホストのバージョンが 6.5 以降であることを確認してください。
+com.vmware.vsan.iscsi.cluster.issues.hostNotConnected = 1 台以上のホストが接続されていません。
+com.vmware.vsan.iscsi.cluster.issues.HostNotVITInstall = 1 台以上のホストに vSAN iSCSI ターゲット サービスがインストールされていません
+
+# For service process status
+com.vmware.vsan.iscsi.service.process.running = 実行中
+com.vmware.vsan.iscsi.service.process.stopped = 停止
+com.vmware.vsan.iscsi.service.process.unknown = 不明
+com.vmware.vsan.iscsi.service.process.hostDisconnected = ホストが切断されました
+
+# For service pre-check failed.
+com.vmware.vsan.iscsi.service.enabled.failed = サービスを有効にできません。vSAN iSCSI ターゲット サービスは ESXi ホスト バージョン 6.1 で提供されています。クラスタ内のすべてのホストのバージョンが適切であり、接続問題が発生していないことを確認してください。
+
+# For service installation health test
+com.vmware.vsan.iscsi.health.test.installStatus = サービス インストール ステータス
+com.vmware.vsan.iscsi.health.test.installStatus.desc.short = vSAN クラスタ内のすべてのホストに vSAN iSCSI ターゲット サービスがインストールされているかどうか、および vCenter Server と各ホスト内のサービスのバージョンが同じであるかどうかをチェックします。
+com.vmware.vsan.iscsi.health.test.installStatus.desc.long = vSAN iSCSI ターゲット サービスは ESXi ホスト バージョン 6.1 で提供されています。一部のホストに vSAN iSCSI ターゲット サービスがインストールされていない場合は、ホストのバージョンが適切でありません。一部のホストで vSAN iSCSI ターゲット サービス ステータスが不明な場合は、接続問題など、その他の問題が発生しています。
+com.vmware.vsan.iscsi.health.test.installStatus.table.label = サービスのインストール
+com.vmware.vsan.iscsi.health.test.installStatus.table.column.host = ホスト
+com.vmware.vsan.iscsi.health.test.installStatus.table.column.installationStatus = インストール ステータス
+com.vmware.vsan.iscsi.health.test.installStatus.table.column.versionESX = ESX のバージョン
+com.vmware.vsan.iscsi.health.test.installStatus.table.column.versionVC = vCenter Server のバージョン
+com.vmware.vsan.iscsi.health.test.installStatus.table.column.error = エラー
+
+# For service runtime health test
+com.vmware.vsan.iscsi.health.test.runningStatus = サービス ランタイム ステータス
+com.vmware.vsan.iscsi.health.test.runningStatus.desc.short = vSAN iSCSI ターゲット サービスのステータスをチェックします。
+com.vmware.vsan.iscsi.health.test.runningStatus.desc.long = サービスがクラスタのすべてのホストで有効かどうかをチェックします。サービスがホストで有効になっていない場合は、以下のコマンドを実行します: 'esxcli vsan iscsi status set --enabled=true'。または、編集アクション ([管理] > [設定] > [全般] > [vSAN iSCSI ターゲット サービス]) を使用して iSCSI ターゲット サービスを有効にすることができます。このチェックでは、以下のプロセスの健全性をチェックすることもできます: 'vtid' はサービスを提供するために使用され、'vitsafehd' は VMDK のオープン状態を保持するために使用されます。'vtid' プロセスが実行していない場合は、次のコマンドを使用してプロセスを起動します: '/etc/init.d/vitd start'。'vitsafehd' プロセスが起動していない場合は、次のコマンドを使用してプロセスを起動します: '/etc/init.d/vitd io_restart'。
+com.vmware.vsan.iscsi.health.test.runningStatus.table.label = サービス ランタイム ステータス
+com.vmware.vsan.iscsi.health.test.runningStatus.table.column.host = ホスト
+com.vmware.vsan.iscsi.health.test.runningStatus.table.column.processesStatus = プロセスの健全性
+com.vmware.vsan.iscsi.health.test.runningStatus.table.column.enabledStatus = 有効
+com.vmware.vsan.iscsi.health.test.runningStatus.table.column.error = エラー
+
+# For home object health test
+com.vmware.vsan.iscsi.health.test.groupName = vSAN iSCSI ターゲット サービス
+com.vmware.vsan.iscsi.health.test.homeObject = ホーム オブジェクト
+com.vmware.vsan.iscsi.health.test.homeObject.storageOutOfDate = 期限切れ
+com.vmware.vsan.iscsi.health.test.homeObject.storageCompliant = 準拠
+com.vmware.vsan.iscsi.health.test.homeObject.storageNonCompliant = 非準拠
+com.vmware.vsan.iscsi.health.test.homeObject.storageNotApplicable = 該当なし
+com.vmware.vsan.iscsi.health.test.homeObject.storageUnknown = 不明
+com.vmware.vsan.iscsi.health.test.homeObject.desc.short = vSAN iSCSI ターゲット サービス ホーム オブジェクトの健全性をチェックします。
+com.vmware.vsan.iscsi.health.test.homeObject.desc.long = ホーム オブジェクトは、vSAN iSCSI ターゲット サービスによって使用されるメタデータを保存します。このチェックでは以下の項目を検証します: ホーム オブジェクトが作成されており、システムに配置されている。ホーム オブジェクトが健全な状態で、ストレージ ポリシーに準拠している。ホーム オブジェクトが一意である。複数のホーム オブジェクトが存在する場合、クラスタのホストの一部が異なるホーム オブジェクトにアクセスする場合がある。ホーム オブジェクトのメタデータ ファイルが存在し、解析可能で、すべてのメタデータが適切に保存されている。
+com.vmware.vsan.iscsi.health.test.homeObject.table.label = ホーム オブジェクトの情報
+com.vmware.vsan.iscsi.health.test.homeObject.table.column.check = 確認
+com.vmware.vsan.iscsi.health.test.homeObject.table.column.result = 結果
+com.vmware.vsan.iscsi.health.test.homeObject.table.column.status = ステータス
+com.vmware.vsan.iscsi.health.test.homeObject.table.exist = ホーム オブジェクトが存在します
+com.vmware.vsan.iscsi.health.test.homeObject.table.healthStatus = 健全性ステータス
+com.vmware.vsan.iscsi.health.test.homeObject.table.storageStatus = ストレージ ポリシー コンプライアンス
+com.vmware.vsan.iscsi.health.test.homeObject.table.entryStatus = ホーム オブジェクトは一意です
+com.vmware.vsan.iscsi.health.test.homeObject.table.metadataStatus = メタデータ ファイルのステータス
+com.vmware.vsan.iscsi.health.test.homeObject.table.noEntry = 現在エントリはありません
+com.vmware.vsan.iscsi.health.test.homeObject.table.isUnique = 一意です
+com.vmware.vsan.iscsi.health.test.homeObject.table.isMultiple = 複数存在します
+com.vmware.vsan.iscsi.health.test.homeObject.table.metadataPresentParse = 存在し、解析可能です
+com.vmware.vsan.iscsi.health.test.homeObject.table.metadataNotPresentParse = 存在しないか、解析できません。サービス ランタイム ステータス チェックが緑になっていることを確認してから、このアイテムを確認してください。
+
+com.vmware.vsan.iscsi.health.test.homeObject.status.notFound = 見つかりません
+
+com.vmware.vsan.iscsi.health.test.cluster.iscsiEamInstall.host.untracked = 追跡解除されています
+com.vmware.vsan.iscsi.health.test.cluster.iscsiEamInstall.host.removed = (現在はクラスタ内にありません)
+
+com.vmware.vsan.iscsi.health.test.serviceNetwork = ネットワーク構成
+com.vmware.vsan.iscsi.health.test.serviceNetwork.desc.short = vSAN iSCSI ターゲット サービスのネットワーク構成をチェックします。
+com.vmware.vsan.iscsi.health.test.serviceNetwork.desc.long = クラスタ内のすべてのホストに、vSAN iSCSI ターゲット サービスで使用されるすべてのネットワーク インターフェイス (デフォルト インターフェイスを含む) が構成されている必要があります。同じ名前を持つすべてのネットワーク インターフェイスによって分散ポータルが形成されます。1 つまたは複数のホストにネットワーク インターフェイスが見つからない場合、vSAN iSCSI ターゲット サービスは正しく動作できません。
+com.vmware.vsan.iscsi.health.test.serviceNetwork.defaultnic = デフォルト ネットワーク インターフェイスを取得
+com.vmware.vsan.iscsi.health.test.serviceNetwork.defaultnic.notFound = デフォルト ネットワーク インターフェイスを取得できません
+com.vmware.vsan.iscsi.health.test.serviceNetwork.defaultnic.error = デフォルト ネットワーク インターフェイスの取得に失敗しました。すべてのホストで vSAN iSCSI ターゲット サービスが実行されているかどうかを確認してください
+com.vmware.vsan.iscsi.health.test.serviceNetwork.nicsUsedByTargets = ターゲットで使用されるネットワーク インターフェイスを取得
+com.vmware.vsan.iscsi.health.test.serviceNetwork.nicsUsedByTargets.notFound = ターゲットで使用されるネットワーク インターフェイスが見つかりません
+com.vmware.vsan.iscsi.health.test.serviceNetwork.table.service.label = サービス ネットワークの構成
+com.vmware.vsan.iscsi.health.test.serviceNetwork.table.service.column.check = 確認
+com.vmware.vsan.iscsi.health.test.serviceNetwork.table.service.column.status = ステータス
+com.vmware.vsan.iscsi.health.test.serviceNetwork.table.service.column.vmknics = ネットワーク インターフェイス
+com.vmware.vsan.iscsi.health.test.serviceNetwork.table.service.column.error = エラー
+
+com.vmware.vsan.iscsi.health.test.serviceNetwork.table.label = ホスト ネットワーク構成
+com.vmware.vsan.iscsi.health.test.serviceNetwork.table.column.host = ホスト
+com.vmware.vsan.iscsi.health.test.serviceNetwork.table.column.status = ステータス
+com.vmware.vsan.iscsi.health.test.serviceNetwork.table.column.error = エラー
+com.vmware.vsan.iscsi.health.test.serviceNetwork.table.column.vmknicsMissed = ネットワーク インターフェイスが見つからない

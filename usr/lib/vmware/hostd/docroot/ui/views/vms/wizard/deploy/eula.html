@@ -1,0 +1,12 @@
+<div ng-controller="VMDeployFromOVFWizardEULAController" class="content-padding vm-wizard">
+   <div class="row no-margin eula">
+      <div class="col-sm-12 no-padding">
+         <div vui-tabs="tabOptions" style="height: 43px;"></div>
+         <pre style="height: 335px;">{{currentLicenseContent}}</pre>
+         <button ng-click="agree(currentLicense);"
+            ng-disabled="wizardOptions.data.agreedEULAs[currentLicense]"
+            style="float: right; margin: 10px 0;">
+            {{'vm.wizard.deploy.eula.agree' | translate}}</button>
+      </div>
+   </div>
+</div>

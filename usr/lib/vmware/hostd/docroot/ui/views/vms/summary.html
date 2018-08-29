@@ -1,0 +1,96 @@
+<div class="esx-main-content" ng-right-click="showVMContextMenu($event);" ng-cloak class="ng-cloak">
+   <div ng-show="!currentVM.status" style="text-align: center;">
+      <img src="images/loader_table.gif" style="margin-top: 200px;"/>
+   </div>
+   <div ng-show="currentVM.status">
+      <div ui-view="banner" style="margin-top: 30px;"></div>
+
+      <div vui-action-bar="vmOperationsActionBar" style="margin-bottom: 10px; position: absolute; top: 15px;"></div>
+
+      <div ng-if="currentVM.status && showNotifications()" class="row notification-area no-margin" style="position: relative;">
+         <div esx-notification ng-repeat="notification in notifications"
+            type="{{notification.type}}" close="closeNotification(notification.key)" ng-if="!notification.closed">
+            <span ng-if="!notification.link && !notification.state" ng-bind-html="notification.message"></span>
+            <a ng-if="notification.link" href="{{notification.link}}" class="alert-link">{{notification.text}}</a>
+            <a ng-if="notification.state" ui-sref="{{notification.state}}" class="alert-link">{{notification.text}}</a>
+            <div ng-if="notification.actionsButton" style="display: inline-block; margin: -3px 0 -3px 0;" vui-action-bar="{actions: [notification.actionsButton]}"></div>
+         </div>
+      </div>
+
+      <div class="portlet-area container-fluid no-margin no-padding" style="padding: 0 7px 20px 7px;">
+         <div class="row">
+            <div class="col-lg-6 col-sm-12">
+               <div class="vui-portlet no-margin" ng-class="{'collapsed': generalPortlet.collapsed}">
+                  <div class="portlet-titlebar" ng-click="generalPortlet.toggle()">
+                     <span class="icon" ng-class="{
+                        'vui-icon-caret-dark-gray-right': generalPortlet.collapsed,
+                        'vui-icon-caret-dark-gray-down': !generalPortlet.collapsed}"></span>
+                     <span class="titlebar-text"
+                           title="{{'vm.summary.general.title' | translate}}">{{'vm.summary.general.label' | translate}}</span>
+                  </div>
+                  <div class="portlet-content">
+                     <div esx-portlet-content data="generalPortlet.data" item-scope="scope"></div>
+                  </div>
+               </div>
+
+               <div ng-if="showPerf" class="vui-portlet no-margin" ng-class="{'collapsed': perfPortlet.collapsed}">
+                  <div class="portlet-titlebar" ng-click="perfPortlet.toggle()">
+                     <span class="icon" ng-class="{
+                        'vui-icon-caret-dark-gray-right': perfPortletPortlet.collapsed,
+                        'vui-icon-caret-dark-gray-down': !perfPortletPortlet.collapsed}"></span>
+                     <span class="titlebar-text"
+                           title="{{'vm.summary.perf.title' | translate}}">{{'vm.summary.perf.label' | translate}}</span>
+                  </div>
+                  <div class="portlet-content" style="padding: 10px;">
+                     <nvd3 ng-if="perfLoaded" config="perfConfig" options="perfOptions" data="perfData"></nvd3>
+                     <div ng-if="!perfLoaded && !perfError" style="height: 300px; background-image: url('images/tiny_loader_transparent_bg.gif');
+                        background-position: 50% 50%; background-repeat: no-repeat; text-align: center;">
+                        <div style="padding-top: 170px;">{{'vm.summary.perf.loading' | translate}}</div>
+                     </div>
+                     <div ng-if="perfError" style="text-align: center; padding-top: 170px; padding-bottom: 170px;">
+                        {{'vm.summary.perf.noData' | translate}}
+                        <div class="vui-action-bar">
+                           <ul>
+                              <li>
+                                 <a class="action-link-container" ng-click="refresh()">
+                                    <span class="vui-icon-placeholder esx-icon-datastore-refresh"></span>
+                                    <span class="vui-action-label">Refresh</span>
+                                 </a>
+                              </li>
+                           </ul>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+            </div>
+            <div class="col-lg-6 col-sm-12">
+               <div class="vui-portlet no-margin" ng-class="{'collapsed': hardwarePortlet.collapsed}">
+                  <div class="portlet-titlebar" ng-click="hardwarePortlet.toggle()">
+                     <span class="icon" ng-class="{
+                        'vui-icon-caret-dark-gray-right': hardwarePortlet.collapsed,
+                        'vui-icon-caret-dark-gray-down': !hardwarePortlet.collapsed}"></span>
+                     <span class="titlebar-text"
+                           title="{{'vm.summary.hardware.title' | translate}}">{{'vm.summary.hardware.label' | translate}}</span>
+                  </div>
+                  <div class="portlet-content">
+                     <div esx-portlet-content data="hardwarePortlet.data"></div>
+                  </div>
+               </div>
+
+               <div class="vui-portlet no-margin" ng-class="{'collapsed': resourcesPortlet.collapsed}">
+                  <div class="portlet-titlebar" ng-click="resourcesPortlet.toggle()">
+                     <span class="icon" ng-class="{
+                        'vui-icon-caret-dark-gray-right': resourcesPortlet.collapsed,
+                        'vui-icon-caret-dark-gray-down': !resourcesPortlet.collapsed}"></span>
+                     <span class="titlebar-text"
+                           title="{{'vm.summary.resource.title' | translate}}">{{'vm.summary.resource.label' | translate}}</span>
+                  </div>
+                  <div class="portlet-content">
+                     <div esx-portlet-content data="resourcesPortlet.data"></div>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div>
+   </div>
+</div>

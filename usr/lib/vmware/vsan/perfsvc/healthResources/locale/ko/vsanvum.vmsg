@@ -1,0 +1,71 @@
+#
+# vSAN Build Recommendation messages
+#
+com.vmware.vsan.vum.enum.supported = 하드웨어가 지원됨
+com.vmware.vsan.vum.enum.sameSupport = 하드웨어 지원이 더 나쁘지 않음
+com.vmware.vsan.vum.enum.lessSupport = 하드웨어 지원이 더 나쁨
+com.vmware.vsan.vum.enum.incompleteSupport = 하드웨어가 일부 지원됨
+com.vmware.vsan.vum.enum.noSupport = 하드웨어가 지원되지 않음
+com.vmware.vsan.vum.enum.vcNoSupport = vCenter가 지원되지 않음
+com.vmware.vsan.vum.enum.incompatibleBuildType = 호환되지 않는 빌드 유형
+com.vmware.vsan.vum.enum.missingBuild = 릴리스 데이터베이스에 빌드가 누락됨
+com.vmware.vsan.vum.enum.sameSupportNotOnHcl = 기존 릴리스 및 권장 릴리스 둘 다 HCL에 의해 지원되지 않음
+com.vmware.vsan.vum.enum.invalidEsxUpgradePath = 공식적으로 지원되지 않는 업그레이드 경로
+
+com.vmware.vsan.vum.note.notRecommended = 현재 설치된 릴리스에서 더 적은 하드웨어가 지원되기 때문에 릴리스 {evalRelease}은(는) 권장되지 않습니다.
+com.vmware.vsan.vum.note.recommended = {evalRelease}은(는) {existingRelease}과(와) 달리 모든 하드웨어가 지원되기 때문에 권장됩니다.
+com.vmware.vsan.vum.note.vcNotSupported = vCenter {vcVersion}이(가) 이 클러스터의 일부 호스트의 {evalRelease}(으)로의 업그레이드를 지원하지 않기 때문에 릴리스 {evalRelease}은(는) 권장되지 않습니다.
+com.vmware.vsan.vum.note.notFullySupport = 참고: vSAN HCL에 따르면 선택된 릴리스({chosenRelease})에서 하드웨어가 (완전히) 지원되지 않습니다. 그래도 현재 설치된 릴리스를 사용하는 것보다 지원 상황이 나쁘지 않기 때문에 선택되었습니다.
+com.vmware.vsan.vum.note.fullySupport = 선택된 릴리스 {chosenRelease}이(가) 하드웨어에서 완전히 지원됩니다. 이 릴리스는 권장되는 최신 vSAN 릴리스입니다.
+com.vmware.vsan.vum.note.notSupported = vSAN HCL에 따르면 하드웨어가 최신 릴리스({chosenRelease}) 및 현재 설치된 릴리스 모두에서 지원되지 않습니다.
+com.vmware.vsan.vum.note.incompatibleBuildType = 소스 빌드 유형 {srcType}이(가) 호환되지 않기 때문에 {chosenRelease}은(는) 권장되지 않습니다.
+com.vmware.vsan.vum.note.mixVersionInstalled = 클러스터에 혼합된 릴리스가 설치되어 있습니다. {releases}
+com.vmware.vsan.vum.note.mixBldTypeInstalled = 클러스터에 혼합된 빌드 유형이 설치되어 있습니다. {buildTypes}
+com.vmware.vsan.vum.note.upgradeToHclEnabledVersion = 설치된 ESXi 버전이 6.0 U2보다 오래되었기 때문에 vSAN에서 하드웨어의 HCL 호환성을 평가할 수 없습니다. 최신 ESXi 릴리스로 업그레이드하는 것이 좋습니다. 다만 이전에 지원된 하드웨어가 최신 버전에서 지원되지 않는 일이 없도록 사용자가 수동으로 재확인해야 합니다.
+com.vmware.vsan.vum.note.driverManualUpgradeNeeded = 디바이스({device})의 드라이버 {driverName}에 새로운 vSAN HCL 지원 버전 {version}이(가) 있으며 수동으로 업그레이드해야 합니다.
+com.vmware.vsan.vum.note.noDriverUpgradeNeeded = 이 경우 드라이버 업그레이드/업데이트가 포함되지 않습니다.
+com.vmware.vsan.vum.note.updateTime = 마지막 업데이트 시간은 {updateTime}입니다.
+com.vmware.vsan.vum.note.invalidEsxUpgradePath = {existingRelease}에서 {evalRelease}(으)로의 업그레이드 경로는 공식적으로 지원되지 않습니다.
+
+com.vmware.vsan.vum.patchName = {chosenRelease} 위에 적용할 vSAN 권장 패치
+#
+# vSAN Build Recommendation health check
+#
+com.vmware.vsan.health.test.vum = vSAN 빌드 권장 사항
+
+com.vmware.vsan.health.test.vum.vumconfig =  vSAN 빌드 권장 사항 엔진은 VMware 호환성 가이드 및 VMware 릴리스 메타데이터를 기반으로 권장 사항을 제공합니다. 또한 빌드 권장 사항을 제공하기 위해 VMware Update Manager 서비스를 사용하고 인터넷 연결 및 유효한 my.vmware.com 자격 증명을 설정해야 합니다. 이 상태 검사는 이러한 종속성이 충족되고 권장 사항 엔진이 올바르게 작동하는지 확인합니다.
+com.vmware.vsan.health.test.vum.vumconfig.short = 빌드 권장 사항 엔진이 모든 종속성을 충족했으며 예상대로 작동하는지 확인합니다.
+com.vmware.vsan.health.test.vum.vumconfig.testName = vSAN 빌드 권장 사항 엔진 상태
+
+com.vmware.vsan.health.test.vum.vumconfig.testResult.label = 문제
+com.vmware.vsan.health.test.vum.vumconfig.testResult.columnIssue = 문제 정보
+
+com.vmware.vsan.health.test.vum.internetDisconnected = 인터넷 액세스를 사용할 수 없습니다. 빌드 권장 사항을 제공하려면 vSAN을 위한 인터넷 연결을 복원하십시오.
+com.vmware.vsan.health.test.vum.vumDisabled = VUM(VMware Update Manager)이 사용되지 않도록 설정되었거나 설치되지 않았습니다. VUM이 설치되었으며 제대로 작동하는지 확인하십시오.
+com.vmware.vsan.health.test.vum.vumNotResponsive = VUM(VMware Update Manager)이 응답하지 않습니다. VUM 서비스가 사용 가능하며 제대로 작동하는지 확인하십시오.
+com.vmware.vsan.health.test.vum.metadataOutdated = vSAN 릴리스 메타데이터가 오래되었습니다. 인터넷 연결이 존재하며 vSAN에서 VMware의 최신 릴리스 메타데이터에 액세스 권한할 수 있는지 확인하십시오.
+com.vmware.vsan.health.test.vum.isoDepotCookieNotSet = my.vmware.com 로그인 자격 증명이 설정되지 않았습니다. 올바른 자격 증명으로 로그인하십시오. 해당하는 경우 약 1분 만에 기준선이 생성됩니다.
+com.vmware.vsan.health.test.vum.isoDepotAuthenticationFailed = my.vmware.com 인증에 실패했습니다. 올바른 자격 증명으로 로그인을 재시도하십시오. 해당하는 경우 약 1분 만에 기준선이 생성됩니다.
+com.vmware.vsan.health.test.vum.createBaselineFailed = 예기치 않은 VUM(VMware Update Manager) 기준선 생성 실패가 발생했습니다. 자세한 내용은 vSAN 및 VUM 로그를 확인하십시오.
+com.vmware.vsan.health.test.vum.isoDepotIsDown = VMware ISO 다운로드 사이트가 중단되었습니다.
+
+com.vmware.vsan.health.test.vum.vumrecommendation = vSAN 빌드 권장 사항. 하드웨어, VMware 호환성 가이드 및 VMware의 사용 가능한 릴리스에 따른 호환성을 고려할 때 vSAN이 가장 적합한 것으로 권장하는 ESXi 빌드입니다.
+com.vmware.vsan.health.test.vum.vumrecommendation.short =  사용 가능한 릴리스 및 VCG 호환성 가이드를 기반으로 하는 vSAN 빌드 권장 사항
+com.vmware.vsan.health.test.vum.vumrecommendation.testName = vSAN 빌드 권장 사항
+com.vmware.vsan.health.test.vum.vumrecommendation.testResult.label = vSAN 빌드 권장 사항
+com.vmware.vsan.health.test.vum.vumrecommendation.testResult.columnCluster = 클러스터
+com.vmware.vsan.health.test.vum.vumrecommendation.testResult.columnRecommendation = 권장 사항
+com.vmware.vsan.health.test.vum.vumrecommendation.recommendationAvailable = 클러스터 {cluster}에 권장되는 릴리스 {release}이(가) 있음
+
+com.vmware.vsan.vum.error.incorrectCredential = my.vmware.com 로그인 자격 증명이 잘못되었습니다. 올바른 자격 증명으로 로그인을 재시도하십시오. 해당하는 경우 약 1분 만에 기준선이 생성됩니다.
+com.vmware.vsan.vum.error.isoDepotIsDown = VMware ISO 다운로드 사이트가 중단되었습니다. 나중에 재시도하십시오.
+
+
+# FW checks
+com.vmware.vsan.health.test.fwupdate.fwrecommendation = vSAN 펌웨어 권장 사항입니다. 이 펌웨어 제안은 현재 호스트 소프트웨어 버전, 하드웨어 드라이버 버전 및 VMware 호환성 가이드에 따른 호환성을 기반으로 합니다.
+com.vmware.vsan.health.test.fwupdate.fwrecommendation.short = VCG에 기반한 vSAN 펌웨어 권장 사항입니다.
+com.vmware.vsan.health.test.fwupdate.fwrecommendation.testName = vSAN 펌웨어 버전 권장 사항
+com.vmware.vsan.health.test.fwupdate.fwrecommendation.testResult.label = vSAN 펌웨어 버전 권장 사항
+com.vmware.vsan.health.test.fwupdate.fwrecommendation.testResult.columnHost = 호스트
+com.vmware.vsan.health.test.fwupdate.fwrecommendation.testResult.columnRecommendation = 권장 사항
+com.vmware.vsan.health.test.fwupdate.fwrecommendation.recommendationAvailable = {host} 호스트에 펌웨어 업데이트 필요: {recommendations}

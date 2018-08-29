@@ -1,0 +1,19 @@
+<div ng-controller="StorageDatastoreWizardSummaryController"
+   class="vm-wizard">
+
+   <div class="row no-margin row-spacer">
+      <div class="col-sm-12 no-padding wizard-stack-fixed-height">
+         <esx-portlet-content data="summaryStack.data"></esx-portlet-content>
+         <div ng-if="partitionSpec" esx-partition-diagram
+            partition-spec="partitionSpec"
+            show-gaps="true"
+            show-gaps-threshold="minSectors"
+            device-capacity="wizardOptions.data.device.capacity.block"
+            allow-selection="false"
+            show-size="true"
+            max-height="240"
+            style="width: 330px; margin-left: auto; margin-right: auto; margin-top: 20px;"></div>
+      </div>
+   </div>
+
+</div>

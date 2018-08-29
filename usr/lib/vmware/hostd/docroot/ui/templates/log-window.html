@@ -1,0 +1,6 @@
+<div style="height: {{height}}px;" class="logWindow">
+   <div ng-bind-html="data"></div>
+   <div ng-if="!loaded" style="height: 100%; text-align: center;">
+      <img  src="images/tiny_loader_transparent_bg.gif" alt="{{'root.loading'|translate}}" style="top: 50%; position: relative;"/>
+   </div>
+</div>

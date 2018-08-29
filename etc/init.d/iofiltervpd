@@ -1,0 +1,139 @@
+#!/bin/sh
+# chkconfig: off 18 83
+
+export PATH=/bin:/sbin
+IOFILTERVPD=/usr/lib/vmware/iofilter/bin/ioFilterVPServer
+IOFILTERVP_CTRL_APP=/usr/lib/vmware/iofilter/bin/iofvp-ctrl-app
+IOFILTERVP_CTRL_SOCKET_PATH=/var/run/vmware/iofvp-ctrl.sock
+IOFILTERVPD_TAG=iofiltervpd
+IOFILTERVPD_RES_POOL="host/iofilters/iofiltervpd"
+IOFILTERVPD_MEM_MAX_SIZE=25
+IOFILTERVPD_INIT_LOCK=/var/run/iofiltervpd-init.lock
+CONFIGRP=/usr/lib/vmware/rp/bin/configRP
+ISRUNNING="${IOFILTERVPD_TAG} is running."
+ISNOTRUNNING="${IOFILTERVPD_TAG} is not running."
+
+start() {
+   if [ -z "$(pidof -s "$IOFILTERVPD")" ] ; then
+      $CONFIGRP increaseRPMemMaxSize $IOFILTERVPD_RES_POOL $IOFILTERVPD_MEM_MAX_SIZE
+      if [ $? -ne 0 ]; then
+         echo "Failed to set memory reservation for $IOFILTERVPD_TAG"
+         exit 1
+      fi
+
+      export MALLOC_PER_THREAD=1
+      export MALLOC_ARENA_MAX=4
+
+      # apply the firewall ruleset and open the port before starting the daemon
+      localcli network firewall ruleset set --ruleset-id iofiltervp --enabled true
+
+      /sbin/watchdog.sh ++memreliable,group=${IOFILTERVPD_RES_POOL} -d -s $IOFILTERVPD_TAG $IOFILTERVPD
+
+      # To make the start synchronous, we try to connect to the control socket
+      # until the connection succeeds.
+      retcode=1
+      tries=1
+      while [ $retcode -ne 0 ] && [ ${tries} -lt 5 ]
+         do
+            nc -U -w1 ${IOFILTERVP_CTRL_SOCKET_PATH}
+            retcode=$?
+            sleep 1
+            tries=$((tries + 1))
+         done
+
+      echo "$IOFILTERVPD_TAG started"
+   else
+      echo "${ISRUNNING}"
+   fi
+}
+
+stop() {
+   if [ -n "$(pidof -s "$IOFILTERVPD")" ] ; then
+      /sbin/watchdog.sh -k $IOFILTERVPD_TAG
+
+      local pid=$(pidof -s "$IOFILTERVPD")
+      if [ -n "$pid" ]; then
+         kill -9 $pid
+         while kill -0 $pid > /dev/null 2>&1; do
+            sleep 0
+         done
+      fi
+      echo "$IOFILTERVPD_TAG stopped"
+   else
+      echo "${ISNOTRUNNING}"
+      return
+   fi
+
+   localcli network firewall ruleset set --ruleset-id iofiltervp --enabled false
+
+   # kill can return before the UW is completely cleaned up
+   tries=1
+   while [ ${tries} -lt 5 ]; do
+      $CONFIGRP decreaseRPMemMaxSize $IOFILTERVPD_RES_POOL $IOFILTERVPD_MEM_MAX_SIZE
+      if [ $? -ne 0 ]; then
+         echo "Failed to clear memory reservation for $IOFILTERVPD_TAG"
+      else
+         return
+      fi
+      sleep 1
+      tries=$((tries + 1))
+   done
+}
+
+ssl_reset() {
+   # the control app should signal the VP to refresh its certificate
+   $IOFILTERVP_CTRL_APP -r
+}
+
+usage() {
+   echo "Usage: $0 {start|stop|restart|status|ssl_reset}"
+}
+
+cleanup() {
+   rm -f ${IOFILTERVPD_INIT_LOCK}
+}
+
+
+if [ $# -ne 1 ]; then
+   usage
+   exit 1
+fi
+
+trap cleanup SIGINT SIGTERM EXIT
+
+exitstatus=0
+
+# Prevents concurrent access to the script's functions; there is a
+# possibility that multiple filters starting up could cause a race to occur since
+# the init scripts will try to start the VP.
+lockfile ${IOFILTERVPD_INIT_LOCK}
+
+case $1 in
+   "start")
+      start
+      ;;
+   "stop")
+      stop
+     ;;
+   "restart")
+      stop
+      start
+      ;;
+   "status")
+      if [ -n "$(pidof -s "$IOFILTERVPD")" ] ; then
+         echo "${ISRUNNING}"
+      else
+         echo "${ISNOTRUNNING}"
+         exitstatus=3
+      fi
+      ;;
+   "ssl_reset")
+      ssl_reset
+      ;;
+   *)
+      usage
+      exitstatus=1
+      ;;
+esac
+
+exit ${exitstatus}

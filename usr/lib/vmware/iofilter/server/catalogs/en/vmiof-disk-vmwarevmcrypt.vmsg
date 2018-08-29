@@ -1,0 +1,7 @@
+# en language catalog for the 'vmwarevmcrypt' iofilter
+
+iofilters.disk.vmwarevmcrypt.capability.AllowCleartextFilters.label =  Allow I/O filters before encryption
+iofilters.disk.vmwarevmcrypt.capability.AllowCleartextFilters.summary = Allow the use of other I/O filters before the encryption filter. Those filters would see cleartext data before it is encrypted.
+
+iofilters.disk.vmwarevmcrypt.name.label = VMware VM Encryption
+iofilters.disk.vmwarevmcrypt.name.summary = The VMware encryption I/O filter.

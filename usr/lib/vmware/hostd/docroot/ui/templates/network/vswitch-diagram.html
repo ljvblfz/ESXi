@@ -1,0 +1,160 @@
+<div ng-if="data === null" style="height: 120px;
+   background-image: url('images/tiny_loader_transparent_bg.gif');
+   background-position: 50% 50%; background-repeat: no-repeat;
+   text-align: center;">
+   <div style="padding-top: 80px;">{{'network.vswitch.diagram.loading' | translate}}</div>
+</div>
+
+<div ng-hide="data === null" class="esx-networking-viz">
+   <div class="esx-networking-viz-left-portgroups">
+      <div ng-if="!data.portgroup">
+         <div class="esx-networking-viz-left-portgroup">
+            <div class="esx-networking-viz-left-portgroup-header">
+               <div class="esx-networking-viz-left-portgroup-header-content"
+                  title="{{'network.vswitch.diagram.noPortgroups' | translate}}">
+                  {{'network.vswitch.diagram.noPortgroups' | translate}}
+               </div>
+            </div>
+         </div>
+      </div>
+      <div ng-repeat="portgroup in data.portgroup" ng-if="!portgroup.skip">
+         <div class="esx-networking-viz-left-portgroup">
+            <div class="esx-networking-viz-left-portgroup-header">
+               <div class="esx-networking-viz-left-portgroup-header-content">
+                  <em class="esx-icon-networking-medium"></em>
+                  <span ng-if="portgroup.displayName"
+                     title="{{portgroup.displayName}}"
+                     ng-bind="portgroup.displayName"/>
+                  <span ng-if="portgroup.spec.name"
+                     title="{{portgroup.spec.name}}"
+                     ng-bind="portgroup.spec.name"/>
+               </div>
+               <div style="padding: 3px;">
+                  <div style="padding-left: 16px;"
+                     title="{{'network.vswitch.diagram.vlanId' | translate}} {{portgroup.spec.vlanId}}">
+                     {{'network.vswitch.diagram.vlanId' | translate}} {{portgroup.spec.vlanId}}</div>
+                  <div ng-if="portgroup.network && portgroup.network.vm && portgroup.network.vm.length > 0">
+                     <div title="{{'network.vswitch.diagram.virtualMachines' |
+                        translate}} ({{portgroup.network.vm.length}})">
+                        <em ng-click="toggleCollapsed(portgroup, 'vms')"
+                           style="margin: 0px"
+                           ng-class="{'vui-icon-caret-gray-right': portgroup.vmsCollapsed, 'vui-icon-caret-gray-down': !portgroup.vmsCollapsed}"
+                           class="vui-icon-caret-gray-down ng-click-active"></em>{{'network.vswitch.diagram.virtualMachines' |
+                        translate}} ({{portgroup.network.vm.length}})
+                     </div>
+                     <ul class="esx-networking-viz-left-vm-list" ng-if="!portgroup.vmsCollapsed">
+                        <li ng-repeat="vm in portgroup.network.vm track by $index">
+                           <a ng-right-click="showContextMenu('vm', [vm.moid], $event);"
+                              href="#/host/vms/{{vm.moid}}"
+                              title="{{vm.name}}">
+                              <em class="{{vm.iconClass}}"></em>{{vm.name}}
+                           </a>
+                           <ul class="esx-networking-viz-left-vm-port-list">
+                              <li title="{{'network.vswitch.diagram.macAddress' |
+                                 translate}} {{port.mac[0]}}"
+                                 ng-repeat="port in vm.ports">{{'network.vswitch.diagram.macAddress' |
+                                 translate}} {{port.mac[0]}}</li>
+                           </ul>
+                        </li>
+                     </ul>
+                  </div>
+                  <div ng-if="portgroup.vmkPorts && portgroup.vmkPorts.length > 0">
+                     <div title="{{'network.vswitch.diagram.vmKernelPorts' |
+                        translate}} ({{portgroup.vmkPorts.length}})">
+                        <em ng-click="toggleCollapsed(portgroup, 'vmkPorts')" style="margin: 0px"  ng-class="{'vui-icon-caret-gray-right': portgroup.vmkPortsCollapsed, 'vui-icon-caret-gray-down': !portgroup.vmkPortsCollapsed}" class="vui-icon-caret-gray-down ng-click-active"></em>{{'network.vswitch.diagram.vmKernelPorts' |
+                        translate}} ({{portgroup.vmkPorts.length}})
+                     </div>
+                     <ul class="esx-networking-viz-left-vm-list" ng-if="!portgroup.vmkPortsCollapsed">
+                        <li ng-repeat="vmkPort in portgroup.vmkPorts">
+                           <a href="#/host/networking/vmknics/{{vmkPort.moid}}"
+                              title="{{vmkPort.name}}: {{vmkPort.spec.ip.ipAddress}}">
+                              <em class="esx-icon-network-vmknic"></em>
+                              {{vmkPort.name}}: {{vmkPort.spec.ip.ipAddress}}
+                           </a>
+                        </li>
+                     </ul>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div>
+   </div>
+   <div class="esx-networking-viz-center-container">
+      <div class="esx-networking-viz-center">
+         <div class="esx-networking-viz-center-portgroup-container-outer">
+            <div ng-if="!data.portgroup" style="height: 100px;">
+            </div>
+            <div ng-repeat="portgroup in data.portgroup track by $index"
+                 ng-if="!portgroup.skip"
+                 ng-class="{'esx-networking-viz-center-portgroup-block': data.portgroup.length > 1}">
+               <div class="esx-networking-viz-center-portgroup-block-border-horizontal">
+                  <div ng-class="{'esx-networking-viz-center-portgroup-block-border-vertical': $index !== data.portgroup.length - 1}">
+                     <div class="esx-networking-viz-center-portgroup-container"
+                        ng-class="{'esx-networking-viz-center-portgroup-container-vms': portgroup.network && portgroup.network.vm,
+                                   'esx-networking-viz-center-portgroup-container-vmkPorts': portgroup.vmkPorts && portgroup.vmkPorts.length > 0,
+                                   'esx-networking-viz-center-portgroup-container-no-vms': (!portgroup.network || (portgroup.network && !portgroup.network.vm)) && (!portgroup.vmkPorts || (portgroup.vmkPorts && portgroup.vmkPorts.length == 0))}">
+                        <div ng-if="portgroup.network && portgroup.network.vm && !portgroup.vmsCollapsed">
+                           <div ng-repeat="vm in portgroup.network.vm track by $index" class="esx-networking-viz-center-port-container">
+                              <em ng-if="vm.ports.length === 0" ng-class="{'esx-icon-networking-port-connected': vm.state === 'poweredOn', 'esx-icon-networking-port-disconnected': vm.state !== 'poweredOn'}"></em>
+                              <div ng-class="{'esx-networking-viz-center-vm-portgroup': vm.ports.length > 0}">
+                                 <div class="esx-networking-viz-center-port-container" ng-repeat="port in vm.ports">
+                                    <em ng-class="{'esx-icon-networking-port-connected': vm.state === 'poweredOn', 'esx-icon-networking-port-disconnected': vm.state !== 'poweredOn'}"></em>
+                                 </div>
+                              </div>
+                           </div>
+                        </div>
+                        <div ng-if="portgroup.vmkPorts && portgroup.vmkPorts.length > 0 && !portgroup.vmkPortsCollapsed">
+                           <div class="esx-networking-viz-center-portgroup">
+                              <div ng-class="{'esx-networking-viz-center-vmkPort-portgroup': portgroup.vmkPorts.length > 0}">
+                                 <div ng-repeat="vmkPort in portgroup.vmkPorts" class="esx-networking-viz-center-port-container">
+                                    <em ng-class="{'esx-icon-networking-port-connected': vmkPort.spec.ip.ipAddress, 'esx-icon-networking-port-disconnected': !vmkPort.spec.ip.ipAddress}"></em>
+                                 </div>
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+               <div ng-if="$index !== data.portgroup.length - 1" style="height: 20px; background: #DEDEDE;"></div>
+            </div>
+         </div>
+         <div ng-if="data.pnic && data.pnic.length > 0" class="esx-networking-viz-center-vmnic-container-outer">
+            <div class="esx-networking-viz-center-vmnic-container">
+               <div class="esx-networking-viz-center-vmnic-box">
+                  <div ng-repeat="pnic in data.pnic" class="esx-networking-viz-center-pnic">
+                     <div ng-if="!pnic.collapsed" class="esx-networking-viz-center-vmnic-port-container">
+                        <em ng-class="{'esx-icon-networking-port-connected': pnic.linkSpeed, 'esx-icon-networking-port-disconnected': !pnic.linkSpeed}"></em>
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div>
+   </div>
+   <div class="esx-networking-viz-right-container">
+      <div class="esx-networking-viz-right-vmnic-header">
+         <div ng-if="!data.pnic || data.pnic.length == 0" style="padding: 3px;">
+            {{'network.vswitch.diagram.noPhysicalAdapters' | translate}}
+         </div>
+         <div ng-if="data.pnic && data.pnic.length > 0" class="esx-networking-viz-right-vmnic-header-content">
+            <em
+               class="esx-icon-networking-adapter-medium"></em>{{'network.vswitch.diagram.physicalAdapters' | translate}}
+         </div>
+         <div ng-if="data.pnic && data.pnic.length > 0" style="padding: 3px;">
+            <ul style="list-style: none; margin-left: 6px;">
+               <li ng-repeat="pnic in data.pnic">
+                  <em class="esx-icon-networking-adapter"></em>
+                  <a href="#/host/networking/adapters/{{pnic.device}}"
+                     title="{{pnic.device}}">
+                     {{pnic.device}}
+                     <span ng-if="pnic.linkSpeed"
+                        title="{{pnic.linkSpeed.speedMb}} Mbps, {{'network.pnic.duplex.' + pnic.linkSpeed.duplex|translate}}">, {{pnic.linkSpeed.speedMb}} Mbps, {{'network.pnic.duplex.' + pnic.linkSpeed.duplex|translate}}
+                     </span>
+                  </a>
+               </li>
+            </ul>
+         </div>
+      </div>
+   </div>
+</div>
+

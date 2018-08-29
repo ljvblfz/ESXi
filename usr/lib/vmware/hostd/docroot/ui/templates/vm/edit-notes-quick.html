@@ -1,0 +1,46 @@
+<div ng-controller="VMEditNotesQuickController">
+   <div class="vui-action-bar" style="float: right; margin-bottom: 5px;">
+      <ul>
+         <li ng-show="!edit">
+            <a class="action-link-container" ng-click="editNotes()">
+               <span class="vui-icon-placeholder esx-icon-edit"></span>
+               <span class="vui-action-label">{{'vm.notes.edit' | translate}}</span>
+            </a>
+         </li>
+         <li ng-show="edit">
+            <a class="action-link-container" ng-click="cancelEdit()">
+               <span class="vui-icon-placeholder esx-icon-edit-cancel"></span>
+               <span class="vui-action-label">{{'vm.notes.cancel' | translate}}</span>
+            </a>
+         </li>
+         <li ng-show="edit">
+            <a class="action-link-container" ng-click="saveNotes()">
+               <span class="vui-icon-placeholder esx-icon-save-notes"></span>
+               <span class="vui-action-label">{{'vm.notes.save' | translate}}</span>
+            </a>
+         </li>
+      </ul>
+   </div>
+
+   <div ng-if="!edit" ng-bind-html="currentVM.config.annotation | escapeHtml | linebreak"
+      ng-class="{'limit-notes-height': long && !expanded}"
+      style="word-break: break-word;"></div>
+
+   <div ng-if="long && !edit" class="vui-action-bar" style="float: right;">
+      <ul>
+         <li>
+            <a class="action-link-container" ng-click="expandToggle()">
+               <span class="vui-icon-placeholder esx-icon-more-ellipsis"></span>
+               <span class="vui-action-label">{{expandLabel}}</span>
+            </a>
+         </li>
+      </ul>
+   </div>
+
+   <textarea
+      ng-if="edit"
+      ng-model="currentVM.config.annotation"
+      style="float: left; max-width: none; padding: 4px; border-color: #CCC;
+         height: 200px; resize: vertical; word-break: break-word;">
+   </textarea>
+</div>

@@ -1,0 +1,95 @@
+<div ng-controller="PermissionsManageController"
+      class="content-padding manage-permissions-dialog">
+   <div ng-if="!loaded">
+      <div class="permissions-loading" style="position: absolute;
+            top: 31px; left: 0; bottom: 41px; right: 0;
+            z-index: 11;
+            background-position: 50% 50%;
+            background-repeat: no-repeat;
+            background-image: url('images/tiny_loader_transparent_bg.gif');
+            text-align: center;">
+      </div>
+
+      <div style="position: absolute; top: 31px; left: 0; bottom: 41px; right: 0;
+         background-color: #ffffff; z-index: 10; opacity: 0.7;">
+      </div>
+   </div>
+
+   <div ng-show="initLoaded"
+      class="permissions-content">
+
+      <div class="dialog-panel object-panel">
+         <div class="dialog-panel-content">
+            <ul>
+               <li
+                  class="mo-name"
+                  title="{{mo.name}}"
+                  ng-repeat="mo in objects"
+                  ng-class="{selected: mo.moid === selectedMo.moid}"
+                  ng-click="selectMo(mo)">
+                  <i ng-class="icons[moType]"></i>
+                  <a>{{mo.name}}</a>
+               </li>
+            </ul>
+         </div>
+      </div>
+
+      <div class="dialog-panel detail-panel">
+         <div class="dialog-panel-header">
+            <div class="dialog-panel-title">
+               <span ng-show="!showComboBoxes">{{"vm.permissions.manage.header"|translate}}<strong>{{selectedMo.name}}</strong></span>
+               <span ng-show="showAssignRole">{{"vm.permissions.manage.assignRole.header"|translate}}<strong>{{selectedUser}}</strong></span>
+               <span ng-show="showAddUser">{{"vm.permissions.manage.addUser.header"|translate}}<strong>{{selectedMo.name}}</strong></span>
+            </div>
+         </div>
+         <div class="dialog-panel-content">
+            <div ng-show="showComboBoxes" class="combo-boxes">
+               <div class="form-section">
+                  <div ng-show="showAddUser" vui-combo-box="usersComboBoxOptions"></div>
+                  <div vui-combo-box="rolesComboBoxOptions"></div>
+               </div>
+               <div class="form-section">
+                  <label style="font-weight: normal;">
+                     <input type="checkbox" ng-model="propagate"/>
+                     {{"vm.permissions.manage.propagateLabel"|translate}}
+                  </label>
+                  <label style="font-weight: normal; margin-left: 10px;">
+                     <input type="checkbox" id="isGroup" ng-value="true" ng-model="isGroup"/>
+                     {{"vm.permissions.manage.groupLabel"|translate}}
+                  </label>
+               </div>
+               <div class="form-section">
+               </div>
+               <div class="form-section">
+                  <permissions-select disabled="true" style="width: 100%; height: 290px;" permissions="selectedRolePermissions"></permissions-select>
+               </div>
+            </div>
+            <div ng-hide="showComboBoxes" id="{{permissionsGrid.id}}" vui-datagrid="permissionsGrid"></div>
+         </div>
+         <div class="dialog-panel-footer"
+            ng-show="showComboBoxes || showAddUser || showAssignRole">
+            <div class="form-submit">
+               <button
+                  ng-show="showComboBoxes"
+                  ng-click="resetComboBoxes()">
+                     {{"vm.permissions.manage.cancel" | translate}}
+               </button>
+
+               <button
+                  ng-show="showAddUser"
+                  ng-click="addUser()"
+                  ng-disabled="!rolesComboBoxOptions.valid">
+                     {{"vm.permissions.manage.addUser.label" | translate}}
+               </button>
+
+               <button
+                  ng-show="showAssignRole"
+                  ng-click="assignRole()"
+                  ng-disabled="!rolesComboBoxOptions.valid">
+                  {{"vm.permissions.manage.assignRole.label" | translate}}
+               </button>
+            </div>
+         </div>
+      </div>
+   </div>
+</div>

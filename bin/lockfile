@@ -1,0 +1,125 @@
+#!/usr/bin/env python
+
+# a lockfile-like program for ESXi
+
+import sys
+import os
+from optparse import OptionParser
+import getopt
+import signal
+import time
+import logging
+
+lockfile = ""
+
+logger = logging.getLogger('lockfile')
+logging.basicConfig()
+
+# "unlock", i.e. hard delete the file so it is granted on the next
+# retry loop
+def alarmHandler(signum, frame):
+    logger.debug("unlink timeout")
+    try:
+        print('Forcing lock on "%s"' % lockfile)
+        os.unlink(lockfile)
+    except OSError:
+        print("Failed to unlink")
+        sys.exit(1)
+
+
+def main(argv=None):
+
+    global lockfile
+
+    if argv is None:
+        argv = sys.argv
+
+    usage = "usage: lockfile [-sleep] [-d] [-r retries] [-l timeout] file"
+
+    parser = OptionParser(version="1", usage=usage)
+    parser.add_option('-r', dest='retries', action="store", type="int", default=-1,
+                      help="Retries")
+    parser.add_option('-l', dest='timeout', action="store", type="int", default=0,
+                      help="Timeout")
+    parser.add_option('-d', dest='debug', action="store_true", default=False,
+                      help="debugging")
+
+    # weird syntax; sleep comes straight after a '-' optparse can't
+    # handle this, so for simplicity we force it as the first
+    # argument.  If it appears anywhere else it will give an error.
+    # Default sleep time is 8 according to man pages
+    sleep = 8
+    try:
+        if argv[1].startswith('-') and not \
+                argv[1].startswith(('-r', '-l', '-d')):
+            try:
+                sleep = int(argv[1][1:])
+                del(argv[1])
+            except ValueError:
+                print("Invalid sleep timeout")
+                parser.error("Invalid sleep timeout")
+    except IndexError:
+        pass
+
+    (options, args) = parser.parse_args(args=argv)
+
+    if options.debug:
+        logger.setLevel(logging.DEBUG)
+
+    if options.retries < -1:
+        print("Retries must be >= -1")
+        sys.exit(1)
+
+    if options.timeout < 0:
+        print("Timeout must be > 0")
+        sys.exit(1)
+
+    if len(args) != 2:
+        if len(args) == 1:
+                print("Must specify lockfile")
+        else:
+            print("Only one lockfile supported")
+        sys.exit(1)
+    else:
+        lockfile = args[1]
+
+    if options.timeout != 0:
+        signal.signal(signal.SIGALRM, alarmHandler)
+        signal.alarm(options.timeout)
+
+    logger.debug("sleep:%d retries:%d timeout:%d", sleep,
+                 options.retries, options.timeout)
+
+    i = 0
+    while True:
+
+        parentPID = str(os.getppid())
+        try:
+            fd = os.open(lockfile, os.O_CREAT | os.O_RDWR | os.O_EXCL, 0o666)
+            try:
+                with os.fdopen(fd, "w") as f:
+                    f.write(parentPID)
+            except:
+                os.close(fd)
+                raise
+        except OSError:
+            i += 1
+            logger.debug("lock failed, retry %d" % i)
+            if (options.retries != -1) and (i > options.retries):
+                break
+        else:
+            logger.debug("lock granted")
+            sys.exit(0)
+
+        time.sleep(sleep)
+
+    print("lockfile: Sorry, giving up on \"%s\"" % lockfile)
+    sys.exit(1)
+
+
+
+if __name__ == '__main__':
+    try:
+        sys.exit(main(sys.argv))
+    except KeyboardInterrupt:
+        pass

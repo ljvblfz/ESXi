@@ -1,0 +1,82 @@
+<div ng-class="{'esx-main-content': !nested}">
+   <div ng-show="!loaded" class="loading">
+   </div>
+
+   <div ng-if="loaded && !nested" vui-action-bar="netstackActionBarOptions" style="margin-bottom: 20px;"></div>
+
+   <div ng-show="loaded" class="row header-area no-margin">
+      <div class="col-sm-12 col-lg-12 info-block no-padding">
+         <div class="col-sm-2 col-lg-1 no-padding" style="margin-right: 10px;">
+            <img src="images/network/netstack72.png" style="margin: -16px 0 0 20px;" alt="{{'network.netstack.alt' | translate}}"/>
+         </div>
+         <div class="key-information col-sm-9 col-lg-10">
+            <div class="row">
+               <div class="col-sm-9 title no-padding">
+                  <span class="object-title" ng-bind="currentNetstack.displayName"></span>
+               </div>
+            </div>
+            <form class="form-horizontal">
+               <div class="form-group">
+                  <span
+                     class="col-sm-3 col-lg-2 control-label esx-label no-padding">{{'network.netstack.summary.key' | translate}}</span>
+                  <div class="col-sm-6 col-lg-8 no-padding">
+                     <p class="form-control-static">{{currentNetstack.key}}</p>
+                  </div>
+               </div>
+            </form>
+         </div>
+      </div>
+   </div>
+
+   <div ng-if="!nested" ng-show="currentNetstack" class="portlet-area container-fluid no-padding"i style="margin: 10px;">
+      <div class="row">
+         <div class="col-lg-5 col-sm-12" style="margin-top: 10px;">
+
+            <div class="vui-portlet no-margin" ng-class="{'collapsed': detailsPortlet.collapsed}">
+               <div class="portlet-titlebar" ng-click="detailsPortlet.toggle()">
+                  <span class="icon" ng-class="{
+                     'vui-icon-caret-dark-gray-right': detailsPortlet.collapsed,
+                     'vui-icon-caret-dark-gray-down': !detailsPortlet.collapsed}"></span>
+                  <span class="titlebar-text"
+                     title="{{'network.netstack.summary.configuration' | translate}}">
+                     {{'network.netstack.summary.configuration' | translate}}</span>
+               </div>
+               <div class="portlet-content">
+                  <div loading-message="detailsPortletLoadingMessage" esx-portlet-content data="detailsPortlet.data"></div>
+               </div>
+            </div>
+
+            <div ng-if="dnsPortlet !== null" class="vui-portlet no-margin" ng-class="{'collapsed': dnsPortlet.collapsed}">
+               <div class="portlet-titlebar" ng-click="dnsPortlet.toggle()">
+                  <span class="icon" ng-class="{
+                     'vui-icon-caret-dark-gray-right': dnsPortlet.collapsed,
+                     'vui-icon-caret-dark-gray-down': !dnsPortlet.collapsed}"></span>
+                  <span class="titlebar-text"
+                     title="{{'network.netstack.summary.dnsConfiguration' | translate}}">
+                     {{'network.netstack.summary.dnsConfiguration' | translate}}</span>
+               </div>
+               <div class="portlet-content" style="overflow:hidden">
+                  <div loading-message="dnsPortletLoadingMessage" esx-portlet-content data="dnsPortlet.data"></div>
+               </div>
+            </div>
+         </div>
+
+         <div class="col-lg-7 col-sm-12" style="margin-top: 10px;">
+            <div ng-if="routingPortlet !== null" class="vui-portlet no-margin" ng-class="{'collapsed': routingPortlet.collapsed}">
+               <div class="portlet-titlebar" ng-click="routingPortlet.toggle()">
+                  <span class="icon" ng-class="{
+                     'vui-icon-caret-dark-gray-right': routingPortlet.collapsed,
+                     'vui-icon-caret-dark-gray-down': !routingPortlet.collapsed}"></span>
+                  <span class="titlebar-text"
+                     title="{{'network.netstack.summary.routing' | translate}}">
+                     {{'network.netstack.summary.routing' | translate}}</span>
+               </div>
+               <div class="portlet-content">
+                  <div esx-portlet-content loading-message="routingPortletLoadingMessage" data="routingPortlet.data"></div>
+               </div>
+            </div>
+         </div>
+
+      </div>
+   </div>
+</div>

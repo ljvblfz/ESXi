@@ -1,0 +1,116 @@
+<div class="loginContainer">
+   <img id="topSplash"
+      src="images/AppBgPattern.png"
+      alt="{{'root.backgroundImage' |translate}}" />
+
+   <div style="position: absolute; top: 65px; left: 65px;">
+      <img src="images/vmware_logo_white_transparent.png"
+         style="width: 60%;" />
+   </div>
+
+   <form name="loginForm"
+      ng-submit="login(credentials)" novalidate>
+
+      <div id="loginForm">
+
+         <p class="loginRow" ng-show="devmode || electron">
+            <label id="host-label"
+               class="loginLabel">{{'login.host'|translate}}
+               <input id="hostname"
+                  autocomplete="off"
+                  aria-labelledby="host-label"
+                  tabindex="1"
+                  ng-disabled="loggingIn"
+                  ng-class="{loginFailed: loginFailed}"
+                  class="margeTextInput"
+                  type="text"
+                  ng-model="credentials.hostname"
+                  ng-model-options="{
+                     updateOn: 'blur'
+                  }"/>
+            </label>
+         </p>
+
+         <p class="loginRow">
+            <label id="username-label"
+               class="loginLabel">{{'login.username'|translate}}
+               <input id="username"
+                  aria-labelledby="username-label"
+                  tabindex="2"
+                  focus-me="true"
+                  ng-disabled="loggingIn"
+                  ng-class="{loginFailed: loginFailed}"
+                  class="margeTextInput"
+                  type="text"
+                  ng-model="credentials.username" />
+            </label>
+         </p>
+
+         <p class="loginRow">
+            <label id="password-label"
+               class="loginLabel">{{'login.password'|translate}}
+               <input id="password"
+                  autocomplete="off"
+                  aria-labelledby="password-label"
+                  tabindex="4"
+                  ng-disabled="loggingIn"
+                  ng-class="{loginFailed: loginFailed}"
+                  class="margeTextInput"
+                  type="password"
+                  ng-model="credentials.password" />
+            </label>
+         </p>
+
+         <p>&nbsp;</p>
+
+         <p id="loginButtonRow">
+            <input id="submit"
+               class="button blue"
+               type="submit"
+               value="{{'root.logIn' | translate}}"
+               ng-disabled="credentials.username === '' ||
+                  loggingIn"/>
+         </p>
+      </div>
+
+      <div id="productName">
+         <img src="images/vmware_logo_white_transparent.png"
+            style="width: 120px; margin-right: 10px;" />
+            <img src="images/esxi.png" style="margin-bottom: 2px; width: 60px;" />
+
+         <div ng-if="loggingIn">
+            <img src="images/Marge-anim-progressbar.gif"
+               alt="{{'root.progressBar' |translate}}"/>
+         </div>
+
+         <div ng-if="status !== null"
+            ng-bind-html="status | escapeHtml | linebreak"
+            class="loginStatus"
+            ng-class="{loginFailed: loginFailed || termsNotAccepted}"></div>
+
+         <div ng-show="welcome !== null && !loggingIn && !initializing"
+            ng-style="{'margin-top': status === null ? '29px' : '10px'}"
+            class="loginWelcome">
+            <div ng-bind-html="welcome | escapeHtml | linebreak"></div>
+            <div ng-show="accept !== null" style="margin: 10px; text-align: right;">
+               <label>
+                  <input
+                     type="checkbox"
+                     tabindex="3"
+                     ng-model="accepted"
+                     style="margin: 0 5px 0 0;"/>{{accept}}
+               </label>
+            </div>
+         </div>
+      </div>
+
+   </form>
+
+   <div id="footer" class="footer">
+      <a href="https://www.vmware.com/{{'links.language' | translate}}/support/pubs/" target="_blank">
+         <i class="esx-icon-help-new-window"
+            style="margin-top: -3px; margin-right: 6px;"></i>{{'general.openDocumentation' | translate}}</a>
+      <div style="float: right;">{{hostInfo}}</div>
+   </div>
+
+</div>

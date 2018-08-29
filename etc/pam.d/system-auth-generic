@@ -1,0 +1,11 @@
+#%PAM-1.0
+
+auth       sufficient   /lib/security/$ISA/pam_unix.so try_first_pass likeauth nullok
+auth       required     /lib/security/$ISA/pam_deny.so
+
+account    sufficient   /lib/security/$ISA/pam_unix.so
+account    required     /lib/security/$ISA/pam_deny.so
+
+session    sufficient   /lib/security/$ISA/pam_unix.so
+session    required     /lib/security/$ISA/pam_deny.so
+

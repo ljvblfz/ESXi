@@ -1,0 +1,10 @@
+<select ng-multiple="data.multiple"
+   data-ng-attr-size="{{data.size}}"
+   class="form-control"
+   ng-model="data.selectedValue">
+   <option ng-repeat="item in data.options"
+      style="overflow: hidden; text-overflow: ellipsis;"
+      ng-selected="{{item.value === data.selectedValue}}"
+      value="{{item.value}}"
+      title="{{item.label}}">{{item.label}}</option>
+</select>

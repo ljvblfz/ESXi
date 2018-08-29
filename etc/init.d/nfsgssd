@@ -1,0 +1,141 @@
+#!/bin/sh
+# chkconfig: off 18 82
+
+# variables
+export PATH=/bin:/sbin
+
+GSSD=/usr/lib/vmware/nfs/bin/nfsgssd
+GSSD_TAG=nfsgssd
+GSSD_RP="host/vim/vmvisor/${GSSD_TAG}"
+#Amount of MB to be reserved for nfsgssd
+GSSD_MEM_RES="${GSSD_RP} 35"
+# Watchdog will daemonize the process. The process does not have
+# to daemonize itself when run with watchdog. Set "-f" arg.
+GSSD_PARAM="${GSSD_PARAM} -f -a"
+GSSD_KILL_SIGNAL=15
+#Watchdog will give up if nfsgssd fails GSSD_MAX_QUICK_FAILURES successively
+# with less than 60 seconds of uptime
+GSSD_MAX_QUICK_FAILURES=128
+#Watchdog will give up if nfsgssd fails GSSD_MAX_TOTAL_FAILURES for its
+# entire lifetime after a boot.
+GSSD_MAX_TOTAL_FAILURES=65536
+GSSD_CACHE_DIR="/tmp/nfsgssd_krb5cc/"
+# Use a lock file to avoid race during startup
+GSSD_INIT_LOCK="/var/run/nfsgssd-init.lock"
+# exit values
+EXIT_SUCCESS=0
+EXIT_ERROR=1
+EXIT_RUNNING=2
+EXIT_NOT_RUNNING=3
+
+lock() {
+   /bin/esxcfg-init -L $$ ${GSSD_INIT_LOCK}
+   if [ $? -ne 0 ]; then
+      exit $EXIT_ERROR
+   fi
+}
+
+unlock() {
+   /bin/esxcfg-init -U $$ ${GSSD_INIT_LOCK}
+}
+
+start() {
+
+   mkdir -p ${GSSD_CACHE_DIR} > /dev/null
+   if [ $? -ne 0 ]; then
+      echo "Failed to create cache dir ${GSSD_CACHE_DIR}"
+      exit $EXIT_ERROR
+   fi
+
+   lock
+   if [ -z "$(pidof -xs ${GSSD})" ] ; then
+      /usr/lib/vmware/rp/bin/configRP setRPMemMaxSize ${GSSD_MEM_RES}
+
+      if [ $? -ne 0 ]; then
+         echo "Failed to set ${GSSD_TAG} memory reservation."
+         unlock
+         exit $EXIT_ERROR
+      fi
+
+      /sbin/watchdog.sh ++memreliable,group=${GSSD_RP} -q "${GSSD_MAX_QUICK_FAILURES}" \
+         -t "${GSSD_MAX_TOTAL_FAILURES}" -d -s "${GSSD_TAG}" "${GSSD}" \
+         "${GSSD_PARAM}" >/dev/null 2>&1
+
+      if [ $? -ne 0 ]; then
+         echo "Failed to start ${GSSD_TAG}"
+         sleep .5
+         /usr/lib/vmware/rp/bin/configRP setRPMemMaxSize ${GSSD_RP} 0
+         if [ $? -ne 0 ]; then
+            echo "Failed to clear ${GSSD_TAG} memory reservation."
+            # don't fail the command - stop can now be called idempotently.
+         fi
+      else
+         echo "${GSSD_TAG} started"
+      fi
+
+   else
+      echo "${GSSD_TAG} already running"
+      unlock
+      exit $EXIT_RUNNING
+   fi
+
+   unlock
+}
+
+stop() {
+   if [ -n "$(pidof -xs ${GSSD})" ] ; then
+      # This only stops the watchdog process.
+      /sbin/watchdog.sh -k "${GSSD_TAG}"
+      GSSD_PID="$(pidof -s ${GSSD})"
+      if [ -n "${GSSD_PID}" ]; then
+          kill -15 ${GSSD_PID}
+          echo "Waiting for process to terminate..."
+          while [ -n "$(pidof -xs ${GSSD})" ] ; do
+             sleep 1
+          done
+          echo "${GSSD_TAG} stopped"
+      fi
+   else
+      echo "${GSSD_TAG} is not running"
+      exit $EXIT_NOT_RUNNING
+   fi
+
+   # Remove reservation
+   sleep .5
+   /usr/lib/vmware/rp/bin/configRP setRPMemMaxSize ${GSSD_RP} 0
+
+   if [ $? -ne 0 ]; then
+      echo "Failed to clear ${GSSD_TAG} memory reservation."
+      # don't fail the command - stop can now be called idempotently.
+   fi
+}
+
+#
+# main
+#
+case "${1}" in
+   "start")
+      start
+   ;;
+   "stop")
+      stop
+   ;;
+   "status")
+      if [ -n "$(pidof -xs ${GSSD})" ] ; then
+         echo "${GSSD_TAG} is running"
+         exit $EXIT_SUCCESS
+      else
+         echo "${GSSD_TAG} is not running"
+         exit $EXIT_NOT_RUNNING
+      fi
+   ;;
+   "restart")
+      stop
+      start
+   ;;
+   *)
+      echo "Usage: $(basename ${0}) {start|stop|status|restart}"
+      exit $EXIT_ERROR
+   ;;
+esac
+

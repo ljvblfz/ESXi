@@ -1,0 +1,114 @@
+<!-- Video Card -->
+<div vui-stack-block="hardwareStackView.videoBlock">
+   <span vui-sb-icon-class="icon-stackview-video" vui-sb-label>{{'vm.wizard.hardware.virtualhardware.video.label' | translate}}</span>
+   <!-- content collapsed-->
+   <div vui-sb-content>
+      <label class="label-508" title="{{'vm.wizard.hardware.virtualhardware.video.label' | translate}}">
+         <div class="inline stack-dropdown" vui-dropdown="video.Settings"></div>
+      </label>
+   </div>
+   <!-- content expanded -->
+   <div vui-sb-content-expanded>
+      <label class="label-508" title="{{'vm.wizard.hardware.virtualhardware.video.label' | translate}}">
+         <div class="inline stack-dropdown" vui-dropdown="video.Settings"></div>
+      </label>
+   </div>
+   <!-- children -->
+   <div vui-stack-block>
+      <!-- Label -->
+      <span vui-sb-label>{{'vm.wizard.hardware.virtualhardware.video.display' | translate}}</span>
+      <!-- content -->
+      <div vui-sb-content>
+         <label class="label-508" title="{{'vm.wizard.hardware.virtualhardware.video.display' | translate}}">
+            <div class="inline stack-dropdown" vui-dropdown="video.NumDisplays"></div>
+         </label>
+      </div>
+   </div>
+
+   <div vui-stack-block>
+      <!-- Label -->
+      <span vui-sb-label>
+         {{'vm.wizard.hardware.virtualhardware.video.memory.label' | translate}}</span>
+
+      <!-- content -->
+      <div vui-sb-content>
+         <label
+            class="label-508"
+            title="{{'vm.wizard.hardware.virtualhardware.video.memory.label' | translate}}">
+            <input
+               class="inline stack-input"
+               min="4"
+               ng-class="{
+                  invalid: video.RAMInvalid
+               }"
+               ng-disabled="wizardOptions.data.general.state !== 'poweredOff'"
+               ng-model-options="{
+                  updateOn: 'blur'
+               }"
+               ng-model="wizardOptions.data.video.RAM"
+               title=""
+               to-number
+               type="text"/>
+            {{'vm.wizard.hardware.virtualhardware.video.memory.unit' | translate}}</label>
+      </div>
+   </div>
+
+   <div vui-stack-block>
+      <!-- Label -->
+      <span vui-sb-label>{{'vm.wizard.hardware.virtualhardware.video.3d.graphics.label' | translate}}</span>
+      <!-- content -->
+      <div vui-sb-content>
+         <label ng-class="{'label-disabled': !wizardOptions.data.video.Enable3DSupported || (wizardOptions.data.general.state !== 'poweredOff')}" title="{{'vm.wizard.hardware.virtualhardware.video.3d.graphics.label' | translate}}">
+            <input ng-disabled="!(wizardOptions.data.video.Enable3DSupported && wizardOptions.data.general.state === 'poweredOff')" ng-model="wizardOptions.data.video.Enable3DSupport" type="checkbox"/>
+            {{'vm.wizard.hardware.virtualhardware.video.3d.graphics.desc' | translate}}
+         </label>
+      </div>
+   </div>
+
+   <div ng-if="wizardOptions.data.video.Renderer3DSupported" vui-stack-block>
+      <!-- Label -->
+      <span vui-sb-label>
+         {{'vm.wizard.hardware.virtualhardware.video.3d.renderer.label' | translate}}</span>
+
+      <!-- content -->
+      <div vui-sb-content>
+         <label
+            class="label-508"
+            title="{{'vm.wizard.hardware.virtualhardware.video.3d.renderer.label' | translate}}">
+            <div
+               class="inline stack-dropdown"
+               vui-dropdown="video.Renderer3D"></div>
+         </label>
+      </div>
+   </div>
+
+   <div ng-show="wizardOptions.data.video.GraphicsMemorySupported" vui-stack-block>
+      <!-- Label -->
+      <span vui-sb-label>
+         {{'vm.wizard.hardware.virtualhardware.video.3d.memory.label' | translate}}</span>
+
+      <!-- content -->
+      <div vui-sb-content>
+         <label
+            class="label-508"
+            title="{{'vm.wizard.hardware.virtualhardware.video.3d.renderer.label' | translate}}">
+            <input
+               class="inline stack-input"
+               min="{{wizardOptions.data.video.GraphicsMemoryMin}}"
+               ng-class="{
+                  invalid: video.GraphicsMemoryInvalid
+               }"
+               ng-disabled="!(wizardOptions.data.video.GraphicsMemorySupported &&
+                  wizardOptions.data.general.state === 'poweredOff')"
+               ng-model-options="{
+                  updateOn: 'blur'
+               }"
+               ng-model="wizardOptions.data.video.GraphicsMemory"
+               title=""
+               to-number
+               type="text"/>
+            {{'vm.wizard.hardware.virtualhardware.video.memory.unit' | translate}}</label>
+      </div>
+   </div>
+</div>
+

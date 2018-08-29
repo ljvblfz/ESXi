@@ -1,0 +1,153 @@
+# en_US resources
+signature="sIgNaTuRe"
+
+# vSphere Replication enums
+hbr.primary.ReasonForDeltaAbort.fileTransfer.label                = "ファイル転送に失敗しました"
+hbr.primary.ReasonForDeltaAbort.fileTransfer.summary              = "構成ファイルは転送できませんでした。"
+hbr.primary.ReasonForDeltaAbort.filter.label                      = "フィルタに失敗しました"
+hbr.primary.ReasonForDeltaAbort.filter.summary                    = "vSphere Replication のフィルタ操作に失敗しました。"
+hbr.primary.ReasonForDeltaAbort.quiesceApps.label                 = "アプリケーションの静止に失敗しました"
+hbr.primary.ReasonForDeltaAbort.quiesceApps.summary               = "アプリケーションの静止がゲストで失敗しました。"
+hbr.primary.ReasonForDeltaAbort.quiesceFS.label                   = "ファイル システムの静止に失敗しました"
+hbr.primary.ReasonForDeltaAbort.quiesceFS.summary                 = "ファイル システムの静止がゲストで失敗しました。"
+hbr.primary.ReasonForDeltaAbort.paused.label                      = "ユーザーによる一時停止"
+hbr.primary.ReasonForDeltaAbort.paused.summary                    = "ユーザーがレプリケーションを一時停止しました。"
+hbr.primary.ReasonForDeltaAbort.offline.label                     = "仮想マシンがパワーオフされました"
+hbr.primary.ReasonForDeltaAbort.offline.summary                   = "仮想マシンがパワーオフされています。"
+hbr.primary.ReasonForDeltaAbort.diskNeedsSync.label               = "ディスクの同期が必要"
+hbr.primary.ReasonForDeltaAbort.diskNeedsSync.summary             = "ディスクの完全な再同期が必要です。"
+hbr.primary.ReasonForDeltaAbort.userAbort.label                   = "ユーザーによる中止"
+hbr.primary.ReasonForDeltaAbort.userAbort.summary                 = "ユーザーがレプリケーションを中止しました。"
+hbr.primary.ReasonForDeltaAbort.quiesceUncommitted.label          = "不完全な静止"
+hbr.primary.ReasonForDeltaAbort.quiesceUncommitted.summary        = "静止操作は完了できませんでした。"
+hbr.primary.ReasonForDeltaAbort.configurationChanged.label        = "設定が変更されました"
+hbr.primary.ReasonForDeltaAbort.configurationChanged.summary      = "仮想マシンの設定がレプリケーション中に変更されました。"
+hbr.primary.ReasonForDeltaAbort.serverAborted.label               = "サーバによって中止されました。"
+hbr.primary.ReasonForDeltaAbort.serverAborted.summary             = "VR サーバによってインスタンスが中止されました。"
+hbr.primary.ReasonForDeltaAbort.diskSetMismatch.label             = "ディスク セットの不一致"
+hbr.primary.ReasonForDeltaAbort.diskSetMismatch.summary           = "VR サーバで設定されたディスクのセットは、複製されたディスクと一致しません。"
+#
+hbr.primary.ReasonForNoServerConnection.noNetwork.label           = "ネットワーク"
+hbr.primary.ReasonForNoServerConnection.noNetwork.summary         = "ネットワークがありません。"
+hbr.primary.ReasonForNoServerConnection.notResponding.label       = "応答なし"
+hbr.primary.ReasonForNoServerConnection.notResponding.summary     = "VR サーバが応答していません。"
+hbr.primary.ReasonForNoServerConnection.protocolMismatch.label    = "プロトコルの不一致"
+hbr.primary.ReasonForNoServerConnection.protocolMismatch.summary  = "互換性のないバージョンの VR サーバです。"
+hbr.primary.ReasonForNoServerConnection.noMemory.label            = "メモリなし"
+hbr.primary.ReasonForNoServerConnection.noMemory.summary          = "カーネル モジュール用のメモリがありません"
+hbr.primary.ReasonForNoServerConnection.diskSizeMismatch.label    = "ディスク サイズの不一致"
+hbr.primary.ReasonForNoServerConnection.diskSizeMismatch.summary  = "プライマリ仮想マシンと VR サーバ間でディスク サイズが一致しません"
+hbr.primary.ReasonForNoServerConnection.unknown.label             = "不明"
+hbr.primary.ReasonForNoServerConnection.unknown.summary           = "不明。"
+#
+hbr.primary.ReasonForNoServerProgress.noGroupOnServer.label       = "仮想マシンがサーバ上に設定されていません"
+hbr.primary.ReasonForNoServerProgress.noGroupOnServer.summary     = "この仮想マシンは VR サーバで設定されていません。"
+hbr.primary.ReasonForNoServerProgress.diskSetMismatch.label       = "ディスク セットの不一致"
+hbr.primary.ReasonForNoServerProgress.diskSetMismatch.summary     = "複製されたディスクのセットとサーバで設定されたディスクのセットが一致しません。"
+hbr.primary.ReasonForNoServerProgress.unknown.label               = "不明"
+hbr.primary.ReasonForNoServerProgress.unknown.summary             = "不明。"
+#
+hbr.primary.ReasonForPausedReplication.diskAdded.label            = "ディスクが仮想マシンに追加されました"
+hbr.primary.ReasonForPausedReplication.diskAdded.summary          = "ディスクが仮想マシンに追加されました。"
+#
+hbr.primary.ReasonForAppQuiesceFailure.diskUUIDNotEnabled.label   = "ディスク UUID が有効ではありません"
+hbr.primary.ReasonForAppQuiesceFailure.diskUUIDNotEnabled.summary = "仮想マシン設定のディスク UUID が有効ではありません。"
+hbr.primary.ReasonForAppQuiesceFailure.hasIDEDisks.label          = "仮想マシンに IDE ディスクまたは SATA ディスクがあります"
+hbr.primary.ReasonForAppQuiesceFailure.hasIDEDisks.summary        = "IDE ディスクまたは SATA ディスクが存在する仮想マシンでは、アプリケーションの静止はサポートされていません。"
+hbr.primary.ReasonForAppQuiesceFailure.hasIndependentDisks.label  = "仮想マシンに独立型のディスクがあります"
+hbr.primary.ReasonForAppQuiesceFailure.hasIndependentDisks.summary = "独立型のディスクが存在する仮想マシンでは、アプリケーションの静止はサポートされていません。"
+hbr.primary.ReasonForAppQuiesceFailure.notEnoughFreeSlots.label   = "SCSI の空きスロットが不足しています"
+hbr.primary.ReasonForAppQuiesceFailure.notEnoughFreeSlots.summary = "仮想マシンには、アプリケーションの静止を実行するために必要な SCSI の空きスロットがありません。"
+hbr.primary.ReasonForAppQuiesceFailure.guestConfigIssue.label     = "動的ディスクなどのサポートされていないゲスト設定"
+hbr.primary.ReasonForAppQuiesceFailure.guestConfigIssue.summary   = "動的ディスクなどの一部のゲスト設定では、アプリケーションの静止はサポートされていません。"
+# vSphere replication enums end here
+
+# guest operation enums
+com.vmware.vc.guestOp.ValidateCredentialsInGuest.label = "認証情報の検証"
+com.vmware.vc.guestOp.ValidateCredentialsInGuest.summary = "ゲスト OS のユーザー認証情報を検証します。"
+#
+com.vmware.vc.guestOp.AcquireCredentialsInGuest.label = "認証情報の取得 "
+com.vmware.vc.guestOp.AcquireCredentialsInGuest.summary = "ゲスト OS のユーザー認証情報を取得します。"
+#
+com.vmware.vc.guestOp.ReleaseCredentialsInGuest.label = "認証情報の解放 "
+com.vmware.vc.guestOp.ReleaseCredentialsInGuest.summary = "ゲスト OS のユーザー認証情報を解放します。"
+#
+com.vmware.vc.guestOp.StartProgramInGuest.label = "プログラムの起動"
+com.vmware.vc.guestOp.StartProgramInGuest.summary = "ゲスト OS のプログラムを起動します。"
+#
+com.vmware.vc.guestOp.ListProcessesInGuest.label = "プロセスのリスト表示"
+com.vmware.vc.guestOp.ListProcessesInGuest.summary = "ゲスト OS のプロセスをリスト表示します。"
+#
+com.vmware.vc.guestOp.TerminateProcessInGuest.label = "プロセスの終了"
+com.vmware.vc.guestOp.TerminateProcessInGuest.summary = "ゲスト OS のプロセスを終了します。"
+#
+com.vmware.vc.guestOp.ReadEnvironmentVariableInGuest.label = "環境変数の読み取り。"
+com.vmware.vc.guestOp.ReadEnvironmentVariableInGuest.summary = "ゲスト OS の環境変数を読み取ります。"
+#
+com.vmware.vc.guestOp.MakeDirectoryInGuest.label = "ディレクトリの作成"
+com.vmware.vc.guestOp.MakeDirectoryInGuest.summary = "ゲスト OS のディレクトリを作成します。"
+#
+com.vmware.vc.guestOp.DeleteFileInGuest.label = "ファイルの削除"
+com.vmware.vc.guestOp.DeleteFileInGuest.summary = "ゲスト OS のファイルを削除します。"
+#
+com.vmware.vc.guestOp.DeleteDirectoryInGuest.label = "ディレクトリの削除"
+com.vmware.vc.guestOp.DeleteDirectoryInGuest.summary = "ゲスト OS のディレクトリを削除します。"
+#
+com.vmware.vc.guestOp.MoveDirectoryInGuest.label = "ディレクトリの移動"
+com.vmware.vc.guestOp.MoveDirectoryInGuest.summary = "ゲスト OS のディレクトリを移動します。"
+#
+com.vmware.vc.guestOp.MoveFileInGuest.label = "ファイルの移動"
+com.vmware.vc.guestOp.MoveFileInGuest.summary = "ゲスト OS のファイルを移動します。"
+#
+com.vmware.vc.guestOp.CreateTemporaryFileInGuest.label = "一時ファイルの作成"
+com.vmware.vc.guestOp.CreateTemporaryFileInGuest.summary = "ゲスト OS の一時ファイルを作成します。"
+#
+com.vmware.vc.guestOp.CreateTemporaryDirectoryInGuest.label = "一時ディレクトリの作成"
+com.vmware.vc.guestOp.CreateTemporaryDirectoryInGuest.summary = "ゲスト OS の一時ディレクトリを作成します。"
+#
+com.vmware.vc.guestOp.ListFilesInGuest.label = "ファイルのリスト表示"
+com.vmware.vc.guestOp.ListFilesInGuest.summary = "ゲスト OS のファイルをリスト表示します。"
+#
+com.vmware.vc.guestOp.ChangeFileAttributesInGuest.label = "ファイル属性の変更"
+com.vmware.vc.guestOp.ChangeFileAttributesInGuest.summary = "ゲスト OS のファイルの属性を変更します。"
+#
+com.vmware.vc.guestOp.InitiateFileTransferFromGuest.label = "ゲストからのファイル転送を開始"
+com.vmware.vc.guestOp.InitiateFileTransferFromGuest.summary = "ゲスト OS からのファイル転送を開始します。"
+#
+com.vmware.vc.guestOp.InitiateFileTransferToGuest.label = "ゲストへのファイル転送を開始"
+com.vmware.vc.guestOp.InitiateFileTransferToGuest.summary = "ゲスト OS へのファイル転送を開始します。"
+#
+com.vmware.vc.guestOp.AddAlias.label = "エイリアスの追加"
+com.vmware.vc.guestOp.AddAlias.summary = "認証エイリアスをゲスト OS に追加します。"
+#
+com.vmware.vc.guestOp.RemoveAlias.label = "エイリアスの削除"
+com.vmware.vc.guestOp.RemoveAlias.summary = "認証エイリアスをゲスト OS から削除します。"
+#
+com.vmware.vc.guestOp.RemoveAliasByCert.label = "証明書ごとのエイリアスの削除"
+com.vmware.vc.guestOp.RemoveAliasByCert.summary = "証明書に関連付けられたすべての認証エイリアスをゲスト OS から削除します。"
+#
+com.vmware.vc.guestOp.ListGuestAliases.label = "エイリアスの表示"
+com.vmware.vc.guestOp.ListGuestAliases.summary = "ゲスト OS の認証エイリアスを表示します。"
+#
+com.vmware.vc.guestOp.ListGuestMappedAliases.label = "マッピングされたエイリアスの表示"
+com.vmware.vc.guestOp.ListGuestMappedAliases.summary = "ゲスト OS 内でマッピングされた認証エイリアスを表示します。"
+#
+com.vmware.vc.guestOp.CreateRegistryKey.label = "Windows レジストリ キーの作成"
+com.vmware.vc.guestOp.CreateRegistryKey.summary = "ゲスト OS で Windows レジストリ キーを作成します。"
+#
+com.vmware.vc.guestOp.ListRegistryKeys.label = "Windows レジストリ キーの表示"
+com.vmware.vc.guestOp.ListRegistryKeys.summary = "ゲスト OS で Windows レジストリ キーを表示します。"
+#
+com.vmware.vc.guestOp.DeleteRegistryKey.label = "Windows レジストリ キーの削除"
+com.vmware.vc.guestOp.DeleteRegistryKey.summary = "ゲスト OS で Windows レジストリ キーを削除します。"
+#
+com.vmware.vc.guestOp.SetRegistryValue.label = "Windows レジストリ値の設定"
+com.vmware.vc.guestOp.SetRegistryValue.summary = "ゲスト OS で Windows レジストリ値を設定します。"
+#
+com.vmware.vc.guestOp.ListRegistryValues.label = "Windows レジストリ値の表示"
+com.vmware.vc.guestOp.ListRegistryValues.summary = "ゲスト OS で Windows レジストリ値を表示します。"
+#
+com.vmware.vc.guestOp.DeleteRegistryValue.label = "Windows レジストリ値の削除"
+com.vmware.vc.guestOp.DeleteRegistryValue.summary = "ゲスト OS で Windows レジストリ値を削除します。"
+#
+# guest operation enums end here

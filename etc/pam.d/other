@@ -1,0 +1,12 @@
+#%PAM-1.0
+auth       required     /lib/security/$ISA/pam_warn.so
+auth       required     /lib/security/$ISA/pam_deny.so
+
+account    required     /lib/security/$ISA/pam_warn.so
+account    required     /lib/security/$ISA/pam_deny.so
+
+session    required     /lib/security/$ISA/pam_warn.so
+session    required     /lib/security/$ISA/pam_deny.so
+
+password   required     /lib/security/$ISA/pam_warn.so
+password   required     /lib/security/$ISA/pam_deny.so

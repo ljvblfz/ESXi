@@ -1,0 +1,238 @@
+<div class="container vui-main-app-container" ng-if="!status">
+   <div class="vui-layout-body">
+      <div class="app-header"
+         ng-class="{'app-header-fullscreen': tabletFullscreen}">
+         <header role="banner">
+            <h1 class="vmware-logo" style="margin-right: 0;">
+               <img src="images/vmware_logo_white_transparent.png"
+                  style="height: 22px; padding: 2px 0 4px 2px; margin-right: 4px;"
+                  alt="{{'root.client'|translate}}"/>
+               <img src="images/esxi.png" style="width: 50px; margin-bottom: 2px;" />
+            </h1>
+            <ul class="primary-nav">
+               <li ng-if="showBuild">
+               <a  ng-click="showDialog('client.about')">Build {{version}}.{{buildnumber}}</a>
+               </li>
+               <li>
+                  <a id="userMenuLink" class="dropdown-toggle" ng-click="showUserMenu($event)">
+                     {{hostState.username}}@{{hostState.hostname}}
+                     <span class="caret"></span>
+                  </a>
+               </li>
+               <li>
+                  <a  href="" ng-click="showHelpMenu($event)">
+                     {{'general.help' | translate}}
+                     <span class="caret"></span>
+                  </a>
+               </li>
+               <li>
+                  <div>
+                     <div class="quickSearchContainer">
+                        <div class="search" role="search" style="margin-top: 0;">
+                           <label for="search-field"><span id="searchIcon" class="vui-icon-search-input" ></span></label>
+                           <input type="search" id="search-field" class="search-field" ng-blur="search.hide()" ng-focus="search.show()"
+                              data-toggle="dropdown" placeholder="{{'search.placeholder' | translate}}" aria-label="Search"
+                              ng-model="search.query" ng-change="doSearch()" style="margin-top: -20px;"
+                              ng-model-options="{updateOn: 'default blur', debounce: {'default': 500, 'blur': 100}}"/>
+                           <span class="caret" ng-click="search.toggle()"></span>
+                        </div>
+                        <searchresults ng-show="!search.hidden" data="search.data"></searchresults>
+                     </div>
+                  </div>
+               </li>
+            </ul>
+         </header>
+      </div>
+
+      <div class="app-frame-hide-overflow"
+         ng-class="{'app-frame-fullscreen': tabletFullscreen}">
+         <div ng-controller="WindowController" class="app-frame-outer">
+            <div class="notification-area">
+               <esx-notification
+                  ng-repeat="notification in notifications track by $index"
+                  type="{{notification.type}}"
+                  close="closeAlert($index)"
+                  autodismiss="true">
+
+                  <span ng-if="!notification.link && !notification.state"
+                     ng-bind-html="notification.msg"
+                     class="{{notification.classes}}"></span>
+
+                  <a ng-if="notification.link"
+                     href="{{notification.link}}"
+                     class="alert-link"
+                     ng-bind="notification.text"></a>
+
+                  <a ng-if="notification.state"
+                     ui-sref="{{notification.state}}"
+                     class="alert-link"
+                     ng-bind="notification.text"></a>
+
+                  <span class="alert-dismiss-link"> - </span>
+
+                  <a class="alert-dismiss-link"
+                     ng-click="closeAlert($index)">{{'notification.dismiss'|translate}}</a>
+
+               </esx-notification>
+            </div>
+
+            <div class="app-frame-inner"
+               ng-class="{bottomSpaceMargin: showBottomBar}">
+
+               <!-- collapsed navigator -->
+               <div class="vui-panel navigator-collapsed collapsed"
+                  ng-if="navigatorHidden"
+                  ng-click="toggleNavigator()">
+                  <div class="panel-inner">
+                     <div class="titlebar">
+                        <em class="esx-icon-navigator"></em>{{'root.navigator'|translate}}
+                     </div>
+                  </div>
+               </div>
+
+               <!-- button bar when navigator is collapsed -->
+               <div style="top: 221px; position: absolute; left: 5px; float: none; width: 29px;"
+                  ng-if="navigatorHidden">
+                  <div
+                     ng-repeat="shortcut in shortcutButtons"
+                     ng-if="!shortcut.hidden"
+                     ng-right-click="showContextMenu('{{shortcut.context}}', [], $event)"
+                     ng-click="go(shortcut.state)"
+                     class="vui-panel navigator-button collapsed">
+                     <div class="panel-inner">
+                        <div class="titlebar">
+                           <em class="{{shortcut.icon}}"></em>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+
+               <!-- navigator -->
+               <div class="vui-panel app-panel-side left"
+                  ng-style="{'display': navigatorHidden ? 'none' : 'block'}">
+                  <div class="panel-inner">
+                     <div class="titlebar" ng-dblclick="toggleNavigator()">
+                        <em class="esx-icon-navigator"></em>{{'root.navigator'|translate}}
+                        <em ng-class="{
+                              'icon-maximize-left': navigatorHidden,
+                              'icon-minimize-left': !navigatorHidden}"
+                           style="float: right; cursor: pointer;"
+                           ng-click="toggleNavigator()"></em>
+                     </div>
+                     <div class="panel-content">
+                        <div class="menu-container" ui-view="menu"></div>
+                     </div>
+                  </div>
+               </div>
+
+               <!-- main panel -->
+               <div class="vui-panel app-panel-main"
+                  ng-style="{'left': navigatorHidden ? '43px' : '234px'}"
+                  ng-class="{'app-panel-main-tasks': !taskPanel.isMinimized() && !showBottomBar,
+                             'app-panel-main-tasks-bottom-bar': !taskPanel.isMinimized() && showBottomBar,
+                             'bottomSpace': taskPanel.isMinimized() && showBottomBar && shrunkConsoles.length === 0,
+                             'largeBottomSpace': taskPanel.isMinimized() && shrunkConsoles.length > 0}">
+                  <div class="panel-inner">
+                     <div class="titlebar"><em class="{{mainPanel.icon}}"></em>{{mainPanel.title}}</div>
+                     <div class="panel-content">
+                        <div class="full-height" ui-view="content"></div>
+                     </div>
+                  </div>
+               </div>
+
+               <div ng-class="{'bottomSpace': showBottomBar}"
+                  ng-style="{'left': navigatorHidden ? '43px' : '234px'}"
+                  style="right: 5px; position: absolute; left: 234px; bottom: 0;">
+
+                  <!-- open task panel -->
+                  <div class="vui-panel app-panel-tasks"
+                     ng-style="{
+                        'width': 'calc(100% - ' + shrunkWidth + 'px)'
+                     }"
+                     style="float: left;"
+                     ng-show="!taskPanel.isMinimized()">
+                     <div class="panel-inner">
+                        <div class="titlebar" ng-dblclick="taskPanel.toggle()">
+                           <em class="{{taskPanel.icon}}"></em>{{taskPanel.title}}
+                           <em title="{{'root.minimize' | translate}}"
+                              ng-class="{'icon-minimize': !taskPanel.isMinimized()}"
+                              style="float: right;" ng-click="taskPanel.toggle()"></em>
+                        </div>
+                        <div class="panel-content">
+                           <div ui-view="recentTasks"></div>
+                        </div>
+                     </div>
+                  </div>
+
+                  <!-- shrunk consoles -->
+                  <div id="shrunkConsoles"
+                     ng-style="{
+                        'top': showBottomBar && taskPanel.isMinimized() ? '-200px' : '0px',
+                        'height': shrunkOverSize ? '203px' : '213px',
+                        'max-width': taskPanel.isMinimized() ? '100%' : maxShrunkWidth + 'px'
+                     }"
+                     style="position: absolute; right: 0; white-space: nowrap; overflow-y: hidden; overflow-x: auto;"></div>
+               </div>
+
+            </div>
+            <!-- /app-frame-inner -->
+
+            <!-- bar for minimized windows -->
+            <div
+               style="bottom: 0;"
+               id="bottomBar"
+               ng-style="{
+                  'margin-left': navigatorHidden ? '33px' : '224px'
+               }">
+
+               <!-- minimized and open consoles -->
+               <div
+                  ng-repeat="window in windows"
+                  ng-if="window.type === 'console'">
+                  <div esx-vm-console
+                     class="vui-panel"
+                     style="margin-right: 5px;"
+                     id="vm-console-{{window.console.moid}}"
+                     ng-class="{
+                        'bottomSpace': showBottomBar && !window.minimized
+                     }"
+                     moid="window.console.moid">
+                  </div>
+               </div>
+
+               <!-- minimized task panel -->
+               <div
+                  class="vui-panel"
+                  ng-class="{
+                     collapsed: taskPanel.isMinimized()
+                  }"
+                  ng-show="taskPanel.isMinimized()"
+                  ng-click="taskPanel.maximize()">
+                  <div class="panel-inner">
+                     <div class="titlebar">
+                        <em class="{{taskPanel.icon}}"></em>{{taskPanel.title}}
+                     </div>
+                  </div>
+               </div>
+
+            </div>
+            <!-- /bar for minimized windows -->
+
+         </div>
+      </div>
+      <!-- /app-frame-outer -->
+   </div>
+   <!-- /vui-layout-body -->
+</div><!-- /container -->
+
+<div class="primary-nav" ui-view="contextMenu"></div>
+
+<div ng-show="status">
+   <img id="topSplash" src="images/AppBgPattern.png" alt="{{'root.backgroundImage' |translate}}"/>
+   <div style="width: 100%; position: absolute; top: 50%; text-align: center;">
+      <div><img src="images/vmware_logo_loader.gif"
+         style="width: 250px;" alt="{{'root.loading' |translate}}"/></div>
+   </div>
+</div>
+
+<div ng-repeat="dialog in dialogs" vui-dialog="dialog"></div>

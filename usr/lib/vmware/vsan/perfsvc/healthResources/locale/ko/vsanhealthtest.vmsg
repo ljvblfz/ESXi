@@ -1,0 +1,1372 @@
+# This message file defines all of labels, descriptions in vSAN health test result showing in UI
+
+#
+# Common string
+#
+common.yes = 예
+common.no = 아니요
+common.unknown = 알 수 없음
+common.green = 녹색
+common.yellow = 노란색
+common.red = 빨간색
+common.success = 성공
+common.error = 오류
+common.timeout = 시간 제한
+common.alive = 활성
+common.abnormal = 비정상
+common.normal = 정상
+common.of = /
+common.hybrid = 하이브리드
+common.allflash = 플래시 전용
+common.comma = ,
+common.notavailable =  해당 없음
+common.witness = 감시
+#
+# Host Vmdk load test
+#
+com.vmware.vsan.health.test.storageloadtest.overallStatusDescription = 전반적인 상태가 양호합니다.
+com.vmware.vsan.health.test.storageloadtest.testName = 스토리지 성능 테스트
+com.vmware.vsan.health.test.storageloadtest.testResult.notRunLabel = [{action}] 작업에 대한 vSAN 클러스터 스토리지 로드 테스트
+com.vmware.vsan.health.test.storageloadtest.testResult.columnHost = 호스트
+com.vmware.vsan.health.test.storageloadtest.testResult.columnStatus = 상태
+com.vmware.vsan.health.test.storageloadtest.testResult.columnError = 오류
+com.vmware.vsan.health.test.storageloadtest.testResult.runLabel = vSAN 호스트 스토리지 성능 테스트 결과
+com.vmware.vsan.health.test.storageloadtest.testResult.columnWorkloadType = 워크로드 유형
+com.vmware.vsan.health.test.storageloadtest.testResult.columnVmdkDiskNumber = VMDK 디스크 번호
+com.vmware.vsan.health.test.storageloadtest.testResult.columnDuration = 기간(초)
+com.vmware.vsan.health.test.storageloadtest.testResult.columnIOPS = IOPS
+com.vmware.vsan.health.test.storageloadtest.testResult.columnThroughput = 처리량(MB/s)
+com.vmware.vsan.health.test.storageloadtest.testResult.columnAvgLatency = 평균 지연 시간(ms)
+com.vmware.vsan.health.test.storageloadtest.testResult.columnMaxLatency = 최대 지연 시간(ms)
+com.vmware.vsan.health.test.storageloadtest.failed.overallStatusDescription = 일부 호스트가 테스트를 완료하지 못해 vSAN 클러스터 스토리지 로드 테스트가 실패했습니다.
+com.vmware.vsan.health.test.storageloadtest.testResult.failedLabel = vSAN 호스트 스토리지 로드 테스트 결과
+com.vmware.vsan.health.test.storageloadtest = vSAN 스토리지 로드 테스트는 실제 과도한 IO를 발생시키므로 vSAN 클러스터에서 이를 수용할 수 있어야 합니다. 테스트는 이러한 목적으로 특별히 생성된 개체를 사용하여 이를 수행합니다. 또한 원하는 병렬 처리를 수행하고 시스템의 모든 디스크를 지원하도록 충분한 개체를 생성합니다. 테스트 기간은 작업 설정, 캐시 웜업 시간과 같은 매개 변수에 따라 몇 분에서 몇 시간이 될 수 있습니다.
+com.vmware.vsan.health.test.storageloadtest.short = vSAN 클러스터가 과도한 IO 로드를 수용할 수 있는지 확인합니다.
+
+#
+# Cluster network performance test
+#
+com.vmware.vsan.health.test.networkperftest.testName = 멀티캐스트 성능 테스트
+com.vmware.vsan.health.test.networkperftest.testResult.label = vSAN 호스트 멀티캐스트 성능 테스트 결과
+com.vmware.vsan.health.test.networkperftest.testResult.columnHost = 호스트
+com.vmware.vsan.health.test.networkperftest.testResult.columnHealthStatus = 상태
+com.vmware.vsan.health.test.networkperftest.testResult.columnReceivedBandwidth = 받은 대역폭(MB/s)
+com.vmware.vsan.health.test.networkperftest.testResult.columnDesiredBandwidth = 지원되는 최대 대역폭 결과(MB/s)
+com.vmware.vsan.health.test.networkperftest = 멀티캐스트 성능 테스트는 연결이 있는지 여부와 호스트 간 멀티캐스트 속도가 vSAN의 요구 사항을 충족하는지 평가하도록 설계되었습니다. 테스트 수행 시 하나의 호스트를 전송자로 선택하고 다른 모든 호스트를 수신자로 설정합니다. 멀티캐스트 트래픽을 통해 전송자가 보내는 모든 패킷이 모든 수신자에게 전달되어야 합니다. 이론적으로는, ESXi와 이 테스트 케이스에 병목 현상이 없고 물리적 네트워크가 최대 회선 속도로 실행될 수 있는 경우 전송자가 10Gbit/s로 전송할 때 모든 수신자가 10Gbit/s로 수신하게 됩니다. 실제로는, 이 테스트가 전송자 링크를 완전히 채울 수 없습니다. 또한 대부분의 물리적 스위치도 최대 회선 속도로 멀티캐스트를 수행할 수 없습니다. 사실 vSAN이 최대 회선 속도로 실행될 필요는 없습니다. vSAN은 피크 로드 동안에도 20MB/s(또는 200Mbit/s) 미만의 멀티캐스트 속도를 필요로 합니다. 일반 벤더의 일반 엔터프라이즈급 스위치에서 이 테스트는 최소 50MB/s의 속도를 실현할 수 있습니다. 일부 저사양 스위치에서 VMware는 10MB/s 정도의 낮은 속도를 확인했습니다. 이러한 범위가 주어진 상태에서 테스트가 20MB/s 미만이면 매우 낮고, 20MB/s에서 50MB/s 사이이면 낮기는 하지만 사용 가능하며, 50MB/s 이상이면 VMware가 기대하는 수준이라고 판단합니다.
+com.vmware.vsan.health.test.networkperftest.short = 네트워크가 vSAN의 멀티캐스트 대역폭 요구 사항(최소 50MBps)을 충족하는지 확인합니다.
+
+#
+# Cluster VM creation test
+#
+com.vmware.vsan.health.test.createvmtest.testName = VM 생성 테스트
+com.vmware.vsan.health.test.createvmtest.testResult.label = 호스트 VM 생성 테스트 결과
+com.vmware.vsan.health.test.createvmtest.testResult.columnHost = 호스트
+com.vmware.vsan.health.test.createvmtest.testResult.columnStatus = 상태
+com.vmware.vsan.health.test.createvmtest.testResult.columnError = 오류
+com.vmware.vsan.health.test.createvmtest = 가상 시스템 생성 테스트는 모든 호스트에 매우 간단하고 작은 VM을 생성합니다. 생성이 성공하면 해당 VM은 삭제되고 vSAN의 여러 측면이 작동 상태에 있다고 판단할 수 있습니다. 예를 들어 관리 스택은 모든 호스트에서 완전히 작동하고, vSAN 네트워크 배선이 작동 중이며, vSAN의 개체에 대한 IO 및 생성/삭제가 작동 중입니다. 이러한 적극적인 테스트는 소극적인 상태 검사가 감지할 수 없는 문제를 찾을 수 있습니다. 체계적으로 테스트를 수행하면 아주 쉽게 특정 장애가 있는 호스트를 격리하고 해결 조치를 취할 수 있습니다.
+com.vmware.vsan.health.test.createvmtest.short = vSAN 클러스터의 모든 호스트에 매우 작은 VM을 생성할 수 있는지 확인합니다.
+
+
+com.vmware.vsan.health.test.host.issues.notConnected = 호스트가 연결되어 있지 않음
+com.vmware.vsan.health.test.host.issues.notHealthInstall = 호스트가 6.0 U2 이상 버전으로 업데이트되지 않았습니다. 상태 점검이 사용되지 않도록 설정되었습니다.
+com.vmware.vsan.health.test.host.issues.notHealth65Install = 호스트가 6.5 Express Patch 2 릴리스 이상 버전으로 업데이트되지 않았습니다. 구성 지원 검사를 사용할 수 없습니다.
+com.vmware.vsan.health.test.cluster.issues.hostNotConnected = 하나 이상의 호스트가 연결되어 있지 않습니다.
+com.vmware.vsan.health.test.cluster.issues.HostNotHealthInstall = 하나 이상의 호스트에 vSAN Health Service가 설치되어 있지 않습니다.
+
+# overall health status related string.
+com.vmware.vsan.health.test.cluster.overall.notEnabled = 클러스터가 사용되지 않음
+
+#
+# Health service installation status check
+#
+com.vmware.vsan.health.test.cluster.healthEamInstall.testName = ESXi vSAN Health Service 설치
+com.vmware.vsan.health.test.cluster.healthEamInstall.host.testName = 호스트 vSAN Health Service 설치
+com.vmware.vsan.health.test.cluster.healthEamInstall.host.columnHost = 호스트
+com.vmware.vsan.health.test.cluster.healthEamInstall.host.columnStatus = 상태
+com.vmware.vsan.health.test.cluster.healthEamInstall.host.columnError = 오류
+com.vmware.vsan.health.test.cluster.healthEamInstall.host.untracked = 추적 안 됨
+com.vmware.vsan.health.test.cluster.healthEamInstall.host.removed = (더 이상 클러스터에 없음)
+com.vmware.vsan.health.test.healtheaminstall = 모든 호스트에 vSAN Health Service가 설치되었는지 확인합니다. 다른 vSAN 상태 점검은 모든 호스트가 6.0U2 이상 릴리스로 업그레이드된 경우에만 수행됩니다.
+com.vmware.vsan.health.test.healtheaminstall.short = vSAN 클러스터의 모든 호스트에 vSAN Health Service가 설치되었는지 확인합니다. 참고로, 다른 vSAN 상태 점검은 모든 호스트가 6.0U2 이상 릴리스로 업그레이드된 경우에만 수행됩니다.
+
+com.vmware.vsan.health.test.cluster.easyinstalleaminstall.testName = ESXi vSAN Health Service 버전
+com.vmware.vsan.health.test.cluster.easyinstalleaminstall.host.testName = 호스트 vSAN Health Service 버전
+
+com.vmware.vsan.health.test.easyinstalleaminstall = vSAN 클러스터의 모든 호스트에 구성 지원을 위한 올바른 버전의 vSAN Health Service가 있는지 확인합니다. 모든 호스트가 6.5 Express Patch 2 릴리스 이상으로 업그레이드되면 더 많은 구성 지원 검사 및 기능을 사용할 수 있습니다.
+com.vmware.vsan.health.test.easyinstalleaminstall.short = vSAN 클러스터의 모든 호스트에 구성 지원을 위한 올바른 버전의 vSAN Health Service가 있는지 확인합니다. 모든 호스트가 6.5 Express Patch 2 릴리스 이상으로 업그레이드되면 더 많은 구성 지원 검사 및 기능을 사용할 수 있습니다.
+
+#
+# Health service version check
+#
+com.vmware.vsan.health.test.cluster.healthVersion.testName = vSAN Health Service 최신 상태임
+com.vmware.vsan.health.test.cluster.healthVersion.testResult.label = vSAN Health Service 버전
+com.vmware.vsan.health.test.cluster.healthVersion.testResult.columnHost = 호스트
+com.vmware.vsan.health.test.cluster.healthVersion.testResult.columnVersionEsx = ESXi의 버전
+com.vmware.vsan.health.test.cluster.healthVersion.testResult.columnVersionVc = VC의 버전
+com.vmware.vsan.health.test.cluster.healthVersion.testResult.columnError = 오류
+com.vmware.vsan.health.test.healthversion = 클러스터의 모든 ESXi 호스트에 설치된 vSAN 상태 VIB 버전이 VC의 상태 버전과 동일한지 확인합니다. 검사에 통과하지 못하면 클러스터의 vSAN 상태 VIB 버전을 업데이트하는 것이 좋습니다.
+com.vmware.vsan.health.test.healthversion.short = vSAN 클러스터의 모든 호스트에서 vSAN 상태 VIB 버전을 확인합니다.
+
+#
+# Time drift check
+#
+com.vmware.vsan.health.test.cluster.timeDrift.testName = 호스트와 VC 전체에서 시간이 동기화됨
+com.vmware.vsan.health.test.cluster.timeDrift.testResult.columnHost = 호스트
+com.vmware.vsan.health.test.cluster.timeDrift.testResult.columnStatus = 상태
+com.vmware.vsan.health.test.cluster.timeDrift.testResult.columnNtpEnabled = NTP 서비스 사용
+com.vmware.vsan.health.test.cluster.timeDrift.testResult.columnTimeDrift = VC와의 시간 차이
+com.vmware.vsan.health.test.cluster.timeDrift.testResult.columnError = 이유
+com.vmware.vsan.health.test.cluster.timeDrift.testResult.error.notFound = 호스트 시간 또는 VC 시간을 검색하지 못함
+com.vmware.vsan.health.test.cluster.timeDrift.testResult.error.notSync = 호스트와 VC 시간이 1분 넘게 차이 남
+com.vmware.vsan.health.test.cluster.timeDrift.testResult.error.computeError = 시간 차이를 계산할 수 없음
+com.vmware.vsan.health.test.timedrift = VC와 호스트 간의 시간 차이를 검사합니다. 60초가 넘게 차이 나면 이 검사가 실패합니다. 검사가 실패하는 경우 NTP 서버 구성을 확인하는 것이 좋습니다.
+com.vmware.vsan.health.test.timedrift.short = 호스트와 VC의 시간이 1분 이내로 동기화되는지 검사합니다.
+
+#
+# Cluster membership check
+#
+com.vmware.vsan.health.test.cluster.clusterMembership.testName = vSphere 클러스터 멤버가 vSAN 클러스터 멤버와 일치
+com.vmware.vsan.health.test.cluster.clusterMembership.testResult.label = 클러스터 멤버 자격
+com.vmware.vsan.health.test.cluster.clusterMembership.testResult.columnHost = 호스트
+com.vmware.vsan.health.test.cluster.clusterMembership.testResult.columnInVcCluster = vSphere 클러스터에서
+com.vmware.vsan.health.test.cluster.clusterMembership.testResult.columnInVsanCluster = vSAN 클러스터에서
+com.vmware.vsan.health.test.cluster.clusterMembership.testResult.additionalLabel = vSAN에 마지막으로 알려짐
+com.vmware.vsan.health.test.clustermembership = vSphere 클러스터 멤버가 vSAN 클러스터 멤버와 일치하는지 검사합니다.
+com.vmware.vsan.health.test.clustermembership.short = vSphere 클러스터 멤버가 vSAN 클러스터 멤버와 일치하는지 검사합니다.
+
+#
+# vSAN advanced configuration sync check
+#
+com.vmware.vsan.health.test.cluster.advCfgSync.testName = 고급 vSAN 구성이 동기화됨
+com.vmware.vsan.health.test.cluster.advCfgSync.testResult.label = 옵션이 동기화되지 않음
+com.vmware.vsan.health.test.cluster.advCfgSync.testResult.columnOption = 옵션
+com.vmware.vsan.health.test.cluster.advCfgSync.testResult.columnValue = 값
+com.vmware.vsan.health.test.cluster.advCfgSync.testResult.columnHostsWithValue = 해당 값이 있는 호스트
+com.vmware.vsan.health.test.advcfgsync = vSAN에는 특정 배포의 특정한 요구 사항을 조정하거나 해결하는 데 사용할 수 있는 많은 고급 구성 옵션이 있습니다. 일반적으로 이러한 설정은 VMware 지원팀의 지침에 따라 VMware KB 문서의 절차를 통해 변경됩니다. 이러한 고급 구성 옵션은 호스트별로 설정되므로 클러스터 내에서 일치하지 않는 구성이 생성되기 쉽습니다. 이 검사는 지정된 클러스터의 모든 호스트에서 중요한 vSAN 고급 구성 옵션이 동일한 값 또는 기본값을 갖는지 확인합니다.
+com.vmware.vsan.health.test.advcfgsync.short = vSAN 클러스터 내 모든 호스트의 고급 구성 옵션이 기본값이 아닌 일관된 값을 갖는지 확인합니다. 기본값을 갖는 고급 구성은 건너뛰며 결과에 나타나지 않습니다.
+#
+# vSAN clomd liveness check
+#
+com.vmware.vsan.health.test.cluster.clomdLiveness.testName = vSAN CLOMD 작동 여부
+com.vmware.vsan.health.test.cluster.clomdLiveness.testResult.label = vSAN 호스트 CLOMD 작동 여부
+com.vmware.vsan.health.test.cluster.clomdLiveness.testResult.columnHost = 호스트
+com.vmware.vsan.health.test.cluster.clomdLiveness.testResult.columnState = 상태
+com.vmware.vsan.health.test.cluster.clomdLiveness.testResult.columnError = 오류
+com.vmware.vsan.health.test.clomdliveness = 모든 vSAN 호스트에서 CLOMD 작동 여부 확인
+com.vmware.vsan.health.test.clomdliveness.short = CLOM 데몬 작동 여부를 확인합니다.
+
+#
+# Dedup config health check
+#
+com.vmware.vsan.health.test.cluster.physdiskDedupConfig.testName = 중복 제거 및 압축 구성 일관성
+com.vmware.vsan.health.test.cluster.physdiskDedupConfig.testResult.labelDisk = 디스크 그룹
+com.vmware.vsan.health.test.cluster.physdiskDedupConfig.testResult.labelHost = 호스트
+com.vmware.vsan.health.test.cluster.physdiskDedupConfig.testResult.columnHost = 호스트
+com.vmware.vsan.health.test.cluster.physdiskDedupConfig.testResult.columnDisk = 디스크 그룹
+com.vmware.vsan.health.test.cluster.physdiskDedupConfig.testResult.columnIssue = 문제
+com.vmware.vsan.health.test.cluster.physdiskDedupConfig.testResult.columnRecommendation = 권장 사항
+com.vmware.vsan.health.test.cluster.physdiskDedupConfig.testResult.columnReasonIncorrectDedupDisabled = 중복 제거 및 압축이 사용되지 않도록 설정됨, 하지만 사용되도록 설정되어야 함
+com.vmware.vsan.health.test.cluster.physdiskDedupConfig.testResult.columnReasonIncorrectDedupEnabled = 중복 제거 및 압축이 사용되도록 설정됨, 하지만 사용되지 않도록 설정되어야 함
+com.vmware.vsan.health.test.cluster.physdiskDedupConfig.testResult.columnReasonHybridInDedupEnabled = 중복 제거가 사용되도록 설정된 클러스터 내의 하이브리드 디스크 그룹
+com.vmware.vsan.health.test.cluster.physdiskDedupConfig.testResult.columnRecommendRemediation = 온디스크 형식 변환
+com.vmware.vsan.health.test.cluster.physdiskDedupConfig.testResult.columnRecommendManualFixHybrid = 클러스터에서 하이브리드 디스크 그룹 제거
+com.vmware.vsan.health.test.cluster.physdiskDedupConfig.testResult.columnRecommendAskVMware = 'AskVMware' 문서의 단계 수행
+com.vmware.vsan.health.test.physdiskdedupconfig = 이 검사가 실패하는 경우 클러스터와 일관되지 않은 디스크 중복 제거 및 압축 설정이 있고, 호스트 간에 일관되지 않은 설정이 있음을 의미합니다.
+com.vmware.vsan.health.test.physdiskdedupconfig.short = 호스트 및 디스크가 클러스터와 일관된 중복 제거 및 압축 구성을 가지고 있는지 확인합니다.
+
+#
+# Dedup usage health check
+#
+com.vmware.vsan.health.test.cluster.physdiskDedupUsage.testName = 중복 제거 및 압축 사용량 상태
+com.vmware.vsan.health.test.cluster.physdiskDedupUsage.testResult.label = 잘못된 중복 제거 및 압축 구성이 있는 디스크 그룹
+com.vmware.vsan.health.test.cluster.physdiskDedupUsage.testResult.columnDisk = 디스크 그룹
+com.vmware.vsan.health.test.cluster.physdiskDedupUsage.testResult.columnReason = 이유
+com.vmware.vsan.health.test.cluster.physdiskDedupUsage.testResult.columnReasonIncorrectDedupEnabled = 중복 제거 및 압축이 사용되는 하이브리드 디스크 그룹
+com.vmware.vsan.health.test.cluster.physdiskDedupUsage.testResult.columnReasonIncorrectDedupDisabled = 중복 제거 및 압축이 사용되지 않는 플래시 전용 디스크 그룹
+com.vmware.vsan.health.test.physdiskdedupusage = 이 검사가 실패하는 경우 일부 하이브리드 디스크 그룹에 중복 제거 및 압축 기능이 사용됨을 의미합니다.
+com.vmware.vsan.health.test.physdiskdedupusage.short = 중복 제거 및 압축이 하이브리드 디스크 그룹에서 사용되는지 확인합니다.
+
+#
+# Software version compatibility check
+#
+com.vmware.vsan.health.test.cluster.upgradesoftware.testName = 소프트웨어 버전 호환성
+
+#
+#Disk format version
+#
+com.vmware.vsan.health.test.cluster.upgradelowerhosts.testName = 디스크 형식 버전
+
+#
+## Cluster config consistency health check
+#
+com.vmware.vsan.health.test.cluster.consistentConfig.testName = vSAN 클러스터 구성 일관성
+com.vmware.vsan.health.test.cluster.consistentConfig.testResult.labelIssue = 문제
+com.vmware.vsan.health.test.cluster.consistentConfig.testResult.columnHost = 호스트
+com.vmware.vsan.health.test.cluster.consistentConfig.testResult.columnDisk = 디스크
+com.vmware.vsan.health.test.cluster.consistentConfig.testResult.columnIssue = 문제
+com.vmware.vsan.health.test.cluster.consistentConfig.testResult.columnRecommendation = 권장 사항
+com.vmware.vsan.health.test.cluster.consistentConfig.testResult.encryption.enabledwhenclusterdisabled.host = 암호화가 호스트에서는 사용되도록 설정되어 있지만 클러스터에서는 사용되지 않도록 설정되어 있습니다.
+com.vmware.vsan.health.test.cluster.consistentConfig.testResult.encryption.disabledwhenclusterenabled.host = 암호화가 호스트에서는 사용되지 않도록 설정되어 있지만 클러스터에서는 사용되도록 설정되어 있습니다.
+com.vmware.vsan.health.test.cluster.consistentConfig.testResult.encryption.keyencryptionkeyinconsistent.host = 데이터 암호화 키가 최신 버전이 아닌 키 암호화 키로 암호화되어 있습니다.
+com.vmware.vsan.health.test.cluster.consistentConfig.testResult.encryption.dataencryptionkeyinconsistent.host = 데이터가 최신 버전이 아닌 데이터 암호화 키로 암호화되어 있습니다.
+com.vmware.vsan.health.test.cluster.consistentConfig.testResult.encryption.kmsinfoinconsistent.host = 키 관리 서버 정보가 클러스터 구성과 일치하지 않습니다.
+com.vmware.vsan.health.test.cluster.consistentConfig.testResult.encryption.hostkeyinconsistent.host = 호스트 코어 덤프 암호화를 위한 호스트 키가 클러스터 구성과 일치하지 않습니다.
+com.vmware.vsan.health.test.cluster.consistentConfig.testResult.encryption.erasedisksbeforeuseinconsistent.host = 호스트의 사용 전 디스크 지우기 구성이 클러스터 구성과 일치하지 않음
+com.vmware.vsan.health.test.cluster.consistentConfig.testResult.encryption.enabledwhenclusterdisabled.disk = 디스크 그룹이 암호화되었지만 암호화가 클러스터에서 사용되지 않도록 설정되었습니다.
+com.vmware.vsan.health.test.cluster.consistentConfig.testResult.encryption.disabledwhenclusterenabled.disk = 디스크 그룹이 암호화되지 않았지만 암호화가 클러스터에서 사용되도록 설정되었습니다.
+com.vmware.vsan.health.test.cluster.consistentConfig.testResult.encryption.kmsinfoinconsistent.disk = 키 관리 서버 정보가 클러스터 구성과 일치하지 않습니다.
+com.vmware.vsan.health.test.cluster.consistentConfig.testResult.encryption.keyencryptionkeyinconsistent.disk = 키 암호화 키가 클러스터 구성과 일치하지 않습니다.
+com.vmware.vsan.health.test.cluster.consistentConfig.testResult.encryption.dataencryptionkeyinconsistent.disk = 데이터가 최신 버전이 아닌 데이터 암호화 키로 암호화되어 있습니다.
+com.vmware.vsan.health.test.cluster.consistentConfig.testResult.unicast = 네트워크 구성이 동기화되지 않음
+com.vmware.vsan.health.test.cluster.consistentConfig.testResult.remediation = 불일치 구성 업데이트 적용
+com.vmware.vsan.health.test.cluster.consistentConfig.testResult.perfsvcRemediation = 자동 업데이트 적용이 사용되도록 설정되었습니다. 자세한 내용은 'AskVMware'를 참조하십시오.
+com.vmware.vsan.health.test.cluster.consistentConfig.testResult.freespaceRemediation = 스토리지를 추가하거나 사용 가능한 공간을 확보하십시오. 자세한 내용은 'AskVMware'를 참조하십시오.
+com.vmware.vsan.health.test.cluster.consistentConfig.testResult.compatibilityRemediation = 규정 준수 문제를 해결하십시오. 자세한 내용은 'AskVMware'를 참조하십시오.
+com.vmware.vsan.health.test.consistentconfig = 이 검사가 실패하면 호스트 또는 디스크에 클러스터와 일치하지 않는 구성(예: 중복 제거/압축, 암호화) 설정이 있다는 의미입니다.
+com.vmware.vsan.health.test.consistentconfig.short = 호스트 및 디스크가 클러스터와 일관된 구성을 가지고 있는지 검사합니다.
+
+#
+## Encryption Key Management Server connections health check
+#
+com.vmware.vsan.health.test.encryption.kmsConnection.testName = vCenter 및 모든 호스트가 키 관리 서버에 연결됨
+com.vmware.vsan.health.test.encryption.kmsConnection.testResult.labelVc = vCenter KMS 상태
+com.vmware.vsan.health.test.encryption.kmsConnection.testResult.labelHost = 호스트 KMS 상태
+com.vmware.vsan.health.test.encryption.kmsConnection.testResult.columnHost = 호스트
+com.vmware.vsan.health.test.encryption.kmsConnection.testResult.columnKmsCluster = KMS 클러스터
+com.vmware.vsan.health.test.encryption.kmsConnection.testResult.columnKms = KMS 별칭
+com.vmware.vsan.health.test.encryption.kmsConnection.testResult.columnHealth = 연결 상태
+com.vmware.vsan.health.test.encryption.kmsConnection.testResult.columnTrust = 신뢰 상태
+com.vmware.vsan.health.test.encryption.kmsConnection.testResult.columnCert = 인증서 상태
+com.vmware.vsan.health.test.encryption.kmsConnection.testResult.columnServerCertExpire = 서버 인증서 만료일
+com.vmware.vsan.health.test.encryption.kmsConnection.testResult.columnClientCertExpire = 클라이언트 인증서 만료일
+com.vmware.vsan.health.test.encryption.kmsConnection.testResult.columnIssue = 문제
+com.vmware.vsan.health.test.encryption.kmsConnection.testResult.columnRecommendation = 권장 사항
+com.vmware.vsan.health.test.encryption.kmsConnection.testResult.configissue = 키 관리 서버 정보가 클러스터 구성과 일치하지 않습니다.
+com.vmware.vsan.health.test.encryption.kmsConnection.testResult.remediation = 불일치 구성 업데이트 적용
+com.vmware.vsan.health.test.encryption.kmsConnection.testResult.checkkms = 키 관리 서버 설정 검사
+com.vmware.vsan.health.test.encryption.kmsConnection.testResult.certwarning = 인증서가 {days}일 후에 만료됩니다.
+com.vmware.vsan.health.test.encryption.kmsConnection.testResult.certexpired = 인증서가 만료되었습니다.
+com.vmware.vsan.health.test.encryption.kmsConnection.testResult.certinvalid = 인증서가 잘못되었습니다.
+com.vmware.vsan.health.test.kmsconnection = 이 검사가 실패하면 키 관리 서버 연결 문제가 vCenter 또는 호스트에 있다는 의미입니다.
+com.vmware.vsan.health.test.kmsconnection.short = vCenter Server 및 호스트가 키 관리 서버에 연결할 수 있는지를 검사합니다.
+
+#
+## Encryption hosts CPU AESNI enabled state check
+#
+com.vmware.vsan.health.test.encryption.hostCpuAesni.testName = CPU AES-NI가 호스트에서 사용되도록 설정됨
+com.vmware.vsan.health.test.encryption.hostCpuAesni.testResult.label = 호스트 CPU AES-NI 상태
+com.vmware.vsan.health.test.encryption.hostCpuAesni.testResult.columnHost = 호스트
+com.vmware.vsan.health.test.encryption.hostCpuAesni.testResult.columnHealth = 상태
+com.vmware.vsan.health.test.encryption.hostCpuAesni.testResult.columnIssue = 이유
+com.vmware.vsan.health.test.encryption.hostCpuAesni.testResult.aesnidisabled = CPU AES-NI가 호스트에서 지원되지 않거나 사용되지 않도록 설정되었습니다.
+com.vmware.vsan.health.test.encryption.hostcpuaesni = 이 검사가 실패하면 CPU AES-NI가 지원되지 않거나 사용되지 않도록 설정된 호스트가 있다는 의미입니다. AES-NI보다 속도가 상당히 느린 소프트웨어 암호화가 사용됩니다.
+com.vmware.vsan.health.test.encryption.hostcpuaesni.short = 암호화를 위해 호스트 CPU AES-NI가 사용되도록 설정되었는지 검사합니다.
+
+#
+## Resync control health check
+#
+com.vmware.vsan.health.test.cluster.resynclimit.testName = 다시 동기화 작업 임계치 조절
+com.vmware.vsan.health.test.cluster.resynclimit.testResult.label = 다시 동기화 작업의 임계치가 조절된 호스트
+com.vmware.vsan.health.test.cluster.resynclimit.testResult.columnHost = 호스트
+com.vmware.vsan.health.test.cluster.resynclimit.testResult.columnLimit = 다시 동기화 대역폭 제한
+com.vmware.vsan.health.test.resynclimit = 이 검사가 실패하면 다시 동기화 작업의 임계치가 조절된다는 의미입니다. 잠재적 클러스터 성능 저하와 같은 특수한 상황을 위해 필요한 경우를 제외하고 제한값을 지우십시오.
+com.vmware.vsan.health.test.resynclimit.short = 호스트에서 다시 동기화 작업의 임계치가 조절되었는지 검사합니다. 잠재적 클러스터 성능 저하와 같은 특수한 상황을 위해 필요한 경우를 제외하고 제한값을 지우십시오.
+
+#
+## vCenter state authoritative health check
+#
+com.vmware.vsan.health.test.cluster.vcauthoritative.testName = vCenter가 신뢰할 수 있는 상태임
+com.vmware.vsan.health.test.cluster.vcauthoritative.testResult.label = 동기화되지 않은 호스트
+com.vmware.vsan.health.test.cluster.vcauthoritative.testResult.columnHost = 호스트
+com.vmware.vsan.health.test.cluster.vcauthoritative.testResult.columnLastUpdate = VC 기준 마지막 업데이트
+com.vmware.vsan.health.test.cluster.vcauthoritative.testResult.columnLastUpdateTime = 마지막 업데이트 시간
+com.vmware.vsan.health.test.cluster.vcauthoritative.testResult.columnRecommendation = 권장 사항
+com.vmware.vsan.health.test.cluster.vcauthoritative.testResult.rowCurrentVc = 현재 VC
+com.vmware.vsan.health.test.cluster.vcauthoritative.testResult.rowDifferentVc = 다른 VC({0})
+com.vmware.vsan.health.test.cluster.vcauthoritative.testResult.Recommendation = vCenter Server가 교체되었거나 백업에서 복구되었고 vCenter Server의 현재 호스트 목록이 올바른 경우 'ESXi 구성 업데이트' 작업을 수행합니다.
+com.vmware.vsan.health.test.vcauthoritative = 정상 작업 중에 vCenter Server 상태가 트루스의 소스로 간주되고 ESXi 호스트가 최신 호스트 멤버 자격 목록으로 자동 업데이트됩니다. vCenter Server가 교체되거나 백업에서 복구되는 경우 vCenter Server의 호스트 멤버 자격 목록이 동기화되지 않을 수 있습니다. 이 상태 점검은 이런 경우를 감지하고 vCenter Server가 동기화되지 않음으로 인해 vCenter Server 상태가 ESXi에 푸시되지 않으면 경고를 보냅니다. 이런 경우, 먼저 vCenter Server의 멤버 자격 목록을 완전히 복원한 다음 필요에 따라 'ESXi 구성 업데이트' 작업을 수행합니다.
+com.vmware.vsan.health.test.vcauthoritative.short = vCenter Server 상태가 ESXi에 푸시되고 호스트 멤버 자격이 동기화 상태인지 확인합니다.
+
+#
+# vSAN HCL DB up-to-date check
+#
+com.vmware.vsan.health.test.hcl.hclDbUptodate.testName = vSAN HCL DB가 최신 상태임
+com.vmware.vsan.health.test.hcl.hclDbUptodate.testResult.label = HCL DB 정보
+com.vmware.vsan.health.test.hcl.hclDbUptodate.testResult.columnEntity = 엔티티
+com.vmware.vsan.health.test.hcl.hclDbUptodate.testResult.columnTime = UTC의 시간
+com.vmware.vsan.health.test.hcl.hclDbUptodate.testResult.rowCurrentTime = 현재 시간
+com.vmware.vsan.health.test.hcl.hclDbUptodate.testResult.rowLocalDBUpdateTime = 로컬 HCL DB 복사본 마지막 업데이트 날짜
+com.vmware.vsan.health.test.hcldbuptodate = HCL 검사에 사용된 VMware 하드웨어 호환성 가이드 데이터베이스 기간을 검사합니다. 90일 또는 180일보다 오래되면 각각 경고 또는 오류가 표시됩니다. VMware는 VCG를 자주 업데이트하므로 로컬 복사본을 최신 상태로 유지하는 것이 중요합니다.
+com.vmware.vsan.health.test.hcldbuptodate.short = VMware 하드웨어 호환성 가이드 데이터베이스의 사용 기간을 확인합니다.
+
+
+#
+# vSAN HCL DB Auto-update check
+#
+com.vmware.vsan.health.test.hcl.autohclupdate.testName = vSAN HCL DB 자동 업데이트
+com.vmware.vsan.health.test.hcl.autohclupdate.testResult.label = HCL DB 자동 업데이트 정보
+com.vmware.vsan.health.test.autohclupdate = vSAN HCL DB가 VMware HCL 릴리스 웹 사이트에서 자동으로 다운로드되고 업데이트될 수 있는지 검사합니다. VMware 공용 웹 사이트에 대해 인터넷 액세스가 없거나 vSAN HCL DB 자동 업데이트가 사용되도록 설정되어 있지 않은 경우 이 상태 검사는 사용자가 자동 목록에서 수동으로 제거하지 않는 한 기본적으로 자동 상태 검사 목록에 포함되어 건너뛴 상태가 표시됩니다. 그렇지 않으면 HCL 데이터베이스가 다른 이유(예: VMware HCL 릴리스 웹 사이트에 연결할 수 없음, 최신 HCL DB를 다운로드하지 못함, 로컬 HCL DB를 업데이트하지 못함)로 인해 자동으로 업데이트되지 못하는 경우 주의가 표시됩니다.
+com.vmware.vsan.health.test.autohclupdate.short = vSAN HCL DB가 VMware HCL 릴리스 웹 사이트에서 자동으로 다운로드되고 업데이트될 수 있는지 검사합니다. VMware 공용 웹 사이트에 대해 인터넷 액세스가 없거나 vSAN HCL DB 자동 업데이트가 사용되도록 설정되어 있지 않은 경우 이 상태 검사는 사용자가 자동 목록에서 수동으로 제거하지 않는 한 기본적으로 자동 상태 검사 목록에 포함되어 건너뛴 상태가 표시됩니다. 그렇지 않으면 HCL 데이터베이스가 다른 이유(예: VMware HCL 릴리스 웹 사이트에 연결할 수 없음, 최신 HCL DB를 다운로드하지 못함, 로컬 HCL DB를 업데이트하지 못함)로 인해 자동으로 업데이트되지 못하는 경우 주의가 표시됩니다.
+#
+#
+# SCSI Controller on vSAN HCL check
+#
+com.vmware.vsan.health.test.hcl.controllerOnHcl.testName = SCSI 컨트롤러가 VMware 인증을 받음
+com.vmware.vsan.health.test.hcl.controllerOnHcl.testResult.label = 컨트롤러 목록
+com.vmware.vsan.health.test.hcl.controllerOnHcl.testResult.columnHost = 호스트
+com.vmware.vsan.health.test.hcl.controllerOnHcl.testResult.columnDevice = 디바이스
+com.vmware.vsan.health.test.hcl.controllerOnHcl.testResult.columnUsedByVsan = vSAN에서 사용됨
+com.vmware.vsan.health.test.hcl.controllerOnHcl.testResult.contentUsedByVsanYes = 예
+com.vmware.vsan.health.test.hcl.controllerOnHcl.testResult.contentUsedByVsanNo = 아니요
+com.vmware.vsan.health.test.hcl.controllerOnHcl.testResult.columnDisplayName = 현재 컨트롤러
+com.vmware.vsan.health.test.hcl.controllerOnHcl.testResult.contentDisplayNameNA =  해당 없음
+com.vmware.vsan.health.test.hcl.controllerOnHcl.testResult.columnPCIId = PCI ID
+com.vmware.vsan.health.test.hcl.controllerOnHcl.testResult.columnOnHCL = 컨트롤러 인증됨
+com.vmware.vsan.health.test.controlleronhcl.short = 컨트롤러가 VMware 호환성 가이드와 호환되는지 확인
+com.vmware.vsan.health.test.controlleronhcl = 스토리지 I/O 컨트롤러에 대한 정보를 표시하고 PCI ID를 기반으로 하여 컨트롤러가 VMware 호환성 가이드에서 지원되는지 확인합니다. 일치하지 않으면 VMware 지원팀에 문의하십시오.
+
+#
+# Controller release support check
+#
+com.vmware.vsan.health.test.hcl.controllerReleaseSupport.testName = 컨트롤러가 ESXi 릴리스에 대해 VMware 인증을 받음
+com.vmware.vsan.health.test.hcl.controllerReleaseSupport.testResult.label = 컨트롤러 목록
+com.vmware.vsan.health.test.hcl.controllerReleaseSupport.testResult.columnHost = 호스트
+com.vmware.vsan.health.test.hcl.controllerReleaseSupport.testResult.columnDevice = 디바이스
+com.vmware.vsan.health.test.hcl.controllerReleaseSupport.testResult.columnReleaseOfESX = 현재 ESXi 릴리스
+com.vmware.vsan.health.test.hcl.controllerReleaseSupport.testResult.columnReleaseSupported = 지원되는 릴리스
+com.vmware.vsan.health.test.hcl.controllerReleaseSupport.testResult.columnReleaseOnHCL = 인증된 ESXi 릴리스
+com.vmware.vsan.health.test.controllerreleasesupport = 스토리지 I/O 컨트롤러 드라이버에 대한 정보를 표시합니다. 설치된 드라이버가 현재 ESXi 릴리스에서 해당하는 컨트롤러에 대해 지원되는지 확인합니다. VMware 인증을 받은 컨트롤러만 테스트되고 결과에 표시됩니다.
+com.vmware.vsan.health.test.controllerreleasesupport.short = 설치된 ESXi 릴리스에서 지정된 컨트롤러에 대해 지원되는 드라이버가 있는지 여부에 대한 정보를 표시합니다. VMware 인증을 받은 컨트롤러만 테스트되고 결과에 표시됩니다.
+
+#
+# Controller Driver check
+#
+com.vmware.vsan.health.test.hcl.controllerDriver.testName = 컨트롤러 드라이버가 VMware 인증을 받음
+com.vmware.vsan.health.test.hcl.controllerDriver.testResult.label = 컨트롤러 목록
+com.vmware.vsan.health.test.hcl.controllerDriver.testResult.columnHost = 호스트
+com.vmware.vsan.health.test.hcl.controllerDriver.testResult.columnDevice = 디바이스
+com.vmware.vsan.health.test.hcl.controllerDriver.testResult.columnDriverInUse = 현재 드라이버
+com.vmware.vsan.health.test.hcl.controllerDriver.testResult.columnDriverHealth = 인증된 드라이버
+com.vmware.vsan.health.test.hcl.controllerDriver.testResult.columnDriversOnHCL = 권장 드라이버
+com.vmware.vsan.health.test.controllerdriver = 컨트롤러에 사용되는 드라이버가 VMware 호환성 가이드에서 인증을 받은 드라이버로 나열되는지 확인합니다. vSAN HCL에 있으며 현재 ESXi 릴리스에 대해 인증을 받은 컨트롤러만 테스트되고 결과에 표시됩니다.
+com.vmware.vsan.health.test.controllerdriver.short = 컨트롤러 드라이버가 VMware 인증을 받았는지 확인합니다. vSAN HCL에 있으며 현재 ESXi 릴리스에 대해 인증을 받은 컨트롤러만 테스트되고 결과에 표시됩니다.
+
+
+# Controller Firmware check
+#
+#com.vmware.vsan.health.test.hcl.cimProviderInstall.testName = CIM Provider Installation
+com.vmware.vsan.health.test.hcl.cimProviderInstall.testResult.columnCIMInUse = 설치된 CIM 제공자
+com.vmware.vsan.health.test.hcl.cimProviderInstall.testResult.columnCIMSupported = CIM 제공자가 설치되었습니까?
+com.vmware.vsan.health.test.hcl.cimProviderInstall.testResult.columnCIMOnHCL = HCL의 CIM 제공자
+com.vmware.vsan.health.test.hcl.cimProviderInstall.testResult.columnCIMSettingSupported = 지원되는 컨트롤러 설정
+com.vmware.vsan.health.test.cimproviderinstall = 호스트가 VMware 호환성 가이드의 권장 버전과 일치하는 버전으로 CIM 제공자를 설치했는지 확인합니다. HCL DB가 지원되는 CIM 제공자가 없다고 나타내는 경우 또는 하나의 권장 버전이 있고 올바른 버전으로 설치된 경우 녹색이 됩니다. 그렇지 않으면 노란색 상태가 됩니다.
+com.vmware.vsan.health.test.cimproviderinstall.short = 제공된 CIM이 설치되고 VMware 호환성 가이드와 호환되는지 확인
+
+#
+# Controller Firmware check
+#
+com.vmware.vsan.health.test.hcl.controllerFirmware.testName = 컨트롤러 펌웨어가 VMware 인증을 받음
+com.vmware.vsan.health.test.hcl.controllerFirmware.testResult.columnFirmwareInUse = 현재 펌웨어
+com.vmware.vsan.health.test.hcl.controllerFirmware.testResult.columnFirmwareHealth = 인증된 펌웨어
+com.vmware.vsan.health.test.hcl.controllerFirmware.testResult.columnFirmwareOnHCL = 권장 펌웨어
+com.vmware.vsan.health.test.controllerfirmware = 컨트롤러 펌웨어가 VMware 호환성 가이드에 따라 인증을 받았는지 확인합니다. '해당 없음' 결과는 실제 펌웨어 버전을 확인하는 데 사용할 수 있는 경우 벤더 도구를 설치해야 함을 의미합니다. 사용할 수 있는 경우 '소프트웨어 업데이트' 작업을 통해 이렇게 함으로써 벤더 도구 및 펌웨어를 권장되는 버전으로 업데이트하십시오. vSAN HCL에 있으며 현재 ESXi 릴리스에 대해 인증을 받은 컨트롤러만 테스트되고 결과에 표시됩니다.
+com.vmware.vsan.health.test.controllerfirmware.short = 컨트롤러 펌웨어가 VMware 인증을 받았는지 확인합니다. '해당 없음' 결과는 실제 펌웨어 버전을 확인하는 데 사용할 수 있는 경우 벤더 도구를 설치해야 함을 의미합니다. 사용할 수 있는 경우 '소프트웨어 업데이트' 작업을 통해 이렇게 함으로써 벤더 도구 및 펌웨어를 권장되는 버전으로 업데이트하십시오. vSAN HCL에 있으며 현재 ESXi 릴리스에 대해 인증을 받은 컨트롤러만 테스트되고 결과에 표시됩니다.
+com.vmware.vsan.health.test.controllerfirmware.norecommendedfw = 이 컨트롤러의 펌웨어 버전을 검사할 수 없음
+#
+# Controller Queue Depth check
+#
+#com.vmware.vsan.health.test.hcl.controllerQueueDepth.testName = Controller queue depth is VMware certified
+com.vmware.vsan.health.test.hcl.controllerQueueDepth.testResult.columnQueueDepthInUse = 현재 대기열 크기
+com.vmware.vsan.health.test.hcl.controllerQueueDepth.testResult.columnQueueDepthOnHCL = 권장 대기열 크기
+com.vmware.vsan.health.test.hcl.controllerQueueDepth.testResult.columnQueueDepthHealth = 대기열 크기 인증됨
+com.vmware.vsan.health.test.controllerqueuedepth = 컨트롤러의 대기열 크기가 VMware 호환성 가이드를 충족하는지 검사합니다.
+com.vmware.vsan.health.test.controllerqueuedepth.short = 컨트롤러 대기열 크기가 VMware 인증을 받았는지 검사합니다.
+
+#
+# Controller Disk Mode check
+#
+com.vmware.vsan.health.test.hcl.controllerDiskMode.testName = 컨트롤러 디스크 그룹 모드가 VMware 인증을 받음
+com.vmware.vsan.health.test.hcl.controllerDiskMode.testResult.columnDiskModeInUse = 현재 디스크 그룹 모드
+com.vmware.vsan.health.test.hcl.controllerDiskMode.testResult.columnDiskModeOnHCL = 권장되는 디스크 그룹 모드
+com.vmware.vsan.health.test.hcl.controllerDiskMode.testResult.columnDiskModeHealth = 인증된 디스크 그룹 모드
+com.vmware.vsan.health.test.controllerdiskmode = vSAN 디스크 그룹 유형(플래시 전용 또는 하이브리드)이 VMware 호환성 가이드의 사용된 SCSI 컨트롤러에 대해 인증을 받았는지 확인합니다. vSAN HCL에 있으며 현재 ESXi 릴리스에 대해 인증을 받은 컨트롤러만 테스트되고 결과에 표시됩니다.
+com.vmware.vsan.health.test.controllerdiskmode.short = vSAN 디스크 그룹 유형(플래시 전용 또는 하이브리드)이 vSAN HCL에 있으며 현재 ESXi 릴리스에 대해 인증을 받은 사용된 SCSI 컨트롤러에 대해 VMware 인증을 받았는지 확인합니다.
+
+#
+# Controller Cache Setting check
+#
+#com.vmware.vsan.health.test.hcl.controllerCache.testName = Controller Cache Setting
+com.vmware.vsan.health.test.hcl.controllerCache.testResult.columnCacheInUse = 사용 중인 캐시 설정
+com.vmware.vsan.health.test.hcl.controllerCache.testResult.columnCacheHealth = 캐시 설정 상태
+com.vmware.vsan.health.test.hcl.controllerCache.testResult.columnCacheOnHCL = HCL의 캐시 설정
+com.vmware.vsan.health.test.controllercache = 컨트롤러에 대한 캐시 설정이 VMware 호환성 가이드에서 인증된 설정 중 하나와 일치하는지 확인합니다.
+com.vmware.vsan.health.test.controllercache.short = 컨트롤러의 캐시 설정이 VMware 인증을 받았는지 확인합니다.
+
+#
+# Controller RAID Setting check
+#
+#com.vmware.vsan.health.test.hcl.controllerRaid.testName = Controller RAID Setting
+com.vmware.vsan.health.test.hcl.controllerRaid.testResult.columnRaidInUse = 사용 중인 RAID 설정
+com.vmware.vsan.health.test.hcl.controllerRaid.testResult.columnRaidHealth = RAID 설정 상태
+com.vmware.vsan.health.test.hcl.controllerRaid.testResult.columnRaidOnHCL = HCL의 RAID 설정
+com.vmware.vsan.health.test.controllerraid = 컨트롤러에 대한 RAID 설정이 VMware 호환성 가이드에서 인증된 설정 중 하나와 일치하는지 확인합니다.
+com.vmware.vsan.health.test.controllerraid.short = 컨트롤러에 대한 RAID 설정이 VMware 인증을 받았는지 확인합니다.
+
+#
+#
+# Network Adapter on vSphere VMware HCL check
+#
+com.vmware.vsan.health.test.hcl.pnicOnHcl.testName = 네트워크 어댑터가 VMware 인증을 받음
+com.vmware.vsan.health.test.hcl.pnicOnHcl.testResult.label = 네트워크 어댑터 목록
+com.vmware.vsan.health.test.hcl.pnicOnHcl.testResult.columnHost = 호스트
+com.vmware.vsan.health.test.hcl.pnicOnHcl.testResult.columnDevice = 디바이스
+com.vmware.vsan.health.test.hcl.pnicOnHcl.testResult.columnDisplayName = 현재 어댑터
+com.vmware.vsan.health.test.hcl.pnicOnHcl.testResult.contentDisplayNameNA =  해당 없음
+com.vmware.vsan.health.test.hcl.pnicOnHcl.testResult.columnPCIId = PCI ID
+com.vmware.vsan.health.test.hcl.pnicOnHcl.testResult.columnOnHCL = 어댑터 인증됨
+com.vmware.vsan.health.test.pniconhcl.short = 네트워크 어댑터가 VMware 호환성 가이드와 호환되는지 확인합니다.
+com.vmware.vsan.health.test.pniconhcl = 네트워크 어댑터에 대한 정보를 표시하고 PCI ID를 기반으로 어댑터가 VMware 호환성 가이드에서 지원되는지 확인합니다.
+
+#
+# Network Adapter release support check
+#
+com.vmware.vsan.health.test.hcl.pnicReleaseSupport.testName = 네트워크 어댑터가 ESXi 릴리스에 대해 VMware 인증을 받음
+com.vmware.vsan.health.test.hcl.pnicReleaseSupport.testResult.label = 네트워크 어댑터 목록
+com.vmware.vsan.health.test.hcl.pnicReleaseSupport.testResult.columnHost = 호스트
+com.vmware.vsan.health.test.hcl.pnicReleaseSupport.testResult.columnDevice = 디바이스
+com.vmware.vsan.health.test.hcl.pnicReleaseSupport.testResult.columnReleaseOfESX = 현재 ESXi 릴리스
+com.vmware.vsan.health.test.hcl.pnicReleaseSupport.testResult.columnReleaseSupported = 지원되는 릴리스
+com.vmware.vsan.health.test.hcl.pnicReleaseSupport.testResult.columnReleaseOnHCL = 인증된 ESXi 릴리스
+com.vmware.vsan.health.test.pnicreleasesupportt = 네트워크 어댑터 드라이버에 대한 정보를 표시합니다. 설치된 드라이버가 현재 ESXi 릴리스의 해당 어댑터에 대해 지원되는지 확인합니다.
+com.vmware.vsan.health.test.pnicreleasesupport.short = 설치된 ESXi 릴리스에서 지정된 네트워크 어댑터에 대해 지원되는 드라이버가 있는지 여부에 대한 정보를 표시합니다.
+
+#
+# Network Adapter Driver check
+#
+com.vmware.vsan.health.test.hcl.pnicDriver.testName = 네트워크 어댑터 드라이버가 VMware 인증을 받음
+com.vmware.vsan.health.test.hcl.pnicDriver.testResult.label = 네트워크 어댑터 목록
+com.vmware.vsan.health.test.hcl.pnicDriver.testResult.columnHost = 호스트
+com.vmware.vsan.health.test.hcl.pnicDriver.testResult.columnDevice = 디바이스
+com.vmware.vsan.health.test.hcl.pnicDriver.testResult.columnDriverInUse = 현재 드라이버
+com.vmware.vsan.health.test.hcl.pnicDriver.testResult.columnDriverHealth = 인증된 드라이버
+com.vmware.vsan.health.test.hcl.pnicDriver.testResult.columnDriversOnHCL = 권장 드라이버
+com.vmware.vsan.health.test.pnicdriver = 네트워크 어댑터에 사용되는 드라이버가 VMware 호환성 가이드에서 인증을 받은 드라이버로 나열되는지 확인합니다.
+com.vmware.vsan.health.test.pnicdriver.short = 네트워크 어댑터 드라이버가 VMware 인증을 받았는지 확인합니다.
+
+#
+# Network Adapter Firmware check
+#
+com.vmware.vsan.health.test.hcl.pnicFirmware.testName = 네트워크 어댑터 펌웨어가 VMware 인증을 받음
+com.vmware.vsan.health.test.hcl.pnicFirmware.testResult.columnFirmwareInUse = 현재 펌웨어
+com.vmware.vsan.health.test.hcl.pnicFirmware.testResult.columnFirmwareHealth = 인증된 펌웨어
+com.vmware.vsan.health.test.hcl.pnicFirmware.testResult.columnFirmwaresOnHCL = 권장 펌웨어
+com.vmware.vsan.health.test.pnicfirmware = 네트워크 어댑터 펌웨어가 VMware 호환성 가이드에 따라 인증을 받았는지 확인합니다.
+com.vmware.vsan.health.test.pnicfirmware.short = 네트워크 어댑터 펌웨어가 VMware 인증을 받았는지 확인합니다. 이 확인은 디바이스와 드라이버 둘 다 VMware 인증을 받은 경우에 수행됩니다. 펌웨어 버전이 해당 드라이버의 디바이스에 대해 존재하지 않는 경우 확인이 녹색을 표시합니다.
+com.vmware.vsan.health.test.pnicfirmware.norecommendedfw = 이 네트워크 어댑터의 펌웨어 버전을 확인할 수 없음
+
+#
+# Host issues retrieving hardware info check
+#
+com.vmware.vsan.health.test.hcl.hclHostBadState.testName = 하드웨어 정보를 검색하는 중에 호스트 문제 발생
+com.vmware.vsan.health.test.hcl.hclHostBadState.testResult.label = 잘못된 상태의 호스트
+com.vmware.vsan.health.test.hcl.hclHostBadState.testResult.columnHost = 호스트
+com.vmware.vsan.health.test.hcl.hclHostBadState.testResult.columnIssue = 문제
+com.vmware.vsan.health.test.hcl.hclHostBadState.testResult.rowUnknownError = 알 수 없는 오류
+com.vmware.vsan.health.test.hclhostbadstate = 호스트가 연결이 끊어졌거나 응답하지 않거나 하드웨어 정보를 가져오는 시도에 응답하지 못하면 이 테스트는 이러한 문제를 캡처합니다. 여기에 나열된 호스트의 하드웨어는 VMware 호환성 가이드를 기준으로 확인되지 않습니다.
+com.vmware.vsan.health.test.hclhostbadstate.short = 호스트가 해당 하드웨어 정보를 반환하지 못했는지 확인합니다.
+
+#
+#  Network health check
+#
+com.vmware.vsan.health.test.network.testResult.partitionList.label = 파티션 목록
+com.vmware.vsan.health.test.network.testResult.partitionList.columnHost = 호스트
+com.vmware.vsan.health.test.network.testResult.partitionList.columnPartition = 파티션
+com.vmware.vsan.health.test.network.testResult.partitionList.columnHostUUID = 호스트 UUID
+com.vmware.vsan.health.test.network.testResult.partitionList.contentUnknownPartition = "알 수 없는 파티션"
+
+com.vmware.vsan.health.test.network.testResult.multicastMismatch.label = 멀티캐스트 구성
+com.vmware.vsan.health.test.network.testResult.multicastMismatch.columnHost = 호스트
+com.vmware.vsan.health.test.network.testResult.multicastMismatch.columnMulticastIPs = 멀티캐스트 IP
+
+com.vmware.vsan.health.test.network.testResult.subnetMismatch.label = vSAN IP 서브넷 구성
+com.vmware.vsan.health.test.network.testResult.subnetMismatch.columnHost = 호스트
+com.vmware.vsan.health.test.network.testResult.subnetMismatch.columnIPSubnet = IP 서브넷
+
+com.vmware.vsan.health.test.network.testResult.pingResult.label = Ping 결과
+com.vmware.vsan.health.test.network.testResult.pingResult.label.onlyFailed = 실패한 ping만
+com.vmware.vsan.health.test.network.testResult.pingResult.columnFromHost = 원본 호스트
+com.vmware.vsan.health.test.network.testResult.pingResult.columnToHost = 대상 호스트
+com.vmware.vsan.health.test.network.testResult.pingResult.columnToDevice = 대상 디바이스
+com.vmware.vsan.health.test.network.testResult.pingResult.columnPingResult = Ping 결과
+
+com.vmware.vsan.health.test.network.testResult.hostLatencyCheck.label = 네트워크 지연 시간 검사 결과
+com.vmware.vsan.health.test.network.testResult.hostLatencyCheck.label.onlyFailed = 실패한 네트워크 지연 시간 검사 결과만
+com.vmware.vsan.health.test.network.testResult.hostLatencyCheck.columnFromHost = 원본 호스트
+com.vmware.vsan.health.test.network.testResult.hostLatencyCheck.columnToHost = 대상 호스트
+com.vmware.vsan.health.test.network.testResult.hostLatencyCheck.columnMaxLatency = 네트워크 지연 시간(밀리초)
+com.vmware.vsan.health.test.network.testResult.hostLatencyCheck.columnPingResult = 네트워크 지연 시간 검사 결과
+
+com.vmware.vsan.health.test.network.testResult.simpleHost.columnHost = 호스트
+
+#
+# Hosts disconnected from VC check
+#
+com.vmware.vsan.health.test.network.hostDisconnected.testName = 호스트가 VC에서 연결이 끊김
+com.vmware.vsan.health.test.network.hostDisconnected.testResult.label = 연결이 끊어진 호스트
+com.vmware.vsan.health.test.network.testResult.hostDisconnected = 연결 끊김
+com.vmware.vsan.health.test.network.testResult.hostNotResponding = 응답 없음
+com.vmware.vsan.health.test.hostdisconnected.short = VC에 클러스터의 모든 호스트에 대한 활성 연결이 있는지 확인합니다.
+com.vmware.vsan.health.test.hostdisconnected = 이 검사는 VC에 클러스터의 모든 호스트에 대한 활성 연결이 있는지를 확인합니다. VC와 호스트의 연결이 끊어지면(또는 응답하지 않으면) 작동상의 문제가 발생할 수 있습니다. VC와 호스트가 연결되어 있지 않으면 VC에서 호스트의 상태를 알 수 없습니다. 호스트는 작동 중일 수도 있고, vSAN 클러스터에 참여하거나, 데이터를 제공하거나, 클러스터의 스토리지 기능에서 중요한 역할을 담당하고 있을 수도 있습니다. 아니면 호스트가 중지되어 사용할 수 없는 상태일 수도 있습니다. VC와 vSAN 상태 검사는 호스트의 연결이 끊어져 있는 한 제대로 상황을 평가할 수 없습니다. 호스트가 vSAN 클러스터에 참여 중이면 "예기치 않은 vSAN 클러스터 멤버" 검사에서 예기치 않은 상태로 표시됩니다. 해당 UUID를 확인할 수 없으므로 상태 검사에서는 vSAN 클러스터에서 보이는 호스트가 연결이 끊어진 호스트인지 여부를 확인할 수 없습니다. 또한 vSAN 연결 확인 또는 디스크 상태 검사 같은 다른 상태 검사에서 연결이 끊어진 호스트를 고려할 수 없게 됩니다.
+
+#
+# Hosts with connectivity issues check
+#
+com.vmware.vsan.health.test.network.hostConnectivity.testName = 연결 문제가 있는 호스트
+com.vmware.vsan.health.test.network.hostConnectivity.testResult.label = 통신 문제가 있는 호스트
+com.vmware.vsan.health.test.hostconnectivity.short = 호스트가 "연결됨" 상태에 있는 동안 VC에서 호스트로의 API 호출이 실패하는지 확인합니다.
+com.vmware.vsan.health.test.hostconnectivity = 이 검사는 VC에서 호스트가 연결된 것으로 나열되지만 VC에서 호스트로의 API 호출이 실패한 상태를 나타냅니다. 극히 드물지만 이러한 상태가 되면 "호스트가 VC에서 연결이 끊어지는" 상황과 유사한 문제가 발생합니다.
+
+# Cluster partition check
+com.vmware.vsan.health.test.network.clusterPartition.testName = vSAN 클러스터 파티션
+com.vmware.vsan.health.test.clusterpartition = 기능이 제대로 작동하려면 모든 vSAN 호스트가 멀티캐스트 및 유니캐스트 둘 다를 통해 통신할 수 있어야 합니다. 통신할 수 없는 경우 vSAN 클러스터가 여러 "파티션", 즉 호스트의 하위 그룹으로 분할됩니다. 이들 하위 그룹은 통신할 수는 있지만 다른 하위 그룹과의 통신은 불가능합니다. 이러한 경우 네트워크의 잘못된 구성이 해결될 때까지 vSAN 개체를 사용할 수 없게 됩니다.
+com.vmware.vsan.health.test.clusterpartition.short = vSAN 클러스터가 네트워크 문제로 인해 파티셔닝되었는지 확인합니다.
+
+#
+# Hosts vmknic check
+#
+com.vmware.vsan.health.test.network.vsanVmknic.testName = 모든 호스트에 구성된 vSAN vmknic가 있음
+com.vmware.vsan.health.test.network.vsanVmknic.testResult.label = vSAN vmknic가 존재하지 않는 호스트
+com.vmware.vsan.health.test.vsanvmknic = vSAN 클러스터에 참여하고 완전히 연결된 호스트의 단일 그룹을 형성하려면 vSAN 클러스터의 각 호스트에 vmknic(VMkernel 네트워크 인터페이스 또는 VMkernel 어댑터)가 vSAN 트래픽에 대해 구성되어 있어야 합니다.
+com.vmware.vsan.health.test.vsanvmknic.short = vSAN 클러스터의 모든 호스트에서 vSAN 트래픽에 대해 구성된 vmknic가 사용되는지 확인합니다.
+
+#
+# Hosts subnets check
+#
+com.vmware.vsan.health.test.network.matchingSubnet.testName = 모든 호스트에 일치하는 서브넷이 있음
+com.vmware.vsan.health.test.matchingsubnet = vSAN 클러스터에 참여하고 완전히 연결된 호스트의 단일 그룹을 형성하려면 vSAN 클러스터의 각 호스트가 클러스터의 다른 모든 호스트와 통신할 수 있어야 합니다. 이 검사는 모든 vSAN vmknic가 동일한 IP 서브넷에 있는지 확인합니다. 의도적으로 L3 네트워크를 통해 vSAN을 설정한 경우 이 검사 오류를 무시해야 합니다.
+com.vmware.vsan.health.test.matchingsubnet.short = vSAN 클러스터의 모든 호스트가 동일한 IP 서브넷에 있는지 확인합니다.
+
+#
+# Hosts multicast settings check
+#
+com.vmware.vsan.health.test.network.multicastSettings.testName = 모든 호스트에 일치하는 멀티캐스트 설정이 있음
+com.vmware.vsan.health.test.multicastsettings = vSAN 클러스터에 참여하고 완전히 연결된 호스트의 단일 그룹을 형성하려면 vSAN 클러스터의 각 호스트가 동일한 IP 멀티캐스트 주소를 사용해야 하며 클러스터가 IPv4 또는 IPv6을 사용하는지 여부에 따라 해당 멀티캐스트 구성이 확인됩니다. "esxcli vsan network list" 및 "esxcli vsan network ip set"를 사용하여 멀티캐스트 IP를 조정하십시오.
+com.vmware.vsan.health.test.multicastsettings.short = vSAN 클러스터의 모든 호스트에 일치하는 IP 멀티캐스트 구성이 있는지 확인합니다. 클러스터가 IPv4 또는 IPv6을 사용하는지 여부에 따라 해당 멀티캐스트 구성이 확인됩니다.
+
+#
+# Hosts unicast conectivity check
+#
+com.vmware.vsan.health.test.network.smallPing.testName = vSAN: 기본(유니캐스트) 연결 확인
+com.vmware.vsan.health.test.network.smallping = 각 호스트에서 다른 모든 호스트로 작은 패킷 크기를 사용하여 ping 테스트를 수행합니다. 이 검사가 실패하면 네트워크 연결에서 기본 문제가 있는 것입니다. vmknic, 업링크, VLAN, 물리적 스위치 및 관련 설정을 확인하십시오. 이 검사가 통과되면 기본 유니캐스트 연결이 제대로 작동하는 것입니다.
+com.vmware.vsan.health.test.network.smallping.short = 각 호스트에서 다른 모든 호스트로 작은 패킷 크기를 사용하여 ping 테스트를 수행합니다.
+
+#
+# Hosts MTU check
+#
+com.vmware.vsan.health.test.network.largePing.testName = vSAN: MTU 확인(큰 패킷 크기를 사용하는 ping)
+com.vmware.vsan.health.test.network.largeping = 각 호스트에서 다른 모든 호스트로 큰 패킷 크기를 사용하여 ping 테스트를 수행합니다. 이 검사가 실패한 상태에서 기본 연결 확인이 통과되는 경우 MTU 설정에 문제가 있는 것입니다.
+com.vmware.vsan.health.test.network.largeping.short = 각 호스트에서 다른 모든 호스트로 큰 패킷 크기를 사용하여 ping 테스트를 수행합니다.
+
+#
+# Hosts network latency check
+#
+com.vmware.vsan.health.test.network.hostLatencyCheck.testName = 네트워크 지연 시간 검사
+com.vmware.vsan.health.test.hostlatencycheck = vSAN 호스트의 네트워크 지연 시간 확인을 수행합니다. 정상적인 클러스터의 네트워크 구성 지침에 따르면 RTT는 1밀리초 미만이어야 합니다. 이 상태 검사는 일시적인 변동을 감안하여 일반적인 임계값인 5밀리초를 기반으로 주의를 보고합니다. 이 검사가 실패할 경우 vmknic, 업링크, VLAN, 물리적 스위치 및 관련 설정을 확인하여 네트워크 문제를 찾으십시오. 참고: 호스트 쌍이 연결 확인에 실패한 경우에는 이 검사를 건너뜁니다.
+com.vmware.vsan.health.test.hostlatencycheck.short = vSAN 호스트의 네트워크 지연 시간 확인을 수행합니다. RTT는 1밀리초 미만이어야 합니다. 이 상태 검사는 일시적인 변동을 감안하여 일반적인 임계값인 5밀리초를 기반으로 주의를 보고합니다. 참고: 호스트 쌍이 연결 확인에 실패한 경우에는 이 검사를 건너뜁니다.
+
+#
+# Hosts multicast assessment based on other checks
+#
+com.vmware.vsan.health.test.network.multicastSuspected.testName = 다른 확인을 기반으로 하는 멀티캐스트 평가
+com.vmware.vsan.health.test.multicastsuspected = 이 검사는 vSAN 구성 검사와 유니캐스트 연결 확인은 통과했지만 vSAN 클러스터 파티션이 있는 경우 멀티캐스트 문제가 있을 수 있음을 나타냅니다. 통과하지 못하면 추가적으로 "활성 멀티캐스트 연결 확인"이 수행됩니다.
+com.vmware.vsan.health.test.multicastsuspected.short = vSAN 클러스터의 호스트에 IP 멀티캐스트 연결 문제가 있는지 확인합니다.
+
+#
+# Active multicast connectivity check
+#
+com.vmware.vsan.health.test.network.multicastDeepDive.testName = 활성 멀티캐스트 연결 확인
+com.vmware.vsan.health.test.network.multicastDeepDive.testResult.issueLabel = 감지된 문제
+com.vmware.vsan.health.test.network.multicastDeepDive.testResult.columnIssue = 문제
+com.vmware.vsan.health.test.network.multicastDeepDive.testResult.connectGroupLabel = 연결 그룹
+com.vmware.vsan.health.test.network.multicastDeepDive.testResult.columnMaster = 마스터
+com.vmware.vsan.health.test.network.multicastDeepDive.testResult.columnMembers = 멤버
+com.vmware.vsan.health.test.network.multicastDeepDive.testResult.packetLabel = 패킷
+com.vmware.vsan.health.test.network.multicastDeepDive.testResult.columnTimestamp = 타임 스탬프
+com.vmware.vsan.health.test.network.multicastDeepDive.testResult.columnMsgType = 메시지 유형
+com.vmware.vsan.health.test.network.multicastDeepDive.testResult.columnSeq = 시퀀스 번호
+com.vmware.vsan.health.test.network.multicastDeepDive.testResult.columnFrom = 시작
+com.vmware.vsan.health.test.network.multicastDeepDive.testResult.columnTo = 끝
+com.vmware.vsan.health.test.network.multicastDeepDive.testResult.columnReceivedBy = 수신자
+com.vmware.vsan.health.test.multicastdeepdive = 이 상태 검사는 일정 기간 동안 클러스터의 모든 호스트에서 멀티캐스트 패킷을 캡처합니다. 특히 "CMMDS 마스터 하트비트"로 알려진 항목을 찾습니다. "vSAN/CMMDS 마스터"(파티션당 하나)로 선택된 호스트는 모두 1초에 한 번씩 이러한 하트비트를 보냅니다. 이러한 하트비트는 멀티캐스트를 통해 전송되며 클러스터의 모든 호스트가 이 하트비트를 수신해야 클러스터가 제대로 작동합니다. 어떤 호스트가 하트비트를 전송했는데 다른 호스트가 수신하지 못한 경우 이는 일반적으로 물리적 네트워크에서 멀티캐스트가 잘못 구성되었음을 나타냅니다.
+com.vmware.vsan.health.test.multicastdeepdive.short = vSAN 클러스터의 모든 호스트가 "vSAN 마스터" 호스트의 멀티캐스트 하트비트를 받는지 확인합니다.
+
+#
+# Object health check
+#
+com.vmware.vsan.health.test.data.objectHealth.testName = vSAN 개체 상태
+com.vmware.vsan.health.test.data.objectHealth.testResult.label = 개체 상태 개요
+com.vmware.vsan.health.test.data.objectHealth.testResult.columnHealthObject = 상태/개체
+com.vmware.vsan.health.test.data.objectHealth.testResult.columnNumber = 수량
+com.vmware.vsan.health.test.data.objectHealth.testResult.columnObjectUuid = 개체 UUID
+com.vmware.vsan.health.test.objecthealth = 클러스터의 모든 개체를 요약하고 개체 상태의 세분화된 범주로 이러한 개체를 그룹화하여 클러스터의 전반적인 개요를 제공합니다.
+com.vmware.vsan.health.test.objecthealth.short = 모든 vSAN 개체의 상태를 확인합니다.
+
+#
+# Inconsistent VM health check
+#
+com.vmware.vsan.health.test.data.inconsistentVm.testName = VM 전원 상태 일관성
+com.vmware.vsan.health.test.data.inconsistentVm.testResult.label = 일관되지 않은 VM 상태
+com.vmware.vsan.health.test.data.inconsistentVm.testResult.columnVm = VM
+com.vmware.vsan.health.test.data.inconsistentVm.testResult.columnHost = 호스트
+com.vmware.vsan.health.test.data.inconsistentVm.testResult.columnVmUuid = VM 경로 이름
+com.vmware.vsan.health.test.data.inconsistentVm.testResult.columnError = 오류
+com.vmware.vsan.health.test.data.inconsistentVm.testResult.error.existAtHost= 호스트에만 있습니다.
+com.vmware.vsan.health.test.data.inconsistentVm.testResult.error.existAtVC= VC에만 있습니다.
+com.vmware.vsan.health.test.data.inconsistentVm.testResult.error.powerOnVCOffOnHost= VC에는 전원이 켜져 있지만 호스트에는 전원이 꺼져 있습니다.
+com.vmware.vsan.health.test.data.inconsistentVm.testResult.error.powerOffVCOnHost= VC에는 전원이 꺼져 있지만 호스트에는 전원이 켜져 있습니다.
+com.vmware.vsan.health.test.data.inconsistentVm.testResult.error.existMultipleHosts= 여러 호스트에 있습니다.
+com.vmware.vsan.health.test.data.inconsistentVm.testResult.error.injectedError= 테스트를 위해 삽입된 오류입니다.
+com.vmware.vsan.health.test.inconsistentVm = vSAN에 배포되어 있는 VM 중 전원 상태가 일관되지 않은 모든 VM을 요약하여 클러스터의 전반적인 개요를 제공합니다.
+com.vmware.vsan.health.test.inconsistentVm.short = 일관되지 않은 VM의 목록을 가져오기 위해 각 VM의 전원 상태를 확인합니다.
+
+#
+# Inaccessible VM health check
+#
+com.vmware.vsan.health.test.data.inaccessibleVm.testName = VM 액세스 지원
+com.vmware.vsan.health.test.data.inaccessibleVm.testResult.label = 액세스할 수 없는 VM 상태
+com.vmware.vsan.health.test.data.inaccessibleVm.testResult.columnVm = VM
+com.vmware.vsan.health.test.data.inaccessibleVm.testResult.columnHost = 호스트
+com.vmware.vsan.health.test.data.inaccessibleVm.testResult.columnVmUuid = VM 경로 이름
+com.vmware.vsan.health.test.inaccessibleVm = vSAN에 배포되어 있는 VM 중 액세스할 수 없는 모든 VM을 요약하여 클러스터의 전반적인 개요를 제공합니다.
+com.vmware.vsan.health.test.inaccessibleVm.short = 액세스할 수 없는 VM 목록을 가져오기 위해 각 VM의 연결 상태를 확인합니다.
+
+#
+# Object Data protection health check
+#
+com.vmware.vsan.health.test.dataprotection.objectdphealth.testName = vSAN 개체 데이터 보호 상태
+com.vmware.vsan.health.test.dataprotection.objectdphealth.testResult.label = 개체 데이터 보호 상태 개요
+com.vmware.vsan.health.test.dataprotection.objectdphealth.testResult.columnHealthObject = 상태/개체
+com.vmware.vsan.health.test.dataprotection.objectdphealth.testResult.columnNumber = 수량
+com.vmware.vsan.health.test.dataprotection.objectdphealth.testResult.columnObjectUuid = 개체 UUID
+com.vmware.vsan.health.test.objectdphealth = 클러스터의 모든 개체를 요약하고 개체 데이터 보호 상태의 세분화된 범주로 이러한 개체를 그룹화하여 클러스터의 전반적인 개요를 제공합니다.
+com.vmware.vsan.health.test.objectdphealth.short = 모든 vSAN 개체의 데이터 보호 상태를 확인합니다.
+
+#
+# Data protection version check
+#
+com.vmware.vsan.health.test.dataprotection.dataprotectionversion.testName = 데이터 보호 서비스 버전 확인
+com.vmware.vsan.health.test.dataprotection.dataprotectionversion.testResult.label = vSAN 데이터 보호 서비스 버전 확인
+com.vmware.vsan.health.test.dataprotection.dataprotectionversion.testResult.columnHost = 호스트
+com.vmware.vsan.health.test.dataprotection.dataprotectionversion.testResult.columnVersionEsx = ESXi의 버전
+com.vmware.vsan.health.test.dataprotection.dataprotectionversion.testResult.columnVersionVc = VC의 버전
+com.vmware.vsan.health.test.dataprotection.dataprotectionversion.testResult.columnError = 오류
+com.vmware.vsan.health.test.dataprotectionversion = 클러스터에 있는 호스트에 데이터 보호 호환 소프트웨어 버전이 있는지 확인
+com.vmware.vsan.health.test.dataprotectionversion.short = vSAN 클러스터에 있는 모든 호스트에 데이터 보호 호환 소프트웨어 버전이 있는지 확인합니다.
+com.vmware.vsan.health.test.dataprotection.dataprotectionversion.issues.notSupported = 호스트가 데이터 보호를 지원하지 않음
+
+#
+# vSAN DPD liveness check
+#
+com.vmware.vsan.health.test.dataprotection.dpdliveness.testName = vSAN DPD 작동 여부
+com.vmware.vsan.health.test.dataprotection.dpdliveness.testResult.label = vSAN 호스트 DPD 작동 여부
+com.vmware.vsan.health.test.dataprotection.dpdliveness.testResult.columnHost = 호스트
+com.vmware.vsan.health.test.dataprotection.dpdliveness.testResult.columnState = 상태
+com.vmware.vsan.health.test.dataprotection.dpdliveness.testResult.columnError = 오류
+com.vmware.vsan.health.test.dataprotection.dpdliveness.testResult.hostUnknown = 알 수 없음
+com.vmware.vsan.health.test.dpdliveness = 모든 vSAN 호스트에서 DPD 작동 여부 확인
+com.vmware.vsan.health.test.dpdliveness.short = DP 데몬 작동 여부 확인
+
+#
+# vSAN datastore usage threshold check
+#
+com.vmware.vsan.health.test.dataprotection.datastoreusage.testName = vSAN 데이터스토어 사용량 임계값 확인
+com.vmware.vsan.health.test.dataprotection.datastoreusage.testResult.label = vSAN 호스트 데이터스토어 사용량 임계값
+com.vmware.vsan.health.test.dataprotection.datastoreusage.testResult.columnHost = 호스트
+com.vmware.vsan.health.test.dataprotection.datastoreusage.testResult.columnDatastoreUsage  = 데이터스토어 사용량
+com.vmware.vsan.health.test.dataprotection.datastoreusage.testResult.columnConfiguredUsageThreshold  = 구성된 사용량 임계값
+com.vmware.vsan.health.test.dataprotection.datastoreusage.testResult.columnStatus = 상태
+com.vmware.vsan.health.test.dataprotection.datastoreusage.testResult.columnError = 오류
+com.vmware.vsan.health.test.datastoreusage = 클러스터에 있는 vSAN 데이터스토어 사용량을 확인하여 데이터 보호를 계속해야 할지 결정
+com.vmware.vsan.health.test.datastoreusage.short = vSAN 데이터스토어 사용량을 확인합니다. 데이터스토어 사용량이 구성된 사용량 임계값을 초과하는 경우 데이터 보호가 중지됩니다. 구성된 임계값을 초과했거나 초과하려고 하는 호스트만 보고됩니다.
+
+#
+# Data protection config check
+#
+com.vmware.vsan.health.test.dataprotection.dpcfgsync.testName = vSAN 데이터 보호 서비스 구성이 동기화됨
+com.vmware.vsan.health.test.dataprotection.dpcfgsync.testResult.label = vSAN 데이터 보호 서비스 구성 옵션
+com.vmware.vsan.health.test.dataprotection.dpcfgsync.testResult.columnOption = 옵션
+com.vmware.vsan.health.test.dataprotection.dpcfgsync.testResult.columnValue = 값
+com.vmware.vsan.health.test.dataprotection.dpcfgsync.testResult.columnStatus = 일관성 확인
+com.vmware.vsan.health.test.dataprotection.dpcfgsync.testResult.columnHostsWithValue = 일관되지 않은 호스트
+com.vmware.vsan.health.test.dpcfgsync = 이 확인을 통해 클러스터에 있는 모든 호스트에 대한 vSAN 데이터 보호 서비스 구성이 클러스터 수준 구성과 일치하는지 확인합니다.
+com.vmware.vsan.health.test.dpcfgsync.short = vSAN 클러스터의 모든 호스트에 일관된 데이터 보호 구성 옵션이 있는지 확인합니다.
+
+#
+# Data protection archival target accessibility check
+#
+com.vmware.vsan.health.test.dataprotection.archivalaccessibility.testName = vSAN 데이터 보호 아카이브 대상 액세스 지원
+com.vmware.vsan.health.test.dataprotection.archivalaccessibility.testResult.label = vSAN 데이터 보호 아카이브 대상 액세스 지원
+com.vmware.vsan.health.test.dataprotection.archivalaccessibility.testResult.columnHost = 호스트
+com.vmware.vsan.health.test.dataprotection.archivalaccessibility.testResult.columnArchive = 아카이브
+com.vmware.vsan.health.test.dataprotection.archivalaccessibility.testResult.columnArchiveUrl = 아카이브 URL
+com.vmware.vsan.health.test.dataprotection.archivalaccessibility.testResult.columnStatus = 상태
+com.vmware.vsan.health.test.dataprotection.archivalaccessibility.testResult.columnError = 오류
+com.vmware.vsan.health.test.archivalaccessibility = vSAN 클러스터에 있는 모든 호스트에서 데이터 보호 아카이브 대상 액세스 지원을 확인합니다.
+com.vmware.vsan.health.test.archivalaccessibility.short = vSAN 클러스터에 있는 모든 호스트에서 데이터 보호 아카이브 대상 액세스 지원을 확인합니다.
+
+#
+# VM health check
+#
+com.vmware.vsan.health.test.data.vmHealth.testName = vSAN VM 상태
+com.vmware.vsan.health.test.data.vmHealth.testResult.label = VM 상태 개요
+com.vmware.vsan.health.test.data.vmHealth.testResult.columnHealthVM = 상태
+com.vmware.vsan.health.test.data.vmHealth.testResult.columnNumber = 수량
+com.vmware.vsan.health.test.data.vmHealth.testResult.columnMoRefs = 가상 시스템
+com.vmware.vsan.health.test.vmhealth = 클러스터의 모든 VM을 요약하고 VM 상태의 세분화된 범주로 이러한 VM을 그룹화하여 클러스터의 전반적인 개요를 제공합니다.
+com.vmware.vsan.health.test.vmhealth.short = 모든 vSAN VM의 상태를 확인합니다.
+
+# Limit check
+#
+com.vmware.vsan.health.test.limits.limit0hf.testName = 현재 클러스터 상황
+com.vmware.vsan.health.test.limits.limit1hf.testName = 1번의 추가 호스트 실패 후
+com.vmware.vsan.health.test.limits.nodecomponentlimit.testName = 호스트 구성 요소 제한
+com.vmware.vsan.health.test.nodecomponentlimit = 이 상태 검사에는 구성 요소 제한과 각 호스트의 현재 구성 요소 사용량이 나열됩니다. 구성 요소 제한에 도달하거나 구성 요소의 균형이 맞지 않을 경우에는 호스트를 추가하거나 이러한 구성 요소를 재조정해야 할 수 있습니다.
+com.vmware.vsan.health.test.nodecomponentlimit.short = 호스트 구성 요소 제한과 vSAN 클러스터에 속한 각 호스트의 구성 요소 사용량을 확인합니다.
+com.vmware.vsan.health.test.limit0hf = 전체 클러스터에서 구성 요소 제한, 사용 가능한 용량 계층 디스크 공간 및 읽기 캐시 예약을 확인합니다. 이렇게 리소스를 확인하는 방식은 간단하지만 모든 vSAN 배치 규칙을 고려하지 않습니다. 실제 사용 가능한 리소스는 더 적을 수 있습니다.
+com.vmware.vsan.health.test.limit0hf.short = vSAN 구성 요소 제한, 디스크 공간 및 읽기 캐시 예약을 확인합니다.
+com.vmware.vsan.health.test.limit1hf = 이 상태 검사는 대부분의 리소스가 사용된 호스트 실패를 시뮬레이션하고 클러스터 리소스 소모를 표시합니다. 첫째, 해당 호스트의 리소스를 더 이상 사용할 수 없습니다. 둘째, vSAN이 이제 감소된 이중화로 실행 중인 모든 개체를 재보호하려고 시도합니다. 사용률이 100%를 초과하면 모든 개체를 재보호할 수 없습니다.
+com.vmware.vsan.health.test.limit.testResult.columnHostCompUtilization = 호스트 구성 요소 사용률
+com.vmware.vsan.health.test.limit1hf.short = 하나의 호스트 실패를 가정하여 vSAN 구성 요소 제한, 디스크 공간 및 RC 예약을 확인합니다.
+com.vmware.vsan.health.test.limit.testResult.label = 리소스
+com.vmware.vsan.health.test.limit.testResult.columnResource = 리소스
+com.vmware.vsan.health.test.limit.testResult.columnUtilization = 사용률
+com.vmware.vsan.health.test.limit.testResult.columnHealth = 상태
+com.vmware.vsan.health.test.limit.testResult.compUtilization = 구성 요소 사용률
+com.vmware.vsan.health.test.limit.testResult.rowDiskSpaceUtilization = 디스크 공간 사용률
+com.vmware.vsan.health.test.limit.testResult.rowRCReservations = 읽기 캐시 예약
+com.vmware.vsan.health.test.limit.testResult.columnHostType = 유형
+
+#
+# Physical disk health retrieval issues check
+#
+com.vmware.vsan.health.test.physicalDisks.physdiskHostIssues.testName = 물리적 디스크 상태 검색 문제
+com.vmware.vsan.health.test.physicalDisks.physdiskHostIssues.testResult.label = 문제가 있는 호스트
+com.vmware.vsan.health.test.physicalDisks.physdiskHostIssues.testResult.columnHost = 호스트
+com.vmware.vsan.health.test.physicalDisks.physdiskHostIssues.testResult.columnError = 오류
+com.vmware.vsan.health.test.physdiskhostissues = 이 검사는 vSAN 클러스터에 있는 하나 이상의 호스트에서 물리적 디스크 정보를 검색하는 문제가 있었다는 것을 나타냅니다. 특정 원인은 세부 정보를 참조하십시오.
+com.vmware.vsan.health.test.physdiskhostissues.short = vSAN 클러스터의 호스트에서 물리적 디스크 정보를 검색하는 중에 문제가 발생했는지 확인합니다.
+
+#
+# Overall disk health check
+#
+com.vmware.vsan.health.test.physicalDisks.physdiskOverall.testName = 작업 상태
+com.vmware.vsan.health.test.physicalDisks.physdiskOverall.testResult.label = 문제가 있는 디스크
+com.vmware.vsan.health.test.physicalDisks.physdiskOverall.testResult.columnHost = 호스트
+com.vmware.vsan.health.test.physicalDisks.physdiskOverall.testResult.columnDisk = 디스크
+com.vmware.vsan.health.test.physicalDisks.physdiskOverall.testResult.columnOverall = 전체 작업 상태
+com.vmware.vsan.health.test.physicalDisks.physdiskOverall.testResult.columnOperational = 작동
+com.vmware.vsan.health.test.physicalDisks.physdiskOverall.testResult.columnMetadata = 메타데이터
+com.vmware.vsan.health.test.physicalDisks.physdiskOverall.testResult.columnUUID = UUID
+com.vmware.vsan.health.test.physicalDisks.physdiskOverall.testResult.columnOperationalState = 작동 상태
+com.vmware.vsan.health.test.physicalDisks.physdiskOverall.testResult.columnRecommendation = 권장 사항
+com.vmware.vsan.health.test.physicalDisks.physdiskOverall.testResult.failed = 영구적 디스크 오류
+com.vmware.vsan.health.test.physicalDisks.physdiskOverall.testResult.failed.propagated = 디스크 그룹에서 영구적 디스크 오류가 전파됨
+com.vmware.vsan.health.test.physicalDisks.physdiskOverall.testResult.offline = 영구적 디스크 손실
+com.vmware.vsan.health.test.physicalDisks.physdiskOverall.testResult.decommissioned = 디스크 서비스 해제됨
+com.vmware.vsan.health.test.physicalDisks.physdiskOverall.testResult.latency.evacuating = 영구적 디스크 오류가 임박함, 데이터가 제거되고 있음
+com.vmware.vsan.health.test.physicalDisks.physdiskOverall.testResult.latency.evacuateFailed = 영구적 디스크 오류가 임박함, 리소스가 부족하여 제거에 실패함
+com.vmware.vsan.health.test.physicalDisks.physdiskOverall.testResult.latency.evacuateInaccessible = 영구적 디스크 오류가 임박함, 개체에 액세스하지 못해 제거에 실패함
+com.vmware.vsan.health.test.physicalDisks.physdiskOverall.testResult.latency.evacuated = 영구적 디스크 오류가 임박함, 데이터 제거 완료
+com.vmware.vsan.health.test.physicalDisks.physdiskOverall.testResult.logCongestion.evacuating = 과도한 로그 정체가 관찰되었음, 데이터를 비우는 중
+com.vmware.vsan.health.test.physicalDisks.physdiskOverall.testResult.logCongestion.evacuateFailed = 과도한 로그 정체가 관찰되었음, 리소스 부족으로 비우기에 실패함
+com.vmware.vsan.health.test.physicalDisks.physdiskOverall.testResult.logCongestion.evacuateInaccessible = 과도한 로그 정체가 관찰되었음, 접근할 수 없는 개체 때문에 비우기에 실패함
+com.vmware.vsan.health.test.physicalDisks.physdiskOverall.testResult.logCongestion.evacuated = 과도한 로그 정체가 관찰되었음, 데이터 비우기 완료
+com.vmware.vsan.health.test.physicalDisks.physdiskOverall.testResult.propagated.evacuating = 디스크 그룹에서 임박한 영구적 디스크 오류가 전파됨, 데이터를 비우는 중임
+com.vmware.vsan.health.test.physicalDisks.physdiskOverall.testResult.propagated.evacuateFailed = 디스크 그룹에서 임박한 영구적 디스크 오류가 전파됨, 리소스가 부족하여 제거에 실패함
+com.vmware.vsan.health.test.physicalDisks.physdiskOverall.testResult.propagated.evacuateInaccessible = 디스크 그룹에서 임박한 영구적 디스크 오류가 전파됨, 개체에 액세스하지 못해 제거에 실패함
+com.vmware.vsan.health.test.physicalDisks.physdiskOverall.testResult.propagated.evacuated = 디스크 그룹에서 임박한 영구적 디스크 오류가 전파됨, 데이터 비우기 완료
+com.vmware.vsan.health.test.physicalDisks.physdiskOverall.testResult.unknown = 알 수 없는 디스크 상태
+com.vmware.vsan.health.test.physdiskoverall = vSAN 클러스터의 모든 호스트에 대한 물리적 디스크 작업 상태를 확인합니다. 이 확인이 실패하는 경우 디스크 메타데이터 읽기 문제 또는 이 디스크 사용을 방지하는 vSAN 소프트웨어 문제와 같은 가능한 이유로 더 이상 디스크를 vSAN에 사용할 수 없습니다.
+com.vmware.vsan.health.test.physdiskoverall.short = vSAN 클러스터의 모든 호스트에 대한 물리적 디스크의 작업 상태를 확인합니다.
+com.vmware.vsan.health.test.physicalDisks.physdiskOverall.testResult.recommendation.error = 디스크를 제거하십시오.
+com.vmware.vsan.health.test.physicalDisks.physdiskOverall.testResult.recommendation.error.propagated = 디스크 그룹을 마운트 해제하십시오.
+com.vmware.vsan.health.test.physicalDisks.physdiskOverall.testResult.recommendation.refer = 캐시 디스크에 대한 권장 사항을 참조하십시오.
+com.vmware.vsan.health.test.physicalDisks.physdiskOverall.testResult.recommendation.latency.evacuating = 비우기가 완료되면 디스크를 교체해야 합니다. 교체 디스크를 준비하십시오.
+com.vmware.vsan.health.test.physicalDisks.physdiskOverall.testResult.recommendation.latency.evacuateFailed = 클러스터에 {0}GB 용량 추가
+com.vmware.vsan.health.test.physicalDisks.physdiskOverall.testResult.recommendation.latency.evacuateInaccessible = '데이터' 상태 검사를 참조하여 액세스할 수 없는 개체를 해결하십시오.
+com.vmware.vsan.health.test.physicalDisks.physdiskOverall.testResult.recommendation.latency.evacuated = 디스크가 중복 제거가 활성화된 디스크 그룹에 속한 경우 vSAN에서 디스크 그룹을 제거하고, 소멸 디스크를 교체하고, 디스크 그룹을 다시 추가하십시오. 그렇지 않으면, 소멸 디스크를 제거하고 교체 디스크를 추가하십시오.
+com.vmware.vsan.health.test.physicalDisks.physdiskOverall.testResult.recommendation.logCongestion.evacuating = 제거 도중 필요한 작업 없음
+com.vmware.vsan.health.test.physicalDisks.physdiskOverall.testResult.recommendation.logCongestion.evacuateFailed = 클러스터에 {0}GB 용량 추가
+com.vmware.vsan.health.test.physicalDisks.physdiskOverall.testResult.recommendation.logCongestion.evacuateInaccessible = '데이터' 상태 검사를 참조하여 액세스할 수 없는 개체를 해결하십시오.
+com.vmware.vsan.health.test.physicalDisks.physdiskOverall.testResult.recommendation.logCongestion.evacuated = vSAN에서 디스크 그룹을 제거하고 다시 추가하십시오.
+com.vmware.vsan.health.test.physicalDisks.physdiskOverall.testResult.recommendation.propagated.evacuating = 제거 도중 필요한 작업 없음
+com.vmware.vsan.health.test.physicalDisks.physdiskOverall.testResult.recommendation.propagated.evacuateFailed = 클러스터에 {0}GB 용량 추가
+com.vmware.vsan.health.test.physicalDisks.physdiskOverall.testResult.recommendation.propagated.evacuateInaccessible = '데이터' 상태 검사를 참조하여 액세스할 수 없는 개체를 해결하십시오.
+com.vmware.vsan.health.test.physicalDisks.physdiskOverall.testResult.recommendation.propagated.evacuated = vSAN에서 디스크 그룹을 제거하고, 소멸 디스크를 교체하고, 디스크 그룹을 다시 추가하십시오
+
+#
+# Component limit health check
+#
+com.vmware.vsan.health.test.physicalDisks.physdiskcomplimithealth.testName = 구성 요소 제한 상태
+com.vmware.vsan.health.test.physicalDisks.componentUtilization.testResult.label = 모든 디스크
+com.vmware.vsan.health.test.physicalDisks.componentLimitHealth.testResult.label = 문제가 있는 디스크
+com.vmware.vsan.health.test.physicalDisks.componentLimitHealth.testResult.columnHost = 호스트
+com.vmware.vsan.health.test.physicalDisks.componentLimitHealth.testResult.columnUtilization = 디스크 구성 요소 사용률
+com.vmware.vsan.health.test.physicalDisks.componentLimitHealth.testResult.columnHealth = 상태
+com.vmware.vsan.health.test.physdiskcomplimithealth = 물리적 디스크의 구성 요소 수가 최대 제한에 도달했는지 검사
+com.vmware.vsan.health.test.physdiskcomplimithealth.short = 각 물리적 디스크의 구성 요소 제한을 검사합니다.
+
+#
+# Disk capacity check
+#
+# Metadata health check
+#
+com.vmware.vsan.health.test.physicalDisks.physdiskMetadata.testName = 메타데이터 상태
+com.vmware.vsan.health.test.physicalDisks.physdiskMetadata.testResult.label = 문제가 있는 디스크
+com.vmware.vsan.health.test.physicalDisks.physdiskMetadata.testResult.columnHost = 호스트
+com.vmware.vsan.health.test.physicalDisks.physdiskMetadata.testResult.columnDisk = 디스크
+com.vmware.vsan.health.test.physicalDisks.physdiskMetadata.testResult.columnMetadata = 메타데이터
+com.vmware.vsan.health.test.physicalDisks.physdiskMetadata.testResult.columnUuid = UUID
+com.vmware.vsan.health.test.physdiskmetadata = 이 검사에 통과하지 못하면 vSAN에 디스크의 메타데이터 읽기 문제가 발생한 것이므로 이 디스크를 사용할 수 없습니다.
+com.vmware.vsan.health.test.physdiskmetadata.short = 각각의 물리적 디스크에서 메타데이터 상태를 확인합니다.
+
+#
+# Disk capacity check
+#
+com.vmware.vsan.health.test.physicalDisks.physdiskCapacity.testName = 디스크 용량
+com.vmware.vsan.health.test.physicalDisks.physdiskCapacity.testResult.label = 문제가 있는 디스크
+com.vmware.vsan.health.test.physicalDisks.physdiskCapacity.testResult.columnHost = 호스트
+com.vmware.vsan.health.test.physicalDisks.physdiskCapacity.testResult.columnDisk = 디스크
+com.vmware.vsan.health.test.physicalDisks.physdiskCapacity.testResult.columnCapacity = 용량
+com.vmware.vsan.health.test.physicalDisks.physdiskCapacity.testResult.columnFreeSpace = 사용 가능한 공간
+com.vmware.vsan.health.test.physicalDisks.physdiskCapacity.testResult.columnRebalanceState = 재조정 상태
+com.vmware.vsan.health.test.physicalDisks.physdiskCapacity.testResult.columnUuid = UUID
+com.vmware.vsan.health.test.physdiskcapacity = 특정 디스크에서 이 검사를 통과하지 못한 경우 이 디스크에 사용 가능한 디스크 공간이 부족하다는 것을 나타냅니다. 이 상태 검사는 용량 계층 드라이브에 대해서만 적용되며 캐시 디바이스에는 적용되지 않습니다.
+com.vmware.vsan.health.test.physdiskcapacity.short = vSAN 클러스터의 물리적 디스크에서 사용 가능한 공간을 확인합니다.
+
+#
+# Software state check
+#
+com.vmware.vsan.health.test.physicalDisks.physdiskSoftware.testName = 소프트웨어 상태
+com.vmware.vsan.health.test.physicalDisks.physdiskSoftware.testResult.label = 문제가 있는 디스크
+com.vmware.vsan.health.test.physicalDisks.physdiskSoftware.testResult.columnHost = 호스트
+com.vmware.vsan.health.test.physicalDisks.physdiskSoftware.testResult.columnDisk = 디스크
+com.vmware.vsan.health.test.physicalDisks.physdiskSoftware.testResult.columnSoftware = 소프트웨어
+com.vmware.vsan.health.test.physicalDisks.physdiskSoftware.testResult.columnInCmmdsVsi = CMMDS/VSI
+com.vmware.vsan.health.test.physicalDisks.physdiskSoftware.testResult.columnUuid = UUID
+com.vmware.vsan.health.test.physicalDisks.physdiskSoftware.testResult.columnReason = 이유
+com.vmware.vsan.health.test.physicalDisks.physdiskSoftware.testResult.locked = 암호화 키를 사용할 수 없기 때문에 디스크가 암호화되고 잠깁니다. KMS 서버 상태를 확인하고 암호화 키를 검색할 수 있는지 확인하십시오.
+com.vmware.vsan.health.test.physicalDisks.physdiskSoftware.testResult.recovery = 디스크가 정상 복구/초기화 단계에 있으며 복구가 완료된 후 사용할 준비가 됩니다.
+com.vmware.vsan.health.test.physdisksoftware = 특정 디스크에서 이 검사를 통과하지 못한 경우 vSAN에 디스크를 사용하지 못하게 하는 문제가 발생한 것입니다. 다른 상태 검사에서 오류가 표시되지 않으면 이 문제는 vSAN 소프트웨어 내에서 발생한 것일 수 있습니다.
+com.vmware.vsan.health.test.physdisksoftware.short = vSAN에서 디스크를 읽지 못하는 소프트웨어 문제를 확인합니다.
+
+#
+# Congestion check
+#
+com.vmware.vsan.health.test.physicalDisks.physdiskCongestion.testName = 정체
+com.vmware.vsan.health.test.physicalDisks.physdiskCongestion.testResult.label = 문제가 있는 디스크
+com.vmware.vsan.health.test.physicalDisks.physdiskCongestion.testResult.columnHost = 호스트
+com.vmware.vsan.health.test.physicalDisks.physdiskCongestion.testResult.columnDisk = 디스크
+com.vmware.vsan.health.test.physicalDisks.physdiskCongestion.testResult.columnCongestion = 정체
+com.vmware.vsan.health.test.physicalDisks.physdiskCongestion.testResult.columnCongestionInfo = 정체 정보
+com.vmware.vsan.health.test.physicalDisks.physdiskCongestion.testResult.columnUuid = UUID
+com.vmware.vsan.health.test.physdiskcongestion = 이 상태가 녹색/정상이 아니면 vSAN이 여전히 디스크를 사용 중이지만 성능이 저하된 상태(심각할 수 있음)입니다. 이는 이 디스크를 사용하는 vSAN 개체에 대해 낮은 처리량/IOPS 및 높은 지연 상태에 있음을 나타냅니다.
+com.vmware.vsan.health.test.physdiskcongestion.short = vSAN이 성능이 저하된 디스크를 사용하고 있는지 확인합니다.
+
+#
+# Components metadata check
+#
+com.vmware.vsan.health.test.physicalDisks.componentMetadata.testName = 구성 요소 메타데이터 상태
+com.vmware.vsan.health.test.physicalDisks.componentMetadata.testResult.label = 문제가 있는 구성 요소
+com.vmware.vsan.health.test.physicalDisks.componentMetadata.testResult.columnHost = 호스트
+com.vmware.vsan.health.test.physicalDisks.componentMetadata.testResult.columnHeap = 구성 요소
+com.vmware.vsan.health.test.physicalDisks.componentMetadata.testResult.columnHealth = 상태
+com.vmware.vsan.health.test.physicalDisks.componentMetadata.testResult.columnNotes = 참고
+com.vmware.vsan.health.test.componentmetadata = 이 검사는 vSAN에서 이 디스크의 구성 요소 메타데이터에 대한 무결성 문제가 발생한 경우 실패합니다. 이는 장애가 있는 드라이브나 컨트롤러 또는 오작동하는 디바이스 드라이버로 인해 발생할 수 있지만 vSAN 소프트웨어의 문제로 인해 발생할 수도 있습니다. 최상의 조치는 VMware 지원팀에 문의하는 것입니다.
+com.vmware.vsan.health.test.componentmetadata.short = vSAN에서 이 디스크의 구성 요소 메타데이터에 대한 무결성 문제가 발생했는지 확인합니다.
+
+#
+# Memory pools (heaps) check
+#
+com.vmware.vsan.health.test.physicalDisks.lsomHeap.testName = 메모리 풀(힙)
+com.vmware.vsan.health.test.physicalDisks.lsomHeap.testResult.label = 문제가 있는 힙
+com.vmware.vsan.health.test.physicalDisks.lsomHeap.testResult.columnHost = 호스트
+com.vmware.vsan.health.test.physicalDisks.lsomHeap.testResult.columnHeap = 힙
+com.vmware.vsan.health.test.physicalDisks.lsomHeap.testResult.columnHealth = 상태
+com.vmware.vsan.health.test.lsomheap = 이 검사는 vSAN에서 물리적 디스크의 올바른 작업에 필요한 중요한 메모리 풀이 부족해지면 실패합니다. 과도한 로드가 발생해도 이 문제는 발생하지 않아야 합니다. 이 문제가 발생하면 VMware 지원팀에 문의해야 합니다. 디스크에서 잘못된 "정체 상태"를 보고할 수도 있으며 이는 성능 문제를 야기합니다.
+com.vmware.vsan.health.test.lsomheap.short = 올바른 물리적 디스크 작업에 필요한 vSAN의 중요한 메모리 풀이 부족한지 확인합니다.
+
+#
+# Memory pools (slabs) check
+#
+com.vmware.vsan.health.test.physicalDisks.lsomslab.testName = 메모리 풀(슬래브)
+com.vmware.vsan.health.test.physicalDisks.lsomslab.testResult.label = 문제가 있는 슬래브
+com.vmware.vsan.health.test.physicalDisks.lsomslab.testResult.columnHost = 호스트
+com.vmware.vsan.health.test.physicalDisks.lsomslab.testResult.columnSlab = 슬래브
+com.vmware.vsan.health.test.physicalDisks.lsomslab.testResult.columnHealth = 상태
+com.vmware.vsan.health.test.lsomslab = 이 검사는 vSAN에서 물리적 디스크의 작업에 필요한 중요한 메모리 풀이 부족해지면 실패합니다. 과도한 로드가 발생해도 이 문제는 발생하지 않아야 합니다. 이 문제가 발생하면 VMware 지원팀에 문의해야 합니다. 디스크에서 잘못된 "정체 상태"를 보고할 수도 있으며 이는 성능 문제를 야기합니다.
+com.vmware.vsan.health.test.lsomslab.short = 물리적 디스크 작업에 필요한 vSAN의 중요한 메모리 풀이 부족한지 확인합니다.
+
+#
+# Generic cluster check
+#
+com.vmware.vsan.health.test.genericCluster.drsEnabled.testName = DRS 사용
+com.vmware.vsan.health.test.genericcluster.drsenabled = 이 클러스터에 대해 DRS가 사용되도록 설정되어 있는지 검사합니다.
+com.vmware.vsan.health.test.genericcluster.drsenabled.short = 이 클러스터에 대해 DRS가 사용되도록 설정되어 있는지 검사합니다.
+com.vmware.vsan.health.test.genericCluster.drsEnabled.testResult.issue = DRS가 사용되도록 설정되어 있지 않음
+com.vmware.vsan.health.test.genericCluster.drsEnabled.testResult.recommendation = DRS 구성 대화 상자를 시작하십시오.
+com.vmware.vsan.health.test.genericCluster.drsEnabled.testResult.label = 문제 및 권장 사항
+com.vmware.vsan.health.test.genericCluster.drsEnabled.testResult.columnIssue = 문제
+com.vmware.vsan.health.test.genericCluster.drsEnabled.testResult.columnRecommendation = 권장 사항
+
+com.vmware.vsan.health.test.genericCluster.haEnabled.testName = HA 사용
+com.vmware.vsan.health.test.genericcluster.haenabled = 이 클러스터에 대해 HA가 사용되도록 설정되어 있는지 검사합니다.
+com.vmware.vsan.health.test.genericcluster.haenabled.short = 이 클러스터에 대해 HA가 사용되도록 설정되어 있는지 검사합니다.
+com.vmware.vsan.health.test.genericCluster.haEnabled.testResult.issue = HA가 사용되도록 설정되어 있지 않음
+com.vmware.vsan.health.test.genericCluster.haEnabled.testResult.recommendation = HA 구성 대화 상자를 시작하십시오.
+com.vmware.vsan.health.test.genericCluster.haEnabled.testResult.label = 문제 및 권장 사항
+com.vmware.vsan.health.test.genericCluster.haEnabled.testResult.columnIssue = 문제
+com.vmware.vsan.health.test.genericCluster.haEnabled.testResult.columnRecommendation = 권장 사항
+
+#
+# vSAN config - vSAN enablement check
+#
+com.vmware.vsan.health.test.vsanconfiggroup.enablementforvsan.testName = vSAN 사용
+com.vmware.vsan.health.test.vsanconfiggroup.enablementforvsan.testResult.label = 문제
+com.vmware.vsan.health.test.vsanconfiggroup.enablementforvsan.testResult.columnIssue = 문제
+com.vmware.vsan.health.test.vsanconfiggroup.enablementforvsan.testResult.columnRecommendation = 권장 사항
+com.vmware.vsan.health.test.vsanconfiggroup.enablementforvsan.testResult.vsanNotEnabledIssue = 클러스터에서 vSAN이 사용되도록 설정되어 있지 않습니다.
+com.vmware.vsan.health.test.vsanconfiggroup.enablementforvsan.testResult.vsanNotEnabledRecommendation = 모범 사례: [vSAN 구성] 작업을 시작하십시오.
+
+com.vmware.vsan.health.test.vsanconfiggroup.enablementforvsan = 이 검사는 Vitual SAN이 클러스터에서 사용되도록 설정되어 있는지 확인합니다. Vitual SAN이 구성되어 있지 않은 경우 [vSAN 구성] 버튼을 사용하십시오.
+com.vmware.vsan.health.test.vsanconfiggroup.enablementforvsan.short = 이 검사는 vSAN이 클러스터에서 사용되도록 설정되어 있는지 확인합니다.
+
+#
+# vSAN config - All disks claimed by vSAN check
+#
+com.vmware.vsan.health.test.vsanconfiggroup.diskforvsan.testName = 모든 디스크 할당됨
+com.vmware.vsan.health.test.vsanconfiggroup.diskforvsan.testResult.label = 문제가 있는 호스트
+com.vmware.vsan.health.test.vsanconfiggroup.diskforvsan.testResult.columnHost = 호스트
+com.vmware.vsan.health.test.vsanconfiggroup.diskforvsan.testResult.columnUnclaimedDisk = 할당되지 않은 디스크
+com.vmware.vsan.health.test.vsanconfiggroup.diskforvsan.testResult.columnIssue = 문제
+com.vmware.vsan.health.test.vsanconfiggroup.diskforvsan.testResult.columnRecommendation = 권장 사항
+com.vmware.vsan.health.test.vsanconfiggroup.diskforvsan.testResult.notClaimedByVsanIssue = vSAN에서 디스크를 할당하지 않았습니다.
+com.vmware.vsan.health.test.vsanconfiggroup.diskforvsan.testResult.notClaimedByVsanRecommendation = 모범 사례: [vSAN 디스크 할당] 작업을 시작하십시오.
+
+com.vmware.vsan.health.test.vsanconfiggroup.diskforvsan = 이 검사는 vSAN에 의해 할당될 수 있는 모든 적격 디스크를 감지합니다. 이 검사의 목적은 모든 적격 디스크를 식별하고 활용하는 데 도움을 주는 것입니다. 참고: 호스트당 같은 수의 디스크를 할당하는 것이 좋습니다. 모든 적격 디스크를 할당하면 호스트당 vSAN 디스크 수가 동일하지 않게 되는 경우에는 이 검사의 결과를 무시하여 권장 사항을 따를 수 있습니다.
+com.vmware.vsan.health.test.vsanconfiggroup.diskforvsan.short = 모범 사례(권고용으로만 제공): vSAN에 대해 모든 적격 디스크를 할당합니다. 참고: 호스트당 같은 수의 디스크를 할당하는 것이 좋습니다. 모든 적격 디스크를 할당하면 호스트당 vSAN 디스크 수가 동일하지 않게 되는 경우에는 이 검사의 결과를 무시하여 권장 사항을 따를 수 있습니다.
+
+
+#
+# Network config - Use VDS for vSAN
+#
+com.vmware.vsan.health.test.networkconfiggroup.dvsforvsan.testName = vSAN에 VDS 사용
+com.vmware.vsan.health.test.networkconfiggroup.dvsforvsan.testResult1.label = 문제
+com.vmware.vsan.health.test.networkconfiggroup.dvsforvsan.testResult1.columnIssue = 문제
+com.vmware.vsan.health.test.networkconfiggroup.dvsforvsan.testResult1.columnRecommendation = 권장 사항
+com.vmware.vsan.health.test.networkconfiggroup.dvsforvsan.testResult1.noVdsIssue = 클러스터에 구성된 VDS가 없습니다.
+com.vmware.vsan.health.test.networkconfiggroup.dvsforvsan.testResult1.noVdsRecommendation = 모범 사례: "VDS 생성" 작업을 시작하십시오.
+
+com.vmware.vsan.health.test.networkconfiggroup.dvsforvsan.testResult2.label = 문제가 있는 호스트
+com.vmware.vsan.health.test.networkconfiggroup.dvsforvsan.testResult2.columnHost = 호스트
+com.vmware.vsan.health.test.networkconfiggroup.dvsforvsan.testResult2.columnIssue = 문제
+com.vmware.vsan.health.test.networkconfiggroup.dvsforvsan.testResult2.columnRecommendation = 권장 사항
+com.vmware.vsan.health.test.networkconfiggroup.dvsforvsan.testResult2.issue = vSAN vmknic {vmknic}에서 VDS를 사용하고 있지 않습니다.
+com.vmware.vsan.health.test.networkconfiggroup.dvsforvsan.testResult2.recommendation = 모범 사례: vSAN 네트워크에 VDS를 사용하십시오.
+
+com.vmware.vsan.health.test.networkconfiggroup.dvsforvsan = vSAN 네트워크 트래픽에 VDS를 사용하는 것이 모범 사례입니다. 이 검사는 VDS가 클러스터 및 vSAN 네트워크 트래픽에 대해 구성되어 있는지를 확인합니다.
+com.vmware.vsan.health.test.networkconfiggroup.dvsforvsan.short = 모범 사례(권고용으로만 제공): vSAN에서 해당 네트워크 트래픽에 대해 VDS를 사용하고 있는지를 확인하십시오.
+
+#
+# Network config - Use VDS for vSAN
+#
+com.vmware.vsan.health.test.networkconfiggroup.dvsscope.testName = vSAN용 VDS가 전체 클러스터에 적용됨
+com.vmware.vsan.health.test.networkconfiggroup.dvsscope.testResult.label = 문제
+com.vmware.vsan.health.test.networkconfiggroup.dvsscope.testResult.columnVds = VDS
+com.vmware.vsan.health.test.networkconfiggroup.dvsscope.testResult.columnNonMemberHosts = 멤버가 아닌 호스트
+com.vmware.vsan.health.test.networkconfiggroup.dvsscope.testResult.columnRecommendation = 권장 사항
+com.vmware.vsan.health.test.networkconfiggroup.dvsscope.testResult.recommendation = 모범 사례: 클러스터의 모든 호스트를 VDS에 추가하십시오.
+com.vmware.vsan.health.test.networkconfiggroup.dvsscope = 중앙 집중식으로 구성을 관리할 수 있도록 클러스터의 모든 호스트를 vSAN에서 사용되는 동일한 VDS에 연결하는 것이 좋습니다. 이 검사는 클러스터 중 일부에 적용되는 VDS를 검색합니다.
+com.vmware.vsan.health.test.networkconfiggroup.dvsscope.short = 모범 사례(권고용으로만 제공): vSAN에서 사용되는 VDS가 클러스터 호스트의 일부에만 적용되는지 확인합니다.
+
+#
+# Network config - Physical NIC checks
+#
+com.vmware.vsan.health.test.networkconfiggroup.pnic.testName = 물리적 NIC
+com.vmware.vsan.health.test.networkconfiggroup.pnic.testResult.label = 문제가 있는 호스트
+com.vmware.vsan.health.test.networkconfiggroup.pnic.testResult.columnHost = 호스트
+com.vmware.vsan.health.test.networkconfiggroup.pnic.testResult.columnNetwork = vSwitch/포트 그룹
+com.vmware.vsan.health.test.networkconfiggroup.pnic.testResult.columnIssue = 문제
+com.vmware.vsan.health.test.networkconfiggroup.pnic.testResult.0numPnicsIssue = 구성된 물리적 NIC 없음
+com.vmware.vsan.health.test.networkconfiggroup.pnic.testResult.1numPnicsIssue = 물리적 NIC가 1개뿐이어서 이중화가 지원되지 않음
+com.vmware.vsan.health.test.networkconfiggroup.pnic.testResult.portgroup.0numPnicsIssue = 포트 그룹에 물리적 NIC가 구성되어 있지 않음
+com.vmware.vsan.health.test.networkconfiggroup.pnic.testResult.portgroup.1numPnicsIssue = 포트 그룹에 활성화된 물리적 NIC가 1개뿐이며 이중화가 지원되지 않음
+com.vmware.vsan.health.test.networkconfiggroup.pnic.testResult.pnicSpeedIssue = 다중 링크 속도 감지됨: {speedsMb}
+com.vmware.vsan.health.test.networkconfiggroup.pnic = 페일오버를 지원하기 위해 vSAN vmknic용 가상 스위치 및 포트 그룹이 둘 이상의 물리적 NIC로 구성되어 있는지 확인합니다. 또한 팀 내의 물리적 NIC가 동일한 속도로 구성되어 있는지 확인합니다. 이들은 권장되는 모범 사례입니다.
+com.vmware.vsan.health.test.networkconfiggroup.pnic.short = 모범 사례(권고용으로만 제공): 각 vSAN vmknic가 일치하는 올바른 유형(해당하는 경우)의 두 물리적 NIC로 지원되고 있는지 확인합니다.
+
+#
+# Network config - vMotion Ping
+#
+com.vmware.vsan.health.test.network.vmotionpingsmall.testName = vMotion: 기본(유니캐스트) 연결 확인
+com.vmware.vsan.health.test.network.vmotionpingsmall = vMotion 트래픽을 사용하도록 설정한 모든 VMkernel 어댑터 간에 작은 패킷 크기로 ping 테스트를 수행합니다.
+com.vmware.vsan.health.test.network.vmotionpingsmall.short = vMotion 트래픽을 사용하도록 설정한 모든 VMkernel 어댑터 간에 작은 패킷 크기로 ping 테스트를 수행합니다.
+
+com.vmware.vsan.health.test.network.vmotionpinglarge.testName = vMotion: MTU 확인(큰 패킷 크기를 사용하는 ping)
+com.vmware.vsan.health.test.network.vmotionpinglarge = vMotion 트래픽을 사용하도록 설정한 모든 VMkernel 어댑터 간에 큰 패킷 크기로 ping 테스트를 수행합니다.
+com.vmware.vsan.health.test.network.vmotionpinglarge.short = vMotion 트래픽을 사용하도록 설정한 모든 VMkernel 어댑터 간에 큰 패킷 크기로 ping 테스트를 수행합니다.
+
+#
+# Network config - Use VDS for vSAN
+#
+com.vmware.vsan.health.test.networkconfiggroup.vmotionnic.testName = 모든 호스트에 vMotion vmknic가 구성되어 있음
+com.vmware.vsan.health.test.networkconfiggroup.vmotionnic.testResult.label = vMotion vmknic가 존재하지 않는 호스트
+com.vmware.vsan.health.test.networkconfiggroup.vmotionnic.testResult.columnHost = 호스트
+com.vmware.vsan.health.test.networkconfiggroup.vmotionnic = 하나 이상의 vMotion vmknic로 각 호스트를 구성하는 것이 좋습니다.
+com.vmware.vsan.health.test.networkconfiggroup.vmotionnic.short = 모범 사례(권고용으로만 제공): 각 호스트에 vMotion vmknic가 구성되어 있는지 검사합니다.
+
+#
+# Burn in test check
+#
+com.vmware.vsan.health.test.burnintestgroup.burnintest.testName = 번인 테스트 검사
+com.vmware.vsan.health.test.burnintestgroup.burnintest.testResult.label = 번인 테스트 결과
+com.vmware.vsan.health.test.burnintestgroup.burnintest.testResult.columnTestname = 번인 테스트
+com.vmware.vsan.health.test.burnintestgroup.burnintest.testResult.columnWorkload = 워크로드
+com.vmware.vsan.health.test.burnintestgroup.burnintest.testResult.columnDuration = 기간(초)
+com.vmware.vsan.health.test.burnintestgroup.burnintest.testResult.columnResult = 결과
+com.vmware.vsan.health.test.burnintestgroup.burnintest.testResult.columnIssue = 문제
+com.vmware.vsan.health.test.burnintestgroup.burnintest.testResult.columnRecommendation = 권장 사항
+com.vmware.vsan.health.test.burnintestgroup.burnintest.testResult.notPerformedIssue = 번인 테스트가 수행되지 않음
+com.vmware.vsan.health.test.burnintestgroup.burnintest.testResult.clusterChanged = 마지막 번인 테스트 이후 클러스터 구성이 변경되었습니다. 다시 실행하는 것이 좋습니다.
+com.vmware.vsan.health.test.burnintestgroup.burnintest.testResult.failedIssue = 번인 테스트 실패
+com.vmware.vsan.health.test.burnintestgroup.burnintest.testResult.recommendation = [능동 테스트] 보기에서 권장되는 번인 테스트를 수행하십시오.
+
+com.vmware.vsan.health.test.burnintestgroup.burnintest = 권장되는 모든 번인 테스트를 수행합니다. 권장되는 번인 테스트는 능동 vSAN 스토리지 성능 테스트에 낮은 스트레스 테스트를 포함합니다. 기본 기간이나 더 긴 기간 동안 테스트를 수행해야 합니다. "능동 테스트" 보기로 전환하고 상응하는 테스트를 수행합니다.
+com.vmware.vsan.health.test.burnintestgroup.burnintest.short = 모범 사례(권고용으로만 제공): 권장되는 모든 번인 테스트(낮은 스트레스 테스트 등)를 수행하십시오. 테스트는 기본 기간 또는 더 긴 기간으로 수행되어야 합니다.
+
+#
+# vSAN Health Actions Description
+#
+com.vmware.vsan.health.action.repairclusterobjects.short = vSAN 개체가 없거나 성능이 저하되면 즉시 복원합니다.
+com.vmware.vsan.health.action.label.repairclusterobjects = 개체 즉시 복원
+com.vmware.vsan.health.action.uploadhcldb.short = 파일을 업로드하여 HCL DB를 업데이트합니다.
+com.vmware.vsan.health.action.label.uploadhcldb = 파일에서 업로드...
+com.vmware.vsan.health.action.label.updatehcldbfrominternet = 온라인으로 최신 버전 입수
+com.vmware.vsan.health.action.updatehcldbfrominternet.short = 인터넷에서 HCL DB 업데이트를 다운로드합니다.
+com.vmware.vsan.health.action.enablehealthservice.short = Health Service를 사용하도록 설정하면 클러스터에 상태 VIB 패키지를 설치하지 않은 호스트에 vSAN Health VIB가 설치됩니다. 설치를 완료하기 위해 모든 호스트를 재부팅해야 합니다. 한 번에 하나의 호스트를 유지 보수 모드로 전환하고 재부팅하는 순차 재부팅을 수행할 수 있도록 DRS가 완전 자동 모드에 있어야 합니다. 그러면 모든 VM이 계속 실행되며 재부팅은 운영 워크로드에 영향을 미치지 않습니다.
+com.vmware.vsan.health.action.label.enablehealthservice = 사용
+com.vmware.vsan.health.action.diskbalance.short = 디스크의 vSAN 개체를 재조정합니다.
+com.vmware.vsan.health.action.label.diskbalance = 사전 디스크 재조정
+com.vmware.vsan.health.action.stopdiskbalance.short = 디스크의 vSAN 개체 재조정을 중지합니다.
+com.vmware.vsan.health.action.label.stopdiskbalance = 사전 디스크 재조정 중지
+com.vmware.vsan.health.action.remediatededup.short = 클러스터와 일관되지 않은 디스크 중복 제거 설정을 가진 디스크에 업데이트 적용
+com.vmware.vsan.health.action.label.remediatededup = 온디스크 형식 변환
+com.vmware.vsan.health.action.remediateconfig.short = 클러스터와 일치하지 않는 구성(예: 중복 제거/압축, 암호화)이 있는 호스트 및 디스크에 업데이트를 적용합니다.
+com.vmware.vsan.health.action.label.remediateconfig = 불일치 구성 업데이트 적용
+com.vmware.vsan.health.action.overrideconfig.short = 현재 vCenter Server와 동기화되지 않은 ESXi 구성을 업데이트합니다.
+com.vmware.vsan.health.action.label.overrideconfig = ESXi 구성 업데이트
+com.vmware.vsan.health.action.remediatekms.short = 키 관리 서버 연결 문제가 있는 호스트에 업데이트를 적용합니다.
+com.vmware.vsan.health.action.label.remediatekms = KMS 연결 업데이트 적용
+com.vmware.vsan.health.action.label.enableperformanceservice = 사용
+com.vmware.vsan.health.action.enableperformanceservice.short = vSAN 성능 서비스 사용
+com.vmware.vsan.health.action.label.loginvumisodepot = my.vmware.com에 로그인
+com.vmware.vsan.health.action.loginvumisodepot.short = my.vmware.com에 로그인하고 쿠키 저장
+
+com.vmware.vsan.health.action.label.createdvs = VDS 생성
+com.vmware.vsan.health.action.createdvs.short = VDS를 생성합니다.
+com.vmware.vsan.health.action.label.configureha = VMware HA 구성
+com.vmware.vsan.health.action.configureha.short = VMware HA를 구성합니다.
+com.vmware.vsan.health.action.label.configuredrs = DRS 구성
+com.vmware.vsan.health.action.configuredrs.short = DRS를 구성합니다.
+com.vmware.vsan.health.action.label.configurevsan = vSAN 구성
+com.vmware.vsan.health.action.configurevsan.short = vSAN을 구성합니다.
+com.vmware.vsan.health.action.label.claimvsandisks = vSAN용 디스크 할당
+com.vmware.vsan.health.action.claimvsandisks.short = vSAN용 디스크를 할당합니다.
+com.vmware.vsan.health.action.label.clusterupgrade = 소프트웨어 업데이트
+com.vmware.vsan.health.action.clusterupgrade.short = 소프트웨어를 업데이트합니다.
+com.vmware.vsan.health.action.label.createvmknic = VMkernel 네트워크 어댑터 생성
+com.vmware.vsan.health.action.createvmknic.short = VMkernel 네트워크 어댑터를 생성합니다.
+com.vmware.vsan.health.action.label.runburnintest = 번인 테스트 실행
+com.vmware.vsan.health.action.runburnintest.short = 번인 테스트를 실행합니다.
+com.vmware.vsan.health.action.label.enableceip = CEIP 구성
+com.vmware.vsan.health.action.enableceip.short = CEIP를 구성합니다.
+
+com.vmware.vsan.health.action.remediateDataProtectionConfig.short = 클러스터에서 일관되지 않은 데이터 보호 구성 업데이트 적용
+com.vmware.vsan.health.action.label.remediateDataProtectionConfig = 일관되지 않은 데이터 보호 구성의 업데이트 적용
+
+# VM action
+com.vmware.vsan.health.action.fixinconsistentvm.short = vSAN 데이터스토어에 배포된 일관되지 않은 VM을 즉시 수정합니다.
+com.vmware.vsan.health.action.label.fixinconsistentvm = 일관되지 않은 VM 수정
+#
+# vSAN Storage WorkLoad Description
+#
+com.vmware.vsan.health.workload.low-stress-test=스트레스가 적은 테스트로, 상대적으로 짧은 지연 시간이 예상됩니다.
+com.vmware.vsan.health.workload.sanity-test=실제 70/30 분할을 사용하지만 호스트당 1GB의 핫 영역 내에 유지하여 "활성 작업 설정"을 시뮬레이션합니다.
+com.vmware.vsan.health.workload.stress-test=이는 스트레스 테스트로, 높은 쪽에서 지연이 예상되지만 모든 계층에 스트레스가 과도하지 않아야 합니다. 호스트당 1TB 공간을 사용합니다.
+com.vmware.vsan.health.workload.perf-100read-seq=이는 RC를 잘 나타내야 합니다. 높은 지연이 발생하지 않는 상태에서 vSAN이 최대화되도록 충분한 병렬 처리를 수행해야 합니다. 호스트당 10GB 공간을 사용합니다.
+com.vmware.vsan.health.workload.perf-100write-rand=이는 WB를 잘 나타내야 합니다. 호스트당 5GB 공간을 사용합니다.
+com.vmware.vsan.health.workload.perf-100read-rand=이는 RC를 잘 나타내야 합니다. 웜업 기간 후 높은 지연이 많이 발생하지 않는 상태에서 vSAN이 최대화되도록 충분한 병렬 처리를 수행해야 합니다. 호스트당 10GB 공간을 사용합니다.
+com.vmware.vsan.health.workload.perf-70read-rand=실제 70/30 분할을 사용하지만 호스트당 30GB의 핫 영역 내에 유지하면서 "활성 작업 설정"을 시뮬레이션합니다.
+com.vmware.vsan.health.workload.perf-70read-rand-bigio=실제 70/30 분할을 사용하지만 호스트당 30GB의 핫 영역 내에 유지하면서 "활성 작업 설정"을 시뮬레이션합니다. 64K의 큰 IO 크기를 사용하므로 좀 더 일반적인 4k IO 크기를 사용하는 이 테스트의 일반 버전과 비교할 때 IO 크기가 지연에 영향을 준다는 사실을 보여줍니다.
+com.vmware.vsan.health.workload.perf-100read-rand-bigactive=이 테스트는 하이브리드에서 잘못 수행되고 플래시 전용에서 잘 수행됩니다. 다시 말해 이는 플래시 전용 데모 테스트입니다. 호스트당 1TB 공간을 사용합니다.
+com.vmware.vsan.health.workload.perf-100read-seq-bigactive=미디어 캐시 서버와 같은 순수 스트리밍 읽기 워크로드를 시뮬레이션합니다. 호스트당 1TB 공간을 사용합니다.
+com.vmware.vsan.health.workload.perf-100write-seq-bigactive=백업 대상과 같은 순수 스트리밍 쓰기 워크로드를 시뮬레이션합니다. 호스트당 1TB 공간을 사용합니다.
+
+#
+# vSAN Proactive Health Check Workload Type
+#
+com.vmware.vsan.health.workload.lowStressTest = 낮은 스트레스 테스트
+com.vmware.vsan.health.workload.basicSanityTest = 기본 온전성 테스트, 플래시 캐시 계층에 초점을 둠
+com.vmware.vsan.health.workload.stressTest = 스트레스 테스트
+com.vmware.vsan.health.workload.perf100RRCTest = 성능 특성화 - 100% 읽기, RC 사용 최적화
+com.vmware.vsan.health.workload.perf100WTest = 성능 특성화 - 100% 쓰기, WB 사용 최적화
+com.vmware.vsan.health.workload.perf100RRCAfterWarmUpTest = 성능 특성화 - 100% 읽기, 웜업 후 RC 사용 최적화
+com.vmware.vsan.health.workload.perf70R30WRealisticTest = 성능 특성화 - 70/30 최대 읽기/쓰기, 실제, 플래시 캐시 사용 최적화
+com.vmware.vsan.health.workload.perf100R30WHighIOTest = 성능 특성화 - 70/30 최대 읽기/쓰기, 큰 IO 크기, 플래시 캐시 사용 최적화
+com.vmware.vsan.health.workload.perf100RLowRCHitRateTest = 성능 특성화 - 100% 읽기, 낮은 RC 적중률/플래시 전용 데모
+com.vmware.vsan.health.workload.perf100RStreamTest = 성능 특성화 - 100% 스트리밍 읽기
+com.vmware.vsan.health.workload.perf100WStreamTest = 성능 특성화 - 100% 스트리밍 쓰기
+
+#
+# vSAN Health Install & Uninstall Precheck
+#
+com.vmware.vsan.health.cluster.installprecheck=ESXi 호스트에 vSAN Health Service 설치에 대해 사전에 확인합니다.
+com.vmware.vsan.health.cluster.installprecheck.short=ESXi 호스트에 vSAN Health Service 설치에 대해 사전에 확인합니다.
+com.vmware.vsan.health.cluster.uninstallprecheck=ESXi 호스트에서 vSAN Health Service 제거에 대해 사전에 확인합니다.
+com.vmware.vsan.health.cluster.uninstallprecheck.short=ESXi 호스트에서 vSAN Health Service 제거에 대해 사전에 확인합니다.
+
+#
+# vSAN Health Test Group label
+#
+com.vmware.vsan.health.test.cluster=클러스터
+com.vmware.vsan.health.test.hcl=하드웨어 호환성
+com.vmware.vsan.health.test.genericcluster=일반 클러스터
+com.vmware.vsan.health.test.network=네트워크
+com.vmware.vsan.health.test.data=데이터
+com.vmware.vsan.health.test.limits=제한
+com.vmware.vsan.health.test.physicaldisks=물리 디스크
+com.vmware.vsan.health.test.stretchedcluster=확장된 클러스터
+com.vmware.vsan.health.test.vsanconfiggroup=vSAN 구성
+com.vmware.vsan.health.test.networkconfiggroup=네트워크 구성
+com.vmware.vsan.health.test.burnintestgroup=번인 테스트
+com.vmware.vsan.health.test.encryption=암호화
+com.vmware.vsan.health.test.perfsvc = 성능 서비스
+com.vmware.vsan.health.test.cloudhealth = 클라우드 상태
+com.vmware.vsan.health.test.iscsi = vSAN iSCSI 대상 서비스
+com.vmware.vsan.health.test.dataprotection=데이터 보호
+
+#
+# vSAN Health Stretched Cluster Check
+#
+com.vmware.vsan.health.test.stretchedCluster.columnTarget=대상
+com.vmware.vsan.health.test.stretchedCluster.columnSummary=요약
+
+com.vmware.vsan.health.test.stretchedCluster.ClusterWithoutOneWitnessHost.testName=감시 호스트를 찾을 수 없음
+com.vmware.vsan.health.test.stretchedCluster.ClusterWithoutOneWitnessHost.label=감시 호스트를 찾을 수 없음
+com.vmware.vsan.health.test.clusterwithoutonewitnesshost=확장된 클러스터에 올바른 감시 호스트가 없습니다.
+com.vmware.vsan.health.test.stretchedCluster.ClusterWithoutTwoDataFaultDomains.testName=예기치 않은 장애 도메인 수
+com.vmware.vsan.health.test.stretchedCluster.ClusterWithoutTwoDataFaultDomains.label=예기치 않은 장애 도메인 수
+com.vmware.vsan.health.test.clusterwithouttwodatafaultdomains=확장된 클러스터에 2개의 올바른 장애 도메인이 없습니다.
+com.vmware.vsan.health.test.stretchedCluster.ClusterWithMultipleUnicastAgents.testName=유니캐스트 에이전트 구성 불일치
+com.vmware.vsan.health.test.stretchedCluster.ClusterWithMultipleUnicastAgents.label=유니캐스트 에이전트 구성 불일치
+com.vmware.vsan.health.test.clusterwithmultipleunicastagents=확장된 클러스터에 다중 유니캐스트 에이전트가 있습니다. 이것은 다중 유니캐스트 에이전트가 비감시 호스트에 설정되었음을 의미합니다.
+com.vmware.vsan.health.test.stretchedCluster.WitnessPreferredFaultDomainInvalid.testName=감시 호스트의 잘못된 기본 장애 도메인
+com.vmware.vsan.health.test.stretchedCluster.WitnessPreferredFaultDomainInvalid.label=잘못된 기본 장애 도메인
+com.vmware.vsan.health.test.witnesspreferredfaultdomaininvalid=다음 (감시) 호스트에 잘못된 기본 장애 도메인이 있습니다.
+com.vmware.vsan.health.test.stretchedCluster.WitnessPreferredFaultDomainNotExist.testName=기본 장애 도메인이 설정되지 않음
+com.vmware.vsan.health.test.stretchedCluster.WitnessPreferredFaultDomainNotExist.label=기본 장애 도메인이 설정되지 않음
+com.vmware.vsan.health.test.witnesspreferredfaultdomainnotexist=기본 장애 도메인이 해당 감시 호스트에 대한 클러스터에 설정되지 않았습니다.
+com.vmware.vsan.health.test.stretchedCluster.WitnessInsideVcCluster.testName=vCenter 클러스터 내의 감시 호스트
+com.vmware.vsan.health.test.stretchedCluster.WitnessInsideVcCluster.label=vCenter 클러스터 내의 감시 호스트
+com.vmware.vsan.health.test.witnessinsidevccluster=해당 감시 호스트는 확장된 클러스터를 형성하는 vCenter 클러스터에 속하지 말아야 함
+com.vmware.vsan.health.test.stretchedCluster.WitnessFaultDomainInvalid.testName=감시 호스트 장애 도메인이 잘못 구성됨
+com.vmware.vsan.health.test.stretchedCluster.WitnessFaultDomainInvalid.label=감시 호스트 장애 도메인이 잘못 구성됨
+com.vmware.vsan.health.test.witnessfaultdomaininvalid=다음 감시 노드는 데이터 장애 도메인 중 하나에 있습니다.
+com.vmware.vsan.health.test.stretchedCluster.HostUnicastAgentUnset.testName=유니캐스트 에이전트가 구성되지 않음
+com.vmware.vsan.health.test.stretchedCluster.HostUnicastAgentUnset.label=유니캐스트 에이전트가 구성되지 않음
+com.vmware.vsan.health.test.hostunicastagentunset=호스트는 감시 노드와 통신할 수 있도록 유니캐스트 에이전트를 설정해야 함
+com.vmware.vsan.health.test.stretchedCluster.WitnessWithNoDiskMapping.testName=감시 호스트에 할당된 디스크가 없음
+com.vmware.vsan.health.test.stretchedCluster.WitnessWithNoDiskMapping.label=감시 호스트에 할당된 디스크가 없음
+com.vmware.vsan.health.test.witnesswithnodiskmapping=확장된 클러스터에 유효한 디스크 그룹이 없는 감시 호스트가 포함됨
+com.vmware.vsan.health.test.stretchedCluster.HostWithNoStretchedClusterSupport.testName=지원되지 않는 호스트 버전
+com.vmware.vsan.health.test.stretchedCluster.HostWithNoStretchedClusterSupport.label=지원되지 않는 호스트 버전
+com.vmware.vsan.health.test.hostwithnostretchedclustersupport=클러스터에 확장된 클러스터를 지원하지 않는 ESXi 버전을 가진 호스트가 있음
+com.vmware.vsan.health.test.stretchedCluster.HostWithInvalidUnicastAgent.testName=잘못된 유니캐스트 에이전트
+com.vmware.vsan.health.test.stretchedCluster.HostWithInvalidUnicastAgent.label=잘못된 유니캐스트 에이전트가 있는 호스트
+com.vmware.vsan.health.test.hostwithinvalidunicastagent=클러스터에 잘못된 유니캐스트 에이전트가 있는 호스트가 포함됨
+
+com.vmware.vsan.health.test.stretchedCluster.siteConnectivity.testName = 사이트 지연 시간 상태
+com.vmware.vsan.health.test.stretchedCluster.siteConnectivity.testResult.label = 사이트 지연 시간
+com.vmware.vsan.health.test.stretchedCluster.siteConnectivity.testResult.columnDomainName = 장애 도메인
+com.vmware.vsan.health.test.stretchedCluster.siteConnectivity.testResult.columnObservedLatency = 관찰된 지연 시간(ms)
+com.vmware.vsan.health.test.stretchedCluster.siteConnectivity.testResult.columnThreshold = 임계값(ms)
+com.vmware.vsan.health.test.stretchedCluster.siteConnectivity.testResult.columnLatencyResult = 지연 시간 결과
+com.vmware.vsan.health.test.siteconnectivity = 이 상태 검사는 데이터 사이트 및 감시의 임의 두 호스트 간의 가장 나쁜 지연 시간을 표시합니다. 주의 임계값: 데이터 사이트 간 5ms, 비ROBO 클러스터의 데이터 사이트와 감시 간 200ms, ROBO 클러스터의 데이터 사이트와 감시 간 500ms. 실패 결과 발생 시 두 사이트 간의 네트워크 연결을 확인하여 네트워크 설정이 최소 요구 사항을 충족하는지 확인하는 것이 좋습니다.
+com.vmware.vsan.health.test.siteconnectivity.short = 데이터 사이트 및 감시의 임의 두 호스트 간의 최대 네트워크 지연 시간을 확인합니다.
+
+#Cluster Disk Balance
+com.vmware.vsan.health.test.cluster.diskbalance.testName = vSAN 디스크 균형
+com.vmware.vsan.health.test.cluster.diskbalance.testResult.label = 디스크 균형
+com.vmware.vsan.health.test.cluster.diskbalance.testResultOverview.label = 개요
+com.vmware.vsan.health.test.cluster.diskbalance.testResult.columnHost = 호스트
+com.vmware.vsan.health.test.cluster.diskbalance.testResult.columnDevice = 디바이스
+com.vmware.vsan.health.test.cluster.diskbalance.testResult.columnDiskUsage = 디스크 사용량
+com.vmware.vsan.health.test.cluster.diskbalance.testResult.columnDataToMove = 이동할 데이터
+com.vmware.vsan.health.test.cluster.diskbalance.testResult.columnRebalanceState = 재조정 상태
+com.vmware.vsan.health.test.cluster.diskbalance.testResult.columnRebalanceProgress = 데이터 이동 중
+com.vmware.vsan.health.test.cluster.diskbalance.testResultOverview.columnMetric = 메트릭
+com.vmware.vsan.health.test.cluster.diskbalance.testResultOverview.columnValue = 값
+com.vmware.vsan.health.test.cluster.diskbalance.testResultOverview.rowAverageDiskUsage = 평균 디스크 사용량
+com.vmware.vsan.health.test.cluster.diskbalance.testResultOverview.rowMaximumDiskUsage = 최대 디스크 사용량
+com.vmware.vsan.health.test.cluster.diskbalance.testResultOverview.rowMaximumVariance = 최대 차이
+com.vmware.vsan.health.test.cluster.diskbalance.testResultOverview.rowImbalanceIndex = LM 균형 인덱스
+com.vmware.vsan.health.test.cluster.diskbalance.state.rebalanceoff = 재조정이 해제됨
+com.vmware.vsan.health.test.cluster.diskbalance.state.rebalanceentitydecom = 일시적으로 사용되지 않도록 설정됨, 디스크/디스크 그룹 또는 관련 노드가 서비스 해제되고 있음
+com.vmware.vsan.health.test.cluster.diskbalance.state.rebalancediskunhealthy = 디스크가 비정상임
+com.vmware.vsan.health.test.cluster.diskbalance.state.imbalancewithintolerance = 필요하지 않음, 불균형이 2% 허용 한도 내에 있거나 디스크 사용률이 평균보다 낮음
+com.vmware.vsan.health.test.cluster.diskbalance.state.reactiverebalanceinprogress = 사후 재조정 작업이 진행 중임
+com.vmware.vsan.health.test.cluster.diskbalance.state.reactiverebalancefailed = 사후 재조정이 필요하지만 리소스 부족으로 재조정하지 못했거나 정책 제한으로 인해 이동할 수 있는 구성 요소를 찾지 못했습니다.
+com.vmware.vsan.health.test.cluster.diskbalance.state.proactiveneededbutdisabled  = 사전 재조정이 필요함
+com.vmware.vsan.health.test.cluster.diskbalance.state.proactiverebalanceinprogress = 사전 재조정이 진행 중임
+com.vmware.vsan.health.test.cluster.diskbalance.state.proactiverebalancefailed = 사전 재조정이 필요하지만 리소스 부족으로 재조정하지 못했거나 정책 제한으로 인해 이동할 수 있는 구성 요소를 찾지 못했습니다.
+com.vmware.vsan.health.test.diskbalance = 이 기능은 호스트의 균형 상태를 모니터링하는 데 도움이 됩니다. 불균형으로 표시되는 디스크가 있는 경우 사용자가 능동 디스크 재조정을 트리거할 수 있습니다. 사용자는 능동 재조정이 이미 시작된 경우 이를 중지할 수도 있습니다. 자세한 내용을 보려면 AskVMware 링크를 클릭하십시오.
+com.vmware.vsan.health.test.diskbalance.short = 모든 호스트에 대한 vSAN 디스크 균형 상태를 확인합니다.
+
+#vSAN Performance Service Check
+com.vmware.vsan.health.test.perfsvc.groupName = 성능 서비스
+com.vmware.vsan.health.test.perfsvc.perfsvcstatus.testName = 성능 서비스 상태
+com.vmware.vsan.health.test.perfsvc.perfsvcstatus.testResult.label = 세부 정보
+com.vmware.vsan.health.test.perfsvc.perfsvcstatus.testResult.columnStatus = 상태
+com.vmware.vsan.health.test.perfsvc.perfsvcstatus.testResult.columnHealth = 결과
+com.vmware.vsan.health.test.perfsvc.perfsvcstatus.testResult.rowPerfSvcEnabled = 성능 서비스가 사용되도록 설정됨
+com.vmware.vsan.health.test.perfsvc.perfsvcstatus.testResult.rowPerfSvcDisabled = 성능 서비스가 사용되지 않도록 설정됨
+com.vmware.vsan.health.test.perfsvc.perfsvcstatus.desc = vSAN 성능 서비스의 상태를 확인합니다. 이 검사에서 생성된 경고는 VMware vSAN 관리 가이드에 따라 vSAN 성능 서비스를 사용하도록 설정하여 업데이트를 적용할 수 있습니다.
+com.vmware.vsan.health.test.perfsvc.perfsvcstatus.short = VMware는 vSAN의 모든 배포에 vSAN 성능 서비스를 사용하도록 권장합니다. 그러면 vSAN의 실시간 및 기간별 성능 데이터에 대한 액세스를 제공할 수 있습니다.
+com.vmware.vsan.health.test.perfsvc.statsdb.testName = 통계 DB 개체
+com.vmware.vsan.health.test.perfsvc.statsdb.testResult.label = 세부 정보
+com.vmware.vsan.health.test.perfsvc.statsdb.testResult.columnCheck = 검사
+com.vmware.vsan.health.test.perfsvc.statsdb.testResult.columnStatus = 상태
+com.vmware.vsan.health.test.perfsvc.statsdb.testResult.columnHealth = 결과
+com.vmware.vsan.health.test.perfsvc.statsdb.testResult.rowStatsDBExists = 개체 있음
+com.vmware.vsan.health.test.perfsvc.statsdb.testResult.rowStatsDBHealth = 개체 상태
+com.vmware.vsan.health.test.perfsvc.statsdb.testResult.rowStatsDBFreePct = 개체 사용 가능 공간
+com.vmware.vsan.health.test.perfsvc.statsdb.testResult.rowStatsDBUsed = {0}% 사용됨
+com.vmware.vsan.health.test.perfsvc.statsdb.desc = vSAN 성능 서비스 통계 데이터베이스 개체의 상태 검사
+com.vmware.vsan.health.test.perfsvc.statsdb.short = vSAN 성능 서비스 통계 데이터베이스 개체의 상태 검사
+com.vmware.vsan.health.test.perfsvc.masterexist.testName = 통계 마스터 선택
+com.vmware.vsan.health.test.perfsvc.masterexist.testResult.label = 노드 정보
+com.vmware.vsan.health.test.perfsvc.masterexist.testResult.columnHost = 호스트
+com.vmware.vsan.health.test.perfsvc.masterexist.testResult.columnIsCMMDSMaster = CMMDS 마스터임
+com.vmware.vsan.health.test.perfsvc.masterexist.testResult.columnIsStatsMaster = 통계 마스터임
+com.vmware.vsan.health.test.perfsvc.masterexist.desc = vSAN 성능 서비스의 통계 마스터 검사
+com.vmware.vsan.health.test.perfsvc.masterexist.short = vSAN 성능 서비스의 통계 마스터 검사
+com.vmware.vsan.health.test.perfsvc.collection.testName = 성능 데이터 수집
+com.vmware.vsan.health.test.perfsvc.collection.testResult.label = 세부 정보
+com.vmware.vsan.health.test.perfsvc.collection.testResult.columnCheck = 검사
+com.vmware.vsan.health.test.perfsvc.collection.testResult.columnStatus = 상태
+com.vmware.vsan.health.test.perfsvc.collection.testResult.columnHealth = 결과
+com.vmware.vsan.health.test.perfsvc.collection.testResult.rowStatsGather = 통계 수집
+com.vmware.vsan.health.test.perfsvc.collection.testResult.rowStatsPersist = 통계 지속
+com.vmware.vsan.health.test.perfsvc.collection.testResult.rowSuccess = 확인
+com.vmware.vsan.health.test.perfsvc.collection.testResult.rowLastSuccess = {0}분 {1}초 전에 마지막으로 성공
+com.vmware.vsan.health.test.perfsvc.collection.desc = vSAN 성능 서비스의 통계 수집 검사
+com.vmware.vsan.health.test.perfsvc.collection.short = vSAN 성능 서비스의 통계 수집 검사
+com.vmware.vsan.health.test.perfsvc.hostsmissing.testName = 통계를 제공하는 모든 호스트
+com.vmware.vsan.health.test.perfsvc.hostsmissing.testResult.label = 통계를 제공하지 않는 호스트
+com.vmware.vsan.health.test.perfsvc.hostsmissing.testResult.columnHost = 호스트
+com.vmware.vsan.health.test.perfsvc.hostsmissing.desc = 모든 호스트가 성능 통계를 제공하는지 검사
+com.vmware.vsan.health.test.perfsvc.hostsmissing.short = 모든 호스트가 성능 통계를 제공하는지 검사
+com.vmware.vsan.health.test.perfsvc.renameddirs.testName = 통계 DB 개체 충돌
+com.vmware.vsan.health.test.perfsvc.renameddirs.testResult.label = 이름을 바꾼 디렉토리
+com.vmware.vsan.health.test.perfsvc.renameddirs.testResult.columnDirName = 디렉토리 이름
+com.vmware.vsan.health.test.perfsvc.renameddirs.desc = 통계 DB 개체 충돌 검사
+com.vmware.vsan.health.test.perfsvc.renameddirs.short = 통계 DB 개체 충돌 검사
+com.vmware.vsan.health.test.perfsvc.verbosemode.testName = 세부 정보 표시 모드
+com.vmware.vsan.health.test.perfsvc.verbosemode.testResult.label = 세부 정보
+com.vmware.vsan.health.test.perfsvc.verbosemode.testResult.columnVerboseModeStatus = 상태
+com.vmware.vsan.health.test.perfsvc.verbosemode.testResult.rowVerboseModeStatusGreen = 세부 정보 표시 모드가 {0}일간 사용되도록 설정됩니다.
+com.vmware.vsan.health.test.perfsvc.verbosemode.testResult.rowVerboseModeStatusYellow = 세부 정보 표시 모드의 사용 기간({0}일)이 5일보다 크게 설정되어 있습니다. 세부 정보 표시 모드에서 수집된 추가 데이터는 통계 DB의 공간을 사용할 수 있습니다.
+com.vmware.vsan.health.test.perfsvc.verbosemode.desc = vSAN 성능 서비스의 세부 정보 표시 모드 상태 검사
+com.vmware.vsan.health.test.perfsvc.verbosemode.short = vSAN 성능 서비스의 세부 정보 표시 모드 상태 검사
+com.vmware.vsan.health.test.cluster.consistentconfig.testResult.perfsvc.rowNotConsistentEnablePerfsvc = 성능 서비스가 클러스터 구성에서 설정되었지만 아직 사용되도록 설정되지 않았습니다.
+com.vmware.vsan.health.test.cluster.consistentconfig.testResult.perfsvc.rowNotConsistentDisablePerfsvc = 성능 서비스가 클러스터 구성에서 해제되었지만 아직 사용되지 않도록 설정되지 않았습니다.
+com.vmware.vsan.health.test.cluster.consistentconfig.testResult.perfsvc.rowPolicyNotConsistent = 통계 개체 정책 구성이 만료됨
+com.vmware.vsan.health.test.cluster.consistentconfig.testResult.perfsvc.rowVsanDsNotcompatible = vSAN 데이터스토어가 vSAN 성능 서비스에 대해 구성된 정책과 호환되지 않음
+com.vmware.vsan.health.test.cluster.consistentconfig.testResult.perfsvc.rowVsanDsNotEnoughFreeSpace = vSAN 데이터스토어에 vSAN 성능 서비스를 사용하도록 설정하기 위한 사용 가능한 공간이 부족함
+
+#
+# iscsi health check
+#
+com.vmware.vsan.health.test.iscsi.iscsihomeobjectstatustest.testname = 홈 개체
+com.vmware.vsan.health.test.iscsi.iscsiinstallstatustest.testname = 서비스 설치 상태
+com.vmware.vsan.health.test.iscsi.iscsiservicenetworktest.testname = 네트워크 구성
+com.vmware.vsan.health.test.iscsi.iscsiservicerunningtest.testname = 서비스 런타임 상태
+
+#vSAN online health configuration check
+com.vmware.vsan.health.test.cloudhealth.groupName = 온라인 상태
+
+com.vmware.vsan.health.test.cloudhealth.disabled = 사용 안 함
+com.vmware.vsan.health.test.cloudhealth.updating = 마지막 검사: 방금
+com.vmware.vsan.health.test.cloudhealth.lastTimeStr = 마지막 검사:
+com.vmware.vsan.health.test.cloudhealth.nextQueryStrKey = 다음 검사:
+com.vmware.vsan.health.test.cloudhealth.weeks = 주
+com.vmware.vsan.health.test.cloudhealth.days = 일
+com.vmware.vsan.health.test.cloudhealth.hours = 시간
+com.vmware.vsan.health.test.cloudhealth.minutes = 분
+com.vmware.vsan.health.test.cloudhealth.ago = 전
+com.vmware.vsan.health.test.cloudhealth.comma = ,
+
+com.vmware.vsan.health.test.cloudhealth.vsancloudhealthceipexception.testName = CEIP(고객 환경 향상 프로그램)
+com.vmware.vsan.health.test.vsancloudhealthceipexception.desc.enabled = CEIP(고객 환경 향상 프로그램)의 현재 상태가 사용되도록 설정되어 있습니다. CEIP가 사용되지 않도록 설정된 경우 온라인 상태 검사를 사용할 수 없습니다.
+com.vmware.vsan.health.test.vsancloudhealthceipexception.short.enabled = CEIP(고객 환경 향상 프로그램)의 현재 상태가 사용되도록 설정되어 있습니다. CEIP가 사용되지 않도록 설정된 경우 온라인 상태 검사를 사용할 수 없습니다.
+com.vmware.vsan.health.test.vsancloudhealthceipexception.desc.disabled = CEIP(고객 환경 향상 프로그램)의 현재 상태가 사용되지 않도록 설정되어 있습니다. CEIP가 사용되지 않도록 설정된 경우 온라인 상태 검사를 사용할 수 없습니다.
+com.vmware.vsan.health.test.vsancloudhealthceipexception.short.disabled = CEIP(고객 환경 향상 프로그램)의 현재 상태가 사용되지 않도록 설정되어 있습니다. CEIP가 사용되지 않도록 설정된 경우 온라인 상태 검사를 사용할 수 없습니다.
+
+com.vmware.vsan.health.test.cloudhealth.vsancloudhealthconnectionexception.testName = 온라인 상태 연결
+com.vmware.vsan.health.test.vsancloudhealthconnectionexception.desc.enabled = 인터넷 연결의 현재 상태가 사용되도록 설정되어 있습니다. 인터넷 연결이 사용되지 않도록 설정된 경우 온라인 상태 검사를 사용할 수 없습니다.
+com.vmware.vsan.health.test.vsancloudhealthconnectionexception.short.enabled = 인터넷 연결의 현재 상태가 사용되도록 설정되어 있습니다. 인터넷 연결이 사용되지 않도록 설정된 경우 온라인 상태 검사를 사용할 수 없습니다.
+com.vmware.vsan.health.test.vsancloudhealthconnectionexception.desc.disabled = 인터넷 연결의 현재 상태가 사용되지 않도록 설정되어 있습니다. 인터넷 연결이 사용되지 않도록 설정된 경우 온라인 상태 검사를 사용할 수 없습니다.
+com.vmware.vsan.health.test.vsancloudhealthconnectionexception.short.disabled = 인터넷 연결의 현재 상태가 사용되지 않도록 설정되어 있습니다. 인터넷 연결이 사용되지 않도록 설정된 경우 온라인 상태 검사를 사용할 수 없습니다.
+
+com.vmware.vsan.health.update.update.acceptlevelwarning = (호스트 수락 수준 {levelname} 필요)
+
+com.vmware.vsan.health.test.cluster.extendedconfig.testResult.label = vSAN 호스트 확장된 구성 상태
+com.vmware.vsan.health.test.cluster.extendedconfig.testResult.columnHost = vSAN 호스트
+com.vmware.vsan.health.test.cluster.extendedconfig.testResult.columnObjectRepairTimer = 개체 복구 타이머
+com.vmware.vsan.health.test.cluster.extendedconfig.testResult.columnDisableSiteReadLocality = 사이트 읽기 인접성
+com.vmware.vsan.health.test.cluster.extendedconfig.testResult.columnEnableCustomizedSwapObject = 사용자 지정된 스왑 개체
+com.vmware.vsan.health.test.cluster.extendedconfig.testResult.columnLargeScaleClusterSupport = 대규모 클러스터 지원
+com.vmware.vsan.health.test.cluster.extendedconfig.testResult.columnEffect = 구성이 적용됨
+com.vmware.vsan.health.test.cluster.extendedconfig.testResult.columnState = 확인 결과
+com.vmware.vsan.health.test.cluster.extendedconfig.testResult.columnRecommendation = 권장 사항
+com.vmware.vsan.health.test.cluster.extendedconfig.testName = vSAN 확장된 구성이 동기화됨
+com.vmware.vsan.health.test.cluster.extendedconfig.short = 모든 vSAN 호스트에 대한 확장된 구성을 확인합니다. 예상된 개체 복구 타이머: {0}분. 사이트 읽기 인접성: {1}. 사용자 지정된 스왑 개체: {2}. 대규모 클러스터 지원: {3}.
+com.vmware.vsan.health.test.cluster.extendedconfig.on = 사용
+com.vmware.vsan.health.test.cluster.extendedconfig.off = 사용 안 함
+com.vmware.vsan.health.test.cluster.extendedconfig.desc = vSAN 클러스터 확장된 구성이 다음과 같이 설정되었습니다. 개체 복구 타이머: {0}분. 사이트 읽기 인접성: {1}. 사용자 지정된 스왑 개체: {2}. 대규모 클러스터 지원: {3}. 일관되지 않은 확장된 구성이 있는 호스트의 경우 vSAN 클러스터 업데이트 적용이 권장되며, 확장된 구성을 지원하지 않는 호스트의 경우 ESXi 소프트웨어 업그레이드가 필요합니다. 클러스터 확장성 구성을 적용하려면 호스트 재부팅이 필요할 수 있습니다.
+com.vmware.vsan.health.test.cluster.extendedconfig.match = 일치
+com.vmware.vsan.health.test.cluster.extendedconfig.mismatch = 불일치
+com.vmware.vsan.health.test.cluster.extendedconfig.notsupported = 지원되지 않음
+com.vmware.vsan.health.test.cluster.extendedconfig.noeffect = 아니요
+com.vmware.vsan.health.test.cluster.extendedconfig.takeneffect = 예
+com.vmware.vsan.health.test.cluster.extendedconfig.needmemory = 아니요
+com.vmware.vsan.health.test.cluster.extendedconfig.unknown = 알 수 없음
+com.vmware.vsan.health.test.cluster.extendedconfig.na = 확인
+com.vmware.vsan.health.test.cluster.extendedconfig.remediation = vSAN 클러스터 업데이트 적용이 권장됨
+com.vmware.vsan.health.test.cluster.extendedconfig.upgrade = 해당 호스트의 ESXi 소프트웨어를 업그레이드하십시오.
+com.vmware.vsan.health.test.cluster.extendedconfig.reboot = 호스트 재부팅이 권장됨
+com.vmware.vsan.health.test.cluster.extendedconfig.memory = 호스트의 메모리를 8GB 이상으로 늘리십시오.
+
+# host EMM and node decom state in sync check
+com.vmware.vsan.health.test.cluster.mmdecominsync.testName = 호스트 유지 보수 모드
+com.vmware.vsan.health.test.cluster.mmdecominsync.testResult.label = 호스트 유지 보수 모드
+com.vmware.vsan.health.test.cluster.mmdecominsync.testResult.columnHost = 호스트
+com.vmware.vsan.health.test.cluster.mmdecominsync.testResult.columnHostInMM = 유지 보수 모드의 호스트
+com.vmware.vsan.health.test.cluster.mmdecominsync.testResult.columnHostInDecom = 서비스 해제 상태의 vSAN 노드
+com.vmware.vsan.health.test.cluster.mmdecominsync.testResult.columnHostInSync = 상태가 동기화됨
+com.vmware.vsan.health.test.cluster.mmdecominsync.testResult.contentYes = 예
+com.vmware.vsan.health.test.cluster.mmdecominsync.testResult.contentNo = 아니요
+com.vmware.vsan.health.test.cluster.mmdecominsync.testResult.contentTransient = 진행 중
+com.vmware.vsan.health.test.mmdecominsync = 호스트의 유지 보수 모드가 vSAN 노드 서비스 해제 상태와 동기화되었는지 확인합니다. 호스트가 유지 보수 모드에 있는 경우 vSAN 노드가 서비스 해제 상태에 있어야 합니다. 노드가 서비스 해제되었지만 호스트가 유지 보수 모드에 있지 않은 경우 vSAN 옵션을 사용하여 호스트를 유지 보수 모드로 전환한 다음 유지 보수 모드에서 제거하여 vSAN 서비스 해제 상태를 재설정하고 vSphere 유지 보수 모드 상태와 일관되게 만드십시오.
+com.vmware.vsan.health.test.mmdecominsync.short = 호스트 유지 보수 모드가 vSAN 노드 서비스 해제 상태와 동기화되었는지 확인합니다. 노드가 서비스 해제되었지만 호스트가 유지 보수 모드에 있지 않은 경우 vSAN 옵션을 사용하여 호스트를 유지 보수 모드로 전환한 다음 유지 보수 모드에서 제거하여 vSAN 서비스 해제 상태를 재설정하고 vSphere 유지 보수 모드 상태와 일관되게 만드십시오.
+

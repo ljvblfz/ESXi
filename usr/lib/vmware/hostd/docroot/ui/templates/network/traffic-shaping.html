@@ -1,0 +1,94 @@
+<div vui-stack-block="trafficShapingBlock">
+   <span vui-sb-label>{{'network.portgroup.edit.trafficShaping.title'|translate}}</span>
+   <div vui-sb-content>
+      {{'network.portgroup.edit.trafficShaping.clickToExpand'|translate}}
+   </div>
+
+   <div vui-sb-content-expanded></div>
+
+   <!-- children -->
+   <div vui-stack-block>
+      <span
+         vui-sb-label>{{'network.portgroup.edit.trafficShaping.status'|translate}}</span>
+      <div vui-sb-content>
+         <label style="margin-bottom: 0; margin-right: 5px;">
+            <input
+               type="radio"
+               ng-model="data.trafficShaping.enabled"
+               ng-value="true"/> {{'network.portgroup.edit.trafficShaping.enabled'|translate}}
+         </label>
+         <label style="margin-bottom: 0; margin-right: 5px;">
+            <input
+               type="radio"
+               ng-model="data.trafficShaping.enabled"
+               ng-value="false"/> {{'network.portgroup.edit.trafficShaping.disabled'|translate}}
+         </label>
+
+         <label style="margin-bottom: 0; margin-right: 5px;" ng-show="portgroup">
+            <input
+               type="radio"
+               ng-model="data.trafficShaping.enabled"
+               ng-value="'vswitch'"/> {{'network.portgroup.edit.trafficShaping.inherit'|translate}}
+         </label>
+      </div>
+   </div>
+
+   <div vui-stack-block>
+      <span
+         vui-sb-label>{{'network.portgroup.edit.trafficShaping.averageBandwidth'|translate}}</span>
+      <div vui-sb-content>
+         <label style="margin-bottom: 0; margin-right: 5px; white-space: nowrap;">
+            <input
+               class="inline"
+               style="width: 120px;"
+               min="0"
+               ng-disabled="!data.trafficShaping.enabled || data.trafficShaping.enabled === 'vswitch'"
+               type="number"
+               ng-model="data.trafficShaping.averageBandwidth"/> {{'network.portgroup.edit.trafficShaping.kbps' | translate}}
+         </label>
+      </div>
+   </div>
+
+   <div vui-stack-block>
+      <span
+         vui-sb-label>{{'network.portgroup.edit.trafficShaping.peakBandwidth'|translate}}</span>
+      <div vui-sb-content>
+         <label style="margin-bottom: 0; margin-right: 5px; white-space: nowrap;">
+            <input
+               class="inline"
+               style="width: 120px;"
+               min="0"
+               ng-disabled="!data.trafficShaping.enabled || data.trafficShaping.enabled === 'vswitch'"
+               type="number"
+               ng-model="data.trafficShaping.peakBandwidth"/> {{'network.portgroup.edit.trafficShaping.kbps' | translate}}
+         </label>
+      </div>
+   </div>
+
+   <div vui-stack-block>
+      <span
+         vui-sb-label>{{'network.portgroup.edit.trafficShaping.burstSize'|translate}}</span>
+      <div vui-sb-content>
+         <label style="margin-bottom: 0; margin-right: 5px; white-space: nowrap;">
+            <input
+               class="inline"
+               style="width: 120px;"
+               min="0"
+               ng-disabled="!data.trafficShaping.enabled || data.trafficShaping.enabled === 'vswitch'"
+               type="number"
+               ng-model="data.trafficShaping.burstSize"/> {{'units.KB' | translate}}
+         </label>
+      </div>
+   </div>
+
+   <div vui-stack-block>
+      <span
+         vui-sb-label>{{'network.portgroup.edit.trafficShaping.note.title'|translate}}</span>
+      <div vui-sb-content>
+         <label style="margin-bottom: 0; margin-right: 5px;">
+            {{'network.portgroup.edit.trafficShaping.note.content'|translate}}</span>
+         </label>
+      </div>
+   </div>
+
+</div> <!-- /trafficShapingBlock -->

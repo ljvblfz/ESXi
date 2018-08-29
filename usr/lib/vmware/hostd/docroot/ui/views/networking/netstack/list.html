@@ -1,0 +1,13 @@
+<div ng-if="tabs.netstacks.loaded || networkingTabs.tabs[getSelectedTab()].state === tabs.netstacks.state"
+ ng-controller="NetworkingNetstackListController" class="esx-tab-content">
+
+   <div ng-show="!loaded" class="loading"></div>
+
+   <div ng-show="loaded" id="{{netstackGrid.id}}" vui-datagrid="netstackGrid"></div>
+
+   <hr ng-if="currentNetstack" class="ng-cloak" style="margin-top: 20px; margin-bottom: 20px;"/>
+
+   <div ng-if="currentNetstack" ng-controller="NetworkingNetstackController" ng-cloak>
+      <div ng-include src="'views/networking/netstack/summary.html'"></div>
+   </div>
+</div>

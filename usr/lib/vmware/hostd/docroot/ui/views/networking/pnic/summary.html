@@ -1,0 +1,123 @@
+<div ng-class="{'esx-main-content': !nested}">
+   <div ng-show="!loaded" class="loading">
+   </div>
+
+   <div ng-if="loaded && !nested" vui-action-bar="pnicActionBarOptions" style="margin-bottom: 20px;"></div>
+
+   <div ng-show="loaded" class="row header-area no-margin">
+      <div class="col-sm-9 info-block no-padding">
+         <div class="identifying-graphic col-sm-4 col-lg-3">
+            <img src="images/network/objNIC.png" style="width: 60px; margin:
+            0 10px 20px 0;" alt="{{'network.pnic.alt' | translate}}"/>
+         </div>
+         <div class="key-information col-sm-8 col-lg-9">
+            <div class="row">
+               <div class="col-sm-12 title no-padding">
+                  <span class="object-title" ng-bind="currentPNIC.device"></span>
+               </div>
+            </div>
+            <form class="form-horizontal">
+               <div class="form-group">
+                  <span
+                        class="col-sm-4 col-lg-3 control-label esx-label no-padding"
+                        title="{{'network.pnic.summary.linkSpeed' | translate}}">
+                     {{'network.pnic.summary.linkSpeed' | translate}}</span>
+                  <div class="col-sm-7 col-lg-7 no-padding">
+                     <p class="form-control-static">
+                        {{!currentPNIC.linkSpeed ? ('network.pnic.linkDown' | translate) : currentPNIC.linkSpeed.speedMb + ' Mbps'}}</p>
+                  </div>
+               </div>
+               <div class="form-group">
+                  <span
+                        class="col-sm-4 col-lg-3 control-label esx-label no-padding"
+                        title="{{'network.pnic.summary.driver' | translate}}">
+                     {{'network.pnic.summary.driver' | translate}}</span>
+                  <div class="col-sm-7 col-lg-7 no-padding">
+                     <p class="form-control-static">{{currentPNIC.driver}}</p>
+                  </div>
+               </div>
+               <div class="form-group">
+                  <span
+                        class="col-sm-4 col-lg-3 control-label esx-label no-padding"
+                        title="{{'network.pnic.summary.macAddress' | translate}}">
+                     {{'network.pnic.summary.macAddress' | translate}}</span>
+                  <div class="col-sm-7 col-lg-7 no-padding">
+                     <p class="form-control-static">{{currentPNIC.mac}}</p>
+                  </div>
+               </div>
+            </form>
+         </div>
+      </div>
+      <div class="col-sm-3 metrics">&nbsp;</div>
+   </div>
+
+   <div ng-if="!nested" ng-show="loaded" class="portlet-area container-fluid no-margin no-padding">
+      <div class="row">
+         <div class="col-lg-6 col-sm-12">
+            <div class="vui-portlet no-margin" ng-class="{'collapsed': pnicPortlet.collapsed}">
+               <div class="portlet-titlebar" ng-click="pnicPortlet.toggle()">
+                  <span class="icon" ng-class="{
+                     'vui-icon-caret-dark-gray-right': pnicPortlet.collapsed,
+                     'vui-icon-caret-dark-gray-down': !pnicPortlet.collapsed}"></span>
+                  <span class="titlebar-text"
+                     title="{{'network.pnic.summary.adapterDetails' | translate}}">
+                        {{'network.pnic.summary.adapterDetails' | translate}}</span>
+               </div>
+               <div class="portlet-content">
+                  <div esx-portlet-content data="pnicPortlet.data"></div>
+               </div>
+            </div>
+         </div>
+
+         <div ng-if="hasHints" class="col-lg-6 col-sm-12">
+            <div ng-if="currentPNIC.hints.connectedSwitchPort"
+                  class="vui-portlet no-margin"
+                  ng-class="{'collapsed': cdpPortlet.collapsed}">
+               <div class="portlet-titlebar" ng-click="cdpPortlet.toggle()">
+                  <span class="icon" ng-class="{
+                     'vui-icon-caret-dark-gray-right': cdpPortlet.collapsed,
+                     'vui-icon-caret-dark-gray-down': !cdpPortlet.collapsed}"></span>
+                  <span class="titlebar-text"
+                     title="{{'network.pnic.summary.portlets.cdp.title' | translate}}">
+                        {{'network.pnic.summary.portlets.cdp.title' | translate}}</span>
+               </div>
+               <div class="portlet-content">
+                  <div esx-portlet-content data="cdpPortlet.data"></div>
+               </div>
+            </div>
+
+            <div ng-if="currentPNIC.hints.lldpInfo"
+                  class="vui-portlet no-margin"
+                  ng-class="{'collapsed': lldpPortlet.collapsed}">
+               <div class="portlet-titlebar" ng-click="lldpPortlet.toggle()">
+                  <span class="icon" ng-class="{
+                     'vui-icon-caret-dark-gray-right': lldpPortlet.collapsed,
+                     'vui-icon-caret-dark-gray-down': !lldpPortlet.collapsed}"></span>
+                  <span class="titlebar-text"
+                     title="{{'network.pnic.summary.portlets.lldp.title' | translate}}">
+                        {{'network.pnic.summary.portlets.lldp.title' | translate}}</span>
+               </div>
+               <div class="portlet-content">
+                  <div esx-portlet-content data="lldpPortlet.data"></div>
+               </div>
+            </div>
+
+            <div ng-if="currentPNIC.hints.subnet"
+                  class="vui-portlet no-margin"
+                  ng-class="{'collapsed': subnetPortlet.collapsed}">
+               <div class="portlet-titlebar" ng-click="subnetPortlet.toggle()">
+                  <span class="icon" ng-class="{
+                     'vui-icon-caret-dark-gray-right': subnetPortlet.collapsed,
+                     'vui-icon-caret-dark-gray-down': !subnetPortlet.collapsed}"></span>
+                  <span class="titlebar-text"
+                     title="{{'network.pnic.summary.portlets.subnets.title' | translate}}">
+                        {{'network.pnic.summary.portlets.subnets.title' | translate}}</span>
+               </div>
+               <div class="portlet-content">
+                  <div esx-portlet-content data="subnetPortlet.data"></div>
+               </div>
+            </div>
+         </div>
+      </div>
+   </div>
+</div>

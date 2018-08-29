@@ -1,0 +1,44 @@
+<div ng-controller="ClientUpdateController"
+   class="content-padding shutdown-dialog">
+
+   <div class="row">
+      <div class="col-sm-2">
+         <img src="images/update64.png" style="float: left; margin-left: 15px;"/>
+      </div>
+
+      <div class="col-sm-10">
+         <p ng-bind-html="'update.perform.dialog.content' | translate:update | linebreak"></p>
+
+         <div style="margin-bottom: 5px;">
+            <input type="text" focus-me="true" style="max-width: none; width: 450px;" ng-model="url"/>
+         </div>
+
+         <div class="row" style="margin-bottom: 5px;">
+            <div class="col-sm-4"><label for="useProxy" >{{'update.perform.dialog.proxy.use' | translate}}</label></div>
+            <div class="col-sm-8"><input type="checkbox" id="useProxy" ng-model="proxy" value="true"/></div>
+         </div>
+
+         <div ng-show="proxy">
+            <div class="row" style="margin-bottom: 5px;">
+               <div class="col-sm-4"><label for="proxy">{{'update.perform.dialog.proxy.server' | translate}}</label></div>
+               <div class="col-sm-8"><input type="text" id="proxyServer" style="width: 200px;" ng-model="proxyServer"/></div>
+            </div>
+
+            <div class="row" style="margin-bottom: 5px;">
+               <div class="col-sm-4"><label for="proxyUsername">{{'update.perform.dialog.proxy.username' | translate}}</label></div>
+               <div class="col-sm-8"><input type="text" id="proxyUsername" style="width: 200px;" ng-model="proxyUsername"/></div>
+            </div>
+
+            <div class="row" style="margin-bottom: 5px;">
+               <div class="col-sm-4"><label for="proxyPassword">{{'update.perform.dialog.proxy.password' | translate}}</label></div>
+               <div class="col-sm-8"><input type="password" id="proxyPassword" style="width: 200px;" ng-model="proxyPassword"/></div>
+            </div>
+
+            <div class="row" style="margin-bottom: 5px;">
+               <div class="col-sm-4"><label for="proxyPort">{{'update.perform.dialog.proxy.port' | translate}}</label></div>
+               <div class="col-sm-8"><input type="number" id="proxyPort" ng-model="proxyPort" min="0" style="width: 60px; padding: 0 0 0 5px;"/></div>
+            </div>
+         </div>
+      </div>
+   </div>
+</div>

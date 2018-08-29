@@ -1,0 +1,23 @@
+/***********************************************************
+ * Copyright 2010-2013,2015 VMware, Inc.  All rights reserved.
+ * VMware Confidential
+ ***********************************************************/
+
+{
+   "operations" :
+   {
+      "start" :
+      [
+         "boot storage load --bnx2i",
+         "boot storage load --drivers",
+      ]
+   }
+   ,
+   "metadata" :
+   {
+      "version"  : 1,
+      "requires" : ["vmklinux", "system configuration", "PSA NMP post-claim configuration", "PSA filter post-claim configuration", "vmkdevmgr", "networking drivers", "iodm"],
+      "provides" : ["storage vmklinux drivers", "iscsi_linux", "bnx2i", "fcoe"]
+   }
+}
+

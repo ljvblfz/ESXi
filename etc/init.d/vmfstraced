@@ -1,0 +1,206 @@
+#!/bin/sh
+# chkconfig: on 18 82
+
+export PATH=/bin:/sbin
+
+# Source configuration file for overrides.
+VMFSTRACED_CONF="/etc/vmware/vmfs/vmfstraced.conf"
+if [ -e "$VMFSTRACED_CONF" ]; then
+   . "$VMFSTRACED_CONF"
+fi
+
+VMFSTRACED_BIN=/bin/logchannellogger
+VMFSTRACED_TAG=vmfstracegd
+VMFSTRACED_LOGCHANNEL_NODE=vmfsGlobalTrace
+VMFSTRACED_RP="host/vim/vmvisor/vmfstraced"
+VMFSTRACED_MEM_RES="${VMFSTRACED_RP} 7"
+VMFSTRACED_TRACEFILE=vmfsGlobalTrace.trace
+VMFSTRACED_TRACEFILE_PATH_SYMLINK=/var/log/vmfstraces
+VMFSTRACED_TRACEFILE_PATH=${VMFSTRACED_TRACEFILE_PATH:-/scratch/vmfstraces}
+VMFSTRACED_ROTATE_MAX_FILES=${VMFSTRACED_ROTATE_MAX_FILES:-32}
+VMFSTRACED_ROTATE_FILE_SIZE=${VMFSTRACED_ROTATE_FILE_SIZE:-64}
+VMFSTRACED_PARAM="-o -Rshift -z3 -n $VMFSTRACED_TAG"
+
+syslog() {
+   echo "$@"
+   logger -p daemon.info -t $VMFSTRACED_TAG "$@"
+}
+
+sysalert() {
+   echo "$@"
+   logger -p daemon.alert -t $VMFSTRACED_TAG "$@"
+}
+
+getpid() {
+   # ps userworld output format: "WID" "CID" "World Name" "Command"
+   ps -uc | awk -v TAG="$VMFSTRACED_TAG" -v BIN="$VMFSTRACED_BIN" \
+      '($1 ~ /^[0-9]/ && $3 == TAG && $4 == BIN) { print $1 }'
+}
+
+increaseRP() {
+   /usr/lib/vmware/rp/bin/configRP increaseRPMemMaxSize ${VMFSTRACED_MEM_RES}
+   if [ $? -ne 0 ]; then
+      syslog "Failed to set $VMFSTRACED_TAG memory reservation"
+      return $?
+   fi
+}
+
+decreaseRP() {
+   /usr/lib/vmware/rp/bin/configRP decreaseRPMemMaxSize ${VMFSTRACED_MEM_RES}
+   if [ $? -ne 0 ]; then
+      sysalert "Failed to clear $VMFSTRACED_TAG memory reservation"
+   fi
+}
+
+start() {
+   local pid=$(getpid)
+   if [ -n "$pid" ]; then
+      echo "$VMFSTRACED_TAG is already running"
+      exit 1
+   fi
+
+   logchannellogger -l 2>/dev/null | grep -q vmfsGlobalTrace 2>&1
+   if [ $? -ne 0 ]
+   then
+      syslog "VMFS Global Tracing is not enabled."
+      exit 0
+   fi
+
+   increaseRP
+   if [ $? -ne 0 ]; then
+      exit 1
+   fi
+
+   if [ "$VMFSTRACED_TRACEFILE_PATH" = /dev/null ]; then
+      /sbin/watchdog.sh ++memreliable,group=${VMFSTRACED_RP} -d -s $VMFSTRACED_TAG \
+         "$VMFSTRACED_BIN" -o -n $VMFSTRACED_TAG \
+         "$VMFSTRACED_LOGCHANNEL_NODE" \
+         "$VMFSTRACED_TRACEFILE_PATH" >/dev/null 2>&1
+   else
+      syslog "Storing traces to $VMFSTRACED_TRACEFILE_PATH"
+      mkdir -p "$VMFSTRACED_TRACEFILE_PATH"
+      if [ $? -ne 0 ]; then
+         syslog "Failed to mkdir: $VMFSTRACED_TRACEFILE_PATH"
+         decreaseRP
+         exit 1
+      fi
+
+      readlink -f "$VMFSTRACED_TRACEFILE_PATH" | grep '^/vmfs/volumes' >/dev/null 2>&1
+      if [ $? -ne 0 ]
+      then
+         syslog "VMFS trace location '$VMFSTRACED_TRACEFILE_PATH' is not backed by persistent storage. Using 4 files of max of 8MB each."
+         VMFSTRACED_ROTATE_MAX_FILES=4
+         VMFSTRACED_ROTATE_FILE_SIZE=8
+      fi
+
+      rm -f "$VMFSTRACED_TRACEFILE_PATH_SYMLINK"
+      ln -s "$VMFSTRACED_TRACEFILE_PATH" "$VMFSTRACED_TRACEFILE_PATH_SYMLINK"
+      if [ $? -ne 0 ]; then
+         syslog "Failed to create symlink: $VMFSTRACED_TRACEFILE_PATH_SYMLINK"
+         decreaseRP
+         exit 1
+      fi
+
+      /sbin/watchdog.sh ++group=${VMFSTRACED_RP} -d -s $VMFSTRACED_TAG \
+         "$VMFSTRACED_BIN" $VMFSTRACED_PARAM \
+         -m $VMFSTRACED_ROTATE_MAX_FILES -s $VMFSTRACED_ROTATE_FILE_SIZE \
+         "$VMFSTRACED_LOGCHANNEL_NODE" \
+         "$VMFSTRACED_TRACEFILE_PATH/$VMFSTRACED_TRACEFILE" >/dev/null 2>&1
+   fi
+
+   echo "$VMFSTRACED_TAG started"
+}
+
+stop() {
+   # Stop the watchdog first.
+   /sbin/watchdog.sh -k $VMFSTRACED_TAG
+
+   local pid=$(getpid)
+   if [ -n "$pid" ]; then
+      kill -15 $pid
+      while kill -0 $pid > /dev/null 2>&1; do
+         sleep 0.1;
+      done
+      echo "$VMFSTRACED_TAG stopped"
+   else
+      echo "$VMFSTRACED_TAG is not running"
+   fi
+
+   decreaseRP
+}
+
+status() {
+   local pid=$(getpid)
+   if [ -z "$pid" ] ; then
+      echo "$VMFSTRACED_TAG is not running"
+      exit 3
+   else
+      echo "$VMFSTRACED_TAG is running"
+      exit 0
+   fi
+}
+
+getMostRecentLogSize()
+{
+   local path="$VMFSTRACED_TRACEFILE_PATH_SYMLINK/${VMFSTRACED_TRACEFILE}.0"
+
+   path="$path.gz"
+
+   stat -c='%s' $path | cut -d= -f2
+}
+
+#
+# Send vmfstraced a signal, asking it to flush any in-memory traces to disk.
+# Then wait a few moments, watching for the file size to change.
+#
+flush() {
+   local pid=$(getpid)
+   if [ -z "$pid" ]; then
+      echo "$VMFSTRACED_TAG is not running"
+      exit 1
+   fi
+
+   local sizeBefore=$(getMostRecentLogSize)
+   local sizeRet=$?
+
+   echo "Signalling $VMFSTRACED_TAG"
+   kill -USR1 $pid
+   if [ $? -ne 0 -o $sizeRet -ne 0 ]; then
+      return 0
+   fi
+
+   echo "Waiting for increase in log size"
+   local iters=0
+   local sizeAfter=$(getMostRecentLogSize)
+   while [ $? -eq 0 -a "$sizeBefore" -eq "$sizeAfter" -a "$iters" -lt 5 ]; do
+      sleep 1
+      iters=$((iters + 1))
+      sizeAfter=$(getMostRecentLogSize)
+   done
+}
+
+#
+# main
+#
+case "${1}" in
+   "start")
+      start
+   ;;
+   "stop")
+      stop
+   ;;
+   "status")
+      status
+   ;;
+   "restart")
+      stop
+      start
+   ;;
+   "flush")
+      flush
+   ;;
+   *)
+      echo "Usage: $(basename $0) {start|stop|status|restart}"
+      exit 1
+   ;;
+esac

@@ -1,0 +1,153 @@
+# en_US resources
+signature="sIgNaTuRe"
+
+# vSphere Replication enums
+hbr.primary.ReasonForDeltaAbort.fileTransfer.label                = "파일 전송 실패"
+hbr.primary.ReasonForDeltaAbort.fileTransfer.summary              = "구성 파일을 전송할 수 없습니다."
+hbr.primary.ReasonForDeltaAbort.filter.label                      = "필터 작업 실패"
+hbr.primary.ReasonForDeltaAbort.filter.summary                    = "VR 필터 작업이 실패했습니다."
+hbr.primary.ReasonForDeltaAbort.quiesceApps.label                 = "애플리케이션 중지 실패"
+hbr.primary.ReasonForDeltaAbort.quiesceApps.summary               = "게스트에서 애플리케이션을 중지시키지 못했습니다."
+hbr.primary.ReasonForDeltaAbort.quiesceFS.label                   = "파일 시스템 중지 실패"
+hbr.primary.ReasonForDeltaAbort.quiesceFS.summary                 = "게스트에서 파일 시스템을 중지시키지 못했습니다."
+hbr.primary.ReasonForDeltaAbort.paused.label                      = "사용자 일시 중지"
+hbr.primary.ReasonForDeltaAbort.paused.summary                    = "사용자가 복제 작업을 일시 중지했습니다."
+hbr.primary.ReasonForDeltaAbort.offline.label                     = "가상 시스템 전원 꺼짐"
+hbr.primary.ReasonForDeltaAbort.offline.summary                   = "가상 시스템 전원이 꺼지고 있습니다."
+hbr.primary.ReasonForDeltaAbort.diskNeedsSync.label               = "디스크 동기화 필요"
+hbr.primary.ReasonForDeltaAbort.diskNeedsSync.summary             = "디스크를 전체 다시 동기화해야 합니다."
+hbr.primary.ReasonForDeltaAbort.userAbort.label                   = "사용자 중단"
+hbr.primary.ReasonForDeltaAbort.userAbort.summary                 = "사용자가 복제 작업을 중단했습니다."
+hbr.primary.ReasonForDeltaAbort.quiesceUncommitted.label          = "중지 미완료"
+hbr.primary.ReasonForDeltaAbort.quiesceUncommitted.summary        = "중지 작업을 완료할 수 없습니다."
+hbr.primary.ReasonForDeltaAbort.configurationChanged.label        = "구성이 변경됨"
+hbr.primary.ReasonForDeltaAbort.configurationChanged.summary      = "복제하는 동안 가상 시스템 구성이 변경되었습니다."
+hbr.primary.ReasonForDeltaAbort.serverAborted.label               = "서버가 중단됨"
+hbr.primary.ReasonForDeltaAbort.serverAborted.summary             = "VR Server에서 인스턴스가 중단되었습니다."
+hbr.primary.ReasonForDeltaAbort.diskSetMismatch.label             = "디스크 집합 불일치"
+hbr.primary.ReasonForDeltaAbort.diskSetMismatch.summary           = "VR Server에서 구성된 디스크 세트가 복제된 디스크와 일치하지 않습니다."
+#
+hbr.primary.ReasonForNoServerConnection.noNetwork.label           = "네트워크"
+hbr.primary.ReasonForNoServerConnection.noNetwork.summary         = "네트워크가 없습니다."
+hbr.primary.ReasonForNoServerConnection.notResponding.label       = "응답 없음"
+hbr.primary.ReasonForNoServerConnection.notResponding.summary     = "VR Server가 응답하지 않습니다."
+hbr.primary.ReasonForNoServerConnection.protocolMismatch.label    = "프로토콜 불일치"
+hbr.primary.ReasonForNoServerConnection.protocolMismatch.summary  = "VR Server 버전이 호환되지 않습니다."
+hbr.primary.ReasonForNoServerConnection.noMemory.label            = "메모리 없음"
+hbr.primary.ReasonForNoServerConnection.noMemory.summary          = "커널 모듈에 대한 메모리가 없습니다."
+hbr.primary.ReasonForNoServerConnection.diskSizeMismatch.label    = "디스크 크기 불일치"
+hbr.primary.ReasonForNoServerConnection.diskSizeMismatch.summary  = "기본 VM과 VR Server 간 디스크 크기가 일치하지 않습니다."
+hbr.primary.ReasonForNoServerConnection.unknown.label             = "알 수 없음"
+hbr.primary.ReasonForNoServerConnection.unknown.summary           = "알 수 없습니다."
+#
+hbr.primary.ReasonForNoServerProgress.noGroupOnServer.label       = "VM이 서버에서 구성되지 않음"
+hbr.primary.ReasonForNoServerProgress.noGroupOnServer.summary     = "이 VM이 VR Server에서 구성되지 않았습니다."
+hbr.primary.ReasonForNoServerProgress.diskSetMismatch.label       = "디스크 집합 불일치"
+hbr.primary.ReasonForNoServerProgress.diskSetMismatch.summary     = "서버에서 복제된 디스크 집합과 구성된 디스크 집합 간 불일치 사항이 발견되었습니다."
+hbr.primary.ReasonForNoServerProgress.unknown.label               = "알 수 없음"
+hbr.primary.ReasonForNoServerProgress.unknown.summary             = "알 수 없습니다."
+#
+hbr.primary.ReasonForPausedReplication.diskAdded.label            = "VM에 디스크가 추가됨"
+hbr.primary.ReasonForPausedReplication.diskAdded.summary          = "디스크가 가상 시스템에 추가되었습니다."
+#
+hbr.primary.ReasonForAppQuiesceFailure.diskUUIDNotEnabled.label   = "디스크 UUID 사용 안 함"
+hbr.primary.ReasonForAppQuiesceFailure.diskUUIDNotEnabled.summary = "가상 시스템 구성에 디스크 UUID를 사용하도록 설정되어 있지 않습니다."
+hbr.primary.ReasonForAppQuiesceFailure.hasIDEDisks.label          = "가상 시스템에 IDE 또는 SATA 디스크 있음"
+hbr.primary.ReasonForAppQuiesceFailure.hasIDEDisks.summary        = "IDE 또는 SATA 디스크가 있는 가상 시스템에 대해 애플리케이션 중지 작업이 지원되지 않습니다."
+hbr.primary.ReasonForAppQuiesceFailure.hasIndependentDisks.label  = "가상 시스템에 독립형 디스크 있음"
+hbr.primary.ReasonForAppQuiesceFailure.hasIndependentDisks.summary = "독립형 디스크가 있는 가상 시스템에 대해 애플리케이션 중지 작업이 지원되지 않습니다."
+hbr.primary.ReasonForAppQuiesceFailure.notEnoughFreeSlots.label   = "사용 가능한 SCSI 슬롯 부족"
+hbr.primary.ReasonForAppQuiesceFailure.notEnoughFreeSlots.summary = "가상 시스템에 사용 가능한 SCSI 슬롯이 부족하여 애플리케이션 중지 작업을 수행할 수 없습니다."
+hbr.primary.ReasonForAppQuiesceFailure.guestConfigIssue.label     = "동적 디스크와 같이 지원되지 않는 게스트 구성"
+hbr.primary.ReasonForAppQuiesceFailure.guestConfigIssue.summary   = "동적 디스크와 같은 일부 게스트 구성에서는 애플리케이션 중지 작업이 지원되지 않습니다."
+# vSphere replication enums end here
+
+# guest operation enums
+com.vmware.vc.guestOp.ValidateCredentialsInGuest.label = "자격 증명 검증"
+com.vmware.vc.guestOp.ValidateCredentialsInGuest.summary = "게스트 운영 체제에서 사용자 자격 증명 검증>"
+#
+com.vmware.vc.guestOp.AcquireCredentialsInGuest.label = "자격 증명 취득 "
+com.vmware.vc.guestOp.AcquireCredentialsInGuest.summary = "게스트 운영 체제에서 사용자 자격 증명 취득>"
+#
+com.vmware.vc.guestOp.ReleaseCredentialsInGuest.label = "자격 증명 해제 "
+com.vmware.vc.guestOp.ReleaseCredentialsInGuest.summary = "게스트 운영 체제에서 사용자 자격 증명 해제>"
+#
+com.vmware.vc.guestOp.StartProgramInGuest.label = "프로그램 시작"
+com.vmware.vc.guestOp.StartProgramInGuest.summary = "게스트 운영 체제에서 프로그램을 시작합니다."
+#
+com.vmware.vc.guestOp.ListProcessesInGuest.label = "프로세스 나열"
+com.vmware.vc.guestOp.ListProcessesInGuest.summary = "게스트 운영 체제에 프로세스를 나열합니다."
+#
+com.vmware.vc.guestOp.TerminateProcessInGuest.label = "프로세스 종료"
+com.vmware.vc.guestOp.TerminateProcessInGuest.summary = "게스트 운영 체제에서 프로세스를 종료합니다."
+#
+com.vmware.vc.guestOp.ReadEnvironmentVariableInGuest.label = "환경 변수 읽기"
+com.vmware.vc.guestOp.ReadEnvironmentVariableInGuest.summary = "게스트 운영 체제에서 환경 변수를 읽습니다."
+#
+com.vmware.vc.guestOp.MakeDirectoryInGuest.label = "디렉토리 생성"
+com.vmware.vc.guestOp.MakeDirectoryInGuest.summary = "게스트 운영 체제에서 디렉토리를 생성합니다."
+#
+com.vmware.vc.guestOp.DeleteFileInGuest.label = "파일 삭제"
+com.vmware.vc.guestOp.DeleteFileInGuest.summary = "게스트 운영 체제에서 파일을 삭제합니다."
+#
+com.vmware.vc.guestOp.DeleteDirectoryInGuest.label = "디렉토리 삭제"
+com.vmware.vc.guestOp.DeleteDirectoryInGuest.summary = "게스트 운영 체제에서 디렉토리를 삭제합니다."
+#
+com.vmware.vc.guestOp.MoveDirectoryInGuest.label = "디렉토리 이동"
+com.vmware.vc.guestOp.MoveDirectoryInGuest.summary = "게스트 운영 체제에서 디렉토리를 이동합니다."
+#
+com.vmware.vc.guestOp.MoveFileInGuest.label = "파일 이동"
+com.vmware.vc.guestOp.MoveFileInGuest.summary = "게스트 운영 체제에서 파일을 이동합니다."
+#
+com.vmware.vc.guestOp.CreateTemporaryFileInGuest.label = "임시 파일 생성"
+com.vmware.vc.guestOp.CreateTemporaryFileInGuest.summary = "게스트 운영 체제에서 임시 파일을 생성합니다."
+#
+com.vmware.vc.guestOp.CreateTemporaryDirectoryInGuest.label = "임시 디렉토리 생성"
+com.vmware.vc.guestOp.CreateTemporaryDirectoryInGuest.summary = "게스트 운영 체제에서 임시 디렉토리를 생성합니다."
+#
+com.vmware.vc.guestOp.ListFilesInGuest.label = "파일 나열"
+com.vmware.vc.guestOp.ListFilesInGuest.summary = "게스트 운영 체제에 파일을 나열합니다."
+#
+com.vmware.vc.guestOp.ChangeFileAttributesInGuest.label = "파일 특성 변경"
+com.vmware.vc.guestOp.ChangeFileAttributesInGuest.summary = "게스트 운영 체제에서 파일 특성을 변경합니다."
+#
+com.vmware.vc.guestOp.InitiateFileTransferFromGuest.label = "게스트에서 파일 전송 시작"
+com.vmware.vc.guestOp.InitiateFileTransferFromGuest.summary = "게스트 운영 체제에서 파일 전송을 시작합니다."
+#
+com.vmware.vc.guestOp.InitiateFileTransferToGuest.label = "게스트로 파일 전송 시작"
+com.vmware.vc.guestOp.InitiateFileTransferToGuest.summary = "게스트 운영 체제로 파일 전송을 시작합니다."
+#
+com.vmware.vc.guestOp.AddAlias.label = "별칭 추가"
+com.vmware.vc.guestOp.AddAlias.summary = "게스트 운영 체제에 인증 별칭을 추가합니다."
+#
+com.vmware.vc.guestOp.RemoveAlias.label = "별칭 제거"
+com.vmware.vc.guestOp.RemoveAlias.summary = "게스트 운영 체제에서 인증 별칭을 제거합니다."
+#
+com.vmware.vc.guestOp.RemoveAliasByCert.label = "인증서의 별칭 제거"
+com.vmware.vc.guestOp.RemoveAliasByCert.summary = "게스트 운영 체제에서 인증서와 연결된 모든 인증 별칭을 제거합니다."
+#
+com.vmware.vc.guestOp.ListGuestAliases.label = "별칭 나열"
+com.vmware.vc.guestOp.ListGuestAliases.summary = "게스트 운영 체제에서 인증 별칭을 나열합니다."
+#
+com.vmware.vc.guestOp.ListGuestMappedAliases.label = "매핑된 별칭 나열"
+com.vmware.vc.guestOp.ListGuestMappedAliases.summary = "게스트 운영 체제에서 매핑된 인증 별칭을 나열합니다."
+#
+com.vmware.vc.guestOp.CreateRegistryKey.label = "Windows 레지스트리 키 생성"
+com.vmware.vc.guestOp.CreateRegistryKey.summary = "게스트 운영 체제에서 Windows 레지스트리 키를 생성합니다."
+#
+com.vmware.vc.guestOp.ListRegistryKeys.label = "Windows 레지스트리 키 나열"
+com.vmware.vc.guestOp.ListRegistryKeys.summary = "게스트 운영 체제에서 Windows 레지스트리 키를 나열합니다."
+#
+com.vmware.vc.guestOp.DeleteRegistryKey.label = "Windows 레지스트리 키 삭제"
+com.vmware.vc.guestOp.DeleteRegistryKey.summary = "게스트 운영 체제에서 Windows 레지스트리 키를 삭제합니다."
+#
+com.vmware.vc.guestOp.SetRegistryValue.label = "Windows 레지스트리 값 설정"
+com.vmware.vc.guestOp.SetRegistryValue.summary = "게스트 운영 체제에서 Windows 레지스트리 값을 설정합니다."
+#
+com.vmware.vc.guestOp.ListRegistryValues.label = "Windows 레지스트리 값 나열"
+com.vmware.vc.guestOp.ListRegistryValues.summary = "게스트 운영 체제에서 Windows 레지스트리 값을 나열합니다."
+#
+com.vmware.vc.guestOp.DeleteRegistryValue.label = "Windows 레지스트리 값 삭제"
+com.vmware.vc.guestOp.DeleteRegistryValue.summary = "게스트 운영 체제에서 Windows 레지스트리 값을 삭제합니다."
+#
+# guest operation enums end here

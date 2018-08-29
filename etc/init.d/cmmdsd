@@ -1,0 +1,91 @@
+#!/bin/sh
+# chkconfig: off 17 83
+
+# variables
+export PATH=/bin:/sbin
+
+CMMDSD=/usr/lib/vmware/vsan/bin/cmmdsd
+CMMDSD_TAG=cmmdsd
+CMMDSD_RP="host/vim/vmvisor/${CMMDSD_TAG}"
+
+# For debug build, we allow more memory budget, since the binaries and
+# libraries are larger than release build.
+if [ `uname -v | awk '{print $3}'` == "Release" ] ; then
+   CMMDSD_MEM_RES="${CMMDSD_TAG} 15" # 7 + 8: 7 is the original budget, 8 is for watchdog (PR 1712436)
+else
+   CMMDSD_MEM_RES="${CMMDSD_TAG} 19" # 11 + 8: 11 is the original budget, 8 is for watchdog (PR 1712436)
+fi
+
+CMMDSD_PARAM=""
+
+start() {
+   if [ -z "$(pidof -xs "${CMMDSD}")" ] ; then
+      /usr/lib/vmware/vsan/bin/configVsanRP reserveMemory ${CMMDSD_MEM_RES}
+
+      if [ $? -ne 0 ]; then
+         echo "Failed to set memory reservation for cmmdsd"
+         exit 1
+      fi
+
+      /sbin/watchdog.sh ++group=${CMMDSD_RP} -d -s "${CMMDSD_TAG}" "${CMMDSD}" "${CMMDSD_PARAM}" >/dev/null 2>&1
+      echo "cmmdsd started"
+   else
+      echo "cmmdsd already running"
+   fi
+}
+
+stop() {
+   if [ -n "$(pidof -xs "${CMMDSD}")" ] ; then
+      # This only stops the watchdog process.
+      /sbin/watchdog.sh -k "${CMMDSD_TAG}"
+
+      CMMDSD_PID="$(pidof -s "${CMMDSD}")"
+      if [ -n "${CMMDSD_PID}" ]; then 
+          kill -9 ${CMMDSD_PID}
+          echo "Waiting for process to terminate..."
+          while kill -0 ${CMMDSD_PID} > /dev/null 2>&1; do
+              sleep 0;
+          done
+      fi
+
+      /usr/lib/vmware/vsan/bin/configVsanRP clearMemory ${CMMDSD_TAG}
+      if [ $? -ne 0 ]; then
+         echo "Failed to clear memory reservation for cmmdsd"
+         exit 1
+      fi
+
+      echo "cmmdsd stopped"
+   else
+      echo "cmmdsd is not running"
+   fi
+}
+
+#
+# main
+#
+case "${1}" in
+   "start")
+      start
+   ;;
+   "stop")
+      stop
+   ;;
+   "status")
+      if [ -n "$(pidof -xs "${CMMDSD}")" ] ; then
+         echo "cmmdsd is running"
+         exit 0
+      else
+         echo "cmmdsd is not running"
+         exit 3
+      fi
+   ;;
+   "restart")
+      stop
+      start
+   ;;
+   *)
+      echo "Usage: $(basename ${0}) {start|stop|status|restart}"
+      exit 1
+   ;;
+esac
+

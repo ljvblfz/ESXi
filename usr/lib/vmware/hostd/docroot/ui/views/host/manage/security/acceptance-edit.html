@@ -1,0 +1,22 @@
+<div ng-controller="HostManageSecurityAcceptanceLevelEditController"
+   class="content-padding" style="margin: 10px;">
+
+   <div class="radio"
+      ng-repeat="level in data.levels" style="margin-left: 20px;">
+      <label>
+         <input type="radio" name="levelRadios"
+            id="{{mode}}" ng-model="data.level" ng-value="level"/>
+         <div class="row no-margin">
+            <div class="col-sm-12 no-padding row-spacer">
+               <strong>
+                  {{'host.manage.system.security.acceptance.levels.' + level + '.name' | translate}}
+               </strong>
+            </div>
+            <div class="col-sm-12 no-padding row-spacer">
+               {{'host.manage.system.security.acceptance.levels.' + level + '.description' | translate}}
+            </div>
+         </div>
+      </label>
+   </div>
+
+</div>

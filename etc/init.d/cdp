@@ -1,0 +1,51 @@
+#!/bin/sh
+# chkconfig: on 20 20
+
+CDP=/usr/sbin/net-cdp
+CDP_TAG=cdp
+CDP_RP="net-daemons"
+
+start() {
+   if [ -z "$(pidof -xs "${CDP}")" ] ; then
+      /sbin/watchdog.sh ++memreliable,group=${CDP_RP} -d -s "${CDP_TAG}" "${CDP}" >/dev/null 2>&1
+      echo "cdp started"
+   else
+      echo "cdp already running"
+   fi
+}
+
+stop() {
+   if [ -n "$(pidof -xs "${CDP}")" ] ; then
+      /sbin/watchdog.sh -k "${CDP_TAG}"
+      pkill -9 "${CDP_TAG}"
+   else
+      echo "cdp is not running"
+   fi
+}
+
+case "${1}" in
+   "start")
+      start
+   ;;
+   "stop")
+      stop
+   ;;
+   "status")
+      if [ -n "$(pidof -xs "${CDP}")" ] ; then
+         echo "cdp is running"
+         exit 0
+      else
+         echo "cdp is not running"
+         exit 3
+      fi
+   ;;
+   "restart")
+      stop
+      start
+   ;;
+   *)
+      echo "Usage: $(basename ${0}) {start|stop|status|restart}"
+      exit 1
+   ;;
+esac
+

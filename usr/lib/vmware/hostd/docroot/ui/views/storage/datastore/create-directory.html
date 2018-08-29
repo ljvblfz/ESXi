@@ -1,0 +1,26 @@
+<div ng-controller="StorageDatastoreCreateDirectoryController" class="content-padding">
+   <div class="vui-stack-view">
+      <div class="stack-view-table">
+
+         <div class="stack-view-row">
+            <div class="stack-view-cell">
+               <span>{{'storage.datastore.browser.dialog.directory.placeholder' | translate}}</span>
+            </div>
+            <div class="stack-view-cell">
+               <input id="directoryName"
+                  type="text"
+                  focus-me="true"
+                  class="form-control row-spacer"
+                  aria-label="{{'storage.datastore.browser.dialog.directory.placeholder' | translate}}"
+                  placeholder="{{'storage.datastore.browser.dialog.directory.placeholder' | translate}}"
+                  ng-model="data.directoryName"/>
+            </div>
+         </div>
+
+      </div>
+
+   </div>
+
+   <p style="padding: 15px;">{{'storage.datastore.browser.dialog.directory.createdIn' | translate:data}}</p>
+
+</div>

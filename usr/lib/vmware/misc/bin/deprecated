@@ -1,0 +1,31 @@
+#!/bin/env python
+
+import sys
+import os
+
+USER_MESSAGE ="All user operations should be done via VI client or vim-cmd"
+FDISK_MESSAGE="fdisk does not handle GPT partitions.  Please use partedUtil"
+
+msg = {
+    # command : (message, realcommand)
+    'fdisk':    (FDISK_MESSAGE, '/usr/lib/vmware/misc/bin/fdisk'),
+}
+
+program = os.path.basename(sys.argv[0])
+
+if program in msg:
+    sys.stderr.write("\n\033[1m\033[91m***\n")
+    sys.stderr.write('*** The %s command is deprecated\033[0m: %s\n' % (program, msg[program][0]))
+    sys.stderr.write("\033[1m\033[91m***\033[0m\n\n")
+else:
+    sys.stderr.write("%s does not appear to be deprecated\n")
+    sys.exit(1)
+
+# replace argv[0] with the "real" program
+sys.argv[0] = msg[program][1]
+
+try:
+    os.execvp(sys.argv[0], sys.argv)
+except Exception as e:
+    sys.stderr.write("Failed to exec %s: %s\n" % (msg[program][1], str(e)))
+    sys.exit(1)

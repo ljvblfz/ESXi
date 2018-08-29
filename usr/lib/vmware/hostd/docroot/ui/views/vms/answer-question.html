@@ -1,0 +1,22 @@
+<div ng-controller="VMAnswerQuestionController"
+   class="content-padding" style="overflow: hidden; margin-top: 5px;">
+   <div class="row">
+      <div class="col-sm-2">
+         <img src="images/question48.png" alt="{{'notification.type.quesion'|translate}}" style="float: left; margin-left: 15px;"/>
+      </div>
+      <div class="col-sm-10">
+         <p>{{question.text}}</p>
+         <p ng-repeat="choiceInfo in question.choice.choiceInfo track by $index"
+            style="margin-bottom: 3px;"
+            ng-if="choiceInfo.label.indexOf('cancel') === -1">
+            <label>
+               <input name="choice"
+                  type="radio"
+                  ng-value="choiceInfo.key"
+                  ng-model="data.choice"
+                  style="margin-right: 10px;"/>{{choiceInfo.summary}}
+            </label>
+         </p>
+      </div>
+   </div>
+</div>

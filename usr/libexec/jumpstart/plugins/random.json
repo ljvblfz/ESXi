@@ -1,0 +1,21 @@
+/***********************************************************
+ * Copyright 2013,2015 VMware, Inc.  All rights reserved.
+ * VMware Confidential
+ ***********************************************************/
+
+{
+   "_comment" : "Empty plugin to provide legacy dependencies for tag 'random'",
+   "operations" :
+   {
+      "start" :
+      [
+      ]
+   }
+   ,
+   "metadata" :
+   {
+      "version"  : 1,
+      "requires" : ["system configuration", "vmklinux"],
+      "provides" : ["random"]
+   }
+}

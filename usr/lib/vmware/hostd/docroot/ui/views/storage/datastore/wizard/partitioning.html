@@ -1,0 +1,84 @@
+<div ng-controller="StorageDatastoreWizardPartitioningController"
+   class="content-padding vm-wizard">
+
+   <div ng-if="loading" ng-include src="'views/loading-dialog.html'"></div>
+
+   <div ng-if="!loading">
+      <form class="form-horizontal">
+         <div class="form-group">
+            <div class="col-sm-12 col-lg-12 no-padding">
+               <label class="label-508" title="{{'storage.wizard.partitionType'|translate}}">
+                  <div vui-dropdown="partitioningType" style="float: left;"></div>
+               </label>
+
+               <label ng-if="vmfsVersionDropdown"
+                  class="label-508" title="{{'storage.wizard.vmfsVersion'|translate}}">
+                  <div vui-dropdown="vmfsVersionDropdown" style="float: left;"></div>
+               </label>
+            </div>
+         </div>
+
+         <div class="form-group" style="margin: auto; height: 29px;">
+            <div class="row">
+               <div ng-if="wizardOptions.data.partitioningType === 'custom' &&
+                     selectedPartition !== null"
+                  style="margin-left: 15px; margin-top: 2px; float: left"
+                  vui-slider="partitionSize"></div>
+
+               <input type="number"
+                  ng-if="wizardOptions.data.partitioningType === 'custom' &&
+                     selectedPartition !== null"
+                  ng-class="{
+                     'invalid': sizeInvalid
+                  }"
+                  style="float: left; margin-left: 10px; width: 75px; margin-top: 3px;"
+                  ng-model="partitionSize.value"/>
+
+               <label class="label-508"
+                  style="margin: 6px;"
+                  ng-if="wizardOptions.data.partitioningType === 'custom' &&
+                     selectedPartition !== null">
+                  {{'units.MB' | translate}}
+               </label>
+            </div>
+         </div>
+      </form>
+
+      <!-- before partition diagram -->
+      <div ng-if="wizardOptions.data.partitioningType !== '-1'"
+         style="float: left;">
+         <h4>{{'storage.datastore.create.pages.partitioning.before' | translate}}</h4>
+
+         <div esx-partition-diagram
+            partition-spec="originalPartitionSpec"
+            show-gaps="true"
+            show-gaps-threshold="minSectors"
+            device-capacity="wizardOptions.data.device.capacity.block"
+            allow-selection="selectionOptions"
+            selected-partition="selectedPartition"
+            show-size="true"
+            show-number="true"
+            partition-click="selectPartition(partition)"
+            max-height="275"
+            select="selectPartitionType"
+            style="width: 325px; margin-left: 10px; margin-right: auto; margin-top: 10px;"></div>
+      </div>
+
+      <!-- after partition diagram -->
+      <div ng-if="wizardOptions.data.partitioningType !== '-1'"
+         style="float: left;">
+         <h4>{{'storage.datastore.create.pages.partitioning.after' | translate}}</h4>
+
+         <div esx-partition-diagram
+            partition-spec="partitionSpec"
+            show-gaps="true"
+            show-gaps-threshold="minSectors"
+            device-capacity="wizardOptions.data.device.capacity.block"
+            allow-selection="false"
+            show-size="true"
+            show-number="true"
+            max-height="275"
+            style="width: 325px; margin-left: auto; margin-right: auto; margin-top: 10px;"></div>
+      </div>
+   </div>
+</div>

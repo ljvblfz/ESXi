@@ -1,0 +1,83 @@
+#!/bin/sh
+# chkconfig: on 31 69
+
+export PATH=/bin:/sbin:/usr/bin
+VPXA=/usr/lib/vmware/vpxa/bin/vpxa
+VPXA_TAG=vpxa
+VPXA_LOGDIR=/var/log
+VPXA_SCHED_PARAM="++min=0,swapscope=system"
+
+start() {
+   if [ -z "$(pidof -s ${VPXA})" ] ; then
+      ulimit -c unlimited
+      /sbin/watchdog.sh ++memreliable,group=${VPXA_TAG} -d -s "${VPXA_TAG}" "${VPXA}" "${VPXA_SCHED_PARAM}" -D /etc/vmware/vpxa
+      if [ $? -eq 0 ]; then
+        echo "$VPXA_TAG started."
+      fi
+   else
+      echo "${VPXA_TAG} is running"
+   fi
+}
+
+stop() {
+   VPXA_PID="$(pidof -s ${VPXA})"
+   if [ -n "${VPXA_PID}" ] ; then
+      # Don't blindly re-enable this tracking.  See bug 691519
+      # vmkbacktrace "${VPXA_PID}" "${VPXA_LOGDIR}" vpxa-live%
+      /sbin/watchdog.sh -k "${VPXA_TAG}"
+      kill -9 ${VPXA_PID} && echo "${VPXA_TAG} stopped."
+   else
+      echo "${VPXA_TAG} is not running"
+   fi
+}
+
+waitforexit() {
+   # Wait for vpxa to exit
+   while [ -n "$(pidof -xs ${VPXA})" ] ; do
+      usleep 10000
+   done
+}
+
+ssl_reset() {
+   pkill -HUP ${VPXA_TAG}
+
+   if [ 0 -eq ${?} ] ; then
+      echo "${VPXA_TAG} signalled."
+   elif [ 1 -eq ${?} ] ; then
+      echo "${VPXA_TAG} is not running."
+      exit 3
+   else
+      echo "Unexpected error while trying to signal ${VPXA_TAG}."
+      exit 1
+   fi
+}
+
+case $1 in
+   "start")
+      start
+      ;;
+   "stop")
+      stop
+      ;;
+   "restart")
+      stop
+      waitforexit
+      start
+      ;;
+   "status")
+      if [ -n "$(pidof -xs ${VPXA})" ] ; then
+         echo "${VPXA_TAG} is running"
+         exit 0
+      else
+         echo "${VPXA_TAG} is not running"
+         exit 3
+      fi
+      ;;
+   "ssl_reset")
+      ssl_reset
+      ;;
+   *)
+      echo "Usage: $0 {start|stop|restart|status|ssl_reset}"
+      exit 1
+      ;;
+esac

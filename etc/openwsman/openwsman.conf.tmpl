@@ -1,0 +1,23 @@
+[server]
+port=8889
+basic_authenticator = libwsman_pam_auth.so
+basic_authenticator_arg = openwsman
+syslog = 1
+debug_level = 1
+
+min_threads=1
+max_threads=1
+max_connections_per_thread=8
+thread_stack_size=262144
+identify_file = /etc/openwsman/identify.xml
+localhost_only=true
+subs_repository=/etc/openwsman/subscriptions
+monitor_nsswitch = 1
+
+[cim]
+default_cim_namespace = root/cimv2
+vendor_namespaces = OMC=http://schema.omc-project.org/wbem/wscim/1/cim-schema/2,VMware=http://schemas.vmware.com/wbem/wscim/1/cim-schema/2,SFCB=http://schemas.vmware.com/wbem/wscim/1/cim-schema/2,IODM=http://schemas.vmware.com/wbem/wscim/1/cim-schema/2
+host=127.0.0.1
+port=5988
+#indication_source_namespace = root/cimv2
+indication_profile_implementation_ns = root/interop

@@ -1,0 +1,20 @@
+<div ng-controller="NetworkingFirewallEditController" class="content-padding time-config-dialog">
+   <div style="margin-bottom: 10px;"><span>{{'network.firewall.edit.header' | translate}}</span></div>
+   <div class="inline radio" style="margin-bottom: 10px;">
+      <label title="{{'network.firewall.edit.allIP' | translate}}" style="margin-bottom: 10px;">
+         <input type="radio" ng-value="true" ng-model="firewall.allIps"/> {{'network.firewall.edit.allIP' | translate}}
+      </label>
+      <label title="{{'network.firewall.edit.selectedIP' | translate}}" style="margin-bottom: 10px;">
+         <input type="radio" ng-value="false" ng-model="firewall.allIps"/> {{'network.firewall.edit.selectedIP' |
+         translate}}
+      </label>
+   </div>
+   <div class="form-group" style="margin-bottom: 0px; margin-left: 18px;">
+      <label for="selectedIPs" ng-title="{{'network.firewall.edit.selectedIP' | translate}}">
+         <textarea id="selectedIPs" class="form-control" rows="5" ng-model="firewall.allowedIps"
+                   ng-disabled="firewall.allIps" style="width: 325px;"></textarea>
+      </label>
+
+      <div ng-bind-html="'network.firewall.edit.selectedIPInfo'|translate"></div>
+   </div>
+</div>

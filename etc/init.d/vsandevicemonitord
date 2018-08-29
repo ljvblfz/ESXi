@@ -1,0 +1,134 @@
+#!/bin/sh
+# chkconfig: off 1 99
+
+export PATH=/bin:/sbin
+
+VSANDEVICE_MONITOR_TAG=vsandevicemonitord
+VSANDEVICE_MONITOR_RP=host/vim/vmvisor/$VSANDEVICE_MONITOR_TAG
+VSANDEVICE_MONITOR_BIN=/usr/lib/vmware/vsan/bin/VSANDeviceMonitor.py
+VSANDEVICE_MONITOR_MEMSIZE="${VSANDEVICE_MONITOR_TAG} 38" # 30 + 8: 30 is the original budget, 8 is for watchdog (PR 1712436)
+
+syslog() {
+   echo "$@"
+   logger -p daemon.info -t $VSANDEVICE_MONITOR_TAG "$@"
+}
+
+getpid() {
+   tag=$1
+   # ps userworld output format: "WID" "CID" "World Name" "Command"
+   ps -uc | awk -v TAG="$tag" \
+      '($1 ~ /^[0-9]/ && (($3 == TAG) || $6 == TAG || $7 == TAG)) { print $1 }'
+}
+
+increaseRP() {
+   /usr/lib/vmware/vsan/bin/configVsanRP reserveMemory ${VSANDEVICE_MONITOR_MEMSIZE}
+   if [ $? -ne 0 ]; then
+      syslog "Failed to set $VSANDEVICE_MONITOR_TAG memory reservation"
+      return 1
+   fi
+}
+
+decreaseRP() {
+   /usr/lib/vmware/vsan/bin/configVsanRP clearMemory ${VSANDEVICE_MONITOR_TAG}
+   if [ $? -ne 0 ]; then
+      syslog "Failed to clear $VSANDEVICE_MONITOR_TAG memory reservation"
+   fi
+}
+
+#
+# Check whether VSAN is enabled on the cluster or not
+#
+checkVsanEnabled() {
+   localcli vsan cluster get >/dev/null 2>/dev/null
+}
+
+start() {
+   local pid=$(getpid $VSANDEVICE_MONITOR_TAG)
+   if [ -n "$pid" ]; then
+      echo "$VSANDEVICE_MONITOR_TAG is already running"
+      exit 2
+   fi
+
+   checkVsanEnabled
+   if [ $? -ne 0 ]; then
+      syslog "VSAN Cluster not configured, not starting $VSANDEVICE_MONITOR_TAG"
+      exit 3
+   fi
+
+   increaseRP
+
+   /sbin/watchdog.sh ++group=${VSANDEVICE_MONITOR_RP} -d -s $VSANDEVICE_MONITOR_TAG $VSANDEVICE_MONITOR_BIN \
+      -n $VSANDEVICE_MONITOR_TAG >/dev/null 2>&1
+   if [ $? -ne 0 ]; then
+      syslog "Failed to start VSANDeviceMonitor: $?"
+      decreaseRP
+      exit 3
+   fi
+
+   echo "$VSANDEVICE_MONITOR_TAG started"
+}
+
+stop() {
+   # Stop the watchdog first.
+   /sbin/watchdog.sh -k $VSANDEVICE_MONITOR_TAG
+   for tag in /usr/lib/vmware/vsan/bin/VSANDeviceMonitor.py
+   do
+      local pid=$(getpid $tag)
+      if [ -n "$pid" ]; then
+         kill -15 $pid
+         while kill -0 $pid > /dev/null 2>&1; do
+            sleep 0;
+         done
+         echo "$tag stopped"
+      else
+         echo "$tag is not running"
+      fi
+   done
+   decreaseRP
+}
+
+status() {
+   ret=0
+   for tag in $VSANDEVICE_MONITOR_TAG
+   do
+      local pid=$(getpid $tag)
+      if [ -z "$pid" ] ; then
+         echo "$tag is not running"
+         checkVsanEnabled
+         if [ $? -eq 0 ]; then
+            ret=2
+         else
+            ret=3
+         fi
+      else
+         echo "$tag is running"
+      fi
+   done
+   exit $ret
+}
+
+#
+# main
+#
+case "${1}" in
+   "start")
+      start
+   ;;
+   "stop")
+      stop
+   ;;
+   "status")
+      status
+   ;;
+   "restart")
+      stop
+      start
+   ;;
+   "flush")
+      flush
+   ;;
+   *)
+      echo "Usage: $(basename $0) {start|stop|status|restart}"
+      exit 1
+   ;;
+esac

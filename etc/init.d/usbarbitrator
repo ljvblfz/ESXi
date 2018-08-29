@@ -1,0 +1,401 @@
+#!/bin/sh
+# Need usbarbitrator running before hostd
+# description: Arbitration of USB devices
+# chkconfig: on 17 83
+
+USBARBITRATOR_CONFIG_OPTION="/config/Misc/intOpts/UsbArbitratorAutoStartDisabled"
+
+USBARB_MAX_START_WAIT_TIME=600
+
+GetMaxClients()
+{
+    local supportedVMs=$(vsish -e get /system/supportedVMs 2>/dev/null)
+    if [ -z "${supportedVMs}" ] || [ "${supportedVMs}" -lt 1 ]; then
+        logger -t "${USBARBITRATOR_TAG}" "Failed to retreive number of supported VMs"
+    else
+        # Each remoteDeviceConnect will have one connection to the arbitrator.
+        local supportedUsbDevs=20
+        # We need a few misc connections for things like hostd etc
+        local supportedClients=$(( ${supportedVMs} + ${supportedUsbDevs} + 10))
+        MAXIMUM_SUPPORTED_CLIENTS_PARAM="--max-clients=${supportedClients}"
+    fi
+}
+
+AWK_GET_DUMPDEV='
+BEGIN { search_target="[ \t]*Active:[ \t]*" }
+{
+   if ($0 ~ search_target) {
+      sub(search_target, "")
+      sub(/:[0-9]+$/, "", $0)
+      print $0
+      exit 0
+   }
+}'
+
+AWK_GET_BOOTUUID='
+BEGIN { search_target="[ \t]*Boot Filesystem UUID:[ \t]*" }
+{
+   if ($0 ~ search_target) {
+      sub(search_target, "")
+      print $0
+      exit 0
+   }
+}'
+
+AWK_GET_BOOTDEV='
+{
+   if ($0 ~ /^Partitions spanned.*:/) {
+      getline
+      gsub(/[ \t]+/, "", $0)
+      sub(/:[0-9]+$/, "", $0)
+      print $0
+      exit 0
+   }
+}'
+
+AWK_COUNT_STORAGE_DEV='
+BEGIN {FS="\n"; RS=""; found=0}
+{
+   for (i=1; i<=NF; i++) {
+      if ($i ~ /Cls=08\(/) {
+         found = found + 1
+         break
+      }
+   }
+}
+END { print found; }
+'
+
+
+# awk program to query hba/device from all of the SCSI paths on the system
+#
+# @query{in}:     [hba|device]
+# @from{in}:      searching name.
+# @transport{in}: [usb|sata|parallel|""] - also match transport if supplied
+# @return{out}:   0 if found, with the result printed out; 1 otherwise
+AWK_DEV_HBA_QUERY='
+BEGIN {FS="\n"; RS=""; found=0}
+{
+   hba=""
+   device=""
+   proto=""
+   for (i=1; i <=NF; i++) {
+      if ($i ~ /Adapter:[ \t]+/) {
+         sub(/[ \t]+Adapter:[ \t]+/, "")
+         hba=$i
+      } else if ($i ~/Device:[ \t]+/) {
+         sub(/[ \t]+Device:[ \t]+/, "")
+         device=$i
+      } else if ($i ~/Transport:[ \t]+/) {
+         sub(/[ \t]+Transport:[ \t]+/, "")
+         proto=$i
+      }
+      if (hba != "" && device != "" && proto != "") {
+         break
+      }
+   }
+   if (i <= NF) {
+      if (transport != "" && proto != transport) {
+         next
+      }
+      if (query == "hba" && from == device) {
+         print hba
+         found=1
+         exit 0
+      } else if (query == "device" && from == hba) {
+         print device
+         found=1
+         exit 0
+      }
+   }
+}
+END { if (!found) exit 1; }
+'
+
+GetHbaFromDev()
+{
+   localcli storage core path list | awk -v query="hba" -v from="$1" -v transport="usb" "${AWK_DEV_HBA_QUERY}"
+}
+
+GetDevFromHba()
+{
+   localcli storage core path list | awk -v query="device" -v from="$1" -v transport="usb" "${AWK_DEV_HBA_QUERY}"
+}
+
+GetReservedHbas()
+{
+   local dumpDev=`localcli system coredump partition get | \
+                  awk "${AWK_GET_DUMPDEV}"`
+   local dumpHba=""
+   if [ -n "$dumpDev" ]; then
+      dumpHba=`GetHbaFromDev $dumpDev`
+   fi
+
+   local bootUuid=`localcli system boot device get | \
+                   awk "${AWK_GET_BOOTUUID}"`
+   local bootHba=""
+   if [ -n "$bootUuid" ]; then
+      local bootDev=`vmkfstools -P /vmfs/volumes/${bootUuid} 2>/dev/null | \
+                     awk "${AWK_GET_BOOTDEV}"`
+      if [ -n "$bootDev" ]; then
+         bootHba=`GetHbaFromDev $bootDev`
+      fi
+   fi
+
+   if [ "$bootHba" = "$dumpHba" ]; then
+      echo $bootHba
+   else
+      echo $bootHba $dumpHba
+   fi
+}
+
+UsbDetachMonitor()
+{
+   local reservedHbas=`GetReservedHbas`
+   local nReserved=`echo "$reservedHbas" | awk '{ print NF; }'`
+   local usbHbas=`localcli storage core adapter list | grep usb | cut -d' ' -f1`
+   local nAttached=0
+   local time_quantum=${USBARB_MAX_START_WAIT_TIME}
+   local wait_for_dead=1
+
+   logger -t "${USBARBITRATOR_TAG}" "Starting USB storage detach monitor"
+   logger -t "${USBARBITRATOR_TAG}" "reservedHbas:" $reservedHbas
+   while [ $time_quantum -gt 0 ]; do
+      usbHbas=`localcli storage core adapter list | grep usb | cut -d' ' -f1`
+      if [ -z "$usbHbas" ]; then
+         break
+      fi
+      nAttached=0
+      for hba in $usbHbas; do
+         dev=`GetDevFromHba $hba`
+         if [ -n "$dev" ]; then
+            if ! `localcli storage core device list --device "$dev" 2>/dev/null | grep -q "Device Type: CD-ROM"`; then
+               # Not CD-ROM, Increment nAttached
+               nAttached=`expr $nAttached + 1`
+            fi
+         fi
+      done
+
+      # When a storage is successfully detached, the HBA name will be removed
+      # from the list
+      if [ $nAttached -le $nReserved ]; then
+         break
+      fi
+      if ! `localcli storage core path list | grep -q dead`; then
+         sleep $wait_for_dead
+         time_quantum=`expr $time_quantum - $wait_for_dead`
+         wait_for_dead=`expr $wait_for_dead \* 2`
+         if [ $wait_for_dead -gt 10 ]; then
+            wait_for_dead=10
+         fi
+      else
+         wait_for_dead=1
+         localcli storage filesystem rescan >/dev/null 2>&1
+         localcli storage core adapter rescan --all >/dev/null 2>&1
+         sleep 1
+         time_quantum=`expr $time_quantum - 1`
+      fi
+   done
+
+   # Need to do a rescan after all unclaims are done so that hostd won't try
+   # to open previous cached but now non-existing vfat devices
+   # See Bug 1604804 for the detailed information
+   localcli storage filesystem rescan >/dev/null 2>&1
+   localcli storage core adapter rescan --all ||
+      esxcfg-init -a "Warning: unable to remove deleted USB storage adapters"
+
+   if [ $time_quantum -le 0 ]; then
+      local deadHbas=""
+      local isReserved
+      for hba in $usbHbas; do
+         isReserved=0
+         for resv in $reservedHbas; do
+            if [ "$resv" = "$hba" ]; then
+               isReserved=1
+               break
+            fi
+         done
+         if [ $isReserved -eq 0 ]; then
+            deadHbas="$deadHbas $hba"
+         fi
+      done
+      logger -t "${USBARBITRATOR_TAG}" "Failed to unclaim USB adapters -" $deadHbas
+   fi
+   logger -t "${USBARBITRATOR_TAG}" "Exiting USB storage detach monitor"
+}
+
+check_unclaim()
+{
+   local waitTime=0
+   # Wait until usbDetachMonitor finishes
+   while [ $waitTime -lt $USBARB_MAX_START_WAIT_TIME ]; do
+      if `ps -c | grep -v grep | grep -q -w "usbarbitrator start"`; then
+         waitTime=`expr $waitTime + 1`
+         sleep 1
+      else
+         break
+      fi
+   done
+
+   if [ $waitTime -ge $USBARB_MAX_START_WAIT_TIME ]; then
+      echo "usbarbitrator failed to clean up stale filesystem entries" >&2
+      return 2
+   fi
+
+   local reservedHbas=`GetReservedHbas`
+   local nReserved=`echo "$reservedHbas" | awk '{ print NF; }'`
+   local usbHbas=`localcli storage core adapter list | grep usb | cut -d' ' -f1`
+   local nAttached=0
+
+   if [ -z "$usbHbas" ]; then
+      # Yippi! all usb devices are already unclaimed
+      # Don't bother to compare with reserved device(s)
+      echo "usbarbitrator claimed all storage devices successfully"
+      return 0
+   fi
+
+   for hba in $usbHbas; do
+      dev=`GetDevFromHba $hba`
+      if [ -n "$dev" ]; then
+         if ! `localcli storage core device list --device "$dev" 2>/dev/null | grep -q "Device Type: CD-ROM"`; then
+         # Not CD-ROM, Increment nAttached
+         nAttached=`expr $nAttached + 1`
+         fi
+      fi
+   done
+
+   # When a storage is successfully detached, the HBA name will be removed
+   # from the list
+   if [ $nAttached -ne $nReserved ]; then
+      echo "$nReserved device(s) were reserved but there're still $nAttached devices attached" >&2
+      return 1
+   fi
+
+   echo "usbarbitrator claimed all unreserved storage devices successfully"
+   return 0;
+}
+
+check_claim()
+{
+   if [ -n "$(pidof -xs ${USBARBITRATOR})" ]; then
+      echo "Please stop usbarbitrator first" >&2
+      return 2
+   fi
+
+   local nStorage=`cat /dev/usbdevices | awk "${AWK_COUNT_STORAGE_DEV}"`
+   local nHbas=`localcli storage core adapter list | grep usb | wc -l`
+
+   if [ $nHbas -ne $nStorage ]; then
+      echo "$nStorage device(s) should have been returned to the vmkernel, but only $nHbas returned" >&2
+      return 1
+   fi
+
+   echo "All USB storage devices were returned to the vmkernel successfully"
+   return 0
+}
+
+export PATH=/bin:/sbin:/usr/bin:/usr/sbin
+
+USBARBITRATOR=/usr/lib/vmware/bin/vmware-usbarbitrator
+USBARBITRATOR_TAG=usbarbitrator
+USBARBITRATOR_RP="usbArbitrator"
+MAX_RETRIES=5
+
+PASSTHROUGH_DEV=/vmfs/devices/char/vmkdriver/usbpassthrough
+
+start() {
+   local usbArbitratorAutoStartDisabled
+
+   if [ -n "$(pidof -xs "${USBARBITRATOR}")" ] ; then
+      echo "usbarbitrator already running"
+      return
+   fi
+
+   usbArbitratorAutoStartDisabled=`vsish -e get $USBARBITRATOR_CONFIG_OPTION | grep 'Current value:' | cut -d: -f2`
+   if [ $usbArbitratorAutoStartDisabled -eq 1 -a ${#} -eq 0 ]; then
+      echo "usbarbitrator auto start disabled, pass any string to force start"
+      return
+   fi
+
+   if [ -c "${PASSTHROUGH_DEV}" ] ; then
+      logger -t "${USBARBITRATOR_TAG}" "evicting objects on USB from OC"
+      localcli storage filesystem rescan
+
+      logger -t "${USBARBITRATOR_TAG}" "unclaiming USB devices"
+      esxcfg-init -B
+   else
+      esxcfg-init -a "Warning: ${PASSTHROUGH_DEV} not found"
+   fi
+
+   # On ESXi FAT16 partition mountpoints can prevent deletion of adapters
+   logger -t "${USBARBITRATOR_TAG}" "rescanning to complete removal of USB devices"
+   localcli storage filesystem rescan
+
+   # rescan to remove devices backed by now deleted USB storage adapters
+   localcli storage core adapter rescan --all ||
+      esxcfg-init -a "Warning: unable to remove deleted USB storage adapters"
+
+   vmkload_mod -l | grep -q usb-storage 2>/dev/null
+   if [ $? -ne 0 ]; then
+      # Not vmklinux, launch detach monitor
+      UsbDetachMonitor &
+   fi
+
+   GetMaxClients
+
+   /sbin/watchdog.sh ++memreliable,group=${USBARBITRATOR_RP} -d -s "${USBARBITRATOR_TAG}" -t "${MAX_RETRIES}" "${USBARBITRATOR}" -t "${MAXIMUM_SUPPORTED_CLIENTS_PARAM}" >/dev/null 2>&1
+   echo "usbarbitrator started"
+   /etc/init.d/hostd status >/dev/null 2>&1
+   if [ $? -eq 0 ]; then
+      echo "Hostd must be restarted to enable USB passthrough functionality on any VM. After hostd is restarted, to enable USB passthrough functionality on a powered on VM, the VM must be powered off and powered on again."
+   fi
+}
+
+stop() {
+   if [ -z "$(pidof -xs "${USBARBITRATOR}")" ] ; then
+      echo "usbarbitrator is not running"
+      return
+   fi
+
+   esxcfg-init -Boff
+
+   # this only stops the watchdog process
+   /sbin/watchdog.sh -k "${USBARBITRATOR_TAG}"
+   pkill -9 "${USBARBITRATOR_TAG}"
+
+   echo "usbarbitrator stopped"
+}
+
+case "${1}" in
+   "start")
+      start ${2}
+   ;;
+   "stop")
+      stop
+  ;;
+   "restart")
+      stop
+      start force
+   ;;
+
+   "status")
+      if [ -n "$(pidof -xs ${USBARBITRATOR})" ]; then
+         echo "usbarbitrator is running"
+         return 0
+      else
+         echo "usbarbitrator is not running"
+         return 3
+      fi
+      ;;
+
+   "check_claim")
+      check_claim
+      ;;
+   "check_unclaim")
+      check_unclaim
+      ;;
+   *)
+      echo "Usage: $(basename $0) {start [force]|stop|restart|status}"
+      exit 1
+   ;;
+esac

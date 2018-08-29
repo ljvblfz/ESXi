@@ -1,0 +1,1372 @@
+# This message file defines all of labels, descriptions in vSAN health test result showing in UI
+
+#
+# Common string
+#
+common.yes = 是
+common.no = 否
+common.unknown = 未知
+common.green = 绿色
+common.yellow = 黄色
+common.red = 红色
+common.success = 成功
+common.error = 错误
+common.timeout = 超时
+common.alive = 活动
+common.abnormal = 异常
+common.normal = 正常
+common.of = /
+common.hybrid = 混合
+common.allflash = 全闪存
+common.comma = ，
+common.notavailable =  不适用
+common.witness = 见证
+#
+# Host Vmdk load test
+#
+com.vmware.vsan.health.test.storageloadtest.overallStatusDescription = 整体状态良好
+com.vmware.vsan.health.test.storageloadtest.testName = 存储性能测试
+com.vmware.vsan.health.test.storageloadtest.testResult.notRunLabel = 针对操作 [{action}] 的 vSAN 群集存储负载测试
+com.vmware.vsan.health.test.storageloadtest.testResult.columnHost = 主机
+com.vmware.vsan.health.test.storageloadtest.testResult.columnStatus = 状态
+com.vmware.vsan.health.test.storageloadtest.testResult.columnError = 错误
+com.vmware.vsan.health.test.storageloadtest.testResult.runLabel = vSAN 主机存储性能测试结果
+com.vmware.vsan.health.test.storageloadtest.testResult.columnWorkloadType = 工作负载类型
+com.vmware.vsan.health.test.storageloadtest.testResult.columnVmdkDiskNumber = VMDK 磁盘编号
+com.vmware.vsan.health.test.storageloadtest.testResult.columnDuration = 持续时间 (秒)
+com.vmware.vsan.health.test.storageloadtest.testResult.columnIOPS = IOPS
+com.vmware.vsan.health.test.storageloadtest.testResult.columnThroughput = 吞吐量 (MB/s)
+com.vmware.vsan.health.test.storageloadtest.testResult.columnAvgLatency = 平均延迟 (毫秒)
+com.vmware.vsan.health.test.storageloadtest.testResult.columnMaxLatency = 最大延迟 (毫秒)
+com.vmware.vsan.health.test.storageloadtest.failed.overallStatusDescription = 因为一些主机未能完成测试，vSAN 群集存储负载测试失败
+com.vmware.vsan.health.test.storageloadtest.testResult.failedLabel = vSAN 主机存储负载测试结果
+com.vmware.vsan.health.test.storageloadtest = vSAN 存储负载测试执行实际的高 IO，并确保 vSAN 群集可以承受该高 IO。通过使用专为此目的创建的对象，可达到此测试目的。该测试还会创建足够的对象以实现所需的并行度和覆盖系统中的所有磁盘。测试的持续时间可以介于几分钟和几小时之间，具体取决于诸如工作集、缓存预热次数等参数。
+com.vmware.vsan.health.test.storageloadtest.short = 检查以验证 vSAN 群集是否可以承受高 IO 负载。
+
+#
+# Cluster network performance test
+#
+com.vmware.vsan.health.test.networkperftest.testName = 多播性能测试
+com.vmware.vsan.health.test.networkperftest.testResult.label = vSAN 主机多播性能测试结果
+com.vmware.vsan.health.test.networkperftest.testResult.columnHost = 主机
+com.vmware.vsan.health.test.networkperftest.testResult.columnHealthStatus = 运行状况
+com.vmware.vsan.health.test.networkperftest.testResult.columnReceivedBandwidth = 接收的带宽 (MB/s)
+com.vmware.vsan.health.test.networkperftest.testResult.columnDesiredBandwidth = 可达到的最大带宽结果 (MB/s)
+com.vmware.vsan.health.test.networkperftest = 多播性能测试旨在评估是否存在连接以及主机之间的多播速度是否可以满足 vSAN 的要求。通过选取一个主机作为发送方以及所有其他主机作为接收方，可以达到此测试目的。由于是多播流量，发送方发送的任何数据包都应传送给所有接收方。因此，理论上，如果在 ESXi 和此测试案例中没有瓶颈，并且物理网络可以在全线速下运行，则 10 Gbit/s 发送方将导致所有接收方接收 10 Gbit/s。实际上，此测试无法使发送方链路完全饱和。此外，几乎没有物理交换机可以在全线速下执行多播。vSAN 其实不需要在全线速下运行。vSAN 在峰值负载期间需要不到 20 MB/s (或 200 Mbit/s) 的多播速度。在来自任何常见供应商的典型企业级交换机上，该测试将可以达到至少 50 MB/s。在一些较低端的交换机上，VMware 曾观察到此速度低至 10 MB/s。鉴于这些范围，该测试将可得出结论，低于 20 MB/s 的任何速度即为过低，介于 20 MB/s 和 50 MB/s 之间的任何速度较低但可接受，而高于 50 MB/s 的任何速度则在 VMware 所期望的范围内。
+com.vmware.vsan.health.test.networkperftest.short = 检查网络是否满足 vSAN 的多播带宽要求 (至少 50 MBps)。
+
+#
+# Cluster VM creation test
+#
+com.vmware.vsan.health.test.createvmtest.testName = 虚拟机创建测试
+com.vmware.vsan.health.test.createvmtest.testResult.label = 主机虚拟机创建测试结果
+com.vmware.vsan.health.test.createvmtest.testResult.columnHost = 主机
+com.vmware.vsan.health.test.createvmtest.testResult.columnStatus = 状态
+com.vmware.vsan.health.test.createvmtest.testResult.columnError = 错误
+com.vmware.vsan.health.test.createvmtest = 虚拟机创建测试会在每台主机上创建一个非常简单的微型虚拟机。如果该创建成功，则会删除该虚拟机，并得出 vSAN 的多个方面均可正常运行的结论。管理堆栈在所有主机上均可正常运行，vSAN 网络探测正常运行，vSAN 上对象的创建/删除和 IO 正常运行等。执行此类主动测试可以发现被动运行状况检查无法检测到的问题。通过系统地执行此类测试，还可以轻松地将任何特定故障主机隔离，然后采取补救措施。
+com.vmware.vsan.health.test.createvmtest.short = 检查以验证是否可以在 vSAN 群集的每台主机上创建微型虚拟机。
+
+
+com.vmware.vsan.health.test.host.issues.notConnected = 主机未连接
+com.vmware.vsan.health.test.host.issues.notHealthInstall = 主机未更新到 6.0 U2 或更高版本。已禁用运行状况检查。
+com.vmware.vsan.health.test.host.issues.notHealth65Install = 主机未更新到 6.5 Express Patch 2 或更高版本。配置帮助检查不可用。
+com.vmware.vsan.health.test.cluster.issues.hostNotConnected = 至少一个主机未连接
+com.vmware.vsan.health.test.cluster.issues.HostNotHealthInstall = 至少一个主机未安装 vSAN Health Service
+
+# overall health status related string.
+com.vmware.vsan.health.test.cluster.overall.notEnabled = 群集未启用
+
+#
+# Health service installation status check
+#
+com.vmware.vsan.health.test.cluster.healthEamInstall.testName = ESXi vSAN Health Service 安装
+com.vmware.vsan.health.test.cluster.healthEamInstall.host.testName = 主机 vSAN Health Service 安装
+com.vmware.vsan.health.test.cluster.healthEamInstall.host.columnHost = 主机
+com.vmware.vsan.health.test.cluster.healthEamInstall.host.columnStatus = 状态
+com.vmware.vsan.health.test.cluster.healthEamInstall.host.columnError = 错误
+com.vmware.vsan.health.test.cluster.healthEamInstall.host.untracked = 未跟踪
+com.vmware.vsan.health.test.cluster.healthEamInstall.host.removed = (不再位于群集中)
+com.vmware.vsan.health.test.healtheaminstall = 验证所有主机是否都安装了 vSAN Health Service。仅当所有主机均升级至 6.0U2 或更高版本后，才会执行其他 vSAN 运行状况检查。
+com.vmware.vsan.health.test.healtheaminstall.short = 检查 vSAN 群集中的所有主机是否都安装了 vSAN Health Service。请注意，仅当所有主机均升级至 6.0U2 或更高版本后，才会执行其他 vSAN 运行状况检查。
+
+com.vmware.vsan.health.test.cluster.easyinstalleaminstall.testName = ESXi vSAN Health Service 版本
+com.vmware.vsan.health.test.cluster.easyinstalleaminstall.host.testName = 主机 vSAN Health Service 版本
+
+com.vmware.vsan.health.test.easyinstalleaminstall = 请确认 vSAN 群集中的所有主机都具有 vSAN Health Service 的正确版本，以便可以使用配置帮助。只要将所有主机升级到 6.5 Express Patch 2 或更高版本即可使用更多配置帮助检查和功能。
+com.vmware.vsan.health.test.easyinstalleaminstall.short = 请检查 vSAN 群集中的所有主机是否都具有 vSAN Health Service 的正确版本，以便可以使用配置帮助。只要将所有主机升级到 6.5 Express Patch 2 或更高版本即可使用更多配置帮助检查和功能。
+
+#
+# Health service version check
+#
+com.vmware.vsan.health.test.cluster.healthVersion.testName = vSAN Health Service 最新版本
+com.vmware.vsan.health.test.cluster.healthVersion.testResult.label = vSAN Health Service 版本
+com.vmware.vsan.health.test.cluster.healthVersion.testResult.columnHost = 主机
+com.vmware.vsan.health.test.cluster.healthVersion.testResult.columnVersionEsx = ESXi 中的版本
+com.vmware.vsan.health.test.cluster.healthVersion.testResult.columnVersionVc = VC 中的版本
+com.vmware.vsan.health.test.cluster.healthVersion.testResult.columnError = 错误
+com.vmware.vsan.health.test.healthversion = 检查群集中所有 ESXi 主机上安装的 vSAN 运行状况 VIB 版本是否与 VC 的运行状况版本相同。如果该检查失败，则建议更新群集中 vSAN 运行状况 VIB 版本。
+com.vmware.vsan.health.test.healthversion.short = 检查 vSAN 群集中所有主机的 vSAN 运行状况 VIB 版本
+
+#
+# Time drift check
+#
+com.vmware.vsan.health.test.cluster.timeDrift.testName = 主机和 VC 之间的时间已同步
+com.vmware.vsan.health.test.cluster.timeDrift.testResult.columnHost = 主机
+com.vmware.vsan.health.test.cluster.timeDrift.testResult.columnStatus = 状态
+com.vmware.vsan.health.test.cluster.timeDrift.testResult.columnNtpEnabled = 启用了 NTP 服务
+com.vmware.vsan.health.test.cluster.timeDrift.testResult.columnTimeDrift = 与 VC 的时间偏差
+com.vmware.vsan.health.test.cluster.timeDrift.testResult.columnError = 原因
+com.vmware.vsan.health.test.cluster.timeDrift.testResult.error.notFound = 无法检索主机时间或 VC 时间
+com.vmware.vsan.health.test.cluster.timeDrift.testResult.error.notSync = 主机和 VC 之间的时间偏差超过了 1 分钟
+com.vmware.vsan.health.test.cluster.timeDrift.testResult.error.computeError = 无法计算时间偏差
+com.vmware.vsan.health.test.timedrift = 检查 VC 和主机之间的时间偏差。时间偏差大于 60 秒将导致此检查失败。如果此检查失败，建议您检查 NTP 服务器配置。
+com.vmware.vsan.health.test.timedrift.short = 检查主机和 VC 的时间是否已同步 (偏差在 1 分钟之内)。
+
+#
+# Cluster membership check
+#
+com.vmware.vsan.health.test.cluster.clusterMembership.testName = vSphere 群集成员与 vSAN 群集成员匹配
+com.vmware.vsan.health.test.cluster.clusterMembership.testResult.label = 群集成员资格
+com.vmware.vsan.health.test.cluster.clusterMembership.testResult.columnHost = 主机
+com.vmware.vsan.health.test.cluster.clusterMembership.testResult.columnInVcCluster = 在 vSphere 群集中
+com.vmware.vsan.health.test.cluster.clusterMembership.testResult.columnInVsanCluster = 在 vSAN 群集中
+com.vmware.vsan.health.test.cluster.clusterMembership.testResult.additionalLabel = vSAN 上次已知
+com.vmware.vsan.health.test.clustermembership = 检查 vSphere 群集成员与 vSAN 群集成员是否匹配
+com.vmware.vsan.health.test.clustermembership.short = 检查 vSphere 群集成员与 vSAN 群集成员是否匹配
+
+#
+# vSAN advanced configuration sync check
+#
+com.vmware.vsan.health.test.cluster.advCfgSync.testName = 同步的高级 vSAN 配置
+com.vmware.vsan.health.test.cluster.advCfgSync.testResult.label = 未同步的选项
+com.vmware.vsan.health.test.cluster.advCfgSync.testResult.columnOption = 选项
+com.vmware.vsan.health.test.cluster.advCfgSync.testResult.columnValue = 值
+com.vmware.vsan.health.test.cluster.advCfgSync.testResult.columnHostsWithValue = 具有该值的主机
+com.vmware.vsan.health.test.advcfgsync = vSAN 拥有多个高级配置选项，可用于进行调校或满足特定部署的特殊要求。通常，可使用 VMware 知识库文章中的步骤在 VMware 技术支持的指导下更改此类设置。这些高级配置选项针对每台主机进行设置，以便在整个群集中创建不一致的配置。此检查确保指定群集中所有主机之间的关键 vSAN 高级配置选项具有相同值或默认值。
+com.vmware.vsan.health.test.advcfgsync.short = 检查 vSAN 群集中的所有主机是否具有一致的非默认高级配置选项。使用默认值的高级配置将跳过，且不会显示在结果中。
+#
+# vSAN clomd liveness check
+#
+com.vmware.vsan.health.test.cluster.clomdLiveness.testName = vSAN CLOMD 活跃度
+com.vmware.vsan.health.test.cluster.clomdLiveness.testResult.label = vSAN 主机 CLOMD 活跃度
+com.vmware.vsan.health.test.cluster.clomdLiveness.testResult.columnHost = 主机
+com.vmware.vsan.health.test.cluster.clomdLiveness.testResult.columnState = 状态
+com.vmware.vsan.health.test.cluster.clomdLiveness.testResult.columnError = 错误
+com.vmware.vsan.health.test.clomdliveness = 检查所有 vSAN 主机上的 CLOMD 活跃度
+com.vmware.vsan.health.test.clomdliveness.short = 检查 CLOM 守护进程活跃度。
+
+#
+# Dedup config health check
+#
+com.vmware.vsan.health.test.cluster.physdiskDedupConfig.testName = 去重和压缩配置一致性
+com.vmware.vsan.health.test.cluster.physdiskDedupConfig.testResult.labelDisk = 磁盘组
+com.vmware.vsan.health.test.cluster.physdiskDedupConfig.testResult.labelHost = 主机
+com.vmware.vsan.health.test.cluster.physdiskDedupConfig.testResult.columnHost = 主机
+com.vmware.vsan.health.test.cluster.physdiskDedupConfig.testResult.columnDisk = 磁盘组
+com.vmware.vsan.health.test.cluster.physdiskDedupConfig.testResult.columnIssue = 问题
+com.vmware.vsan.health.test.cluster.physdiskDedupConfig.testResult.columnRecommendation = 建议
+com.vmware.vsan.health.test.cluster.physdiskDedupConfig.testResult.columnReasonIncorrectDedupDisabled = 禁用了去重和压缩，但应该启用
+com.vmware.vsan.health.test.cluster.physdiskDedupConfig.testResult.columnReasonIncorrectDedupEnabled = 启用了去重和压缩，但应该禁用
+com.vmware.vsan.health.test.cluster.physdiskDedupConfig.testResult.columnReasonHybridInDedupEnabled = 已启用去重的群集中的混合磁盘组
+com.vmware.vsan.health.test.cluster.physdiskDedupConfig.testResult.columnRecommendRemediation = 转换磁盘格式
+com.vmware.vsan.health.test.cluster.physdiskDedupConfig.testResult.columnRecommendManualFixHybrid = 从群集中移除混合磁盘组
+com.vmware.vsan.health.test.cluster.physdiskDedupConfig.testResult.columnRecommendAskVMware = 按照“AskVMware”文章中的步骤操作
+com.vmware.vsan.health.test.physdiskdedupconfig = 如果此检查失败，则意味着群集中存在不一致的磁盘去重和压缩设置，且主机之间存在不一致的设置。
+com.vmware.vsan.health.test.physdiskdedupconfig.short = 检查主机和磁盘的群集去重和压缩配置是否一致。
+
+#
+# Dedup usage health check
+#
+com.vmware.vsan.health.test.cluster.physdiskDedupUsage.testName = 去重和压缩使用运行状况
+com.vmware.vsan.health.test.cluster.physdiskDedupUsage.testResult.label = 去重和压缩配置不正确的磁盘组
+com.vmware.vsan.health.test.cluster.physdiskDedupUsage.testResult.columnDisk = 磁盘组
+com.vmware.vsan.health.test.cluster.physdiskDedupUsage.testResult.columnReason = 原因
+com.vmware.vsan.health.test.cluster.physdiskDedupUsage.testResult.columnReasonIncorrectDedupEnabled = 已启用去重和压缩的混合磁盘组
+com.vmware.vsan.health.test.cluster.physdiskDedupUsage.testResult.columnReasonIncorrectDedupDisabled = 未启用去重和压缩的全闪存磁盘组
+com.vmware.vsan.health.test.physdiskdedupusage = 如果此检查失败，则意味着一些混合磁盘组已启用去重和压缩功能。
+com.vmware.vsan.health.test.physdiskdedupusage.short = 检查混合磁盘组是否已启用去重和压缩。
+
+#
+# Software version compatibility check
+#
+com.vmware.vsan.health.test.cluster.upgradesoftware.testName = 软件版本兼容性
+
+#
+#Disk format version
+#
+com.vmware.vsan.health.test.cluster.upgradelowerhosts.testName = 磁盘格式版本
+
+#
+## Cluster config consistency health check
+#
+com.vmware.vsan.health.test.cluster.consistentConfig.testName = vSAN 群集配置一致性
+com.vmware.vsan.health.test.cluster.consistentConfig.testResult.labelIssue = 问题
+com.vmware.vsan.health.test.cluster.consistentConfig.testResult.columnHost = 主机
+com.vmware.vsan.health.test.cluster.consistentConfig.testResult.columnDisk = 磁盘
+com.vmware.vsan.health.test.cluster.consistentConfig.testResult.columnIssue = 问题
+com.vmware.vsan.health.test.cluster.consistentConfig.testResult.columnRecommendation = 建议
+com.vmware.vsan.health.test.cluster.consistentConfig.testResult.encryption.enabledwhenclusterdisabled.host = 在主机上启用了加密，但在群集中禁用了加密
+com.vmware.vsan.health.test.cluster.consistentConfig.testResult.encryption.disabledwhenclusterenabled.host = 在主机上禁用了加密，但在群集中启用了加密
+com.vmware.vsan.health.test.cluster.consistentConfig.testResult.encryption.keyencryptionkeyinconsistent.host = 用于对数据加密密钥进行加密的密钥加密密钥已过期
+com.vmware.vsan.health.test.cluster.consistentConfig.testResult.encryption.dataencryptionkeyinconsistent.host = 用于对数据进行加密的数据加密密钥已过期
+com.vmware.vsan.health.test.cluster.consistentConfig.testResult.encryption.kmsinfoinconsistent.host = 密钥管理服务器信息与群集配置不一致
+com.vmware.vsan.health.test.cluster.consistentConfig.testResult.encryption.hostkeyinconsistent.host = 用于进行主机核心转储加密的主机密钥与群集配置不一致
+com.vmware.vsan.health.test.cluster.consistentConfig.testResult.encryption.erasedisksbeforeuseinconsistent.host = 主机上的“使用前清除磁盘”配置与群集配置不一致
+com.vmware.vsan.health.test.cluster.consistentConfig.testResult.encryption.enabledwhenclusterdisabled.disk = 磁盘组已加密，但在群集中禁用了加密
+com.vmware.vsan.health.test.cluster.consistentConfig.testResult.encryption.disabledwhenclusterenabled.disk = 磁盘组未加密，但在群集中启用了加密
+com.vmware.vsan.health.test.cluster.consistentConfig.testResult.encryption.kmsinfoinconsistent.disk = 密钥管理服务器信息与群集配置不一致
+com.vmware.vsan.health.test.cluster.consistentConfig.testResult.encryption.keyencryptionkeyinconsistent.disk = 密钥加密密钥与群集配置不一致
+com.vmware.vsan.health.test.cluster.consistentConfig.testResult.encryption.dataencryptionkeyinconsistent.disk = 用于对数据进行加密的数据加密密钥已过期
+com.vmware.vsan.health.test.cluster.consistentConfig.testResult.unicast = 网络配置未同步
+com.vmware.vsan.health.test.cluster.consistentConfig.testResult.remediation = 修复不一致的配置
+com.vmware.vsan.health.test.cluster.consistentConfig.testResult.perfsvcRemediation = 自动修复已启用。有关详细信息，请参见“AskVMware”。
+com.vmware.vsan.health.test.cluster.consistentConfig.testResult.freespaceRemediation = 添加更多存储或释放一些空间。有关详细信息，请参见“AskVMware”。
+com.vmware.vsan.health.test.cluster.consistentConfig.testResult.compatibilityRemediation = 解决合规性问题。有关详细信息，请参见“AskVMware”。
+com.vmware.vsan.health.test.consistentconfig = 如果此检查失败，则意味着主机或磁盘上存在与群集不一致的配置 (如去重/压缩、加密) 设置。
+com.vmware.vsan.health.test.consistentconfig.short = 检查主机和磁盘的配置与群集是否一致。
+
+#
+## Encryption Key Management Server connections health check
+#
+com.vmware.vsan.health.test.encryption.kmsConnection.testName = vCenter 和所有主机均已连接到密钥管理服务器
+com.vmware.vsan.health.test.encryption.kmsConnection.testResult.labelVc = vCenter KMS 状态
+com.vmware.vsan.health.test.encryption.kmsConnection.testResult.labelHost = 主机 KMS 状态
+com.vmware.vsan.health.test.encryption.kmsConnection.testResult.columnHost = 主机
+com.vmware.vsan.health.test.encryption.kmsConnection.testResult.columnKmsCluster = KMS 群集
+com.vmware.vsan.health.test.encryption.kmsConnection.testResult.columnKms = KMS 别名
+com.vmware.vsan.health.test.encryption.kmsConnection.testResult.columnHealth = 连接状态
+com.vmware.vsan.health.test.encryption.kmsConnection.testResult.columnTrust = 信任状态
+com.vmware.vsan.health.test.encryption.kmsConnection.testResult.columnCert = 证书状态
+com.vmware.vsan.health.test.encryption.kmsConnection.testResult.columnServerCertExpire = 服务器证书过期日期
+com.vmware.vsan.health.test.encryption.kmsConnection.testResult.columnClientCertExpire = 客户端证书过期日期
+com.vmware.vsan.health.test.encryption.kmsConnection.testResult.columnIssue = 问题
+com.vmware.vsan.health.test.encryption.kmsConnection.testResult.columnRecommendation = 建议
+com.vmware.vsan.health.test.encryption.kmsConnection.testResult.configissue = 密钥管理服务器信息与群集配置不一致
+com.vmware.vsan.health.test.encryption.kmsConnection.testResult.remediation = 修复不一致的配置
+com.vmware.vsan.health.test.encryption.kmsConnection.testResult.checkkms = 检查密钥管理服务器设置
+com.vmware.vsan.health.test.encryption.kmsConnection.testResult.certwarning = 证书将在 {days} 天后过期。
+com.vmware.vsan.health.test.encryption.kmsConnection.testResult.certexpired = 证书已过期。
+com.vmware.vsan.health.test.encryption.kmsConnection.testResult.certinvalid = 证书无效。
+com.vmware.vsan.health.test.kmsconnection = 如果此检查失败，则意味着 vCenter 或主机与密钥管理服务器的连接存在问题。
+com.vmware.vsan.health.test.kmsconnection.short = 检查 vCenter Server 和主机是否可以连接到密钥管理服务器。
+
+#
+## Encryption hosts CPU AESNI enabled state check
+#
+com.vmware.vsan.health.test.encryption.hostCpuAesni.testName = 在主机上启用了 CPU AES-NI
+com.vmware.vsan.health.test.encryption.hostCpuAesni.testResult.label = 主机 CPU AES-NI 状态
+com.vmware.vsan.health.test.encryption.hostCpuAesni.testResult.columnHost = 主机
+com.vmware.vsan.health.test.encryption.hostCpuAesni.testResult.columnHealth = 状态
+com.vmware.vsan.health.test.encryption.hostCpuAesni.testResult.columnIssue = 原因
+com.vmware.vsan.health.test.encryption.hostCpuAesni.testResult.aesnidisabled = 主机上不支持 CPU AES-NI 或者已禁用
+com.vmware.vsan.health.test.encryption.hostcpuaesni = 如果此检查失败，则意味着主机不支持或已禁用 CPU AES-NI。将使用软件加密，它比 AES-NI 慢得多。
+com.vmware.vsan.health.test.encryption.hostcpuaesni.short = 检查是否启用了主机 CPU AES-NI 以用于加密。
+
+#
+## Resync control health check
+#
+com.vmware.vsan.health.test.cluster.resynclimit.testName = 重新同步操作限制
+com.vmware.vsan.health.test.cluster.resynclimit.testResult.label = 重新同步操作受限的主机
+com.vmware.vsan.health.test.cluster.resynclimit.testResult.columnHost = 主机
+com.vmware.vsan.health.test.cluster.resynclimit.testResult.columnLimit = 重新同步带宽限制
+com.vmware.vsan.health.test.resynclimit = 如果此检查失败，则意味着重新同步操作受限。请清除限制，除非在特殊情况下 (如潜在的群集崩溃) 您需要施加限制。
+com.vmware.vsan.health.test.resynclimit.short = 检查是否在任何主机上限制了重新同步操作。请清除限制，除非在特殊情况下 (如潜在的群集崩溃) 您需要施加限制。
+
+#
+## vCenter state authoritative health check
+#
+com.vmware.vsan.health.test.cluster.vcauthoritative.testName = vCenter 状态具有权威性
+com.vmware.vsan.health.test.cluster.vcauthoritative.testResult.label = 未同步的主机
+com.vmware.vsan.health.test.cluster.vcauthoritative.testResult.columnHost = 主机
+com.vmware.vsan.health.test.cluster.vcauthoritative.testResult.columnLastUpdate = 上次由 VC 更新
+com.vmware.vsan.health.test.cluster.vcauthoritative.testResult.columnLastUpdateTime = 上次更新时间
+com.vmware.vsan.health.test.cluster.vcauthoritative.testResult.columnRecommendation = 建议
+com.vmware.vsan.health.test.cluster.vcauthoritative.testResult.rowCurrentVc = 当前 VC
+com.vmware.vsan.health.test.cluster.vcauthoritative.testResult.rowDifferentVc = 其他 VC ({0})
+com.vmware.vsan.health.test.cluster.vcauthoritative.testResult.Recommendation = 如果已替换 vCenter Server/已从备份恢复 vCenter Server，并且 vCenter Server 中的当前主机列表正确，那么请执行“更新 ESXi 配置”操作。
+com.vmware.vsan.health.test.vcauthoritative = 正常操作期间，会将 vCenter Server 状态视为可信来源，并且会使用最新主机成员资格列表自动更新 ESXi 主机。替换/从备份恢复 vCenter Server 后，vCenter Server 中的主机成员资格列表可能会不同步。此运行状况检查会检测此类情况，并且会在因 vCenter Server 不同步而未将 vCenter Server 状态推送到 ESXi 时进行警示。在这种情况下，首先完全还原 vCenter Server 中的成员资格列表，然后根据需要执行“更新 ESXi 配置”操作。
+com.vmware.vsan.health.test.vcauthoritative.short = 检查 vCenter Server 状态是否已推送到 ESXi 以及主机成员资格是否同步。
+
+#
+# vSAN HCL DB up-to-date check
+#
+com.vmware.vsan.health.test.hcl.hclDbUptodate.testName = vSAN HCL 数据库最新版本
+com.vmware.vsan.health.test.hcl.hclDbUptodate.testResult.label = HCL 数据库信息
+com.vmware.vsan.health.test.hcl.hclDbUptodate.testResult.columnEntity = 实体
+com.vmware.vsan.health.test.hcl.hclDbUptodate.testResult.columnTime = UTC 时间
+com.vmware.vsan.health.test.hcl.hclDbUptodate.testResult.rowCurrentTime = 当前时间
+com.vmware.vsan.health.test.hcl.hclDbUptodate.testResult.rowLocalDBUpdateTime = 本地 HCL 数据库副本上次更新时间
+com.vmware.vsan.health.test.hcldbuptodate = 检查用于 HCL 检查的 VMware 硬件兼容性指南数据库的使用期限。如果超过 90 天，则会显示警告，如果超过 180 天，则会显示错误。VMware 会经常更新 VCG，因此保持本地副本是最新版本很重要。
+com.vmware.vsan.health.test.hcldbuptodate.short = 检查《VMware 硬件兼容性指南》数据库的使用期限。
+
+
+#
+# vSAN HCL DB Auto-update check
+#
+com.vmware.vsan.health.test.hcl.autohclupdate.testName = vSAN HCL 数据库自动更新
+com.vmware.vsan.health.test.hcl.autohclupdate.testResult.label = HCL 数据库自动更新信息
+com.vmware.vsan.health.test.autohclupdate = 检查是否可从 VMware HCL 发行网站自动下载和更新 vSAN HCL 数据库。当不具有 VMware 公共网站的 Internet 访问权限或未启用 vSAN HCL 数据库自动更新时，此运行状况检查将默认位于静默运行状况检查列表中，因此将显示已跳过状态，除非用户将其从静默列表中手动移除。否则，如果 HCL 数据库由于任何其他原因 (如无法连接 VMware HCL 发行网站、无法下载最新 HCL 数据库或无法更新本地 HCL 数据库) 而无法自动更新，将显示警告。
+com.vmware.vsan.health.test.autohclupdate.short = 检查是否可从 VMware HCL 发行网站自动下载和更新 vSAN HCL 数据库。当不具有 VMware 公共网站的 Internet 访问权限或未启用 vSAN HCL 数据库自动更新时，此运行状况检查将默认位于静默运行状况检查列表中，因此将显示已跳过状态，除非用户将其从静默列表中手动移除。否则，如果 HCL 数据库由于任何其他原因 (如无法连接 VMware HCL 发行网站、无法下载最新 HCL 数据库或无法更新本地 HCL 数据库) 而无法自动更新，将显示警告。
+#
+#
+# SCSI Controller on vSAN HCL check
+#
+com.vmware.vsan.health.test.hcl.controllerOnHcl.testName = SCSI 控制器已由 VMware 认证
+com.vmware.vsan.health.test.hcl.controllerOnHcl.testResult.label = 控制器列表
+com.vmware.vsan.health.test.hcl.controllerOnHcl.testResult.columnHost = 主机
+com.vmware.vsan.health.test.hcl.controllerOnHcl.testResult.columnDevice = 设备
+com.vmware.vsan.health.test.hcl.controllerOnHcl.testResult.columnUsedByVsan = 由 vSAN 使用
+com.vmware.vsan.health.test.hcl.controllerOnHcl.testResult.contentUsedByVsanYes = 是
+com.vmware.vsan.health.test.hcl.controllerOnHcl.testResult.contentUsedByVsanNo = 否
+com.vmware.vsan.health.test.hcl.controllerOnHcl.testResult.columnDisplayName = 当前控制器
+com.vmware.vsan.health.test.hcl.controllerOnHcl.testResult.contentDisplayNameNA =  不适用
+com.vmware.vsan.health.test.hcl.controllerOnHcl.testResult.columnPCIId = PCI ID
+com.vmware.vsan.health.test.hcl.controllerOnHcl.testResult.columnOnHCL = 经过认证的控制器
+com.vmware.vsan.health.test.controlleronhcl.short = 检查控制器是否遵循《VMware 兼容性指南》。
+com.vmware.vsan.health.test.controlleronhcl = 显示关于存储 I/O 控制器的信息并基于 PCI ID 验证在《VMware 兼容性指南》中控制器是否受支持。如果存在不匹配问题，请联系 VMware 技术支持。
+
+#
+# Controller release support check
+#
+com.vmware.vsan.health.test.hcl.controllerReleaseSupport.testName = ESXi 版本的控制器已由 VMware 认证
+com.vmware.vsan.health.test.hcl.controllerReleaseSupport.testResult.label = 控制器列表
+com.vmware.vsan.health.test.hcl.controllerReleaseSupport.testResult.columnHost = 主机
+com.vmware.vsan.health.test.hcl.controllerReleaseSupport.testResult.columnDevice = 设备
+com.vmware.vsan.health.test.hcl.controllerReleaseSupport.testResult.columnReleaseOfESX = 当前 ESXi 版本
+com.vmware.vsan.health.test.hcl.controllerReleaseSupport.testResult.columnReleaseSupported = 支持的版本
+com.vmware.vsan.health.test.hcl.controllerReleaseSupport.testResult.columnReleaseOnHCL = 经认证的 ESXi 版本
+com.vmware.vsan.health.test.controllerreleasesupport = 显示有关存储 I/O 控制器驱动程序的信息。检查当前 ESXi 版本中对应的控制器是否支持已安装的驱动程序。仅测试由 VMware 认证的控制器并在结果中显示
+com.vmware.vsan.health.test.controllerreleasesupport.short = 显示有关是否存在所安装 ESXi 版本中指定控制器支持的任何驱动程序的信息。仅测试由 VMware 认证的控制器并在结果中显示
+
+#
+# Controller Driver check
+#
+com.vmware.vsan.health.test.hcl.controllerDriver.testName = 控制器驱动程序已由 VMware 认证
+com.vmware.vsan.health.test.hcl.controllerDriver.testResult.label = 控制器列表
+com.vmware.vsan.health.test.hcl.controllerDriver.testResult.columnHost = 主机
+com.vmware.vsan.health.test.hcl.controllerDriver.testResult.columnDevice = 设备
+com.vmware.vsan.health.test.hcl.controllerDriver.testResult.columnDriverInUse = 当前驱动程序
+com.vmware.vsan.health.test.hcl.controllerDriver.testResult.columnDriverHealth = 经认证的驱动程序
+com.vmware.vsan.health.test.hcl.controllerDriver.testResult.columnDriversOnHCL = 建议的驱动程序
+com.vmware.vsan.health.test.controllerdriver = 检查控制器使用的驱动程序在《VMware 兼容性指南》中是否作为经认证的驱动程序列出。仅测试位于 vSAN HCL 上且针对当前 ESXi 版本进行了认证的控制器并在结果中显示
+com.vmware.vsan.health.test.controllerdriver.short = 检查控制器驱动程序是否已由 VMware 认证。仅测试位于 vSAN HCL 上且针对当前 ESXi 版本进行了认证的控制器并在结果中显示
+
+
+# Controller Firmware check
+#
+#com.vmware.vsan.health.test.hcl.cimProviderInstall.testName = CIM Provider Installation
+com.vmware.vsan.health.test.hcl.cimProviderInstall.testResult.columnCIMInUse = 已安装 CIM 提供程序
+com.vmware.vsan.health.test.hcl.cimProviderInstall.testResult.columnCIMSupported = CIM 提供程序是否已安装?
+com.vmware.vsan.health.test.hcl.cimProviderInstall.testResult.columnCIMOnHCL = HCL 上的 CIM 提供程序
+com.vmware.vsan.health.test.hcl.cimProviderInstall.testResult.columnCIMSettingSupported = 支持的控制器设置
+com.vmware.vsan.health.test.cimproviderinstall = 检查主机是否已安装版本与《VMware 兼容性指南》中建议的版本匹配的 CIM 提供程序。如果 HCL 数据库指出没有支持的 CIM 提供程序或者如果存在建议的版本且已安装正确的版本，则它将处于绿色状态，否则将处于黄色状态。
+com.vmware.vsan.health.test.cimproviderinstall.short = 检查所提供的 CIM 是否已安装且遵循《VMware 兼容性指南》
+
+#
+# Controller Firmware check
+#
+com.vmware.vsan.health.test.hcl.controllerFirmware.testName = 控制器固件已由 VMware 认证
+com.vmware.vsan.health.test.hcl.controllerFirmware.testResult.columnFirmwareInUse = 当前固件
+com.vmware.vsan.health.test.hcl.controllerFirmware.testResult.columnFirmwareHealth = 经认证的固件
+com.vmware.vsan.health.test.hcl.controllerFirmware.testResult.columnFirmwareOnHCL = 建议的固件
+com.vmware.vsan.health.test.controllerfirmware = 检查控制器固件是否已根据《VMware 兼容性指南》进行了认证。如果结果为“不适用”，则表示如果可使用供应商工具确定实际的固件版本，应安装该工具。为此，请执行“更新软件”操作 (可用时)，将供应商工具和固件更新到建议的版本。仅测试位于 vSAN HCL 上且针对当前 ESXi 版本进行了认证的控制器并在结果中显示。
+com.vmware.vsan.health.test.controllerfirmware.short = 检查控制器固件是否已由 VMware 认证。如果结果为“不适用”，则表示如果可使用供应商工具确定实际的固件版本，应安装该工具。为此，请执行“更新软件”操作 (可用时)，将供应商工具和固件更新到建议的版本。仅测试位于 vSAN HCL 上且针对当前 ESXi 版本进行了认证的控制器并在结果中显示。
+com.vmware.vsan.health.test.controllerfirmware.norecommendedfw = 无法检查此控制器的固件版本
+#
+# Controller Queue Depth check
+#
+#com.vmware.vsan.health.test.hcl.controllerQueueDepth.testName = Controller queue depth is VMware certified
+com.vmware.vsan.health.test.hcl.controllerQueueDepth.testResult.columnQueueDepthInUse = 当前队列深度
+com.vmware.vsan.health.test.hcl.controllerQueueDepth.testResult.columnQueueDepthOnHCL = 建议的队列深度
+com.vmware.vsan.health.test.hcl.controllerQueueDepth.testResult.columnQueueDepthHealth = 经认证的队列深度
+com.vmware.vsan.health.test.controllerqueuedepth = 检查控制器的队列深度是否符合《VMware 兼容性指南》。
+com.vmware.vsan.health.test.controllerqueuedepth.short = 检查控制器队列深度是否已由 VMware 认证
+
+#
+# Controller Disk Mode check
+#
+com.vmware.vsan.health.test.hcl.controllerDiskMode.testName = 控制器磁盘组模式已由 VMware 认证
+com.vmware.vsan.health.test.hcl.controllerDiskMode.testResult.columnDiskModeInUse = 当前磁盘组模式
+com.vmware.vsan.health.test.hcl.controllerDiskMode.testResult.columnDiskModeOnHCL = 建议的磁盘组模式
+com.vmware.vsan.health.test.hcl.controllerDiskMode.testResult.columnDiskModeHealth = 经认证的磁盘组模式
+com.vmware.vsan.health.test.controllerdiskmode = 对于所用的 SCSI 控制器，检查 vSAN 磁盘组类型 (全闪存或混合) 是否在《VMware 兼容性指南》中是经过认证的磁盘组类型。仅测试位于 vSAN HCL 上且针对当前 ESXi 版本进行了认证的控制器并在结果中显示。
+com.vmware.vsan.health.test.controllerdiskmode.short = 对于位于 vSAN HCL 上且针对当前 ESXi 版本进行了认证的所用 SCSI 控制器，检查 vSAN 磁盘组类型 (全闪存或混合) 是否已由 VMware 认证。
+
+#
+# Controller Cache Setting check
+#
+#com.vmware.vsan.health.test.hcl.controllerCache.testName = Controller Cache Setting
+com.vmware.vsan.health.test.hcl.controllerCache.testResult.columnCacheInUse = 使用的缓存设置
+com.vmware.vsan.health.test.hcl.controllerCache.testResult.columnCacheHealth = 缓存设置运行状况
+com.vmware.vsan.health.test.hcl.controllerCache.testResult.columnCacheOnHCL = HCL 上的缓存设置
+com.vmware.vsan.health.test.controllercache = 检查控制器的缓存设置是否与《VMware 兼容性指南》中认证的设置之一相匹配。
+com.vmware.vsan.health.test.controllercache.short = 检查控制器的缓存设置是否已由 VMware 认证。
+
+#
+# Controller RAID Setting check
+#
+#com.vmware.vsan.health.test.hcl.controllerRaid.testName = Controller RAID Setting
+com.vmware.vsan.health.test.hcl.controllerRaid.testResult.columnRaidInUse = 使用的 RAID 设置
+com.vmware.vsan.health.test.hcl.controllerRaid.testResult.columnRaidHealth = RAID 设置运行状况
+com.vmware.vsan.health.test.hcl.controllerRaid.testResult.columnRaidOnHCL = HCL 上的 RAID 设置
+com.vmware.vsan.health.test.controllerraid = 检查控制器的 RAID 设置是否与《VMware 兼容性指南》中认证的设置之一相匹配。
+com.vmware.vsan.health.test.controllerraid.short = 检查控制器的 RAID 设置是否已由 VMware 认证。
+
+#
+#
+# Network Adapter on vSphere VMware HCL check
+#
+com.vmware.vsan.health.test.hcl.pnicOnHcl.testName = 网络适配器已由 VMware 认证
+com.vmware.vsan.health.test.hcl.pnicOnHcl.testResult.label = 网络适配器列表
+com.vmware.vsan.health.test.hcl.pnicOnHcl.testResult.columnHost = 主机
+com.vmware.vsan.health.test.hcl.pnicOnHcl.testResult.columnDevice = 设备
+com.vmware.vsan.health.test.hcl.pnicOnHcl.testResult.columnDisplayName = 当前适配器
+com.vmware.vsan.health.test.hcl.pnicOnHcl.testResult.contentDisplayNameNA =  不适用
+com.vmware.vsan.health.test.hcl.pnicOnHcl.testResult.columnPCIId = PCI ID
+com.vmware.vsan.health.test.hcl.pnicOnHcl.testResult.columnOnHCL = 适配器已认证
+com.vmware.vsan.health.test.pniconhcl.short = 检查网络适配器是否遵循《VMware 兼容性指南》。
+com.vmware.vsan.health.test.pniconhcl = 显示有关网络适配器的信息，并基于其 PCI ID 验证在《VMware 兼容性指南》中是否支持该适配器。
+
+#
+# Network Adapter release support check
+#
+com.vmware.vsan.health.test.hcl.pnicReleaseSupport.testName = ESXi 版本的网络适配器已由 VMware 认证
+com.vmware.vsan.health.test.hcl.pnicReleaseSupport.testResult.label = 网络适配器列表
+com.vmware.vsan.health.test.hcl.pnicReleaseSupport.testResult.columnHost = 主机
+com.vmware.vsan.health.test.hcl.pnicReleaseSupport.testResult.columnDevice = 设备
+com.vmware.vsan.health.test.hcl.pnicReleaseSupport.testResult.columnReleaseOfESX = 当前 ESXi 版本
+com.vmware.vsan.health.test.hcl.pnicReleaseSupport.testResult.columnReleaseSupported = 支持的版本
+com.vmware.vsan.health.test.hcl.pnicReleaseSupport.testResult.columnReleaseOnHCL = 经认证的 ESXi 版本
+com.vmware.vsan.health.test.pnicreleasesupportt = 显示有关网络适配器驱动程序的信息。检查当前 ESXi 版本中的相应适配器是否支持安装的驱动程序。
+com.vmware.vsan.health.test.pnicreleasesupport.short = 显示有关是否存在所安装 ESXi 版本中指定网络适配器支持的任何驱动程序的信息。
+
+#
+# Network Adapter Driver check
+#
+com.vmware.vsan.health.test.hcl.pnicDriver.testName = 网络适配器驱动程序已由 VMware 认证
+com.vmware.vsan.health.test.hcl.pnicDriver.testResult.label = 网络适配器列表
+com.vmware.vsan.health.test.hcl.pnicDriver.testResult.columnHost = 主机
+com.vmware.vsan.health.test.hcl.pnicDriver.testResult.columnDevice = 设备
+com.vmware.vsan.health.test.hcl.pnicDriver.testResult.columnDriverInUse = 当前驱动程序
+com.vmware.vsan.health.test.hcl.pnicDriver.testResult.columnDriverHealth = 经认证的驱动程序
+com.vmware.vsan.health.test.hcl.pnicDriver.testResult.columnDriversOnHCL = 建议的驱动程序
+com.vmware.vsan.health.test.pnicdriver = 检查网络适配器使用的驱动程序在《VMware 兼容性指南》中是否作为经认证的驱动程序列出。
+com.vmware.vsan.health.test.pnicdriver.short = 检查网络适配器驱动程序是否已由 VMware 认证。
+
+#
+# Network Adapter Firmware check
+#
+com.vmware.vsan.health.test.hcl.pnicFirmware.testName = 网络适配器固件已由 VMware 认证
+com.vmware.vsan.health.test.hcl.pnicFirmware.testResult.columnFirmwareInUse = 当前固件
+com.vmware.vsan.health.test.hcl.pnicFirmware.testResult.columnFirmwareHealth = 经认证的固件
+com.vmware.vsan.health.test.hcl.pnicFirmware.testResult.columnFirmwaresOnHCL = 建议的固件
+com.vmware.vsan.health.test.pnicfirmware = 检查网络适配器固件是否已根据《VMware 兼容性指南》进行了认证。
+com.vmware.vsan.health.test.pnicfirmware.short = 检查网络适配器固件是否已由 VMware 认证。设备和驱动程序均已由 VMware 认证时，会执行检查。如果相应驱动程序的设备不存在固件版本，则检查显示绿色。
+com.vmware.vsan.health.test.pnicfirmware.norecommendedfw = 无法检查此网络适配器的固件版本
+
+#
+# Host issues retrieving hardware info check
+#
+com.vmware.vsan.health.test.hcl.hclHostBadState.testName = 检索硬件信息时出现主机问题
+com.vmware.vsan.health.test.hcl.hclHostBadState.testResult.label = 处于错误状态的主机
+com.vmware.vsan.health.test.hcl.hclHostBadState.testResult.columnHost = 主机
+com.vmware.vsan.health.test.hcl.hclHostBadState.testResult.columnIssue = 问题
+com.vmware.vsan.health.test.hcl.hclHostBadState.testResult.rowUnknownError = 未知错误
+com.vmware.vsan.health.test.hclhostbadstate = 如果任何主机已断开连接/无响应，或未能响应获取硬件信息的尝试，此测试将捕获此类问题。此处列出的主机未根据《VMware 兼容性指南》检查其硬件。
+com.vmware.vsan.health.test.hclhostbadstate.short = 检查是否存在任何主机未返回其硬件信息。
+
+#
+#  Network health check
+#
+com.vmware.vsan.health.test.network.testResult.partitionList.label = 分区列表
+com.vmware.vsan.health.test.network.testResult.partitionList.columnHost = 主机
+com.vmware.vsan.health.test.network.testResult.partitionList.columnPartition = 分区
+com.vmware.vsan.health.test.network.testResult.partitionList.columnHostUUID = 主机 UUID
+com.vmware.vsan.health.test.network.testResult.partitionList.contentUnknownPartition = "分区未知"
+
+com.vmware.vsan.health.test.network.testResult.multicastMismatch.label = 多播配置
+com.vmware.vsan.health.test.network.testResult.multicastMismatch.columnHost = 主机
+com.vmware.vsan.health.test.network.testResult.multicastMismatch.columnMulticastIPs = 多播 IP
+
+com.vmware.vsan.health.test.network.testResult.subnetMismatch.label = vSAN IP 子网配置
+com.vmware.vsan.health.test.network.testResult.subnetMismatch.columnHost = 主机
+com.vmware.vsan.health.test.network.testResult.subnetMismatch.columnIPSubnet = IP 子网
+
+com.vmware.vsan.health.test.network.testResult.pingResult.label = Ping 结果
+com.vmware.vsan.health.test.network.testResult.pingResult.label.onlyFailed = 仅限失败的 Ping 操作
+com.vmware.vsan.health.test.network.testResult.pingResult.columnFromHost = 源主机
+com.vmware.vsan.health.test.network.testResult.pingResult.columnToHost = 目标主机
+com.vmware.vsan.health.test.network.testResult.pingResult.columnToDevice = 目标设备
+com.vmware.vsan.health.test.network.testResult.pingResult.columnPingResult = Ping 结果
+
+com.vmware.vsan.health.test.network.testResult.hostLatencyCheck.label = 网络延迟检查结果
+com.vmware.vsan.health.test.network.testResult.hostLatencyCheck.label.onlyFailed = 仅失败的网络延迟检查结果
+com.vmware.vsan.health.test.network.testResult.hostLatencyCheck.columnFromHost = 源主机
+com.vmware.vsan.health.test.network.testResult.hostLatencyCheck.columnToHost = 目标主机
+com.vmware.vsan.health.test.network.testResult.hostLatencyCheck.columnMaxLatency = 网络延迟 (毫秒)
+com.vmware.vsan.health.test.network.testResult.hostLatencyCheck.columnPingResult = 网络延迟检查结果
+
+com.vmware.vsan.health.test.network.testResult.simpleHost.columnHost = 主机
+
+#
+# Hosts disconnected from VC check
+#
+com.vmware.vsan.health.test.network.hostDisconnected.testName = 主机已从 VC 断开连接
+com.vmware.vsan.health.test.network.hostDisconnected.testResult.label = 已断开连接的主机
+com.vmware.vsan.health.test.network.testResult.hostDisconnected = 已断开连接
+com.vmware.vsan.health.test.network.testResult.hostNotResponding = 未响应
+com.vmware.vsan.health.test.hostdisconnected.short = 检查 VC 与群集中的所有主机是否存在活动连接。
+com.vmware.vsan.health.test.hostdisconnected = 此检查验证 VC 与群集中的所有主机是否存在活动连接。任何主机与 VC 断开连接 (或不响应)，都可能会导致操作问题。如果 VC 未连接到主机，则其状态对 VC 来说未知。主机可能已启动，并且正在加入 vSAN 群集、提供数据并在群集的存储功能中发挥重要作用。或者，主机可能已关闭且不可用。因此，只要主机断开连接，VC 和 vSAN 运行状况检查便无法充分评估状态。如果主机正在加入 vSAN 群集，则其会意外地显示在“意外 vSAN 群集成员”检查中，由于无法确定其 UUID，因此运行状况检查无法最终判断 vSAN 群集中显示的主机是否为该断开连接的主机。此外，诸如 vSAN 连接检查或磁盘运行状况检查等其他运行状况检查也无法将该断开连接的主机考虑在内。
+
+#
+# Hosts with connectivity issues check
+#
+com.vmware.vsan.health.test.network.hostConnectivity.testName = 存在连接问题的主机
+com.vmware.vsan.health.test.network.hostConnectivity.testResult.label = 存在通信问题的主机
+com.vmware.vsan.health.test.hostconnectivity.short = 检查主机处于“已连接”状态时从 VC 到主机的 API 调用是否失败。
+com.vmware.vsan.health.test.hostconnectivity = 此检查验证 VC 将主机列为“已连接”但从 VC 到主机的 API 调用失败的情况。这种情况极为少见，但如果发生这种情况，将会导致出现与“主机与 VC 断开连接”类似的问题。
+
+# Cluster partition check
+com.vmware.vsan.health.test.network.clusterPartition.testName = vSAN 群集分区
+com.vmware.vsan.health.test.clusterpartition = 为了确保正常运行，所有 vSAN 主机都必须能够通过多播和单播通信。如果不能，则 vSAN 群集将分为多个“分区”，即所包含的主机可以通信的子组，但子组之间无法通信。发生此情况时，在解决网络配置错误之前 vSAN 对象可能不可用。
+com.vmware.vsan.health.test.clusterpartition.short = 检查 vSAN 群集是否已因网络问题而进行分区。
+
+#
+# Hosts vmknic check
+#
+com.vmware.vsan.health.test.network.vsanVmknic.testName = 所有主机均已配置 vSAN vmknic
+com.vmware.vsan.health.test.network.vsanVmknic.testResult.label = 未配置 vSAN vmknic 的主机
+com.vmware.vsan.health.test.vsanvmknic = 为了加入 vSAN 群集，并且形成一个完全连接的主机组，vSAN 群集中的每台主机都必须为 vSAN 流量配置 vmknic (VMkernel 网络接口或 VMkernel 适配器)。
+com.vmware.vsan.health.test.vsanvmknic.short = 检查 vSAN 群集中的所有主机是否已配置启用 vSAN 流量的 vmknic。
+
+#
+# Hosts subnets check
+#
+com.vmware.vsan.health.test.network.matchingSubnet.testName = 所有主机均具有匹配的子网
+com.vmware.vsan.health.test.matchingsubnet = 为了加入 vSAN 群集并形成一个完全连接的主机组，vSAN 群集中的每台主机都必须能够与群集中的所有其他主机互相通信。此检查验证所有 vSAN vmknic 是否位于同一个 IP 子网中。如果您有意识地通过 L3 网络设置 vSAN，则应忽略此检查的失败。
+com.vmware.vsan.health.test.matchingsubnet.short = 检查 vSAN 群集中的所有主机是否位于同一个 IP 子网中。
+
+#
+# Hosts multicast settings check
+#
+com.vmware.vsan.health.test.network.multicastSettings.testName = 所有主机均具有匹配的多播设置
+com.vmware.vsan.health.test.multicastsettings = 为了参与 vSAN 群集，并形成单组完全连接的主机，vSAN 群集中的每个主机都必须使用相同的 IP 多播地址，根据群集使用 IPv4 还是 IPv6，会验证对应的多播配置。使用“esxcli vsan network list”和“esxcli vsan network ip set”调整多播 IP。
+com.vmware.vsan.health.test.multicastsettings.short = 检查 vSAN 群集中所有主机的 IP 多播配置是否匹配。根据群集使用 IPv4 还是 IPv6，会验证对应的多播配置。
+
+#
+# Hosts unicast conectivity check
+#
+com.vmware.vsan.health.test.network.smallPing.testName = vSAN: 基本 (单播) 连接检查
+com.vmware.vsan.health.test.network.smallping = 执行从每个主机到所有其他主机的较小数据包 Ping 测试。如果此检查失败，则说明网络连接存在基本问题。请检查 vmknic、上行链路、VLAN、物理交换机和相关设置。如果此检查通过，则说明基本单播连接工作正常。
+com.vmware.vsan.health.test.network.smallping.short = 执行从每个主机到所有其他主机的较小数据包 Ping 测试。
+
+#
+# Hosts MTU check
+#
+com.vmware.vsan.health.test.network.largePing.testName = vSAN: MTU 检查 (执行较大数据包 Ping 操作)
+com.vmware.vsan.health.test.network.largeping = 执行从每个主机到所有其他主机的较大数据包 Ping 测试。如果此检查失败而基本连接检查通过，则说明 MTU 设置存在问题。
+com.vmware.vsan.health.test.network.largeping.short = 执行从每个主机到所有其他主机的较大数据包 Ping 测试。
+
+#
+# Hosts network latency check
+#
+com.vmware.vsan.health.test.network.hostLatencyCheck.testName = 网络延迟检查
+com.vmware.vsan.health.test.hostlatencycheck = 对 vSAN 主机执行网络延迟检查。正常群集的网络配置指南要求 RTT 小于 1 毫秒。为了将暂时性的波动考虑在内，此运行状况检查基于 5 毫秒的保守阈值报告警告。如果此检查失败，请检查 vmknic、上行链路、VLAN、物理交换机和相关设置以查找网络问题。注意: 如果这一对主机的连接检查失败，将跳过此检查。
+com.vmware.vsan.health.test.hostlatencycheck.short = 对 vSAN 主机执行网络延迟检查。此检查要求 RTT 小于 1 毫秒。为了将暂时性的波动考虑在内，此运行状况检查基于 5 毫秒的保守阈值报告警告。注意: 如果这一对主机的连接检查失败，将跳过此检查。
+
+#
+# Hosts multicast assessment based on other checks
+#
+com.vmware.vsan.health.test.network.multicastSuspected.testName = 基于其他检查的多播评估
+com.vmware.vsan.health.test.multicastsuspected = 如果 vSAN 配置检查已通过，单播连接检查已通过，但存在 vSAN 群集分区，则此检查会指示可能存在多播问题。如果检查失败，将执行额外的“活动多播连接检查”。
+com.vmware.vsan.health.test.multicastsuspected.short = 检查 vSAN 群集中的任何主机是否存在 IP 多播连接问题。
+
+#
+# Active multicast connectivity check
+#
+com.vmware.vsan.health.test.network.multicastDeepDive.testName = 活动多播连接检查
+com.vmware.vsan.health.test.network.multicastDeepDive.testResult.issueLabel = 检测到的问题
+com.vmware.vsan.health.test.network.multicastDeepDive.testResult.columnIssue = 问题
+com.vmware.vsan.health.test.network.multicastDeepDive.testResult.connectGroupLabel = 连接组
+com.vmware.vsan.health.test.network.multicastDeepDive.testResult.columnMaster = 主节点
+com.vmware.vsan.health.test.network.multicastDeepDive.testResult.columnMembers = 成员
+com.vmware.vsan.health.test.network.multicastDeepDive.testResult.packetLabel = 数据包
+com.vmware.vsan.health.test.network.multicastDeepDive.testResult.columnTimestamp = 时间戳
+com.vmware.vsan.health.test.network.multicastDeepDive.testResult.columnMsgType = 消息类型
+com.vmware.vsan.health.test.network.multicastDeepDive.testResult.columnSeq = 序列号
+com.vmware.vsan.health.test.network.multicastDeepDive.testResult.columnFrom = 源
+com.vmware.vsan.health.test.network.multicastDeepDive.testResult.columnTo = 目标
+com.vmware.vsan.health.test.network.multicastDeepDive.testResult.columnReceivedBy = 接收方
+com.vmware.vsan.health.test.multicastdeepdive = 此运行状况检查会捕获一段时间内群集中所有主机的多播数据包。此检查会专门寻找称之为“CMMDS 主节点检测信号”的数据包。选定作为“vSAN/CMMDS 主节点”(每个分区一个) 的所有主机每秒将发送此类检测信号一次。此类检测信号通过多播进行发送，群集中的所有主机必须接收这些检测信号才能使群集正常运行。因此，如果主机发送检测信号，而其他主机未收到此检测信号，则通常表示物理网络中存在多播配置错误。
+com.vmware.vsan.health.test.multicastdeepdive.short = 检查 vSAN 群集中的所有主机是否收到“vSAN 主节点”主机的多播检测信号。
+
+#
+# Object health check
+#
+com.vmware.vsan.health.test.data.objectHealth.testName = vSAN 对象运行状况
+com.vmware.vsan.health.test.data.objectHealth.testResult.label = 对象运行状况概览
+com.vmware.vsan.health.test.data.objectHealth.testResult.columnHealthObject = 运行状况/对象
+com.vmware.vsan.health.test.data.objectHealth.testResult.columnNumber = 数字
+com.vmware.vsan.health.test.data.objectHealth.testResult.columnObjectUuid = 对象 UUID
+com.vmware.vsan.health.test.objecthealth = 通过汇总群集中的所有对象并将其分组到精细的对象运行状况类别中，提供群集范围的概览。
+com.vmware.vsan.health.test.objecthealth.short = 检查所有 vSAN 对象的运行状况。
+
+#
+# Inconsistent VM health check
+#
+com.vmware.vsan.health.test.data.inconsistentVm.testName = 虚拟机供电状态一致性
+com.vmware.vsan.health.test.data.inconsistentVm.testResult.label = 不一致的虚拟机状态
+com.vmware.vsan.health.test.data.inconsistentVm.testResult.columnVm = 虚拟机
+com.vmware.vsan.health.test.data.inconsistentVm.testResult.columnHost = 主机
+com.vmware.vsan.health.test.data.inconsistentVm.testResult.columnVmUuid = 虚拟机路径名称
+com.vmware.vsan.health.test.data.inconsistentVm.testResult.columnError = 错误
+com.vmware.vsan.health.test.data.inconsistentVm.testResult.error.existAtHost= 仅存在于主机上。
+com.vmware.vsan.health.test.data.inconsistentVm.testResult.error.existAtVC= 仅存在于 VC 上。
+com.vmware.vsan.health.test.data.inconsistentVm.testResult.error.powerOnVCOffOnHost= VC 上的电源打开，但主机上的电源关闭。
+com.vmware.vsan.health.test.data.inconsistentVm.testResult.error.powerOffVCOnHost= VC 上的电源关闭，但主机上的电源打开。
+com.vmware.vsan.health.test.data.inconsistentVm.testResult.error.existMultipleHosts= 存在于多个主机上。
+com.vmware.vsan.health.test.data.inconsistentVm.testResult.error.injectedError= 已为测试注入错误。
+com.vmware.vsan.health.test.inconsistentVm = 通过汇总部署在 vSAN 中的所有供电状态不一致的虚拟机，提供群集范围的概览。
+com.vmware.vsan.health.test.inconsistentVm.short = 检查每个虚拟机的供电状态，以获取不一致虚拟机的列表。
+
+#
+# Inaccessible VM health check
+#
+com.vmware.vsan.health.test.data.inaccessibleVm.testName = 虚拟机可访问性
+com.vmware.vsan.health.test.data.inaccessibleVm.testResult.label = 不可访问的虚拟机状态
+com.vmware.vsan.health.test.data.inaccessibleVm.testResult.columnVm = 虚拟机
+com.vmware.vsan.health.test.data.inaccessibleVm.testResult.columnHost = 主机
+com.vmware.vsan.health.test.data.inaccessibleVm.testResult.columnVmUuid = 虚拟机路径名称
+com.vmware.vsan.health.test.inaccessibleVm = 通过汇总部署在 vSAN 中的所有不可访问的虚拟机，提供群集范围的概览。
+com.vmware.vsan.health.test.inaccessibleVm.short = 检查每个虚拟机的连接状态，以获取不可访问虚拟机的列表。
+
+#
+# Object Data protection health check
+#
+com.vmware.vsan.health.test.dataprotection.objectdphealth.testName = vSAN 对象数据保护运行状况
+com.vmware.vsan.health.test.dataprotection.objectdphealth.testResult.label = 对象数据保护运行状况概览
+com.vmware.vsan.health.test.dataprotection.objectdphealth.testResult.columnHealthObject = 运行状况/对象
+com.vmware.vsan.health.test.dataprotection.objectdphealth.testResult.columnNumber = 数字
+com.vmware.vsan.health.test.dataprotection.objectdphealth.testResult.columnObjectUuid = 对象 UUID
+com.vmware.vsan.health.test.objectdphealth = 通过汇总群集中的所有对象并将其分组到精细的对象数据保护运行状况类别中，提供群集范围的概览。
+com.vmware.vsan.health.test.objectdphealth.short = 检查所有 vSAN 对象的数据保护运行状况。
+
+#
+# Data protection version check
+#
+com.vmware.vsan.health.test.dataprotection.dataprotectionversion.testName = 数据保护服务版本检查
+com.vmware.vsan.health.test.dataprotection.dataprotectionversion.testResult.label = vSAN 数据保护服务版本检查
+com.vmware.vsan.health.test.dataprotection.dataprotectionversion.testResult.columnHost = 主机
+com.vmware.vsan.health.test.dataprotection.dataprotectionversion.testResult.columnVersionEsx = ESXi 中的版本
+com.vmware.vsan.health.test.dataprotection.dataprotectionversion.testResult.columnVersionVc = VC 中的版本
+com.vmware.vsan.health.test.dataprotection.dataprotectionversion.testResult.columnError = 错误
+com.vmware.vsan.health.test.dataprotectionversion = 检查群集中的主机是否具有数据保护兼容软件版本
+com.vmware.vsan.health.test.dataprotectionversion.short = 检查 vSAN 群集中的所有主机是否具有数据保护兼容软件版本
+com.vmware.vsan.health.test.dataprotection.dataprotectionversion.issues.notSupported = 主机不支持数据保护
+
+#
+# vSAN DPD liveness check
+#
+com.vmware.vsan.health.test.dataprotection.dpdliveness.testName = vSAN DPD 活跃度
+com.vmware.vsan.health.test.dataprotection.dpdliveness.testResult.label = vSAN 主机 DPD 活跃度
+com.vmware.vsan.health.test.dataprotection.dpdliveness.testResult.columnHost = 主机
+com.vmware.vsan.health.test.dataprotection.dpdliveness.testResult.columnState = 状态
+com.vmware.vsan.health.test.dataprotection.dpdliveness.testResult.columnError = 错误
+com.vmware.vsan.health.test.dataprotection.dpdliveness.testResult.hostUnknown = 未知
+com.vmware.vsan.health.test.dpdliveness = 检查所有 vSAN 主机上的 DPD 活跃度
+com.vmware.vsan.health.test.dpdliveness.short = 检查 DP 守护进程活跃度
+
+#
+# vSAN datastore usage threshold check
+#
+com.vmware.vsan.health.test.dataprotection.datastoreusage.testName = vSAN 数据存储使用情况阈值检查
+com.vmware.vsan.health.test.dataprotection.datastoreusage.testResult.label = vSAN 主机数据存储使用情况阈值
+com.vmware.vsan.health.test.dataprotection.datastoreusage.testResult.columnHost = 主机
+com.vmware.vsan.health.test.dataprotection.datastoreusage.testResult.columnDatastoreUsage  = 数据存储使用情况
+com.vmware.vsan.health.test.dataprotection.datastoreusage.testResult.columnConfiguredUsageThreshold  = 已配置使用情况阈值
+com.vmware.vsan.health.test.dataprotection.datastoreusage.testResult.columnStatus = 状态
+com.vmware.vsan.health.test.dataprotection.datastoreusage.testResult.columnError = 错误
+com.vmware.vsan.health.test.datastoreusage = 检查群集中的 vSAN 数据存储使用情况，以确定数据保护是否应该继续
+com.vmware.vsan.health.test.datastoreusage.short = 检查 vSAN 数据存储使用情况。如果数据存储使用情况超过配置的使用情况阈值，则数据保护停止。仅报告已超过或者将要超过所配置阈值的主机。
+
+#
+# Data protection config check
+#
+com.vmware.vsan.health.test.dataprotection.dpcfgsync.testName = 同步的 vSAN 数据保护服务配置
+com.vmware.vsan.health.test.dataprotection.dpcfgsync.testResult.label = vSAN 数据保护服务配置选项
+com.vmware.vsan.health.test.dataprotection.dpcfgsync.testResult.columnOption = 选项
+com.vmware.vsan.health.test.dataprotection.dpcfgsync.testResult.columnValue = 值
+com.vmware.vsan.health.test.dataprotection.dpcfgsync.testResult.columnStatus = 一致性检查
+com.vmware.vsan.health.test.dataprotection.dpcfgsync.testResult.columnHostsWithValue = 不一致的主机
+com.vmware.vsan.health.test.dpcfgsync = 此检查确保群集中所有主机的 vSAN 数据保护服务配置与群集级别配置一致。
+com.vmware.vsan.health.test.dpcfgsync.short = 检查 vSAN 群集中所有主机的数据保护配置选项是否一致。
+
+#
+# Data protection archival target accessibility check
+#
+com.vmware.vsan.health.test.dataprotection.archivalaccessibility.testName = vSAN 数据保护存档目标可访问性
+com.vmware.vsan.health.test.dataprotection.archivalaccessibility.testResult.label = vSAN 数据保护存档目标可访问性
+com.vmware.vsan.health.test.dataprotection.archivalaccessibility.testResult.columnHost = 主机
+com.vmware.vsan.health.test.dataprotection.archivalaccessibility.testResult.columnArchive = 存档
+com.vmware.vsan.health.test.dataprotection.archivalaccessibility.testResult.columnArchiveUrl = 存档 URL
+com.vmware.vsan.health.test.dataprotection.archivalaccessibility.testResult.columnStatus = 状态
+com.vmware.vsan.health.test.dataprotection.archivalaccessibility.testResult.columnError = 错误
+com.vmware.vsan.health.test.archivalaccessibility = 检查 vSAN 群集中所有主机上的数据保护存档目标可访问性。
+com.vmware.vsan.health.test.archivalaccessibility.short = 检查 vSAN 群集中所有主机上的数据保护存档目标可访问性。
+
+#
+# VM health check
+#
+com.vmware.vsan.health.test.data.vmHealth.testName = vSAN 虚拟机运行状况
+com.vmware.vsan.health.test.data.vmHealth.testResult.label = 虚拟机运行状况概览
+com.vmware.vsan.health.test.data.vmHealth.testResult.columnHealthVM = 运行状况
+com.vmware.vsan.health.test.data.vmHealth.testResult.columnNumber = 数字
+com.vmware.vsan.health.test.data.vmHealth.testResult.columnMoRefs = 虚拟机
+com.vmware.vsan.health.test.vmhealth = 通过汇总群集中的所有虚拟机并将其分组到精细的虚拟机运行状况类别中，提供群集范围的概览。
+com.vmware.vsan.health.test.vmhealth.short = 检查所有 vSAN 虚拟机的运行状况。
+
+# Limit check
+#
+com.vmware.vsan.health.test.limits.limit0hf.testName = 当前群集情况
+com.vmware.vsan.health.test.limits.limit1hf.testName = 再次出现主机故障后
+com.vmware.vsan.health.test.limits.nodecomponentlimit.testName = 主机组件限制
+com.vmware.vsan.health.test.nodecomponentlimit = 此运行状况检查将列出每台主机的组件限制以及当前组件使用情况。请注意，如果达到此组件限制或组件不平衡，则您可能需要添加主机或重新平衡这些组件。
+com.vmware.vsan.health.test.nodecomponentlimit.short = 检查 vSAN 群集中每台主机的主机组件限制以及使用情况
+com.vmware.vsan.health.test.limit0hf = 检查整个群集中的组件限制、可用容量层磁盘空间和读取缓存预留。请注意，这种查看资源的方式是简化的，不考虑所有 vSAN 放置规则。实际可用资源可能更少。
+com.vmware.vsan.health.test.limit0hf.short = 检查 vSAN 组件限制、磁盘空间和读取缓存预留。
+com.vmware.vsan.health.test.limit1hf = 此运行状况检查会模拟消耗大多数资源的主机的故障，并随后显示群集资源消耗。首先，该主机上的资源不再可用。其次，vSAN 将尝试重新保护正在降低冗余的情况下运行的所有对象。如果利用率超过 100%，则无法重新保护所有对象。
+com.vmware.vsan.health.test.limit.testResult.columnHostCompUtilization = 主机组件利用率
+com.vmware.vsan.health.test.limit1hf.short = 检查假设出现一次主机故障时的 vSAN 组件限制、磁盘空间和 RC 预留。
+com.vmware.vsan.health.test.limit.testResult.label = 资源
+com.vmware.vsan.health.test.limit.testResult.columnResource = 资源
+com.vmware.vsan.health.test.limit.testResult.columnUtilization = 利用率
+com.vmware.vsan.health.test.limit.testResult.columnHealth = 运行状况
+com.vmware.vsan.health.test.limit.testResult.compUtilization = 组件利用率
+com.vmware.vsan.health.test.limit.testResult.rowDiskSpaceUtilization = 磁盘空间利用率
+com.vmware.vsan.health.test.limit.testResult.rowRCReservations = 读取缓存预留
+com.vmware.vsan.health.test.limit.testResult.columnHostType = 类型
+
+#
+# Physical disk health retrieval issues check
+#
+com.vmware.vsan.health.test.physicalDisks.physdiskHostIssues.testName = 物理磁盘运行状况检索问题
+com.vmware.vsan.health.test.physicalDisks.physdiskHostIssues.testResult.label = 有问题的主机
+com.vmware.vsan.health.test.physicalDisks.physdiskHostIssues.testResult.columnHost = 主机
+com.vmware.vsan.health.test.physicalDisks.physdiskHostIssues.testResult.columnError = 错误
+com.vmware.vsan.health.test.physdiskhostissues = 此检查指示从 vSAN 群集中的至少一个主机检索物理磁盘信息时是否发生问题。有关特定原因，请参见详细信息。
+com.vmware.vsan.health.test.physdiskhostissues.short = 检查从 vSAN 群集中的主机检索物理磁盘信息时是否发生问题。
+
+#
+# Overall disk health check
+#
+com.vmware.vsan.health.test.physicalDisks.physdiskOverall.testName = 运维运行状况
+com.vmware.vsan.health.test.physicalDisks.physdiskOverall.testResult.label = 有问题的磁盘
+com.vmware.vsan.health.test.physicalDisks.physdiskOverall.testResult.columnHost = 主机
+com.vmware.vsan.health.test.physicalDisks.physdiskOverall.testResult.columnDisk = 磁盘
+com.vmware.vsan.health.test.physicalDisks.physdiskOverall.testResult.columnOverall = 整体运维运行状况
+com.vmware.vsan.health.test.physicalDisks.physdiskOverall.testResult.columnOperational = 操作
+com.vmware.vsan.health.test.physicalDisks.physdiskOverall.testResult.columnMetadata = 元数据
+com.vmware.vsan.health.test.physicalDisks.physdiskOverall.testResult.columnUUID = UUID
+com.vmware.vsan.health.test.physicalDisks.physdiskOverall.testResult.columnOperationalState = 操作状态
+com.vmware.vsan.health.test.physicalDisks.physdiskOverall.testResult.columnRecommendation = 建议
+com.vmware.vsan.health.test.physicalDisks.physdiskOverall.testResult.failed = 永久磁盘故障
+com.vmware.vsan.health.test.physicalDisks.physdiskOverall.testResult.failed.propagated = 磁盘组中已传播永久磁盘故障
+com.vmware.vsan.health.test.physicalDisks.physdiskOverall.testResult.offline = 永久磁盘丢失
+com.vmware.vsan.health.test.physicalDisks.physdiskOverall.testResult.decommissioned = 磁盘已取消配置
+com.vmware.vsan.health.test.physicalDisks.physdiskOverall.testResult.latency.evacuating = 即将发生永久磁盘故障，正在撤出数据
+com.vmware.vsan.health.test.physicalDisks.physdiskOverall.testResult.latency.evacuateFailed = 即将发生永久磁盘故障，撤出因资源不足而失败
+com.vmware.vsan.health.test.physicalDisks.physdiskOverall.testResult.latency.evacuateInaccessible = 即将发生永久磁盘故障，撤出因对象无法访问而失败
+com.vmware.vsan.health.test.physicalDisks.physdiskOverall.testResult.latency.evacuated = 即将发生永久磁盘故障，数据撤出已完成
+com.vmware.vsan.health.test.physicalDisks.physdiskOverall.testResult.logCongestion.evacuating = 观察到日志过度拥堵，正在撤出数据
+com.vmware.vsan.health.test.physicalDisks.physdiskOverall.testResult.logCongestion.evacuateFailed = 观察到日志过度拥堵，撤出因资源不足而失败
+com.vmware.vsan.health.test.physicalDisks.physdiskOverall.testResult.logCongestion.evacuateInaccessible = 观察到日志过度拥堵，撤出因对象无法访问而失败
+com.vmware.vsan.health.test.physicalDisks.physdiskOverall.testResult.logCongestion.evacuated = 观察到日志过度拥堵，数据撤出已完成
+com.vmware.vsan.health.test.physicalDisks.physdiskOverall.testResult.propagated.evacuating = 磁盘组中已传播即将发生的永久磁盘故障，正在撤出数据
+com.vmware.vsan.health.test.physicalDisks.physdiskOverall.testResult.propagated.evacuateFailed = 磁盘组中已传播即将发生的永久磁盘故障，撤出因资源不足而失败
+com.vmware.vsan.health.test.physicalDisks.physdiskOverall.testResult.propagated.evacuateInaccessible = 磁盘组中已传播即将发生的永久磁盘故障，撤出因对象无法访问而失败
+com.vmware.vsan.health.test.physicalDisks.physdiskOverall.testResult.propagated.evacuated = 磁盘组中已传播即将发生的永久磁盘故障，数据撤出已完成
+com.vmware.vsan.health.test.physicalDisks.physdiskOverall.testResult.unknown = 未知的磁盘运行状况
+com.vmware.vsan.health.test.physdiskoverall = 检查 vSAN 群集中所有主机的物理磁盘运维运行状况。如果此检查失败，则 vSAN 无法再使用此磁盘，读取磁盘元数据时出现问题或者 vSAN 软件问题等可能的原因会阻止它使用此磁盘
+com.vmware.vsan.health.test.physdiskoverall.short = 检查 vSAN 群集中所有主机的物理磁盘的运维运行状况。
+com.vmware.vsan.health.test.physicalDisks.physdiskOverall.testResult.recommendation.error = 请移除磁盘
+com.vmware.vsan.health.test.physicalDisks.physdiskOverall.testResult.recommendation.error.propagated = 请卸载磁盘组
+com.vmware.vsan.health.test.physicalDisks.physdiskOverall.testResult.recommendation.refer = 请参考关于缓存磁盘的建议
+com.vmware.vsan.health.test.physicalDisks.physdiskOverall.testResult.recommendation.latency.evacuating = 磁盘需要在撤出完成后进行替换，请准备一个替换磁盘
+com.vmware.vsan.health.test.physicalDisks.physdiskOverall.testResult.recommendation.latency.evacuateFailed = 向群集添加 {0} GB 容量
+com.vmware.vsan.health.test.physicalDisks.physdiskOverall.testResult.recommendation.latency.evacuateInaccessible = 请参考“数据”运行状况检查并解决对象无法访问问题
+com.vmware.vsan.health.test.physicalDisks.physdiskOverall.testResult.recommendation.latency.evacuated = 如果磁盘属于启用去重的磁盘组，请将该磁盘组从 vSAN 移除，替换出故障的磁盘，然后重新添加该磁盘组。否则，请只移除出故障的磁盘，然后添加替换磁盘
+com.vmware.vsan.health.test.physicalDisks.physdiskOverall.testResult.recommendation.logCongestion.evacuating = 撤出期间无需执行任何操作
+com.vmware.vsan.health.test.physicalDisks.physdiskOverall.testResult.recommendation.logCongestion.evacuateFailed = 向群集添加 {0} GB 容量
+com.vmware.vsan.health.test.physicalDisks.physdiskOverall.testResult.recommendation.logCongestion.evacuateInaccessible = 请参考“数据”运行状况检查并解决对象无法访问问题
+com.vmware.vsan.health.test.physicalDisks.physdiskOverall.testResult.recommendation.logCongestion.evacuated = 从 vSAN 移除磁盘组，然后将其重新添加
+com.vmware.vsan.health.test.physicalDisks.physdiskOverall.testResult.recommendation.propagated.evacuating = 撤出期间无需执行任何操作
+com.vmware.vsan.health.test.physicalDisks.physdiskOverall.testResult.recommendation.propagated.evacuateFailed = 向群集添加 {0} GB 容量
+com.vmware.vsan.health.test.physicalDisks.physdiskOverall.testResult.recommendation.propagated.evacuateInaccessible = 请参考“数据”运行状况检查并解决对象无法访问问题
+com.vmware.vsan.health.test.physicalDisks.physdiskOverall.testResult.recommendation.propagated.evacuated = 从 vSAN 移除磁盘组，替换出故障的磁盘，然后重新添加磁盘组
+
+#
+# Component limit health check
+#
+com.vmware.vsan.health.test.physicalDisks.physdiskcomplimithealth.testName = 组件限制运行状况
+com.vmware.vsan.health.test.physicalDisks.componentUtilization.testResult.label = 所有磁盘
+com.vmware.vsan.health.test.physicalDisks.componentLimitHealth.testResult.label = 有问题的磁盘
+com.vmware.vsan.health.test.physicalDisks.componentLimitHealth.testResult.columnHost = 主机
+com.vmware.vsan.health.test.physicalDisks.componentLimitHealth.testResult.columnUtilization = 磁盘组件利用率
+com.vmware.vsan.health.test.physicalDisks.componentLimitHealth.testResult.columnHealth = 运行状况
+com.vmware.vsan.health.test.physdiskcomplimithealth = 检查物理磁盘上的组件数是否达到最大限制
+com.vmware.vsan.health.test.physdiskcomplimithealth.short = 检查每个物理磁盘上的组件限制。
+
+#
+# Disk capacity check
+#
+# Metadata health check
+#
+com.vmware.vsan.health.test.physicalDisks.physdiskMetadata.testName = 元数据运行状况
+com.vmware.vsan.health.test.physicalDisks.physdiskMetadata.testResult.label = 有问题的磁盘
+com.vmware.vsan.health.test.physicalDisks.physdiskMetadata.testResult.columnHost = 主机
+com.vmware.vsan.health.test.physicalDisks.physdiskMetadata.testResult.columnDisk = 磁盘
+com.vmware.vsan.health.test.physicalDisks.physdiskMetadata.testResult.columnMetadata = 元数据
+com.vmware.vsan.health.test.physicalDisks.physdiskMetadata.testResult.columnUuid = UUID
+com.vmware.vsan.health.test.physdiskmetadata = 如果此检查失败，则 vSAN 在读取磁盘元数据时遇到问题，因此无法使用此磁盘。
+com.vmware.vsan.health.test.physdiskmetadata.short = 检查每个物理磁盘上元数据的运行状况。
+
+#
+# Disk capacity check
+#
+com.vmware.vsan.health.test.physicalDisks.physdiskCapacity.testName = 磁盘容量
+com.vmware.vsan.health.test.physicalDisks.physdiskCapacity.testResult.label = 有问题的磁盘
+com.vmware.vsan.health.test.physicalDisks.physdiskCapacity.testResult.columnHost = 主机
+com.vmware.vsan.health.test.physicalDisks.physdiskCapacity.testResult.columnDisk = 磁盘
+com.vmware.vsan.health.test.physicalDisks.physdiskCapacity.testResult.columnCapacity = 容量
+com.vmware.vsan.health.test.physicalDisks.physdiskCapacity.testResult.columnFreeSpace = 可用空间
+com.vmware.vsan.health.test.physicalDisks.physdiskCapacity.testResult.columnRebalanceState = 重新平衡状态
+com.vmware.vsan.health.test.physicalDisks.physdiskCapacity.testResult.columnUuid = UUID
+com.vmware.vsan.health.test.physdiskcapacity = 如果针对特定磁盘的检查失败，则表示此磁盘的可用磁盘空间不足。此运行状况检查仅适用于容量层驱动器，不适用于缓存设备。
+com.vmware.vsan.health.test.physdiskcapacity.short = 检查 vSAN 群集中物理磁盘的可用空间。
+
+#
+# Software state check
+#
+com.vmware.vsan.health.test.physicalDisks.physdiskSoftware.testName = 软件状态运行状况
+com.vmware.vsan.health.test.physicalDisks.physdiskSoftware.testResult.label = 有问题的磁盘
+com.vmware.vsan.health.test.physicalDisks.physdiskSoftware.testResult.columnHost = 主机
+com.vmware.vsan.health.test.physicalDisks.physdiskSoftware.testResult.columnDisk = 磁盘
+com.vmware.vsan.health.test.physicalDisks.physdiskSoftware.testResult.columnSoftware = 软件
+com.vmware.vsan.health.test.physicalDisks.physdiskSoftware.testResult.columnInCmmdsVsi = 在 CMMDS/VSI 中
+com.vmware.vsan.health.test.physicalDisks.physdiskSoftware.testResult.columnUuid = UUID
+com.vmware.vsan.health.test.physicalDisks.physdiskSoftware.testResult.columnReason = 原因
+com.vmware.vsan.health.test.physicalDisks.physdiskSoftware.testResult.locked = 磁盘已加密并锁定，因为加密密钥不可用。请检查 KMS 服务器状态，并确保可以检索到加密密钥
+com.vmware.vsan.health.test.physicalDisks.physdiskSoftware.testResult.recovery = 磁盘处于正常恢复/初始化阶段，将在恢复完成后才可用。
+com.vmware.vsan.health.test.physdisksoftware = 如果针对特定磁盘的检查失败，则表示 vSAN 遇到了导致其无法使用磁盘的问题。如果没有其他运行状况检查显示错误，则该问题可能在于 vSAN 软件本身。
+com.vmware.vsan.health.test.physdisksoftware.short = 检查导致 vSAN 无法从磁盘读取的软件问题。
+
+#
+# Congestion check
+#
+com.vmware.vsan.health.test.physicalDisks.physdiskCongestion.testName = 拥堵
+com.vmware.vsan.health.test.physicalDisks.physdiskCongestion.testResult.label = 有问题的磁盘
+com.vmware.vsan.health.test.physicalDisks.physdiskCongestion.testResult.columnHost = 主机
+com.vmware.vsan.health.test.physicalDisks.physdiskCongestion.testResult.columnDisk = 磁盘
+com.vmware.vsan.health.test.physicalDisks.physdiskCongestion.testResult.columnCongestion = 拥堵
+com.vmware.vsan.health.test.physicalDisks.physdiskCongestion.testResult.columnCongestionInfo = 拥堵信息
+com.vmware.vsan.health.test.physicalDisks.physdiskCongestion.testResult.columnUuid = UUID
+com.vmware.vsan.health.test.physdiskcongestion = 如果此运行状况不是绿色/良好，则 vSAN 仍在使用磁盘，但其处于 (可能很严重的) 性能降低的状态，体现在使用此磁盘的 vSAN 对象的低吞吐量/IOPS 和高延迟。
+com.vmware.vsan.health.test.physdiskcongestion.short = 检查 vSAN 是否正在使用性能降低的磁盘。
+
+#
+# Components metadata check
+#
+com.vmware.vsan.health.test.physicalDisks.componentMetadata.testName = 组件元数据运行状况
+com.vmware.vsan.health.test.physicalDisks.componentMetadata.testResult.label = 有问题的组件
+com.vmware.vsan.health.test.physicalDisks.componentMetadata.testResult.columnHost = 主机
+com.vmware.vsan.health.test.physicalDisks.componentMetadata.testResult.columnHeap = 组件
+com.vmware.vsan.health.test.physicalDisks.componentMetadata.testResult.columnHealth = 运行状况
+com.vmware.vsan.health.test.physicalDisks.componentMetadata.testResult.columnNotes = 备注
+com.vmware.vsan.health.test.componentmetadata = 如果 vSAN 遇到了此磁盘中组件的元数据完整性问题，此检查将失败。此问题可能是由于故障驱动器、故障控制器或不正常的设备驱动程序所致，但也可能源自于 vSAN 软件中的问题。最佳做法是寻求 VMware 支持的帮助。
+com.vmware.vsan.health.test.componentmetadata.short = 检查 vSAN 是否遇到此磁盘上组件的元数据完整性问题。
+
+#
+# Memory pools (heaps) check
+#
+com.vmware.vsan.health.test.physicalDisks.lsomHeap.testName = 内存池 (堆)
+com.vmware.vsan.health.test.physicalDisks.lsomHeap.testResult.label = 有问题的堆
+com.vmware.vsan.health.test.physicalDisks.lsomHeap.testResult.columnHost = 主机
+com.vmware.vsan.health.test.physicalDisks.lsomHeap.testResult.columnHeap = 堆
+com.vmware.vsan.health.test.physicalDisks.lsomHeap.testResult.columnHealth = 运行状况
+com.vmware.vsan.health.test.lsomheap = 如果 vSAN 运行的重要内存池空间不足，无法满足物理磁盘的正常运行，此检查将失败。即使在高负载下，也不应发生此情况。如果确实发生此情况，应联系 VMware 支持。磁盘很有可能还会报告严重的“拥堵运行状况”，进而导致性能问题。
+com.vmware.vsan.health.test.lsomheap.short = 检查 vSAN 运行的重要内存池空间是否不足以满足物理磁盘的运行需求。
+
+#
+# Memory pools (slabs) check
+#
+com.vmware.vsan.health.test.physicalDisks.lsomslab.testName = 内存池 (碎片)
+com.vmware.vsan.health.test.physicalDisks.lsomslab.testResult.label = 有问题的碎片
+com.vmware.vsan.health.test.physicalDisks.lsomslab.testResult.columnHost = 主机
+com.vmware.vsan.health.test.physicalDisks.lsomslab.testResult.columnSlab = 碎片
+com.vmware.vsan.health.test.physicalDisks.lsomslab.testResult.columnHealth = 运行状况
+com.vmware.vsan.health.test.lsomslab = 如果 vSAN 运行的重要内存池空间不足，从而使物理磁盘无法运行，则此检查将失败。即使在高负载下，也不应发生此情况。如果确实发生此情况，应联系 VMware 支持。磁盘很有可能还会报告严重的“拥堵运行状况”，进而导致性能问题。
+com.vmware.vsan.health.test.lsomslab.short = 检查 vSAN 运行的重要内存池空间是否不足以满足物理磁盘的运行需求。
+
+#
+# Generic cluster check
+#
+com.vmware.vsan.health.test.genericCluster.drsEnabled.testName = DRS 已启用
+com.vmware.vsan.health.test.genericcluster.drsenabled = 检查此群集是否已启用 DRS。
+com.vmware.vsan.health.test.genericcluster.drsenabled.short = 检查此群集是否已启用 DRS。
+com.vmware.vsan.health.test.genericCluster.drsEnabled.testResult.issue = DRS 未启用
+com.vmware.vsan.health.test.genericCluster.drsEnabled.testResult.recommendation = 启动“配置 DRS”对话框
+com.vmware.vsan.health.test.genericCluster.drsEnabled.testResult.label = 问题和建议
+com.vmware.vsan.health.test.genericCluster.drsEnabled.testResult.columnIssue = 问题
+com.vmware.vsan.health.test.genericCluster.drsEnabled.testResult.columnRecommendation = 建议
+
+com.vmware.vsan.health.test.genericCluster.haEnabled.testName = HA 已启用
+com.vmware.vsan.health.test.genericcluster.haenabled = 检查此群集是否已启用 HA。
+com.vmware.vsan.health.test.genericcluster.haenabled.short = 检查此群集是否已启用 HA。
+com.vmware.vsan.health.test.genericCluster.haEnabled.testResult.issue = HA 未启用
+com.vmware.vsan.health.test.genericCluster.haEnabled.testResult.recommendation = 启动“配置 HA”对话框
+com.vmware.vsan.health.test.genericCluster.haEnabled.testResult.label = 问题和建议
+com.vmware.vsan.health.test.genericCluster.haEnabled.testResult.columnIssue = 问题
+com.vmware.vsan.health.test.genericCluster.haEnabled.testResult.columnRecommendation = 建议
+
+#
+# vSAN config - vSAN enablement check
+#
+com.vmware.vsan.health.test.vsanconfiggroup.enablementforvsan.testName = vSAN 已启用
+com.vmware.vsan.health.test.vsanconfiggroup.enablementforvsan.testResult.label = 问题
+com.vmware.vsan.health.test.vsanconfiggroup.enablementforvsan.testResult.columnIssue = 问题
+com.vmware.vsan.health.test.vsanconfiggroup.enablementforvsan.testResult.columnRecommendation = 建议
+com.vmware.vsan.health.test.vsanconfiggroup.enablementforvsan.testResult.vsanNotEnabledIssue = 群集上未启用 vSAN。
+com.vmware.vsan.health.test.vsanconfiggroup.enablementforvsan.testResult.vsanNotEnabledRecommendation = 最佳做法: 启动“配置 vSAN”操作。
+
+com.vmware.vsan.health.test.vsanconfiggroup.enablementforvsan = 此检查确保在群集中启用了 Vitual SAN。如果未配置，请使用“配置 vSAN”按钮。
+com.vmware.vsan.health.test.vsanconfiggroup.enablementforvsan.short = 此检查确保在群集中启用了 vSAN。
+
+#
+# vSAN config - All disks claimed by vSAN check
+#
+com.vmware.vsan.health.test.vsanconfiggroup.diskforvsan.testName = 所有磁盘已声明
+com.vmware.vsan.health.test.vsanconfiggroup.diskforvsan.testResult.label = 有问题的主机
+com.vmware.vsan.health.test.vsanconfiggroup.diskforvsan.testResult.columnHost = 主机
+com.vmware.vsan.health.test.vsanconfiggroup.diskforvsan.testResult.columnUnclaimedDisk = 未声明磁盘
+com.vmware.vsan.health.test.vsanconfiggroup.diskforvsan.testResult.columnIssue = 问题
+com.vmware.vsan.health.test.vsanconfiggroup.diskforvsan.testResult.columnRecommendation = 建议
+com.vmware.vsan.health.test.vsanconfiggroup.diskforvsan.testResult.notClaimedByVsanIssue = 磁盘未由 vSAN 声明。
+com.vmware.vsan.health.test.vsanconfiggroup.diskforvsan.testResult.notClaimedByVsanRecommendation = 最佳做法: 启动“声明 vSAN 磁盘”操作。
+
+com.vmware.vsan.health.test.vsanconfiggroup.diskforvsan = 此检查将检测可由 vSAN 声明的所有合格磁盘，旨在帮助您确定和利用所有合格磁盘。注意: 建议为每个主机声明相同数量的磁盘。如果声明所有合格磁盘将导致每个主机的 vSAN 磁盘数量不同，可以忽略此检查的结果以遵循建议。
+com.vmware.vsan.health.test.vsanconfiggroup.diskforvsan.short = 最佳做法 (仅供参考): 为 vSAN 声明所有合格磁盘。注意: 建议为每个主机声明相同数量的磁盘。如果声明所有合格磁盘将导致每个主机的 vSAN 磁盘数量不同，可以忽略此检查的结果以遵循建议。
+
+
+#
+# Network config - Use VDS for vSAN
+#
+com.vmware.vsan.health.test.networkconfiggroup.dvsforvsan.testName = 为 vSAN 使用 VDS
+com.vmware.vsan.health.test.networkconfiggroup.dvsforvsan.testResult1.label = 问题
+com.vmware.vsan.health.test.networkconfiggroup.dvsforvsan.testResult1.columnIssue = 问题
+com.vmware.vsan.health.test.networkconfiggroup.dvsforvsan.testResult1.columnRecommendation = 建议
+com.vmware.vsan.health.test.networkconfiggroup.dvsforvsan.testResult1.noVdsIssue = 没有在群集上配置任何 VDS。
+com.vmware.vsan.health.test.networkconfiggroup.dvsforvsan.testResult1.noVdsRecommendation = 最佳做法: 启动“创建 VDS”操作。
+
+com.vmware.vsan.health.test.networkconfiggroup.dvsforvsan.testResult2.label = 有问题的主机
+com.vmware.vsan.health.test.networkconfiggroup.dvsforvsan.testResult2.columnHost = 主机
+com.vmware.vsan.health.test.networkconfiggroup.dvsforvsan.testResult2.columnIssue = 问题
+com.vmware.vsan.health.test.networkconfiggroup.dvsforvsan.testResult2.columnRecommendation = 建议
+com.vmware.vsan.health.test.networkconfiggroup.dvsforvsan.testResult2.issue = vSAN vmknic {vmknic} 未使用 VDS。
+com.vmware.vsan.health.test.networkconfiggroup.dvsforvsan.testResult2.recommendation = 最佳做法: 为 vSAN 网络使用 VDS
+
+com.vmware.vsan.health.test.networkconfiggroup.dvsforvsan = 最佳做法是使用 VDS 处理 vSAN 网络流量。此检查可确保已针对群集和 vSAN 网络流量配置 VDS。
+com.vmware.vsan.health.test.networkconfiggroup.dvsforvsan.short = 最佳做法 (仅供参考): 检查 vSAN 是否使用 VDS 处理其网络流量。
+
+#
+# Network config - Use VDS for vSAN
+#
+com.vmware.vsan.health.test.networkconfiggroup.dvsscope.testName = 用于 vSAN 的 VDS 覆盖整个群集
+com.vmware.vsan.health.test.networkconfiggroup.dvsscope.testResult.label = 问题
+com.vmware.vsan.health.test.networkconfiggroup.dvsscope.testResult.columnVds = VDS
+com.vmware.vsan.health.test.networkconfiggroup.dvsscope.testResult.columnNonMemberHosts = 非成员主机
+com.vmware.vsan.health.test.networkconfiggroup.dvsscope.testResult.columnRecommendation = 建议
+com.vmware.vsan.health.test.networkconfiggroup.dvsscope.testResult.recommendation = 最佳做法: 将群集中的所有主机添加到 VDS。
+com.vmware.vsan.health.test.networkconfiggroup.dvsscope = 建议将群集中的所有主机连接到 vSAN 使用的同一 VDS 以集中进行配置管理。此检查会查找覆盖部分群集的 VDS。
+com.vmware.vsan.health.test.networkconfiggroup.dvsscope.short = 最佳做法 (仅供参考): 检查 vSAN 使用的任何 VDS 是否仅覆盖了群集中的部分主机。
+
+#
+# Network config - Physical NIC checks
+#
+com.vmware.vsan.health.test.networkconfiggroup.pnic.testName = 物理磁盘
+com.vmware.vsan.health.test.networkconfiggroup.pnic.testResult.label = 有问题的主机
+com.vmware.vsan.health.test.networkconfiggroup.pnic.testResult.columnHost = 主机
+com.vmware.vsan.health.test.networkconfiggroup.pnic.testResult.columnNetwork = vSwitch/端口组
+com.vmware.vsan.health.test.networkconfiggroup.pnic.testResult.columnIssue = 问题
+com.vmware.vsan.health.test.networkconfiggroup.pnic.testResult.0numPnicsIssue = 未配置任何物理网卡
+com.vmware.vsan.health.test.networkconfiggroup.pnic.testResult.1numPnicsIssue = 仅 1 个物理网卡，缺乏冗余
+com.vmware.vsan.health.test.networkconfiggroup.pnic.testResult.portgroup.0numPnicsIssue = 端口组未配置任何物理网卡
+com.vmware.vsan.health.test.networkconfiggroup.pnic.testResult.portgroup.1numPnicsIssue = 端口组只有 1 个活动物理网卡，缺乏冗余
+com.vmware.vsan.health.test.networkconfiggroup.pnic.testResult.pnicSpeedIssue = 检测到多个链路速度: {speedsMb}
+com.vmware.vsan.health.test.networkconfiggroup.pnic = 检查是否为用于 vSAN vmknic 的虚拟交换机和端口组配置了至少两个物理网卡，以支持故障切换。此外，检查是否为组中的物理网卡配置了相同的速度。这些是针对最佳做法的建议。
+com.vmware.vsan.health.test.networkconfiggroup.pnic.short = 最佳做法 (仅供参考): 检查每个 vSAN vmknic 是否均由两个物理网卡提供支持，以及这两个网卡的类型是否匹配且正确 (如果适用)。
+
+#
+# Network config - vMotion Ping
+#
+com.vmware.vsan.health.test.network.vmotionpingsmall.testName = vMotion: 基本 (单播) 连接检查
+com.vmware.vsan.health.test.network.vmotionpingsmall = 在启用了 vMotion 流量的所有 VMkernel 适配器之间执行较小数据包 Ping 测试。
+com.vmware.vsan.health.test.network.vmotionpingsmall.short = 在启用了 vMotion 流量的所有 VMkernel 适配器之间执行较小数据包 Ping 测试。
+
+com.vmware.vsan.health.test.network.vmotionpinglarge.testName = vMotion: MTU 检查 (对较大数据包执行 Ping 操作)
+com.vmware.vsan.health.test.network.vmotionpinglarge = 在启用了 vMotion 流量的所有 VMKernel 适配器之间执行较大数据包 Ping 测试。
+com.vmware.vsan.health.test.network.vmotionpinglarge.short = 在启用了 vMotion 流量的所有 VMKernel 适配器之间执行较大数据包 Ping 测试。
+
+#
+# Network config - Use VDS for vSAN
+#
+com.vmware.vsan.health.test.networkconfiggroup.vmotionnic.testName = 所有主机均已配置 vMotion vmknic
+com.vmware.vsan.health.test.networkconfiggroup.vmotionnic.testResult.label = 未配置 vMotion vmknic 的主机
+com.vmware.vsan.health.test.networkconfiggroup.vmotionnic.testResult.columnHost = 主机
+com.vmware.vsan.health.test.networkconfiggroup.vmotionnic = 建议每个主机至少配置一个 vMotion vmknic。
+com.vmware.vsan.health.test.networkconfiggroup.vmotionnic.short = 最佳做法 (仅供参考): 检查每个主机是否配置了 vMotion vmknic。
+
+#
+# Burn in test check
+#
+com.vmware.vsan.health.test.burnintestgroup.burnintest.testName = 老化测试检查
+com.vmware.vsan.health.test.burnintestgroup.burnintest.testResult.label = 老化测试结果
+com.vmware.vsan.health.test.burnintestgroup.burnintest.testResult.columnTestname = 老化测试
+com.vmware.vsan.health.test.burnintestgroup.burnintest.testResult.columnWorkload = 工作负载
+com.vmware.vsan.health.test.burnintestgroup.burnintest.testResult.columnDuration = 持续时间 (秒)
+com.vmware.vsan.health.test.burnintestgroup.burnintest.testResult.columnResult = 结果
+com.vmware.vsan.health.test.burnintestgroup.burnintest.testResult.columnIssue = 问题
+com.vmware.vsan.health.test.burnintestgroup.burnintest.testResult.columnRecommendation = 建议
+com.vmware.vsan.health.test.burnintestgroup.burnintest.testResult.notPerformedIssue = 尚未执行老化测试
+com.vmware.vsan.health.test.burnintestgroup.burnintest.testResult.clusterChanged = 上次老化测试后群集配置已更改，建议重新运行
+com.vmware.vsan.health.test.burnintestgroup.burnintest.testResult.failedIssue = 老化测试失败
+com.vmware.vsan.health.test.burnintestgroup.burnintest.testResult.recommendation = 在“主动测试”视图中执行建议的老化测试。
+
+com.vmware.vsan.health.test.burnintestgroup.burnintest = 执行所有建议的老化测试。建议的老化测试包括主动 vSAN 存储性能测试中的低压力测试。应以默认持续时间或更长持续时间执行该测试。切换到“主动测试”视图并执行相应测试。
+com.vmware.vsan.health.test.burnintestgroup.burnintest.short = 最佳做法 (仅供参考): 执行所有建议的老化测试 (低压力测试等)。应以默认持续时间或更长持续时间执行测试。
+
+#
+# vSAN Health Actions Description
+#
+com.vmware.vsan.health.action.repairclusterobjects.short = 立即修复缺少或降级的 vSAN 对象。
+com.vmware.vsan.health.action.label.repairclusterobjects = 立即修复对象
+com.vmware.vsan.health.action.uploadhcldb.short = 通过上载文件更新 HCL DB。
+com.vmware.vsan.health.action.label.uploadhcldb = 从文件上载...
+com.vmware.vsan.health.action.label.updatehcldbfrominternet = 联机获取最新版本
+com.vmware.vsan.health.action.updatehcldbfrominternet.short = 从 Internet 下载 HCL DB 更新。
+com.vmware.vsan.health.action.enablehealthservice.short = 启用 Health Service 时，将在群集中尚未安装运行状况 VIB 软件包的主机上安装 vSAN 运行状况 VIB。为完成安装，所有主机都将需要重新引导。DRS 需处于完全自动模式，以便可执行滚动重新引导操作。滚动重新引导一次可将一个主机置于维护模式并重新引导该主机。这样，所有虚拟机将保持运行，重新引导操作不会影响生产工作负载
+com.vmware.vsan.health.action.label.enablehealthservice = 启用
+com.vmware.vsan.health.action.diskbalance.short = 在各个磁盘间重新平衡 vSAN 对象。
+com.vmware.vsan.health.action.label.diskbalance = 主动重新平衡磁盘
+com.vmware.vsan.health.action.stopdiskbalance.short = 停止在各个磁盘间重新平衡 vSAN 对象。
+com.vmware.vsan.health.action.label.stopdiskbalance = 停止主动重新平衡磁盘
+com.vmware.vsan.health.action.remediatededup.short = 修复去重设置与群集不一致的磁盘
+com.vmware.vsan.health.action.label.remediatededup = 转换磁盘格式
+com.vmware.vsan.health.action.remediateconfig.short = 修复与群集配置 (例如去重/压缩、加密) 不一致的主机和磁盘。
+com.vmware.vsan.health.action.label.remediateconfig = 修复不一致的配置
+com.vmware.vsan.health.action.overrideconfig.short = 更新与当前 vCenter Server 不同步的 ESXi 配置。
+com.vmware.vsan.health.action.label.overrideconfig = 更新 ESXi 配置
+com.vmware.vsan.health.action.remediatekms.short = 修复出现密钥管理服务器连接问题的主机。
+com.vmware.vsan.health.action.label.remediatekms = 修复 KMS 连接
+com.vmware.vsan.health.action.label.enableperformanceservice = 启用
+com.vmware.vsan.health.action.enableperformanceservice.short = 启用 vSAN 性能服务
+com.vmware.vsan.health.action.label.loginvumisodepot = 登录到 my.vmware.com
+com.vmware.vsan.health.action.loginvumisodepot.short = 登录到 my.vmware.com 并保存 Cookie
+
+com.vmware.vsan.health.action.label.createdvs = 创建 VDS
+com.vmware.vsan.health.action.createdvs.short = 创建 VDS。
+com.vmware.vsan.health.action.label.configureha = 配置 VMware HA
+com.vmware.vsan.health.action.configureha.short = 配置 VMware HA。
+com.vmware.vsan.health.action.label.configuredrs = 配置 DRS
+com.vmware.vsan.health.action.configuredrs.short = 配置 DRS。
+com.vmware.vsan.health.action.label.configurevsan = 配置 vSAN
+com.vmware.vsan.health.action.configurevsan.short = 配置 vSAN。
+com.vmware.vsan.health.action.label.claimvsandisks = 声明磁盘以供 vSAN 使用
+com.vmware.vsan.health.action.claimvsandisks.short = 声明磁盘以供 vSAN 使用。
+com.vmware.vsan.health.action.label.clusterupgrade = 更新软件
+com.vmware.vsan.health.action.clusterupgrade.short = 更新软件。
+com.vmware.vsan.health.action.label.createvmknic = 创建 VMkernel 网络适配器
+com.vmware.vsan.health.action.createvmknic.short = 创建 VMkernel 网络适配器。
+com.vmware.vsan.health.action.label.runburnintest = 运行老化测试
+com.vmware.vsan.health.action.runburnintest.short = 运行老化测试。
+com.vmware.vsan.health.action.label.enableceip = 配置 CEIP
+com.vmware.vsan.health.action.enableceip.short = 配置 CEIP。
+
+com.vmware.vsan.health.action.remediateDataProtectionConfig.short = 修复群集中不一致的数据保护配置
+com.vmware.vsan.health.action.label.remediateDataProtectionConfig = 修复不一致的数据保护配置
+
+# VM action
+com.vmware.vsan.health.action.fixinconsistentvm.short = 立即修复部署在 vSAN 数据存储中的不一致虚拟机。
+com.vmware.vsan.health.action.label.fixinconsistentvm = 修复不一致的虚拟机
+#
+# vSAN Storage WorkLoad Description
+#
+com.vmware.vsan.health.workload.low-stress-test=这是低压力测试，延迟预计会偏低。
+com.vmware.vsan.health.workload.sanity-test=通过使用逼真的 70/30 拆分，但停留在每台主机的 1 GB 热区内，模拟“活动工作集”。
+com.vmware.vsan.health.workload.stress-test=这是压力测试，延迟预计会偏高，但将很好地加压于所有层。每台主机使用 1 TB 空间。
+com.vmware.vsan.health.workload.perf-100read-seq=这将很好地演示 RC，并行度足以最大限度地发挥 vSAN 的作用，而不过多地导致较高的延迟。每台主机使用 10 GB 空间。
+com.vmware.vsan.health.workload.perf-100write-rand=这将很好地演示 WB。每台主机使用 5 GB 空间。
+com.vmware.vsan.health.workload.perf-100read-rand=这将在预热过程后很好地演示 RC，并行度足以最大限度地发挥 vSAN 的作用，而不过多地导致较高的延迟。每台主机使用 10 GB 空间。
+com.vmware.vsan.health.workload.perf-70read-rand=通过使用逼真的 70/30 拆分，但停留在每台主机的 30 GB 热区内，模拟“活动工作集”。
+com.vmware.vsan.health.workload.perf-70read-rand-bigio=通过使用逼真的 70/30 拆分，但停留在每台主机的 30 GB 热区内，模拟“活动工作集”。使用较大的 64K IO 大小，并且通过与使用更典型的 4k IO 大小的此测试常规版本相比较，显示 IO 大小影响延迟。
+com.vmware.vsan.health.workload.perf-100read-rand-bigactive=此测试将在混合配置中执行不佳，而在全闪存配置中执行良好，即，此测试是全闪存演示测试。每台主机使用 1 TB 空间。
+com.vmware.vsan.health.workload.perf-100read-seq-bigactive=模拟纯流读取工作负载，如介质缓存服务器。每台主机使用 1 TB 空间。
+com.vmware.vsan.health.workload.perf-100write-seq-bigactive=模拟纯流写入工作负载，如备份目标。每台主机使用 1 TB 空间。
+
+#
+# vSAN Proactive Health Check Workload Type
+#
+com.vmware.vsan.health.workload.lowStressTest = 低压力测试
+com.vmware.vsan.health.workload.basicSanityTest = 基本健全性测试，重点关注闪存缓存层
+com.vmware.vsan.health.workload.stressTest = 压力测试
+com.vmware.vsan.health.workload.perf100RRCTest = 性能特性 - 100% 读取，最佳 RC 使用率
+com.vmware.vsan.health.workload.perf100WTest = 性能特性 - 100% 写入，最佳 WB 使用率
+com.vmware.vsan.health.workload.perf100RRCAfterWarmUpTest = 性能特性 - 100% 读取，预热后达到最佳 RC 使用率
+com.vmware.vsan.health.workload.perf70R30WRealisticTest = 性能特性 - 70/30 读取/写入混合，实际、最佳闪存缓存使用率
+com.vmware.vsan.health.workload.perf100R30WHighIOTest = 性能特性 - 70/30 读取/写入混合，高 IO 大小，最佳闪存缓存使用率
+com.vmware.vsan.health.workload.perf100RLowRCHitRateTest = 性能特性 - 100% 读取，低 RC 命中率/全闪存演示
+com.vmware.vsan.health.workload.perf100RStreamTest = 性能特性 - 100% 流读取
+com.vmware.vsan.health.workload.perf100WStreamTest = 性能特性 - 100% 流写入
+
+#
+# vSAN Health Install & Uninstall Precheck
+#
+com.vmware.vsan.health.cluster.installprecheck=在 ESXi 主机上安装 vSAN Health Service 的预检。
+com.vmware.vsan.health.cluster.installprecheck.short=在 ESXi 主机上安装 vSAN Health Service 的预检。
+com.vmware.vsan.health.cluster.uninstallprecheck=从 ESXi 主机卸载 vSAN Health Service 的预检。
+com.vmware.vsan.health.cluster.uninstallprecheck.short=从 ESXi 主机卸载 vSAN Health Service 的预检。
+
+#
+# vSAN Health Test Group label
+#
+com.vmware.vsan.health.test.cluster=群集
+com.vmware.vsan.health.test.hcl=硬件兼容性
+com.vmware.vsan.health.test.genericcluster=通用群集
+com.vmware.vsan.health.test.network=网络
+com.vmware.vsan.health.test.data=数据
+com.vmware.vsan.health.test.limits=限制
+com.vmware.vsan.health.test.physicaldisks=物理磁盘
+com.vmware.vsan.health.test.stretchedcluster=延伸群集
+com.vmware.vsan.health.test.vsanconfiggroup=vSAN 配置
+com.vmware.vsan.health.test.networkconfiggroup=网络配置
+com.vmware.vsan.health.test.burnintestgroup=老化测试
+com.vmware.vsan.health.test.encryption=加密
+com.vmware.vsan.health.test.perfsvc = 性能服务
+com.vmware.vsan.health.test.cloudhealth = 云运行状况
+com.vmware.vsan.health.test.iscsi = vSAN iSCSI 目标服务
+com.vmware.vsan.health.test.dataprotection=数据保护
+
+#
+# vSAN Health Stretched Cluster Check
+#
+com.vmware.vsan.health.test.stretchedCluster.columnTarget=目标
+com.vmware.vsan.health.test.stretchedCluster.columnSummary=摘要
+
+com.vmware.vsan.health.test.stretchedCluster.ClusterWithoutOneWitnessHost.testName=未找到见证主机
+com.vmware.vsan.health.test.stretchedCluster.ClusterWithoutOneWitnessHost.label=未找到见证主机
+com.vmware.vsan.health.test.clusterwithoutonewitnesshost=延伸群集不包含有效的见证主机
+com.vmware.vsan.health.test.stretchedCluster.ClusterWithoutTwoDataFaultDomains.testName=意外的故障域数量
+com.vmware.vsan.health.test.stretchedCluster.ClusterWithoutTwoDataFaultDomains.label=意外的故障域数量
+com.vmware.vsan.health.test.clusterwithouttwodatafaultdomains=延伸群集不包含两个有效的故障域
+com.vmware.vsan.health.test.stretchedCluster.ClusterWithMultipleUnicastAgents.testName=单播代理配置不一致
+com.vmware.vsan.health.test.stretchedCluster.ClusterWithMultipleUnicastAgents.label=单播代理配置不一致
+com.vmware.vsan.health.test.clusterwithmultipleunicastagents=延伸群集包含多个单播代理。这表示非见证主机上设置了多个单播代理。
+com.vmware.vsan.health.test.stretchedCluster.WitnessPreferredFaultDomainInvalid.testName=见证主机上的首选故障域无效
+com.vmware.vsan.health.test.stretchedCluster.WitnessPreferredFaultDomainInvalid.label=首选故障域无效
+com.vmware.vsan.health.test.witnesspreferredfaultdomaininvalid=以下 (见证) 主机具有无效的首选故障域。
+com.vmware.vsan.health.test.stretchedCluster.WitnessPreferredFaultDomainNotExist.testName=首选故障域取消设置
+com.vmware.vsan.health.test.stretchedCluster.WitnessPreferredFaultDomainNotExist.label=首选故障域取消设置
+com.vmware.vsan.health.test.witnesspreferredfaultdomainnotexist=群集中未设置见证主机的首选故障域
+com.vmware.vsan.health.test.stretchedCluster.WitnessInsideVcCluster.testName=vCenter 群集中的见证主机
+com.vmware.vsan.health.test.stretchedCluster.WitnessInsideVcCluster.label=vCenter 群集中的见证主机
+com.vmware.vsan.health.test.witnessinsidevccluster=见证主机不应为 vCenter 群集的一部分，它构成了延伸群集
+com.vmware.vsan.health.test.stretchedCluster.WitnessFaultDomainInvalid.testName=见证主机故障域配置错误
+com.vmware.vsan.health.test.stretchedCluster.WitnessFaultDomainInvalid.label=见证主机故障域配置错误
+com.vmware.vsan.health.test.witnessfaultdomaininvalid=以下见证节点位于其中一个数据故障域中
+com.vmware.vsan.health.test.stretchedCluster.HostUnicastAgentUnset.testName=未配置单播代理
+com.vmware.vsan.health.test.stretchedCluster.HostUnicastAgentUnset.label=未配置单播代理
+com.vmware.vsan.health.test.hostunicastagentunset=主机应设置单播代理，以便能够与见证节点通信
+com.vmware.vsan.health.test.stretchedCluster.WitnessWithNoDiskMapping.testName=见证主机上未声明磁盘
+com.vmware.vsan.health.test.stretchedCluster.WitnessWithNoDiskMapping.label=见证主机上未声明磁盘
+com.vmware.vsan.health.test.witnesswithnodiskmapping=延伸群集包含不具有有效磁盘组的见证主机
+com.vmware.vsan.health.test.stretchedCluster.HostWithNoStretchedClusterSupport.testName=不受支持的主机版本
+com.vmware.vsan.health.test.stretchedCluster.HostWithNoStretchedClusterSupport.label=不受支持的主机版本
+com.vmware.vsan.health.test.hostwithnostretchedclustersupport=群集包含 ESXi 版本不支持延伸群集的主机
+com.vmware.vsan.health.test.stretchedCluster.HostWithInvalidUnicastAgent.testName=单播代理无效
+com.vmware.vsan.health.test.stretchedCluster.HostWithInvalidUnicastAgent.label=主机的单播代理无效
+com.vmware.vsan.health.test.hostwithinvalidunicastagent=群集包含具有无效单播代理的主机
+
+com.vmware.vsan.health.test.stretchedCluster.siteConnectivity.testName = 站点延迟运行状况
+com.vmware.vsan.health.test.stretchedCluster.siteConnectivity.testResult.label = 站点延迟
+com.vmware.vsan.health.test.stretchedCluster.siteConnectivity.testResult.columnDomainName = 故障域
+com.vmware.vsan.health.test.stretchedCluster.siteConnectivity.testResult.columnObservedLatency = 观测延迟 (毫秒)
+com.vmware.vsan.health.test.stretchedCluster.siteConnectivity.testResult.columnThreshold = 阈值 (毫秒)
+com.vmware.vsan.health.test.stretchedCluster.siteConnectivity.testResult.columnLatencyResult = 延迟结果
+com.vmware.vsan.health.test.siteconnectivity = 此运行状况检查将显示数据站点和见证中任意两台主机之间的最高延迟。警告阈值: 5 毫秒 (两个数据站点之间)、200 毫秒 (非 ROBO 群集中的数据站点和见证之间)、500 毫秒 (ROBO 群集中的数据站点和见证之间)。如果出现失败结果，建议检查两个站点之间的网络连接，以确保网络设置符合最低要求。
+com.vmware.vsan.health.test.siteconnectivity.short = 检查数据站点和见证中任意两台主机之间的最高网络延迟。
+
+#Cluster Disk Balance
+com.vmware.vsan.health.test.cluster.diskbalance.testName = vSAN 磁盘平衡
+com.vmware.vsan.health.test.cluster.diskbalance.testResult.label = 磁盘平衡
+com.vmware.vsan.health.test.cluster.diskbalance.testResultOverview.label = 概览
+com.vmware.vsan.health.test.cluster.diskbalance.testResult.columnHost = 主机
+com.vmware.vsan.health.test.cluster.diskbalance.testResult.columnDevice = 设备
+com.vmware.vsan.health.test.cluster.diskbalance.testResult.columnDiskUsage = 磁盘使用情况
+com.vmware.vsan.health.test.cluster.diskbalance.testResult.columnDataToMove = 要移动的数据
+com.vmware.vsan.health.test.cluster.diskbalance.testResult.columnRebalanceState = 重新平衡状态
+com.vmware.vsan.health.test.cluster.diskbalance.testResult.columnRebalanceProgress = 数据移动
+com.vmware.vsan.health.test.cluster.diskbalance.testResultOverview.columnMetric = 衡量指标
+com.vmware.vsan.health.test.cluster.diskbalance.testResultOverview.columnValue = 值
+com.vmware.vsan.health.test.cluster.diskbalance.testResultOverview.rowAverageDiskUsage = 平均磁盘使用率
+com.vmware.vsan.health.test.cluster.diskbalance.testResultOverview.rowMaximumDiskUsage = 最大磁盘使用率
+com.vmware.vsan.health.test.cluster.diskbalance.testResultOverview.rowMaximumVariance = 最大方差
+com.vmware.vsan.health.test.cluster.diskbalance.testResultOverview.rowImbalanceIndex = LM 平衡指标
+com.vmware.vsan.health.test.cluster.diskbalance.state.rebalanceoff = 重新平衡已关闭
+com.vmware.vsan.health.test.cluster.diskbalance.state.rebalanceentitydecom = 已临时禁用，磁盘/磁盘组或相关节点正在取消配置
+com.vmware.vsan.health.test.cluster.diskbalance.state.rebalancediskunhealthy = 磁盘不正常
+com.vmware.vsan.health.test.cluster.diskbalance.state.imbalancewithintolerance = 不平衡率低于 2% 或占用率低于平均值的磁盘不需要进行重新平衡
+com.vmware.vsan.health.test.cluster.diskbalance.state.reactiverebalanceinprogress = 被动重新平衡任务正在进行中
+com.vmware.vsan.health.test.cluster.diskbalance.state.reactiverebalancefailed = 操作失败。磁盘需要进行被动重新平衡，但由于缺少资源或者因策略限制无法找到可以移动的组件
+com.vmware.vsan.health.test.cluster.diskbalance.state.proactiveneededbutdisabled  = 需要执行主动重新平衡
+com.vmware.vsan.health.test.cluster.diskbalance.state.proactiverebalanceinprogress = 主动重新平衡正在进行中
+com.vmware.vsan.health.test.cluster.diskbalance.state.proactiverebalancefailed = 操作失败。磁盘需要进行主动重新平衡，但由于缺少资源或者因策略限制无法找到可以移动的组件
+com.vmware.vsan.health.test.diskbalance = 此功能可帮助用户监控主机上的平衡状态。如果有磁盘显示不平衡，用户可以触发主动磁盘重新平衡。如果已启动主动重新平衡，用户也可以停止该操作。单击 AskVMware 链接了解更多详细信息。
+com.vmware.vsan.health.test.diskbalance.short = 检查所有主机上的 vSAN 磁盘平衡状态。
+
+#vSAN Performance Service Check
+com.vmware.vsan.health.test.perfsvc.groupName = 性能服务
+com.vmware.vsan.health.test.perfsvc.perfsvcstatus.testName = 性能服务状态
+com.vmware.vsan.health.test.perfsvc.perfsvcstatus.testResult.label = 详细信息
+com.vmware.vsan.health.test.perfsvc.perfsvcstatus.testResult.columnStatus = 状态
+com.vmware.vsan.health.test.perfsvc.perfsvcstatus.testResult.columnHealth = 结果
+com.vmware.vsan.health.test.perfsvc.perfsvcstatus.testResult.rowPerfSvcEnabled = 性能服务已启用
+com.vmware.vsan.health.test.perfsvc.perfsvcstatus.testResult.rowPerfSvcDisabled = 性能服务已禁用
+com.vmware.vsan.health.test.perfsvc.perfsvcstatus.desc = 请检查 vSAN 性能服务的状态。此检查发出的警告可按照 VMware vSAN 管理指南所述通过启用 vSAN 性能服务来修复。
+com.vmware.vsan.health.test.perfsvc.perfsvcstatus.short = VMware 建议所有 vSAN 部署均启用 vSAN 性能服务。它会提供对 vSAN 实时和历史性能数据的访问权限。
+com.vmware.vsan.health.test.perfsvc.statsdb.testName = 统计信息数据库对象
+com.vmware.vsan.health.test.perfsvc.statsdb.testResult.label = 详细信息
+com.vmware.vsan.health.test.perfsvc.statsdb.testResult.columnCheck = 检查
+com.vmware.vsan.health.test.perfsvc.statsdb.testResult.columnStatus = 状态
+com.vmware.vsan.health.test.perfsvc.statsdb.testResult.columnHealth = 结果
+com.vmware.vsan.health.test.perfsvc.statsdb.testResult.rowStatsDBExists = 对象存在
+com.vmware.vsan.health.test.perfsvc.statsdb.testResult.rowStatsDBHealth = 对象运行状况
+com.vmware.vsan.health.test.perfsvc.statsdb.testResult.rowStatsDBFreePct = 对象可用空间
+com.vmware.vsan.health.test.perfsvc.statsdb.testResult.rowStatsDBUsed = 已用 {0}%
+com.vmware.vsan.health.test.perfsvc.statsdb.desc = 检查 vSAN 性能服务统计信息数据库对象的运行状况
+com.vmware.vsan.health.test.perfsvc.statsdb.short = 检查 vSAN 性能服务统计信息数据库对象的运行状况
+com.vmware.vsan.health.test.perfsvc.masterexist.testName = 统计信息主节点选举
+com.vmware.vsan.health.test.perfsvc.masterexist.testResult.label = 节点信息
+com.vmware.vsan.health.test.perfsvc.masterexist.testResult.columnHost = 主机
+com.vmware.vsan.health.test.perfsvc.masterexist.testResult.columnIsCMMDSMaster = 是 CMMDS 主节点
+com.vmware.vsan.health.test.perfsvc.masterexist.testResult.columnIsStatsMaster = 是统计信息主节点
+com.vmware.vsan.health.test.perfsvc.masterexist.desc = 检查 vSAN 性能服务的统计信息主节点
+com.vmware.vsan.health.test.perfsvc.masterexist.short = 检查 vSAN 性能服务的统计信息主节点
+com.vmware.vsan.health.test.perfsvc.collection.testName = 性能数据收集
+com.vmware.vsan.health.test.perfsvc.collection.testResult.label = 详细信息
+com.vmware.vsan.health.test.perfsvc.collection.testResult.columnCheck = 检查
+com.vmware.vsan.health.test.perfsvc.collection.testResult.columnStatus = 状态
+com.vmware.vsan.health.test.perfsvc.collection.testResult.columnHealth = 结果
+com.vmware.vsan.health.test.perfsvc.collection.testResult.rowStatsGather = 统计信息收集
+com.vmware.vsan.health.test.perfsvc.collection.testResult.rowStatsPersist = 统计信息持久性
+com.vmware.vsan.health.test.perfsvc.collection.testResult.rowSuccess = 确定
+com.vmware.vsan.health.test.perfsvc.collection.testResult.rowLastSuccess = 上次成功时间: {0} 分 {1} 秒之前
+com.vmware.vsan.health.test.perfsvc.collection.desc = 检查 vSAN 性能服务的统计信息收集
+com.vmware.vsan.health.test.perfsvc.collection.short = 检查 vSAN 性能服务的统计信息收集
+com.vmware.vsan.health.test.perfsvc.hostsmissing.testName = 影响统计信息的所有主机
+com.vmware.vsan.health.test.perfsvc.hostsmissing.testResult.label = 不影响统计信息的主机
+com.vmware.vsan.health.test.perfsvc.hostsmissing.testResult.columnHost = 主机
+com.vmware.vsan.health.test.perfsvc.hostsmissing.desc = 检查所有主机是否都影响性能统计信息
+com.vmware.vsan.health.test.perfsvc.hostsmissing.short = 检查所有主机是否都影响性能统计信息
+com.vmware.vsan.health.test.perfsvc.renameddirs.testName = 统计信息数据库对象冲突
+com.vmware.vsan.health.test.perfsvc.renameddirs.testResult.label = 已重命名目录
+com.vmware.vsan.health.test.perfsvc.renameddirs.testResult.columnDirName = 目录名称
+com.vmware.vsan.health.test.perfsvc.renameddirs.desc = 检查统计信息数据库对象冲突
+com.vmware.vsan.health.test.perfsvc.renameddirs.short = 检查统计信息数据库对象冲突
+com.vmware.vsan.health.test.perfsvc.verbosemode.testName = 详细模式
+com.vmware.vsan.health.test.perfsvc.verbosemode.testResult.label = 详细信息
+com.vmware.vsan.health.test.perfsvc.verbosemode.testResult.columnVerboseModeStatus = 状态
+com.vmware.vsan.health.test.perfsvc.verbosemode.testResult.rowVerboseModeStatusGreen = 详细模式已启用 {0} 天。
+com.vmware.vsan.health.test.perfsvc.verbosemode.testResult.rowVerboseModeStatusYellow = 详细模式已启用超过 5 天 ({0} 天)。在详细模式下收集的其他数据可能会耗尽统计信息数据库的空间。
+com.vmware.vsan.health.test.perfsvc.verbosemode.desc = 检查 vSAN 性能服务的详细模式状态
+com.vmware.vsan.health.test.perfsvc.verbosemode.short = 检查 vSAN 性能服务的详细模式状态
+com.vmware.vsan.health.test.cluster.consistentconfig.testResult.perfsvc.rowNotConsistentEnablePerfsvc = 在群集配置中已打开性能服务，但尚未启用。
+com.vmware.vsan.health.test.cluster.consistentconfig.testResult.perfsvc.rowNotConsistentDisablePerfsvc = 在群集配置中已关闭性能服务，但尚未禁用。
+com.vmware.vsan.health.test.cluster.consistentconfig.testResult.perfsvc.rowPolicyNotConsistent = 统计信息对象策略配置已过期
+com.vmware.vsan.health.test.cluster.consistentconfig.testResult.perfsvc.rowVsanDsNotcompatible = vSAN 数据存储与为 vSAN 性能服务配置的策略不兼容
+com.vmware.vsan.health.test.cluster.consistentconfig.testResult.perfsvc.rowVsanDsNotEnoughFreeSpace = vSAN 数据存储没有足够的可用空间来启用 vSAN 性能服务
+
+#
+# iscsi health check
+#
+com.vmware.vsan.health.test.iscsi.iscsihomeobjectstatustest.testname = 主对象
+com.vmware.vsan.health.test.iscsi.iscsiinstallstatustest.testname = 服务安装状态
+com.vmware.vsan.health.test.iscsi.iscsiservicenetworktest.testname = 网络配置
+com.vmware.vsan.health.test.iscsi.iscsiservicerunningtest.testname = 服务运行时状态
+
+#vSAN online health configuration check
+com.vmware.vsan.health.test.cloudhealth.groupName = 联机运行状况
+
+com.vmware.vsan.health.test.cloudhealth.disabled = 已禁用
+com.vmware.vsan.health.test.cloudhealth.updating = 上次检查时间: 刚刚
+com.vmware.vsan.health.test.cloudhealth.lastTimeStr = 上次检查时间:
+com.vmware.vsan.health.test.cloudhealth.nextQueryStrKey = 下次检查时间:
+com.vmware.vsan.health.test.cloudhealth.weeks = 周
+com.vmware.vsan.health.test.cloudhealth.days = 天
+com.vmware.vsan.health.test.cloudhealth.hours = 小时
+com.vmware.vsan.health.test.cloudhealth.minutes = 分钟
+com.vmware.vsan.health.test.cloudhealth.ago = 之前
+com.vmware.vsan.health.test.cloudhealth.comma = ，
+
+com.vmware.vsan.health.test.cloudhealth.vsancloudhealthceipexception.testName = 客户体验改善计划 (CEIP)
+com.vmware.vsan.health.test.vsancloudhealthceipexception.desc.enabled = 已启用客户体验改善计划 (CEIP) 的当前状态。如果禁用 CEIP，则无法使用联机运行状况检查。
+com.vmware.vsan.health.test.vsancloudhealthceipexception.short.enabled = 已启用客户体验改善计划 (CEIP) 的当前状态。如果禁用 CEIP，则无法使用联机运行状况检查。
+com.vmware.vsan.health.test.vsancloudhealthceipexception.desc.disabled = 已禁用客户体验改善计划 (CEIP) 的当前状态。如果禁用 CEIP，则无法使用联机运行状况检查。
+com.vmware.vsan.health.test.vsancloudhealthceipexception.short.disabled = 已禁用客户体验改善计划 (CEIP) 的当前状态。如果禁用 CEIP，则无法使用联机运行状况检查。
+
+com.vmware.vsan.health.test.cloudhealth.vsancloudhealthconnectionexception.testName = 联机运行状况连接
+com.vmware.vsan.health.test.vsancloudhealthconnectionexception.desc.enabled = 已启用 Internet 连接的当前状态。如果 Internet 连接已禁用，则无法使用联机运行状况检查。
+com.vmware.vsan.health.test.vsancloudhealthconnectionexception.short.enabled = 已启用 Internet 连接的当前状态。如果 Internet 连接已禁用，则无法使用联机运行状况检查。
+com.vmware.vsan.health.test.vsancloudhealthconnectionexception.desc.disabled = 已禁用 Internet 连接的当前状态。如果 Internet 连接已禁用，则无法使用联机运行状况检查。
+com.vmware.vsan.health.test.vsancloudhealthconnectionexception.short.disabled = 已禁用 Internet 连接的当前状态。如果 Internet 连接已禁用，则无法使用联机运行状况检查。
+
+com.vmware.vsan.health.update.update.acceptlevelwarning = (必须提供主机接受级别 {levelname})
+
+com.vmware.vsan.health.test.cluster.extendedconfig.testResult.label = vSAN 主机的扩展配置状态
+com.vmware.vsan.health.test.cluster.extendedconfig.testResult.columnHost = vSAN 主机
+com.vmware.vsan.health.test.cluster.extendedconfig.testResult.columnObjectRepairTimer = 对象修复计时器
+com.vmware.vsan.health.test.cluster.extendedconfig.testResult.columnDisableSiteReadLocality = 站点读取局域性
+com.vmware.vsan.health.test.cluster.extendedconfig.testResult.columnEnableCustomizedSwapObject = 自定义的交换对象
+com.vmware.vsan.health.test.cluster.extendedconfig.testResult.columnLargeScaleClusterSupport = 大规模群集支持
+com.vmware.vsan.health.test.cluster.extendedconfig.testResult.columnEffect = 配置已生效
+com.vmware.vsan.health.test.cluster.extendedconfig.testResult.columnState = 检查结果
+com.vmware.vsan.health.test.cluster.extendedconfig.testResult.columnRecommendation = 建议
+com.vmware.vsan.health.test.cluster.extendedconfig.testName = 同步的 vSAN 扩展配置
+com.vmware.vsan.health.test.cluster.extendedconfig.short = 检查所有 vSAN 主机的扩展配置，预期的对象修复计时器为 {0} 分钟，站点读取局域性为 {1}，自定义的交换对象为 {2}，大规模群集支持为 {3}。
+com.vmware.vsan.health.test.cluster.extendedconfig.on = 已启用
+com.vmware.vsan.health.test.cluster.extendedconfig.off = 已禁用
+com.vmware.vsan.health.test.cluster.extendedconfig.desc = vSAN 群集的扩展配置已进行设置: 对象修复计时器为 {0} 分钟，站点读取局域性为 {1}，自定义的交换对象为 {2}，大规模群集支持为 {3}；对于具有不一致扩展配置的主机，建议修复 vSAN 群集，对于不支持任何扩展配置的主机，需要升级 ESXi 软件；要使群集伸缩性配置生效，可能需要重新引导主机。
+com.vmware.vsan.health.test.cluster.extendedconfig.match = 匹配
+com.vmware.vsan.health.test.cluster.extendedconfig.mismatch = 不匹配
+com.vmware.vsan.health.test.cluster.extendedconfig.notsupported = 不受支持
+com.vmware.vsan.health.test.cluster.extendedconfig.noeffect = 否
+com.vmware.vsan.health.test.cluster.extendedconfig.takeneffect = 是
+com.vmware.vsan.health.test.cluster.extendedconfig.needmemory = 否
+com.vmware.vsan.health.test.cluster.extendedconfig.unknown = 未知
+com.vmware.vsan.health.test.cluster.extendedconfig.na = 确定
+com.vmware.vsan.health.test.cluster.extendedconfig.remediation = 建议修复 vSAN 群集
+com.vmware.vsan.health.test.cluster.extendedconfig.upgrade = 升级该主机的 ESXi 软件
+com.vmware.vsan.health.test.cluster.extendedconfig.reboot = 建议重新引导主机
+com.vmware.vsan.health.test.cluster.extendedconfig.memory = 将主机的内存增至超过 8 GB。
+
+# host EMM and node decom state in sync check
+com.vmware.vsan.health.test.cluster.mmdecominsync.testName = 主机维护模式
+com.vmware.vsan.health.test.cluster.mmdecominsync.testResult.label = 主机维护模式
+com.vmware.vsan.health.test.cluster.mmdecominsync.testResult.columnHost = 主机
+com.vmware.vsan.health.test.cluster.mmdecominsync.testResult.columnHostInMM = 主机处于维护模式
+com.vmware.vsan.health.test.cluster.mmdecominsync.testResult.columnHostInDecom = vSAN 节点处于取消配置状态
+com.vmware.vsan.health.test.cluster.mmdecominsync.testResult.columnHostInSync = 同步的状态
+com.vmware.vsan.health.test.cluster.mmdecominsync.testResult.contentYes = 是
+com.vmware.vsan.health.test.cluster.mmdecominsync.testResult.contentNo = 否
+com.vmware.vsan.health.test.cluster.mmdecominsync.testResult.contentTransient = 正在进行中
+com.vmware.vsan.health.test.mmdecominsync = 检查主机的维护模式是否与 vSAN 节点的取消配置状态同步。如果主机处于维护模式，则 vSAN 节点应处于取消配置状态。如果节点已取消配置但主机未处于维护模式，请使用任何 vSAN 选项将主机置于维护模式，然后将其从维护模式中移除以重置 vSAN 取消配置状态，并使它与 vSphere 维护模式状态一致。
+com.vmware.vsan.health.test.mmdecominsync.short = 检查主机的维护模式是否与 vSAN 节点的取消配置状态同步。如果节点已取消配置但主机未处于维护模式，请使用任何 vSAN 选项将主机置于维护模式，然后将其从维护模式中移除以重置 vSAN 取消配置状态，并使它与 vSphere 维护模式状态一致。
+

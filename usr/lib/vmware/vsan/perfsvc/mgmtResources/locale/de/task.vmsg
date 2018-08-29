@@ -1,0 +1,44 @@
+# Task for disk management
+com.vmware.vsan.diskmgmt.tasks.initializediskmappings.label               = "Festplattengruppe auf vSAN erstellen"
+com.vmware.vsan.diskmgmt.tasks.initializediskmappings.summary             = "Festplattengruppe auf vSAN erstellen"
+
+# Tasks for stretched cluster
+com.vmware.vsan.stretchedcluster.tasks.addwitnesshost.label               = "Zeugen-Host hinzufügen"
+com.vmware.vsan.stretchedcluster.tasks.addwitnesshost.summary             = "Zeugen-Host zu ausgeweitetem Cluster hinzufügen"
+com.vmware.vsan.stretchedcluster.tasks.replacewitnesshost.label           = "Zeugen-Host entfernen"
+com.vmware.vsan.stretchedcluster.tasks.replacewitnesshost.summary         = "Zeugen-Host für ausgeweiteten Cluster entfernen"
+com.vmware.vsan.stretchedcluster.tasks.removewitnesshost.label            = "Zeugen-Host entfernen"
+com.vmware.vsan.stretchedcluster.tasks.removewitnesshost.summary          = "Zeugen-Host aus ausgeweitetem Cluster entfernen"
+com.vmware.vsan.stretchedcluster.tasks.convert2stretchedcluster.label     = "In ausgeweiteten Cluster konvertieren"
+com.vmware.vsan.stretchedcluster.tasks.convert2stretchedcluster.summary   = "Angegebene Konfiguration in ausgeweiteten Cluster konvertieren"
+com.vmware.vsan.stretchedcluster.tasks.setpreferredfaultdomain.label      = "Bevorzugte Fehlerdomäne festlegen"
+com.vmware.vsan.stretchedcluster.tasks.setpreferredfaultdomain.summary    = "Bevorzugte Fehlerdomäne für ausgeweiteten Cluster festlegen"
+
+# Task for disk format conversion
+com.vmware.vsan.diskconvertion.tasks.conversion.label                     = "Datenträgerformat für vSAN konvertieren"
+com.vmware.vsan.diskconvertion.tasks.conversion.summary                   = "Datenträgerformat für vSAN konvertieren"
+
+# Task for cluster management
+com.vmware.vsan.clustermgmt.tasks.reconfigurecluster.label                = "vSAN-Cluster neu konfigurieren"
+com.vmware.vsan.clustermgmt.tasks.reconfigurecluster.summary              = "vSAN-Cluster neu konfigurieren"
+com.vmware.vsan.clustermgmt.tasks.rekey.label                             = "Neue Schlüssel für verschlüsselten vSAN-Cluster neu generieren"
+com.vmware.vsan.clustermgmt.tasks.rekey.summary                           = "Neue Schlüssel für verschlüsselten vSAN-Cluster neu generieren"
+com.vmware.vsan.clustermgmt.tasks.precheck.label                          = "Vorabprüfung für vSAN-Vorgang"
+com.vmware.vsan.clustermgmt.tasks.precheck.summary                        = "Vorabprüfung für vSAN-Vorgang"
+
+# Task for new async VsanSystem
+com.vmware.vsan.vsansystem.tasks.update.label                             = "vSAN-Konfiguration aktualisieren"
+com.vmware.vsan.vsansystem.tasks.update.summary                           = "Aktualisiert die vSAN-Konfiguration für diesen Host"
+
+com.vmware.vsan.diskconvertion.tasks.precheck.label                       = "Vorabprüfung für die Konvertierung des Datenträgerformats durchführen"
+com.vmware.vsan.diskconvertion.tasks.precheck.summary                     = "Vorabprüfung für die Konvertierung des Datenträgerformats für möglicherweise auftretende Probleme durchführen"
+
+com.vmware.vsan.diskmgmt.tasks.objectscan.label                           = "vSAN-Objekte prüfen"
+com.vmware.vsan.diskmgmt.tasks.objectscan.summary                         = "vSAN-Objekte in Bezug auf Probleme prüfen"
+
+# Task for VsanPrecheckerSystem
+com.vmware.vsan.prechecker.tasks.complianceresourcecheck.label            = "Aufgabe zur Übereinstimmungsressourcenprüfung durchführen"
+com.vmware.vsan.prechecker.tasks.complianceresourcecheck.summary          = "Aufgabe zur Übereinstimmungsressourcenprüfung durchführen"
+
+com.vmware.vsan.prechecker.tasks.queryCompliance.label                    = "WhatIf-Übereinstimmungsdetails abrufen"
+com.vmware.vsan.prechecker.tasks.queryCompliance.summary                  = "WhatIf-Übereinstimmungsdetails abrufen"

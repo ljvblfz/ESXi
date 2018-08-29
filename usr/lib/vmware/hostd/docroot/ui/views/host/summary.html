@@ -1,0 +1,198 @@
+<div class="esx-main-content" ng-right-click="showHostContextMenu($event);">
+   <div ng-show="!loaded" class="loading"></div>
+
+   <div ng-show="loaded" class="row header-area no-margin">
+
+      <div style="margin-bottom: 10px; float: left;">
+         <div vui-action-bar="actionBarOptions"></div>
+      </div>
+
+      <div class="col-sm-4 col-lg-3 metrics" style="float: right;">
+         <div class="cpu" esx-progress-chart
+            title="{{'host.summary.metrics.cpu' | translate}}"
+            data="host.chart.cpu"></div>
+         <div class="memory" esx-progress-chart
+            title="{{'host.summary.metrics.memory' | translate}}"
+            data="host.chart.memory"></div>
+         <div class="storage" esx-progress-chart
+            title="{{'host.summary.metrics.storage' | translate}}"
+            data="host.chart.storage"></div>
+      </div>
+
+      <div class="col-sm-8 col-lg-9 info-block no-padding">
+
+         <div class="identifying-graphic col-sm-4 col-lg-3">
+            <img ng-src="{{host.basicInfo.maintenanceMode ?
+               'images/host/hostSummaryMaintenanceMode.png' :
+               host.basicInfo.lockedDown ?
+                  'images/host/hostLockdownMode.png' :
+                  'images/host/obj-host.png'}}"
+               alt="{{'host.summary.host'|translate}}"/>
+         </div>
+
+         <div class="key-information col-sm-8 col-lg-9">
+            <div class="row">
+               <div class="col-sm-12 title no-padding">
+                  <span class="object-title" ng-bind="host.hostname"></span>
+               </div>
+            </div>
+            <form class="form-horizontal">
+               <div class="form-group">
+                  <span
+                     class="col-sm-2 col-lg-2 control-label esx-label no-padding"
+                     title="{{'host.summary.version'|translate}}">
+                     {{'host.summary.version'|translate}}</span>
+                  <div class="col-sm-8 col-lg-10 no-padding">
+                     <p class="form-control-static"
+                        title="{{host.basicInfo.version}}">
+                     {{host.basicInfo.version}}</p>
+                  </div>
+               </div>
+               <div class="form-group">
+                  <span
+                     class="col-sm-2 col-lg-2 control-label esx-label no-padding"
+                     title="{{'host.summary.state'|translate}}">
+                     {{'host.summary.state'|translate}}</span>
+                  <div class="col-sm-8 col-lg-10 no-padding">
+                     <p class="form-control-static" ng-bind-html="host.basicInfo.state"></p>
+                  </div>
+               </div>
+               <div class="form-group">
+                  <span
+                     class="col-sm-2 col-lg-2 control-label esx-label no-padding"
+                     title="{{'host.summary.uptime'|translate}}">
+                     {{'host.summary.uptime'|translate}}</span>
+                  <div class="col-sm-8 col-lg-10 no-padding">
+                     <p class="form-control-static"
+                        title="{{host.basicInfo.uptime}}">
+                     {{host.basicInfo.uptime}}</p>
+                  </div>
+               </div>
+            </form>
+         </div>
+      </div>
+
+   </div>
+
+   <div ng-if="loaded && showNotifications()"
+      class="row notification-area no-margin"
+      style="position: relative;">
+      <esx-notification ng-repeat="notification in notifications"
+         type="{{notification.type}}"
+         close="closeNotification(notification.key)"
+         ng-if="!notification.closed && !notification.hidden">
+         <span ng-if="notification.message !== null && !notification.link && !notification.state">
+            {{notification.message}}
+         </span>
+         <span ng-if="notification.message === null && !notification.link && !notification.state">
+            {{notification.key + '.message' | translate}} {{notification.key + '.suggested-action' | translate}}
+         </span>
+         <a ng-if="notification.link"
+            href="{{notification.link}}"
+            class="alert-link">{{notification.text}}</a>
+         <a ng-if="notification.state"
+            ui-sref="{{notification.state}}"
+            class="alert-link">{{notification.text}}</a>
+         <div ng-if="notification.actionsButton"
+            style="display: inline-block; margin: -3px 0 -3px 0;"
+            vui-action-bar="{actions: [notification.actionsButton]}"></div>
+      </esx-notification>
+   </div>
+
+   <div ng-show="loaded" class="portlet-area container-fluid no-margin no-padding">
+      <div class="row">
+
+         <div class="col-lg-6 col-sm-12">
+
+            <div class="vui-portlet no-margin" ng-class="{'collapsed': host.hardwarePortlet.collapsed}">
+               <div class="portlet-titlebar" ng-click="host.hardwarePortlet.toggle()">
+                  <span class="icon" ng-class="{
+                     'vui-icon-caret-dark-gray-right': hardwarePortlet.collapsed,
+                     'vui-icon-caret-dark-gray-down': !hardwarePortlet.collapsed}"></span>
+                  <span class="titlebar-text"
+                     title="{{'host.summary.portlets.hardware.title'|translate}}">
+                     {{'host.summary.portlets.hardware.title'|translate}}</span>
+               </div>
+               <div class="portlet-content">
+                  <div esx-portlet-content data="host.hardwarePortlet.data"></div>
+               </div>
+            </div>
+
+         </div>
+
+         <div class="col-lg-6 col-sm-12">
+
+            <div class="vui-portlet no-margin" ng-class="{'collapsed': host.configurationPortlet.collapsed}">
+               <div class="portlet-titlebar" ng-click="host.configurationPortlet.toggle()">
+                  <span class="icon" ng-class="{
+                     'vui-icon-caret-dark-gray-right': configurationPortlet.collapsed,
+                     'vui-icon-caret-dark-gray-down': !configurationPortlet.collapsed}"></span>
+                  <span class="titlebar-text"
+                     title="{{'host.summary.portlets.configuration.title'|translate}}">
+                     {{'host.summary.portlets.configuration.title'|translate}}</span>
+               </div>
+               <div class="portlet-content">
+                  <div esx-portlet-content data="host.configurationPortlet.data"></div>
+               </div>
+            </div>
+
+            <div class="vui-portlet no-margin" ng-class="{'collapsed': host.systemInfoPortlet.collapsed}">
+               <div class="portlet-titlebar" ng-click="host.systemInfoPortlet.toggle()">
+                  <span class="icon" ng-class="{
+                     'vui-icon-caret-dark-gray-right': systemInfoPortlet.collapsed,
+                     'vui-icon-caret-dark-gray-down': !systemInfoPortlet.collapsed}"></span>
+                  <span class="titlebar-text"
+                     title="{{'host.summary.portlets.systemInformation.title'|translate}}">
+                     {{'host.summary.portlets.systemInformation.title'|translate}}</span>
+               </div>
+               <div class="portlet-content">
+                  <div esx-portlet-content data="host.systemInfoPortlet.data"></div>
+               </div>
+            </div>
+
+            <div ng-if="showPerf" class="vui-portlet no-margin" ng-class="{'collapsed': host.perfPortlet.collapsed}">
+               <div class="portlet-titlebar" ng-click="host.perfPortlet.toggle()">
+                  <span class="icon" ng-class="{
+                     'vui-icon-caret-dark-gray-right': perfPortlet.collapsed,
+                     'vui-icon-caret-dark-gray-down': !perfPortlet.collapsed}"></span>
+                  <span class="titlebar-text"
+                     title="{{'host.summary.portlets.perf.title' | translate}}">
+                     {{'host.summary.portlets.perf.label' | translate}}</span>
+               </div>
+
+               <div class="portlet-content" style="padding: 10px;"
+                  ng-show="!host.perfPortlet.collapsed">
+                  <nvd3 ng-if="perfLoaded"
+                     config="perfConfig"
+                     options="perfOptions"
+                     data="perfData"></nvd3>
+                  <div ng-if="!perfLoaded && !perfError"
+                     style="height: 300px;
+                        background-image: url('images/tiny_loader_transparent_bg.gif');
+                        background-position: 50% 50%;
+                        background-repeat: no-repeat;
+                        text-align: center;">
+                     <div style="padding-top: 170px;">
+                        {{'host.summary.portlets.perf.loading' | translate}}
+                     </div>
+                  </div>
+                  <div ng-if="perfError" style="text-align: center; padding-top: 170px;">
+                     {{'host.summary.portlets.perf.noData' | translate}}
+                     <div class="vui-action-bar">
+                        <ul>
+                           <li>
+                              <a class="action-link-container" ng-click="refresh()">
+                                 <span class="vui-icon-placeholder esx-icon-datastore-refresh"></span>
+                                 <span class="vui-action-label">Refresh</span>
+                              </a>
+                           </li>
+                        </ul>
+                     </div>
+                  </div>
+               </div>
+
+            </div>
+         </div>
+      </div>
+   </div>
+</div>

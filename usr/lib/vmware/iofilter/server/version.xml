@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<vasa-provider>
+   <supported-versions>
+	 <version id="2" serviceLocation="/axis2/services/vasaService" />
+   </supported-versions>
+</vasa-provider>

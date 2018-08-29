@@ -1,0 +1,23 @@
+/***********************************************************
+ * Copyright 2013,2015 VMware, Inc.  All rights reserved.
+ * VMware Confidential
+ ***********************************************************/
+
+{
+   "operations" :
+   {
+      "start" :
+      [
+         "boot networking restore --coredump",
+         "systemInternal coredump configuration check -n",
+      ]
+   }
+   ,
+   "metadata" :
+   {
+      "version"  : 1,
+       "requires" : ["dump file", "dump partition", "scratch",
+                     "network configuration", "expanded dump partition"],
+      "provides" : ["coredump configuration"]
+   }
+}

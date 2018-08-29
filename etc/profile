@@ -1,0 +1,38 @@
+#!/bin/sh
+
+export TERMINFO=/usr/share/terminfo
+
+PATH=/bin:/sbin
+export PATH
+
+umask 0022
+
+export VI_USERNAME=$USER
+
+export TMOUT=$(esxcfg-advcfg -q -g /UserVars/ESXiShellInteractiveTimeOut)
+readonly TMOUT
+
+export PS1="[$(echo ${VI_USERNAME//'\'/'\\'})@\h:\w] "
+
+# getSecureBoot()
+# returns 1 if secure boot is enabled, 0 otherwise
+getSecureBoot() {
+   local secure=`/bin/vsish -e cat /secureBoot/status |\
+                grep "attempted" | awk -F":" '{print $2}'`
+   if [ -n "${secure}" ]; then
+      return $secure
+   else
+      # on any failure, assume that secure boot is enabled
+      return 1
+   fi
+}
+
+# get secure boot status
+getSecureBoot
+secureBoot=$?
+
+# source a local profile file that has the sticky bit set, so it is
+# persisted into state.tgz
+if [ -f /etc/profile.local ] && [ ${secureBoot} == 0 ]; then
+    source /etc/profile.local
+fi

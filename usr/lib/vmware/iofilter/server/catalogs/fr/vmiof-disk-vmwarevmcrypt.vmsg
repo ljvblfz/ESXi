@@ -1,0 +1,7 @@
+# en language catalog for the 'vmwarevmcrypt' iofilter
+
+iofilters.disk.vmwarevmcrypt.capability.AllowCleartextFilters.label =  Autoriser les filtres d'E/S avant le chiffrement
+iofilters.disk.vmwarevmcrypt.capability.AllowCleartextFilters.summary = Autoriser l'utilisation des filtres d'E/S avant le filtre de chiffrement. Ces filtres liront les données en texte clair avant leur chiffrement.
+
+iofilters.disk.vmwarevmcrypt.name.label = Chiffrement de VM VMware
+iofilters.disk.vmwarevmcrypt.name.summary = Filtre d'E/S de chiffrement VMware.

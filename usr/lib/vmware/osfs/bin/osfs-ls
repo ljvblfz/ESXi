@@ -1,0 +1,26 @@
+#!/bin/python
+
+# Lists a directory.
+
+from __future__ import print_function
+import sys
+import os
+
+path = '.'
+if (len(sys.argv) > 1):
+   path = sys.argv[1]
+
+try:
+   if os.path.isdir(path):
+      listing = os.listdir(path)
+      sys.stdout.write("\n".join(["%s" % x for x in listing]) + ("\n" if len(listing) else ""))
+      sys.exit(0)
+   elif os.path.exists(path):
+      sys.stdout.write(path + "\n")
+      sys.exit(0)
+   else:
+      sys.stderr.write("No such file or directory\n")
+      sys.exit(1)
+except OSError as e:
+   print("Error: %s" % str(e))
+   sys.exit(2)

@@ -1,0 +1,169 @@
+#!/usr/bin/env python
+
+#
+# Copyright 2010-2014 VMware, Inc.  All rights reserved.
+#
+# schedsnapshot
+#
+#    Snapshot vmkernel scheduler statistics and/or traces
+#
+#
+
+__author__ = 'VMware, Inc.'
+
+#imports
+import sys
+import os.path
+import subprocess
+import time
+import shutil
+import traceback
+import pipes
+from vmware import vsi
+import tarfile
+import datetime
+
+def parseArguments():
+
+   import argparse
+   parser = argparse.ArgumentParser(description=
+                       'Snapshot vmkernel scheduler statistics and/or traces.')
+
+   parser.add_argument('--novsi', dest='novsi', action='store_true',
+           default=False,
+           help='Skip VSI cache collection (collect a subset of sched-stats)')
+   parser.add_argument('--notrace', dest='notrace', action='store_true',
+           default=False, help='Skip schedtrace collection')
+   parser.add_argument('--nozip', dest='nozip', action='store_true',
+           default=False, help='Skip compressing the output file')
+   parser.add_argument('--noreset', dest='noreset', action='store_true',
+           default=False, help='No sched-stats reset')
+   parser.add_argument('--novmkstats', dest='novmkstats', action='store_true',
+           default=False, help='Skip collecting vmkstats')
+   parser.add_argument('ssdir', type=str,
+           help='Directory to store the snapshot')
+   parser.add_argument('time', type=int, help='Collection duration in seconds')
+
+
+   args = parser.parse_args()
+   if not os.path.isdir(args.ssdir):
+      print('Invalid directory: %s' % args.ssdir)
+
+   return args
+
+
+if __name__ == '__main__':
+   # Parse command-line
+   options = parseArguments()
+
+   dirname = '.%s.tmp' % str(os.getpid())
+   tempfolder = '%s/%s' % (options.ssdir, dirname)
+   try:
+      if not os.path.exists(tempfolder):
+         os.makedirs(tempfolder)
+
+      os.chdir(tempfolder)
+
+      subprocess.call(['sched-stats', '-s', '1'])
+
+      if not options.noreset:
+         print('Resetting stats...')
+         subprocess.call(['sched-stats', '-r'])
+
+      if not options.notrace:
+         print('Starting trace...')
+         subprocess.call(['vmkload_mod', 'schedtrace'])
+         logger = subprocess.Popen(['logchannellogger',
+                                    'schedtrace', 'schedtrace']);
+
+      vmkstatsdumper='/usr/lib/vmware/vmkstats/bin/vmkstatsdumper'
+      if not options.novmkstats:
+         print('Starting vmkstats...')
+         vsi.set('/perf/vmkstats/command/reset', '')
+         subprocess.call([vmkstatsdumper, '-b']);
+
+      print('Collecting...')
+      time.sleep(options.time)
+
+      if not options.novmkstats:
+         print('Dumping vmkstats...')
+         subprocess.call([vmkstatsdumper, '-e']);
+         subprocess.call([vmkstatsdumper, '-d']);
+         if not os.path.exists('vmkstats'):
+            os.makedirs('vmkstats')
+         vmksdumper = subprocess.Popen([vmkstatsdumper, '-a', '-o', 'vmkstats'])
+
+      if not options.notrace:
+         print('Stopping trace')
+         subprocess.call(['vmkload_mod', '-u', 'schedtrace'])
+
+      print('Doing VSI')
+      if not options.novsi:
+         subprocess.call(['vsi_traverse', '-o', 'vsi_cache'])
+      else:
+         if not os.path.exists('schedstats'):
+            os.makedirs('schedstats')
+         reports = ['vcpu-state-times', 'vcpu-run-times', 'vcpu-state-counts',
+                    'vcpu-run-states', 'vcpu-alloc', 'vcpu-migration-stats',
+                    'vcpu-load', 'vcpu-comminfo', 'ncpus',
+                    'cpu', 'pcpu-stats', 'pcpu-load', 'sys-service-stats',
+                    'run-state-histo', 'wait-state-histo', 'groups',
+                    'overhead-histo', 'worldlet-state-times',
+                    'worldlet-state-counts', 'worldlet-mig-state',
+                    'worldlet-load', 'worldlet-comminfo',
+                    'numa-clients', 'numa-migration', 'numa-cnode',
+                    'numa-pnode', 'numa-global']
+         for report in reports:
+            subprocess.call('sched-stats -t %s > schedstats/%s' %
+                            (report, report), shell=True)
+
+      print('Fetching vmkernel log')
+      shutil.copy2('/var/log/vmkernel.log', '.')
+
+      shutil.copy2('/etc/vmware/.buildInfo', '.')
+
+      if not options.novmkstats:
+         vmksdumper.wait()
+
+      if not options.notrace:
+         print('Waiting for logger to terminate...')
+         logger.wait()
+
+      timestamp = datetime.datetime.utcnow()
+      suffix = '%s.%s.%s.%s.%s.%s.%s' % (str(os.getpid()),
+                                         timestamp.year,
+                                         timestamp.month,
+                                         timestamp.day,
+                                         timestamp.hour,
+                                         timestamp.minute,
+                                         timestamp.second)
+      if os.getenv('OUTPUTNAME') == None:
+         if not options.nozip:
+            outputname = 'snapshot.%s.tgz' % suffix
+         else:
+            outputname = 'snapshot.%s.tar' % suffix
+      else:
+         outputname = os.getenv('OUTPUTNAME')
+
+      print('Storing snapshot...')
+
+      os.chdir('..')
+
+      print('Zipping...')
+      if not options.nozip:
+         tar = tarfile.open(outputname, 'w:gz')
+      else:
+         tar = tarfile.open(outputname, 'w')
+
+      tar.add(dirname, arcname='snapshot.%s' % suffix)
+      tar.close()
+
+      print('Produced %s' % outputname)
+
+      shutil.rmtree(dirname)
+
+   except:
+      print('Something went terribly wrong...')
+      print(traceback.format_exc(), file=sys.stderr)
+      sys.exit(1)
+

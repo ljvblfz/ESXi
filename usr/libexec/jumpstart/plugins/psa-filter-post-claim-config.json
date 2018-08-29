@@ -1,0 +1,21 @@
+/***********************************************************
+ * Copyright 2010-2011 VMware, Inc.  All rights reserved.
+ * VMware Confidential
+ ***********************************************************/
+
+{
+   "operations" :
+   {
+      "start" :
+      [
+      ]
+   }
+   ,
+   "metadata" :
+   {
+      "version"  : 1,
+      "requires" : ["PSA MP claim rules"],
+      "provides" : ["PSA filter post-claim configuration"]
+   }
+}
+

@@ -1,0 +1,482 @@
+#!/usr/bin/python
+#
+"""esxcli-software is the Python script implementing the esxcli software commands.
+   It is not designed to be invoked directly, only through esxcli.
+   Configuration parameters (all through esxcfg-advcfg):
+      * esximage-logfile
+"""
+import os
+import datetime
+import sys, traceback
+from vmware.esximage import Errors
+from vmware.esxsoftwarecli import IFace
+
+# This must come before anything that tries to import runcommand. runcommand
+# imports vmkuser, which links to libvmkuser, and libvmkuser has an annoying
+# habit of calling exit() when it can't do something.
+if os.getuid():
+   IFace.OutputErr(Errors.NotRootError())
+   sys.exit()
+
+import logging, logging.handlers
+import optparse
+import textwrap
+import time
+from lxml import etree
+
+from vmware import runcommand
+from vmware.esximage import Configure
+from vmware.esximage import Downloader
+from vmware.esximage import HostImage
+from vmware.esximage import Transaction
+from vmware.esximage import VibCollection
+from vmware.esximage import ImageProfile
+
+from vmware.esxsoftwarecli import List, Struct
+from vmware.esxsoftwarecli.SoftwareStructs import *
+
+class FixedLogFileHandler(logging.FileHandler):
+    def format(self,record):
+       args = datetime.datetime.utcnow()
+       l = "%04d-%02d-%02dT%02d:%02d:%02d%s" % (args.year, args.month,
+           args.day, args.hour, args.minute, args.second, args.tzinfo or 'Z')
+       return "%s %s: %s" % (l, "esxcli-software",
+                          logging.FileHandler.format(self, record))
+
+#
+# Enums and other constants used by CLIs
+#
+ADVCFG = '/sbin/esxcfg-advcfg'
+
+ACCEPTANCE_INPUT = {"VMwareCertified": "certified",
+                    "VMwareAccepted":  "accepted",
+                    "PartnerSupported":   "partner",
+                    "CommunitySupported": "community"}
+ACCEPTANCE_OUTPUT = dict((v, k) for (k, v) in list(ACCEPTANCE_INPUT.items()))
+
+#
+# Utility functions
+#
+def getconfig(key, default=None):
+   try:
+      res, out = runcommand.runcommand([ADVCFG, '-q', '-g', '/UserVars/' + key])
+      if out:
+         return int(out.strip())
+      else:
+         return default
+   except:
+      return default
+
+def configureEsximage():
+   "Configure esximage module. Network parameters are taken from esxcfg-advcfg."
+
+   kwargs = {"certsdirs": ["/usr/share/certs"],
+             "schemadir": "/usr/share/esximage/schemas"}
+
+   for uservar, key in (("EsximageNetTimeout", "nettimeout"),
+                        ("EsximageNetRetries", "netretries"),
+                        ("EsximageNetRateLimit", "netratelimit")):
+      value = getconfig(uservar)
+      if value is not None:
+         kwargs[key] = value
+
+   Configure(**kwargs)
+
+def setupLogging():
+   try:
+      handler = logging.handlers.SysLogHandler(address='/dev/log')
+   except Exception as e1:
+      try:
+         sys.stderr.write("Failed to open syslog.\n"
+                          "Logging to /var/log/esxcli-software.log\n")
+         handler = FixedLogFileHandler('/var/log/esxcli-software.log')
+      except Exception as e2:
+         sys.stderr.write("%s\nLogging disable.\n" % e2)
+         # NullHandler is not unsupported in this version of Python,
+         # setup the capacity of 1MB of buffer size.
+         handler = logging.handlers.MemoryHandler(1024 * 1024)
+
+   formatter = 'esxupdate: %(process)d: %(name)s: %(levelname)s: %(message)s'
+   handler.setFormatter(logging.Formatter(formatter))
+
+   # override the original value, which adds \000 at the end of a msg
+   # This shows up as ^@ in editor
+   handler.log_format_string = '<%d>%s'
+
+   global log
+   log = logging.getLogger()
+   for h in log.handlers:
+      log.removeHandler(h)
+   log.addHandler(handler)
+   # set this back to logging.INFO closer to release.
+   log.setLevel(logging.DEBUG)
+
+# Utility functions called by one or more command functions.
+def GetHostInventory(pending = False, rebooting = False):
+   """Retrieves the Image Profile and VIBs from the host database(s).
+         Parameters:
+            * pending   - If True, return the Image Profile and VIBs from
+                          /altbootbank. Otherwise, those from the Visor file
+                          system are returned.
+            * rebooting - If True, return the Image Profile and VIBs for the
+                          next boot.
+         Returns: A tuple of (ImageProfile, VibCollection).
+   """
+   h = HostImage.HostImage()
+   getvisordb = True
+
+   if pending or rebooting:
+      if h.imgstate == h.IMGSTATE_BOOTBANK_UPDATED or \
+                     h.imgstate == h.IMGSTATE_LIVE_UPDATED:
+         vibs = h.GetInventory(database=h.DB_BOOTBANK)
+         p = h.GetProfile(database=h.DB_BOOTBANK)
+         getvisordb = False
+      else:
+         # Asked for pending VIBs/profile but /altbootbank
+         # is not updated yet.
+         if not rebooting:
+            getvisordb = False
+            vibs = VibCollection.VibCollection()
+            p = ImageProfile.ImageProfile("No pending image profile available.",
+                                          "N/A")
+   if getvisordb:
+      vibs = h.GetInventory(database=h.DB_VISORFS)
+      p = h.GetProfile(database=h.DB_VISORFS)
+
+   hostaccept = ACCEPTANCE_LEVELS.get(h.GetHostAcceptance(), 'Unknown')
+
+   class Inventory(object):
+      def __init__(self, profile, vibs, acceptancelevel):
+         self.profile = profile
+         self.vibs = vibs
+         self.acceptancelevel = acceptancelevel
+
+   return Inventory(p, vibs, hostaccept)
+
+# Functions to implement specific commands.
+#
+# Note that we don't have to check for required arguments here;
+# esxcli checks for required parameters (defined in esxcli-software.xml)
+# and optparse checks that options that require an argument has an arg.
+def AcceptanceGetCmd(opts):
+   level = HostImage.HostImage().GetHostAcceptance()
+   return ACCEPTANCE_OUTPUT.get(level, level)
+
+def AcceptanceSetCmd(opts):
+   h = HostImage.HostImage()
+   h.SetHostAcceptance(ACCEPTANCE_INPUT[opts.level])
+
+   return "Host acceptance level changed to '%s'." % (opts.level)
+
+def ProfileGetCmd(opts):
+   inventory = GetHostInventory(opts.pending)
+   p = inventory.profile
+   vibs = inventory.vibs
+   hostaccept = inventory.acceptancelevel
+
+   if not p:
+      raise Exception("No host image profile defined")
+
+   return ProfileStruct.FromProfile(p)
+
+def ProfileInstallCmd(opts):
+   """Installs an image profile to the host from a depot, completely replacing
+      the image on the host.
+   """
+   depoturls = opts.depot or []
+
+   t = Transaction.Transaction()
+   try:
+      res = t.InstallProfile([], opts.profile, depotUrls=depoturls,
+                             force=opts.force,
+                             forcebootbank=opts.noliveinstall,
+                             dryrun=opts.dryrun,
+                             checkmaintmode=not opts.nomaintmode,
+                             allowRemovals=opts.oktoremove,
+                             nosigcheck=opts.nosigcheck)
+   except Errors.ProfileVibRemoval as e:
+      raise Exception("You attempted to install an image profile which would "
+                      "have resulted in the removal of VIBs %s. If this is "
+                      "not what you intended, you may use the esxcli software "
+                      "profile update command to preserve the VIBs above. "
+                      "If this is what you intended, please use the "
+                      "--ok-to-remove option to explicitly allow the removal."
+                      % (list(e.removed)))
+   return InstallResultStruct.FromTransactionResult(res)
+
+def ProfileUpdateCmd(opts):
+   """Installs the VIBs from an image profile to the host from a depot,
+      preserving the VIBs that will not be replaced by the image profile.
+   """
+   depoturls = opts.depot or []
+
+   t = Transaction.Transaction()
+   res = t.InstallVibsFromProfile([], opts.profile, depotUrls=depoturls,
+                                  force=opts.force,
+                                  forcebootbank=opts.noliveinstall,
+                                  dryrun=opts.dryrun,
+                                  checkmaintmode=not opts.nomaintmode,
+                                  nosigcheck=opts.nosigcheck,
+                                  allowDowngrades=opts.downgrade)
+   structtype = 'InstallationResult'
+   return InstallResultStruct.FromTransactionResult(res, structtype=structtype)
+
+def ProfileValidateCmd(opts):
+   depoturls = opts.depot or []
+
+   t = Transaction.Transaction()
+   vprof = t.GetProfileFromSources(opts.profile, depotUrls=depoturls)
+   h = HostImage.HostImage()
+   prof = h.GetProfile()
+
+   if not prof:
+      raise Exception("No host image profile defined, cannot continue")
+
+   onlyhost, onlyvprof = prof.Diff(vprof)
+   res = {'structtype': "ProfileValidationResult",
+          'Compliant': (len(onlyhost) == 0 and len(onlyvprof) == 0),
+          'Host Image Profile': prof.name,
+          'VIBs in Host Image Profile Only': List('string', onlyhost),
+          'Validation Profile': vprof.name,
+          'VIBs in Validation Profile Only': List('string', onlyvprof)}
+   return Struct(**res)
+
+def SourcesProfileGetCmd(opts):
+   depoturls = opts.depot or []
+
+   t = Transaction.Transaction()
+   t.ParseDepots(depoturls)
+
+   if not opts.profile:
+      raise Exception("Must specify profile name.")
+   matches = t.profiles.FindProfiles(opts.profile)
+   if len(matches) == 0:
+      raise Exception("Profile %s not found." % opts.profile)
+   p = matches.popitem()[1]
+   p.vibs = t.vibs
+
+   return ProfileStruct.FromProfile(p)
+
+def SourcesProfileListCmd(opts):
+   """Lists the image profiles in one or more depots.
+   """
+   depoturls = opts.depot or []
+
+   t = Transaction.Transaction()
+   t.ParseDepots(depoturls)
+
+   structs = [ProfileSummaryStruct.FromProfile(p) for p in t.profiles.values()]
+   return List("structure", structs)
+
+def SourcesVibGetCmd(opts):
+   viburls = opts.viburl or []
+   depoturls = opts.depot or []
+   nameids = opts.nameid or []
+
+   if not (viburls or depoturls):
+      raise Exception('No source specified with -d/--depot, -v/--viburl, or '
+            'both.')
+
+   t = Transaction.Transaction()
+   vibs = t.GetVibsFromSources(viburls, [], nameids, depotUrls=depoturls,
+                               newestonly=False)
+
+   viblist = List("structure")
+   for v in vibs.values():
+      viblist.append(VibStruct.FromVib(v))
+
+   return viblist
+
+def SourcesVibListCmd(opts):
+   """Lists the VIBs in one or more depots, including a Status field indicating
+      whether the VIB updates, downgrades something from the host, or is new,
+      or is already installed.
+   """
+   depoturls = opts.depot or []
+
+   t = Transaction.Transaction()
+   t.ParseDepots(depoturls)
+   hostprof = t.GetProfile()
+   updates, downgrades, newones, installed = hostprof.ScanVibs(t.vibs)
+   viblist = List("structure")
+
+   for vib in t.vibs.values():
+      status = '<Unknown>'
+      if vib.id in updates:
+         status = 'Update'
+      elif vib.id in newones:
+         status = 'New'
+      elif vib.id in downgrades:
+         status = 'Downgrade'
+      elif vib.id in installed:
+         status = 'Installed'
+      vibinfo = VibSummaryStruct.FromVib(vib, Status=status)
+      viblist.append(vibinfo)
+
+   return viblist
+
+def VibGetCmd(opts):
+   nameids = opts.nameid or []
+
+   inventory = GetHostInventory(opts.pending)
+   p = inventory.profile
+   vibs = inventory.vibs
+
+   vibids = set()
+   if nameids:
+      for nameid in nameids:
+         m = vibs.FindVibsByColonSpec(nameid, onevendor=False)
+         vibids.update(m)
+   else:
+      vibids.update(vibs.keys())
+
+   viblist = List("structure")
+   for vibid in sorted(vibids):
+      viblist.append(VibStruct.FromVib(vibs[vibid]))
+
+   return viblist
+
+def VibInstallCmd(opts):
+   """Installs VIBs from URLs and/or from one or more depots.
+      One convenient command does it all.
+      Returns the VIBs installed and skipped.
+   """
+   viburls = opts.viburl or []
+   depoturls = opts.depot or []
+   nameids = opts.nameid or []
+
+   if nameids and not depoturls:
+      raise Exception("Use of -n/--vibname requires use of -d/--depot.")
+   elif not depoturls and not viburls and not nameids:
+      raise Exception("No VIBs specified with -n/--vibname or -v/--viburl.")
+
+   t = Transaction.Transaction()
+   res = t.InstallVibsFromSources(viburls, [], nameids,
+                                  keeponlyupdates=opts.updateonly,
+                                  force=opts.force,
+                                  forcebootbank=opts.noliveinstall,
+                                  dryrun=opts.dryrun,
+                                  depotUrls=depoturls,
+                                  checkmaintmode=not opts.nomaintmode,
+                                  nosigcheck=opts.nosigcheck)
+
+   structtype="InstallationResult"
+   return InstallResultStruct.FromTransactionResult(res, structtype=structtype)
+
+def VibListCmd(opts):
+   inventory = GetHostInventory(opts.pending)
+   p = inventory.profile
+   vibs = inventory.vibs
+
+   viblist = List("structure")
+   for vibid in sorted(vibs.keys()):
+      viblist.append(VibSummaryStruct.FromVib(vibs[vibid]))
+
+   return viblist
+
+def VibSigVerifyCmd(opts):
+   inventory = GetHostInventory(rebooting = opts.rebooting)
+   vibs = inventory.vibs
+   p = inventory.profile
+   h = HostImage.HostImage()
+
+   viblist = List("structure")
+   for vibid in sorted(vibs.keys()):
+      viblist.append(VibSigVerifyStruct.FromVib(vibs[vibid], h, p, opts.rebooting))
+
+   return viblist
+
+def VibRemoveCmd(opts):
+   nameids =  opts.nameid or []
+
+   t = Transaction.Transaction()
+   profile = t.GetProfile()
+   if not profile:
+      raise Exception("No host image profile defined, cannot continue")
+
+   # Each <name> string must match only one VIB.  Throw an error if no
+   # matches are found.
+   vibs = list()
+   for nameid in nameids:
+      match = profile.vibs.FindVibsByColonSpec(nameid)
+      if len(match) == 0:
+         raise Errors.NoMatchError(nameid, "No VIB matching '%s' is installed."
+                                    % (nameid))
+      elif len(match) > 1:
+         raise Errors.NoMatchError(nameid, "More than one VIB matches '%s'. "
+                                    "Please try specifying <vendor>:<name> "
+                                    "to narrow down to one VIB." % (nameid))
+      vibs.append(match.pop())
+
+   res = t.RemoveVibs(vibs,
+                      force=opts.force,
+                      forcebootbank=opts.noliveinstall,
+                      dryrun=opts.dryrun,
+                      checkmaintmode=not opts.nomaintmode)
+   structtype = 'InstallationResult'
+   return InstallResultStruct.FromTransactionResult(res, structtype=structtype)
+
+CMDTABLE = {"acceptance.get": AcceptanceGetCmd,
+            "acceptance.set": AcceptanceSetCmd,
+            "profile.get": ProfileGetCmd,
+            "profile.install": ProfileInstallCmd,
+            "profile.update": ProfileUpdateCmd,
+            "profile.validate": ProfileValidateCmd,
+            "sources.profile.get": SourcesProfileGetCmd,
+            "sources.profile.list": SourcesProfileListCmd,
+            "sources.vib.get": SourcesVibGetCmd,
+            "sources.vib.list": SourcesVibListCmd,
+            "vib.get": VibGetCmd,
+            "vib.install": VibInstallCmd,
+            "vib.list": VibListCmd,
+            "vib.remove": VibRemoveCmd,
+            "vib.signature.verify": VibSigVerifyCmd}
+
+def main():
+   # Add options
+   # default action is 'store', dest defaults to long option name
+   parser = IFace.CliOptParser()
+   parser.set_usage("This program is not meant to be invoked directly. "
+                    "Please use 'esxcli software' instead.")
+   parser.add_option('-d', '--depot', action='append')
+   parser.add_option('-v', '--viburl', action='append')
+   parser.add_option('-n', '--nameid', action='append')
+   parser.add_option('-p', '--profile')
+   parser.add_option('--level')
+   parser.add_option('--updateonly', action='store_true')
+   parser.add_option('--noliveinstall', action='store_true')
+   parser.add_option('--nomaintmode', action='store_true')
+   parser.add_option('-f', '--force', action='store_true')
+   parser.add_option('--dryrun', action='store_true')
+   parser.add_option('--oktoremove', action='store_true')
+   parser.add_option('--proxy')
+   parser.add_option('--nosigcheck', action='store_true')
+   parser.add_option('--pending', action='store_true')
+   parser.add_option('--rebooting', action='store_true')
+   parser.add_option('--downgrade', action='store_true')
+   parser.set_defaults(updateonly=False, noliveinstall=False,
+         nomaintmode=False, force=False, dryrun=False,
+         proxy=None, oktoremove=False, nosigcheck=False, rebooting=False)
+
+   (options, args) = parser.parse_args()
+   command = args[0].strip()
+   log.info("Command = %s" % (command))
+   log.info("Options = %s" % (options))
+   Downloader.SetProxy(options.proxy)
+   ret = CMDTABLE[command](options)
+   log.debug("Finished execution of command = %s" % (command))
+   IFace.OutputEsxcli(ret)
+   log.debug("Completed esxcli output, going to exit esxcli-software")
+
+##
+setupLogging()
+try:
+   configureEsximage()
+   main()
+except Exception as e:
+   # Note: log.exception will truncate long message, here just
+   # log each line of the traceback.
+   for line in traceback.format_exc().splitlines():
+      log.error(line)
+   IFace.OutputErr(e)
+   IFace.OutputErr("Please refer to the log file for more details.")

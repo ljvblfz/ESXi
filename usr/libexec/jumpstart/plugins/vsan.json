@@ -1,0 +1,25 @@
+/***********************************************************
+ * Copyright 2012,2014-2017 VMware, Inc.  All rights reserved.
+ * VMware Confidential
+ ***********************************************************/
+
+{
+   "operations" :
+   {
+      "start" :
+      [
+         "system module load --module swapobj",
+         "vsan cluster restore --boot",
+      ]
+   }
+   ,
+   "metadata" :
+   {
+      "version"  : 1,
+      "requires" : ["network configuration", "storage", "vmfs", "vcfs",
+                    "dump partition", "vsan devel", "vsan upgrade", "vsan early",
+		    "resource groups", "vmkeventd"],
+      "provides" : ["filesystem", "datastore", "vsan"]
+   }
+}
+

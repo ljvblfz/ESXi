@@ -1,0 +1,122 @@
+<div ng-class="{'esx-main-content': !nested}">
+
+   <div ng-show="!loaded" class="loading"></div>
+
+   <div ng-show="loaded" class="row header-area no-margin">
+      <div class="col-sm-9 info-block no-padding">
+         <div class="row">
+            <div ng-if="!nested"
+               vui-action-bar="actionBarOptions"
+               class="col-sm-12 col-lg-12"
+               style="margin-bottom: 20px;"></div>
+         </div>
+
+         <div class="identifying-graphic col-sm-4 col-lg-3">
+            <img src="{{objImage}}"
+               style="width: 60px; margin: 0 10px 20px 0;"
+               alt="{{'storage.device.summary.alt'|translate}}"/>
+         </div>
+
+         <div class="key-information col-sm-8 col-lg-9">
+            <div class="row">
+               <div class="col-sm-12 title no-padding">
+                  <span class="object-title"
+                     ng-bind="currentDevice.displayName"></span>
+               </div>
+            </div>
+            <form class="form-horizontal">
+               <div class="form-group">
+                  <span
+                     class="col-sm-3 col-lg-3 control-label esx-label no-padding">{{'storage.device.summary.type' | translate}}</span>
+                  <div class="col-sm-8 col-lg-8 no-padding">
+                     <p class="form-control-static">{{currentDevice.type}}</p>
+                  </div>
+               </div>
+               <div class="form-group">
+                  <span
+                     class="col-sm-3 col-lg-3 control-label esx-label no-padding">{{'storage.device.summary.model' | translate}}</span>
+                  <div class="col-sm-8 col-lg-8 no-padding">
+                     <p class="form-control-static">{{currentDevice.model}}</p>
+                  </div>
+               </div>
+               <div class="form-group">
+                  <span
+                     class="col-sm-3 col-lg-3 control-label esx-label no-padding">{{'storage.device.summary.path' | translate}}</span>
+                  <div class="col-sm-8 col-lg-8 no-padding">
+                     <p class="form-control-static">{{currentDevice.deviceName}}</p>
+                  </div>
+               </div>
+               <div class="form-group">
+                  <span
+                     class="col-sm-3 col-lg-3 control-label esx-label no-padding">{{'storage.device.summary.capacity' | translate}}</span>
+                  <div class="col-sm-8 col-lg-8 no-padding">
+                     <p class="form-control-static">{{currentDevice.capacityFormatted}}</p>
+                  </div>
+               </div>
+               <div class="form-group">
+                  <span
+                     class="col-sm-3 col-lg-3 control-label esx-label no-padding">{{'storage.device.summary.partitionFormat' | translate}}</span>
+                  <div class="col-sm-8 col-lg-8 no-padding">
+                     <p ng-if="currentDevice.partitionFormat === 'unknown'" class="form-control-static">{{'general.unknown' | translate}}</p>
+                     <p ng-if="currentDevice.partitionFormat !== 'unknown'" class="form-control-static">{{currentDevice.partitionFormat}}</p>
+                  </div>
+               </div>
+               <div class="form-group">
+                  <span
+                     class="col-sm-3 col-lg-3 control-label esx-label no-padding">{{'storage.device.summary.uuid' | translate}}</span>
+                  <div class="col-sm-8 col-lg-8 no-padding">
+                     <p class="form-control-static">{{currentDevice.uuid}}</p>
+                  </div>
+               </div>
+            </form>
+         </div>
+      </div>
+   </div>
+
+   <div ng-show="loaded" class="portlet-area container-fluid no-margin no-padding">
+      <div class="row">
+         <div ng-if="currentDevice.lunType === 'disk'" class="col-lg-6 col-sm-12">
+            <div class="vui-portlet no-margin"
+                 ng-class="{'collapsed': partitionsPortlet.collapsed}" ng-show="partitionsPortletDisplay">
+               <div class="portlet-titlebar" ng-click="partitionsPortlet.toggle()">
+                  <span class="icon" ng-class="{
+                     'vui-icon-caret-dark-gray-right': partitionsPortlet.collapsed,
+                     'vui-icon-caret-dark-gray-down': !partitionsPortlet.collapsed}"></span>
+                  <span class="titlebar-text"
+                        title="{{'storage.device.summary.partitions' | translate}}">
+                     {{'storage.device.summary.partitions' | translate}}</span>
+               </div>
+               <div class="portlet-content">
+                  <div esx-portlet-content data="partitionsPortlet.data" error-message="partitionError"></div>
+               </div>
+            </div>
+         </div>
+
+         <div ng-if="currentDevice.lunType === 'disk' && partitionSpec.partition" class="col-lg-6 col-sm-12">
+            <div class="vui-portlet no-margin"
+                 ng-class="{'collapsed': partitionDiagramPortlet.collapsed}" ng-show="partitionsPortletDisplay">
+               <div class="portlet-titlebar" ng-click="partitionDiagramPortlet.toggle()">
+                  <span class="icon" ng-class="{
+                     'vui-icon-caret-dark-gray-right': partitionDiagramPortlet.collapsed,
+                     'vui-icon-caret-dark-gray-down': !partitionDiagramPortlet.collapsed}"></span>
+                  <span class="titlebar-text"
+                        title="{{'storage.device.summary.partitionDiagram' | translate}}">
+                     {{'storage.device.summary.partitionDiagram' | translate}}</span>
+               </div>
+               <div class="portlet-content" style="overflow: auto; padding: 10px;" ng-if="partitionSpec !== null">
+                  <div esx-partition-diagram
+                     show-gaps="true"
+                     device-capacity="currentDevice.capacity.block"
+                     allow-selection="false"
+                     show-size="true"
+                     show-number="true"
+                     show-gaps-threshold="2048"
+                     partition-spec="partitionSpec"
+                     max-height="300"
+                     style="width: 330px; margin-left: auto; margin-right: auto;"></div>
+               </div>
+            </div>
+         </div>
+      </div>
+   </div>
+</div>

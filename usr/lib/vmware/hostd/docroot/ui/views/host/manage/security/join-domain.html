@@ -1,0 +1,67 @@
+<div ng-controller="HostManageSecurityJoinDomainController"
+   class="content-padding time-config-dialog">
+
+   <div class="vui-stack-view">
+      <div class="stack-view-table">
+
+         <div vui-stack-block="domainBlock"
+            ng-class="{'stack-warning': domainError}">
+            <span vui-sb-label>
+               {{"host.manage.system.security.authentication.joinDomain.domainLabel"|translate}}</span>
+            <div vui-sb-content>
+               <input type="text" ng-model="data.domain"
+                  style="width: 335px; max-width: none; float: left;"
+                  title="{{'host.manage.system.security.authentication.joinDomain.domainLabel'|translate}}"
+                  focus-me="true"/>
+            </div>
+         </div>
+
+         <div vui-stack-block="useAuthProxyBlock">
+            <span vui-sb-label>
+               {{"host.manage.system.security.authentication.joinDomain.useAuthProxyLabel"|translate}}</span>
+            <div vui-sb-content>
+               <input type="checkbox" ng-model="data.useAuthProxy"
+                  title="{{'host.manage.system.security.authentication.joinDomain.useAuthProxyLabel'|translate}}"/>
+            </div>
+         </div>
+
+         <div vui-stack-block="authProxyBlock"
+            ng-if="data.useAuthProxy"
+            ng-class="{'stack-warning': authProxyError}">
+            <span vui-sb-label>
+               {{"host.manage.system.security.authentication.joinDomain.authProxyLabel"|translate}}</span>
+            <div vui-sb-content>
+               <input type="text" ng-model="data.authProxy"
+                  style="width: 200px; max-width: none; float: left;"
+                  title="{{'host.manage.system.security.authentication.joinDomain.authProxyLabel'|translate}}"/>
+            </div>
+         </div>
+
+         <div vui-stack-block="usernameBlock"
+            ng-if="!data.useAuthProxy"
+            ng-class="{'stack-warning': usernameError}">
+            <span vui-sb-label>
+               {{"host.manage.system.security.authentication.joinDomain.usernameLabel"|translate}}</span>
+            <div vui-sb-content>
+               <input type="text" ng-model="data.username"
+                  style="width: 200px; max-width: none; float: left;"
+                  title="{{'host.manage.system.security.authentication.joinDomain.usernameLabel'|translate}}"/>
+            </div>
+         </div>
+
+         <div vui-stack-block="passwordBlock"
+            ng-if="!data.useAuthProxy"
+            ng-class="{'stack-warning': passwordError || passwordMismatchError}">
+            <span vui-sb-label>
+               {{"host.manage.system.security.authentication.joinDomain.passwordLabel"|translate}}</span>
+            <div vui-sb-content>
+               <input type="password" ng-model="data.password"
+                  style="width: 200px; max-width: none; float: left;"
+                  title="{{'host.manage.system.security.authentication.joinDomain.passwordLabel'|translate}}"/>
+            </div>
+         </div>
+
+      </div>
+   </div>
+
+</div>

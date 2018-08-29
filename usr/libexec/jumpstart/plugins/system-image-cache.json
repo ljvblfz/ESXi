@@ -1,0 +1,27 @@
+/***********************************************************
+ * Copyright 2011-2012,2015 VMware, Inc.  All rights reserved.
+ * VMware Confidential
+ ***********************************************************/
+
+{
+   "operations" :
+   {
+      "start" :
+      [
+         "boot system restore --system-image-cache"
+      ]
+      ,
+      "apply_host_profile" :
+      [
+         "boot system restore --system-image-cache",
+         "boot hostprofile apply --earlybootinit -p systemCache.caching.CachingProfile"
+      ]
+   }
+   ,
+   "metadata" :
+   {
+      "version"  : 2,
+      "requires" : ["advanced configuration", "usb", "usb storage", "pxe-marker", "storage paths"],
+      "provides" : ["system image cache"]
+   }
+}

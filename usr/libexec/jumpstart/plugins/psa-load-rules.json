@@ -1,0 +1,28 @@
+/***********************************************************
+ * Copyright 2010-2011,2015 VMware, Inc.  All rights reserved.
+ * VMware Confidential
+ ***********************************************************/
+
+{
+   "operations" :
+   {
+      "start" :
+      [
+         "storage core claimrule load --claimrule-class=all"
+      ],
+      "apply_host_profile" :
+      [
+         "boot hostprofile apply --earlybootinit -p psa.psaProfile.PsaClaimrulesProfile",
+
+         "storage core claimrule load --claimrule-class=all"
+      ]
+   }
+   ,
+   "metadata" :
+   {
+      "version" :  2,
+      "requires" : ["PSA MP Plugin registration", "PSA NMP pre-claim configuration", "PSA filter pre-claim configuration", "storage i/o multipathing"],
+      "provides" : ["PSA MP claim rules"]
+   }
+}
+

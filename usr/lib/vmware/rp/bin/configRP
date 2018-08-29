@@ -1,0 +1,832 @@
+#!/bin/python
+
+# Copyright 2017 VMware, Inc.
+# All rights reserved. -- VMware Confidential
+
+import datetime
+from math import ceil
+import os
+import os.path
+import re
+import shlex
+import subprocess
+import sys
+import time
+import traceback
+import functools
+
+import vmware.vsi as vsi
+UNDEFINED = None
+UNLIMITED = -1
+
+class ResourcePool(object):
+   """A description of a resource pool.
+
+   The RP might be created on the system or not. The create functionality can be
+   used to write a RP to the system. This does not affect the object which is
+   usable even before it is used.
+   """
+
+   def __init__(self, name, isEnabled=True, canSwap=False,
+                memMin=0, memMinLimit=UNLIMITED, memMax=UNLIMITED,
+                memShares=UNDEFINED, memMinSwap=0, cpuMin=0,
+                cpuMinLimit=UNLIMITED, cpuMax=UNLIMITED, cpuShares=1000):
+      """Create a new resource pool description.
+
+      The settings are applied in the "create" call.
+
+      @param self: The ResourcePool class
+      @param name: The name of the pool
+      @param isEnabled: Should the pool be created at all?
+      @param canSwap: Should the pool be made swappable if it is switched to the
+                      swap mode
+
+      @param memMin: The minimum memory of the pool in non-swap mode in MB
+      @param memMinLimit: The maximum value of minimum memory of the pool
+      @param memMax: The maximum memory of the pool in MB
+      @param memShares: The memory shares of the pool
+      @param memMinSwap: The minimum memory used by this pool if swapping is
+                         enabled
+
+      @param cpuMin: The minimum cpu of the pool in non-swap mode in mhz
+      @param cpuMinLimit: The maximum value of minimum cpu of the pool
+      @param cpuMax: The maximum cpu of the pool in mhz
+      @param cpuShares: The cpu shares of the pool
+
+      @return The new pool
+      """
+      self.name = name
+      self.isEnabled = isEnabled
+      self.canSwap = canSwap
+
+      self.memMin = memMin
+      self.memMinLimit = memMinLimit
+      self.memMax = memMax
+      self.memShares = memShares
+      self.memMinSwap = memMinSwap
+
+      self.cpuMin = cpuMin
+      self.cpuMinLimit = cpuMinLimit
+      self.cpuMax = cpuMax
+      self.cpuShares = cpuShares
+      #
+
+   def getGrpID(self):
+      """Get the group ID of a group
+
+      @param slef: The ResourcePool class
+
+      @return The ID of the group
+      """
+      log("Get group ID of " + self.name)
+      return vsi.set("/sched/groupPathNameToID", self.name)
+
+   def reparent(self, newParent):
+      """Make this group a subgroup of a new parent
+
+      Note: The RP class refers to the old pool after this function is executed
+
+      @param self: A ResourcePool class
+      @param newParent: The new parent resource Pool
+      """
+      log("Reparent " + self.name + " to " + newParent.name)
+      vsi.set("/sched/groups/" + str(self.getGrpID()) + "/parentGroupID",
+              [int(newParent.getGrpID())])
+
+   def setAlloc(self, memMin=UNDEFINED, memMinLimit=UNDEFINED, memMax=UNDEFINED,
+                memShares=UNDEFINED, cpuMin=UNDEFINED, cpuMinLimit=UNDEFINED,
+                cpuMax=UNDEFINED, cpuShares=UNDEFINED):
+      """Set a new resource configuration (aka. alloc) for a pool.
+
+      @param memMin: The minimum memory of the pool in non-swap mode in MB
+      @param memMinLimit: The maximum value of minimum memory of the pool
+      @param memMax: The maximum memory of the pool in MB
+      @param memShares: The memory shares of the pool
+      @param cpuMin: The minimum cpu of the pool in non-swap mode in %
+      @param cpuMinLimit: The maximum value of minimum cpu of the pool
+      @param cpuMax: The maximum cpu of the pool in %
+      @param cpuShares: The cpu shares of the pool
+      """
+      if not self.isEnabled:
+         return
+
+      # apply mem settings
+      settings = []
+      for param in [["min", memMin],
+                    ["max", memMax],
+                    ["minLimit", memMinLimit],
+                    ["shares", memShares]]:
+         if param[1] != UNDEFINED:
+            settings.append(param[0] + "=" + str(int(param[1])))
+
+      if settings != []:
+         log("Set memory config for " + self.name + ": " + str(settings))
+         vsi.set("/sched/groups/" + str(self.getGrpID())
+                 + "/memAllocationInMB", settings)
+
+      # apply cpu settings
+      settings = []
+      for param in [["min", cpuMin],
+                    ["max", cpuMax],
+                    ["minLimit", cpuMinLimit],
+                    ["shares", cpuShares]]:
+         if param[1] != UNDEFINED:
+            settings.append(param[0] + "=" + str(int(param[1])))
+
+      if settings != []:
+         log("Set cpu config for " + self.name + ": " + str(settings))
+         vsi.set("/sched/groups/" + str(self.getGrpID())
+                 + "/cpuAllocationInPct", settings)
+
+   def decreaseResourcePoolSize(self, memMin, memMax):
+      """Decrease the resource pool size min by memMin and max by memMax.
+
+      @param self: A ResourcePool class
+      @param memMin: The amount in MB the RP min should be reduced by.
+      @param memMax: The amount in MB the RP max should be reduced by.
+      """
+      settings = []
+      settings.append("min=" + str(memMin))
+      settings.append("max=" + str(memMax))
+      log("Decrease resource pool size for " + self.name + ": " +
+          str(settings))
+      vsi.set("/sched/groups/" + str(self.getGrpID())
+              + "/decreaseMemMinMaxInMB", settings)
+
+   def increaseResourcePoolSize(self, memMin, memMax):
+      """Increase the resource pool size min by memMin and max by memMax.
+
+      @param self: A ResourcePool class
+      @param memMin: The amount in MB the RP min should be increased by.
+      @param memMax: The amount in MB the RP max should be increased by.
+      """
+      settings = []
+      settings.append("min=" + str(memMin))
+      settings.append("max=" + str(memMax))
+      log("Increase resource pool size for " + self.name + ": " +
+          str(settings))
+      vsi.set("/sched/groups/" + str(self.getGrpID())
+              + "/increaseMemMinMaxInMB", settings)
+
+   def getParent(self):
+      """@param self: A ResourcePool class
+
+      @return The parent of this pool
+      """
+      parent, _ = self.name.rsplit("/", 1)
+      return ResourcePool(parent)
+
+   def getLeafName(self):
+      """@param self: A ResourcePool class
+
+      @return The last part of the path
+      """
+      _, leafName = self.name.rsplit("/", 1)
+      return leafName
+
+   def isChildOf(self, parent):
+      """@param self: A ResourcePool class
+      @param parent: The parent ResourcePool class to verify
+
+      @return True if self is a child of parent
+      """
+      try:
+         group = self
+         while True:
+            group = group.getParent()
+            if group.name == parent.name:
+               return True
+      except:
+         return False
+
+   def create(self):
+      """Create the resource pool on the system.
+
+      @param self: A ResourcePool class
+      """
+      if not self.isEnabled:
+         return
+
+      log("Create " + self.name)
+      vsi.set("/sched/groups/" + str(self.getParent().getGrpID())
+              + "/groupCreate", [self.getLeafName()])
+
+      self.setAlloc(self.memMin, self.memMinLimit, self.memMax, self.memShares,
+                    self.cpuMin, self.cpuMinLimit, self.cpuMax, self.cpuShares)
+
+   def __eq__(self, other):
+      """Check if two resource pools are the same by comparing their name.
+
+      @param other: The other resource pool
+
+      @return True if the resource pools are the same
+      """
+      if isinstance(other, ResourcePool):
+         return self.name == other.name
+      else:
+         return False
+
+   def __ne__(self, other):
+      """
+      Check if two resource pools are not the same by comparing their name.
+
+      @param other: The other resource pool
+
+      @return True if the resource pools are not the same
+      """
+      if isinstance(other, ResourcePool):
+         return self.name != other.name
+      else:
+         return False
+
+   def exists(self):
+      """@param self: A ResourcePool class
+
+      @return True if the RP currently exists on the system.
+      """
+      try:
+         # This will throw an Exception with the content "Not found" if the
+         # group does not exist
+         vsi.set("/sched/groupPathNameToID", self.name)
+
+         return True
+      except Exception as e:
+         if str(e) == "Not found":
+            return False
+         else:
+            raise
+
+   def getCurrentMaxMemSize(self):
+      """@param self: A ResourcePool class
+
+      @return Maximum memory size in MB of a resource pool
+      """
+      if not self.exists():
+         return 0
+
+      return vsi.get("/sched/groups/" + str(self.getGrpID()) +
+                     "/memAllocationInMB")["max"]
+
+
+# RPs created by the system
+VIMRP = ResourcePool("host/vim")
+VMVISORRP = ResourcePool("host/vim/vmvisor")
+
+def timestamp():
+   """Generate a timestamp in a "standardized" for logging format.
+
+   See Util_FormatTimestampUTC for format spec.
+   """
+   dt = datetime.datetime.utcnow()
+   return ("%04u-%02u-%02uT%02u:%02u:%02u.%03uZ" %
+           (dt.year, dt.month, dt.day, dt.hour, dt.minute, dt.second,
+            dt.microsecond / 1000))
+
+def log(message):
+   """Log a message
+
+   @param message: the message to log
+   """
+   logFileName = "/var/log/configRP.log"
+
+   try:
+      # reset log if log is bigger than 1 MB
+      if os.path.exists(logFileName):
+         statinfo = os.stat(logFileName)
+         if statinfo.st_size > 1024 * 1024:
+            os.remove(logFileName)
+
+      logFile = open(logFileName, "a+")
+      logFile.write(timestamp() + ": " + message + "\n")
+      logFile.close();
+   except:
+      # Do not panic because of logging errors
+      pass
+
+def getOutput(command):
+   """Run a command and return the output. Raise an execption if command failed
+
+   @param command: The commnd to run
+
+   @return The output
+   """
+   args = shlex.split(command)
+   process = subprocess.Popen(args, stdout=subprocess.PIPE)
+   output, _ = process.communicate()
+   if process.returncode != 0:
+      raise subprocess.CalledProcessError(process.returncode, command)
+   return output.decode('utf-8')
+
+def sysAlert(message):
+   """Cause a sysAlert with the given message.
+
+   @param message: The message to display as sysAlert
+   """
+   log("SysAlert: " + message)
+   vsi.set("/system/sysAlert", [message])
+
+def getNumVMs():
+   """@return The number of supported VMs
+   """
+   return vsi.get("/system/supportedVMs")
+
+@functools.lru_cache(maxsize=1)
+def getBootOptions():
+   """@return The boot options.
+   """
+   return getOutput("/bin/bootOption -roC")
+
+def getTotalMem():
+   """@return The total installed memory of this host.
+   """
+   return vsi.get("/memory/comprehensive")["physmem"]
+
+def isInstaller():
+   """@return True if the system currently runs the installer, False otherwise
+   """
+   return re.search(r"(^|\s)(runweasel|ks=\S)", getBootOptions()) != None
+
+def isVpxdAvailable():
+   """@return True if vpxd is available, False otherwise.
+   """
+   return os.path.isfile("/usr/lib/vmware-vpx/vpxd")
+
+def getRPOfProcess(process):
+   """Get the resource pool for a process with a certain name that runs in
+   host/vim/vmvisor/
+
+   @param process: The name of the process
+
+   @return The resource pool
+   """
+   grpName =""
+   for psLine in getOutput("ps -c").split("\n"):
+      psDesc = psLine.split()
+
+      if len(psDesc) >= 2 and psDesc[2] == process:
+         grpName = process + "." + psDesc[0]
+
+   if grpName == "":
+      raise Exception(process + " not found")
+
+   return ResourcePool(VMVISORRP.name + "/" + str(grpName))
+
+def getHostdConfigVal(key, default=0):
+   """Read a certain config value from the hostd configuration file.
+
+   If the key is not in the configuration the default value is returned.
+
+   @param key: The key the value should be for
+   @param default: The default that should be returned if the key is not found
+
+   @return the value of the key or the default
+   """
+   configFile = open("/etc/vmware/hostd/config.xml", 'r')
+
+   config = ""
+   for line in configFile:
+      config += line
+
+   match = re.search("<[^>]*" + key + "[^>]*>([^<]*)<", config)
+
+   if match != None:
+      value = int(match.group(1).strip())
+   else:
+      value = default
+
+   configFile.close()
+
+   return value
+
+# sizing functions for RPs
+def getHostdMemMax():
+   """@return The memory limit for hostd
+   """
+   hostdBase, hostdPerVM = 227, 1706
+
+   hostdBase = int(getHostdConfigVal("hostdBaseMemInMB", hostdBase))
+   hostdPerVM = int(getHostdConfigVal("hostdPerVMMemInKB", hostdPerVM))
+
+   return int(ceil((hostdBase + ceil(hostdPerVM / 1024. * getNumVMs())) * 1.1))
+
+def getVmsyslogdCpuMin():
+   """@return The cpu reservation for vmsyslogd
+      # PR 1786554:
+      vmsyslogd needs reservation to keep draining /dev/log and can
+      potentially block other daemons from making progress if it can't
+      process logs in a timely fashion.
+   """
+
+   # We allocate 5% of a core as the base and then scale to 10 % of
+   # hostd's reservation.
+   return 5 + 0.1 * getHostdCpuMin()
+
+def getHostdCpuMin():
+   """@return The cpu reservation for hostd
+   """
+   # PR562745
+   return 25 + int(ceil(0.21 * getNumVMs()))
+
+def getVpxaCpuMin():
+   """@return The cpu reservation for vpxa
+   """
+   # PR 833121
+   # This amounts to 22%/30% of a core for 100/512 VMs respectively
+   return int(ceil(19.5 + 0.02 * getNumVMs()))
+
+def getVpxaMemMax():
+   """@return The memory limit for vpxa
+   """
+   vpxaBase, vpxaPerVm = 156, 800
+
+   return int(ceil((vpxaBase + ceil(vpxaPerVm / 1024. * getNumVMs())) * 1.1))
+
+def getVpxdMemMax():
+   """@return The memory limit for vpxd
+   """
+   return getHostdMemMax() * 2
+
+def getInitMemMax():
+   """@return the maximum size of the init pool.
+   """
+   if isInstaller():
+      return 1008
+   else:
+      # See PR: 1872278
+      return 220
+
+def getInitMemMin():
+   """@return the minimum size of the init pool.
+   """
+   if isInstaller():
+      return 1008
+   else:
+      # See PR: 768088 and its related review.
+      return 109
+
+def getUsbArbitratorMemMax():
+   """@return The size of the USB arbitrator pool
+   """
+   # Maximum number of devices on the USB bus.
+   maxDevices = 128
+
+   # A conservative estimate (backed by observation) that each device and
+   # client uses 4kB.
+   kbPerDevice = 4
+   kbPerClient = 4
+
+   # 5MB base memory usage.
+   memMaxKb = 5 * 1024
+
+   # Space for enumerated devices.
+   memMaxKb = memMaxKb + kbPerDevice * maxDevices
+
+   # Must support one client per VM and per locally attached vMotionable device.
+   memMaxKb = memMaxKb + kbPerClient * (maxDevices + getNumVMs())
+
+   # 1 MB for kernel memory used by this daemon
+   memMaxKb = memMaxKb + 1024
+
+   # Memory needed by watchdog.sh
+   watchDogMemMb = 2
+
+   # Convert to megabytes and double to be safe.
+   return int(ceil(memMaxKb / 1024.)) * 2 + watchDogMemMb
+
+def getVimCpuMin(rps):
+   """@return The cpu reservation of vim
+   """
+   cpuMin = 0
+   for rp in rps:
+      # sum up cpuMin of  all children of vim
+      if rp.isChildOf(VIMRP):
+         cpuMin += rp.cpuMin
+
+   # give additional headroom for daemons without cpu reservation
+   return cpuMin + 25
+
+# rp settings
+#
+# - DCUI max consumption is 39MB while restarting services. services.sh starts
+#   jumpstart in init resource group, we don't need to account memory in DCUI
+#   resource group.
+# - To run vim-cmd inside of the a terminal, we need around 23 MB. To be safe we
+#   add an extra padding of 5MB to account for the terminal or ssh connection
+#   overhead of around 3MB.  So a very rough estimation totals it to 31MB.  Plus
+#   we had to add vmkernel side reservation overhead.  A value we use to set
+#   reservation for terminal group is based on current emprical results (after
+#   opening ssh sesssion and running several vim-cmds) which at this moment
+#   is 45MB (rMinPeak).
+# - The small workloads that run within the shell group shouldn't exceed 512 MB.
+#   One of the largest workloads that runs in the shell is the update process.
+# - VMKeventd is used to load VMK modules, which it mmaps into memory. It also
+#   loads dependent modules recursively, so needs memory to spare. We currently
+#   (11/2016) have about 85MB worth of modules in an obj build. Assuming the
+#   worst case, we'd need 85MB to load all of them at once. Note that vmkeventd
+#   may also load modules in parallel. There's also additional overhead for
+#   tracking which symbols belong to which module, and other runtime data.
+#
+# - Each daemon in the uw-daemon group must be individually capped
+# - hostd gets a cpuMin because we care most about it.
+# - NFCD needs at least 7MBs to run and to execute authd.
+# - The loadESX resource pool is effectively unlimited because its invocation
+#   eventually reboots the host and all allocations are effectively temporary.
+# - vmsupport's MAX is a best effort based on experience. Previously vmsupport
+#   was invoked inside hostd's mem pool which ran out of memory in certain
+#   scenarios. However, running from within an ssh session (800 max) isn't known
+#   to fail.
+def getRps():
+   # When modifying this list, make sure that the groups are listed
+   # after their parents.
+   rps = [ResourcePool("host/iofilters/iofiltervpd",       memMin=0,                        memMax=0),
+          ResourcePool("host/vim/vimuser/terminal",        memMin=45,                                                cpuShares=500),
+          ResourcePool("host/vim/vimuser/terminal/shell",                                   memMax=512,              cpuShares=500),
+          ResourcePool("host/vim/vimuser/terminal/ssh",                                     memMax=800,              cpuShares=500),
+          ResourcePool("host/vim/vmvisor/aam",             memMin=0,                        memMax=0,                cpuShares=1000,                                     isEnabled=not isInstaller()),
+          ResourcePool("host/vim/vmvisor/boot",            memMin=0,                        memMax=200),
+          ResourcePool("host/vim/vmvisor/dcui",            memMin=45,                       memMax=101,              cpuShares=500,                                      isEnabled=not isInstaller()),
+          ResourcePool("host/vim/vmvisor/dhclient",        memMin=0,                        memMax=0),
+          ResourcePool("host/vim/vmvisor/dhclientrelease", memMin=0,                        memMax=0),
+          ResourcePool("host/vim/vmvisor/hbrca",           memMin=0,                        memMax=0,                cpuShares=1000,                                     isEnabled=not isInstaller()),
+          ResourcePool("host/vim/vmvisor/hostd",           memMin=getHostdMemMax(),         memMax=getHostdMemMax(), cpuShares=1000, cpuMin=getHostdCpuMin(),            isEnabled=not isInstaller(), canSwap=True, memMinSwap=10),
+          ResourcePool("host/vim/vmvisor/hostd-probe",     memMin=26,                       memMax=26),
+          ResourcePool("host/vim/vmvisor/hostd-probe/stats"),
+          ResourcePool("host/vim/vmvisor/hostd-probe/stats/awk"),
+          ResourcePool("host/vim/vmvisor/hostd-probe/stats/head"),
+          ResourcePool("host/vim/vmvisor/hostd-probe/stats/logger"),
+          ResourcePool("host/vim/vmvisor/hostd-probe/stats/ls"),
+          ResourcePool("host/vim/vmvisor/hostd-probe/stats/pgrep"),
+          ResourcePool("host/vim/vmvisor/hostd-probe/stats/probe"),
+          ResourcePool("host/vim/vmvisor/hostd-probe/stats/sh"),
+          ResourcePool("host/vim/vmvisor/hostd-probe/stats/vmkbacktrace"),
+          ResourcePool("host/vim/vmvisor/hostd-probe/stats/vmware"),
+          ResourcePool("host/vim/vmvisor/hostdCgiServer",  memMin=30,                       memMax=50,                                                                   isEnabled=not isInstaller()),
+          ResourcePool("host/vim/vmvisor/imaShim32d",      memMin=0,                        memMax=0),
+          ResourcePool("host/vim/vmvisor/init",            memMin=getInitMemMin(),          memMax=getInitMemMax(),  cpuShares=500),
+          ResourcePool("host/vim/vmvisor/lacpd",           memMin=13,                       memMax=13,                                                       cpuMax=10),
+          ResourcePool("host/vim/vmvisor/lbt",             memMin=13,                       memMax=13,                                                       cpuMax=30),
+          ResourcePool("host/vim/vmvisor/likewise",        memMin=0,                        memMax=0,                                                        cpuMax=30),
+          ResourcePool("host/vim/vmvisor/loadESX"),
+          ResourcePool("host/vim/vmvisor/logging",         memMin=80,                       memMax=80,               cpuMin=getVmsyslogdCpuMin()),
+          ResourcePool("host/vim/vmvisor/memScrubber",     memMin=0,                        memMax=0,                cpuShares=1),
+          ResourcePool("host/vim/vmvisor/net-daemons",     memMin=15,                       memMax=50,                                                       cpuMax=10),
+          ResourcePool("host/vim/vmvisor/netcpa",          memMin=0,                        memMax=0),
+          ResourcePool("host/vim/vmvisor/petronas",        memMin=0,                        memMax=0),
+          ResourcePool("host/vim/vmvisor/nfcd",            memMin=8,                        memMax=8,                                                                   isEnabled=not isInstaller()),
+          ResourcePool("host/vim/vmvisor/nfsgssd",         memMin=0,                        memMax=0),
+          ResourcePool("host/vim/vmvisor/nicmgmtd",        memMin=0,                        memMax=0),
+          ResourcePool("host/vim/vmvisor/nscd",            memMin=20,                       memMax=20,                                                       cpuMax=10),
+          ResourcePool("host/vim/vmvisor/ntpd",            memMin=15,                       memMax=15,               cpuShares=1000),
+          ResourcePool("host/vim/vmvisor/osfsd",           memMin=0,                        memMax=0),
+          ResourcePool("host/vim/vmvisor/pcscd",           memMin=0,                        memMax=0),
+          ResourcePool("host/vim/vmvisor/plugins",         memMin=0,                        cpuMax=30),
+          ResourcePool("host/vim/vmvisor/rabbitmqproxy",   memMin=23,                       memMax=23,                                                       cpuMax=30,  isEnabled=not isInstaller()),
+          ResourcePool("host/vim/vmvisor/sensord",         memMin=0,                        memMax=0),
+          ResourcePool("host/vim/vmvisor/sfcb",            memMin=0,                        memMax=0,                cpuShares=1000,                         cpuMax=30,  isEnabled=not isInstaller()),
+          ResourcePool("host/vim/vmvisor/sfcb_aux",        memMin=0,                        memMax=0,                                                        cpuMax=30,  isEnabled=not isInstaller()),
+          ResourcePool("host/vim/vmvisor/sioc",            memMin=55,                       memMax=55,                                                       cpuMax=30,  isEnabled=not isInstaller()),
+          ResourcePool("host/vim/vmvisor/slp",             memMin=11,                       memMax=11,                                                       cpuMax=30,  isEnabled=not isInstaller()),
+          ResourcePool("host/vim/vmvisor/smartd",          memMin=15,                       memMax=50,                                                       cpuMax=10,  isEnabled=not isInstaller()),
+          ResourcePool("host/vim/vmvisor/snmpd",           memMin=0,                        memMax=0,                                                        cpuMax=10,  isEnabled=not isInstaller()),
+          ResourcePool("host/vim/vmvisor/swapobjd",        memMin=0,                        memMax=0),
+          ResourcePool("host/vim/vmvisor/upitd",           memMin=0,                        memMax=0),
+          ResourcePool("host/vim/vmvisor/upittraced",      memMin=0,                        memMax=0),
+          ResourcePool("host/vim/vmvisor/usbArbitrator",   memMin=getUsbArbitratorMemMax(), memMax=getUsbArbitratorMemMax(),                                             isEnabled=not isInstaller()),
+          ResourcePool("host/vim/vmvisor/uwdaemons"),
+          ResourcePool("host/vim/vmvisor/vmfstraced",      memMin=0,                        memMax=0),
+          ResourcePool("host/vim/vmvisor/vmkdevmgr",       memMin=8,                        memMax=42),
+          ResourcePool("host/vim/vmvisor/vmkeventd",       memMin=25,                       memMax=92),
+          ResourcePool("host/vim/vmvisor/vmkiscsid",       memMin=0,                        memMax=0),
+          ResourcePool("host/vim/vmvisor/vmsupport",       memMin=0,                        memMax=1500),
+          ResourcePool("host/vim/vmvisor/vobd",            memMin=28,                       memMax=28,                                                       cpuMax=30,  isEnabled=not isInstaller()),
+          ResourcePool("host/vim/vmvisor/vpxa",            memMin=getVpxaMemMax(),          memMax=getVpxaMemMax(),                  cpuMin=getVpxaCpuMin(),             isEnabled=not isInstaller(), canSwap=True, memMinSwap=10),
+          ResourcePool("host/vim/vmvisor/vpxd",            memMin=getVpxdMemMax(),          memMax=getVpxdMemMax(),                                                      isEnabled=isVpxdAvailable()),
+          ResourcePool("host/vim/vmvisor/vvold",           memMin=0,                        memMax=0),
+          ResourcePool("host/vim/vmvisor/vvoltraced",      memMin=0,                        memMax=0),
+          ResourcePool("host/vim/vmvisor/wsman",           memMin=0,                        memMax=0,                                                        cpuMax=30,  isEnabled=not isInstaller())]
+
+   return rps
+
+
+def init():
+   """Setup the system resource pools.
+   """
+
+   rps = getRps()
+
+   try:
+      # Create RPs described in 'rps'
+      for rp in rps:
+         rp.create()
+   except:
+      sysAlert("Could not create daemon resource pools")
+
+   # Move init into host/vim/vmvisor/init
+   getRPOfProcess("init").reparent(ResourcePool("host/vim/vmvisor/init"))
+
+   # give cpu reservation to host/vim: PR1444103
+   VIMRP.setAlloc(cpuMin=getVimCpuMin(rps))
+
+def switchToSwapMode():
+   """Switch to swap mode
+   """
+   # get size of swap file
+   sizeLeft = int(vsi.get("/sched/systemSwap")["totalSize"]) / 1024
+
+   rps = getRps()
+
+   for rp in rps:
+      if rp.canSwap and rp.isEnabled:
+         # We should never reduce the memory more than what fits into the system
+         # swap file
+         assert rp.memMinSwap <= rp.memMin
+         thisRPReduction = min(sizeLeft, rp.memMin - rp.memMinSwap)
+
+         rp.setAlloc(memMin=(rp.memMin - thisRPReduction))
+         log(rp.name + " now in swap mode")
+
+         sizeLeft -= thisRPReduction
+
+         if sizeLeft == 0:
+            break
+
+def switchToNonSwapMode():
+   """Switch to non swap mode
+   """
+
+   rps = getRps()
+
+   for rp in rps:
+      try:
+         if rp.canSwap and rp.isEnabled:
+            rp.setAlloc(memMin=rp.memMin)
+            log(rp.name + " now in non-swap mode")
+      except:
+         log(rp.name + " could not be switched to non-swap mode")
+         switchToSwapMode()
+         raise
+
+def canonicalName(group):
+   """Returns the canonical name of a group, filling in the vmvisor group
+   name when it is implicit.
+   """
+   if group.startswith("host/"):
+      return group
+   else:
+      return VMVISORRP.name + "/" + group
+
+def increaseRPMemMaxSize(inputParameters):
+   """Increase the maximum memory allowance of a vmvisor child RP. The child RP
+   may not be in swap mode.
+
+   @param inputParameters: [group, increase (in MB)]
+   """
+   (group, increase) = inputParameters
+   rp = ResourcePool(canonicalName(group))
+   rp.increaseResourcePoolSize(increase, increase)
+
+def increaseSetRPMemMaxSize(inputParameters):
+   """Increase the maximum memory allowance of a set of vmvisor child RPs.
+   Child RPs may not be in swap mode.
+   Should any one group fail, reduce all remaining groups by their size
+   @param inputParameters: [groups], increase (in MB)]
+   """
+   try:
+      for grp in inputParameters.split(","):
+         (group, amount) = grp.split("=", 1)
+         rp = ResourcePool(canonicalName(group))
+         rp.increaseResourcePoolSize(amount, amount)
+   except:
+      for grp in inputParameters.split(","):
+         (group, amount) = grp.split("=", 1)
+         decreaseRPMemMaxSize([group, amount])
+
+def decreaseRPMemMaxSize(inputParameters):
+   """Decrease the maximum memory allowance of a vmvisor child RP.
+
+   The child RP may not be in swap mode.
+
+   @param inputParameters: [group, decrease (in MB)]
+   """
+   (group, decrease) = inputParameters
+   rp = ResourcePool(canonicalName(group))
+   try:
+      rp.decreaseResourcePoolSize(decrease, decrease)
+   except:
+      log("Could not decrease reservation of " + rp.name + " by " +
+          decrease + " MB.")
+      raise
+
+def decreaseSetRPMemMaxSizeWithRetry(inputParameters):
+   """Decrease the maximum memory allowance of a set of vmvisor child RPs.
+
+   This function calls decreaseRPMemMaxSize with retries for each rp.
+   @param inputParameters: [ retries, (group,decreaseMB),...]
+   """
+   (retries, groups) = inputParameters
+   for group in groups.split(","):
+      (groupId, memSize) = group.split("=", 1)
+      decreaseRPMemMaxSizeWithRetry([groupId, memSize, retries])
+
+def decreaseRPMemMaxSizeWithRetry(inputParameters):
+   """Decrease the maximum memory allowance of a vmvisor child RP.
+
+   This function calls decreaseRPMemMaxSize with retries.
+
+   @param inputParameters: [group, decrease (in MB), retries]
+   """
+   (group, decrease, retries) = inputParameters
+   retries = int(retries)
+   for i in range(retries):
+      try:
+         decreaseRPMemMaxSize([group, decrease])
+         return
+      except:
+         if i < retries - 1:
+            log("%d retries left, will retry after 1 sec." % (retries - 1 - i))
+            time.sleep(1)
+         else:
+            log("All retries failed.")
+            raise
+
+def getRPMemMaxSize(inputParameters):
+   """Print the currently configured maximum memory allowance for a certain RP.
+
+   This only works for RPs that are not swappable.
+
+   @param inputParameters: [group]
+   """
+   (group) = inputParameters
+
+   rp = ResourcePool(canonicalName(group))
+   if not rp.exists():
+      raise Exception("Resource pool " + rp.name + " does not exists")
+
+   return rp.getCurrentMaxMemSize()
+
+def setRPMemMaxSize(inputParameters):
+   """Set the maximum memory allowance of the given resource pool.
+
+   This sets the current memory allowance to the value provided.
+
+   @param inputParameters: [group, new memory allowance (in MB)]
+   """
+   (group, allowanceStr) = inputParameters
+   rp = ResourcePool(canonicalName(group))
+   allowance = int(allowanceStr)
+
+   tries = 10
+   for i in range(tries):
+      try:
+         rp.setAlloc(memMin=allowance, memMax=allowance)
+         return
+      except:
+         if i < tries - 1:
+            time.sleep(1)
+         else:
+            raise
+
+def setRPMemMaxSizeFromList(inputParameters):
+   """Increase the maximum memory allowance of a set of vmvisor child RPs.
+
+   This sets the current memory allowance to the value provided.
+
+   @param inputParameters: [group, new memory allowance (in MB)]
+   """
+   try:
+      for grp in inputParameters.split(","):
+         (group, amountStr) = grp.split("=", 1)
+         rp = ResourcePool(canonicalName(group))
+         amount = int(amountStr)
+         rp.setAlloc(memMin=amount, memMax=amount)
+   except:
+      raise
+
+
+if __name__ == "__main__":
+   # Execute a command.
+   #
+   # @return 0 if command could be executed successfully,
+   #         1 if command was not found or other exception happened.
+
+   if len(sys.argv) < 2:
+      sysAlert("configRP needs one or more arguments")
+      exit(1)
+
+   result = None
+   try:
+      log("Execute " + str(sys.argv[1:]))
+      start = time.time()
+      if len(sys.argv) == 2:
+         result = eval(sys.argv[1])()
+      elif len(sys.argv) == 3:
+         result = eval(sys.argv[1])(sys.argv[2])
+      else:
+         result = eval(sys.argv[1])(sys.argv[2:])
+      log(sys.argv[1] + " took " + str(time.time() - start) + " seconds")
+   except:
+      log(traceback.format_exc())
+      exit(1)
+
+   if result is not None:
+      print(result)

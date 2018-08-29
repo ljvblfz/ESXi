@@ -1,0 +1,95 @@
+# VSAN iSCSI target service related
+# msgId = 001
+com.vmware.vsan.iscsi.common.comma = ,
+com.vmware.vsan.iscsi.common.colon = :
+com.vmware.vsan.iscsi.common.ok = 확인
+com.vmware.vsan.iscsi.common.yes = 예
+com.vmware.vsan.iscsi.common.no = 아니요
+com.vmware.vsan.iscsi.msg.installVibFailed = EAM을 사용하여 클러스터에 VIB를 설치하는 동안 알 수 없는 오류가 발생했습니다.
+com.vmware.vsan.iscsi.msg.createHomeObjectFailed = 클러스터에 홈 개체를 생성하지 못했습니다.
+com.vmware.vsan.iscsi.msg.settingsFailed = 클러스터에 vSAN iSCSI 대상 서비스를 설정하지 못했습니다.
+com.vmware.vsan.iscsi.host.issues.notConnected = 호스트가 연결되어 있지 않습니다.
+com.vmware.vsan.iscsi.host.issues.notVITInstall = 호스트에 vSAN iSCSI 대상 서비스가 설치되어 있지 않습니다.
+com.vmware.vsan.iscsi.host.issues.notVITServiceFound = vSAN iSCSI 대상 서비스를 호스트에서 찾을 수 없습니다. 호스트가 버전 6.5 이상인지 확인하십시오.
+com.vmware.vsan.iscsi.cluster.issues.hostNotConnected = 하나 이상의 호스트가 연결되어 있지 않습니다.
+com.vmware.vsan.iscsi.cluster.issues.HostNotVITInstall = 하나 이상의 호스트에 vSAN iSCSI 대상 서비스가 설치되어 있지 않습니다.
+
+# For service process status
+com.vmware.vsan.iscsi.service.process.running = 실행 중
+com.vmware.vsan.iscsi.service.process.stopped = 중지됨
+com.vmware.vsan.iscsi.service.process.unknown = 알 수 없음
+com.vmware.vsan.iscsi.service.process.hostDisconnected = 호스트의 연결이 끊김
+
+# For service pre-check failed.
+com.vmware.vsan.iscsi.service.enabled.failed = 서비스를 사용하도록 설정할 수 없습니다. vSAN iSCSI 대상 서비스는 ESXi 호스트 버전 6.1에서 제공됩니다. 클러스터 내의 모든 호스트에 올바른 버전이 설치되어 있고 연결 문제가 없는지 확인하십시오.
+
+# For service installation health test
+com.vmware.vsan.iscsi.health.test.installStatus = 서비스 설치 상태
+com.vmware.vsan.iscsi.health.test.installStatus.desc.short = vSAN 클러스터의 모든 호스트에 vSAN iSCSI 대상 서비스가 설치되어 있고 VC 및 각 호스트에 있는 서비스 버전이 동일한지 확인합니다.
+com.vmware.vsan.iscsi.health.test.installStatus.desc.long = vSAN iSCSI 대상 서비스는 ESXi 호스트 버전 6.1에서 제공됩니다. 일부 호스트에 vSAN iSCSI 대상 서비스가 설치되어 있지 않은 것으로 확인될 경우, 해당 호스트의 버전이 올바르지 않은 것입니다. 일부 호스트에서 vSAN iSCSI 대상 서비스 상태가 알 수 없음으로 확인될 경우, 기타 문제(예: 연결 문제)가 있는 것입니다.
+com.vmware.vsan.iscsi.health.test.installStatus.table.label = 서비스 설치
+com.vmware.vsan.iscsi.health.test.installStatus.table.column.host = 호스트
+com.vmware.vsan.iscsi.health.test.installStatus.table.column.installationStatus = 설치 상태
+com.vmware.vsan.iscsi.health.test.installStatus.table.column.versionESX = ESX의 버전
+com.vmware.vsan.iscsi.health.test.installStatus.table.column.versionVC = VC의 버전
+com.vmware.vsan.iscsi.health.test.installStatus.table.column.error = 오류
+
+# For service runtime health test
+com.vmware.vsan.iscsi.health.test.runningStatus = 서비스 런타임 상태
+com.vmware.vsan.iscsi.health.test.runningStatus.desc.short = vSAN iSCSI 대상 서비스의 상태를 확인합니다.
+com.vmware.vsan.iscsi.health.test.runningStatus.desc.long = 서비스가 클러스터의 모든 호스트에서 사용되도록 설정되었는지 확인합니다. 호스트에 서비스가 사용되도록 설정되어 있지 않으면 'esxcli vsan iscsi status set --enabled=true' 명령을 실행하십시오. 또는 [편집] 작업([관리] > [설정] > [일반] > [vSAN iSCSI 대상 서비스])을 사용하여 iSCSI 대상 서비스가 사용되도록 설정할 수 있습니다. 이때 다음 프로세스의 상태도 확인합니다. ‘vtid’는 서비스를 제공하기 위해 사용되며 ‘vitsafehd’는 VMDK에 대해 열린 상태를 유지하기 위해 사용됩니다. ‘vtid’ 프로세스가 실행 중이지 않은 경우 '/etc/init.d/vitd start' 명령을 사용하여 이 프로세스를 시작하십시오. ‘vitsafehd’ 프로세스가 실행 중이지 않은 경우 '/etc/init.d/vitd io_restart' 명령을 사용하여 이 프로세스를 시작하십시오.
+com.vmware.vsan.iscsi.health.test.runningStatus.table.label = 서비스 런타임 상태
+com.vmware.vsan.iscsi.health.test.runningStatus.table.column.host = 호스트
+com.vmware.vsan.iscsi.health.test.runningStatus.table.column.processesStatus = 프로세스 상태
+com.vmware.vsan.iscsi.health.test.runningStatus.table.column.enabledStatus = 사용
+com.vmware.vsan.iscsi.health.test.runningStatus.table.column.error = 오류
+
+# For home object health test
+com.vmware.vsan.iscsi.health.test.groupName = vSAN iSCSI 대상 서비스
+com.vmware.vsan.iscsi.health.test.homeObject = 홈 개체
+com.vmware.vsan.iscsi.health.test.homeObject.storageOutOfDate = 만료됨
+com.vmware.vsan.iscsi.health.test.homeObject.storageCompliant = 준수
+com.vmware.vsan.iscsi.health.test.homeObject.storageNonCompliant = 비준수
+com.vmware.vsan.iscsi.health.test.homeObject.storageNotApplicable = 해당 없음
+com.vmware.vsan.iscsi.health.test.homeObject.storageUnknown = 알 수 없음
+com.vmware.vsan.iscsi.health.test.homeObject.desc.short = vSAN iSCSI 대상 서비스 홈 개체의 상태를 확인합니다.
+com.vmware.vsan.iscsi.health.test.homeObject.desc.long = 홈 개체는 vSAN iSCSI 대상 서비스에서 사용된 메타데이터를 저장합니다. 이 검사는 다음 항목을 확인합니다. 홈 개체가 생성되었고 시스템에서 찾을 수 있습니다. 홈 개체가 정상 상태이며 스토리지 정책을 준수합니다. 홈 개체가 고유합니다. 여러 홈 개체가 있는 경우 클러스터의 일부 호스트가 다른 홈 개체에 액세스할 수 있습니다. 홈 개체의 메타데이터 파일이 있고 구문 분석할 수 있으며 모든 메타데이터가 올바로 저장되었습니다.
+com.vmware.vsan.iscsi.health.test.homeObject.table.label = 홈 개체 정보
+com.vmware.vsan.iscsi.health.test.homeObject.table.column.check = 검사
+com.vmware.vsan.iscsi.health.test.homeObject.table.column.result = 결과
+com.vmware.vsan.iscsi.health.test.homeObject.table.column.status = 상태
+com.vmware.vsan.iscsi.health.test.homeObject.table.exist = 홈 개체 있음
+com.vmware.vsan.iscsi.health.test.homeObject.table.healthStatus = 상태
+com.vmware.vsan.iscsi.health.test.homeObject.table.storageStatus = 스토리지 정책 규정 준수
+com.vmware.vsan.iscsi.health.test.homeObject.table.entryStatus = 홈 개체가 고유함
+com.vmware.vsan.iscsi.health.test.homeObject.table.metadataStatus = 메타데이터 파일 상태
+com.vmware.vsan.iscsi.health.test.homeObject.table.noEntry = 지금은 항목 없음
+com.vmware.vsan.iscsi.health.test.homeObject.table.isUnique = 고유함
+com.vmware.vsan.iscsi.health.test.homeObject.table.isMultiple = 여러 개임
+com.vmware.vsan.iscsi.health.test.homeObject.table.metadataPresentParse = 있으며 구문 분석할 수 있음
+com.vmware.vsan.iscsi.health.test.homeObject.table.metadataNotPresentParse = 없거나 구문 분석할 수 없습니다. 이 항목을 확인하기 전에 서비스 런타임 상태 확인이 녹색인지 확인하십시오.
+
+com.vmware.vsan.iscsi.health.test.homeObject.status.notFound = 찾을 수 없음
+
+com.vmware.vsan.iscsi.health.test.cluster.iscsiEamInstall.host.untracked = 추적 안 됨
+com.vmware.vsan.iscsi.health.test.cluster.iscsiEamInstall.host.removed = (더 이상 클러스터에 없음)
+
+com.vmware.vsan.iscsi.health.test.serviceNetwork = 네트워크 구성
+com.vmware.vsan.iscsi.health.test.serviceNetwork.desc.short = vSAN iSCSI 대상 서비스의 네트워크 구성을 확인합니다.
+com.vmware.vsan.iscsi.health.test.serviceNetwork.desc.long = vSAN iSCSI 대상 서비스에서 사용된 모든 네트워크 인터페이스(기본 인터페이스 포함)는 클러스터의 모든 호스트에서 구성되어야 합니다. 이름이 동일한 모든 네트워크 인터페이스는 분산 포털을 구성합니다. 하나 이상의 호스트에 네트워크 인터페이스가 없으면 vSAN iSCSI 대상 서비스가 올바르게 작동할 수 없습니다.
+com.vmware.vsan.iscsi.health.test.serviceNetwork.defaultnic = 기본 네트워크 인터페이스 가져오기
+com.vmware.vsan.iscsi.health.test.serviceNetwork.defaultnic.notFound = 기본 네트워크 인터페이스를 찾을 수 없습니다.
+com.vmware.vsan.iscsi.health.test.serviceNetwork.defaultnic.error = 기본 네트워크 인터페이스를 가져오지 못했습니다. vSAN iSCSI 대상 서비스가 모든 호스트에서 실행 중인지 확인합니다.
+com.vmware.vsan.iscsi.health.test.serviceNetwork.nicsUsedByTargets = 대상에서 사용하는 네트워크 인터페이스 가져오기
+com.vmware.vsan.iscsi.health.test.serviceNetwork.nicsUsedByTargets.notFound = 대상에서 사용하는 네트워크 인터페이스를 찾을 수 없습니다.
+com.vmware.vsan.iscsi.health.test.serviceNetwork.table.service.label = 서비스 네트워크 구성
+com.vmware.vsan.iscsi.health.test.serviceNetwork.table.service.column.check = 검사
+com.vmware.vsan.iscsi.health.test.serviceNetwork.table.service.column.status = 상태
+com.vmware.vsan.iscsi.health.test.serviceNetwork.table.service.column.vmknics = 네트워크 인터페이스
+com.vmware.vsan.iscsi.health.test.serviceNetwork.table.service.column.error = 오류
+
+com.vmware.vsan.iscsi.health.test.serviceNetwork.table.label = 호스트 네트워크 구성
+com.vmware.vsan.iscsi.health.test.serviceNetwork.table.column.host = 호스트
+com.vmware.vsan.iscsi.health.test.serviceNetwork.table.column.status = 상태
+com.vmware.vsan.iscsi.health.test.serviceNetwork.table.column.error = 오류
+com.vmware.vsan.iscsi.health.test.serviceNetwork.table.column.vmknicsMissed = 네트워크 인터페이스를 찾을 수 없음

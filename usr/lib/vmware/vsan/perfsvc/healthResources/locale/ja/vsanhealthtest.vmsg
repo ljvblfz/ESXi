@@ -1,0 +1,1372 @@
+# This message file defines all of labels, descriptions in vSAN health test result showing in UI
+
+#
+# Common string
+#
+common.yes = はい
+common.no = いいえ
+common.unknown = 不明
+common.green = 緑
+common.yellow = 黄色
+common.red = 赤
+common.success = 成功
+common.error = エラー
+common.timeout = タイムアウト
+common.alive = 実行状態
+common.abnormal = 異常
+common.normal = 正常
+common.of = /
+common.hybrid = ハイブリッド
+common.allflash = オールフラッシュ
+common.comma = 、
+common.notavailable =  該当なし
+common.witness = 監視
+#
+# Host Vmdk load test
+#
+com.vmware.vsan.health.test.storageloadtest.overallStatusDescription = 全体的なステータスは良好です
+com.vmware.vsan.health.test.storageloadtest.testName = ストレージ パフォーマンス テスト
+com.vmware.vsan.health.test.storageloadtest.testResult.notRunLabel = 次のアクションに対する vSAN クラスタ ストレージ負荷テスト: [{action}]
+com.vmware.vsan.health.test.storageloadtest.testResult.columnHost = ホスト
+com.vmware.vsan.health.test.storageloadtest.testResult.columnStatus = ステータス
+com.vmware.vsan.health.test.storageloadtest.testResult.columnError = エラー
+com.vmware.vsan.health.test.storageloadtest.testResult.runLabel = vSAN ホスト ストレージ パフォーマンス テストの結果
+com.vmware.vsan.health.test.storageloadtest.testResult.columnWorkloadType = ワークロード タイプ
+com.vmware.vsan.health.test.storageloadtest.testResult.columnVmdkDiskNumber = VMDK ディスク番号
+com.vmware.vsan.health.test.storageloadtest.testResult.columnDuration = 期間 (秒)
+com.vmware.vsan.health.test.storageloadtest.testResult.columnIOPS = IOPS
+com.vmware.vsan.health.test.storageloadtest.testResult.columnThroughput = スループット (MB/秒)
+com.vmware.vsan.health.test.storageloadtest.testResult.columnAvgLatency = 平均遅延 (ミリ秒)
+com.vmware.vsan.health.test.storageloadtest.testResult.columnMaxLatency = 最大遅延 (ミリ秒)
+com.vmware.vsan.health.test.storageloadtest.failed.overallStatusDescription = 一部のホストでテストを完了できなかったため、vSAN クラスタ ストレージ負荷テストが失敗しました
+com.vmware.vsan.health.test.storageloadtest.testResult.failedLabel = vSAN ホスト ストレージ負荷テストの結果
+com.vmware.vsan.health.test.storageloadtest = vSAN ストレージ負荷テストでは、実際に高い IO 負荷をかけ、vSAN クラスタが負荷に耐えられることを確認します。このテストはこの目的専用に作成されたオブジェクトを使用して実行されます。さらに、必要な並行性を確保し、システム内のすべてのディスクを対象とするのに十分なオブジェクトも作成されます。このテストの時間は、実行しているセットや、キャッシュのウォームアップ時間などのパラメータによって、数分から数時間になることがあります。
+com.vmware.vsan.health.test.storageloadtest.short = vSAN クラスタが高い IO 負荷に耐えられることを検証するためのチェックをします。
+
+#
+# Cluster network performance test
+#
+com.vmware.vsan.health.test.networkperftest.testName = マルチキャスト パフォーマンス テスト
+com.vmware.vsan.health.test.networkperftest.testResult.label = vSAN ホスト マルチキャスト パフォーマンス テストの結果
+com.vmware.vsan.health.test.networkperftest.testResult.columnHost = ホスト
+com.vmware.vsan.health.test.networkperftest.testResult.columnHealthStatus = 健全性ステータス
+com.vmware.vsan.health.test.networkperftest.testResult.columnReceivedBandwidth = 受信バンド幅 (MB/秒)
+com.vmware.vsan.health.test.networkperftest.testResult.columnDesiredBandwidth = 実現可能な最大バンド幅の結果 (MB/秒)
+com.vmware.vsan.health.test.networkperftest = マルチキャストパフォーマンス テストは、接続の有無に加えて、ホスト間のマルチキャスト速度が vSAN の要件を満たしているかどうかを評価するように設計されています。このテストでは、1 台のホストを送信側として選び、他のすべてのホストを受信側として評価を行います。マルチキャスト トラフィックであることの利点により、送信側から送信されるすべてのパケットは、必ずすべての受信側に配信されます。したがって、理論上は ESXi およびこのテストの事例にボトルネックが存在せず、物理ネットワークが最大の回線速度で実行できると仮定すると、10 ギガビット/秒で送信された場合、すべての受信側で 10 ギガビット/秒で受信されることになります。実用上、このテストで送信側のリンクを完全に包括することはできません。さらに、多くの場合、物理スイッチはマルチキャストを最大回線速度で実行することはできません。実際、vSAN を最大回線速度で実行する必要はありません。vSAN が必要とするのは、ピーク負荷時に 20 MB/秒 (または 200 メガビット/秒) 未満のマルチキャスト速度です。汎用ベンダーからの標準的なエンタープライズ グレードのスイッチでは、このテストは最低 50 MB/秒に達します。数種類のローエンドのスイッチでは、VMware は 10 MB/秒程度になることを確認しています。これらの範囲に基づいて、このテストは 20 MB/秒未満のものでは遅すぎ、20 ～ 50 MB/秒のものは低速でも OK、そして 50 MB/秒を超えるものを VMware の期待値と結論付けています。
+com.vmware.vsan.health.test.networkperftest.short = ネットワークが vSAN のマルチキャスト バンド幅の要件 (50 MBps 以上) を満たしているかどうかをチェックします。
+
+#
+# Cluster VM creation test
+#
+com.vmware.vsan.health.test.createvmtest.testName = 仮想マシン作成テスト
+com.vmware.vsan.health.test.createvmtest.testResult.label = ホストの仮想マシン作成テストの結果
+com.vmware.vsan.health.test.createvmtest.testResult.columnHost = ホスト
+com.vmware.vsan.health.test.createvmtest.testResult.columnStatus = ステータス
+com.vmware.vsan.health.test.createvmtest.testResult.columnError = エラー
+com.vmware.vsan.health.test.createvmtest = 仮想マシン作成テストでは、単純でサイズの小さい仮想マシンが各ホストに作成されます。正常に作成された場合、仮想マシンは削除され、vSAN の多くの機能は正常に動作していると評価できます。たとえば、管理スタックがすべてのホストですべて機能している、vSAN ネットワーク回線が動作している、vSAN のオブジェクトに対する作成/削除および IO が動作している、などです。このような能動的なテストを行うことで、受動的な健全性チェックでは見つからない問題を検出できます。システム全体でこれを行うことにより、障害のあるホストを個別に隔離し、解決の手順をとるのが容易になります。
+com.vmware.vsan.health.test.createvmtest.short = vSAN クラスタの各ホストにサイズの小さい仮想マシンを作成できるかどうかを検証するためのチェックをします。
+
+
+com.vmware.vsan.health.test.host.issues.notConnected = ホストが接続されていません
+com.vmware.vsan.health.test.host.issues.notHealthInstall = ホストが 6.0 U2 以降のバージョンにアップデートされていません。健全性チェックは無効になります。
+com.vmware.vsan.health.test.host.issues.notHealth65Install = ホストが 6.5 Express Patch 2 リリース以降のバージョンにアップデートされていません。Configuration Assist チェックを使用できません。
+com.vmware.vsan.health.test.cluster.issues.hostNotConnected = 1 台以上のホストが接続されていません。
+com.vmware.vsan.health.test.cluster.issues.HostNotHealthInstall = 1 台以上のホストに vSAN Health Service がインストールされていません。
+
+# overall health status related string.
+com.vmware.vsan.health.test.cluster.overall.notEnabled = クラスタが有効ではありません
+
+#
+# Health service installation status check
+#
+com.vmware.vsan.health.test.cluster.healthEamInstall.testName = ESXi vSAN Health Service のインストール
+com.vmware.vsan.health.test.cluster.healthEamInstall.host.testName = ホストの vSAN Health Service のインストール
+com.vmware.vsan.health.test.cluster.healthEamInstall.host.columnHost = ホスト
+com.vmware.vsan.health.test.cluster.healthEamInstall.host.columnStatus = ステータス
+com.vmware.vsan.health.test.cluster.healthEamInstall.host.columnError = エラー
+com.vmware.vsan.health.test.cluster.healthEamInstall.host.untracked = 追跡解除されています
+com.vmware.vsan.health.test.cluster.healthEamInstall.host.removed = (現在はクラスタ内にありません)
+com.vmware.vsan.health.test.healtheaminstall = すべてのホストに vSAN Health Service がインストールされていることを確認します。他の vSAN 健全性チェックは、すべてのホストが 6.0 U2 以降のリリースにアップグレードされている場合にのみ実行されます。
+com.vmware.vsan.health.test.healtheaminstall.short = vSAN クラスタのすべてのホストに vSAN Health Service がインストールされているかどうかをチェックします。他の vSAN 健全性チェックは、すべてのホストが 6.0 U2 以降のリリースにアップグレードされている場合にのみ実行されます。
+
+com.vmware.vsan.health.test.cluster.easyinstalleaminstall.testName = ESXi vSAN Health Service のバージョン
+com.vmware.vsan.health.test.cluster.easyinstalleaminstall.host.testName = ホストの vSAN Health Service のバージョン
+
+com.vmware.vsan.health.test.easyinstalleaminstall = vSAN クラスタ内のすべてのホストに、Configuration Assistant 用に正しいバージョンの vSAN Health Service がインストールされていることを確認します。すべてのホストを 6.5 Express Patch 2 リリース以降にアップグレードすると、より多くの Configuration Assist チェックおよび機能を使用できるようになります。
+com.vmware.vsan.health.test.easyinstalleaminstall.short = vSAN クラスタ内のすべてのホストに、Configuration Assistant 用に正しいバージョンの vSAN Health Service がインストールされているかチェックします。すべてのホストを 6.5 Express Patch 2 リリース以降にアップグレードすると、より多くの Configuration Assist チェックおよび機能を使用できるようになります。
+
+#
+# Health service version check
+#
+com.vmware.vsan.health.test.cluster.healthVersion.testName = vSAN Health Service の更新状態
+com.vmware.vsan.health.test.cluster.healthVersion.testResult.label = vSAN Health Service のバージョン
+com.vmware.vsan.health.test.cluster.healthVersion.testResult.columnHost = ホスト
+com.vmware.vsan.health.test.cluster.healthVersion.testResult.columnVersionEsx = ESXi のバージョン
+com.vmware.vsan.health.test.cluster.healthVersion.testResult.columnVersionVc = vCenter Server のバージョン
+com.vmware.vsan.health.test.cluster.healthVersion.testResult.columnError = エラー
+com.vmware.vsan.health.test.healthversion = クラスタ内のすべての ESXi ホストにインストールされた vSAN Health VIB のバージョンが vCenter Server の Health のバージョンと同じかどうかをチェックします。チェックが失敗した場合は、クラスタの vSAN Health VIB のバージョンを更新することをお勧めします。
+com.vmware.vsan.health.test.healthversion.short = vSAN クラスタ内のすべてのホストで vSAN Health VIB バージョンをチェックします
+
+#
+# Time drift check
+#
+com.vmware.vsan.health.test.cluster.timeDrift.testName = ホストと vCenter Server 全体で時刻が同期済み
+com.vmware.vsan.health.test.cluster.timeDrift.testResult.columnHost = ホスト
+com.vmware.vsan.health.test.cluster.timeDrift.testResult.columnStatus = ステータス
+com.vmware.vsan.health.test.cluster.timeDrift.testResult.columnNtpEnabled = NTP サービスが有効
+com.vmware.vsan.health.test.cluster.timeDrift.testResult.columnTimeDrift = vCenter Server との時刻の差
+com.vmware.vsan.health.test.cluster.timeDrift.testResult.columnError = 原因
+com.vmware.vsan.health.test.cluster.timeDrift.testResult.error.notFound = ホストまたは vCenter Server の時刻の取得に失敗しました
+com.vmware.vsan.health.test.cluster.timeDrift.testResult.error.notSync = ホストと vCenter Server の時刻の差が 1 分を超えています
+com.vmware.vsan.health.test.cluster.timeDrift.testResult.error.computeError = 時刻の差を計算できません
+com.vmware.vsan.health.test.timedrift = vCenter Server とホストの時刻の差をチェックします。60 秒を超える差があると、このチェックは失敗します。チェックに失敗した場合は、NTP サーバの構成を確認することをお勧めします。
+com.vmware.vsan.health.test.timedrift.short = ホストと vCenter Server の時刻が 1 分以内の誤差で同期されていることをチェックします。
+
+#
+# Cluster membership check
+#
+com.vmware.vsan.health.test.cluster.clusterMembership.testName = vSphere クラスタ メンバーと vSAN クラスタ メンバーが一致
+com.vmware.vsan.health.test.cluster.clusterMembership.testResult.label = クラスタ メンバーシップ
+com.vmware.vsan.health.test.cluster.clusterMembership.testResult.columnHost = ホスト
+com.vmware.vsan.health.test.cluster.clusterMembership.testResult.columnInVcCluster = vSphere クラスタ内
+com.vmware.vsan.health.test.cluster.clusterMembership.testResult.columnInVsanCluster = vSAN クラスタ内
+com.vmware.vsan.health.test.cluster.clusterMembership.testResult.additionalLabel = 前回 vSAN が認識済み
+com.vmware.vsan.health.test.clustermembership = vSphere クラスタ メンバーと vSAN クラスタ メンバーが一致することをチェックします
+com.vmware.vsan.health.test.clustermembership.short = vSphere クラスタ メンバーと vSAN クラスタ メンバーが一致することをチェックします
+
+#
+# vSAN advanced configuration sync check
+#
+com.vmware.vsan.health.test.cluster.advCfgSync.testName = vSAN 詳細構成の同期状態
+com.vmware.vsan.health.test.cluster.advCfgSync.testResult.label = オプションが非同期
+com.vmware.vsan.health.test.cluster.advCfgSync.testResult.columnOption = オプション
+com.vmware.vsan.health.test.cluster.advCfgSync.testResult.columnValue = 値
+com.vmware.vsan.health.test.cluster.advCfgSync.testResult.columnHostsWithValue = この値のホスト
+com.vmware.vsan.health.test.advcfgsync = vSAN には、調整に使用したり、特定の環境の特別な要件に対応したりできる高度な構成オプションが多数あります。通常、このような設定は VMware KB の記事の手順を使用して、VMware サポートの指示に従って変更します。これらの詳細な設定オプションはホストごとに設定され、不整合のある構成がクラスタ内で作成されやすくなります。このチェックでは、vSAN の高度な構成オプションの中で重要な構成オプションが、指定したクラスタ内のすべてのホストで同じ値またはデフォルト値を持つようにします。
+com.vmware.vsan.health.test.advcfgsync.short = vSAN クラスタのすべてのホストでデフォルト以外の詳細構成オプションが同じ設定になっているかどうかをチェックします。デフォルト値が設定されている詳細構成はスキップされ、結果に表示されません。
+#
+# vSAN clomd liveness check
+#
+com.vmware.vsan.health.test.cluster.clomdLiveness.testName = vSAN の CLOMD 稼動状態
+com.vmware.vsan.health.test.cluster.clomdLiveness.testResult.label = vSAN ホストの CLOMD 稼動状態
+com.vmware.vsan.health.test.cluster.clomdLiveness.testResult.columnHost = ホスト
+com.vmware.vsan.health.test.cluster.clomdLiveness.testResult.columnState = 状態
+com.vmware.vsan.health.test.cluster.clomdLiveness.testResult.columnError = エラー
+com.vmware.vsan.health.test.clomdliveness = すべての vSAN ホストで CLOMD の稼動状態をチェックします
+com.vmware.vsan.health.test.clomdliveness.short = CLOM デーモンの稼動状態をチェックします。
+
+#
+# Dedup config health check
+#
+com.vmware.vsan.health.test.cluster.physdiskDedupConfig.testName = デデュープおよび圧縮構成の一貫性
+com.vmware.vsan.health.test.cluster.physdiskDedupConfig.testResult.labelDisk = ディスク グループ
+com.vmware.vsan.health.test.cluster.physdiskDedupConfig.testResult.labelHost = ホスト
+com.vmware.vsan.health.test.cluster.physdiskDedupConfig.testResult.columnHost = ホスト
+com.vmware.vsan.health.test.cluster.physdiskDedupConfig.testResult.columnDisk = ディスク グループ
+com.vmware.vsan.health.test.cluster.physdiskDedupConfig.testResult.columnIssue = 問題
+com.vmware.vsan.health.test.cluster.physdiskDedupConfig.testResult.columnRecommendation = 推奨
+com.vmware.vsan.health.test.cluster.physdiskDedupConfig.testResult.columnReasonIncorrectDedupDisabled = デデュープおよび圧縮が無効ですが、有効にする必要があります
+com.vmware.vsan.health.test.cluster.physdiskDedupConfig.testResult.columnReasonIncorrectDedupEnabled = デデュープおよび圧縮が有効ですが、無効にする必要があります
+com.vmware.vsan.health.test.cluster.physdiskDedupConfig.testResult.columnReasonHybridInDedupEnabled = デデュープが有効なクラスタ内のハイブリッド ディスク グループ
+com.vmware.vsan.health.test.cluster.physdiskDedupConfig.testResult.columnRecommendRemediation = オンディスク フォーマットの変換
+com.vmware.vsan.health.test.cluster.physdiskDedupConfig.testResult.columnRecommendManualFixHybrid = クラスタからのハイブリッド ディスク グループの削除
+com.vmware.vsan.health.test.cluster.physdiskDedupConfig.testResult.columnRecommendAskVMware = 「AskVMware」の記事の手順に従う
+com.vmware.vsan.health.test.physdiskdedupconfig = このチェックに失敗する場合、ディスクのデデュープおよび圧縮の設定にクラスタとの一貫性がないこと、およびホスト間の設定に一貫性がないことを意味します。
+com.vmware.vsan.health.test.physdiskdedupconfig.short = ホストおよびディスクのデデュープおよび圧縮の構成にクラスタとの一貫性があるかどうかをチェックします。
+
+#
+# Dedup usage health check
+#
+com.vmware.vsan.health.test.cluster.physdiskDedupUsage.testName = デデュープおよび圧縮の使用状況の健全性
+com.vmware.vsan.health.test.cluster.physdiskDedupUsage.testResult.label = デデュープおよび圧縮の構成が不正なディスク グループ
+com.vmware.vsan.health.test.cluster.physdiskDedupUsage.testResult.columnDisk = ディスク グループ
+com.vmware.vsan.health.test.cluster.physdiskDedupUsage.testResult.columnReason = 原因
+com.vmware.vsan.health.test.cluster.physdiskDedupUsage.testResult.columnReasonIncorrectDedupEnabled = デデュープおよび圧縮が有効なハイブリッド ディスク グループ
+com.vmware.vsan.health.test.cluster.physdiskDedupUsage.testResult.columnReasonIncorrectDedupDisabled = デデュープおよび圧縮が有効ではないオールフラッシュ ディスク グループ
+com.vmware.vsan.health.test.physdiskdedupusage = このチェックに失敗する場合、一部のハイブリッド ディスク グループでデデュープおよび圧縮の機能が有効になっていることを意味します。
+com.vmware.vsan.health.test.physdiskdedupusage.short = デデュープおよび圧縮がハイブリッド ディスク グループで可能になっているかをチェックします。
+
+#
+# Software version compatibility check
+#
+com.vmware.vsan.health.test.cluster.upgradesoftware.testName = ソフトウェア バージョンの互換性
+
+#
+#Disk format version
+#
+com.vmware.vsan.health.test.cluster.upgradelowerhosts.testName = ディスク フォーマットのバージョン
+
+#
+## Cluster config consistency health check
+#
+com.vmware.vsan.health.test.cluster.consistentConfig.testName = vSAN クラスタ構成の一貫性
+com.vmware.vsan.health.test.cluster.consistentConfig.testResult.labelIssue = 問題
+com.vmware.vsan.health.test.cluster.consistentConfig.testResult.columnHost = ホスト
+com.vmware.vsan.health.test.cluster.consistentConfig.testResult.columnDisk = ディスク
+com.vmware.vsan.health.test.cluster.consistentConfig.testResult.columnIssue = 問題
+com.vmware.vsan.health.test.cluster.consistentConfig.testResult.columnRecommendation = 推奨
+com.vmware.vsan.health.test.cluster.consistentConfig.testResult.encryption.enabledwhenclusterdisabled.host = 暗号化がホストで有効になっていますが、クラスタでは無効です
+com.vmware.vsan.health.test.cluster.consistentConfig.testResult.encryption.disabledwhenclusterenabled.host = 暗号化がホストで無効になっていますが、クラスタでは有効です
+com.vmware.vsan.health.test.cluster.consistentConfig.testResult.encryption.keyencryptionkeyinconsistent.host = データ暗号化キーが期限切れのキー暗号化キーで暗号化されています
+com.vmware.vsan.health.test.cluster.consistentConfig.testResult.encryption.dataencryptionkeyinconsistent.host = データが期限切れのデータ暗号化キーで暗号化されています
+com.vmware.vsan.health.test.cluster.consistentConfig.testResult.encryption.kmsinfoinconsistent.host = キー管理サーバの情報とクラスタ構成に一貫性がありません
+com.vmware.vsan.health.test.cluster.consistentConfig.testResult.encryption.hostkeyinconsistent.host = ホストのコア ダンプを暗号化するためのホスト キーとクラスタ構成に一貫性がありません
+com.vmware.vsan.health.test.cluster.consistentConfig.testResult.encryption.erasedisksbeforeuseinconsistent.host = ホストでの使用前にディスク内を消去する構成とクラスタ構成に一貫性がありません
+com.vmware.vsan.health.test.cluster.consistentConfig.testResult.encryption.enabledwhenclusterdisabled.disk = ディスク グループは暗号化されていますが、クラスタで暗号化が無効になっています
+com.vmware.vsan.health.test.cluster.consistentConfig.testResult.encryption.disabledwhenclusterenabled.disk = ディスク グループは暗号化されていませんが、クラスタで暗号化が有効になっています
+com.vmware.vsan.health.test.cluster.consistentConfig.testResult.encryption.kmsinfoinconsistent.disk = キー管理サーバの情報とクラスタ構成に一貫性がありません
+com.vmware.vsan.health.test.cluster.consistentConfig.testResult.encryption.keyencryptionkeyinconsistent.disk = キー暗号化キーとクラスタ構成に一貫性がありません
+com.vmware.vsan.health.test.cluster.consistentConfig.testResult.encryption.dataencryptionkeyinconsistent.disk = データが期限切れのデータ暗号化キーで暗号化されています
+com.vmware.vsan.health.test.cluster.consistentConfig.testResult.unicast = ネットワーク構成が同期していません
+com.vmware.vsan.health.test.cluster.consistentConfig.testResult.remediation = 一貫性のない構成の修正
+com.vmware.vsan.health.test.cluster.consistentConfig.testResult.perfsvcRemediation = 自動修正が有効になっています。詳細については、AskVMware を参照してください。
+com.vmware.vsan.health.test.cluster.consistentConfig.testResult.freespaceRemediation = ストレージを追加するか、空き容量を増やしてください。詳細については、AskVMware を参照してください。
+com.vmware.vsan.health.test.cluster.consistentConfig.testResult.compatibilityRemediation = コンプライアンスの問題を解決してください。詳細については、AskVMware を参照してください。
+com.vmware.vsan.health.test.consistentconfig = このチェックに失敗する場合、ホストまたはディスクの構成 (デデュープ/圧縮、暗号化など) の設定にクラスタとの一貫性がないことを意味します。
+com.vmware.vsan.health.test.consistentconfig.short = ホストおよびディスクの構成にクラスタとの一貫性があるかどうかをチェックします。
+
+#
+## Encryption Key Management Server connections health check
+#
+com.vmware.vsan.health.test.encryption.kmsConnection.testName = vCenter Server とすべてのホストがキー管理サーバに接続済み
+com.vmware.vsan.health.test.encryption.kmsConnection.testResult.labelVc = vCenter Server の KMS ステータス
+com.vmware.vsan.health.test.encryption.kmsConnection.testResult.labelHost = ホストの KMS ステータス
+com.vmware.vsan.health.test.encryption.kmsConnection.testResult.columnHost = ホスト
+com.vmware.vsan.health.test.encryption.kmsConnection.testResult.columnKmsCluster = KMS クラスタ
+com.vmware.vsan.health.test.encryption.kmsConnection.testResult.columnKms = KMS エイリアス
+com.vmware.vsan.health.test.encryption.kmsConnection.testResult.columnHealth = 接続ステータス
+com.vmware.vsan.health.test.encryption.kmsConnection.testResult.columnTrust = 信頼ステータス
+com.vmware.vsan.health.test.encryption.kmsConnection.testResult.columnCert = 証明書ステータス
+com.vmware.vsan.health.test.encryption.kmsConnection.testResult.columnServerCertExpire = サーバ証明書の有効期限
+com.vmware.vsan.health.test.encryption.kmsConnection.testResult.columnClientCertExpire = クライアント証明書の有効期限
+com.vmware.vsan.health.test.encryption.kmsConnection.testResult.columnIssue = 問題
+com.vmware.vsan.health.test.encryption.kmsConnection.testResult.columnRecommendation = 推奨
+com.vmware.vsan.health.test.encryption.kmsConnection.testResult.configissue = キー管理サーバの情報とクラスタ構成に一貫性がありません
+com.vmware.vsan.health.test.encryption.kmsConnection.testResult.remediation = 一貫性のない構成の修正
+com.vmware.vsan.health.test.encryption.kmsConnection.testResult.checkkms = キー管理サーバの設定のチェック
+com.vmware.vsan.health.test.encryption.kmsConnection.testResult.certwarning = 証明書の有効期限があと {days} 日で切れます。
+com.vmware.vsan.health.test.encryption.kmsConnection.testResult.certexpired = 証明書の有効期限が切れています。
+com.vmware.vsan.health.test.encryption.kmsConnection.testResult.certinvalid = 証明書が無効です。
+com.vmware.vsan.health.test.kmsconnection = このチェックに失敗する場合、キー管理サーバへの接続に問題が発生している vCenter Server またはホストがあることを意味します。
+com.vmware.vsan.health.test.kmsconnection.short = vCenter Server とホストがキー管理サーバに接続できるかどうかをチェックします。
+
+#
+## Encryption hosts CPU AESNI enabled state check
+#
+com.vmware.vsan.health.test.encryption.hostCpuAesni.testName = ホストで CPU AES-NI が有効
+com.vmware.vsan.health.test.encryption.hostCpuAesni.testResult.label = ホストの CPU AES-NI の状態
+com.vmware.vsan.health.test.encryption.hostCpuAesni.testResult.columnHost = ホスト
+com.vmware.vsan.health.test.encryption.hostCpuAesni.testResult.columnHealth = ステータス
+com.vmware.vsan.health.test.encryption.hostCpuAesni.testResult.columnIssue = 原因
+com.vmware.vsan.health.test.encryption.hostCpuAesni.testResult.aesnidisabled = ホストで CPU AES-NI がサポートされていないか、無効になっています
+com.vmware.vsan.health.test.encryption.hostcpuaesni = このチェックに失敗する場合、CPU AES-NI がサポートされていないか無効になっているホストがあることを意味します。AES-NI よりも大幅に低速なソフトウェア暗号化が使用されます。
+com.vmware.vsan.health.test.encryption.hostcpuaesni.short = ホストの CPU AES-NI が暗号化のために有効になっているかどうかをチェックします。
+
+#
+## Resync control health check
+#
+com.vmware.vsan.health.test.cluster.resynclimit.testName = 再同期操作の調整
+com.vmware.vsan.health.test.cluster.resynclimit.testResult.label = 再同期操作が調整されているホスト
+com.vmware.vsan.health.test.cluster.resynclimit.testResult.columnHost = ホスト
+com.vmware.vsan.health.test.cluster.resynclimit.testResult.columnLimit = 再同期のバンド幅制限
+com.vmware.vsan.health.test.resynclimit = このチェックに失敗する場合、再同期操作が調整されていることを意味します。クラスタがメルトダウンする可能性などの特定の状況に備えて必要となる場合以外は、この制限を解除してください。
+com.vmware.vsan.health.test.resynclimit.short = ホストで再同期操作が調整されているかどうかをチェックします。クラスタがメルトダウンする可能性などの特定の状況に備えて必要となる場合以外は、この制限を解除してください。
+
+#
+## vCenter state authoritative health check
+#
+com.vmware.vsan.health.test.cluster.vcauthoritative.testName = vCenter Server の状態は信頼できます
+com.vmware.vsan.health.test.cluster.vcauthoritative.testResult.label = 同期していないホスト
+com.vmware.vsan.health.test.cluster.vcauthoritative.testResult.columnHost = ホスト
+com.vmware.vsan.health.test.cluster.vcauthoritative.testResult.columnLastUpdate = vCenter Server による最終更新
+com.vmware.vsan.health.test.cluster.vcauthoritative.testResult.columnLastUpdateTime = 最終更新時間 
+com.vmware.vsan.health.test.cluster.vcauthoritative.testResult.columnRecommendation = 推奨
+com.vmware.vsan.health.test.cluster.vcauthoritative.testResult.rowCurrentVc = 現在の vCenter Server
+com.vmware.vsan.health.test.cluster.vcauthoritative.testResult.rowDifferentVc = 別の vCenter Server ({0})
+com.vmware.vsan.health.test.cluster.vcauthoritative.testResult.Recommendation = vCenter Server がバックアップから置換またはリカバリされており、vCenter Server の現在のホスト リストが正しい場合は、「ESXi 設定の更新」アクションを実行します
+com.vmware.vsan.health.test.vcauthoritative = 通常動作時は、vCenter Server の状態は信頼できるソースとみなされ、最新のホスト メンバーシップ リストを使用して ESXi ホストが自動的に更新されます。vCenter Server がバックアップから置換またはリカバリされた場合、vCenter Server ホストのメンバーシップ リストが古くなることがあります。この健全性チェックではこのような状況を検出し、vCenter Server が同期されていないことが原因で vCenter Server の状態が ESXi にプッシュされなかった場合に警告します。このような場合は、まず vCenter Server 内のメンバーシップ リストを完全にリストアしてから、必要に応じて「ESXi 設定の更新」アクションを実行してください。
+com.vmware.vsan.health.test.vcauthoritative.short = vCenter Server の状態が ESXi にプッシュされていて、ホストのメンバーシップが同期されていないかどうかを確認します。
+
+#
+# vSAN HCL DB up-to-date check
+#
+com.vmware.vsan.health.test.hcl.hclDbUptodate.testName = vSAN HCL DB の更新状態
+com.vmware.vsan.health.test.hcl.hclDbUptodate.testResult.label = HCL DB 情報
+com.vmware.vsan.health.test.hcl.hclDbUptodate.testResult.columnEntity = エンティティ
+com.vmware.vsan.health.test.hcl.hclDbUptodate.testResult.columnTime = UTC 時刻
+com.vmware.vsan.health.test.hcl.hclDbUptodate.testResult.rowCurrentTime = 現在時刻
+com.vmware.vsan.health.test.hcl.hclDbUptodate.testResult.rowLocalDBUpdateTime = ローカル HCL DB コピーの最終更新日時
+com.vmware.vsan.health.test.hcldbuptodate = HCL チェックに使用された「VMware ハードウェア互換性ガイド」データベースの古さをチェックします。90 日または 180 日よりも古い場合には、それぞれ警告またはエラーが表示されます。VMware は「VMware ハードウェア互換性ガイド」を随時更新しているため、ローカル コピーを最新の状態に保つことが重要です。
+com.vmware.vsan.health.test.hcldbuptodate.short = 「VMware ハードウェア互換性ガイド」データベースの古さをチェックします。
+
+
+#
+# vSAN HCL DB Auto-update check
+#
+com.vmware.vsan.health.test.hcl.autohclupdate.testName = vSAN HCL DB の自動更新
+com.vmware.vsan.health.test.hcl.autohclupdate.testResult.label = HCL DB の自動更新情報
+com.vmware.vsan.health.test.autohclupdate = vSAN HCL DB は VMware HCL リリース Web サイトから自動的にダウンロードおよび更新できます。VMware の公式 Web サイトへのインターネット アクセスを使用できない場合や、vSAN HCL DB 自動更新が有効になっていない場合、この健全性チェックは、サイレント健全性チェックのリストにデフォルトで記載され、スキップされたステータスを示します (ユーザーが手動でサイレント リストから削除した場合を除く)。それ以外の場合は、たとえば、VMware HCL リリースの Web サイトにに接続できない、最新の HCL DB をダウンロードできない、あるいはローカルの HCL DB を更新できないといった他の原因で、HCL データベースを自動更新できない場合は、警告が表示されます。
+com.vmware.vsan.health.test.autohclupdate.short = vSAN HCL DB は VMware HCL リリース Web サイトから自動的にダウンロードおよび更新できます。VMware の公式 Web サイトへのインターネット アクセスを使用できない場合や、vSAN HCL DB 自動更新が有効になっていない場合、この健全性チェックは、サイレント健全性チェックのリストにデフォルトで記載され、スキップされたステータスを示します (ユーザーが手動でサイレント リストから削除した場合を除く)。それ以外の場合は、たとえば、VMware HCL リリースの Web サイトにに接続できない、最新の HCL DB をダウンロードできない、あるいはローカルの HCL DB を更新できないといった他の原因で、HCL データベースを自動更新できない場合は、警告が表示されます。
+#
+#
+# SCSI Controller on vSAN HCL check
+#
+com.vmware.vsan.health.test.hcl.controllerOnHcl.testName = SCSI コントローラが VMware により認定済み
+com.vmware.vsan.health.test.hcl.controllerOnHcl.testResult.label = コントローラ リスト
+com.vmware.vsan.health.test.hcl.controllerOnHcl.testResult.columnHost = ホスト
+com.vmware.vsan.health.test.hcl.controllerOnHcl.testResult.columnDevice = デバイス
+com.vmware.vsan.health.test.hcl.controllerOnHcl.testResult.columnUsedByVsan = vSAN で使用
+com.vmware.vsan.health.test.hcl.controllerOnHcl.testResult.contentUsedByVsanYes = はい
+com.vmware.vsan.health.test.hcl.controllerOnHcl.testResult.contentUsedByVsanNo = いいえ
+com.vmware.vsan.health.test.hcl.controllerOnHcl.testResult.columnDisplayName = 現在のコントローラ
+com.vmware.vsan.health.test.hcl.controllerOnHcl.testResult.contentDisplayNameNA =  該当なし
+com.vmware.vsan.health.test.hcl.controllerOnHcl.testResult.columnPCIId = PCI ID
+com.vmware.vsan.health.test.hcl.controllerOnHcl.testResult.columnOnHCL = 認定されたコントローラ
+com.vmware.vsan.health.test.controlleronhcl.short = コントローラに「VMware 互換性ガイド」との互換性があるかどうかをチェックします。
+com.vmware.vsan.health.test.controlleronhcl = ストレージの I/O コントローラについての情報が表示され、「VMware 互換性ガイド」でコントローラがサポートされていることを PCI ID に基づいて検証します。不一致がある場合は、VMware サポートにお問い合わせください。
+
+#
+# Controller release support check
+#
+com.vmware.vsan.health.test.hcl.controllerReleaseSupport.testName = コントローラが ESXi リリースに対して VMware により認定済み
+com.vmware.vsan.health.test.hcl.controllerReleaseSupport.testResult.label = コントローラ リスト
+com.vmware.vsan.health.test.hcl.controllerReleaseSupport.testResult.columnHost = ホスト
+com.vmware.vsan.health.test.hcl.controllerReleaseSupport.testResult.columnDevice = デバイス
+com.vmware.vsan.health.test.hcl.controllerReleaseSupport.testResult.columnReleaseOfESX = 現在の ESXi リリース
+com.vmware.vsan.health.test.hcl.controllerReleaseSupport.testResult.columnReleaseSupported = サポートされているリリース
+com.vmware.vsan.health.test.hcl.controllerReleaseSupport.testResult.columnReleaseOnHCL = 認定された ESXi リリース
+com.vmware.vsan.health.test.controllerreleasesupport = ストレージの I/O コントローラ ドライバについての情報が表示されます。インストールされているドライバが、現行リリースの ESXi で対応するコントローラをサポートしているかどうかをチェックします。VMware 認定のコントローラのみがテスト対象であり、結果に表示されます。
+com.vmware.vsan.health.test.controllerreleasesupport.short = インストールされている ESXi のリリースで、指定したコントローラをサポートするドライバがあるかどうかについての情報を表示します。VMware 認定のコントローラのみがテスト対象であり、結果に表示されます。
+
+#
+# Controller Driver check
+#
+com.vmware.vsan.health.test.hcl.controllerDriver.testName = コントローラ ドライバが VMware により認定済み
+com.vmware.vsan.health.test.hcl.controllerDriver.testResult.label = コントローラ リスト
+com.vmware.vsan.health.test.hcl.controllerDriver.testResult.columnHost = ホスト
+com.vmware.vsan.health.test.hcl.controllerDriver.testResult.columnDevice = デバイス
+com.vmware.vsan.health.test.hcl.controllerDriver.testResult.columnDriverInUse = 現在のドライバ
+com.vmware.vsan.health.test.hcl.controllerDriver.testResult.columnDriverHealth = 認定されたドライバ
+com.vmware.vsan.health.test.hcl.controllerDriver.testResult.columnDriversOnHCL = 推奨されるドライバ
+com.vmware.vsan.health.test.controllerdriver = コントローラが使用するドライバが VMware 互換性ガイドで認定済みとしてリストされているかどうかをチェックします。vSAN HCL 上の、現行リリースの ESXi に対して認定されているコントローラのみがテスト対象であり、結果に表示されます。
+com.vmware.vsan.health.test.controllerdriver.short = コントローラ ドライバが VMware により認定されているかどうかをチェックします。vSAN HCL 上の、現行リリースの ESXi に対して認定されているコントローラのみがテスト対象であり、結果に表示されます。
+
+
+# Controller Firmware check
+#
+#com.vmware.vsan.health.test.hcl.cimProviderInstall.testName = CIM Provider Installation
+com.vmware.vsan.health.test.hcl.cimProviderInstall.testResult.columnCIMInUse = インストールされた CIM プロバイダ
+com.vmware.vsan.health.test.hcl.cimProviderInstall.testResult.columnCIMSupported = CIM プロバイダのインストールの有無
+com.vmware.vsan.health.test.hcl.cimProviderInstall.testResult.columnCIMOnHCL = HCL の CIM プロバイダ
+com.vmware.vsan.health.test.hcl.cimProviderInstall.testResult.columnCIMSettingSupported = サポートされるコントローラ設定
+com.vmware.vsan.health.test.cimproviderinstall = ホストが『VMware 互換性ガイド』で推奨されたバージョンに一致するバージョンの CIM プロバイダをインストールしているかをチェックします。HCL DB にサポートされる CIM プロバイダがない場合、または 1 つの推奨されるプロバイダがあり、正しいバージョンでインストールされている場合は緑、それ以外は黄色のステータスになります。
+com.vmware.vsan.health.test.cimproviderinstall.short = 提供される CIM がインストールされていて、『VMware 互換性ガイド』と互換性があるかどうかをチェックします
+
+#
+# Controller Firmware check
+#
+com.vmware.vsan.health.test.hcl.controllerFirmware.testName = コントローラ ファームウェアが VMware により認定済み
+com.vmware.vsan.health.test.hcl.controllerFirmware.testResult.columnFirmwareInUse = 現在のファームウェア
+com.vmware.vsan.health.test.hcl.controllerFirmware.testResult.columnFirmwareHealth = 認定されたファームウェア
+com.vmware.vsan.health.test.hcl.controllerFirmware.testResult.columnFirmwareOnHCL = 推奨されるファームウェア
+com.vmware.vsan.health.test.controllerfirmware = コントローラ ファームウェアが VMware 互換性ガイドで認定されているかどうかをチェックします。「該当なし」は、現在のファームウェア バージョンを特定するためにベンダー ツール (ある場合) のインストールが必要なことを表します。[ソフトウェアのアップデート] アクションが利用可能であればこれを実行して、ベンダー ツールとファームウェアを推奨されたバージョンにアップデートできます。vSAN HCL 上の、現行リリースの ESXi に対して認定されているコントローラのみがテスト対象であり、結果に表示されます。
+com.vmware.vsan.health.test.controllerfirmware.short = コントローラ ファームウェアが VMware により認定されているかどうかをチェックします。「該当なし」は、現在のファームウェア バージョンを特定するためにベンダー ツール (ある場合) のインストールが必要なことを表します。[ソフトウェアのアップデート] アクションが利用可能であればこれを実行して、ベンダー ツールとファームウェアを推奨されたバージョンにアップデートできます。vSAN HCL 上の、現行リリースの ESXi に対して認定されているコントローラのみがテスト対象であり、結果に表示されます。
+com.vmware.vsan.health.test.controllerfirmware.norecommendedfw = このコントローラのファームウェア バージョンを確認できません
+#
+# Controller Queue Depth check
+#
+#com.vmware.vsan.health.test.hcl.controllerQueueDepth.testName = Controller queue depth is VMware certified
+com.vmware.vsan.health.test.hcl.controllerQueueDepth.testResult.columnQueueDepthInUse = 現在のキュー深度
+com.vmware.vsan.health.test.hcl.controllerQueueDepth.testResult.columnQueueDepthOnHCL = 推奨されるキュー深度
+com.vmware.vsan.health.test.hcl.controllerQueueDepth.testResult.columnQueueDepthHealth = 認定されたキュー深度
+com.vmware.vsan.health.test.controllerqueuedepth = コントローラのキュー深度が「VMware 互換性ガイド」で満たされているかどうかをチェックします。
+com.vmware.vsan.health.test.controllerqueuedepth.short = コントローラのキュー深度が VMware に認定されているかどうかをチェックします
+
+#
+# Controller Disk Mode check
+#
+com.vmware.vsan.health.test.hcl.controllerDiskMode.testName = コントローラ ディスク グループのモードが VMware により認定済み
+com.vmware.vsan.health.test.hcl.controllerDiskMode.testResult.columnDiskModeInUse = 現在のディスク グループのモード
+com.vmware.vsan.health.test.hcl.controllerDiskMode.testResult.columnDiskModeOnHCL = 推奨されるディスク グループのモード
+com.vmware.vsan.health.test.hcl.controllerDiskMode.testResult.columnDiskModeHealth = 認定されたディスク グループのモード
+com.vmware.vsan.health.test.controllerdiskmode = vSAN ディスク グループのタイプ (オールフラッシュまたはハイブリッド) が、使用中の SCSI コントローラに対して認定済みであるかどうかを VMware 互換性ガイドで確認します。vSAN HCL 上の、現行リリースの ESXi に対して認定されているコントローラのみがテスト対象であり、結果に表示されます。
+com.vmware.vsan.health.test.controllerdiskmode.short = vSAN ディスク グループのタイプ (オールフラッシュまたはハイブリッド) が、vSAN HCL 上の、現行リリースの ESXi に対して認定されている使用中の SCSI コントローラに対して、VMware により認定されているかどうかを確認します。
+
+#
+# Controller Cache Setting check
+#
+#com.vmware.vsan.health.test.hcl.controllerCache.testName = Controller Cache Setting
+com.vmware.vsan.health.test.hcl.controllerCache.testResult.columnCacheInUse = 使用中のキャッシュ設定
+com.vmware.vsan.health.test.hcl.controllerCache.testResult.columnCacheHealth = キャッシュ設定の健全性
+com.vmware.vsan.health.test.hcl.controllerCache.testResult.columnCacheOnHCL = HCL のキャッシュ設定
+com.vmware.vsan.health.test.controllercache = コントローラのキャッシュ設定が、『VMware 互換性ガイド』の認定された設定のいずれかと一致するかどうかをチェックします。
+com.vmware.vsan.health.test.controllercache.short = コントローラのキャッシュ設定が VMware により認証されているかどうかをチェックします。
+
+#
+# Controller RAID Setting check
+#
+#com.vmware.vsan.health.test.hcl.controllerRaid.testName = Controller RAID Setting
+com.vmware.vsan.health.test.hcl.controllerRaid.testResult.columnRaidInUse = 使用中の RAID 設定
+com.vmware.vsan.health.test.hcl.controllerRaid.testResult.columnRaidHealth = RAID 設定の健全性
+com.vmware.vsan.health.test.hcl.controllerRaid.testResult.columnRaidOnHCL = HCL の RAID 設定
+com.vmware.vsan.health.test.controllerraid = コントローラの RAID 設定が、『VMware 互換性ガイド』の認定された設定のいずれかと一致するかどうかをチェックします。
+com.vmware.vsan.health.test.controllerraid.short = コントローラの RAID 設定が VMware により認証されているかどうかをチェックします。
+
+#
+#
+# Network Adapter on vSphere VMware HCL check
+#
+com.vmware.vsan.health.test.hcl.pnicOnHcl.testName = ネットワーク アダプタが VMware により認定済み
+com.vmware.vsan.health.test.hcl.pnicOnHcl.testResult.label = ネットワーク アダプタ リスト
+com.vmware.vsan.health.test.hcl.pnicOnHcl.testResult.columnHost = ホスト
+com.vmware.vsan.health.test.hcl.pnicOnHcl.testResult.columnDevice = デバイス
+com.vmware.vsan.health.test.hcl.pnicOnHcl.testResult.columnDisplayName = 現在のアダプタ
+com.vmware.vsan.health.test.hcl.pnicOnHcl.testResult.contentDisplayNameNA =  該当なし
+com.vmware.vsan.health.test.hcl.pnicOnHcl.testResult.columnPCIId = PCI ID
+com.vmware.vsan.health.test.hcl.pnicOnHcl.testResult.columnOnHCL = 認定されたアダプタ
+com.vmware.vsan.health.test.pniconhcl.short = ネットワーク アダプタに VMware 互換性ガイドとの互換性があるかどうかをチェックします。
+com.vmware.vsan.health.test.pniconhcl = ネットワーク アダプタについての情報を表示し、VMware 互換性ガイドでアダプタがサポートされていることを PCI ID に基づいて検証します。
+
+#
+# Network Adapter release support check
+#
+com.vmware.vsan.health.test.hcl.pnicReleaseSupport.testName = ネットワーク アダプタが ESXi リリースに対して VMware により認定済み
+com.vmware.vsan.health.test.hcl.pnicReleaseSupport.testResult.label = ネットワーク アダプタ リスト
+com.vmware.vsan.health.test.hcl.pnicReleaseSupport.testResult.columnHost = ホスト
+com.vmware.vsan.health.test.hcl.pnicReleaseSupport.testResult.columnDevice = デバイス
+com.vmware.vsan.health.test.hcl.pnicReleaseSupport.testResult.columnReleaseOfESX = 現在の ESXi リリース
+com.vmware.vsan.health.test.hcl.pnicReleaseSupport.testResult.columnReleaseSupported = サポートされているリリース
+com.vmware.vsan.health.test.hcl.pnicReleaseSupport.testResult.columnReleaseOnHCL = 認定された ESXi リリース
+com.vmware.vsan.health.test.pnicreleasesupportt = ネットワーク アダプタ ドライバについての情報が表示されます。インストールされているドライバが、現行リリースの ESXi で対応するアダプタをサポートしているかどうかをチェックします。
+com.vmware.vsan.health.test.pnicreleasesupport.short = インストールされている ESXi のリリースで、指定したネットワーク アダプタをサポートするドライバがあるかどうかについての情報を表示します。
+
+#
+# Network Adapter Driver check
+#
+com.vmware.vsan.health.test.hcl.pnicDriver.testName = ネットワーク アダプタ ドライバが VMware により認定済み
+com.vmware.vsan.health.test.hcl.pnicDriver.testResult.label = ネットワーク アダプタ リスト
+com.vmware.vsan.health.test.hcl.pnicDriver.testResult.columnHost = ホスト
+com.vmware.vsan.health.test.hcl.pnicDriver.testResult.columnDevice = デバイス
+com.vmware.vsan.health.test.hcl.pnicDriver.testResult.columnDriverInUse = 現在のドライバ
+com.vmware.vsan.health.test.hcl.pnicDriver.testResult.columnDriverHealth = 認定されたドライバ
+com.vmware.vsan.health.test.hcl.pnicDriver.testResult.columnDriversOnHCL = 推奨されるドライバ
+com.vmware.vsan.health.test.pnicdriver = ネットワーク アダプタが使用するドライバが VMware 互換性ガイドで認定済みとしてリストされているかどうかをチェックします。
+com.vmware.vsan.health.test.pnicdriver.short = ネットワーク アダプタ ドライバが VMware に認定されているかどうかをチェックします。
+
+#
+# Network Adapter Firmware check
+#
+com.vmware.vsan.health.test.hcl.pnicFirmware.testName = ネットワーク アダプタ ファームウェアが VMware により認定済み
+com.vmware.vsan.health.test.hcl.pnicFirmware.testResult.columnFirmwareInUse = 現在のファームウェア
+com.vmware.vsan.health.test.hcl.pnicFirmware.testResult.columnFirmwareHealth = 認定されたファームウェア
+com.vmware.vsan.health.test.hcl.pnicFirmware.testResult.columnFirmwaresOnHCL = 推奨されるファームウェア
+com.vmware.vsan.health.test.pnicfirmware = ネットワーク アダプタ ファームウェアが VMware 互換性ガイドで認定されているかどうかをチェックします。
+com.vmware.vsan.health.test.pnicfirmware.short = ネットワーク アダプタ ファームウェアが VMware により認定されているかどうかをチェックします。デバイスとドライバが両方とも VMware により認定されている場合に、チェックが実行されます。対応するドライバのデバイスに対するファームウェアのバージョンが存在しない場合は、チェックのステータスが緑で表示されます。
+com.vmware.vsan.health.test.pnicfirmware.norecommendedfw = このネットワーク アダプタのファームウェア バージョンを確認できません
+
+#
+# Host issues retrieving hardware info check
+#
+com.vmware.vsan.health.test.hcl.hclHostBadState.testName = ハードウェア情報取得中のホストの問題
+com.vmware.vsan.health.test.hcl.hclHostBadState.testResult.label = 正しくない状態のホスト
+com.vmware.vsan.health.test.hcl.hclHostBadState.testResult.columnHost = ホスト
+com.vmware.vsan.health.test.hcl.hclHostBadState.testResult.columnIssue = 問題
+com.vmware.vsan.health.test.hcl.hclHostBadState.testResult.rowUnknownError = 不明なエラー
+com.vmware.vsan.health.test.hclhostbadstate = ハードウェア情報取得の試みに対し、ホストが切断されているか、無応答か、または応答に失敗した場合、このテストでその問題を把握します。ここでリストされたホストには、「VMware 互換性ガイド」を参照したチェックは実行されません。
+com.vmware.vsan.health.test.hclhostbadstate.short = ホストがハードウェア情報を返すのに失敗したかどうかをチェックします。
+
+#
+#  Network health check
+#
+com.vmware.vsan.health.test.network.testResult.partitionList.label = パーティション リスト
+com.vmware.vsan.health.test.network.testResult.partitionList.columnHost = ホスト
+com.vmware.vsan.health.test.network.testResult.partitionList.columnPartition = パーティション
+com.vmware.vsan.health.test.network.testResult.partitionList.columnHostUUID = ホスト UUID
+com.vmware.vsan.health.test.network.testResult.partitionList.contentUnknownPartition = "パーティションが不明です"
+
+com.vmware.vsan.health.test.network.testResult.multicastMismatch.label = マルチキャスト構成
+com.vmware.vsan.health.test.network.testResult.multicastMismatch.columnHost = ホスト
+com.vmware.vsan.health.test.network.testResult.multicastMismatch.columnMulticastIPs = マルチキャスト IP
+
+com.vmware.vsan.health.test.network.testResult.subnetMismatch.label = vSAN IP サブネット構成
+com.vmware.vsan.health.test.network.testResult.subnetMismatch.columnHost = ホスト
+com.vmware.vsan.health.test.network.testResult.subnetMismatch.columnIPSubnet = IP サブネット
+
+com.vmware.vsan.health.test.network.testResult.pingResult.label = Ping の結果
+com.vmware.vsan.health.test.network.testResult.pingResult.label.onlyFailed = 失敗した ping のみ
+com.vmware.vsan.health.test.network.testResult.pingResult.columnFromHost = 元のホスト
+com.vmware.vsan.health.test.network.testResult.pingResult.columnToHost = 対象のホスト
+com.vmware.vsan.health.test.network.testResult.pingResult.columnToDevice = 対象のデバイス
+com.vmware.vsan.health.test.network.testResult.pingResult.columnPingResult = Ping の結果
+
+com.vmware.vsan.health.test.network.testResult.hostLatencyCheck.label = ネットワーク遅延チェックの結果
+com.vmware.vsan.health.test.network.testResult.hostLatencyCheck.label.onlyFailed = 失敗したネットワーク遅延チェックの結果のみ
+com.vmware.vsan.health.test.network.testResult.hostLatencyCheck.columnFromHost = 元のホスト
+com.vmware.vsan.health.test.network.testResult.hostLatencyCheck.columnToHost = 対象のホスト
+com.vmware.vsan.health.test.network.testResult.hostLatencyCheck.columnMaxLatency = ネットワーク遅延 (ミリ秒)
+com.vmware.vsan.health.test.network.testResult.hostLatencyCheck.columnPingResult = ネットワーク遅延チェックの結果
+
+com.vmware.vsan.health.test.network.testResult.simpleHost.columnHost = ホスト
+
+#
+# Hosts disconnected from VC check
+#
+com.vmware.vsan.health.test.network.hostDisconnected.testName = vCenter Server から切断されたホスト
+com.vmware.vsan.health.test.network.hostDisconnected.testResult.label = 切断済みのホスト
+com.vmware.vsan.health.test.network.testResult.hostDisconnected = 切断済み
+com.vmware.vsan.health.test.network.testResult.hostNotResponding = 応答なし
+com.vmware.vsan.health.test.hostdisconnected.short = vCenter Server に、クラスタ内のすべてのホストへのアクティブな接続があるかどうかをチェックします。
+com.vmware.vsan.health.test.hostdisconnected = このチェックは、クラスタ内のすべてのホストに対してアクティブな接続が vCenter Server にあるかどうかについて確認します。vCenter Server から切断された (または応答がない) ホストがある場合は、動作上の問題が発生する可能性があります。vCenter Server がホストに接続されていない場合、vCenter Server から見てその状態は不明となります。ホストの状態は、起動されているか、vSAN クラスタに参加しているか、データを処理しているか、クラスタのストレージ機能で重要な役割を果たしているか、そのいずれの可能性もあります。あるいはホストがダウンまたは使用できない可能性もあります。vCenter Server は (つまり vSAN 健全性チェックでは) ホストが切断されていると、状況を完全に評価することはできません。ホストが vSAN クラスタに参加している場合、ホストの UUID を特定できないため、クラスタには「予期しない vSAN クラスタ メンバー」チェックで予期しないものとして表示されます。したがって、健全性チェックでは結果的に vSAN クラスタに表示されたホストが切断されているかどうかを判断できません。さらに、vSAN 接続チェックやディスク健全性チェックなどの健全性チェックでは、切断されたホストは検討に含められません。
+
+#
+# Hosts with connectivity issues check
+#
+com.vmware.vsan.health.test.network.hostConnectivity.testName = 接続に問題のあるホスト
+com.vmware.vsan.health.test.network.hostConnectivity.testResult.label = 通信に問題のあるホスト
+com.vmware.vsan.health.test.hostconnectivity.short = ホストが「接続中」状態の時に vCenter Server からホストへの API 呼び出しが失敗しているかどうかをチェックします。
+com.vmware.vsan.health.test.hostconnectivity = このチェックは、vCenter Server のリストにホストが接続中と表示されていても、vCenter Server からホストへの API 呼び出しが失敗した状況について確認します。ごくまれにしかない状況ですが、発生した場合には「VC から切断されたホスト」の状況に類似する問題が発生します。
+
+# Cluster partition check
+com.vmware.vsan.health.test.network.clusterPartition.testName = vSAN クラスタ パーティション
+com.vmware.vsan.health.test.clusterpartition = 正常に動作するためには、すべての vSAN ホストをマルチキャストとユニキャストの両方で通信できるようにする必要があります。通信できない場合には、vSAN クラスタは複数のホストのサブグループである「パーティション」に分割され、サブグループ内では通信ができますが、別のサブグループとは通信ができなくなります。この問題が発生すると、ネットワークの誤った構成が解決されるまで vSAN オブジェクトが使用できなくなる可能性があります。
+com.vmware.vsan.health.test.clusterpartition.short = vSAN クラスタがネットワークの問題が原因でパーティション化されているかどうかをチェックします。
+
+#
+# Hosts vmknic check
+#
+com.vmware.vsan.health.test.network.vsanVmknic.testName = すべてのホストで vSAN vmknic が構成済み
+com.vmware.vsan.health.test.network.vsanVmknic.testResult.label = vSAN vmknic が存在しないホスト
+com.vmware.vsan.health.test.vsanvmknic = vSAN クラスタに参加し、完全に接続されたホストの単一グループを形成するには、vSAN クラスタの各ホストに vSAN トラフィック用に構成された vmknic (VMkernel ネットワーク インターフェイスまたは VMkernel アダプタ) がある必要があります。
+com.vmware.vsan.health.test.vsanvmknic.short = vSAN クラスタ内のすべてのホストで、vSAN トラフィックを有効にした vmknic が構成されているかどうかをチェックします。
+
+#
+# Hosts subnets check
+#
+com.vmware.vsan.health.test.network.matchingSubnet.testName = すべてのホストでサブネットが一致
+com.vmware.vsan.health.test.matchingsubnet = vSAN クラスタに参加し、完全に接続されたホストの単一グループを形成するには、vSAN クラスタ内の各ホストはクラスタ内のすべての他のホストと通信できる必要があります。このチェックは、すべての vSAN vmknic が同じ IP サブネット上にあることを確認します。vSAN を意図的に L3 ネットワークに設定している場合は、このチェックの失敗は無視してください。
+com.vmware.vsan.health.test.matchingsubnet.short = vSAN クラスタにあるすべてのホストの IP サブネットが同一であるかどうかをチェックします。
+
+#
+# Hosts multicast settings check
+#
+com.vmware.vsan.health.test.network.multicastSettings.testName = すべてのホストでマルチキャスト設定が一致
+com.vmware.vsan.health.test.multicastsettings = vSAN クラスタに参加し、完全に接続されたホストの単一グループを形成するには、vSAN クラスタ内の各ホストが同一の IP マルチキャスト アドレスを使用する必要があります。クラスタが IPv4 と IPv6 のいずれを使用するのかに応じて、対応するマルチキャスト構成が検証されます。「esxcli vsan network list」および「esxcli vsan network ip set」を使用して、マルチキャストの IP を調整します。
+com.vmware.vsan.health.test.multicastsettings.short = vSAN クラスタのすべてのホストの IP マルチキャスト構成が一致しているかどうかをチェックします。クラスタが IPv4 と IPv6 のいずれを使用するのかに応じて、対応するマルチキャスト構成が検証されます。
+
+#
+# Hosts unicast conectivity check
+#
+com.vmware.vsan.health.test.network.smallPing.testName = vSAN: 基本 (ユニキャスト) 接続チェック
+com.vmware.vsan.health.test.network.smallping = 各ホストから他のすべてのホストに、パケット サイズの小さい ping テストを実行します。このチェックが失敗する場合は、ネットワーク接続に基本的な問題があります。vmknic、アップリンク、VLAN、物理スイッチおよび関連する設定をチェックしてください。このチェックにパスする場合は、基本的なユニキャスト接続は正常に動作しています。
+com.vmware.vsan.health.test.network.smallping.short = 各ホストから他のすべてのホストに、パケット サイズの小さい ping テストを実行します。
+
+#
+# Hosts MTU check
+#
+com.vmware.vsan.health.test.network.largePing.testName = vSAN: MTU チェック (パケット サイズの大きい ping)
+com.vmware.vsan.health.test.network.largeping = 各ホストから他のすべてのホストに、パケット サイズの大きい ping テストを実行します。基本接続チェックにパスしてもこのチェックに失敗する場合は、MTU 設定に問題があります。
+com.vmware.vsan.health.test.network.largeping.short = 各ホストから他のすべてのホストに、パケット サイズの大きい ping テストを実行します。
+
+#
+# Hosts network latency check
+#
+com.vmware.vsan.health.test.network.hostLatencyCheck.testName = ネットワーク遅延チェック
+com.vmware.vsan.health.test.hostlatencycheck = vSAN ホストのネットワーク遅延チェックを実行します。通常のクラスタのネットワーク構成ガイダンスの場合、必要な RTT は 1 ミリ秒未満です。一時的な変動を許容するために、この健全性チェックの警告は比較的長い 5 ミリ秒のしきい値に基づいて実行されます。このチェックに失敗する場合は、vmknic、アップリンク、VLAN、物理スイッチおよび関連した設定をチェックしてネットワークの問題を特定してください。注: このチェックは、ホストのペアが接続チェックに失敗した場合にはスキップされます。
+com.vmware.vsan.health.test.hostlatencycheck.short = vSAN ホストのネットワーク遅延チェックを実行します。RTT は 1 ミリ秒未満である必要があります。一時的な変動を許容するために、この健全性チェックの警告は比較的長い 5 ミリ秒のしきい値に基づいて実行されます。注: このチェックは、ホストのペアが接続チェックに失敗した場合にはスキップされます。
+
+#
+# Hosts multicast assessment based on other checks
+#
+com.vmware.vsan.health.test.network.multicastSuspected.testName = その他のチェックに基づくマルチキャスト評価
+com.vmware.vsan.health.test.multicastsuspected = このチェックは、vSAN の構成チェックとユニキャスト接続チェックにパスしても vSAN クラスタのパーティションが存在する場合に、マルチキャストの問題が発生する可能性を示します。チェックに失敗すると、さらに「アクティブなマルチキャスト接続のチェック」が実行されます。
+com.vmware.vsan.health.test.multicastsuspected.short = vSAN クラスタ内のホストのいずれかに、IP マルチキャストの接続性の問題があるかどうかをチェックします。
+
+#
+# Active multicast connectivity check
+#
+com.vmware.vsan.health.test.network.multicastDeepDive.testName = アクティブなマルチキャスト接続のチェック
+com.vmware.vsan.health.test.network.multicastDeepDive.testResult.issueLabel = 検出された問題
+com.vmware.vsan.health.test.network.multicastDeepDive.testResult.columnIssue = 問題
+com.vmware.vsan.health.test.network.multicastDeepDive.testResult.connectGroupLabel = 接続グループ
+com.vmware.vsan.health.test.network.multicastDeepDive.testResult.columnMaster = マスター
+com.vmware.vsan.health.test.network.multicastDeepDive.testResult.columnMembers = メンバー
+com.vmware.vsan.health.test.network.multicastDeepDive.testResult.packetLabel = パケット
+com.vmware.vsan.health.test.network.multicastDeepDive.testResult.columnTimestamp = タイムスタンプ
+com.vmware.vsan.health.test.network.multicastDeepDive.testResult.columnMsgType = MsgType
+com.vmware.vsan.health.test.network.multicastDeepDive.testResult.columnSeq = Seq#
+com.vmware.vsan.health.test.network.multicastDeepDive.testResult.columnFrom = 開始
+com.vmware.vsan.health.test.network.multicastDeepDive.testResult.columnTo = 終了
+com.vmware.vsan.health.test.network.multicastDeepDive.testResult.columnReceivedBy = 受信
+com.vmware.vsan.health.test.multicastdeepdive = この健全性チェックでは、ある期間のクラスタ内のすべてのホストにあるマルチキャスト パケットを把握します。具体的には「CMMDS マスター ハートビート」と呼ばれるものを検出します。(パーティションごとの)「vSAN/CMMDS マスター」に選択されたすべてのホストは、そのハートビートを毎秒 1 回送信します。このようなハートビートはマルチキャスト経由で送信され、正常な動作のためにクラスタ内のすべてのホストクラスタが受信する必要があります。したがってハートビートを送信しているホストと受信していないホストがある場合には、マルチキャストの構成に誤り (通常は物理ネットワーク) があることを示しています。
+com.vmware.vsan.health.test.multicastdeepdive.short = vSAN クラスタ内のすべてのホストが、「vSAN マスター」ホストのマルチキャスト ハートビートを受信しているかどうかをチェックします。
+
+#
+# Object health check
+#
+com.vmware.vsan.health.test.data.objectHealth.testName = vSAN オブジェクトの健全性
+com.vmware.vsan.health.test.data.objectHealth.testResult.label = オブジェクト健全性の概要
+com.vmware.vsan.health.test.data.objectHealth.testResult.columnHealthObject = 健全性/オブジェクト
+com.vmware.vsan.health.test.data.objectHealth.testResult.columnNumber = 数
+com.vmware.vsan.health.test.data.objectHealth.testResult.columnObjectUuid = オブジェクト UUID
+com.vmware.vsan.health.test.objecthealth = クラスタ内のすべてのオブジェクトを要約し、オブジェクト健全性の詳細なカテゴリに分類することで、クラスタ全体の概要を提供します。
+com.vmware.vsan.health.test.objecthealth.short = すべての vSAN オブジェクトの健全性ステータスをチェックします。
+
+#
+# Inconsistent VM health check
+#
+com.vmware.vsan.health.test.data.inconsistentVm.testName = 仮想マシンの電源状態の一貫性
+com.vmware.vsan.health.test.data.inconsistentVm.testResult.label = 一貫性がない仮想マシン状態
+com.vmware.vsan.health.test.data.inconsistentVm.testResult.columnVm = 仮想マシン
+com.vmware.vsan.health.test.data.inconsistentVm.testResult.columnHost = ホスト
+com.vmware.vsan.health.test.data.inconsistentVm.testResult.columnVmUuid = 仮想マシンのパス名
+com.vmware.vsan.health.test.data.inconsistentVm.testResult.columnError = エラー
+com.vmware.vsan.health.test.data.inconsistentVm.testResult.error.existAtHost= ホストにのみ存在します。
+com.vmware.vsan.health.test.data.inconsistentVm.testResult.error.existAtVC= vCenter Server にのみ存在します。
+com.vmware.vsan.health.test.data.inconsistentVm.testResult.error.powerOnVCOffOnHost= vCenter Server ではパワーオン状態ですがホストではパワーオフ状態です。
+com.vmware.vsan.health.test.data.inconsistentVm.testResult.error.powerOffVCOnHost= vCenter Server ではパワーオフ状態ですがホストではパワーオン状態です。
+com.vmware.vsan.health.test.data.inconsistentVm.testResult.error.existMultipleHosts= 複数のホストに存在します。
+com.vmware.vsan.health.test.data.inconsistentVm.testResult.error.injectedError= テスト用のエラーが挿入されています。
+com.vmware.vsan.health.test.inconsistentVm = vSAN に展開されているすべての電源状態に一貫性のない仮想マシンを要約し、クラスタ全体の概要を提供します。
+com.vmware.vsan.health.test.inconsistentVm.short = 各仮想マシンの電源状態をチェックし、一貫性のない仮想マシンのリストを取得します。
+
+#
+# Inaccessible VM health check
+#
+com.vmware.vsan.health.test.data.inaccessibleVm.testName = 仮想マシンのアクセシビリティ
+com.vmware.vsan.health.test.data.inaccessibleVm.testResult.label = アクセス不能な仮想マシンのステータス
+com.vmware.vsan.health.test.data.inaccessibleVm.testResult.columnVm = 仮想マシン
+com.vmware.vsan.health.test.data.inaccessibleVm.testResult.columnHost = ホスト
+com.vmware.vsan.health.test.data.inaccessibleVm.testResult.columnVmUuid = 仮想マシンのパス名
+com.vmware.vsan.health.test.inaccessibleVm = vSAN に展開されているすべてのアクセス不能な仮想マシンを要約し、クラスタ全体の概要を提供します。
+com.vmware.vsan.health.test.inaccessibleVm.short = 各仮想マシンの接続状態をチェックし、アクセス不能な仮想マシンのリストを取得します。
+
+#
+# Object Data protection health check
+#
+com.vmware.vsan.health.test.dataprotection.objectdphealth.testName = vSAN オブジェクトのデータ保護の健全性
+com.vmware.vsan.health.test.dataprotection.objectdphealth.testResult.label = オブジェクトのデータ保護の健全性の概要
+com.vmware.vsan.health.test.dataprotection.objectdphealth.testResult.columnHealthObject = 健全性/オブジェクト
+com.vmware.vsan.health.test.dataprotection.objectdphealth.testResult.columnNumber = 数
+com.vmware.vsan.health.test.dataprotection.objectdphealth.testResult.columnObjectUuid = オブジェクト UUID
+com.vmware.vsan.health.test.objectdphealth = クラスタ内のすべてのオブジェクトを要約し、オブジェクトのデータ保護の健全性の詳細なカテゴリに分類することで、クラスタ全体の概要を提供します。
+com.vmware.vsan.health.test.objectdphealth.short = すべての vSAN オブジェクトのデータ保護の健全性ステータスをチェックします。
+
+#
+# Data protection version check
+#
+com.vmware.vsan.health.test.dataprotection.dataprotectionversion.testName = データ保護サービスのバージョン チェック
+com.vmware.vsan.health.test.dataprotection.dataprotectionversion.testResult.label = vSAN データ保護サービスのバージョン チェック
+com.vmware.vsan.health.test.dataprotection.dataprotectionversion.testResult.columnHost = ホスト
+com.vmware.vsan.health.test.dataprotection.dataprotectionversion.testResult.columnVersionEsx = ESXi のバージョン
+com.vmware.vsan.health.test.dataprotection.dataprotectionversion.testResult.columnVersionVc = vCenter Server のバージョン
+com.vmware.vsan.health.test.dataprotection.dataprotectionversion.testResult.columnError = エラー
+com.vmware.vsan.health.test.dataprotectionversion = クラスタのホストにデータ保護に対応したソフトウェア バージョンがインストールされているかどうかをチェックします
+com.vmware.vsan.health.test.dataprotectionversion.short = vSAN クラスタのすべてのホストにデータ保護に対応したソフトウェア バージョンがインストールされているかどうかをチェックします。
+com.vmware.vsan.health.test.dataprotection.dataprotectionversion.issues.notSupported = ホストはデータ保護をサポートしていません
+
+#
+# vSAN DPD liveness check
+#
+com.vmware.vsan.health.test.dataprotection.dpdliveness.testName = vSAN の DPD 稼動状態
+com.vmware.vsan.health.test.dataprotection.dpdliveness.testResult.label = vSAN ホストの DPD 稼動状態
+com.vmware.vsan.health.test.dataprotection.dpdliveness.testResult.columnHost = ホスト
+com.vmware.vsan.health.test.dataprotection.dpdliveness.testResult.columnState = 状態
+com.vmware.vsan.health.test.dataprotection.dpdliveness.testResult.columnError = エラー
+com.vmware.vsan.health.test.dataprotection.dpdliveness.testResult.hostUnknown = 不明
+com.vmware.vsan.health.test.dpdliveness = すべての vSAN ホストで DPD の稼動状態をチェックします
+com.vmware.vsan.health.test.dpdliveness.short = DP デーモンの稼動状態をチェックします
+
+#
+# vSAN datastore usage threshold check
+#
+com.vmware.vsan.health.test.dataprotection.datastoreusage.testName = vSAN データストアの使用率のしきい値チェック
+com.vmware.vsan.health.test.dataprotection.datastoreusage.testResult.label = vSAN ホスト データストアの使用率のしきい値
+com.vmware.vsan.health.test.dataprotection.datastoreusage.testResult.columnHost = ホスト
+com.vmware.vsan.health.test.dataprotection.datastoreusage.testResult.columnDatastoreUsage  = データストアの使用率
+com.vmware.vsan.health.test.dataprotection.datastoreusage.testResult.columnConfiguredUsageThreshold  = 設定された使用率のしきい値
+com.vmware.vsan.health.test.dataprotection.datastoreusage.testResult.columnStatus = ステータス
+com.vmware.vsan.health.test.dataprotection.datastoreusage.testResult.columnError = エラー
+com.vmware.vsan.health.test.datastoreusage = クラスタ内の vSAN データストアの使用率をチェックして、データ保護を継続するかどうかを判断します
+com.vmware.vsan.health.test.datastoreusage.short = vSAN データストアの使用率をチェックします。データストアの使用率が、設定された使用率のしきい値を超えた場合、データ保護は停止します。報告されるのは、設定されたしきい値を超えているホスト、または間もなく超えるホストのみです。
+
+#
+# Data protection config check
+#
+com.vmware.vsan.health.test.dataprotection.dpcfgsync.testName = vSAN データ保護サービスの構成の同期状態
+com.vmware.vsan.health.test.dataprotection.dpcfgsync.testResult.label = vSAN データ保護サービスの構成オプション
+com.vmware.vsan.health.test.dataprotection.dpcfgsync.testResult.columnOption = オプション
+com.vmware.vsan.health.test.dataprotection.dpcfgsync.testResult.columnValue = 値
+com.vmware.vsan.health.test.dataprotection.dpcfgsync.testResult.columnStatus = 一貫性チェック
+com.vmware.vsan.health.test.dataprotection.dpcfgsync.testResult.columnHostsWithValue = 一貫性がないホスト
+com.vmware.vsan.health.test.dpcfgsync = このチェックでは、クラスタのすべてのホストで vSAN データ保護サービスの構成と、クラスタ レベルの構成との間に一貫性があることを確認します。
+com.vmware.vsan.health.test.dpcfgsync.short = vSAN クラスタのすべてのホストでデータ保護の構成オプションに一貫性があるかどうかをチェックします。
+
+#
+# Data protection archival target accessibility check
+#
+com.vmware.vsan.health.test.dataprotection.archivalaccessibility.testName = vSAN データ保護アーカイブ ターゲットのアクセス可能性
+com.vmware.vsan.health.test.dataprotection.archivalaccessibility.testResult.label = vSAN データ保護アーカイブ ターゲットのアクセス可能性
+com.vmware.vsan.health.test.dataprotection.archivalaccessibility.testResult.columnHost = ホスト
+com.vmware.vsan.health.test.dataprotection.archivalaccessibility.testResult.columnArchive = アーカイブ
+com.vmware.vsan.health.test.dataprotection.archivalaccessibility.testResult.columnArchiveUrl = アーカイブの URL
+com.vmware.vsan.health.test.dataprotection.archivalaccessibility.testResult.columnStatus = ステータス
+com.vmware.vsan.health.test.dataprotection.archivalaccessibility.testResult.columnError = エラー
+com.vmware.vsan.health.test.archivalaccessibility = vSAN クラスタにあるすべてのホストのデータ保護アーカイブ ターゲットのアクセス可能性をチェックします。
+com.vmware.vsan.health.test.archivalaccessibility.short = vSAN クラスタにあるすべてのホストのデータ保護アーカイブ ターゲットのアクセス可能性をチェックします。
+
+#
+# VM health check
+#
+com.vmware.vsan.health.test.data.vmHealth.testName = vSAN 仮想マシンの健全性
+com.vmware.vsan.health.test.data.vmHealth.testResult.label = 仮想マシンの健全性の概要
+com.vmware.vsan.health.test.data.vmHealth.testResult.columnHealthVM = 健全性ステータス
+com.vmware.vsan.health.test.data.vmHealth.testResult.columnNumber = 数
+com.vmware.vsan.health.test.data.vmHealth.testResult.columnMoRefs = 仮想マシン
+com.vmware.vsan.health.test.vmhealth = クラスタ内のすべての仮想マシンを要約し、仮想マシン健全性の詳細なカテゴリに分類することで、クラスタ全体の概要を提供します。
+com.vmware.vsan.health.test.vmhealth.short = すべての vSAN 仮想マシンの健全性ステータスをチェックします。
+
+# Limit check
+#
+com.vmware.vsan.health.test.limits.limit0hf.testName = 現在のクラスタの状態
+com.vmware.vsan.health.test.limits.limit1hf.testName = 1 件の追加ホスト障害後
+com.vmware.vsan.health.test.limits.nodecomponentlimit.testName = ホスト コンポーネントの制限
+com.vmware.vsan.health.test.nodecomponentlimit = この健全性チェックはコンポーネントの制限および各ホストでのコンポーネントの現在の使用量を表示します。コンポーネントの上限に達するか、コンポーネントが分散されていない場合は、ホストを追加するか、これらのコンポーネントをリバランスすることができます。
+com.vmware.vsan.health.test.nodecomponentlimit.short = ホスト コンポーネントの制限、および vSAN クラスタの各ホストでの使用量をチェックします
+com.vmware.vsan.health.test.limit0hf = クラスタ全体にわたってコンポーネントの制限、キャパシティ層の空きディスク容量、読み取りキャッシュ予約をチェックします。このリソース確認方法は単純化されており、すべての vSAN 配置ルールを考慮に入れていないことに注意してください。実際に使用可能なリソースはより少なくなることがあります。
+com.vmware.vsan.health.test.limit0hf.short = vSAN コンポーネントの制限、ディスク容量、読み取りキャッシュ予約をチェックします。
+com.vmware.vsan.health.test.limit1hf = この健全性チェックでは、多くのリソースを消費するホストでの障害がシミュレートされ、その後クラスタのリソース消費量が表示されます。まず、このホストのリソースが使用できなくなります。次に、vSAN は、冗長性を低下させて実行していたすべてのオブジェクトの再保護を試みます。使用率が 100% を超えていた場合、すべてのオブジェクトの再保護はできません。
+com.vmware.vsan.health.test.limit.testResult.columnHostCompUtilization = ホスト コンポーネント使用率
+com.vmware.vsan.health.test.limit1hf.short = 1 台のホスト障害を想定して、vSAN コンポーネントの制限、ディスク容量、RC 予約をチェックします。
+com.vmware.vsan.health.test.limit.testResult.label = リソース
+com.vmware.vsan.health.test.limit.testResult.columnResource = リソース
+com.vmware.vsan.health.test.limit.testResult.columnUtilization = 使用率
+com.vmware.vsan.health.test.limit.testResult.columnHealth = 健全性
+com.vmware.vsan.health.test.limit.testResult.compUtilization = コンポーネント使用率
+com.vmware.vsan.health.test.limit.testResult.rowDiskSpaceUtilization = ディスク容量使用率
+com.vmware.vsan.health.test.limit.testResult.rowRCReservations = 読み取りキャッシュ予約
+com.vmware.vsan.health.test.limit.testResult.columnHostType = タイプ
+
+#
+# Physical disk health retrieval issues check
+#
+com.vmware.vsan.health.test.physicalDisks.physdiskHostIssues.testName = 物理ディスク健全性の取得中の問題
+com.vmware.vsan.health.test.physicalDisks.physdiskHostIssues.testResult.label = 問題のあるホスト
+com.vmware.vsan.health.test.physicalDisks.physdiskHostIssues.testResult.columnHost = ホスト
+com.vmware.vsan.health.test.physicalDisks.physdiskHostIssues.testResult.columnError = エラー
+com.vmware.vsan.health.test.physdiskhostissues = このチェックでは、vSAN クラスタ内の 1 台以上のホストから物理ディスク情報を取得する際に問題が発生したことが示されます。個別の原因については詳細を参照します。
+com.vmware.vsan.health.test.physdiskhostissues.short = vSAN クラスタにあるホストからの物理ディスク情報の取得中に問題があるかどうかをチェックします。
+
+#
+# Overall disk health check
+#
+com.vmware.vsan.health.test.physicalDisks.physdiskOverall.testName = 操作の健全性
+com.vmware.vsan.health.test.physicalDisks.physdiskOverall.testResult.label = 問題のあるディスク
+com.vmware.vsan.health.test.physicalDisks.physdiskOverall.testResult.columnHost = ホスト
+com.vmware.vsan.health.test.physicalDisks.physdiskOverall.testResult.columnDisk = ディスク
+com.vmware.vsan.health.test.physicalDisks.physdiskOverall.testResult.columnOverall = 全体的な操作の健全性
+com.vmware.vsan.health.test.physicalDisks.physdiskOverall.testResult.columnOperational = 操作
+com.vmware.vsan.health.test.physicalDisks.physdiskOverall.testResult.columnMetadata = メタデータ
+com.vmware.vsan.health.test.physicalDisks.physdiskOverall.testResult.columnUUID = UUID
+com.vmware.vsan.health.test.physicalDisks.physdiskOverall.testResult.columnOperationalState = 動作状態
+com.vmware.vsan.health.test.physicalDisks.physdiskOverall.testResult.columnRecommendation = 推奨
+com.vmware.vsan.health.test.physicalDisks.physdiskOverall.testResult.failed = 永続的なディスク障害
+com.vmware.vsan.health.test.physicalDisks.physdiskOverall.testResult.failed.propagated = ディスク グループ内の伝播した永続的なディスク障害
+com.vmware.vsan.health.test.physicalDisks.physdiskOverall.testResult.offline = 永続的なディスク損失
+com.vmware.vsan.health.test.physicalDisks.physdiskOverall.testResult.decommissioned = 廃止されたディスク
+com.vmware.vsan.health.test.physicalDisks.physdiskOverall.testResult.latency.evacuating = 永続的なディスク障害が近い将来発生: データを退避しています
+com.vmware.vsan.health.test.physicalDisks.physdiskOverall.testResult.latency.evacuateFailed = 永続的なディスク障害が近い将来発生: リソースが不足しているため、退避に失敗しました
+com.vmware.vsan.health.test.physicalDisks.physdiskOverall.testResult.latency.evacuateInaccessible = 永続的なディスク障害が近い将来発生: オブジェクトにアクセスできないため、退避に失敗しました
+com.vmware.vsan.health.test.physicalDisks.physdiskOverall.testResult.latency.evacuated = 永続的なディスク障害が近い将来発生: データの退避が完了しました
+com.vmware.vsan.health.test.physicalDisks.physdiskOverall.testResult.logCongestion.evacuating = ログの過剰な輻輳が発生: データの退避中です
+com.vmware.vsan.health.test.physicalDisks.physdiskOverall.testResult.logCongestion.evacuateFailed = ログの過剰な輻輳が発生: リソースが不足しているため、退避に失敗しました
+com.vmware.vsan.health.test.physicalDisks.physdiskOverall.testResult.logCongestion.evacuateInaccessible = ログの過剰な輻輳が発生: オブジェクトにアクセスできないため、退避に失敗しました
+com.vmware.vsan.health.test.physicalDisks.physdiskOverall.testResult.logCongestion.evacuated = ログの過剰な輻輳が発生: データの退避が完了しました
+com.vmware.vsan.health.test.physicalDisks.physdiskOverall.testResult.propagated.evacuating = 伝播した永続的なディスク障害がディスクグループに近い将来発生: データを退避しています
+com.vmware.vsan.health.test.physicalDisks.physdiskOverall.testResult.propagated.evacuateFailed = 伝播した永続的なディスク障害がディスクグループに近い将来発生: リソースが不足しているため、退避に失敗しました
+com.vmware.vsan.health.test.physicalDisks.physdiskOverall.testResult.propagated.evacuateInaccessible = 伝播した永続的なディスク障害がディスクグループに近い将来発生: オブジェクトにアクセスできないため、退避に失敗しました
+com.vmware.vsan.health.test.physicalDisks.physdiskOverall.testResult.propagated.evacuated = 伝播した永続的なディスク障害がディスクグループに近い将来発生: データの退避が完了しました
+com.vmware.vsan.health.test.physicalDisks.physdiskOverall.testResult.unknown = ディスクの健全性状態が不明
+com.vmware.vsan.health.test.physdiskoverall = vSAN クラスタ内のすべてのホストに対して物理ディスク操作の健全性をチェックします。このチェックに失敗する場合、vSAN でディスクを使用できません。考えられる理由としては、ディスク メタデータを読み取るときに問題が発生する、または vSAN ソフトウェアの問題によってこのディスクを使用できないなどが挙げられます。
+com.vmware.vsan.health.test.physdiskoverall.short = vSAN クラスタにあるすべてのホストについて物理ディスクの操作の健全性をチェックします。
+com.vmware.vsan.health.test.physicalDisks.physdiskOverall.testResult.recommendation.error = ディスクを削除してください
+com.vmware.vsan.health.test.physicalDisks.physdiskOverall.testResult.recommendation.error.propagated = ディスク グループをアンマウントしてください
+com.vmware.vsan.health.test.physicalDisks.physdiskOverall.testResult.recommendation.refer = キャッシュ ディスクに関する推奨事項を参照してください
+com.vmware.vsan.health.test.physicalDisks.physdiskOverall.testResult.recommendation.latency.evacuating = 退避の完了後、ディスクを置き換える必要があります。置き換え用のディスクを準備してください
+com.vmware.vsan.health.test.physicalDisks.physdiskOverall.testResult.recommendation.latency.evacuateFailed = クラスタに {0} GB の容量を追加してください
+com.vmware.vsan.health.test.physicalDisks.physdiskOverall.testResult.recommendation.latency.evacuateInaccessible = 「データ」の健全性チェックを参照してアクセスできないオブジェクトを解決してください
+com.vmware.vsan.health.test.physicalDisks.physdiskOverall.testResult.recommendation.latency.evacuated = ディスクが、重複排除が有効にされたディスク グループに属している場合、ディスクグループを vSAN から削除し、機能していないディスクを置き換えてから、ディスクグループを再び追加します。それ以外の場合には、機能していないディスクを削除して置き換えます
+com.vmware.vsan.health.test.physicalDisks.physdiskOverall.testResult.recommendation.logCongestion.evacuating = 退避中に必要な操作はありません
+com.vmware.vsan.health.test.physicalDisks.physdiskOverall.testResult.recommendation.logCongestion.evacuateFailed = クラスタに {0} GB の容量を追加してください
+com.vmware.vsan.health.test.physicalDisks.physdiskOverall.testResult.recommendation.logCongestion.evacuateInaccessible = 「データ」の健全性チェックを参照してアクセスできないオブジェクトを解決してください
+com.vmware.vsan.health.test.physicalDisks.physdiskOverall.testResult.recommendation.logCongestion.evacuated = ディスクグループを vSAN から削除して再び追加します
+com.vmware.vsan.health.test.physicalDisks.physdiskOverall.testResult.recommendation.propagated.evacuating = 退避中に必要な操作はありません
+com.vmware.vsan.health.test.physicalDisks.physdiskOverall.testResult.recommendation.propagated.evacuateFailed = クラスタに {0} GB の容量を追加してください
+com.vmware.vsan.health.test.physicalDisks.physdiskOverall.testResult.recommendation.propagated.evacuateInaccessible = 「データ」の健全性チェックを参照してアクセスできないオブジェクトを解決してください
+com.vmware.vsan.health.test.physicalDisks.physdiskOverall.testResult.recommendation.propagated.evacuated = ディスクグループを vSAN から削除し、機能していないディスクを置き換えてから、ディスクグループを再び追加します
+
+#
+# Component limit health check
+#
+com.vmware.vsan.health.test.physicalDisks.physdiskcomplimithealth.testName = コンポーネントの制限の健全性
+com.vmware.vsan.health.test.physicalDisks.componentUtilization.testResult.label = すべてのディスク
+com.vmware.vsan.health.test.physicalDisks.componentLimitHealth.testResult.label = 問題のあるディスク
+com.vmware.vsan.health.test.physicalDisks.componentLimitHealth.testResult.columnHost = ホスト
+com.vmware.vsan.health.test.physicalDisks.componentLimitHealth.testResult.columnUtilization = ディスク コンポーネント使用率
+com.vmware.vsan.health.test.physicalDisks.componentLimitHealth.testResult.columnHealth = 健全性
+com.vmware.vsan.health.test.physdiskcomplimithealth = 物理ディスク コンポーネント数が上限に達したかをチェックします
+com.vmware.vsan.health.test.physdiskcomplimithealth.short = 各物理ディスクのコンポーネントの制限をチェックします。
+
+#
+# Disk capacity check
+#
+# Metadata health check
+#
+com.vmware.vsan.health.test.physicalDisks.physdiskMetadata.testName = メタデータ健全性
+com.vmware.vsan.health.test.physicalDisks.physdiskMetadata.testResult.label = 問題のあるディスク
+com.vmware.vsan.health.test.physicalDisks.physdiskMetadata.testResult.columnHost = ホスト
+com.vmware.vsan.health.test.physicalDisks.physdiskMetadata.testResult.columnDisk = ディスク
+com.vmware.vsan.health.test.physicalDisks.physdiskMetadata.testResult.columnMetadata = メタデータ
+com.vmware.vsan.health.test.physicalDisks.physdiskMetadata.testResult.columnUuid = UUID
+com.vmware.vsan.health.test.physdiskmetadata = このチェックに失敗する場合、vSAN ではディスクのメタデータの読み取り中に問題が発生しているため、このディスクを使用できません。
+com.vmware.vsan.health.test.physdiskmetadata.short = 各物理ディスクのメタデータの健全性をチェックします。
+
+#
+# Disk capacity check
+#
+com.vmware.vsan.health.test.physicalDisks.physdiskCapacity.testName = ディスクの容量
+com.vmware.vsan.health.test.physicalDisks.physdiskCapacity.testResult.label = 問題のあるディスク
+com.vmware.vsan.health.test.physicalDisks.physdiskCapacity.testResult.columnHost = ホスト
+com.vmware.vsan.health.test.physicalDisks.physdiskCapacity.testResult.columnDisk = ディスク
+com.vmware.vsan.health.test.physicalDisks.physdiskCapacity.testResult.columnCapacity = 容量
+com.vmware.vsan.health.test.physicalDisks.physdiskCapacity.testResult.columnFreeSpace = 空き容量
+com.vmware.vsan.health.test.physicalDisks.physdiskCapacity.testResult.columnRebalanceState = リバランス状態
+com.vmware.vsan.health.test.physicalDisks.physdiskCapacity.testResult.columnUuid = UUID
+com.vmware.vsan.health.test.physdiskcapacity = 特定のディスクでこのチェックに失敗する場合は、そのディスクの空き容量が不足していることを示しています。この健全性チェックはキャパシティ層のドライブにのみ適用可能で、キャッシュ デバイスには適用できません。
+com.vmware.vsan.health.test.physdiskcapacity.short = vSAN クラスタの物理ディスクの空き容量をチェックします。
+
+#
+# Software state check
+#
+com.vmware.vsan.health.test.physicalDisks.physdiskSoftware.testName = ソフトウェア状態の健全性
+com.vmware.vsan.health.test.physicalDisks.physdiskSoftware.testResult.label = 問題のあるディスク
+com.vmware.vsan.health.test.physicalDisks.physdiskSoftware.testResult.columnHost = ホスト
+com.vmware.vsan.health.test.physicalDisks.physdiskSoftware.testResult.columnDisk = ディスク
+com.vmware.vsan.health.test.physicalDisks.physdiskSoftware.testResult.columnSoftware = ソフトウェア
+com.vmware.vsan.health.test.physicalDisks.physdiskSoftware.testResult.columnInCmmdsVsi = CMMDS/VSI
+com.vmware.vsan.health.test.physicalDisks.physdiskSoftware.testResult.columnUuid = UUID
+com.vmware.vsan.health.test.physicalDisks.physdiskSoftware.testResult.columnReason = 原因
+com.vmware.vsan.health.test.physicalDisks.physdiskSoftware.testResult.locked = 暗号化キーが使用できないため、ディスクは暗号化され、ロックされています。KMS サーバのステータスをチェックして、暗号化キーが取得可能なことを確認してください。
+com.vmware.vsan.health.test.physicalDisks.physdiskSoftware.testResult.recovery = ディスクは通常のリカバリ/初期化のステージにあり、リカバリの完了後に使用できるようになります。
+com.vmware.vsan.health.test.physdisksoftware = 特定のディスクでこのチェックに失敗する場合は、vSAN でディスクを使用できない問題が発生しています。他の健全性チェックでエラーが表示されない場合は、この問題は vSAN ソフトウェア自体にある可能性があります。
+com.vmware.vsan.health.test.physdisksoftware.short = vSAN によるディスクからの読み取りを阻害しているソフトウェアの問題をチェックします。
+
+#
+# Congestion check
+#
+com.vmware.vsan.health.test.physicalDisks.physdiskCongestion.testName = 輻輳
+com.vmware.vsan.health.test.physicalDisks.physdiskCongestion.testResult.label = 問題のあるディスク
+com.vmware.vsan.health.test.physicalDisks.physdiskCongestion.testResult.columnHost = ホスト
+com.vmware.vsan.health.test.physicalDisks.physdiskCongestion.testResult.columnDisk = ディスク
+com.vmware.vsan.health.test.physicalDisks.physdiskCongestion.testResult.columnCongestion = 輻輳
+com.vmware.vsan.health.test.physicalDisks.physdiskCongestion.testResult.columnCongestionInfo = 輻輳情報
+com.vmware.vsan.health.test.physicalDisks.physdiskCongestion.testResult.columnUuid = UUID
+com.vmware.vsan.health.test.physdiskcongestion = この健全性ステータスが緑/OK でない場合、vSAN が使用しているディスクのパフォーマンスが (場合によっては著しく) 低下し、このディスクを使用している vSAN オブジェクトのスループット/IOPS の低下と大きな遅延が顕著になります。
+com.vmware.vsan.health.test.physdiskcongestion.short = vSAN がパフォーマンスの低下したディスクを使用しているかどうかをチェックします。
+
+#
+# Components metadata check
+#
+com.vmware.vsan.health.test.physicalDisks.componentMetadata.testName = コンポーネントのメタデータ健全性
+com.vmware.vsan.health.test.physicalDisks.componentMetadata.testResult.label = 問題のあるコンポーネント
+com.vmware.vsan.health.test.physicalDisks.componentMetadata.testResult.columnHost = ホスト
+com.vmware.vsan.health.test.physicalDisks.componentMetadata.testResult.columnHeap = コンポーネント
+com.vmware.vsan.health.test.physicalDisks.componentMetadata.testResult.columnHealth = 健全性
+com.vmware.vsan.health.test.physicalDisks.componentMetadata.testResult.columnNotes = メモ
+com.vmware.vsan.health.test.componentmetadata = vSAN でこのディスクのコンポーネントのメタデータの整合性に問題が発生している場合、このチェックは失敗します。これは障害のあるドライブ、障害のあるコントローラ、およびデバイス ドライバの動作不良が原因の可能性がありますが、vSAN ソフトウェアの問題に由来する可能性もあります。VMware サポートに連絡して問題に対処してください。
+com.vmware.vsan.health.test.componentmetadata.short = vSAN で、このディスクにあるコンポーネントのメタデータの整合性の問題が発生しているかどうかをチェックします。
+
+#
+# Memory pools (heaps) check
+#
+com.vmware.vsan.health.test.physicalDisks.lsomHeap.testName = メモリ プール (ヒープ)
+com.vmware.vsan.health.test.physicalDisks.lsomHeap.testResult.label = 問題のあるヒープ
+com.vmware.vsan.health.test.physicalDisks.lsomHeap.testResult.columnHost = ホスト
+com.vmware.vsan.health.test.physicalDisks.lsomHeap.testResult.columnHeap = ヒープ
+com.vmware.vsan.health.test.physicalDisks.lsomHeap.testResult.columnHealth = 健全性
+com.vmware.vsan.health.test.lsomheap = このチェックは、vSAN で、物理ディスクの正しい操作に必要とされる、重要なメモリ プールが不足している場合に失敗します。高負荷の状況であっても、この問題は発生しないようにしてください。発生した場合は、VMware サポートに連絡する必要があります。ディスクで「輻輳の健全性」が不良状態であると報告される場合がありますが、これはパフォーマンスの問題につながります。
+com.vmware.vsan.health.test.lsomheap.short = vSAN で、物理ディスクの正しい操作に必要とされる、重要なメモリ プールが不足しているかどうかをチェックします。
+
+#
+# Memory pools (slabs) check
+#
+com.vmware.vsan.health.test.physicalDisks.lsomslab.testName = メモリ プール (スラブ)
+com.vmware.vsan.health.test.physicalDisks.lsomslab.testResult.label = 問題のあるスラブ
+com.vmware.vsan.health.test.physicalDisks.lsomslab.testResult.columnHost = ホスト
+com.vmware.vsan.health.test.physicalDisks.lsomslab.testResult.columnSlab = スラブ
+com.vmware.vsan.health.test.physicalDisks.lsomslab.testResult.columnHealth = 健全性
+com.vmware.vsan.health.test.lsomslab = このチェックは、vSAN で、物理ディスクの操作に必要とされる、重要なメモリ プールが不足している場合に失敗します。高負荷の状況であっても、この問題は発生しないようにしてください。発生した場合は、VMware サポートに連絡する必要があります。ディスクで「輻輳の健全性」が不良状態であると報告される場合がありますが、これはパフォーマンスの問題につながります。
+com.vmware.vsan.health.test.lsomslab.short = vSAN で、物理ディスクの操作に必要とされる、重要なメモリ プールが不足しているかどうかをチェックします。
+
+#
+# Generic cluster check
+#
+com.vmware.vsan.health.test.genericCluster.drsEnabled.testName = DRS が有効になりました
+com.vmware.vsan.health.test.genericcluster.drsenabled = DRS がこのクラスタに有効になっているかどうかをチェックします。
+com.vmware.vsan.health.test.genericcluster.drsenabled.short = DRS がこのクラスタに有効になっているかどうかをチェックします。
+com.vmware.vsan.health.test.genericCluster.drsEnabled.testResult.issue = DRS が有効になっていません
+com.vmware.vsan.health.test.genericCluster.drsEnabled.testResult.recommendation = [DRS の構成] ダイアログの起動
+com.vmware.vsan.health.test.genericCluster.drsEnabled.testResult.label = 問題と推奨
+com.vmware.vsan.health.test.genericCluster.drsEnabled.testResult.columnIssue = 問題
+com.vmware.vsan.health.test.genericCluster.drsEnabled.testResult.columnRecommendation = 推奨
+
+com.vmware.vsan.health.test.genericCluster.haEnabled.testName = HA が有効になっています
+com.vmware.vsan.health.test.genericcluster.haenabled = HA がこのクラスタに有効になっているかどうかをチェックします。
+com.vmware.vsan.health.test.genericcluster.haenabled.short = HA がこのクラスタに有効になっているかどうかをチェックします。
+com.vmware.vsan.health.test.genericCluster.haEnabled.testResult.issue = HA が有効になっていません
+com.vmware.vsan.health.test.genericCluster.haEnabled.testResult.recommendation = [HA の構成] ダイアログの起動
+com.vmware.vsan.health.test.genericCluster.haEnabled.testResult.label = 問題と推奨
+com.vmware.vsan.health.test.genericCluster.haEnabled.testResult.columnIssue = 問題
+com.vmware.vsan.health.test.genericCluster.haEnabled.testResult.columnRecommendation = 推奨
+
+#
+# vSAN config - vSAN enablement check
+#
+com.vmware.vsan.health.test.vsanconfiggroup.enablementforvsan.testName = vSAN 対応
+com.vmware.vsan.health.test.vsanconfiggroup.enablementforvsan.testResult.label = 問題
+com.vmware.vsan.health.test.vsanconfiggroup.enablementforvsan.testResult.columnIssue = 問題
+com.vmware.vsan.health.test.vsanconfiggroup.enablementforvsan.testResult.columnRecommendation = 推奨
+com.vmware.vsan.health.test.vsanconfiggroup.enablementforvsan.testResult.vsanNotEnabledIssue = vSAN がクラスタで有効になっていません。
+com.vmware.vsan.health.test.vsanconfiggroup.enablementforvsan.testResult.vsanNotEnabledRecommendation = ベスト プラクティス:「vSAN の構成」アクションを起動してください。
+
+com.vmware.vsan.health.test.vsanconfiggroup.enablementforvsan = このチェックでは、vSAN がクラスタで有効になっていることを確認します。構成されていない場合は、[vSAN の構成] ボタンを使用してください。
+com.vmware.vsan.health.test.vsanconfiggroup.enablementforvsan.short = このチェックでは、vSAN がクラスタで有効になっていることを確認します。
+
+#
+# vSAN config - All disks claimed by vSAN check
+#
+com.vmware.vsan.health.test.vsanconfiggroup.diskforvsan.testName = すべてのディスクが要求済み
+com.vmware.vsan.health.test.vsanconfiggroup.diskforvsan.testResult.label = 問題のあるホスト
+com.vmware.vsan.health.test.vsanconfiggroup.diskforvsan.testResult.columnHost = ホスト
+com.vmware.vsan.health.test.vsanconfiggroup.diskforvsan.testResult.columnUnclaimedDisk = 要求されていないディスク
+com.vmware.vsan.health.test.vsanconfiggroup.diskforvsan.testResult.columnIssue = 問題
+com.vmware.vsan.health.test.vsanconfiggroup.diskforvsan.testResult.columnRecommendation = 推奨
+com.vmware.vsan.health.test.vsanconfiggroup.diskforvsan.testResult.notClaimedByVsanIssue = ディスクは vSAN によって要求されていません。
+com.vmware.vsan.health.test.vsanconfiggroup.diskforvsan.testResult.notClaimedByVsanRecommendation = ベスト プラクティス:「vSAN ディスクの要求」アクションを起動してください。
+
+com.vmware.vsan.health.test.vsanconfiggroup.diskforvsan = このチェックでは、vSAN が要求できる使用可能なすべてのディスクを検出します。このチェックは、使用可能なディスクをすべて特定し、利用できるようにすることを目的としています。注: ホストごとに同じ数のディスクを要求することをお勧めします。使用可能なすべてのディスクを要求するとホストごとの vSAN ディスク数に違いが生じる場合は、推奨事項に従うためにこのチェックの結果を無視できます。
+com.vmware.vsan.health.test.vsanconfiggroup.diskforvsan.short = ベスト プラクティス (推奨): vSAN の使用可能なすべてのディスクを要求します。注: ホストごとに同じ数のディスクを要求することをお勧めします。使用可能なすべてのディスクを要求するとホストごとの vSAN ディスク数に違いが生じる場合は、推奨事項に従うためにこのチェックの結果を無視できます。
+
+
+#
+# Network config - Use VDS for vSAN
+#
+com.vmware.vsan.health.test.networkconfiggroup.dvsforvsan.testName = Distributed Switch を vSAN に使用する
+com.vmware.vsan.health.test.networkconfiggroup.dvsforvsan.testResult1.label = 問題
+com.vmware.vsan.health.test.networkconfiggroup.dvsforvsan.testResult1.columnIssue = 問題
+com.vmware.vsan.health.test.networkconfiggroup.dvsforvsan.testResult1.columnRecommendation = 推奨
+com.vmware.vsan.health.test.networkconfiggroup.dvsforvsan.testResult1.noVdsIssue = Distributed Switch がクラスタで構成されていません。
+com.vmware.vsan.health.test.networkconfiggroup.dvsforvsan.testResult1.noVdsRecommendation = ベスト プラクティス:「Distributed Switch の作成」アクションを起動してください。
+
+com.vmware.vsan.health.test.networkconfiggroup.dvsforvsan.testResult2.label = 問題のあるホスト
+com.vmware.vsan.health.test.networkconfiggroup.dvsforvsan.testResult2.columnHost = ホスト
+com.vmware.vsan.health.test.networkconfiggroup.dvsforvsan.testResult2.columnIssue = 問題
+com.vmware.vsan.health.test.networkconfiggroup.dvsforvsan.testResult2.columnRecommendation = 推奨
+com.vmware.vsan.health.test.networkconfiggroup.dvsforvsan.testResult2.issue = vSAN vmknic {vmknic} は Distributed Switch を使用していません。
+com.vmware.vsan.health.test.networkconfiggroup.dvsforvsan.testResult2.recommendation = ベスト プラクティス: Distributed Switch を vSAN ネットワークに使用してください。
+
+com.vmware.vsan.health.test.networkconfiggroup.dvsforvsan = vSAN ネットワーク トラフィックに Distributed Switch を使用することがベスト プラクティスです。このチェックでは、Distributed Switch がクラスタおよび vSAN ネットワーク トラフィックに対して構成されていることを確認します。
+com.vmware.vsan.health.test.networkconfiggroup.dvsforvsan.short = ベスト プラクティス (推奨): vSAN で Distributed Switch がネットワーク トラフィックに使用されているかを確認します。
+
+#
+# Network config - Use VDS for vSAN
+#
+com.vmware.vsan.health.test.networkconfiggroup.dvsscope.testName = vSAN 用の Distributed Switch がクラスタ全体をカバー
+com.vmware.vsan.health.test.networkconfiggroup.dvsscope.testResult.label = 問題
+com.vmware.vsan.health.test.networkconfiggroup.dvsscope.testResult.columnVds = Distributed Switch
+com.vmware.vsan.health.test.networkconfiggroup.dvsscope.testResult.columnNonMemberHosts = 非メンバー ホスト
+com.vmware.vsan.health.test.networkconfiggroup.dvsscope.testResult.columnRecommendation = 推奨
+com.vmware.vsan.health.test.networkconfiggroup.dvsscope.testResult.recommendation = ベスト プラクティス: クラスタ内のすべてのホストを Distributed Switch に追加してください。
+com.vmware.vsan.health.test.networkconfiggroup.dvsscope = 構成管理の一元化のため、クラスタ内のすべてのホストを vSAN で使用しているのと同じ Distributed Switch に接続することを推奨します。このチェックでは、一部のクラスタをカバーする Distributed Switch を検出します。
+com.vmware.vsan.health.test.networkconfiggroup.dvsscope.short = ベスト プラクティス (推奨): vSAN で使用されている Distributed Switch がクラスタ ホストを部分的にのみカバーしているかどうかをチェックします。
+
+#
+# Network config - Physical NIC checks
+#
+com.vmware.vsan.health.test.networkconfiggroup.pnic.testName = 物理 NIC
+com.vmware.vsan.health.test.networkconfiggroup.pnic.testResult.label = 問題のあるホスト
+com.vmware.vsan.health.test.networkconfiggroup.pnic.testResult.columnHost = ホスト
+com.vmware.vsan.health.test.networkconfiggroup.pnic.testResult.columnNetwork = vSwitch/ポートグループ
+com.vmware.vsan.health.test.networkconfiggroup.pnic.testResult.columnIssue = 問題
+com.vmware.vsan.health.test.networkconfiggroup.pnic.testResult.0numPnicsIssue = 物理 NIC が構成されていません
+com.vmware.vsan.health.test.networkconfiggroup.pnic.testResult.1numPnicsIssue = 1 つの物理 NIC のみ、冗長性なし
+com.vmware.vsan.health.test.networkconfiggroup.pnic.testResult.portgroup.0numPnicsIssue = ポートグループに物理 NIC が構成されていません
+com.vmware.vsan.health.test.networkconfiggroup.pnic.testResult.portgroup.1numPnicsIssue = ポートグループにあるアクティブな物理 NIC は 1 つのみであり、冗長性がありません
+com.vmware.vsan.health.test.networkconfiggroup.pnic.testResult.pnicSpeedIssue = 複数のリンク速度を検出しました: {speedsMb}
+com.vmware.vsan.health.test.networkconfiggroup.pnic = vSAN vmknic の仮想スイッチおよびポートグループが、フェイルオーバーをサポートするために少なくとも 2 枚の物理 NIC で構成されていることをチェックします。また、チーム内の物理 NIC が同じ速度の構成になっていることをチェックします。ベスト プラクティスのための推奨事項があります。
+com.vmware.vsan.health.test.networkconfiggroup.pnic.short = ベスト プラクティス (推奨): 各 vSAN vmknic が、2 枚の物理 NIC でバッキングされており、それらの NIC が一致していて、(該当する場合は) 正しいタイプであることをチェックします。
+
+#
+# Network config - vMotion Ping
+#
+com.vmware.vsan.health.test.network.vmotionpingsmall.testName = vMotion: 基本 (ユニキャスト) 接続チェック
+com.vmware.vsan.health.test.network.vmotionpingsmall = vMotion トラフィックを有効にしたすべての VMkernel アダプタでパケット サイズの小さい ping テストを実行します。
+com.vmware.vsan.health.test.network.vmotionpingsmall.short = vMotion トラフィックを有効にしたすべての VMkernel アダプタでパケット サイズの小さい ping テストを実行します。
+
+com.vmware.vsan.health.test.network.vmotionpinglarge.testName = vMotion: MTU チェック (パケット サイズの大きい ping)
+com.vmware.vsan.health.test.network.vmotionpinglarge = vMotion トラフィックを有効にしたすべての VMkernel アダプタでパケット サイズの大きい ping テストを実行します。
+com.vmware.vsan.health.test.network.vmotionpinglarge.short = vMotion トラフィックを有効にしたすべての VMkernel アダプタでパケット サイズの大きい ping テストを実行します。
+
+#
+# Network config - Use VDS for vSAN
+#
+com.vmware.vsan.health.test.networkconfiggroup.vmotionnic.testName = すべてのホストで vMotion vmknic が構成済み
+com.vmware.vsan.health.test.networkconfiggroup.vmotionnic.testResult.label = vMotion vmknic が存在しないホスト
+com.vmware.vsan.health.test.networkconfiggroup.vmotionnic.testResult.columnHost = ホスト
+com.vmware.vsan.health.test.networkconfiggroup.vmotionnic = 少なくとも 1 つの vMotion vmknic を使用して各ホストを構成することを推奨します。
+com.vmware.vsan.health.test.networkconfiggroup.vmotionnic.short = ベスト プラクティス (推奨): 各ホストで vMotion vmknic が構成されているかどうかをチェックします。
+
+#
+# Burn in test check
+#
+com.vmware.vsan.health.test.burnintestgroup.burnintest.testName = 書き込みテスト チェック
+com.vmware.vsan.health.test.burnintestgroup.burnintest.testResult.label = 書き込みテストの結果
+com.vmware.vsan.health.test.burnintestgroup.burnintest.testResult.columnTestname = 書き込みテスト
+com.vmware.vsan.health.test.burnintestgroup.burnintest.testResult.columnWorkload = ワークロード
+com.vmware.vsan.health.test.burnintestgroup.burnintest.testResult.columnDuration = 期間 (秒)
+com.vmware.vsan.health.test.burnintestgroup.burnintest.testResult.columnResult = 結果
+com.vmware.vsan.health.test.burnintestgroup.burnintest.testResult.columnIssue = 問題
+com.vmware.vsan.health.test.burnintestgroup.burnintest.testResult.columnRecommendation = 推奨
+com.vmware.vsan.health.test.burnintestgroup.burnintest.testResult.notPerformedIssue = 書き込みテストが実行されていません
+com.vmware.vsan.health.test.burnintestgroup.burnintest.testResult.clusterChanged = 前回の書き込みテストの後にクラスタ構成が変更されています。再実行を推奨します
+com.vmware.vsan.health.test.burnintestgroup.burnintest.testResult.failedIssue = 書き込みテストに失敗しました
+com.vmware.vsan.health.test.burnintestgroup.burnintest.testResult.recommendation = [プロアクティブ テスト] 画面で推奨される書き込みテストを実行してください。
+
+com.vmware.vsan.health.test.burnintestgroup.burnintest = 推奨されるすべての書き込みテストを実行します。推奨される書き込みテストには、プロアクティブ vSAN ストレージ パフォーマンス テストの低負荷テストが含まれます。テストはデフォルトの期間以上にわたって実行する必要があります。[プロアクティブ テスト] 画面に切り替え、対応するテストを実行します。
+com.vmware.vsan.health.test.burnintestgroup.burnintest.short = ベスト プラクティス (推奨): 推奨されるすべての書き込みテスト (低負荷テストなど) を実行します。テストはデフォルトの期間以上にわたって実行する必要があります。
+
+#
+# vSAN Health Actions Description
+#
+com.vmware.vsan.health.action.repairclusterobjects.short = 不完全または低下した vSAN オブジェクトをただちに修復します。
+com.vmware.vsan.health.action.label.repairclusterobjects = オブジェクトをただちに修復
+com.vmware.vsan.health.action.uploadhcldb.short = ファイルをアップロードして HCL DB を更新します。
+com.vmware.vsan.health.action.label.uploadhcldb = ファイルからアップロード...
+com.vmware.vsan.health.action.label.updatehcldbfrominternet = 最新バージョンをオンラインで取得
+com.vmware.vsan.health.action.updatehcldbfrominternet.short = インターネットから HCL DB の更新プログラムをダウンロードします。
+com.vmware.vsan.health.action.enablehealthservice.short = Health Service を有効にすると、クラスタ内の Health VIB パッケージをインストールしていないホストに vSAN Health VIB がインストールされます。インストールを完了するには、すべてのホストで再起動が必要になります。一度に 1 台のホストがメンテナンス モードに切り替わってから再起動するローリング再起動が実行できるように、DRS を完全に自動化モードにする必要があります。これにより、すべての仮想マシンは実行されたままで、再起動は現在稼動中のワークロードに影響を与えません。
+com.vmware.vsan.health.action.label.enablehealthservice = 有効化
+com.vmware.vsan.health.action.diskbalance.short = ディスク上の vSAN オブジェクトをリバランスします。
+com.vmware.vsan.health.action.label.diskbalance = ディスクのプロアクティブ リバランス
+com.vmware.vsan.health.action.stopdiskbalance.short = ディスク上の vSAN オブジェクトのリバランスを中止します。
+com.vmware.vsan.health.action.label.stopdiskbalance = ディスクのプロアクティブ リバランスの中止
+com.vmware.vsan.health.action.remediatededup.short = デデュープの設定にクラスタとの一貫性がないディスクを修正します
+com.vmware.vsan.health.action.label.remediatededup = オンディスク フォーマットの変換
+com.vmware.vsan.health.action.remediateconfig.short = 構成 (デデュープ/圧縮、暗号化など) にクラスタとの一貫性がないホストおよびディスクを修正します。
+com.vmware.vsan.health.action.label.remediateconfig = 一貫性のない構成の修正
+com.vmware.vsan.health.action.overrideconfig.short = 現在の vCenter Server と同期していない ESXi 設定を更新します。
+com.vmware.vsan.health.action.label.overrideconfig = ESXi 設定の更新
+com.vmware.vsan.health.action.remediatekms.short = キー管理サーバへの接続に問題が発生しているホストを修正します。
+com.vmware.vsan.health.action.label.remediatekms = KMS 接続の修正
+com.vmware.vsan.health.action.label.enableperformanceservice = 有効化
+com.vmware.vsan.health.action.enableperformanceservice.short = vSAN パフォーマンス サービスの有効化
+com.vmware.vsan.health.action.label.loginvumisodepot = my.vmware.com にログイン
+com.vmware.vsan.health.action.loginvumisodepot.short = my.vmware.com にログイン (Cookie を保存)
+
+com.vmware.vsan.health.action.label.createdvs = Distributed Switch の作成
+com.vmware.vsan.health.action.createdvs.short = Distributed Switch を作成します。
+com.vmware.vsan.health.action.label.configureha = VMware HA の構成
+com.vmware.vsan.health.action.configureha.short = VMware HA を構成します。
+com.vmware.vsan.health.action.label.configuredrs = DRS の構成
+com.vmware.vsan.health.action.configuredrs.short = DRS を構成します。
+com.vmware.vsan.health.action.label.configurevsan = vSAN を構成
+com.vmware.vsan.health.action.configurevsan.short = vSAN を構成します。
+com.vmware.vsan.health.action.label.claimvsandisks = vSAN 用ディスクの要求
+com.vmware.vsan.health.action.claimvsandisks.short = vSAN 用ディスクを要求します。
+com.vmware.vsan.health.action.label.clusterupgrade = ソフトウェアのアップデート
+com.vmware.vsan.health.action.clusterupgrade.short = ソフトウェアをアップデートします。
+com.vmware.vsan.health.action.label.createvmknic = VMkernel ネットワーク アダプタの作成
+com.vmware.vsan.health.action.createvmknic.short = VMkernel ネットワーク アダプタを作成します。
+com.vmware.vsan.health.action.label.runburnintest = 書き込みテストの実行
+com.vmware.vsan.health.action.runburnintest.short = 書き込みテストを実行します。
+com.vmware.vsan.health.action.label.enableceip = CEIP の設定
+com.vmware.vsan.health.action.enableceip.short = CEIP を設定します。
+
+com.vmware.vsan.health.action.remediateDataProtectionConfig.short = クラスタの一貫性がないデータ保護の構成を修正します
+com.vmware.vsan.health.action.label.remediateDataProtectionConfig = 一貫性がないデータ保護の構成を修正します
+
+# VM action
+com.vmware.vsan.health.action.fixinconsistentvm.short = vSAN データストア内の一貫性のない仮想マシンをただちに修正します。
+com.vmware.vsan.health.action.label.fixinconsistentvm = 一貫性のない仮想マシンを修正 
+#
+# vSAN Storage WorkLoad Description
+#
+com.vmware.vsan.health.workload.low-stress-test=これは低負荷テストです。負荷の低い側で遅延が想定されます。
+com.vmware.vsan.health.workload.sanity-test=実質的な 70/30 分割を使用し、ホストあたり 1 GB のホット エリア内を維持することで、「アクティブな実行セット」をシミュレートします。
+com.vmware.vsan.health.workload.stress-test=これは負荷テストです。負荷の高い側で遅延が想定されますが、すべてのレイヤに適切に負荷がかかります。ホストあたり 1 TB の容量を使用します。
+com.vmware.vsan.health.workload.perf-100read-seq=これにより、RC が適切に再現され、vSAN を限界まで使用するのに十分で、大きな遅延を発生させるほどではない並行性が確保されます。ホストあたり 10 GB の容量を使用します。
+com.vmware.vsan.health.workload.perf-100write-rand=これにより、WB が適切に再現されます。ホストあたり 5 GB の容量を使用します。
+com.vmware.vsan.health.workload.perf-100read-rand=これにより、ウォームアップ時間後に RC が適切に再現され、vSAN を限界まで使用するのに十分で、大きな遅延を発生させるほどではない並行性が確保されます。ホストあたり 10 GB の容量を使用します。
+com.vmware.vsan.health.workload.perf-70read-rand=実質的な 70/30 分割を使用し、ホストあたり 30 GB のホット エリア内を維持することで、「アクティブな実行セット」をシミュレートします。
+com.vmware.vsan.health.workload.perf-70read-rand-bigio=実質的な 70/30 分割を使用し、ホストあたり 30 GB のホット エリア内を維持することで、「アクティブな実行セット」をシミュレートします。大きな IO サイズ 64K を使用して、標準的な 4K の IO サイズを用いるこのテストの通常版と比較して、IO サイズが遅延に大きな影響を与えることを示します。
+com.vmware.vsan.health.workload.perf-100read-rand-bigactive=このテストは、ハイブリッド構成では機能しませんが、オールフラッシュ構成では機能します。つまり、これは All-Flash のデモ テストです。ホストあたり 1 TB の容量を使用します。
+com.vmware.vsan.health.workload.perf-100read-seq-bigactive=メディア キャッシュ サーバなどの Pure ストリーミング読み込みワークロードをシミュレートします。ホストあたり 1 TB の容量を使用します。
+com.vmware.vsan.health.workload.perf-100write-seq-bigactive=バックアップ先などの Pure ストリーミング書き込みワークロードをシミュレートします。ホストあたり 1 TB の容量を使用します。
+
+#
+# vSAN Proactive Health Check Workload Type
+#
+com.vmware.vsan.health.workload.lowStressTest = 低負荷テスト
+com.vmware.vsan.health.workload.basicSanityTest = 基本サニティ テスト。フラッシュ キャッシュ レイヤを検査します
+com.vmware.vsan.health.workload.stressTest = ストレス テスト
+com.vmware.vsan.health.workload.perf100RRCTest = パフォーマンス特性 - 100% 読み取り、最適な RC 使用量
+com.vmware.vsan.health.workload.perf100WTest = パフォーマンス特性 - 100% 書き込み、最適な WB 使用量
+com.vmware.vsan.health.workload.perf100RRCAfterWarmUpTest = パフォーマンス特性 - 100% 読み取り、最適な RC 使用量 (ウォームアップ後)
+com.vmware.vsan.health.workload.perf70R30WRealisticTest = パフォーマンス特性 - 70/30 の読み取り/書き込み混合、実質的で最適なフラッシュ キャッシュ使用量
+com.vmware.vsan.health.workload.perf100R30WHighIOTest = パフォーマンス特性 - 70/30 の読み取り/書き込み混合、高 IO サイズ、最適なフラッシュ キャッシュ使用量
+com.vmware.vsan.health.workload.perf100RLowRCHitRateTest = パフォーマンス特性 - 100% 読み取り、低 RC ヒット レート/オールフラッシュ デモ
+com.vmware.vsan.health.workload.perf100RStreamTest = パフォーマンス特性 - 100% ストリーミング 読み取り
+com.vmware.vsan.health.workload.perf100WStreamTest = パフォーマンス特性 - 100% ストリーミング書き込み
+
+#
+# vSAN Health Install & Uninstall Precheck
+#
+com.vmware.vsan.health.cluster.installprecheck=ESXi ホストへの vSAN Health Service のインストールのプレフライト チェック。
+com.vmware.vsan.health.cluster.installprecheck.short=ESXi ホストへの vSAN Health Service のインストールのプレフライト チェック。
+com.vmware.vsan.health.cluster.uninstallprecheck=ESXi ホストからの vSAN Health Service のアンインストールのプレフライト チェック。
+com.vmware.vsan.health.cluster.uninstallprecheck.short=ESXi ホストからの vSAN Health Service のアンインストールのプレフライト チェック。
+
+#
+# vSAN Health Test Group label
+#
+com.vmware.vsan.health.test.cluster=クラスタ
+com.vmware.vsan.health.test.hcl=ハードウェア互換性
+com.vmware.vsan.health.test.genericcluster=汎用クラスタ
+com.vmware.vsan.health.test.network=ネットワーク
+com.vmware.vsan.health.test.data=データ
+com.vmware.vsan.health.test.limits=制限
+com.vmware.vsan.health.test.physicaldisks=物理ディスク
+com.vmware.vsan.health.test.stretchedcluster=ストレッチ クラスタ
+com.vmware.vsan.health.test.vsanconfiggroup=vSAN 構成
+com.vmware.vsan.health.test.networkconfiggroup=ネットワーク構成
+com.vmware.vsan.health.test.burnintestgroup=書き込みテスト
+com.vmware.vsan.health.test.encryption=暗号化
+com.vmware.vsan.health.test.perfsvc = パフォーマンス サービス
+com.vmware.vsan.health.test.cloudhealth = クラウドの健全性
+com.vmware.vsan.health.test.iscsi = vSAN iSCSI ターゲット サービス
+com.vmware.vsan.health.test.dataprotection=データ保護
+
+#
+# vSAN Health Stretched Cluster Check
+#
+com.vmware.vsan.health.test.stretchedCluster.columnTarget=ターゲット
+com.vmware.vsan.health.test.stretchedCluster.columnSummary=サマリ
+
+com.vmware.vsan.health.test.stretchedCluster.ClusterWithoutOneWitnessHost.testName=監視ホストが見つかりません
+com.vmware.vsan.health.test.stretchedCluster.ClusterWithoutOneWitnessHost.label=監視ホストが見つかりません
+com.vmware.vsan.health.test.clusterwithoutonewitnesshost=ストレッチ クラスタに有効な監視ホストがありません
+com.vmware.vsan.health.test.stretchedCluster.ClusterWithoutTwoDataFaultDomains.testName=予期しないフォールト ドメイン数
+com.vmware.vsan.health.test.stretchedCluster.ClusterWithoutTwoDataFaultDomains.label=予期しないフォールト ドメイン数
+com.vmware.vsan.health.test.clusterwithouttwodatafaultdomains=ストレッチ クラスタに 2 つの有効なフォールト ドメインがありません
+com.vmware.vsan.health.test.stretchedCluster.ClusterWithMultipleUnicastAgents.testName=ユニキャスト エージェントの構成に一貫性がありません
+com.vmware.vsan.health.test.stretchedCluster.ClusterWithMultipleUnicastAgents.label=ユニキャスト エージェントの構成に一貫性がありません
+com.vmware.vsan.health.test.clusterwithmultipleunicastagents=ストレッチ クラスタに複数のユニキャスト エージェントがあります。これは複数のユニキャスト エージェントが非監視ホストで設定されたことを示します。
+com.vmware.vsan.health.test.stretchedCluster.WitnessPreferredFaultDomainInvalid.testName=監視ホスト上の無効な優先フォールト ドメイン
+com.vmware.vsan.health.test.stretchedCluster.WitnessPreferredFaultDomainInvalid.label=無効な優先フォールト ドメイン
+com.vmware.vsan.health.test.witnesspreferredfaultdomaininvalid=次の (監視) ホストに無効な優先フォールト ドメインがあります。
+com.vmware.vsan.health.test.stretchedCluster.WitnessPreferredFaultDomainNotExist.testName=優先フォールト ドメインが設定されていません
+com.vmware.vsan.health.test.stretchedCluster.WitnessPreferredFaultDomainNotExist.label=優先フォールト ドメインが設定されていません
+com.vmware.vsan.health.test.witnesspreferredfaultdomainnotexist=クラスタで、監視ホストに対する優先フォールト ドメインが設定されていません
+com.vmware.vsan.health.test.stretchedCluster.WitnessInsideVcCluster.testName=vCenter クラスタ内の監視ホスト
+com.vmware.vsan.health.test.stretchedCluster.WitnessInsideVcCluster.label=vCenter クラスタ内の監視ホスト
+com.vmware.vsan.health.test.witnessinsidevccluster=ストレッチ クラスタを形成する vCenter クラスタに監視ホストを含めることはできません
+com.vmware.vsan.health.test.stretchedCluster.WitnessFaultDomainInvalid.testName=監視ホストのフォールト ドメインの構成に誤りがあります
+com.vmware.vsan.health.test.stretchedCluster.WitnessFaultDomainInvalid.label=監視ホストのフォールト ドメインの構成に誤りがあります
+com.vmware.vsan.health.test.witnessfaultdomaininvalid=次の監視ノードはデータ フォールト ドメインの 1 つに存在します
+com.vmware.vsan.health.test.stretchedCluster.HostUnicastAgentUnset.testName=ユニキャスト エージェントが構成されていません
+com.vmware.vsan.health.test.stretchedCluster.HostUnicastAgentUnset.label=ユニキャスト エージェントが構成されていません
+com.vmware.vsan.health.test.hostunicastagentunset=ホストでは、監視ノードと通信できるようにユニキャスト エージェントをセットアップする必要があります
+com.vmware.vsan.health.test.stretchedCluster.WitnessWithNoDiskMapping.testName=監視ホスト上でディスクが要求されていません
+com.vmware.vsan.health.test.stretchedCluster.WitnessWithNoDiskMapping.label=監視ホスト上でディスクが要求されていません
+com.vmware.vsan.health.test.witnesswithnodiskmapping=ストレッチ クラスタには、有効なディスク グループのない監視ホストがあります
+com.vmware.vsan.health.test.stretchedCluster.HostWithNoStretchedClusterSupport.testName=サポートされていないホスト バージョンです
+com.vmware.vsan.health.test.stretchedCluster.HostWithNoStretchedClusterSupport.label=サポートされていないホスト バージョンです
+com.vmware.vsan.health.test.hostwithnostretchedclustersupport=クラスタに、ストレッチ クラスタをサポートしない ESXi バージョンのホストがあります
+com.vmware.vsan.health.test.stretchedCluster.HostWithInvalidUnicastAgent.testName=無効なユニキャスト エージェント
+com.vmware.vsan.health.test.stretchedCluster.HostWithInvalidUnicastAgent.label=ユニキャスト エージェントが無効なホスト
+com.vmware.vsan.health.test.hostwithinvalidunicastagent=クラスタには、ユニキャスト エージェントが無効なホストがあります
+
+com.vmware.vsan.health.test.stretchedCluster.siteConnectivity.testName = サイト遅延の健全性
+com.vmware.vsan.health.test.stretchedCluster.siteConnectivity.testResult.label = サイト遅延
+com.vmware.vsan.health.test.stretchedCluster.siteConnectivity.testResult.columnDomainName = フォールト ドメイン
+com.vmware.vsan.health.test.stretchedCluster.siteConnectivity.testResult.columnObservedLatency = 検出された遅延 (ミリ秒)
+com.vmware.vsan.health.test.stretchedCluster.siteConnectivity.testResult.columnThreshold = しきい値 (ミリ秒)
+com.vmware.vsan.health.test.stretchedCluster.siteConnectivity.testResult.columnLatencyResult = 遅延結果
+com.vmware.vsan.health.test.siteconnectivity = この健全性チェックでは、データ サイトの任意の 2 台のホストと監視ホストの間の最大の遅延を表示します。警告しきい値: データ サイト間の場合、5 ミリ秒。データ サイトと非 ROBO クラスタの監視ホスト間の場合、200 ミリ秒。データ サイトと ROBO クラスタの監視ホスト間の場合、500 ミリ秒。チェックが失敗する場合、2 つのサイト間のネットワーク接続をチェックし、ネットワーク設定が最小要件を満たしていることを確認します。
+com.vmware.vsan.health.test.siteconnectivity.short = データ サイトの任意の 2 台のホストと監視ホストの間の最大のネットワーク遅延をチェックします。
+
+#Cluster Disk Balance
+com.vmware.vsan.health.test.cluster.diskbalance.testName = vSAN ディスク バランス
+com.vmware.vsan.health.test.cluster.diskbalance.testResult.label = ディスク バランス
+com.vmware.vsan.health.test.cluster.diskbalance.testResultOverview.label = 概要
+com.vmware.vsan.health.test.cluster.diskbalance.testResult.columnHost = ホスト
+com.vmware.vsan.health.test.cluster.diskbalance.testResult.columnDevice = デバイス
+com.vmware.vsan.health.test.cluster.diskbalance.testResult.columnDiskUsage = ディスク使用率
+com.vmware.vsan.health.test.cluster.diskbalance.testResult.columnDataToMove = 移動するデータ
+com.vmware.vsan.health.test.cluster.diskbalance.testResult.columnRebalanceState = リバランス状態
+com.vmware.vsan.health.test.cluster.diskbalance.testResult.columnRebalanceProgress = データ移動中
+com.vmware.vsan.health.test.cluster.diskbalance.testResultOverview.columnMetric = メトリック
+com.vmware.vsan.health.test.cluster.diskbalance.testResultOverview.columnValue = 値
+com.vmware.vsan.health.test.cluster.diskbalance.testResultOverview.rowAverageDiskUsage = 平均ディスク使用率
+com.vmware.vsan.health.test.cluster.diskbalance.testResultOverview.rowMaximumDiskUsage = 最大ディスク使用率
+com.vmware.vsan.health.test.cluster.diskbalance.testResultOverview.rowMaximumVariance = 最大分散
+com.vmware.vsan.health.test.cluster.diskbalance.testResultOverview.rowImbalanceIndex = Lab Manager バランス インデックス
+com.vmware.vsan.health.test.cluster.diskbalance.state.rebalanceoff = リバランスがオフになっています
+com.vmware.vsan.health.test.cluster.diskbalance.state.rebalanceentitydecom = 一時的に無効です。ディスク/ディスクグループまたは関連するノードは廃止されています
+com.vmware.vsan.health.test.cluster.diskbalance.state.rebalancediskunhealthy = ディスクが健全ではありません
+com.vmware.vsan.health.test.cluster.diskbalance.state.imbalancewithintolerance = 必要ではありません。不均衡の度合が許容範囲の限度 (2%) の範囲内にあるか、ディスク使用量が平均以下です。
+com.vmware.vsan.health.test.cluster.diskbalance.state.reactiverebalanceinprogress = リアクティブ リバランス タスクが進行中です
+com.vmware.vsan.health.test.cluster.diskbalance.state.reactiverebalancefailed = リアクティブ リバランスが必要ですが、リソースが不足しているため失敗したか、ポリシー制限のため移動できるコンポーネントが見つかりません
+com.vmware.vsan.health.test.cluster.diskbalance.state.proactiveneededbutdisabled  = プロアクティブ リバランスが必要です
+com.vmware.vsan.health.test.cluster.diskbalance.state.proactiverebalanceinprogress = プロアクティブ リバランスが進行中です
+com.vmware.vsan.health.test.cluster.diskbalance.state.proactiverebalancefailed = プロアクティブ リバランスが必要ですが、リソースが不足しているため失敗したか、ポリシー制限のため移動できるコンポーネントが見つかりません
+com.vmware.vsan.health.test.diskbalance = この機能を使用すると、ホストのバランス状態を監視できます。いずれかのディスクでバランスが取れていない場合は、プロアクティブなディスク リバランスをトリガできます。プロアクティブ リバランスがすでに開始されている場合は、停止することもできます。詳細については、AskVMware リンクをクリックしてください。
+com.vmware.vsan.health.test.diskbalance.short = すべてのホストの vSAN ディスク バランス ステータスをチェックします。
+
+#vSAN Performance Service Check
+com.vmware.vsan.health.test.perfsvc.groupName = パフォーマンス サービス
+com.vmware.vsan.health.test.perfsvc.perfsvcstatus.testName = パフォーマンス サービスのステータス
+com.vmware.vsan.health.test.perfsvc.perfsvcstatus.testResult.label = 詳細
+com.vmware.vsan.health.test.perfsvc.perfsvcstatus.testResult.columnStatus = ステータス
+com.vmware.vsan.health.test.perfsvc.perfsvcstatus.testResult.columnHealth = 結果
+com.vmware.vsan.health.test.perfsvc.perfsvcstatus.testResult.rowPerfSvcEnabled = パフォーマンス サービスは有効です
+com.vmware.vsan.health.test.perfsvc.perfsvcstatus.testResult.rowPerfSvcDisabled = パフォーマンス サービスは無効です
+com.vmware.vsan.health.test.perfsvc.perfsvcstatus.desc = vSAN パフォーマンス サービスのステータスをチェックします。このチェックからの警告の内容は、VMware vSAN 管理ガイドの説明のとおりに vSAN パフォーマンス サービスを有効にすることによって、修正することができます。
+com.vmware.vsan.health.test.perfsvc.perfsvcstatus.short = vSAN のすべての環境で vSAN パフォーマンス サービスを有効にすることをお勧めします。これにより、vSAN のリアル タイムのパフォーマンス データおよび過去のパフォーマンス データにアクセスできるようになります。
+com.vmware.vsan.health.test.perfsvc.statsdb.testName = 統計 DB オブジェクト
+com.vmware.vsan.health.test.perfsvc.statsdb.testResult.label = 詳細
+com.vmware.vsan.health.test.perfsvc.statsdb.testResult.columnCheck = 確認
+com.vmware.vsan.health.test.perfsvc.statsdb.testResult.columnStatus = ステータス
+com.vmware.vsan.health.test.perfsvc.statsdb.testResult.columnHealth = 結果
+com.vmware.vsan.health.test.perfsvc.statsdb.testResult.rowStatsDBExists = オブジェクトが存在する
+com.vmware.vsan.health.test.perfsvc.statsdb.testResult.rowStatsDBHealth = オブジェクトの健全性
+com.vmware.vsan.health.test.perfsvc.statsdb.testResult.rowStatsDBFreePct = オブジェクトの空き容量
+com.vmware.vsan.health.test.perfsvc.statsdb.testResult.rowStatsDBUsed = {0}% 使用済み
+com.vmware.vsan.health.test.perfsvc.statsdb.desc = vSAN パフォーマンス サービス統計データベース オブジェクトの健全性をチェックします
+com.vmware.vsan.health.test.perfsvc.statsdb.short = vSAN パフォーマンス サービス統計データベース オブジェクトの健全性をチェックします
+com.vmware.vsan.health.test.perfsvc.masterexist.testName = 統計マスターの選択
+com.vmware.vsan.health.test.perfsvc.masterexist.testResult.label = ノードの情報
+com.vmware.vsan.health.test.perfsvc.masterexist.testResult.columnHost = ホスト
+com.vmware.vsan.health.test.perfsvc.masterexist.testResult.columnIsCMMDSMaster = CMMDS マスターである
+com.vmware.vsan.health.test.perfsvc.masterexist.testResult.columnIsStatsMaster = 統計マスターである
+com.vmware.vsan.health.test.perfsvc.masterexist.desc = vSAN パフォーマンス サービスの統計マスターをチェックします
+com.vmware.vsan.health.test.perfsvc.masterexist.short = vSAN パフォーマンス サービスの統計マスターをチェックします
+com.vmware.vsan.health.test.perfsvc.collection.testName = パフォーマンス データの収集
+com.vmware.vsan.health.test.perfsvc.collection.testResult.label = 詳細
+com.vmware.vsan.health.test.perfsvc.collection.testResult.columnCheck = 確認
+com.vmware.vsan.health.test.perfsvc.collection.testResult.columnStatus = ステータス
+com.vmware.vsan.health.test.perfsvc.collection.testResult.columnHealth = 結果
+com.vmware.vsan.health.test.perfsvc.collection.testResult.rowStatsGather = 統計情報の収集
+com.vmware.vsan.health.test.perfsvc.collection.testResult.rowStatsPersist = 統計情報の永続性
+com.vmware.vsan.health.test.perfsvc.collection.testResult.rowSuccess = OK
+com.vmware.vsan.health.test.perfsvc.collection.testResult.rowLastSuccess = 前回の成功: {0} 分 {1} 秒前
+com.vmware.vsan.health.test.perfsvc.collection.desc = vSAN パフォーマンス サービスの統計収集をチェックします
+com.vmware.vsan.health.test.perfsvc.collection.short = vSAN パフォーマンス サービスの統計収集をチェックします
+com.vmware.vsan.health.test.perfsvc.hostsmissing.testName = 統計情報に影響するすべてのホスト
+com.vmware.vsan.health.test.perfsvc.hostsmissing.testResult.label = 統計情報に影響しないホスト
+com.vmware.vsan.health.test.perfsvc.hostsmissing.testResult.columnHost = ホスト
+com.vmware.vsan.health.test.perfsvc.hostsmissing.desc = すべてのホストがパフォーマンス統計に反映されているかをチェックします
+com.vmware.vsan.health.test.perfsvc.hostsmissing.short = すべてのホストがパフォーマンス統計に反映されているかをチェックします
+com.vmware.vsan.health.test.perfsvc.renameddirs.testName = 統計 DB オブジェクトの競合
+com.vmware.vsan.health.test.perfsvc.renameddirs.testResult.label = 名前変更されたディレクトリ
+com.vmware.vsan.health.test.perfsvc.renameddirs.testResult.columnDirName = ディレクトリ名
+com.vmware.vsan.health.test.perfsvc.renameddirs.desc = 統計 DB オブジェクトの競合をチェックします
+com.vmware.vsan.health.test.perfsvc.renameddirs.short = 統計 DB オブジェクトの競合をチェックします
+com.vmware.vsan.health.test.perfsvc.verbosemode.testName = 詳細モード
+com.vmware.vsan.health.test.perfsvc.verbosemode.testResult.label = 詳細
+com.vmware.vsan.health.test.perfsvc.verbosemode.testResult.columnVerboseModeStatus = ステータス
+com.vmware.vsan.health.test.perfsvc.verbosemode.testResult.rowVerboseModeStatusGreen = 詳細モードが {0} 日間有効になっています。
+com.vmware.vsan.health.test.perfsvc.verbosemode.testResult.rowVerboseModeStatusYellow = 詳細モードが 5 日を超える期間 ({0} 日間) 有効になっています。詳細モードで収集された追加データは、統計 DB の容量を圧迫する可能性があります。
+com.vmware.vsan.health.test.perfsvc.verbosemode.desc = vSAN パフォーマンス サービスの詳細モード ステータス チェック
+com.vmware.vsan.health.test.perfsvc.verbosemode.short = vSAN パフォーマンス サービスの詳細モード ステータス チェック
+com.vmware.vsan.health.test.cluster.consistentconfig.testResult.perfsvc.rowNotConsistentEnablePerfsvc = クラスタ構成内でパフォーマンス サービスはオンになっていますが、まだ有効になっていません。
+com.vmware.vsan.health.test.cluster.consistentconfig.testResult.perfsvc.rowNotConsistentDisablePerfsvc = クラスタ構成内でパフォーマンス サービスはオフになっていますが、まだ無効になっていません。
+com.vmware.vsan.health.test.cluster.consistentconfig.testResult.perfsvc.rowPolicyNotConsistent = 統計オブジェクトのポリシー設定が期限切れです
+com.vmware.vsan.health.test.cluster.consistentconfig.testResult.perfsvc.rowVsanDsNotcompatible = vSAN データストアは vSAN パフォーマンス サービス用に設定されたポリシーと互換性がありません
+com.vmware.vsan.health.test.cluster.consistentconfig.testResult.perfsvc.rowVsanDsNotEnoughFreeSpace = vSAN データストアに、vSAN パフォーマンス サービスを有効にするために必要な空き容量がありません
+
+#
+# iscsi health check
+#
+com.vmware.vsan.health.test.iscsi.iscsihomeobjectstatustest.testname = ホーム オブジェクト
+com.vmware.vsan.health.test.iscsi.iscsiinstallstatustest.testname = サービス インストール ステータス
+com.vmware.vsan.health.test.iscsi.iscsiservicenetworktest.testname = ネットワーク構成
+com.vmware.vsan.health.test.iscsi.iscsiservicerunningtest.testname = サービス ランタイム ステータス
+
+#vSAN online health configuration check
+com.vmware.vsan.health.test.cloudhealth.groupName = オンライン健全性
+
+com.vmware.vsan.health.test.cloudhealth.disabled = 無効
+com.vmware.vsan.health.test.cloudhealth.updating = 最終確認日時: たった今
+com.vmware.vsan.health.test.cloudhealth.lastTimeStr = 最終確認日時:
+com.vmware.vsan.health.test.cloudhealth.nextQueryStrKey = 次回確認日時:
+com.vmware.vsan.health.test.cloudhealth.weeks = 週
+com.vmware.vsan.health.test.cloudhealth.days = 日
+com.vmware.vsan.health.test.cloudhealth.hours = 時間
+com.vmware.vsan.health.test.cloudhealth.minutes = 分
+com.vmware.vsan.health.test.cloudhealth.ago = 前
+com.vmware.vsan.health.test.cloudhealth.comma = 、
+
+com.vmware.vsan.health.test.cloudhealth.vsancloudhealthceipexception.testName = カスタマ エクスペリエンス改善プログラム (CEIP)
+com.vmware.vsan.health.test.vsancloudhealthceipexception.desc.enabled = カスタマ エクスペリエンス改善プログラム (CEIP) の現在のステータスは有効です。CEIP が無効な場合は、オンライン健全性チェックを使用できません。
+com.vmware.vsan.health.test.vsancloudhealthceipexception.short.enabled = カスタマ エクスペリエンス改善プログラム (CEIP) の現在のステータスは有効です。CEIP が無効な場合は、オンライン健全性チェックを使用できません。
+com.vmware.vsan.health.test.vsancloudhealthceipexception.desc.disabled = カスタマ エクスペリエンス改善プログラム (CEIP) の現在のステータスは無効です。CEIP が無効な場合は、オンライン健全性チェックを使用できません。
+com.vmware.vsan.health.test.vsancloudhealthceipexception.short.disabled = カスタマ エクスペリエンス改善プログラム (CEIP) の現在のステータスは無効です。CEIP が無効な場合は、オンライン健全性チェックを使用できません。
+
+com.vmware.vsan.health.test.cloudhealth.vsancloudhealthconnectionexception.testName = オンライン健全性接続状態
+com.vmware.vsan.health.test.vsancloudhealthconnectionexception.desc.enabled = インターネット接続の現在のステータスは有効です。インターネット接続が無効な場合は、オンライン健全性チェックを使用できません。
+com.vmware.vsan.health.test.vsancloudhealthconnectionexception.short.enabled = インターネット接続の現在のステータスは有効です。インターネット接続が無効な場合は、オンライン健全性チェックを使用できません。
+com.vmware.vsan.health.test.vsancloudhealthconnectionexception.desc.disabled = インターネット接続の現在のステータスは無効です。インターネット接続が無効な場合は、オンライン健全性チェックを使用できません。
+com.vmware.vsan.health.test.vsancloudhealthconnectionexception.short.disabled = インターネット接続の現在のステータスは無効です。インターネット接続が無効な場合は、オンライン健全性チェックを使用できません。
+
+com.vmware.vsan.health.update.update.acceptlevelwarning = (ホスト許容レベル {levelname} が必要です)
+
+com.vmware.vsan.health.test.cluster.extendedconfig.testResult.label = vSAN ホストの拡張構成のステータス
+com.vmware.vsan.health.test.cluster.extendedconfig.testResult.columnHost = vSAN ホスト
+com.vmware.vsan.health.test.cluster.extendedconfig.testResult.columnObjectRepairTimer = オブジェクト修復タイマー
+com.vmware.vsan.health.test.cluster.extendedconfig.testResult.columnDisableSiteReadLocality = サイト読み取りのローカリティ
+com.vmware.vsan.health.test.cluster.extendedconfig.testResult.columnEnableCustomizedSwapObject = カスタマイズされたスワップ オブジェクト
+com.vmware.vsan.health.test.cluster.extendedconfig.testResult.columnLargeScaleClusterSupport = 大規模クラスタのサポート
+com.vmware.vsan.health.test.cluster.extendedconfig.testResult.columnEffect = 設定が有効化
+com.vmware.vsan.health.test.cluster.extendedconfig.testResult.columnState = チェック結果
+com.vmware.vsan.health.test.cluster.extendedconfig.testResult.columnRecommendation = 推奨
+com.vmware.vsan.health.test.cluster.extendedconfig.testName = vSAN 拡張構成の同期状態
+com.vmware.vsan.health.test.cluster.extendedconfig.short = すべての vSAN ホストの拡張構成をチェックします。予想されるオブジェクト修復タイマーは {0} 分、サイト読み取りのローカリティは {1}、カスタマイズされたスワップ オブジェクトは {2}、大規模クラスタのサポートは {3} です。
+com.vmware.vsan.health.test.cluster.extendedconfig.on = 有効
+com.vmware.vsan.health.test.cluster.extendedconfig.off = 無効
+com.vmware.vsan.health.test.cluster.extendedconfig.desc = vSAN クラスタの拡張構成は次のように設定されています。オブジェクト修復タイマーは {0} 分、サイト読み取りのローカリティは {1}、カスタマイズされたスワップ オブジェクトは {2}、大規模クラスタのサポートは {3} です。ホストの拡張構成に一貫性がない場合は、vSAN クラスタの修正をお勧めします。ホストが拡張構成をサポートしていない場合は、ESXi ソフトウェアのアップグレードが必要です。クラスタのスケーラビリティ構成を有効にするには、ホストの再起動が必要な場合があります。
+com.vmware.vsan.health.test.cluster.extendedconfig.match = 一致
+com.vmware.vsan.health.test.cluster.extendedconfig.mismatch = 不一致
+com.vmware.vsan.health.test.cluster.extendedconfig.notsupported = サポートされていません
+com.vmware.vsan.health.test.cluster.extendedconfig.noeffect = いいえ
+com.vmware.vsan.health.test.cluster.extendedconfig.takeneffect = はい
+com.vmware.vsan.health.test.cluster.extendedconfig.needmemory = いいえ
+com.vmware.vsan.health.test.cluster.extendedconfig.unknown = 不明
+com.vmware.vsan.health.test.cluster.extendedconfig.na = OK
+com.vmware.vsan.health.test.cluster.extendedconfig.remediation = vSAN クラスタの修正をお勧めします
+com.vmware.vsan.health.test.cluster.extendedconfig.upgrade = このホストの ESXi ソフトウェアをアップグレードしてください
+com.vmware.vsan.health.test.cluster.extendedconfig.reboot = ホストの再起動をお勧めします
+com.vmware.vsan.health.test.cluster.extendedconfig.memory = ホストのメモリを 8 GB 以上に増やします。
+
+# host EMM and node decom state in sync check
+com.vmware.vsan.health.test.cluster.mmdecominsync.testName = ホスト メンテナンス モード
+com.vmware.vsan.health.test.cluster.mmdecominsync.testResult.label = ホスト メンテナンス モード
+com.vmware.vsan.health.test.cluster.mmdecominsync.testResult.columnHost = ホスト
+com.vmware.vsan.health.test.cluster.mmdecominsync.testResult.columnHostInMM = メンテナンス モードのホスト
+com.vmware.vsan.health.test.cluster.mmdecominsync.testResult.columnHostInDecom = 廃止状態の vSAN ノード
+com.vmware.vsan.health.test.cluster.mmdecominsync.testResult.columnHostInSync = 同期状態
+com.vmware.vsan.health.test.cluster.mmdecominsync.testResult.contentYes = はい
+com.vmware.vsan.health.test.cluster.mmdecominsync.testResult.contentNo = いいえ
+com.vmware.vsan.health.test.cluster.mmdecominsync.testResult.contentTransient = 処理中
+com.vmware.vsan.health.test.mmdecominsync = ホストのメンテナンス モードと vSAN ノードの廃止状態が同期しているかどうかをチェックします。ホストがメンテナンス モードの場合、vSAN ノードは廃止状態の必要があります。ノードが廃止されているにもかかわらず、ホストがメンテナンス モードでない場合は、いずれかの vSAN オプションを使用してホストをメンテナンス モードにしてから、メンテナンス モードを終了して vSAN の廃止ステータスをリセットし、vSphere メンテナンス モードの状態と一貫性が維持されるようにします。
+com.vmware.vsan.health.test.mmdecominsync.short = ホストのメンテナンス モードと vSAN ノードの廃止状態が同期していることをチェックします。ノードが廃止されているにもかかわらず、ホストがメンテナンス モードでない場合は、いずれかの vSAN オプションを使用してホストをメンテナンス モードにしてから、メンテナンス モードを終了して vSAN の廃止ステータスをリセットし、vSphere メンテナンス モードの状態と一貫性が維持されるようにします。
+

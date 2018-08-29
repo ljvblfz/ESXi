@@ -1,0 +1,44 @@
+# Task for disk management
+com.vmware.vsan.diskmgmt.tasks.initializediskmappings.label               = "在 vSAN 上建立磁碟群組"
+com.vmware.vsan.diskmgmt.tasks.initializediskmappings.summary             = "在 vSAN 上建立磁碟群組"
+
+# Tasks for stretched cluster
+com.vmware.vsan.stretchedcluster.tasks.addwitnesshost.label               = "新增見證主機"
+com.vmware.vsan.stretchedcluster.tasks.addwitnesshost.summary             = "新增見證主機至延伸叢集"
+com.vmware.vsan.stretchedcluster.tasks.replacewitnesshost.label           = "取代見證主機"
+com.vmware.vsan.stretchedcluster.tasks.replacewitnesshost.summary         = "取代延伸叢集的見證主機"
+com.vmware.vsan.stretchedcluster.tasks.removewitnesshost.label            = "移除見證主機"
+com.vmware.vsan.stretchedcluster.tasks.removewitnesshost.summary          = "從延伸叢集移除見證主機"
+com.vmware.vsan.stretchedcluster.tasks.convert2stretchedcluster.label     = "轉換成延伸叢集"
+com.vmware.vsan.stretchedcluster.tasks.convert2stretchedcluster.summary   = "將指定的組態轉換成延伸叢集"
+com.vmware.vsan.stretchedcluster.tasks.setpreferredfaultdomain.label      = "設定慣用容錯網域"
+com.vmware.vsan.stretchedcluster.tasks.setpreferredfaultdomain.summary    = "設定延伸叢集的慣用容錯網域"
+
+# Task for disk format conversion
+com.vmware.vsan.diskconvertion.tasks.conversion.label                     = "轉換 vSAN 的磁碟格式"
+com.vmware.vsan.diskconvertion.tasks.conversion.summary                   = "轉換 vSAN 的磁碟格式"
+
+# Task for cluster management
+com.vmware.vsan.clustermgmt.tasks.reconfigurecluster.label                = "重新設定 vSAN 叢集"
+com.vmware.vsan.clustermgmt.tasks.reconfigurecluster.summary              = "重新設定 vSAN 叢集"
+com.vmware.vsan.clustermgmt.tasks.rekey.label                             = "為加密的 vSAN 叢集重新產生新金鑰"
+com.vmware.vsan.clustermgmt.tasks.rekey.summary                           = "為加密的 vSAN 叢集重新產生新金鑰"
+com.vmware.vsan.clustermgmt.tasks.precheck.label                          = "vSAN 作業預先檢查"
+com.vmware.vsan.clustermgmt.tasks.precheck.summary                        = "vSAN 作業預先檢查"
+
+# Task for new async VsanSystem
+com.vmware.vsan.vsansystem.tasks.update.label                             = "更新 vSAN 組態"
+com.vmware.vsan.vsansystem.tasks.update.summary                           = "更新此主機的 vSAN 組態"
+
+com.vmware.vsan.diskconvertion.tasks.precheck.label                       = "執行轉換磁碟格式預先檢查"
+com.vmware.vsan.diskconvertion.tasks.precheck.summary                     = "針對可能遇到的問題執行轉換磁碟格式預先檢查"
+
+com.vmware.vsan.diskmgmt.tasks.objectscan.label                           = "掃描 vSAN 物件"
+com.vmware.vsan.diskmgmt.tasks.objectscan.summary                         = "掃描 vSAN 物件是否存在問題"
+
+# Task for VsanPrecheckerSystem
+com.vmware.vsan.prechecker.tasks.complianceresourcecheck.label            = "執行符合性資源檢查工作"
+com.vmware.vsan.prechecker.tasks.complianceresourcecheck.summary          = "執行符合性資源檢查工作"
+
+com.vmware.vsan.prechecker.tasks.queryCompliance.label                    = "取得 WhatIf 符合性詳細資料"
+com.vmware.vsan.prechecker.tasks.queryCompliance.summary                  = "取得 WhatIf 符合性詳細資料"

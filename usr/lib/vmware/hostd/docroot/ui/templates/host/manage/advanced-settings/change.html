@@ -1,0 +1,61 @@
+<div ng-controller="HostManageAdvancedSettingsChangeController"
+   class="content-padding" style="margin: 10px;">
+   <div class="vui-stack-view">
+      <div class="stack-view-table">
+
+      <div vui-stack-block="keyBlock">
+         <span vui-sb-label>{{'host.manage.system.advancedSettings.newValue' | translate}}</span>
+         <div vui-sb-content>
+            <div ng-if="data.type === 'string'" class="input-col">
+               <textarea focus-me="true" ng-if="large()"
+                  title="{{'host.manage.system.advancedSettings.newValue' | translate}}"
+                  style="height: 135px; width: 365px; max-width: none;"
+                  ng-model="data.newValue"
+                  ng-trim="false">
+               </textarea>
+               <input focus-me="true" ng-if="!large()"
+                  title="{{'host.manage.system.advancedSettings.newValue' | translate}}"
+                  type="text" name="newValue"
+                  ng-model="data.newValue"/> {{'host.manage.system.advancedSettings.type.string' | translate}}
+            </div>
+            <div ng-if="data.type === 'int'" class="input-col">
+               <input focus-me="true" type="text" name="newValue"
+                  title="{{'host.manage.system.advancedSettings.newValue' | translate}}"
+                  ng-model="data.newValue"/> {{'host.manage.system.advancedSettings.type.integer' | translate}}
+            </div>
+            <div ng-if="data.type === 'long'" class="input-col">
+               <input focus-me="true" type="text" name="newValue"
+                  title="{{'host.manage.system.advancedSettings.newValue' | translate}}"
+                  ng-model="data.newValue"/> {{'host.manage.system.advancedSettings.type.longInteger' | translate}}
+            </div>
+            <div ng-if="data.type === 'float'" class="input-col">
+               <input focus-me="true" type="text" name="newValue"
+                  title="{{'host.manage.system.advancedSettings.newValue' | translate}}"
+                  ng-model="data.newValue"/> {{'host.manage.system.advancedSettings.type.float' | translate}}
+            </div>
+            <div ng-if="data.type === 'choice'" class="input-col">
+               <select name="newValue" ng-model="data.newValue"
+                  title="{{'host.manage.system.advancedSettings.newValue' | translate}}">
+                  <option ng-repeat="choice in data.choices"
+                     ng-selected="data.currentValue === choice.key"
+                     value="{{choice.key}}">{{choice.label}}</option>
+               </select>
+            </div>
+            <div ng-if="data.type === 'boolean'" class="input-col">
+               <label>
+                  <input type="radio" name="newValue" ng-value="'true'"
+                     title="{{'host.manage.system.advancedSettings.newValue' | translate}}"
+                     ng-model="data.newValue"
+                     ng-checked="data.currentValue"/> {{'host.manage.system.advancedSettings.true' | translate}}&nbsp;
+               </label>
+               <label>
+                  <input type="radio" name="newValue" ng-value="'false'"
+                     title="{{'host.manage.system.advancedSettings.newValue' | translate}}"
+                     ng-model="data.newValue"
+                     ng-checked="!data.currentValue"/> {{'host.manage.system.advancedSettings.false' | translate}}
+               </label>
+            </div>
+         </div>
+      </div>
+   </div>
+</div>

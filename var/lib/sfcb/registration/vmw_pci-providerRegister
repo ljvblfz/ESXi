@@ -1,0 +1,70 @@
+[VMware_PCIDevice]
+   provider: VMware_PCIDevice
+   location: pciprovider
+   group: vmware_base
+   type: instance
+   namespace: root/cimv2
+
+[VMware_PCIBridge]
+   provider: VMware_PCIBridge
+   location: pciprovider
+   group: vmware_base
+   type: instance
+   namespace: root/cimv2
+
+[VMware_PCIeSwitch]
+   provider: VMware_PCIeSwitch
+   location: pciprovider
+   group: vmware_base
+   type: instance
+   namespace: root/cimv2
+
+[VMware_PCISystemDevice]
+   provider: VMware_PCISystemDevice
+   location: pciprovider
+   group: vmware_base
+   type: instance association
+   namespace: root/cimv2
+
+[VMware_PCIPort]
+   provider: VMware_PCIPort
+   location: pciprovider
+   group: vmware_base
+   type: instance
+   namespace: root/cimv2
+
+[VMware_PCIPortGroup]
+   provider: VMware_PCIPortGroup
+   location: pciprovider
+   group: vmware_base
+   type: instance
+   namespace: root/cimv2
+
+[VMware_PCIDeviceConnection]
+   provider: VMware_PCIDeviceConnection
+   location: pciprovider
+   group: vmware_base
+   type: instance association
+   namespace: root/cimv2
+
+[VMware_PCIControlledBy]
+   provider: VMware_PCIControlledBy
+   location: pciprovider
+   group: vmware_base
+   type: instance association
+   namespace: root/cimv2
+
+[VMware_PCIHostedCollection]
+   provider: VMware_PCIHostedCollection
+   location: pciprovider
+   group: vmware_raw
+   memsize: 70
+   type: instance association
+   namespace: root/cimv2
+
+[VMware_PCIMemberOfCollection]
+   provider: VMware_PCIMemberOfCollection
+   location: pciprovider
+   group: vmware_base
+   type: instance association
+   namespace: root/cimv2

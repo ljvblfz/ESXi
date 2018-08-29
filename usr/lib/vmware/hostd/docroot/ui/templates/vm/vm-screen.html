@@ -1,0 +1,48 @@
+<div class="vmScreenScrape"
+   ng-class="{
+      fixedHeight: initial && loading
+   }"
+   style="min-height: 120px;"
+   ng-style="{
+      'background-image': loading ? 'url(images/panel_loader_off_white_bg.gif)' :''
+   }">
+
+   <div class="console-cloak"
+      ng-show="cloaked && !readonly">
+      <div class="play"
+         ng-show="state == 'suspended' || state === 'poweredOff'"
+         ng-click="powerOnVM();"></div>
+      <div class="poweringOn"
+         ng-show="state == 'poweringOn'"></div>
+   </div>
+
+   <img ng-show="!currentVM.config.template"
+      alt="{{'vm.summary.general.vmScreen'|translate}}"
+      title="{{'vm.summary.general.vmScreen'|translate}}"
+      img-http-src="{{url}}"
+      ng-class="{
+         hidden: !loaded && initial, error: error
+      }"
+      ng-click="!readonly && open()"/>
+
+   <div style="position: absolute; bottom: 10px; right: 4px; width: 15px; height: 5px;">
+      <img ng-if="loading && !initial"
+         src="images/tiny_loader_transparent_bg.gif"
+         alt="{{'root.loading'|translate}}"
+         style="margin-bottom: 4px;"/>
+
+      <img ng-if="!loading && state === 'poweredOn' && !failed"
+         src="images/ImgRefresh.png"
+         alt="{{'vm.summary.screen.refresh' | translate}}"
+         title="{{'vm.summary.screen.refresh' | translate}}"
+         style="margin-top: -7px;"
+         ng-click="refresh();"/>
+
+      <img ng-if="!loading && state === 'poweredOn' && failed"
+         src="images/refreshFailed16.png"
+         alt="{{'vm.summary.screen.refresh' | translate}}"
+         title="{{'vm.summary.screen.refresh' | translate}}"
+         style="margin-top: -7px;"
+         ng-click="refresh();"/>
+   </div>
+</div>

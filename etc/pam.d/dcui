@@ -1,0 +1,12 @@
+#%PAM-1.0
+
+auth       required     /lib/security/$ISA/pam_env.so
+auth       substack     system-auth-generic
+auth       sufficient   /lib/security/$ISA/pam_access.so accessfile=/etc/security/dcui-access.conf
+auth       required     /lib/security/$ISA/pam_access.so
+
+account    include      system-auth
+
+password   include      system-auth
+
+session    include      system-auth

@@ -1,0 +1,77 @@
+<div ng-if="tabs.tasks.loaded || hostMonitorTabs.tabs[hostMonitorTabs.selectedTabIndex].state === tabs.tasks.state"
+     ng-controller="HostMonitorTasksController" class="esx-tab-content">
+
+   <div ng-show="!loaded" class="loading"></div>
+
+   <div ng-show="loaded" vui-datagrid="taskGrid" id="{{taskGrid.id}}"></div>
+
+   <hr ng-if="currentTask" style="margin-top: 20px; margin-bottom: 20px;"/>
+
+   <div ng-if="currentTask" class="row header-area no-margin key-information">
+      <div class="col-sm-12 col-lg-12 info-block no-padding">
+         <div class="col-sm-2 col-lg-2 no-padding identifying-graphic">
+            <img src="images/task/task32.png" alt="{{'host.monitor.tasks.alt'|translate}}"/>
+         </div>
+         <div class="key-information col-sm-9 col-lg-9">
+            <div class="row" style="margin-bottom: 6px;">
+               <div class="col-sm-12 col-lg-12 title no-padding">
+                  <span class="object-title" ng-bind="currentTask.name"></span>
+               </div>
+            </div>
+            <div class="row" style="margin-bottom: 6px;">
+               <span
+                  class="col-sm-2 col-lg-2 control-label esx-label no-padding">{{'host.monitor.tasks.key'|translate}}</span>
+               <div class="col-sm-10 col-lg-10 no-padding">
+                  <p class="form-control-static">{{currentTask.key}}</p>
+               </div>
+            </div>
+            <div class="row" style="margin-bottom: 6px;">
+               <span
+                  class="col-sm-2 col-lg-2 control-label esx-label no-padding">{{'host.monitor.tasks.description'|translate}}</span>
+               <div class="col-sm-10 col-lg-10 no-padding">
+                  <p class="form-control-static">{{currentTask.description}}</p>
+               </div>
+            </div>
+            <div ng-if="currentTask.entity && currentTask.entity.type !== 'HostSystem'" class="row" style="margin-bottom: 6px;">
+               <span class="col-sm-2 col-lg-2 control-label esx-label no-padding">
+                  {{'entity.type.' + currentTask.entity.type | translate}}:
+               </span>
+               <div class="col-sm-10 col-lg-10 no-padding">
+                  <p class="form-control-static">
+                     <a ng-if="currentTask.entity.type === 'VirtualMachine'" href="#/host/vms/{{currentTask.entity.value}}">{{currentTask.entityName}}</a>
+                     <a ng-if="currentTask.entity.type === 'Datastore'" href="#/host/storage/datastores/{{currentTask.entity.value}}">{{currentTask.entityName}}</a>
+                  </p>
+               </div>
+            </div>
+            <div class="row" style="margin-bottom: 6px;">
+               <span
+                  class="col-sm-2 col-lg-2 control-label esx-label no-padding">{{'host.monitor.tasks.state'|translate}}</span>
+               <div class="col-sm-10 col-lg-10 no-padding">
+                  <p class="form-control-static">
+                     {{'task.state.' + currentTask.state.value | translate}}
+                     <span ng-if="currentTask.state.value === 'error'"> - {{currentTask.error.localizedMessage}}</span>
+                  </p>
+               </div>
+            </div>
+            <div class="row" style="margin-bottom: 6px;">
+               <span
+                  class="col-sm-2 col-lg-2 control-label esx-label no-padding">{{'host.monitor.tasks.errors'|translate}}</span>
+               <div class="col-sm-10 col-lg-10 no-padding">
+                  <p class="form-control-static">
+                     <ul ng-if="currentTask.error.fault.faultMessage.length > 0">
+                        <li ng-repeat="message in currentTask.error.fault.faultMessage">{{message.message}}</li>
+                     </ul>
+                  </p>
+               </div>
+            </div>
+            <div class="row" style="margin-bottom: 6px;" ng-if="currentTask.resultFormatted">
+               <span
+                  class="col-sm-2 col-lg-2 control-label esx-label no-padding">{{'host.monitor.tasks.result'|translate}}</span>
+               <div class="col-sm-9 col-lg-9 no-padding">
+                  <p class="form-control-static" ng-bind-html="currentTask.resultFormatted"></p>
+               </div>
+            </div>
+         </div>
+      </div>
+   </div>
+</div>

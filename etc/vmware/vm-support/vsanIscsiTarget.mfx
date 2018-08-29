@@ -1,0 +1,9 @@
+% Manifest name: VSANIscsiTarget
+% Manifest group: Storage
+% Manifest default: Enabled
+% Manifest tag: storage,vsan
+
+# action Options file/command
+run RELOCATE=/vmfs/volumes/vsanDatastore/.iSCSI-CONFIG/vsanIscsiTargets.tgz,IGNORE_ERROR /usr/lib/vmware/vm-support/bin/vsanIscsiTarget.sh
+run RELOCATE=/vmfs/volumes/vsanDatastore/.iSCSI-CONFIG/etc/vit.conf,IGNORE_ERROR /usr/lib/vmware/vm-support/bin/vsanIscsiTargetVitConf.sh
+run RELOCATE=/vmfs/volumes/vsanDatastore/.iSCSI-CONFIG/etc/vit.status,IGNORE_ERROR /usr/lib/vmware/vm-support/bin/vsanIscsiTargetVitStatus.py

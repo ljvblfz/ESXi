@@ -1,0 +1,27 @@
+/* **********************************************************
+ * Copyright 2012 VMware, Inc.  All rights reserved.
+ * VMware Confidential
+ * **********************************************************/
+
+/*
+ * vmkapi-mgmt.json --
+ *
+ *	Jumpstart plug-in to load vmkapi module-management support.
+ */
+
+{
+   "operations" :
+   {
+      "start" :
+      [
+         "system module load --module vmkapi_mgmt",
+      ]
+   }
+   ,
+   "metadata" :
+   {
+      "version"  : 1,
+      "requires" : ["system configuration"],
+      "provides" : ["vmkapi mgmt"]
+   }
+}

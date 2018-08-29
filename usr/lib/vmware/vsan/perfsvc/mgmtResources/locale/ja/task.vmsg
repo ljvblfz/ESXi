@@ -1,0 +1,44 @@
+# Task for disk management
+com.vmware.vsan.diskmgmt.tasks.initializediskmappings.label               = "vSAN でのディスク グループの作成"
+com.vmware.vsan.diskmgmt.tasks.initializediskmappings.summary             = "vSAN でのディスク グループの作成"
+
+# Tasks for stretched cluster
+com.vmware.vsan.stretchedcluster.tasks.addwitnesshost.label               = "監視ホストの追加"
+com.vmware.vsan.stretchedcluster.tasks.addwitnesshost.summary             = "ストレッチ クラスタに監視ホストを追加"
+com.vmware.vsan.stretchedcluster.tasks.replacewitnesshost.label           = "監視ホストの置換"
+com.vmware.vsan.stretchedcluster.tasks.replacewitnesshost.summary         = "ストレッチ クラスタの監視ホストを置換"
+com.vmware.vsan.stretchedcluster.tasks.removewitnesshost.label            = "監視ホストの削除"
+com.vmware.vsan.stretchedcluster.tasks.removewitnesshost.summary          = "ストレッチ クラスタから監視ホストを削除"
+com.vmware.vsan.stretchedcluster.tasks.convert2stretchedcluster.label     = "ストレッチ クラスタへの変換"
+com.vmware.vsan.stretchedcluster.tasks.convert2stretchedcluster.summary   = "指定した構成をストレッチ クラスタに変換"
+com.vmware.vsan.stretchedcluster.tasks.setpreferredfaultdomain.label      = "適切なフォールト ドメインの設定"
+com.vmware.vsan.stretchedcluster.tasks.setpreferredfaultdomain.summary    = "ストレッチ クラスタ用に適切なフォールト ドメインを設定"
+
+# Task for disk format conversion
+com.vmware.vsan.diskconvertion.tasks.conversion.label                     = "vSAN 用にディスク フォーマットを変換"
+com.vmware.vsan.diskconvertion.tasks.conversion.summary                   = "vSAN 用にディスク フォーマットを変換"
+
+# Task for cluster management
+com.vmware.vsan.clustermgmt.tasks.reconfigurecluster.label                = "vSAN クラスタの再構成"
+com.vmware.vsan.clustermgmt.tasks.reconfigurecluster.summary              = "vSAN クラスタの再構成"
+com.vmware.vsan.clustermgmt.tasks.rekey.label                             = "暗号化された vSAN クラスタ用の新しいキーの再生成"
+com.vmware.vsan.clustermgmt.tasks.rekey.summary                           = "暗号化された vSAN クラスタ用の新しいキーの再生成"
+com.vmware.vsan.clustermgmt.tasks.precheck.label                          = "vSAN 運用事前チェック"
+com.vmware.vsan.clustermgmt.tasks.precheck.summary                        = "vSAN 運用事前チェック"
+
+# Task for new async VsanSystem
+com.vmware.vsan.vsansystem.tasks.update.label                             = "vSAN 構成の更新"
+com.vmware.vsan.vsansystem.tasks.update.summary                           = "このホストの vSAN 構成を更新します"
+
+com.vmware.vsan.diskconvertion.tasks.precheck.label                       = "ディスク フォーマット変換事前チェックの実行"
+com.vmware.vsan.diskconvertion.tasks.precheck.summary                     = "ディスク フォーマット変換事前チェックを実行して発生する可能性のある問題を確認します"
+
+com.vmware.vsan.diskmgmt.tasks.objectscan.label                           = "vSAN オブジェクトのスキャン"
+com.vmware.vsan.diskmgmt.tasks.objectscan.summary                         = "問題を発見するために vSAN オブジェクトをスキャンします"
+
+# Task for VsanPrecheckerSystem
+com.vmware.vsan.prechecker.tasks.complianceresourcecheck.label            = "コンプライアンス リソース チェック タスクの実行"
+com.vmware.vsan.prechecker.tasks.complianceresourcecheck.summary          = "コンプライアンス リソース チェック タスクの実行"
+
+com.vmware.vsan.prechecker.tasks.queryCompliance.label                    = "WhatIf コンプライアンスの詳細の取得"
+com.vmware.vsan.prechecker.tasks.queryCompliance.summary                  = "WhatIf コンプライアンスの詳細の取得"

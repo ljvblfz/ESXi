@@ -1,0 +1,29 @@
+/***********************************************************
+ * Copyright 2010-2013,2015 VMware, Inc.  All rights reserved.
+ * VMware Confidential
+ ***********************************************************/
+
+{
+   "operations" :
+   {
+      "start" :
+      [
+         "sched hostcache cleanup",
+         "boot storage restore --host-caches"
+      ],
+      "apply_host_profile" :
+      [
+         "sched hostcache cleanup",
+         "boot hostprofile apply --earlybootinit -p vFlashHostCache.vFlashHostCacheConfig.VFlashHostCacheConfigProfile",
+         "boot hostprofile apply --earlybootinit -p hostCache.hostCacheConfig.HostCacheConfigProfile"
+      ]
+   }
+   ,
+   "metadata" :
+   {
+      "version"  : 2,
+      "requires" : ["storage", "system uuid", "system configuration", "vcfs", "datastore"],
+      "provides" : ["host cache"]
+   }
+}
+

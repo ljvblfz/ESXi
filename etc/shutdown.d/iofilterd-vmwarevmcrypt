@@ -1,0 +1,329 @@
+#!/bin/sh
+#
+# Copyright 2014-2015 VMware, Inc.  All rights reserved.
+#
+# /opt/vmware/vaiodk-6.1.0-3094456/src/partners/samples/iofilter/vmcrypt/.build/build/vmiof-initd/beta/uw32/iofilterd-vmwarevmcrypt:
+#   Start and stop the iofilterd and the VP for IO filter "%s".
+#
+# chkconfig: on 17 83
+# description: IO Filter daemon for the vmwarevmcrypt filter.
+# compatibility: IO Filter version 2.0.0.0
+#
+
+FILTER="vmwarevmcrypt"
+FILTERD="/usr/lib/vmware/iofilter/bin/iofilterd"
+VP_CTLR_APP="/usr/lib/vmware/iofilter/bin/iofvp-ctrl-app"
+VP_APP="/etc/init.d/iofiltervpd"
+WATCHDOG="/bin/watchdog.sh"
+FILTER_CONFIG="/usr/lib/vmware/vmiof/disk/vmwarevmcrypt-config.xml"
+DAEMON_PLUGIN="/usr/lib64/vmware/plugin/libvmiof-disk-daemon-vmwarevmcrypt.so"
+FILTER32_PLUGIN="/usr/lib/vmware/plugin/libvmiof-disk-vmwarevmcrypt.so"
+FILTER64_PLUGIN="/usr/lib64/vmware/plugin/libvmiof-disk-vmwarevmcrypt.so"
+FILTER_TAG="iofilterd_vmwarevmcrypt"
+START_OPTS="--filter=vmwarevmcrypt --mempool=0"
+STOP_OPTS="--filter=vmwarevmcrypt -s"
+INIT_RP_OPTS="--filter=vmwarevmcrypt --rp-init-only"
+CLEAN_RP_OPTS="--filter=vmwarevmcrypt --rp-cleanup-only"
+LOG="/var/log/iofilter-init.log"
+VIBID="VMW_vmwarevmcrypt_1.0.0"
+LOGGER_CONF_PATH="/etc/vmsyslog.conf.d/iofilterd-vmwarevmcrypt.conf"
+LOGGER_CONF="
+[vmsyslog-logger]
+id = iofilterd-vmwarevmcrypt
+descr = IOFilter vmwarevmcrypt daemon logs
+idents = iofilterd-vmwarevmcrypt
+file = iofilterd-vmwarevmcrypt
+fclass = FileLoggerSyslog
+nclass = NetworkFilterSyslogTimestamp
+"
+# hostd might not be available, and thus localcli is used instead of esxcli.
+ESXCLI=localcli
+
+#
+# Generate a VMware looking time stamp for logging
+#
+log_msg() {
+   echo $(date +%FT%TZ) iofilterd_vmwarevmcrypt: $@
+}
+
+#
+# execute a command with log output
+#
+log_exec() {
+   log_msg +$@
+   eval $@
+}
+
+check_missing() {
+   case $1 in
+   *.xml)
+      [ -r "${1}" ] || {
+         log_msg $1 is missing from the system >> ${LOG}
+         exit 1
+      }
+   ;;
+   *)
+      [ -x "${1}" ] || {
+         log_msg $1 is missing from the system >> ${LOG}
+         exit 1
+      }
+   ;;
+   esac
+}
+
+#
+# Consult wth lsof to see if any of the plugins for this
+# filter are active.  If an open plugin is found, then:
+# 1. issue a sysalert via the iofilter-helper app, and
+# 2. Send the same info into our iofilter-init.log.
+#
+check_for_active_plugins()
+{
+    ARGS="-vdplugin=$DAEMON_PLUGIN
+          -vf32plugin=$FILTER32_PLUGIN
+          -vf64plugin=$FILTER64_PLUGIN"
+    TMP1=/tmp/_1ls$$
+    TMP2=/tmp/_2l2$$
+    trap "rm -f $TMP1 $TMP2" EXIT
+    for backoff in 1 2 4 8; do
+       #
+       # lsof can fail but still return status 0.
+       # So we need to check its stderr stream for collected trash.
+       #
+       lsof > $TMP1 2> $TMP2
+       if [ $? -ne 0 -o -s $TMP2 ]; then
+          sleep $backoff
+          continue
+       fi
+       eval "$(
+          awk $ARGS '
+             func sysalert(cartel, plugin, command)
+             {
+                 helper = "/bin/esxcfg-init -a "
+                 info = sprintf("\"%s: filter open in " \
+                                "cartel %s (%s) during uninstall\"", \
+                                plugin, cartel, command)
+                 # dual log the info to our log and as a sysalert
+                 system(helper info)
+                 print("log_msg " info)
+             }
+             $5 == dplugin { sysalert($1, $5, $2) }
+             $5 == f32plugin { sysalert($1, $5, $2) }
+             $5 == f64plugin  { sysalert($1, $5, $2) }
+       ' < $TMP1)"
+       break
+    done
+    rm -f $TMP1 $TMP2
+    trap EXIT
+}
+
+#
+# Start iofilterd and VP for vmwarevmcrypt
+#
+iofilterd_start() {
+   (
+      #
+      # Sanity checks
+      #
+      check_missing ${WATCHDOG}
+      check_missing ${FILTERD}
+      check_missing ${VP_CTLR_APP}
+      check_missing ${VP_APP}
+      check_missing ${FILTER_CONFIG}
+
+      log_msg Starting ...
+
+      # The filter's daemon shouldn't be running.
+      if [ -x $DAEMON_PLUGIN -a ! -z "$(iofilterd_pid)" ] ; then
+         # But if it is, stop it.
+         iofilterd_stop
+      fi
+
+      # Start the iofilterd for filter 'vmwarevmcrypt'
+      if [ -x $DAEMON_PLUGIN ]; then
+         # Configure logger for the daemon
+         printf "$LOGGER_CONF" >$LOGGER_CONF_PATH
+         log_exec ${ESXCLI} system syslog reload
+         retcode=$?
+         if [ $retcode -ne 0 ]; then
+            # XXX PR 1430664:
+            #   Syslog reload is not reliable, but vmsyslogd won't ignore
+            #   messages - they just go to syslog.log instead of the
+            #   filter's designated log.
+            log_msg Failed to reload vmsyslogd, exit status $retcode
+            log_msg Filter ${FILTER} install is continuing.
+            log_msg ${FILTER} log messages may be be written to syslog.log.
+         fi
+
+         log_exec ${WATCHDOG} -d -t 100 -s ${FILTER_TAG} ${FILTERD} ${START_OPTS}
+         retcode=$?
+         if [ $retcode -ne 0 ]; then
+            log_msg daemon failed to start, exit status $retcode
+            return  $retcode
+         fi
+      else
+         log_exec ${FILTERD} ${INIT_RP_OPTS}
+      fi
+
+      # Start the VP. If its already started, this is a NOP.
+      log_exec ${VP_APP} start
+      retcode=$?
+      if [ $retcode -ne 0 ]; then
+         log_msg VP failed to start, exit status $retcode
+         return  $retcode
+      fi
+
+      # Add this filter's config to the VP.
+      log_exec ${VP_CTLR_APP} -a${FILTER_CONFIG} -v${VIBID}
+      retcode=$?
+      if [ $retcode -ne 0 ]; then
+         log_msg failed to add configuration to the VP, exit status $retcode
+         return  $retcode
+      fi
+
+      log_msg ... Start is complete
+
+      return 0
+   ) >> ${LOG} 2>&1
+}
+
+#
+# Stop iofilterd and VP for vmwarevmcrypt
+#
+iofilterd_stop() {
+   (
+      log_msg Stopping ...
+
+      #
+      # If the daemon does not voluntarily stop, then this script
+      # will wait forever.  This is motivated by the potential
+      # need of the daemon to sync data (i.e. killing the daemon
+      # might lead to data loss in certain corner cases).
+      #
+      # Assuming that the daemon has stopped (or perhpas was not
+      # running at all), then this script will always return with
+      # error code 0.  This is motivated by the ESXi packaging
+      # implementation which issues the following message for a
+      # failed VIB install/remove request:
+      #
+      #    "It is not safe to continue. Please reboot the host
+      #     immediately to discard the unfinished update."
+      #
+      # Ignoring errors here gives the operator some chance of
+      # recovering from a bad filter installation without rebooting.
+      #
+
+      # Delete this filter's config from the VP.
+      log_exec ${VP_CTLR_APP} -d${FILTER_CONFIG}
+      retcode=$?
+      if [ $retcode -ne 0 ]; then
+         log_msg filter VP failed to stop, exit status $retcode
+      fi
+
+      if [ -x $DAEMON_PLUGIN ]; then
+         # This only stops the watchdog process.
+         log_exec ${WATCHDOG} -k "${FILTER_TAG}"
+         retcode=$?
+         if [ $retcode -ne 0 ]; then
+            log_msg daemon watchdog failed to stop, exit status $retcode
+         fi
+
+         #
+         # Stop the daemon itself.
+         #
+         while [ 1 ]; do
+            log_exec ${FILTERD} $STOP_OPTS
+            retcode=$?
+            if [ $retcode -eq 0 ]; then
+               break
+            fi
+            log_msg filter daemon stop attempt failed, exit status $retcode
+
+            #
+            # If the iofilterd returned an error, that means it
+            # malfunctioned in some way.  If the daemon was not running
+            # to start with, it will return with status 0 (success).
+            #
+            # Since the iofilterd may be malfunctioning, we are forced to
+            # synthesize a wait by polling with the 'ps' command.
+            #
+            PID=$(iofilterd_pid)
+            if [ -z "$PID" ]; then
+               break
+            fi
+            sleep 10
+         done
+
+         # Remove the logger config
+         log_exec rm $LOGGER_CONF_PATH
+         log_exec ${ESXCLI} system syslog reload
+         retcode=$?
+         if [ $retcode -ne 0 ]; then
+            log_msg failed to remove filter daemon logger config
+         fi
+      else
+         log_exec ${FILTERD} ${CLEAN_RP_OPTS}
+         retcode=$?
+         if [ $retcode -ne 0 ]; then
+            log_msg filter rp opts cleanup failed, exit status $retcode
+         fi
+      fi
+
+      #
+      # Check for active plugins (which deserve a sysalert).
+      #
+      check_for_active_plugins
+
+      log_msg ... Stop done
+
+      return 0
+   ) >> ${LOG} 2>&1
+}
+
+#
+# Get the pid of iofilterd_vmwarevmcrypt
+#
+iofilterd_pid() {
+   ps -cu 2> /dev/null | awk '$3 == "iofilterd" {
+      for (i = 4; i <= NF; ++i) {
+         if ($i == "--filter=vmwarevmcrypt") {
+            print $1
+            exit
+         }
+      }
+   }'
+}
+
+#
+# Process comand line options
+#
+case "${1}" in
+   start)
+      iofilterd_start
+   ;;
+
+   stop)
+      iofilterd_stop
+   ;;
+
+   status)
+      if [ ! -z "$(iofilterd_pid)" ] ; then
+         echo "iofilterd_vmwarevmcrypt is running"
+         exit 0
+      else
+         echo "iofilterd_vmwarevmcrypt is not running"
+         exit 3
+      fi
+   ;;
+
+   restart)
+      iofilterd_stop
+      iofilterd_start
+   ;;
+
+   *)
+      echo "Usage: $(basename "$0") {start|stop|status|restart}
+      log_msg Usage: Params $@"
+      exit 1
+   ;;
+esac

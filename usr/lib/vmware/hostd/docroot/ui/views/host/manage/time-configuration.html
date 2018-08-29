@@ -1,0 +1,12 @@
+<div ng-if="tabs.time.loaded ||
+      hostManageSystemTabs.tabs[getSelectedTab()].state === tabs.time.state"
+   ng-controller="HostManageTimeConfigurationController"
+   class="esx-tertiary-tab-content"
+   style="padding-top: 10px;">
+
+   <div ng-show="!loaded" class="loading"></div>
+
+   <div ng-show="loaded" vui-action-bar="actionBar" style="padding: 2px 0 5px 0;"></div>
+
+   <div ng-show="loaded" vui-stack-view="timeConfigurationStackView"></div>
+</div>

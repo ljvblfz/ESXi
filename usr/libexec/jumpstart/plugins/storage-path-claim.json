@@ -1,0 +1,58 @@
+/***********************************************************
+ * Copyright 2010-2012,2015 VMware, Inc.  All rights reserved.
+ * VMware Confidential
+ ***********************************************************/
+
+{
+   "operations" :
+   {
+      "start" :
+      [
+         /* load path claim rules */
+         "storage core claimrule load",
+         /* load filter claim rules */
+         "storage core claimrule load --claimrule-class=Filter",
+         /* load VAAI claim rules */
+         "storage core claimrule load --claimrule-class=VAAI",
+
+         /* Re-enable the claiming code, wait for paths to be discovered */
+         "storage core claiming autoclaim --enabled=true --wait",
+
+         /* Start claiming */
+         "storage core claimrule run --wait",
+
+         /* Restore path configuration for previously unresolved devices */
+         "boot storage restore --paths",
+
+         /* Mark the end of claim */
+         "system syslog mark -s storage-path-claim-completed"
+      ],
+      "apply_host_profile" :
+      [
+         /* Skip the second load of claimrules for host profiles */
+
+         /* Re-enable the claiming code, wait for paths to be discovered */
+         "storage core claiming autoclaim --enabled=true --wait",
+
+         /* Start claiming */
+         "storage core claimrule run --wait",
+
+         /* Stateless early application of NMP device configuration */
+         "boot hostprofile apply --earlybootinit -p nmp.nmpProfile.NmpDeviceProfile",
+
+         /* Stateless early application of NMP device specific PSP config */
+         "boot hostprofile apply --earlybootinit -p nmp.nmpProfile.PathSelectionPolicyProfile",
+
+         /* Stateless early application of PSA device configuration */
+         "boot hostprofile apply --earlybootinit -p psa.psaProfile.PsaDeviceConfigurationProfile"
+      ]
+   }
+   ,
+   "metadata" :
+   {
+      "version"  : 2,
+      "requires" : [ "system configuration", "storage drivers", "software iSCSI", "PSA Filter claim rules", "PSA VAAI claim rules", "PSA MP claim rules", "vmkdevmgr", "storage early configuration", "system uuid"],
+      "provides" : [ "storage paths", "claim rules"]
+   }
+}
+

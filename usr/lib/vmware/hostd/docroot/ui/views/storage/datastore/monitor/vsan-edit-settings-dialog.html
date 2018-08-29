@@ -1,0 +1,82 @@
+<div ng-controller="VsanEditSettingsDialogController" class="vsan-settings-dialog">
+
+   <div class="warning">
+      <img src="images/event/warning_16.png" alt="{{'notification.type.warning'|translate}}" class="left"/>
+      <div>{{"storage.datastore.monitor.general.edit.warning"|translate}}</div>
+      <div class="clean"></div>
+   </div>
+
+   <div vui-stack-view>
+
+      <div vui-stack-block>
+         <span vui-sb-label>{{"storage.datastore.monitor.general.settings.claimingMode"|translate}}</span>
+         <div vui-sb-content>
+            <div class="input-container left">
+               <input type="radio" id="auto" class="left" ng-model="config.isAutoClaiming" ng-value="true" ng-disabled="!config.isEnabled"/>
+               <label for="auto" class="left">{{"storage.datastore.monitor.common.auto"|translate}}</label>
+            </div>
+            <div class="input-container left">
+               <input type="radio" id="manual" class="left" ng-model="config.isAutoClaiming" ng-value="false" ng-disabled="!config.isEnabled"/>
+               <label for="manual" class="left">{{"storage.datastore.monitor.common.manual"|translate}}</label>
+            </div>
+         </div>
+      </div>
+
+      <div vui-stack-block>
+         <span vui-sb-label>{{"storage.datastore.monitor.general.settings.deduplication"|translate}}</span>
+         <div vui-sb-content>
+            <div class="input-container left">
+               <input type="radio" id="dedup-enabled" class="left" ng-model="config.isDeduped" ng-value="true" ng-disabled="!config.isEnabled"/>
+               <label for="dedup-enabled" class="left">{{"storage.datastore.monitor.common.enabled"|translate}}</label>
+            </div>
+            <div class="input-container left">
+               <input type="radio" id="dedup-disabled" class="left" ng-model="config.isDeduped" ng-value="false" ng-disabled="!config.isEnabled"/>
+               <label for="dedup-disabled" class="left">{{"storage.datastore.monitor.common.disabled"|translate}}</label>
+            </div>
+         </div>
+      </div>
+
+      <!--<div vui-stack-block>-->
+         <!--<span vui-sb-label>{{"storage.datastore.monitor.general.settings.encryption"|translate}}</span>-->
+         <!--<div vui-sb-content>-->
+            <!--<div class="input-container left">-->
+               <!--<input type="radio" id="encryption-enabled" class="left" ng-model="config.isEncrypted" ng-value="true" ng-disabled="!config.isEnabled"/>-->
+               <!--<label for="encryption-enabled" class="left">{{"storage.datastore.monitor.common.enabled"|translate}}</label>-->
+            <!--</div>-->
+            <!--<div class="input-container left">-->
+               <!--<input type="radio" id="encryption-disabled" class="left" ng-model="config.isEncrypted" ng-value="false" ng-disabled="!config.isEnabled"/>-->
+               <!--<label for="encryption-disabled" class="left">{{"storage.datastore.monitor.common.disabled"|translate}}</label>-->
+            <!--</div>-->
+         <!--</div>-->
+      <!--</div>-->
+
+      <!--<div vui-stack-block>-->
+         <!--<span vui-sb-label>{{"storage.datastore.monitor.general.settings.iscsi"|translate}}</span>-->
+         <!--<div vui-sb-content>-->
+            <!--<div class="input-container left">-->
+               <!--<input type="radio" id="iscsi-enabled" class="left" ng-model="config.isISCSIEnabled" ng-value="true" ng-disabled="!config.isEnabled"/>-->
+               <!--<label for="iscsi-enabled" class="left">{{"storage.datastore.monitor.common.enabled"|translate}}</label>-->
+            <!--</div>-->
+            <!--<div class="input-container left">-->
+               <!--<input type="radio" id="iscsi-disabled" class="left" ng-model="config.isISCSIEnabled" ng-value="false" ng-disabled="!config.isEnabled"/>-->
+               <!--<label for="iscsi-disabled" class="left">{{"storage.datastore.monitor.common.disabled"|translate}}</label>-->
+            <!--</div>-->
+         <!--</div>-->
+      <!--</div>-->
+
+      <!--<div vui-stack-block>-->
+         <!--<span vui-sb-label>{{"storage.datastore.monitor.general.settings.performance"|translate}}</span>-->
+         <!--<div vui-sb-content>-->
+            <!--<div class="input-container left">-->
+               <!--<input type="radio" id="perf-enabled" class="left" ng-model="config.isPerformanceSvcEnabled" ng-value="true" ng-disabled="!config.isEnabled"/>-->
+               <!--<label for="perf-enabled" class="left">{{"storage.datastore.monitor.common.enabled"|translate}}</label>-->
+            <!--</div>-->
+            <!--<div class="input-container left">-->
+               <!--<input type="radio" id="perf-disabled" class="left" ng-model="config.isPerformanceSvcEnabled" ng-value="false" ng-disabled="!config.isEnabled"/>-->
+               <!--<label for="perf-disabled" class="left">{{"storage.datastore.monitor.common.disabled"|translate}}</label>-->
+            <!--</div>-->
+         <!--</div>-->
+      <!--</div>-->
+
+   </div>
+</div>

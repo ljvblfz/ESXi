@@ -1,0 +1,208 @@
+<div ng-controller="NetworkingNetstackEditController" class="content-padding time-config-dialog">
+   <div class="vui-stack-view">
+      <div class="stack-view-table">
+         <div class="stack-view-row">
+            <div class="stack-view-cell">
+               <span>{{'network.netstack.edit.basicConfig.label' | translate}}</span>
+            </div>
+
+            <div class="stack-view-cell">
+               <p style="padding: 0 0 10px 0;">{{'network.netstack.edit.basicConfig.title' | translate}}</p>
+
+               <div class="radio">
+                  <label>
+                     <input type="radio" name="optionsRadios" id="optionsRadios1" ng-model="data.manual" ng-value="false"/>
+                     {{'network.netstack.edit.basicConfig.useDHCP.label' | translate}}
+                  </label>
+                  <div class="row row-spacer-top no-margin">
+                     <div class="col-sm-4">
+                        <div class="input-group" style="padding-left: 3px;">
+                           <div vui-dropdown="vmknic"></div>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+
+               <div class="radio">
+                  <label>
+                     <input type="radio" name="optionsRadios" id="optionsRadios2" ng-model="data.manual" ng-value="true"/>
+                     {{'network.netstack.edit.basicConfig.manual.label' | translate}}
+                  </label>
+
+                  <div class="row-spacer-top vui-stack-view">
+                     <div class="stack-view-table">
+
+                        <div class="stack-view-row" ng-class="{'stack-warning' : data.hostNameInvalid}">
+                           <div class="stack-view-cell">
+                              <span>{{'network.netstack.edit.basicConfig.manual.hostName' | translate}}</span>
+                           </div>
+                           <div class="stack-view-cell form-group">
+                              <div class="row row-spacer">
+                                 <div class="col-sm-12">
+                                    <input type="text"
+                                       ng-model="data.hostName"
+                                       ng-disabled="!data.manual || !isDefaultStack"
+                                       title="{{'network.netstack.edit.basicConfig.manual.hostName' | translate}}"/>
+                                 </div>
+                              </div>
+                           </div>
+                        </div>
+
+                        <div class="stack-view-row" ng-class="{'stack-warning' : data.domainNameInvalid}">
+                           <div class="stack-view-cell">
+                              <span>{{'network.netstack.edit.basicConfig.manual.domainName' | translate}}</span>
+                           </div>
+                           <div class="stack-view-cell">
+                              <div class="row row-spacer">
+                                 <div class="col-sm-12">
+                                    <input type="text"
+                                       ng-model="data.domainName"
+                                       ng-disabled="!data.manual || !isDefaultStack"
+                                       title="{{'network.netstack.edit.basicConfig.manual.domainName' |translate}}"/>
+                                 </div>
+                              </div>
+                           </div>
+                        </div>
+
+                        <div class="stack-view-row"
+                           ng-class="{'stack-warning' : data.primaryDNSInvalid}">
+                           <div class="stack-view-cell">
+                              <span>{{'network.netstack.edit.basicConfig.manual.primaryDNS' | translate}}</span>
+                           </div>
+                           <div class="stack-view-cell">
+                              <div class="row row-spacer">
+                                 <div class="col-sm-12">
+                                    <input type="text"
+                                       ng-model="data.primaryDNS"
+                                       style="width: 110px;"
+                                       ng-disabled="!data.manual || !isDefaultStack"
+                                       title="{{'network.netstack.edit.basicConfig.manual.primaryDNS' | translate}}"/>
+                                 </div>
+                              </div>
+                           </div>
+                        </div>
+
+                        <div class="stack-view-row" ng-class="{'stack-warning' : data.secondaryDNSInvalid}">
+                           <div class="stack-view-cell">
+                              <span>{{'network.netstack.edit.basicConfig.manual.secondaryDNS' | translate}}</span>
+                           </div>
+                           <div class="stack-view-cell">
+                              <div class="row row-spacer">
+                                 <div class="col-sm-12">
+                                    <input
+                                       type="text"
+                                       ng-model="data.secondaryDNS"
+                                       style="width: 110px;"
+                                       ng-disabled="!data.manual || !isDefaultStack"
+                                       title="{{'network.netstack.edit.basicConfig.manual.secondaryDNS' | translate}}"/>
+                                 </div>
+                              </div>
+                           </div>
+                        </div>
+
+                        <div class="stack-view-row" ng-class="{'stack-warning' : data.searchDomainsInvalid}">
+                           <div class="stack-view-cell">
+                              <span>{{'network.netstack.edit.basicConfig.manual.searchDomains' | translate}}</span>
+                           </div>
+                           <div class="stack-view-cell">
+                              <div class="row row-spacer">
+                                 <div class="col-sm-12">
+                                    <textarea
+                                       style="height: 60px;"
+                                       ng-model="data.searchDomains"
+                                       id="searchDomains"
+                                       ng-disabled="!data.manual || !isDefaultStack"
+                                       title="{{'network.netstack.edit.basicConfig.manual.searchDomains' | translate}}"></textarea>
+                                    {{'network.netstack.edit.basicConfig.manual.searchDomainsOnePerLine' | translate}}
+                                 </div>
+                              </div>
+                           </div>
+                        </div>
+
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </div>
+         <div class="stack-view-row">
+            <div class="stack-view-cell">
+               <span>{{'network.netstack.edit.routing.title' |
+                  translate}}</span>
+            </div>
+            <div class="stack-view-cell">
+               <div class="row-spacer-top vui-stack-view">
+                  <div class="stack-view-table">
+                     <div class="stack-view-row" ng-class="{'stack-warning' : data.ipv4GatewayInvalid}">
+                        <div class="stack-view-cell">
+                           <span>{{'network.netstack.edit.routing.ipv4' |
+                  translate}}</span>
+                        </div>
+                        <div class="stack-view-cell form-group">
+                           <div class="row row-spacer">
+                              <div class="col-sm-12">
+                                 <input type="text" ng-model="data.ipv4Gateway" style="width: 110px;" title="{{'network.netstack.edit.routing.ipv4' |
+                     translate}}"/>
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                     <div class="stack-view-row" ng-class="{'stack-warning' : data.ipv6GatewayInvalid}">
+                        <div class="stack-view-cell">
+                           <span>{{'network.netstack.edit.routing.ipv6' |
+                  translate}}</span>
+                        </div>
+                        <div class="stack-view-cell form-group">
+                           <div class="row row-spacer">
+                              <div class="col-sm-12">
+                                 <input type="text" ng-model="data.ipv6Gateway" title="{{'network.netstack.edit.routing.ipv6' |
+                     translate}}"/>
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </div>
+         <div class="stack-view-row">
+            <div class="stack-view-cell">
+               <span>{{'network.netstack.edit.advancedSettings.title' |
+                  translate}}</span>
+            </div>
+            <div class="stack-view-cell">
+               <div class="row-spacer-top vui-stack-view">
+                  <div class="stack-view-table">
+                     <div class="stack-view-row">
+                        <div class="stack-view-cell">
+                           <span>{{'network.netstack.edit.advancedSettings.congestionControl' |
+                  translate}}</span>
+                        </div>
+                        <div class="stack-view-cell form-group">
+                           <div class="row row-spacer">
+                              <div class="col-sm-12">
+                                 <label style="padding-left: 0px;" title="{{'network.netstack.edit.advancedSettings.congestionControl'|translate}}"><div vui-dropdown="congestionControlAlgorithm"></div></label>
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                     <div class="stack-view-row" ng-class="{'stack-warning' : data.maxConnectionsInvalid}">
+                        <div class="stack-view-cell">
+                           <span>{{'network.netstack.edit.advancedSettings.maxNumberConnections' |
+                  translate}}</span>
+                        </div>
+                        <div class="stack-view-cell form-group">
+                           <div class="row row-spacer">
+                              <div class="col-sm-12">
+                                 <input type="number" ng-model="data.maxConnections" style="width: 75px;" title="{{'network.netstack.edit.advancedSettings.maxNumberConnections' |
+                     translate}}"/>
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div>
+   </div>
+</div>

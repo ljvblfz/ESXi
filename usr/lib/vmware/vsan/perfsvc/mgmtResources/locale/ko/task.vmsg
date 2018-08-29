@@ -1,0 +1,44 @@
+# Task for disk management
+com.vmware.vsan.diskmgmt.tasks.initializediskmappings.label               = "vSAN에 디스크 그룹 생성"
+com.vmware.vsan.diskmgmt.tasks.initializediskmappings.summary             = "vSAN에 디스크 그룹 생성"
+
+# Tasks for stretched cluster
+com.vmware.vsan.stretchedcluster.tasks.addwitnesshost.label               = "감시 호스트 추가"
+com.vmware.vsan.stretchedcluster.tasks.addwitnesshost.summary             = "확장된 클러스터에 감시 호스트 추가"
+com.vmware.vsan.stretchedcluster.tasks.replacewitnesshost.label           = "감시 호스트 바꾸기"
+com.vmware.vsan.stretchedcluster.tasks.replacewitnesshost.summary         = "확장된 클러스터를 위해 감시 호스트 바꾸기"
+com.vmware.vsan.stretchedcluster.tasks.removewitnesshost.label            = "감시 호스트 제거"
+com.vmware.vsan.stretchedcluster.tasks.removewitnesshost.summary          = "확장된 클러스터에서 감시 호스트 제거"
+com.vmware.vsan.stretchedcluster.tasks.convert2stretchedcluster.label     = "확장된 클러스터로 변환"
+com.vmware.vsan.stretchedcluster.tasks.convert2stretchedcluster.summary   = "지정된 구성을 확장된 클러스터로 변환"
+com.vmware.vsan.stretchedcluster.tasks.setpreferredfaultdomain.label      = "기본 장애 도메인 설정"
+com.vmware.vsan.stretchedcluster.tasks.setpreferredfaultdomain.summary    = "확장된 클러스터에 대한 기본 장애 도메인 설정"
+
+# Task for disk format conversion
+com.vmware.vsan.diskconvertion.tasks.conversion.label                     = "vSAN용으로 디스크 형식 변환"
+com.vmware.vsan.diskconvertion.tasks.conversion.summary                   = "vSAN용으로 디스크 형식 변환"
+
+# Task for cluster management
+com.vmware.vsan.clustermgmt.tasks.reconfigurecluster.label                = "vSAN 클러스터 재구성"
+com.vmware.vsan.clustermgmt.tasks.reconfigurecluster.summary              = "vSAN 클러스터 재구성"
+com.vmware.vsan.clustermgmt.tasks.rekey.label                             = "암호화된 vSAN 클러스터의 새 키 재생성"
+com.vmware.vsan.clustermgmt.tasks.rekey.summary                           = "암호화된 vSAN 클러스터의 새 키 재생성"
+com.vmware.vsan.clustermgmt.tasks.precheck.label                          = "vSAN 작업 사전 검사"
+com.vmware.vsan.clustermgmt.tasks.precheck.summary                        = "vSAN 작업 사전 검사"
+
+# Task for new async VsanSystem
+com.vmware.vsan.vsansystem.tasks.update.label                             = "vSAN 구성 업데이트"
+com.vmware.vsan.vsansystem.tasks.update.summary                           = "이 호스트의 vSAN 구성을 업데이트합니다."
+
+com.vmware.vsan.diskconvertion.tasks.precheck.label                       = "디스크 형식 변환 사전 검사 수행"
+com.vmware.vsan.diskconvertion.tasks.precheck.summary                     = "디스크 형식 변환에서 발생할 수 있는 문제에 대한 사전 검사 수행"
+
+com.vmware.vsan.diskmgmt.tasks.objectscan.label                           = "vSAN 개체 검색"
+com.vmware.vsan.diskmgmt.tasks.objectscan.summary                         = "vSAN 개체에서 문제 검색"
+
+# Task for VsanPrecheckerSystem
+com.vmware.vsan.prechecker.tasks.complianceresourcecheck.label            = "규정 준수 리소스 검사 작업 수행"
+com.vmware.vsan.prechecker.tasks.complianceresourcecheck.summary          = "규정 준수 리소스 검사 작업 수행"
+
+com.vmware.vsan.prechecker.tasks.queryCompliance.label                    = "WhatIf 규정 준수 세부 정보 가져오기"
+com.vmware.vsan.prechecker.tasks.queryCompliance.summary                  = "WhatIf 규정 준수 세부 정보 가져오기"

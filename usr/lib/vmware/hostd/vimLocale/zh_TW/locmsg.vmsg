@@ -1,0 +1,417 @@
+# en_US resources
+signature="sIgNaTuRe"
+
+#
+# Licensing faults
+com.vmware.vim.license.error.featureUnavailable = "功能 '{feature.@enum.com.vmware.vim.license.Feature}' 未獲得授權，需要 {need} 具有 {have}"
+com.vmware.vim.license.error.featureMissing = "功能 '{feature.@enum.com.vmware.vim.license.Feature}' 未獲得此版本的授權"
+com.vmware.vim.license.error.evalPeriodOver = "評估期已結束，{info.@enum.com.vmware.vim.license.msgs}"
+com.vmware.vim.license.error.LicenseExpired = "授權已到期，{info.@enum.com.vmware.vim.license.msgs}"
+com.vmware.vim.license.error.BadInput = "已使用無效的引數 {vm} 來呼叫授權子系統"
+com.vmware.vim.license.error.nolicense = "請安裝有效授權以使用此產品"
+
+# Feature names defined in enum.vmsg
+com.vmware.vim.license.features.info = "{feature.@enum.com.vmware.vim.license.Feature}"
+
+# Start System Error messages
+com.vmware.vim.uuid.transientFailure = "暫時性 UUID 產生故障: {arg}"
+# End System Error messages
+
+#
+vim.hostd.vdisksvc.diskNotThinProvisioned = "磁碟不是採用精簡佈建方式。"
+vim.hostd.vdisksvc.diskNotZeroedThick = "磁碟不是歸零的完整磁碟。"
+vim.hostd.vdisksvc.noIOBeyondEndOfDisk= "無法在虛擬磁碟結束範圍以外執行 IO。"
+vim.hostd.vdisksvc.doesNotStartAtSectorZero = "作業未從磁區 0 開始。"
+vim.hostd.vdisksvc.badReparentSpec = "重設父系的規格無效。"
+vim.hostd.vdisksvc.cannotMarkParentReadonly = "無法將父系磁碟標記為唯讀。"
+vim.hostd.vdisksvc.diskSizeTooSmall = "虛擬磁碟過小。"
+vim.hostd.vdisksvc.fileNameTooLong = "檔案名稱過長。"
+vim.hostd.vdisksvc.attachRootLink = "父系和子系虛擬磁碟均為基礎磁碟。"
+
+#
+vim.hostd.hostsvc.invalidDiskPartitioningFormatChange = "不支援磁碟分割格式變更。磁碟必須有非 VMware 分割區。"
+vim.hostd.hostsvc.invalidDiskSizeForPartitioningFormat = "分割格式不支援指定的磁碟大小。"
+
+vim.hostd.hostsvc.HBA.ipv4.unsupportedEnabled = "無法啟用 IPv4，因為它不受主機匯流排介面卡支援。"
+vim.hostd.hostsvc.HBA.ipv4.unsupportedDHCPSet = "IPv4 DHCP 不受主機匯流排介面卡支援。"
+vim.hostd.hostsvc.HBA.ipv4.invalidAddressAndNetmask = "指定的 IPv4 位址和子網路遮罩組態無效。兩個值應同時指定。"
+vim.hostd.hostsvc.HBA.ipv4.unsupportedAddressAndNetmaskSet = "IPv4 位址和子網路遮罩組態不受主機匯流排介面卡支援。"
+vim.hostd.hostsvc.HBA.ipv4.unsupportedDefaultGatewaySet = "IPv4 預設閘道組態不受主機匯流排介面卡支援。"
+
+vim.hostd.hostsvc.HBA.ipv6.unsupportedEnabled = "無法啟用 IPv6，因為它不受主機匯流排介面卡支援。"
+vim.hostd.hostsvc.HBA.ipv6.unspecifiedProperties = "必須為主機匯流排介面卡指定 IPv6 內容。"
+vim.hostd.hostsvc.HBA.ipv6.unsupportedDHCP = "IPv6 DHCP 不受主機匯流排介面卡支援。"
+vim.hostd.hostsvc.HBA.ipv6.unsupportedLinkLocalAutoConf = "IPv6 連結本機自動組態方法不受主機匯流排介面卡支援。"
+vim.hostd.hostsvc.HBA.ipv6.unsupportedRouterAdvertisement = "IPv6 路由器廣告組態方法不受主機匯流排介面卡支援。"
+vim.hostd.hostsvc.HBA.ipv6.unsupportedDefaultGW = "IPv6 預設閘道組態不受主機匯流排介面卡支援。"
+vim.hostd.hostsvc.HBA.ipv6.defaultGWNotApplicable = "如果要使用 DHCPv6 或路由器廣告方法，則無法設定 IPv6 預設閘道。"
+vim.hostd.hostsvc.HBA.ipv6.invalidStaticAddressAdd = "如果要使用 DHCPv6 和/或路由器廣告方法，則無法探索 IPv6 靜態位址。"
+vim.hostd.hostsvc.HBA.ipv6.invalidLinkLocalAddressAdd = "如果要使用自動連結本機組態方法，則無法探索 IPv6 連結本機位址。"
+
+vim.hostd.hostsvc.HBA.common.unsupportedMTUSet = "MTU 組態不受主機匯流排介面卡支援。"
+vim.hostd.hostsvc.HBA.common.unsupportedAprRedirect = "APR Redirect 組態不受主機匯流排介面卡支援。"
+vim.hostd.hostdvc.HBA.common.unsupportedDNSSet = "DNS 組態不受主機匯流排介面卡支援。"
+vim.hostd.hostdvc.HBA.common.invalidDNS = "指定的主要和替代 DNS 組態無效。兩個值應同時指定。"
+
+vim.hostd.hostsvc.lockedVmknics = "透過主機進階選項 Config.HostAgent.plugins.hostsvc.lockedVmknics，Vmknic {id} 將免受 vCenter 編輯。"
+vim.hostd.hostsvc.opUnsupportedOnEncryptedVm = "加密的虛擬機器不支援此作業。"
+
+#
+vim.hostd.snapshot.unknownuid = "指定的快照不存在。"
+vim.hostd.snapshot.inuse = "指定的快照檔案正在使用中。"
+
+# Start NPIV related messages
+com.vmware.vim.npiv.lessNodeWwn.label = "要求的節點 WWN 號碼 {num1} 應大於虛擬機器中的現有號碼 {num2}"
+com.vmware.vim.npiv.lessPortWwn.label = "要求的連接埠 WWN 號碼 {num1} 應大於虛擬機器中的現有號碼 {num2}"
+# End NPIV related messages
+
+# Start property path validity checks error messages
+com.vmware.vim.propertyPath.error.managedObjectInPath = "內容名稱「{propName}」無法周遊「{typeName}#{propPath}」的受管理物件。"
+com.vmware.vim.propertyPath.error.unexpectedArray = "內容元件「{propName}」不應為路徑「{typeName}#{propPath}」中的陣列。"
+com.vmware.vim.propertyPath.error.notAnObject = "內容名稱「{propName}」必須參照至「{typeName}#{propPath}」的資料或受管理物件。"
+com.vmware.vim.propertyPath.error.notFound = "在路徑「{typeName}#{propPath}」中找不到內容「{propName}」。"
+com.vmware.vim.propertyPath.error.stringKeyTypeMismatch.data = "路徑元件「{propName}」不是包含「{typeName}#{propPath}」之 STRING 或 MOREF 金鑰的資料物件。"
+com.vmware.vim.propertyPath.error.stringKeyTypeMismatch = "路徑元件「{propName}」不是包含「{typeName}#{propPath}」之 MOREF 金鑰的資料物件。"
+com.vmware.vim.propertyPath.error.intKeyTypeMismatch.data = "路徑元件「{propName}」不是包含「{typeName}#{propPath}」之 INT 金鑰的資料物件。"
+com.vmware.vim.propertyPath.error.intKeyTypeMismatch = "路徑元件「{propName}」不是包含「{typeName}#{propPath}」之金鑰的資料物件。"
+com.vmware.vim.propertyPath.error.notAnArray = "路徑元件「{propName}」不是路徑「{typeName}#{propPath}」中的陣列。"
+com.vmware.vim.propertyPath.error.lenghAlreadySeen = "內容名稱無法遵循「{typeName}# {propPath}」的「{propName}」。"
+# End property path validity checks error messages
+
+# HostCtlExceptions w/o Vobs
+com.vmware.esx.hostctl.default = "作業失敗，診斷報告: {reason}"
+# End HostCtlException w/o Vobs
+
+# Start datastore related  messages
+com.vmware.vim.datastore.error.removeDatastoreFailed = "由於 {reason.@enum.com.vmware.vim.datastore.error.value}，無法移除資料存放區「{name}」。請更正問題後重試該作業。"
+com.vmware.vim.datastore.error.tooManyDatastoresInStoragePod = "無法將 {maxDatastores} 個以上的資料存放區新增至資料存放區叢集。"
+com.vmware.vim.datastore.error.noDiskSpace = "找不到具有足夠空間的資料存放區來建立新磁碟，因為 intraVMDK 相似性已設定。"
+com.vmware.vim.datastore.error.multiExtentIorm = "多範圍 VMFS 資料存放區 {name} 不支援 Storage I/O 資源管理"
+# End datastore related messages
+
+# Start VM related messages
+com.vmware.vim.vm.error.removeDiskAfterVMSnapshot = "無法從虛擬機器中移除虛擬磁碟，因為該虛擬磁碟或其某個父系磁碟屬於該虛擬機器的快照。"
+com.vmware.vim.vm.delete.filesRemaining = "刪除虛擬機器失敗。檔案可能仍保留在資料存放區上。"
+com.vmware.vim.vm.error.forkchild.extendDisk = "分支子虛擬機器不支援延伸虛擬磁碟。"
+com.vmware.vim.vm.error.forkchild.updateSP = "分支子虛擬機器不支援更新儲存區設定檔。"
+com.vmware.vim.vm.error.forkchild.addNonDiskDevice = "分支子虛擬機器不支援新增虛擬裝置 (除虛擬磁碟之外)。"
+com.vmware.vim.vm.error.forkchild.removeDevice = "分支子虛擬機器不支援移除現有的虛擬裝置。"
+com.vmware.vim.vm.error.vmMigrationInProgress = "無法執行該作業，因為正在進行虛擬機器移轉。"
+com.vmware.vim.vm.error.invalidSecondary = "針對 FT 次要虛擬機器找不到主要虛擬機器。"
+com.vmware.vim.vm.error.invalidConfiguration = "虛擬機器的組態無效。"
+com.vmware.vim.vm.error.invalidParentResPoolChange = "虛擬機器不再位於父系資源集區「{pool}」中。"
+com.vmware.vim.vm.error.vmNotInCluster = "無法執行該作業，因為虛擬機器不在叢集中。"
+com.vmware.vim.vm.error.vmPinnedToCluster = "虛擬機器 {arg} 已釘選到其目前叢集。"
+com.vmware.vim.vm.error.vmPowerStateChange = "無法執行該作業，因為虛擬機器已變更其電源狀態"
+# End VM related messages
+
+# Start resource pool related messages
+com.vmware.vim.resourcePool.error.invalidRPNodeInfo = "資源集區節點的組態資訊無效: vCPU 數目無效。"
+com.vmware.vim.resourcePool.error.inconsistentState = "資源集區節點處於不一致狀態: 虛擬機器資源集區節點、其父系資源集區節點或目的地資源集區節點已移除。"
+
+# Start storage related  messages
+com.vmware.vim.datastore.error.unmountVmfsVolumeFailed = "由於 {reason.@enum.com.vmware.vim.datastore.error.value}，無法卸載磁碟區「{name}」。請更正問題後重試該作業。"
+# End storage related messages
+
+# Start iSCSI related messages
+com.vmware.vim.iscsi.error.vnicInUse = "無法完成此作業，因為 iSCSI 介面卡正在使用 VMkernel 網路介面卡 {name}。請從 iSCSI 介面卡中移除 VMkernel 網路介面卡，以成功完成此作業。"
+com.vmware.vim.iscsi.error.AddUplinks =  "VMkernel 網路介面卡 {name} 未與實體網路介面卡相關聯。若要使用 VMkernel 網路介面卡進行 iSCSI 連接埠繫結，必須將其與一個實體網路介面卡相關聯。"
+com.vmware.vim.iscsi.error.MultipleUplinks = "VMkernel 網路介面卡 {name} 已與多個實體網路介面卡相關聯。若要使用 VMkernel 網路介面卡進行 iSCSI 連接埠繫結，VMkernel 網路介面卡只能與一個實體網路介面卡相關聯。"
+com.vmware.vim.iscsi.error.FixUplink = "將實體網路介面卡附加至與 iSCSI 主機匯流排介面卡相關聯的 VMkernel 網路介面卡 {name}。"
+com.vmware.vim.iscsi.error.VnicNotFound = "VMkernel 網路介面卡 {name} 可能已遭移除。解除繫結此 VMkernel 網路介面卡。"
+# End iSCSI related messages
+
+# Start CacheConfigurationManager messages
+com.vmware.vim.host.cacheConfiguration.swapSizeNegative = "交換大小不可為負值。"
+com.vmware.vim.host.cacheConfiguration.nonSsdDatastore = "只能在以固態硬碟為基礎的資料存放區上設定交換大小。"
+com.vmware.vim.host.cacheConfiguration.unsupportedDatastore = "無法在指定的資料存放區上設定分頁。"
+# End CacheConfigurationManager messages
+
+# Start LocalAccountManager messages
+com.vmware.vim.host.LocalAccountManager.lastDcuiUser       = "無法移除最後一個具有 DCUI 存取權的本機使用者。"
+com.vmware.vim.host.LocalAccountManager.lastLocalFullAdmin = "無法移除最後一個具有完整管理權限的本機使用者。"
+com.vmware.vim.host.LocalAccountManager.passwdError        = "無法設定密碼。您的密碼可能不符合系統設定的複雜性準則。"
+com.vmware.vim.host.LocalAccountManager.longPassword       = "此密碼可能對某些服務而言太長。請選擇其他密碼。"
+com.vmware.vim.host.LocalAccountManager.weakPassword       = "弱密碼: {reason.@enum.com.vmware.vim.host.LocalAccountManager.weakPassword}。"
+# End LocalAccountManager messages
+
+# Start InfraUpdateHa messages
+com.vmware.vim.host.unMonitored = "主機不受以下針對此叢集登錄之健全狀況更新提供者的監控: {providers}"
+com.vmware.vim.healthUpdateManager.duplicateName = "重複的名稱: {arg}"
+com.vmware.vim.healthUpdateManager.associatedEntity = "已與實體 {arg} 建立關聯。"
+com.vmware.vim.healthUpdateManager.notAssociatedEntity = "未與實體 {arg} 建立關聯。"
+com.vmware.vim.healthUpdateManager.unknownEntity = "未知實體: {arg}"
+com.vmware.vim.healthUpdateManager.greenUpdate = "更新 {arg} 的修復非空白，無法進入綠色狀態。"
+com.vmware.vim.healthUpdateManager.grayUpdate = "更新 {arg} 處於灰色狀態。"
+com.vmware.vim.healthUpdateManager.invalidComponent = "元件 {arg} 無效。"
+com.vmware.vim.healthUpdateManager.stringBound = "字串長度超過界限: {arg}"
+# End InfraUpdateHa messages
+
+# Start host unavailable mode messages
+com.vmware.vim.host.unavailableMode.standbyTimeout = "主機 {host} 未關閉電源。"
+com.vmware.vim.host.unavailableMode.powerOnTimeout = "主機 {host} 未開啟電源。"
+com.vmware.vim.host.unavailableMode.vmotionsTimeout = "從/向主機 {host} 執行的 vMotion 作業操作未完成。"
+com.vmware.vim.host.unavailableMode.poweredOnVmsTimeout = "主機 {host} 中存在已開啟電源的虛擬機器。"
+# end host unavailable mode messages
+
+# Start host error messages
+com.vmware.vim.host.error.unavailableForVm = "主機不可執行虛擬機器作業"
+# End host error messages
+
+# Start AuthorizationManager messages
+com.vmware.vim.AuthorizationManager.lockdownModeProtection = "作業會中斷鎖定模式。"
+com.vmware.vim.AuthorizationManager.lockdownModeDcui = "當主機處於鎖定模式時，無法變更 DCUI 服務的狀態。"
+# End AuthorizationManager messages
+
+# Start VR related messages
+com.vmware.vim.hbr.error.interop.faultTolerance = "無法在相同虛擬機器上啟用 vSphere Replication 和 Fault Tolerance。"
+com.vmware.vim.hbr.error.interop.diskLengthChange = "vSphere Replication 不支援變更複寫磁碟的長度。"
+com.vmware.vim.hbr.error.interop.sharedBus = "vSphere Replication 與 SCSI 匯流排共用不相容。"
+com.vmware.vim.hbr.error.interop.ideHostedEmulation = "vSphere Replication 與主控 IDE 模擬不相容。"
+com.vmware.vim.hbr.error.fullsync.while.fullsync = "無法啟動完整同步，因為完整同步已在進行中。"
+com.vmware.vim.hbr.error.fullsync.while.fullsync.server = "無法啟動完整同步，因為 VR 伺服器要求的完整同步已在進行中。"
+com.vmware.vim.hbr.error.delta.while.fullsync = "無法啟動差異，因為完整同步已在進行中。"
+com.vmware.vim.hbr.error.delta.while.delta = "無法啟動差異，因為差異已在進行中。"
+com.vmware.vim.hbr.error.interop.unsupportedDiskType = "vSphere Replication 不支援「{diskName}」虛擬磁碟的磁碟類型。"
+# End VR related messages
+
+# Start of OvfManager messages
+com.vmware.vim.ovfManager.ovfParserOption.lax = "將錯誤視為警告，將所有區段視為選用，並略過不支援的硬體。"
+
+com.vmware.vim.ovfManager.ovfParserOption.mac = "針對所有乙太網路裝置匯出 MAC 位址。"
+com.vmware.vim.ovfManager.ovfParserOption.uuid = "針對所有虛擬機器匯出 UUID。"
+com.vmware.vim.ovfManager.ovfParserOption.extraconf = "針對虛擬機器匯出所有額外的組態選項。"
+com.vmware.vim.ovfManager.ovfParserOption.nodevicesubtypes = "不會匯出 CD/DVD 光碟機、磁碟機、序列埠和平行埠的資源子類型。"
+
+# End of OvfManager messages
+
+# Replay check messages
+com.vmware.vim.vm.monitorTypeHotChange.notSupportedError = "線上虛擬機器不支援監控器建置類型變更。"
+# End of Replay check messages
+
+# VM device messages
+com.vmware.vim.vm.device.video.hardware3dNotAvailable = "主機上無法使用硬體 3D 轉譯器。"
+# end of VM device messages
+
+#Start VmInventory messages
+com.vmware.vim.Folder.error.registeredVmLimitReached = "已達到登錄的虛擬機器上限。"
+com.vmware.vim.Folder.error.supportedVmLimitReached = "已達到支援的虛擬機器上限。"
+#end of VmInventory messages
+
+# VM provisioning messages
+com.vmware.vim.vm.error.AttemptToFindUniqueDirectoryNameLimitReached = "已達到嘗試尋找唯一目錄名稱的次數上限。"
+com.vmware.vim.vm.error.NoValidHostDueToDasState = "由於 Das 狀態，找不到有效主機。"
+com.vmware.vim.vm.error.NoValidHostDueToDatastoreAccess = "由於資料存放區可存取性，找不到有效主機。"
+com.vmware.vim.vm.error.NoValidHostDueToDiskSize = "由於磁碟大小「{disksize}」KB，找不到有效主機。"
+com.vmware.vim.vm.error.NoValidHostDueToHwVersion = "由於硬體版本「{hwversion}」，找不到有效主機。"
+com.vmware.vim.vm.error.NoValidHostDueToNVDIMMSupport = "由於 NVDIMM 支援，找不到有效主機。"
+com.vmware.vim.vm.error.NoValidHostDueToPMemAdmissionFailure = "找不到任何滿足所需的 NVDIMM 和 PMem 磁碟容量總計的有效主機。"
+com.vmware.vim.vm.error.HostNotValidDueToPMemAdmissionFailure = "超過主機 {host} 上的可用 PMem 容量。主機上的可用容量為 {availableRes} MB，而要求的記憶體為 {change} MB"
+com.vmware.vim.vm.error.InsufficientPMemCapacity = "主機上的 PMem 容量不足。"
+# End of VM provisioning messages
+
+#
+vim.hostd.vsanDecommissioning.enteringMM = "正在進入 vSAN 維護模式。"
+vim.hostd.vsanDecommissioning.noResources = "由於叢集中的節點或磁碟不足，無法在目前的 vSAN 資料移轉模式下進入維護模式。請在其他模式下重試作業，或在新增更多資源至叢集後重試作業。"
+vim.hostd.vsanDecommissioning.invalidStateEnterMM = "無法在目前的主機狀態下進入維護模式。請重試作業。"
+vim.hostd.vsanDecommissioning.invalidStateExitMM = "無法在目前的主機狀態下結束維護模式。請重試作業。"
+vim.hostd.vsanDecommissioning.objectInaccessible = "由於目前無法存取一或多個用於移轉的候選物件，因此無法進入維護模式。請在其他 vSAN 資料移轉模式下重試作業。"
+vim.hostd.vsanDecommissioning.networkPartitionError = "由於無法存取部分物件，因此無法進入維護模式。請驗證網路連線，然後重試作業。"
+vim.hostd.vsanDecommissioning.concurrentDecom = "叢集中的另一台主機已在進入維護模式。請在其完成後重試作業。"
+vim.hostd.vsanDecommissioning.canceledAborted = "使用者已取消維護模式作業，或者此作業因內部 vSAN 錯誤而失敗。請重試作業。"
+vim.hostd.vsanDecommissioning.generalError = "由於內部 vSAN 錯誤，無法進入維護模式。請重試作業。"
+vim.hostd.vsanDecommissioning.badParam = "在目前狀態下無法支援作業。預期的狀態為 '{expected}'，但是目前狀態為 '{current}'"
+vim.hostd.vsanDecommissioning.whatIfNotSupportedOnWitnessHost = "不支援在見證主機上查詢若則撤除結果"
+vim.hostd.vsanDiskOperation.autoModeEnabled = "無法移除 vSAN 磁碟: 已啟用 vSAN 儲存區自動宣告模式"
+vim.hostd.vsanDiskOperation.diskMappingNotFound = "找不到磁碟對應 '{diskMap}'。"
+vim.hostd.vsanDiskOperation.allFlashExceed = "無法新增磁碟至所有快閃磁碟群組，因為 vSAN 磁碟已達到大小上限。"
+vim.hosts.vsanDiskOperation.diskIs4K = "無法將 4K 裝置新增至 vSAN 節點，因為目前已停用這些裝置的支援"
+vim.hostd.vsanDiskOperation.hybridExceed = "無法新增磁碟至混合磁碟群組，因為 vSAN 磁碟已達到大小上限。"
+
+# Start of VC health status messages
+vc.health.error.connToHealthStatusEndPointHttpError = "HTTP 要求失敗；服務: {0}，URL: {1}，HTTP 狀態: {2}"
+vc.health.error.HealthStatusEndPointRequestFailed = "取得健全狀況狀態時發生錯誤；服務: {0}，URL: {1}，錯誤: {2}"
+vc.health.statuscode = "{0} 健全狀況為 {1}"
+vc.health.error.dbjobexec = "無法判定資料庫中效能統計資料彙總的狀態"
+vc.health.error.dbjob1 = "從「過去一天」到「過去一週」的效能統計資料彙總未出現在資料庫中"
+vc.health.error.dbjob2 = "從「過去一週」到「過去一個月」的效能統計資料彙總未出現在資料庫中"
+vc.health.error.dbjob3 = "從「過去一個月」到「過去一年」的效能統計資料彙總未出現在資料庫中"
+vc.health.error.spacecheck = "無法監控資料庫儲存區使用量。請參閱 VMware 知識庫 2078305 取得詳細資料。"
+vc.health.error.datafile = "無法查詢資料表 DBA_DATA_FILES。vCenter Server 資料庫使用者帳戶需擁有讀取權限，才能監控資料庫儲存區使用量。請參閱 VMware 知識庫 2078305 取得詳細資料。"
+vc.health.error.autoextend = "未開啟 vCenter Server 資料庫資料表空間的自動擴展功能。必須啟用自動擴展才能正常執行作業。請參閱 VMware 知識庫 2078305 取得詳細資料。"
+
+# End of VC health status messages
+
+vc.vdb.health.threshold.error = "{k} 的值無效: {v}。警告百分比應小於錯誤百分比。"
+
+### Start vpxd test email subject and body
+vpxd.email.smtp.test.subject = "已從下列位置傳送測試 SMTP 組態訊息: {from}"
+vpxd.email.smtp.test.body = "已從下列位置傳送測試 SMTP 組態訊息: {from}\nSMTP 伺服器: {server}"
+### End vpxd test email subject and body
+
+#Start EnvironmentBrowser messages
+com.vmware.vim.EnvironmentBrowser.unknown.hardware.version = "EnvironmentBrowser 無法完成查詢，原因是硬體版本不明。"
+#end of EnvironmentBrowser messages
+
+#Start mark disk ssd/local messages
+com.vmware.vim.hostsvc.storage.markDiskFailed = "無法將磁碟 {disk} 標記為 {desiredState.@enum.com.vmware.vim.hostsvc.markDisk.diskState}. {reason.@enum.com.vmware.vim.hostsvc.markDisk.fault}"
+#end of mark disk ssd/local message
+
+#Start VM PromoteDisk messages
+com.vmware.vim.vm.promoteDisk.error.vmInaccessible            = "目前無法存取虛擬機器。請確認虛擬機器的主機可供存取，且虛擬機器已開啟電源。然後，重試作業。"
+com.vmware.vim.vm.promoteDisk.error.unrecoverableError        = "升級虛擬磁碟時發生無法復原的錯誤。當虛擬機器持續產生磁碟作業時，可能會發生此情況。當 IO 負載減少時，重試作業。"
+com.vmware.vim.vm.promoteDisk.error.diskError                 = "虛擬磁碟不存在或無效。請重試作業。"
+com.vmware.vim.vm.promoteDisk.error.hasSnapshots              = "虛擬機器的磁碟具有快照。刪除快照並重試作業。"
+com.vmware.vim.vm.promoteDisk.error.numLinksError             = "一或多個虛擬磁碟的差異連結數目大於 1。刪除連結並重試作業。"
+com.vmware.vim.vm.promoteDisk.error.invalidArguments          = "確保 offsetFromBottom 為 0 且 numLinks 為 1"
+com.vmware.vim.vm.promoteDisk.error.online = "不支援升階線上磁碟。請關閉 {arg} 的電源然後重試。"
+com.vmware.vim.vm.promoteDisk.error.notNativeUnmanagedLinkedClone = "僅支援在原生非受管的連結複製磁碟上升階線上磁碟「{arg}」。"
+com.vmware.vim.vm.promoteDisk.error.offNativeUnmanagedLinkedClone = "僅支援在開啟電源的虛擬機器上升階原生非受管的連結複製磁碟「{diskName}」。"
+com.vmware.vim.vm.promoteDisk.error.notUnlink = "僅支援在設定 {arg} 選項的原生非受管的連結複製品上升階線上磁碟。"
+com.vmware.vim.vm.promoteDisk.error.hasParent = "僅支援在不具有父系支援的原生非受管的連結複製品上升階線上磁碟「{diskName}」。"
+#end of VM PromoteDisk messages
+
+#Start VCHA messages
+
+com.vmware.vim.vcha.error.invalidClusterNicConfig     = "無法取得 vCenter HA 網路資訊。請確認 vCenter HA 介面 (NIC1) 是否已正確設定，及可供連線。"
+com.vmware.vim.vcha.error.invalidFailoverNicConfig    = "無法取得管理網路資訊。請確認管理介面 (NIC0) 是否已正確設定並且可以連線，以及針對正向和反向主機名稱查閱提供的 DNS 對應是否正確。"
+com.vmware.vim.vcha.error.invalidPostgresConfig       = "PostgreSQL 伺服器未正確設定。請確認 PostgreSQL 伺服器是在位址「{ipaddress}」上進行接聽。"
+com.vmware.vim.vcha.error.cannotCreateCluster         = "無法建立 vCenter HA 叢集。"
+com.vmware.vim.vcha.error.cannotCreateFile            = "無法在節點 {ip} 上建立 vCenter HA 組態檔 {filename}。"
+com.vmware.vim.vcha.error.failedBringUpIf             = "無法啟動管理介面 (NIC0)。請檢查系統記錄並根據需要讓 GSS 參與。"
+com.vmware.vim.vcha.error.clusterInStateTransition    = "無法處理要求。偵測到衝突狀態轉換作業。請稍後重試。"
+com.vmware.vim.vcha.error.invalidModeForRequest       = "vCenter HA 停用後將無法處理要求。"
+com.vmware.vim.vcha.error.invalidNodeCountForRequest  = "當 vCenter HA 叢集的節點少於 3 個時，無法處理要求。請檢查節點 {nodeip} 是否已設定且可連線。"
+com.vmware.vim.vcha.error.clusterAlreadyPresetup      = "vCenter HA 部署已預先設定 vCenter Server。"
+com.vmware.vim.vcha.error.clusterNotPresetup          = "vCenter HA 部署未預先設定 vCenter Server。請參閱 vCenter HA 部署的必要條件。"
+com.vmware.vim.vcha.error.clusterAlreadyConfigured    = "已設定 vCenter HA。"
+com.vmware.vim.vcha.error.clusterNotConfigured        = "未設定 vCenter HA。"
+com.vmware.vcha.health.replication.postgresql.norepl             = "PostgreSQL 複寫不在進行中。"
+com.vmware.vcha.health.replication.postgresql.mode.async         = "PostgreSQL 複寫模式為 [非同步]。"
+com.vmware.vcha.health.replication.postgresql.hasdataloss        = "被動節點上的 PostgreSQL 複寫正在趕上主動節點。"
+com.vmware.vcha.health.replication.file.state         = "應用裝置 {fileProviderType} 處於 {state}。"
+com.vmware.vim.vcha.error.embeddedNode                = "無法啟用含內嵌式 PSC 的 vCenter HA。"
+com.vmware.vim.vcha.error.embeddedDb                  = "無法啟用含外部資料庫的 vCenter HA。"
+com.vmware.vim.vcha.error.sshdNotRunning              = "vCenter HA 需要 SSH 精靈處於執行狀態。請先啟用 SSH，然後您才可以設定 vCenter HA。"
+com.vmware.vim.vcha.error.opRunning                   = "建立或修改 vCenter HA 叢集的作業已在進行中。"
+com.vmware.vim.vcha.error.passiveExists               = "vCenter HA 叢集中已存在被動節點。請參閱 vCenter HA 設定。"
+com.vmware.vim.vcha.error.witnessExists               = "vCenter HA 叢集中已存在見證節點。請參閱 vCenter HA 設定。"
+com.vmware.vcha.cluster.nic.not.created               = "無法在 vCenter Server 上建立 vCenter HA 網路介面卡。請檢查系統記錄並根據需要讓 GSS 參與。"
+com.vmware.vcha.error.failedGetPassiveIp              = "無法取得被動節點上的容錯移轉 IP 位址。請確認 {passiveip} 是否已啟動且可從主動節點連線。"
+com.vmware.vcha.checkPassiveWitness                   = "請確認被動節點和見證節點是否已上線且可連線。"
+com.vmware.vcha.checkWitness                          = "確認 IP 位址為 {ip} 的見證節點已啟動且可連線。"
+com.vmware.vcha.checkPassive                          = "確認 IP 位址為 {ip} 的被動節點已啟動且可連線。"
+com.vmware.vcha.waitForPassiveCatchUp                 = "這可能是暫時情況。請等待被動節點趕上進度。如果問題仍然存在，請驗證主動節點與被動節點之間的網路連線。"
+com.vmware.vcha.activeIsolated                        = "vCenter HA 叢集中的主動節點已隔離。"
+com.vmware.vcha.checkPassiveDb                        = "請確認 PostgreSQL 伺服器是否在被動節點上執行，以及此被動節點在 vCenter HA 網路上是否可供連線。"
+com.vmware.vcha.nodeLoss                              = "vCenter HA 叢集已遺失節點。"
+com.vmware.vcha.error.ipNotSameFamily                 = "主動、被動和見證節點必須有相同的 IP 位址家族。"
+com.vmware.vcha.error.differentClusterIp              = "您所指定為 {given} 的 vCenter HA 網路 IP 位址與用於設定 vCenter HA 的原始 IP 位址 {orig} 不同。您必須使用相同的 IP 位址。"
+com.vmware.vcha.error.differentFailoverIp             = "您為被動節點指定為 {given} 的管理介面 (NIC0) IP 位址與用於設定 vCenter HA 的原始 IP 位址 {orig} 不同。您必須使用相同的 IP 位址。"
+com.vmware.vcha.error.tooManyAddress                  = "vCenter HA 網路介面上僅允許使用一個 IPv6 位址。請移除其他的 IPv6 位址，然後再試一次。"
+com.vmware.vcha.error.unresolvedFailoverIp            = "管理介面 (NIC0) IP 位址未對應到 vCenter Server PNID。"
+com.vmware.vcha.error.bothNetworksInSameSubnet        = "管理介面 (NIC0) 與 vCenter HA 介面 (NIC1) 必須在不同的子網路中。"
+com.vmware.vcha.error.vchaReqsVmOneDs                 = "vCenter HA 不支援在多個資料存放區上具有磁碟的主動節點。"
+com.vmware.vcha.error.vchaReqsHostMatchDs             = "用於 vCenter HA 部署的一或多台主機未將資料存放區掛接於主機。"
+com.vmware.vcha.error.vchaDrsHosts                    = "用於部署 vCenter HA 節點的 DRS 叢集必須具有至少三個主機。"
+com.vmware.vcha.error.pnidHostnameMismatch            = "{nodeIp} 的主機名稱未對應到 vCenter Server PNID。請檢閱您在執行虛擬機器複製自訂步驟期間指定的主機名稱。"
+com.vmware.vcha.error.managementVcNotReachable        = "可能無法連線至管理 vCenter Server，請檢查網路連線。"
+com.vmware.vcha.error.lazyimport.upgrade.state.unsafe = "vCenter HA 部署無法繼續，因為正在執行歷史資料匯入程序。"
+#End VCHA messages
+
+#Start SDRS messages
+com.vmware.sdrs.hms.unreachable                       = "Storage DRS 無法執行該作業，因為 vSphere Replication 管理伺服器無法連線。"
+com.vmware.sdrs.disk.dsUnspecified                    = "未指定磁碟 {arg} 的資料存放區。"
+com.vmware.sdrs.disk.moveTypeIvd                      = "磁碟移動類型 {arg} 無效。"
+com.vmware.sdrs.disk.dsNotInPod                       = "目的地資料存放區 {arg} 不在儲存單元中。"
+com.vmware.sdrs.disk.unsetValue                       = "值為空白或未設定。"
+com.vmware.sdrs.disk.dsInPodInvldState                = "磁碟狀態阻止 SDRS 放置已在單元中的磁碟。"
+com.vmware.intraVmRules.invalidDiskCnt                = "無法新增虛擬磁碟規則，因為磁碟計數不正確，預期為至少 {arg} 個磁碟。"
+com.vmware.intraVmRules.disabledDisk                  = "無法新增虛擬磁碟規則，因為磁碟 {arg} 已停用 SDRS。"
+com.vmware.intraVmRules.conflict                      = "無法新增虛擬磁碟規則，因為新規則與現有相似性規則 {arg} 衝突。"
+com.vmware.intraVmRules.unknown                       = "無法新增虛擬磁碟規則，因為指定的規則類型 {arg} 不明。"
+com.vmware.sdrs.datastore.excessVMXlimit              = "無法將虛擬機器移轉至資料存放區，因為已達到已開啟電源虛擬機器數量的限制。"
+com.vmware.sdrs.pod.noHostForPartialConnectedPod      = "無法將磁碟置於這個部分連線的網繭。請嘗試在完全連線的網繭上建立虛擬機器。"
+#End SDRS messages
+
+#Start CDRS/PlaceVm messages
+com.vmware.cdrs.error.clusterManaged                  = "無法停用 DRS。叢集目前正受到管理。"
+com.vmware.cdrs.placeVm.noCombination                 = "對於輸入虛擬機器，在目的地叢集中找不到主機與資料存放區的組合。"
+com.vmware.cdrs.placeVm.RpAdmissionFailure            = "對於輸入虛擬機器，在目的地叢集中執行資源集區許可檢查失敗。"
+com.vmware.cdrs.placeVm.noValidHostOrDatastore        = "對於輸入虛擬機器，在目的地叢集中找不到任何有效的候選主機或資料存放區。"
+com.vmware.cdrs.placeVm.noPreferredHost               = "對於輸入虛擬機器，在 PlacementSpec 或 RelocateSpec 中找不到任何合適的指定主機。"
+com.vmware.cdrs.placeVm.noConfigInfo                  = "已指定虛擬機器的 ConfigInfo 不可用。"
+com.vmware.cdrs.placeVm.emptyCompatSet                = "使用者指定的主機不相容。"
+com.vmware.cdrs.placeVm.concurrentAccess              = "由於執行緒 {threadID} 正在相同的虛擬機器上執行，並行存取違規失敗。"
+#End CDRS/PlaceVm messages
+
+#Start CDRS/MM messages
+com.vmware.cdrs.maintenancemode.manual                = "無法將虛擬機器從維護模式下的候選主機移出，因為該虛擬機器處於手動模式。"
+com.vmware.cdrs.maintenancemode.vmotionfailure        = "由於 vmotion 意外失敗，無法將主機置於維護模式。請重試作業。"
+com.vmware.cdrs.maintenancemode.powerfailure          = "由於開啟待命主機的電源意外失敗，無法將主機置於維護模式。請重試作業。"
+com.vmware.cdrs.maintenancemode.preCheckFailure       = "由於預先檢查失敗，無法使用增強的維護模式工作流程。請使用 queryWhatIfEnterMaintenance API 檢查故障。"
+com.vmware.cdrs.maintenancemode.drsNotEnabled         = "由於 DRS 未啟用，無法查詢 enterMaintenance 結果。"
+com.vmware.cdrs.maintenancemode.hostNotInCluster      = "由於主機不在叢集中，無法查詢 enterMaintenance 結果。"
+com.vmware.cdrs.maintenancemode.clusterNotInAutomatedMode  = "由於叢集的 DRS 未處於全自動模式，主機無法進入維護模式。"
+com.vmware.cdrs.maintenancemode.clusterLoadViolated  = "由於所產生的叢集 {resource} 負載 ({clustload}%) 超過容限臨界值 ({threshold}%)，因此主機無法進入維護模式。"
+#End CDRS/MM messages
+
+#Start CDRS/Rules messages.
+com.vmware.vim.cdrs.invalidGroupName = "現有虛擬機器-主機規則具有名稱為 {arg} 的群組，並且其類型不同於指定的群組類型"
+#End CDRS/Rules messages.
+
+# Start HA messages.
+com.vmware.vc.HA.error.cyclicDependencyOrchestration  = "虛擬機器群組中虛擬機器協調的循環相依性: {arg}"
+com.vmware.vc.HA.error.missingVmGroup                 = "虛擬機器-虛擬機器相依性規則 {arg} 中遺失虛擬機器群組"
+com.vmware.vc.HA.error.vmToVmGroupValidation          = "相依性規則違規: 虛擬機器屬於多個虛擬機器群組: {arg}"
+com.vmware.vc.HA.error.restartDisabledVmInChain       = "重新啟動相依性鏈結中已停用的虛擬機器 {arg}。"
+com.vmware.vc.HA.error.vmInDependencyRule             = "虛擬機器 {arg} 具有與叢集中其他虛擬機器的硬相依性。"
+com.vmware.vc.HA.error.vmHasOrchestrationSettings     = "包含協調設定的虛擬機器 {arg} 與 vCenter Server 6.0 或更舊版本不相容。"
+com.vmware.vc.HA.error.vmcHaPolicyViolation           = "需要 {required} 插槽才能滿足 HA 容錯移轉原則，在沒有保留違規的情況下只能放置 {placed}。"
+# End HA messages.
+
+# Start Fault Tolerance messages.
+com.vmware.vim.ft.encryptionNotSupported = "已啟用加密的虛擬機器不支援 Fault Tolerance。"
+com.vmware.vim.ft.vsanDpNotSupported = "已啟用 vSAN Data Protection 的虛擬機器不支援 Fault Tolerance。"
+com.vmware.vim.ft.rrFtVmNotSupported = "虛擬機器 {arg} 已開啟不受此 vCenter Server 支援的舊版 Fault Tolerance。"
+# End Fault Tolerance messages.
+
+# Start of nvdimmsystem error messages
+vim.hostd.nvdimmsystem.error.noperm = "系統不處於維護模式。不允許針對 NVDIMM 執行作業"
+vim.hostd.nvdimmsystem.error.nomem = "系統記憶體不足"
+vim.hostd.nvdimmsystem.error.notinit = "NVDIMM 狀態未初始化"
+vim.hostd.nvdimmsystem.error.notready = "NVDIMM 裝置未就緒"
+vim.hostd.nvdimmsystem.error.limitexceed = "已超過 NVDIMM 命名空間大小限制"
+vim.hostd.nvdimmsystem.error.vendorerror = "NVDIMM 廠商特定錯誤"
+vim.hostd.nvdimmsystem.error.addressinvalid = "使用者位址無效"
+vim.hostd.nvdimmsystem.error.readonly = "唯讀模式，無法接受持續性寫入"
+vim.hostd.nvdimmsystem.nameTooLong = "NVDIMM 名稱過長"
+vim.hostd.nvdimmsystem.error.deleteGpt = "無法刪除命名空間中的 GPT"
+# End of nvdimmsystem error messages
+
+# Start of TPM2.0 host attestation failure messages
+vim.vmware.tpm.error.internalFailure = "內部失敗。"
+vim.vmware.tpm.error.invalidInput = "驗證器的一或多個輸入無效。"
+vim.vmware.tpm.error.nonceMismatch = "隨機數不相符。"
+vim.vmware.tpm.error.badQuote = "主機 TPM 引用驗證失敗。"
+vim.vmware.tpm.error.quoteInvalid = "無法針對主機 TPM 引用來驗證 PCR 值。"
+vim.vmware.tpm.error.badVibDescriptor = "主機 VIB 描述元驗證失敗。"
+vim.vmware.tpm.error.logValidate = "主機事件記錄中的一或多個項目無效。"
+vim.vmware.tpm.error.secureBoot = "主機安全開機已停用。"
+vim.vmware.tpm.error.logReplay = "PCR 重新執行失敗。"
+# End of TPM2.0 host attestation failure messages
+
+# Start of TPM2.0 host TPM error messages
+vim.vmware.tpm.error.ek.notFound = "找不到簽署金鑰。"
+vim.vmware.tpm.error.ek.parse = "無法剖析簽署金鑰。"
+vim.vmware.tpm.error.ek.templateParse = "無法剖析簽署金鑰範本。"
+vim.vmware.tpm.error.ek.creation = "無法建立簽署金鑰。"
+vim.vmware.tpm.error.ek.certificateMismatch = "簽署金鑰不符合 EK 憑證。"
+vim.vmware.tpm.error.ek.provisionFailure = "嘗試佈建簽署金鑰時發生錯誤。"
+vim.vmware.tpm.error.deviceCommand = "TPM 命令「{commandName}」失敗，並顯示錯誤: {errorCode}。"
+# End of TPM2.0 host TPM error messages
+
+
+# Start Improved Virtual Disk messages.
+com.vmware.vim.fcd.error.infrastructureNamespaceFailed = "無法開啟下列命名空間: {arg}"
+# End Improved Virtual Disk messages.

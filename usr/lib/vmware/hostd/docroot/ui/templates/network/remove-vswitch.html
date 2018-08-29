@@ -1,0 +1,18 @@
+<div style="padding: 20px;">
+   <div style="float: left; height: 100%;">
+      <img src="images/question48.png"
+         alt="{{'notification.type.quesion'|translate}}"
+         style="margin-right: 30px;"/>
+   </div>
+
+   <div style="float: right;">
+      {{'network.vswitch.remove.confirmation'|translate}}
+
+      <ul style="list-style: none; margin-top: 10px;">
+         <li ng-repeat="vswitch in currentDialog.objects">
+            {{vswitch.name}} <span ng-if="vswitch.portgroup && vswitch.portgroup.length > 0">
+               ({{vswitch.portgroup.length}} {{'network.vswitch.remove.portgroups' | translate}})</span>
+         </li>
+      </ul>
+   </div>
+</div>

@@ -1,0 +1,14 @@
+<div ng-if="tabs.namespaces.loaded || storageNvdimmTabs.tabs[getSelectedTab()].state === tabs.interleave.state"
+     ng-controller="StorageNvdimmInterleaveController" class="esx-tab-content">
+
+   <div ng-if="!loaded" class="loading"></div>
+
+   <div ng-show="loaded" id="{{interleaveGrid.id}}" vui-datagrid="interleaveGrid"></div>
+
+   <hr ng-if="currentInterleave" class="ng-cloak" ng-cloak/>
+
+   <div ng-controller="StorageNvdimmInterleaveSummaryController" ng-cloak ng-if="currentInterleave">
+      <div ng-include src="'views/storage/nvdimm/interleave-summary.html'"></div>
+   </div>
+
+</div>

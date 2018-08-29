@@ -1,0 +1,263 @@
+#
+# This catalog is for long descriptions for Events. Long descriptions are
+# shown in the UI when the user asks to see more details about the event,
+# and can contain causes and potential user actions for recovery.
+#
+# See vim/lib/vimLocale/en/eventaux.vmsg for examples.
+#
+
+#
+signature="sIgNaTuRe"
+#
+# event long descriptions go here..
+
+com.vmware.vc.ft.VmAffectedByDasDisabledEvent.longDescription = "\
+   <EventLongDescription id="com.vmware.vc.ft.VmAffectedByDasDisabledEvent">\
+      <description>\
+         Wenn vSphere HA in einem Cluster deaktiviert ist, können Sie eine primäre VM oder ihre sekundäre VM nach einem Ausfall nicht neu starten. Dieses Ereignis wird ausgelöst, wenn vSphere HA deaktiviert und eine fehlertolerante virtuelle Maschine eingeschaltet ist. Das Ereignis informiert Sie über die Risiken für die fehlertolerante virtuelle Maschine, die sich aus dem Deaktivieren von vSphere HA ergeben. \
+      </description>\
+      <cause>\
+           <description>vSphere HA wurde deaktiviert, als eine fehlertolerante virtuelle Maschine eingeschaltet wurde</description>\
+           <action>vSphere HA erneut aktivieren</action>\
+      </cause>\
+   </EventLongDescription>\
+
+   "
+
+com.vmware.vc.HA.DasHostCompleteDatastoreFailureEvent.longDescription = "\
+   <EventLongDescription id="com.vmware.vc.HA.DasHostCompleteDatastoreFailureEvent">\
+      <description>\
+        Ein Host in einem Cluster mit Komponentenschutz hat die Verbindung zu allen gemeinsam genutzten Datenspeichern verloren\
+     </description>\
+      <cause>\
+           <description>Verbindung zu allen gemeinsam genutzten Datenspeichern ging verloren</description>\
+           <action>Verbinden Sie mindestens einen gemeinsam genutzten Datenspeicher neu</action>\
+      </cause>\
+   </EventLongDescription>\
+
+   "
+
+com.vmware.vc.HA.DasHostCompleteNetworkFailureEvent.longDescription = "\
+   <EventLongDescription id="com.vmware.vc.HA.DasHostCompleteNetworkFailureEvent">\
+      <description>\
+        Ein Host in einem Cluster mit Komponentenschutz hat die Verbindung zu allen Netzwerken virtueller Maschinen verloren\
+     </description>\
+      <cause>\
+           <description>Verbindung zu allen Netzwerken virtueller Maschinen ging verloren</description>\
+           <action>Verbinden Sie mindestens ein Netzwerk virtueller Maschinen</action>\
+      </cause>\
+   </EventLongDescription>\
+
+   "
+
+com.vmware.vc.HA.CreateConfigVvolFailedEvent.longDescription = "\
+   <EventLongDescription id="com.vmware.vc.HA.CreateConfigVvolFailedEvent">\
+      <description>\
+        vSphere HA konnte kein Konfigurations-vVol auf dem Datenspeicher erstellen \
+     </description>\
+      <cause>\
+           <description>VP, Host, Netzwerk oder ein Mangel an Ressourcen haben möglicherweise verhindert, dass vSphere HA ein Konfigurations-vVol erstellen konnte.</description>\
+           <action>Suchen Sie nach Fehlern in der Umgebung und aktivieren Sie dann vSphere HA erneut</action>\
+      </cause>\
+   </EventLongDescription>\
+
+   "
+
+com.vmware.vc.HA.CreateConfigVvolSucceededEvent.longDescription = "\
+   <EventLongDescription id="com.vmware.vc.HA.CreateConfigVvolSucceededEvent">\
+      <description>\
+        vSphere HA hat das Konfigurations-vVol erfolgreich auf dem Datenspeicher erstellt. Falls zuvor das Erstellen eines Konfigurations-vVol bei der Konfiguration des Datenspeichers fehlgeschlagen ist, ist dieses Problem jetzt behoben \
+     </description>\
+      <cause>\
+           <description> Beim Erstellen des Konfigurations-vVol auf dem Datenspeicher ist kein Fehler aufgetreten</description>\
+      </cause>\
+   </EventLongDescription>\
+
+   "
+
+vim.event.LicenseDowngradedEvent.longDescription = "\
+    <EventLongDescription id="vim.event.LicenseDowngradedEvent">\
+       <description>\
+          Die installierte Lizenz reduziert den Satz der verfügbaren Funktionen. Mit der neuen Lizenz sind einige der Funktionen, die früher zur Verfügung standen, nicht mehr zugänglich.\
+       </description>\
+       <cause>\
+            <description>Die Lizenz wurde ersetzt.</description>\
+            <action>Stellen Sie die vorher installierte Lizenz wieder her, sofern sie noch nicht abgelaufen ist.</action>\
+            <action>Wenden Sie sich an VMware, um eine neue Lizenz mit den benötigten Funktionen zu erwerben.</action>\
+        </cause>\
+    </EventLongDescription>\
+
+    "
+
+vim.event.SystemSwapInaccessible.longDescription = "\
+    <EventLongDescription id="vim.event.SystemSwapInaccessible">\
+       <description>\
+          Die Systemauslagerung wurde auf diesem System konfiguriert und verwendet, aber der dazu verwendete Datenspeicher ist nicht mehr verfügbar.\
+          Dies führt möglicherweise zu geringerer Leistung und möglichen Abstürzen einiger Benutzer-Worlds, deren Arbeitsspeicher in die Systemauslagerungsdatei ausgelagert wurde.\
+          Ein weiteres beobachtetes Problem besteht darin, dass der Datenspeicher aufgrund der Referenzen auf ihn nicht ordnungsgemäß aus der Bestandsliste des Hosts entfernt werden kann.\
+       </description>\
+       <cause>\
+            <description>Die zugrunde liegende LUN hat den Status „Keine Pfade verfügbar“, wurde physisch entfernt oder es sind Fehler in der Kommunikation mit diesem Gerät aufgetreten.</description>\
+            <action>Konfigurieren Sie die Systemauslagerung neu oder ändern Sie den Speicherort der Auslagerungsdatei des Hostsystems</action>\
+        </cause>\
+    </EventLongDescription>\
+
+    "
+
+ad.event.JoinDomainFailedEvent.longDescription = "\
+   <EventLongDescription id="ad.event.JoinDomainFailedEvent">\
+      <description>\
+         Beitreten zur Domäne fehlgeschlagen\
+      </description>\
+   </EventLongDescription>\
+
+   "
+
+ad.event.JoinDomainEvent.longDescription = "\
+   <EventLongDescription id="ad.event.JoinDomainEvent">\
+      <description>\
+         Beitreten zur Domäne erfolgreich\
+      </description>\
+   </EventLongDescription>\
+
+   "
+
+ad.event.LeaveDomainFailedEvent.longDescription = "\
+   <EventLongDescription id="ad.event.LeaveDomainFailedEvent">\
+      <description>\
+         Verlassen der Domäne fehlgeschlagen\
+      </description>\
+   </EventLongDescription>\
+
+   "
+
+ad.event.LeaveDomainEvent.longDescription = "\
+   <EventLongDescription id="ad.event.LeaveDomainEvent">\
+      <description>\
+         Verlassen der Domäne erfolgreich\
+      </description>\
+   </EventLongDescription>\
+
+   "
+
+ad.event.ImportCertFailedEvent.longDescription = "\
+   <EventLongDescription id="ad.event.ImportCertFailedEvent">\
+      <description>\
+         Importieren des Zertifikats fehlgeschlagen\
+      </description>\
+   </EventLongDescription>\
+
+   "
+
+ad.event.ImportCertEvent.longDescription = "\
+   <EventLongDescription id="ad.event.ImportCertEvent">\
+      <description>\
+         Importieren des Zertifikats erfolgreich\
+      </description>\
+   </EventLongDescription>\
+
+   "
+
+com.vmware.vc.vmam.VmAppHealthMonitoringStateChangedEvent.longDescription = "\
+   <EventLongDescription id="com.vmware.vc.vmam.VmAppHealthMonitoringStateChangedEvent">\
+      <description>\
+        Zustandswechsel bei der Anwendungsüberwachung geben eine Änderung des Zustands der überwachten Anwendung oder eine Änderung des Anwendungsüberwachungsprozesses an. Ein Übergang von Grau nach Grün findet statt, wenn das Anwendungstaktsignal vom Gastbetriebssystem aus aktiviert wird. Ein Übergang nach Rot findet statt, wenn vSphere HA innerhalb von 30 Sekunden keine Taktsignale erhält. Ein Übergang von Rot nach Grün findet statt, wenn Taktsignale erneut gesendet werden, bevor vSphere HA reagieren kann. Ein Übergang nach Grau findet statt, wenn das Anwendungstaktsignal vom Gastbetriebssystem aus deaktiviert wird. \
+      </description>\
+      <cause>\
+        <description>\
+          Entweder hat der Benutzer eine Aktion vom Gastbetriebssystem aus initiiert oder vSphere HA hat innerhalb eines 30-Sekunden-Intervalls kein Anwendungstaktsignal von dem Agenten empfangen, der die Anwendung überwacht. \
+        </description>\
+        <action>\
+          Wenn der Zustand in Rot übergeht, prüfen Sie, warum der Agent, der die Anwendung überwacht, kein Taktsignal mehr ausgibt. Fehlende Taktsignale können dadurch bedingt sein, dass die Anwendung fehlschlägt oder ein Problem beim Agenten auftritt, der die Anwendung überwacht. Häufige Zustandsübergänge zu oder von Grau deuten möglicherweise auf ein Problem mit dem Agenten hin, der die Anwendung überwacht. Tritt dieses Problem auf, prüfen Sie, ob die Aktivierung bzw. Deaktivierung der Überwachung das Problem löst.\
+        </action>\
+      </cause>\
+   </EventLongDescription>\
+
+   "
+
+com.vmware.vc.vmam.VmDasAppHeartbeatFailedEvent.longDescription = "\
+   <EventLongDescription id="com.vmware.vc.vmam.VmDasAppHeartbeatFailedEvent">\
+      <description>\
+        vSphere HA hat das Fehlschlagen von Taktsignalen über den Agenten, der die Anwendung überwacht, innerhalb des Gastbetriebssystems erkannt. Wenn die Anwendungsüberwachung in vSphere aktiviert ist, wird die virtuelle Maschine zurückgesetzt.\
+      </description>\
+      <cause>\
+        <description>\
+          vSphere HA hat innerhalb eines 30-Sekunden-Intervalls keine Anwendungstaktsignale vom Agenten erhalten, der die Anwendung überwacht. \
+        </description>\
+        <action>\
+          Prüfen Sie, warum vom Agenten, der die Anwendung überwacht, keine Taktsignale mehr ausgegeben werden. Fehlende Taktsignale können dadurch bedingt sein, dass die Anwendung fehlschlägt oder ein Problem beim Agenten auftritt, der die Anwendung überwacht.\
+        </action>\
+      </cause>\
+   </EventLongDescription>\
+
+   "
+
+com.vmware.vc.vmam.VmAppHealthStateChangedEvent.longDescription = "\
+   <EventLongDescription id="com.vmware.vc.vmam.VmAppHealthStateChangedEvent">\
+      <description>\
+        Eine Änderung des Anwendungszustands zeigt an, dass eine Gastanwendung einen von zwei zulässigen Werten gesendet hat - appStateOk oder appStateNeedReset. Der erste Wert zeigt an, dass mit der überwachten Anwendung alles in Ordnung ist. Der zweite Wert sorgt für ein sofortiges Zurücksetzen, wenn die Anwendungsüberwachung für diese virtuelle Maschine aktiviert ist.\
+      </description>\
+      <cause>\
+        <description>\
+          Diese Aktion wird auf dem Gast initiiert. \
+        </description>\
+        <action>\
+          Wenn vSphere HA und die Anwendungsüberwachung für diese virtuelle Maschine aktiviert sind, wird diese zurückgesetzt, wenn der Zustand appStateNeedReset lautet. Wenn die virtuelle Maschine mit vMotion migriert wird, wird das Zurücksetzen verzögert, bis die virtuelle Maschine ihr Ziel erreicht hat. Ebenso wird das Zurücksetzen verzögert, wenn es Verbindungsprobleme mit dem Datenspeicher gibt, bis diese Probleme behoben sind. \
+        </action>\
+      </cause>\
+   </EventLongDescription>\
+
+   "
+
+com.vmware.vc.host.problem.VStorageObjectInfraNamespacePolicyEmptyEvent.longDescription = "\
+   <EventLongDescription id="com.vmware.vc.host.problem.VStorageObjectInfraNamespacePolicyEmptyEvent">\
+      <description>\
+        Verbesserte Infrastruktur-Namespaces für virtuelle Festplatten werden mit leerer Speicherrichtlinie erstellt. \
+        Sie sollten die Speicherrichtlinie für Infrastruktur-Namespaces aktualisieren, um einen potenziellen Datenverlust zu vermeiden.\
+      </description>\
+      <cause>\
+        <description>\
+          Dies wird durch die Erstellung von verbesserten Infrastruktur-Namespaces für virtuelle Festplatten mit leerer Speicherrichtlinie verursacht.\
+        </description>\
+        <action>\
+          Aktualisieren Sie die Speicherrichtlinie für Infrastruktur-Namespaces.\
+        </action>\
+      </cause>\
+   </EventLongDescription>\
+
+   "
+
+com.vmware.vc.host.problem.vFlashResource.inaccessible.longDescription = "\
+   <EventLongDescription id="com.vmware.vc.host.problem.vFlashResource.inaccessible">\
+      <description>\
+        Eine Host-vFlash-Ressource, auf die nicht zugegriffen werden kann, weist darauf hin, dass kein Zugriff auf das sie unterstützende VFFS-Volume möglich ist. Host-vFlash-Ressourcen ohne Zugriff führen dazu, dass virtuelle Maschinen mit konfiguriertem vSphere Flash Read Cache nicht eingeschaltet werden können oder sich beim Einschalten unvorhersehbar verhalten.\
+      </description>\
+      <cause>\
+        <description>\
+          Eine mögliche Ursache ist ein nicht gemountetes VFFS-Volume oder ein APD/PDL auf dem VFFS-Volume. \
+        </description>\
+        <action>\
+          Prüfen Sie den Verbindungsstatus des unterstützenden VFFS-Volumes. Mounten Sie das nicht gemountete Volume oder beheben Sie die APD/PDL-Probleme. Solange auf das unterstützende VFFS-Volume zugegriffen werden kann, ist auch der Zugriff auf die Host-vFlash-Ressource möglich. \
+        </action>\
+      </cause>\
+   </EventLongDescription>\
+
+   "
+
+com.vmware.vc.host.vFlash.modulesLoadedEvent = "\
+   <EventLongDescription id="com.vmware.vc.host.vFlash.modulesLoadedEvent">\
+      <description>\
+         Die Liste der vFlash-Module, die auf dem Server geladen sind, wurde aktualisiert. Alle neu oder erneut geladenen Module können in Virtual Flash Read Cache-Konfigurationen verwendet werden.\
+      </description>\
+   </EventLongDescription>\
+
+   "
+
+com.vmware.vc.host.vFlash.defaultModuleChangedEvent.longDescription = "\
+   <EventLongDescription id="com.vmware.vc.host.vFlash.defaultModuleChangedEvent">\
+      <description>\
+         Das Standard-vFlash-Modul wurde geändert. Für alle neuen Virtual Flash Read Cache-Konfigurationen wird das neue Standard-Virtual-Flash-Modul verwendet, sofern es in der Konfiguration nicht definiert wird. Alle vorhandenen Konfigurationen bleiben unverändert.\
+      </description>\
+   </EventLongDescription>\
+
+   "

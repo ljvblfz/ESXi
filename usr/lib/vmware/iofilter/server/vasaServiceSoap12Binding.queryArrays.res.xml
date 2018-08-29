@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<SOAP-ENV:Envelope
+ xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/"
+ xmlns:SOAP-ENC="http://schemas.xmlsoap.org/soap/encoding/"
+ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+ xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+ xmlns:ns1="http://vasa.vim.vmware.com/xsd"
+ xmlns:placementPolicy="http://placement.policy.data.vasa.vim.vmware.com/xsd"
+ xmlns:fault="http://fault.vasa.vim.vmware.com/xsd"
+ xmlns:capability="http://capability.policy.data.vasa.vim.vmware.com/xsd"
+ xmlns:profile="http://profile.policy.data.vasa.vim.vmware.com/xsd"
+ xmlns:ns2="http://annotation.vasa.vim.vmware.com/xsd"
+ xmlns:policy="http://policy.data.vasa.vim.vmware.com/xsd"
+ xmlns:providerCapability="http://provider.capability.policy.data.vasa.vim.vmware.com/xsd"
+ xmlns:capabilityTypes="http://types.capability.policy.data.vasa.vim.vmware.com/xsd"
+ xmlns:data="http://data.vasa.vim.vmware.com/xsd"
+ xmlns:compliance="http://compliance.policy.data.vasa.vim.vmware.com/xsd"
+ xmlns:ns3="http://iofilters.vmware.com/xsd/"
+ xmlns:vasaServiceBinding11="http://com.vmware.vim.vasa/1.5/vasaServiceSoap11Binding"
+ xmlns:xsdvasa="http://com.vmware.vim.vasa/1.5/xsd"
+ xmlns:vasaServiceBinding12="http://com.vmware.vim.vasa/1.5/vasaServiceSoap12Binding">
+ <SOAP-ENV:Body>
+  <xsdvasa:queryArraysResponse>
+   <xsdvasa:return>
+    <data:alternateName></data:alternateName>
+    <data:arrayName>XXXXXXXX-YYYYYYYYY</data:arrayName>
+    <data:firmware></data:firmware>
+    <data:modelId>IOFILTERS</data:modelId>
+    <data:priority>1</data:priority>
+    <data:supportedBlock></data:supportedBlock>
+    <data:supportedFileSystem></data:supportedFileSystem>
+    <data:supportedProfile>StorageObjectProfile</data:supportedProfile>
+    <data:vendorId>VMware Inc</data:vendorId>
+    <data:uniqueIdentifier>XXXXXXXX-YYYYYYYYY</data:uniqueIdentifier>
+    <!-- extensibility element(s) -->
+
+   </xsdvasa:return>
+  </xsdvasa:queryArraysResponse>
+ </SOAP-ENV:Body>
+</SOAP-ENV:Envelope>

@@ -1,0 +1,23 @@
+<div ng-controller="HostManageSecurityLockdownAddExceptionUserController"
+   class="content-padding" style="margin: 10px;">
+
+   <div class="vui-stack-view">
+      <div class="stack-view-table">
+
+         <div vui-stack-block="userBlock"
+            ng-class="{'stack-warning': !userValid}">
+            <span vui-sb-label
+               vui-sb-icon-class="esx-icon-user">{{"host.manage.system.security.lockdown.userDialog.userName"|translate}}</span>
+            <div vui-sb-content>
+               <input type="text" ng-model="data.userName"
+                  ng-pattern="SANITIZE_INPUT_REGEX"
+                  style="width: 242px; float: left;"
+                  title="{{'host.manage.system.security.lockdown.userDialog.userName'|translate}}"
+                  focus-me="true"/>
+            </div>
+         </div>
+
+      </div>
+   </div>
+
+</div>

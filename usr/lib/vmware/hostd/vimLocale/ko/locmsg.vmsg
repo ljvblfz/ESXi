@@ -1,0 +1,417 @@
+# en_US resources
+signature="sIgNaTuRe"
+
+#
+# Licensing faults
+com.vmware.vim.license.error.featureUnavailable = "'{feature.@enum.com.vmware.vim.license.Feature}' 기능의 라이센스가 없습니다. {need}이(가) 필요한데 {have}이(가) 있습니다."
+com.vmware.vim.license.error.featureMissing = "이 버전에 '{feature.@enum.com.vmware.vim.license.Feature}' 기능 라이센스가 없습니다."
+com.vmware.vim.license.error.evalPeriodOver = "평가 기간이 끝났습니다. {info.@enum.com.vmware.vim.license.msgs}"
+com.vmware.vim.license.error.LicenseExpired = "라이센스가 만료되었습니다. {info.@enum.com.vmware.vim.license.msgs}"
+com.vmware.vim.license.error.BadInput = "라이센스 하위 시스템이 잘못된 인수 {vm}(으)로 호출되었습니다."
+com.vmware.vim.license.error.nolicense = "이 제품을 사용하려면 올바른 라이센스를 설치하십시오."
+
+# Feature names defined in enum.vmsg
+com.vmware.vim.license.features.info = "{feature.@enum.com.vmware.vim.license.Feature}"
+
+# Start System Error messages
+com.vmware.vim.uuid.transientFailure = "일시적인 UUID 생성 오류: {arg}"
+# End System Error messages
+
+#
+vim.hostd.vdisksvc.diskNotThinProvisioned = "디스크가 씬 프로비저닝되지 않았습니다."
+vim.hostd.vdisksvc.diskNotZeroedThick = "디스크가 제로로 설정된 씩 디스크가 아닙니다."
+vim.hostd.vdisksvc.noIOBeyondEndOfDisk= "가상 디스크 끝을 벗어나서 I/O를 수행할 수 없습니다."
+vim.hostd.vdisksvc.doesNotStartAtSectorZero = "작업이 섹터 0에서 시작되지 않습니다."
+vim.hostd.vdisksvc.badReparentSpec = "상위 항목 재지정 규격이 잘못되었습니다."
+vim.hostd.vdisksvc.cannotMarkParentReadonly = "상위 디스크를 읽기 전용으로 표시할 수 없습니다."
+vim.hostd.vdisksvc.diskSizeTooSmall = "가상 디스크 크기가 너무 작습니다."
+vim.hostd.vdisksvc.fileNameTooLong = "파일 이름이 너무 깁니다."
+vim.hostd.vdisksvc.attachRootLink = "상위 및 하위 가상 디스크가 모두 기본 디스크입니다."
+
+#
+vim.hostd.hostsvc.invalidDiskPartitioningFormatChange = "디스크 파티셔닝 형식 변경은 지원되지 않습니다. 디스크에 VMware가 아닌 파티션이 있어야 합니다."
+vim.hostd.hostsvc.invalidDiskSizeForPartitioningFormat = "파티셔닝 형식이 지정된 디스크 크기를 지원하지 않습니다."
+
+vim.hostd.hostsvc.HBA.ipv4.unsupportedEnabled = "호스트 버스 어댑터에서 지원되지 않으므로 IPv4를 사용하도록 설정할 수 없습니다."
+vim.hostd.hostsvc.HBA.ipv4.unsupportedDHCPSet = "IPv4 DHCP는 호스트 버스 어댑터에서 지원되지 않습니다."
+vim.hostd.hostsvc.HBA.ipv4.invalidAddressAndNetmask = "잘못된 IPv4 주소 및 서브넷 마스크 구성이 지정되었습니다. 두 값 모두를 지정해야 합니다."
+vim.hostd.hostsvc.HBA.ipv4.unsupportedAddressAndNetmaskSet = "IPv4 주소 및 서브넷 마스크 구성이 호스트 버스 어댑터에서 지원되지 않습니다."
+vim.hostd.hostsvc.HBA.ipv4.unsupportedDefaultGatewaySet = "IPv4 기본 게이트웨이 구성이 호스트 버스 어댑터에서 지원되지 않습니다."
+
+vim.hostd.hostsvc.HBA.ipv6.unsupportedEnabled = "호스트 버스 어댑터에서 지원되지 않으므로 IPv6를 사용하도록 설정할 수 없습니다."
+vim.hostd.hostsvc.HBA.ipv6.unspecifiedProperties = "호스트 버스 어댑터에 대한 IPv6 속성을 지정해야 합니다."
+vim.hostd.hostsvc.HBA.ipv6.unsupportedDHCP = "IPv6 DHCP는 호스트 버스 어댑터에서 지원되지 않습니다."
+vim.hostd.hostsvc.HBA.ipv6.unsupportedLinkLocalAutoConf = "IPv6 링크 로컬 자동 구성 방법이 호스트 버스 어댑터에서 지원되지 않습니다."
+vim.hostd.hostsvc.HBA.ipv6.unsupportedRouterAdvertisement = "IPv6 라우터 알림 구성 방법이 호스트 버스 어댑터에서 지원되지 않습니다."
+vim.hostd.hostsvc.HBA.ipv6.unsupportedDefaultGW = "IPv6 기본 게이트웨이 구성이 호스트 버스 어댑터에서 지원되지 않습니다."
+vim.hostd.hostsvc.HBA.ipv6.defaultGWNotApplicable = "DHCPv6 또는 라우터 알림 방법을 사용하려는 경우 IPv6 기본 게이트웨이를 설정할 수 없습니다."
+vim.hostd.hostsvc.HBA.ipv6.invalidStaticAddressAdd = "DHCPv6 및/또는 라우터 알림 방법을 사용하려는 경우 IPv6 고정 주소를 연결할 수 없습니다."
+vim.hostd.hostsvc.HBA.ipv6.invalidLinkLocalAddressAdd = "자동 링크 로컬 구성 방법을 사용하려는 경우 IPv6 링크 로컬 주소를 연결할 수 없습니다."
+
+vim.hostd.hostsvc.HBA.common.unsupportedMTUSet = "MTU 구성이 호스트 버스 어댑터에서 지원되지 않습니다."
+vim.hostd.hostsvc.HBA.common.unsupportedAprRedirect = "APR 리디렉션 구성이 호스트 버스 어댑터에서 지원되지 않습니다."
+vim.hostd.hostdvc.HBA.common.unsupportedDNSSet = "DNS 구성이 호스트 버스 어댑터에서 지원되지 않습니다."
+vim.hostd.hostdvc.HBA.common.invalidDNS = "잘못된 기본 및 대체 DNS 구성이 지정되었습니다. 두 값 모두를 지정해야 합니다."
+
+vim.hostd.hostsvc.lockedVmknics = "Vmknic {id}은(는) vCenter 편집에서 호스트 고급 옵션 Config.HostAgent.plugins.hostsvc.lockedVmknics에 의해 보호됩니다."
+vim.hostd.hostsvc.opUnsupportedOnEncryptedVm = "작업이 암호화된 VM에서 지원되지 않습니다."
+
+#
+vim.hostd.snapshot.unknownuid = "지정한 스냅샷이 없습니다."
+vim.hostd.snapshot.inuse = "지정한 스냅샷 파일이 사용 중입니다."
+
+# Start NPIV related messages
+com.vmware.vim.npiv.lessNodeWwn.label = "요청한 노드 WWN 번호 {num1}은(는) VM의 기존 번호 {num2}보다 커야 함"
+com.vmware.vim.npiv.lessPortWwn.label = "요청한 포트 WWN 번호 {num1}은(는) VM의 기존 번호 {num2}보다 커야 함"
+# End NPIV related messages
+
+# Start property path validity checks error messages
+com.vmware.vim.propertyPath.error.managedObjectInPath = "속성 이름 '{propName}'은(는) '{typeName}#{propPath}'에 대한 관리 개체를 이동할 수 없습니다."
+com.vmware.vim.propertyPath.error.unexpectedArray = "속성 구성 요소 '{propName}'은(는) 경로 '{typeName}#{propPath}'에 어레이를 허용하지 않음"
+com.vmware.vim.propertyPath.error.notAnObject = "속성 이름 '{propName}'은(는) '{typeName}#{propPath}'에 대한 데이터 또는 관리 개체를 참조해야 합니다."
+com.vmware.vim.propertyPath.error.notFound = "'{typeName}#{propPath}' 경로에서 '{propName}' 속성을 찾을 수 없습니다."
+com.vmware.vim.propertyPath.error.stringKeyTypeMismatch.data = "경로 구성 요소 '{propName}'이(가) '{typeName}#{propPath}'에 대한 STRING 또는 MOREF 키를 포함하는 데이터 개체가 아닙니다."
+com.vmware.vim.propertyPath.error.stringKeyTypeMismatch = "경로 구성 요소 '{propName}'이(가) '{typeName}#{propPath}'"}'에 대한 데이터 개체 또는 MOREF 키가 아닙니다."
+com.vmware.vim.propertyPath.error.intKeyTypeMismatch.data = "경로 구성 요소 '{propName}'이(가) '{typeName}#{propPath}'에 대한 INT 키를 포함하는 데이터 개체가 아닙니다."
+com.vmware.vim.propertyPath.error.intKeyTypeMismatch = "경로 구성 요소 '{propName}'이(가) '{typeName}#{propPath}'에 대한 키를 포함하는 데이터 개체가 아닙니다."
+com.vmware.vim.propertyPath.error.notAnArray = "경로 구성 요소 '{propName}'이(가) '{typeName}#{propPath}' 경로의 어레이가 아닙니다."
+com.vmware.vim.propertyPath.error.lenghAlreadySeen = "'{typeName}#{propPath}'에 대한 '{propName}' 뒤에 속성 이름이 올 수 없습니다."
+# End property path validity checks error messages
+
+# HostCtlExceptions w/o Vobs
+com.vmware.esx.hostctl.default = "작업이 실패했습니다. 진단 보고서: {reason}"
+# End HostCtlException w/o Vobs
+
+# Start datastore related  messages
+com.vmware.vim.datastore.error.removeDatastoreFailed = "'{name}' 데이터스토어를 제거할 수 없습니다. 이유: {reason.@enum.com.vmware.vim.datastore.error.value}. 문제를 해결하고 작업을 다시 시도하십시오."
+com.vmware.vim.datastore.error.tooManyDatastoresInStoragePod = "데이터스토어 클러스터에 추가할 수 있는 데이터스토어 수는 {maxDatastores}개를 초과할 수 없습니다."
+com.vmware.vim.datastore.error.noDiskSpace = "intraVMDK 선호도가 설정되어 있으므로 새 디스크를 생성할 충분한 공간이 있는 데이터스토어를 찾을 수 없습니다."
+com.vmware.vim.datastore.error.multiExtentIorm = "스토리지 IO 리소스 관리가 다중 익스텐트 VMFS 데이터스토어 {name}에 대해 지원되지 않음"
+# End datastore related messages
+
+# Start VM related messages
+com.vmware.vim.vm.error.removeDiskAfterVMSnapshot = "가상 디스크나 상위 디스크 중 하나가 가상 시스템의 스냅샷에 포함되어 있으므로 가상 시스템에서 가상 디스크를 제거할 수 없습니다."
+com.vmware.vim.vm.delete.filesRemaining = "가상 시스템 삭제에 실패했습니다. 데이터스토어에 파일이 남아 있을 수 있습니다."
+com.vmware.vim.vm.error.forkchild.extendDisk = "분기 하위 가상 시스템에는 가상 디스크 확장이 지원되지 않습니다."
+com.vmware.vim.vm.error.forkchild.updateSP = "분기 하위 가상 시스템에는 스토리지 프로파일 업데이트가 지원되지 않습니다."
+com.vmware.vim.vm.error.forkchild.addNonDiskDevice = "분기 하위 가상 시스템에는 새 가상 디바이스(가상 디스크 제외) 추가가 지원되지 않습니다."
+com.vmware.vim.vm.error.forkchild.removeDevice = "분기 하위 가상 시스템에는 기존 가상 디바이스 제거가 지원되지 않습니다."
+com.vmware.vim.vm.error.vmMigrationInProgress = "VM 마이그레이션이 진행 중이므로 작업을 수행할 수 없습니다."
+com.vmware.vim.vm.error.invalidSecondary = "FT 보조 가상 시스템에 대한 기본 가상 시스템을 찾을 수 없습니다."
+com.vmware.vim.vm.error.invalidConfiguration = "가상 시스템의 구성이 잘못되었습니다."
+com.vmware.vim.vm.error.invalidParentResPoolChange = "VM이 더 이상 상위 리소스 풀 '{pool}'에 없습니다."
+com.vmware.vim.vm.error.vmNotInCluster = "VM이 클러스터에 없어서 작업을 수행할 수 없습니다."
+com.vmware.vim.vm.error.vmPinnedToCluster = "VM {arg}이(가) 현재 클러스터에 고정되어 있습니다."
+com.vmware.vim.vm.error.vmPowerStateChange = "VM이 전원 상태를 변경하여 작업을 수행할 수 없습니다."
+# End VM related messages
+
+# Start resource pool related messages
+com.vmware.vim.resourcePool.error.invalidRPNodeInfo = "리소스 풀 노드에 대한 구성 정보가 잘못되었습니다. vCPU 수가 잘못되었습니다."
+com.vmware.vim.resourcePool.error.inconsistentState = "리소스 풀 노드가 불일치 상태입니다. VM 리소스 풀 노드 또는 상위 리소스 풀 노드 또는 대상 리소스 풀 노드가 이미 제거되었습니다."
+
+# Start storage related  messages
+com.vmware.vim.datastore.error.unmountVmfsVolumeFailed = "'{name}' 볼륨을 마운트 해제할 수 없습니다. 이유: {reason.@enum.com.vmware.vim.datastore.error.value}. 문제를 해결한 후 작업을 다시 시도하십시오."
+# End storage related messages
+
+# Start iSCSI related messages
+com.vmware.vim.iscsi.error.vnicInUse = "iSCSI 어댑터에서 VMkernel 네트워크 어댑터 {name}을(를) 사용하는 동안에는 이 작업을 수행할 수 없습니다. 이 작업을 수행하려면 iSCSI 어댑터에서 VMkernel 네트워크 어댑터를 제거하십시오."
+com.vmware.vim.iscsi.error.AddUplinks =  "VMkernel 네트워크 어댑터 {name}에 물리적 네트워크 어댑터가 연결되지 않았습니다. iSCSI 포트 바인딩에 VMkernel 네트워크 어댑터를 사용하려면 이 어댑터에 하나의 물리적 네트워크 어댑터가 연결되어야 합니다."
+com.vmware.vim.iscsi.error.MultipleUplinks = "VMkernel 네트워크 어댑터 {name}에 물리적 네트워크 어댑터가 두 개 이상 연결되었습니다. iSCSI 포트 바인딩에 VMkernel 네트워크 어댑터를 사용하려면 VMkernel 네트워크 어댑터에 하나의 물리적 네트워크 어댑터만 연결되어야 합니다."
+com.vmware.vim.iscsi.error.FixUplink = "iSCSI HBA(호스트 버스 어댑터)에 연결된 VMkernel 네트워크 어댑터 {name}에 물리적 네트워크 어댑터를 연결하십시오."
+com.vmware.vim.iscsi.error.VnicNotFound = "VMkernel 네트워크 어댑터 {name}이(가) 제거되었을 수 있습니다. 이 VMkernel 네트워크 어댑터의 바인딩을 해제하십시오."
+# End iSCSI related messages
+
+# Start CacheConfigurationManager messages
+com.vmware.vim.host.cacheConfiguration.swapSizeNegative = "스왑 크기는 음수일 수 없습니다."
+com.vmware.vim.host.cacheConfiguration.nonSsdDatastore = "스왑 크기는 SSD(Solid State Drive) 기반 데이터스토어에만 구성할 수 있습니다."
+com.vmware.vim.host.cacheConfiguration.unsupportedDatastore = "지정된 데이터스토어에서 스왑을 구성할 수 없습니다."
+# End CacheConfigurationManager messages
+
+# Start LocalAccountManager messages
+com.vmware.vim.host.LocalAccountManager.lastDcuiUser       = "DCUI 액세스 권한을 가진 마지막 로컬 사용자를 제거할 수 없습니다."
+com.vmware.vim.host.LocalAccountManager.lastLocalFullAdmin = "전체 관리자 권한을 가진 마지막 로컬 사용자를 제거할 수 없습니다."
+com.vmware.vim.host.LocalAccountManager.passwdError        = "암호를 설정하지 못했습니다. 암호가 시스템에서 설정한 복잡성 기준을 충족하지 못하기 때문일 수 있습니다."
+com.vmware.vim.host.LocalAccountManager.longPassword       = "일부 서비스에서는 이 암호가 너무 길 수 있습니다. 다른 암호를 선택하십시오."
+com.vmware.vim.host.LocalAccountManager.weakPassword       = "취약한 암호: {reason.@enum.com.vmware.vim.host.LocalAccountManager.weakPassword}."
+# End LocalAccountManager messages
+
+# Start InfraUpdateHa messages
+com.vmware.vim.host.unMonitored = "호스트가 이 클러스터에 등록된 다음의 상태 업데이트 제공자를 통해 모니터링되고 있지 않습니다. {providers}"
+com.vmware.vim.healthUpdateManager.duplicateName = "중복 이름: {arg}"
+com.vmware.vim.healthUpdateManager.associatedEntity = "엔티티 {arg}이(가) 이미 연결되어 있습니다."
+com.vmware.vim.healthUpdateManager.notAssociatedEntity = "엔티티 {arg}이(가) 연결되어 있지 않습니다."
+com.vmware.vim.healthUpdateManager.unknownEntity = "알 수 없는 엔티티: {arg}"
+com.vmware.vim.healthUpdateManager.greenUpdate = "업데이트 {arg}이(가) 비어 있지 않은 업데이트 적용이 있으므로 녹색 상태입니다."
+com.vmware.vim.healthUpdateManager.grayUpdate = "업데이트 {arg}이(가) 회색 상태입니다."
+com.vmware.vim.healthUpdateManager.invalidComponent = "구성 요소 {arg}이(가) 잘못되었습니다."
+com.vmware.vim.healthUpdateManager.stringBound = "문자열 길이가 바운드를 초과함: {arg}"
+# End InfraUpdateHa messages
+
+# Start host unavailable mode messages
+com.vmware.vim.host.unavailableMode.standbyTimeout = "호스트 {host} 전원이 꺼지지 않았습니다."
+com.vmware.vim.host.unavailableMode.powerOnTimeout = "호스트 {host} 전원이 켜지지 않았습니다."
+com.vmware.vim.host.unavailableMode.vmotionsTimeout = "호스트 {host}에서/(으)로의 Vmotion이 완료되지 않았습니다."
+com.vmware.vim.host.unavailableMode.poweredOnVmsTimeout = "호스트 {host}에 전원이 켜진 VM이 존재합니다."
+# end host unavailable mode messages
+
+# Start host error messages
+com.vmware.vim.host.error.unavailableForVm = "호스트를 VM 작업에 사용할 수 없습니다."
+# End host error messages
+
+# Start AuthorizationManager messages
+com.vmware.vim.AuthorizationManager.lockdownModeProtection = "이 작업은 잠금 모드를 해제합니다."
+com.vmware.vim.AuthorizationManager.lockdownModeDcui = "호스트가 잠금 모드에 있기 때문에 DCUI 서비스 상태를 변경할 수 없습니다."
+# End AuthorizationManager messages
+
+# Start VR related messages
+com.vmware.vim.hbr.error.interop.faultTolerance = "한 가상 시스템에서 vSphere Replication과 Fault Tolerance를 동시에 사용하도록 설정할 수 없습니다."
+com.vmware.vim.hbr.error.interop.diskLengthChange = "vSphere Replication에서는 복제된 디스크의 길이를 변경할 수 없습니다."
+com.vmware.vim.hbr.error.interop.sharedBus = "vSphere Replication은 SCSI 버스 공유와 호환되지 않습니다."
+com.vmware.vim.hbr.error.interop.ideHostedEmulation = "vSphere Replication은 호스트된 IDE 에뮬레이션과 호환되지 않습니다."
+com.vmware.vim.hbr.error.fullsync.while.fullsync = "전체 동기화가 이미 진행되고 있으므로 전체 동기화를 시작할 수 없습니다."
+com.vmware.vim.hbr.error.fullsync.while.fullsync.server = "VR 서버에서 요청한 전체 동기화가 이미 진행되고 있으므로 전체 동기화를 시작할 수 없습니다."
+com.vmware.vim.hbr.error.delta.while.fullsync = "전체 동기화가 이미 진행되고 있으므로 델타를 시작할 수 없습니다."
+com.vmware.vim.hbr.error.delta.while.delta = "델타가 이미 진행되고 있으므로 델타를 시작할 수 없습니다."
+com.vmware.vim.hbr.error.interop.unsupportedDiskType = "vSphere Replication에서 '{diskName}' 가상 디스크의 디스크 유형을 지원하지 않습니다."
+# End VR related messages
+
+# Start of OvfManager messages
+com.vmware.vim.ovfManager.ovfParserOption.lax = "오류가 주의로 취급되며 모든 섹션이 선택 사항으로 간주됩니다. 또한 지원되지 않는 하드웨어가 무시됩니다."
+
+com.vmware.vim.ovfManager.ovfParserOption.mac = "모든 이더넷 디바이스에 대해 MAC 주소를 내보냅니다."
+com.vmware.vim.ovfManager.ovfParserOption.uuid = "모든 가상 시스템에 대해 UUID를 내보냅니다."
+com.vmware.vim.ovfManager.ovfParserOption.extraconf = "가상 시스템에 대해 모든 추가 구성 옵션을 내보냅니다."
+com.vmware.vim.ovfManager.ovfParserOption.nodevicesubtypes = "CD/DVD 드라이브, 플로피 드라이브 및 직렬/병렬 포트의 리소스 하위 유형을 내보내지 않습니다."
+
+# End of OvfManager messages
+
+# Replay check messages
+com.vmware.vim.vm.monitorTypeHotChange.notSupportedError = "온라인 가상 시스템의 모니터 빌드 유형은 변경할 수 없습니다."
+# End of Replay check messages
+
+# VM device messages
+com.vmware.vim.vm.device.video.hardware3dNotAvailable = "호스트에서 하드웨어 3D 렌더러를 사용할 수 없습니다."
+# end of VM device messages
+
+#Start VmInventory messages
+com.vmware.vim.Folder.error.registeredVmLimitReached = "등록된 최대 가상 시스템 제한에 도달했습니다."
+com.vmware.vim.Folder.error.supportedVmLimitReached = "지원되는 최대 가상 시스템 수 제한에 도달했습니다."
+#end of VmInventory messages
+
+# VM provisioning messages
+com.vmware.vim.vm.error.AttemptToFindUniqueDirectoryNameLimitReached = "고유한 디렉토리 이름을 찾기 위한 최대 시도 횟수 제한에 도달했습니다."
+com.vmware.vim.vm.error.NoValidHostDueToDasState = "Das 상태로 인해 유효한 호스트를 찾지 못했습니다."
+com.vmware.vim.vm.error.NoValidHostDueToDatastoreAccess = "데이터스토어 액세스 지원으로 인해 유효한 호스트를 찾지 못했습니다."
+com.vmware.vim.vm.error.NoValidHostDueToDiskSize = "디스크 크기 '{disksize}'KB 때문에 유효한 호스트를 찾지 못했습니다."
+com.vmware.vim.vm.error.NoValidHostDueToHwVersion = "하드웨어 버전 '{hwversion}' 때문에 유효한 호스트를 찾지 못했습니다."
+com.vmware.vim.vm.error.NoValidHostDueToNVDIMMSupport = "NVDIMM 지원 때문에 유효한 호스트를 찾지 못했습니다."
+com.vmware.vim.vm.error.NoValidHostDueToPMemAdmissionFailure = "필요한 총 NVDIMM 및 PMem 디스크 용량을 충족하는 유효한 호스트를 찾지 못했습니다."
+com.vmware.vim.vm.error.HostNotValidDueToPMemAdmissionFailure = "호스트 {host}의 사용 가능한 PMem 용량을 초과합니다. 호스트의 사용 가능한 용량은 {availableRes}MB이며 요청된 메모리는 {change}MB입니다."
+com.vmware.vim.vm.error.InsufficientPMemCapacity = "호스트에 PMem 용량이 부족합니다."
+# End of VM provisioning messages
+
+#
+vim.hostd.vsanDecommissioning.enteringMM = "vSAN 유지 보수 모드로 전환하는 중입니다."
+vim.hostd.vsanDecommissioning.noResources = "클러스터의 노드 또는 디스크가 부족하여 현재 vSAN 데이터 마이그레이션 모드에서 유지 보수 모드로 전환하지 못했습니다. 클러스터에 리소스를 추가한 후 또는 다른 모드로 작업을 재시도하십시오."
+vim.hostd.vsanDecommissioning.invalidStateEnterMM = "현재 호스트 상태에서 유지 보수 모드로 전환하지 못했습니다. 작업을 다시 시도하십시오."
+vim.hostd.vsanDecommissioning.invalidStateExitMM = "현재 호스트 상태에서 유지 보수 모드를 종료하지 못했습니다. 작업을 다시 시도하십시오."
+vim.hostd.vsanDecommissioning.objectInaccessible = "마이그레이션할 하나 이상의 후보 개체에 현재 액세스할 수 없어서 유지 보수 모드로 전환하지 못했습니다. 다른 vSAN 데이터 마이그레이션 모드에서 작업을 재시도하십시오."
+vim.hostd.vsanDecommissioning.networkPartitionError = "일부 개체의 액세스가 손실되어 유지 보수 모드로 전환하지 못했습니다. 네트워크 연결을 확인하고 작업을 다시 시도하십시오."
+vim.hostd.vsanDecommissioning.concurrentDecom = "클러스터의 다른 호스트가 이미 유지 보수 모드로 전환하고 있습니다. 이 작업이 완료된 후 작업을 다시 시도하십시오."
+vim.hostd.vsanDecommissioning.canceledAborted = "사용자가 유지 보수 모드 작업을 취소했거나 내부 vSAN 오류로 인해 실패했습니다. 작업을 재시도하십시오."
+vim.hostd.vsanDecommissioning.generalError = "내부 vSAN 오류로 인해 유지 보수 모드로 전환하지 못했습니다. 작업을 재시도하십시오."
+vim.hostd.vsanDecommissioning.badParam = "현재 상태의 작업을 지원할 수 없습니다. 필요한 상태는 '{expected}'인데 현재 상태는 '{current}'입니다."
+vim.hostd.vsanDecommissioning.whatIfNotSupportedOnWitnessHost = "감시 호스트에서 What-If 결과 이동 쿼리가 지원되지 않습니다."
+vim.hostd.vsanDiskOperation.autoModeEnabled = "vSAN 디스크를 제거할 수 없음: vSAN 스토리지 자동 할당 모드가 사용되도록 설정되었습니다."
+vim.hostd.vsanDiskOperation.diskMappingNotFound = "디스크 매핑 '{diskMap}'을(를) 찾지 못했습니다."
+vim.hostd.vsanDiskOperation.allFlashExceed = "vSAN 디스크가 최대 크기에 도달하기 때문에 allFlash 디스크 그룹에 디스크를 추가할 수 없습니다."
+vim.hosts.vsanDiskOperation.diskIs4K = "vSAN 노드에 4K 디바이스를 추가할 수 없습니다. 현재 이러한 디바이스에 대한 지원이 사용되지 않도록 설정되어 있습니다."
+vim.hostd.vsanDiskOperation.hybridExceed = "vSAN 디스크가 최대 크기에 도달하기 때문에 하이브리드 디스크 그룹에 디스크를 추가할 수 없습니다."
+
+# Start of VC health status messages
+vc.health.error.connToHealthStatusEndPointHttpError = "HTTP 요청이 실패했습니다. 서비스: {0}, URL: {1}, HTTP 상태: {2}"
+vc.health.error.HealthStatusEndPointRequestFailed = "상태를 가져오는 중 오류가 발생했습니다. 서비스: {0}, URL: {1}, 오류: {2}"
+vc.health.statuscode = "{0} 상태: {1}"
+vc.health.error.dbjobexec = "데이터베이스에서 성능 통계 롤업 상태를 확인할 수 없습니다."
+vc.health.error.dbjob1 = "데이터베이스에서 전날부터 지난 주까지의 성능 통계는 롤업되지 않습니다."
+vc.health.error.dbjob2 = "데이터베이스에서 지난 주부터 지난 달까지의 성능 통계는 롤업되지 않습니다."
+vc.health.error.dbjob3 = "데이터베이스에서 지난 달부터 지난 해까지의 성능 통계는 롤업되지 않습니다."
+vc.health.error.spacecheck = "데이터베이스 스토리지 사용량을 모니터링할 수 없습니다. 자세한 내용은 VMware KB 2078305를 참조하십시오."
+vc.health.error.datafile = "DBA_DATA_FILES 테이블을 쿼리할 수 없습니다. 데이터베이스 스토리지 사용량을 모니터링하려면 vCenter Server 데이터베이스 사용자 계정에 읽기 권한이 있어야 합니다. 자세한 내용은 VMware KB 2078305를 참조하십시오."
+vc.health.error.autoextend = "vCenter Server 데이터베이스 테이블스페이스에 대해 자동 확장이 설정되어 있지 않습니다. 작업을 제대로 수행하려면 자동 확장을 사용하도록 설정해야 합니다. 자세한 내용은 VMware KB 2078305를 참조하십시오."
+
+# End of VC health status messages
+
+vc.vdb.health.threshold.error = "{k}의 값이 잘못되었습니다. {v}. 주의 백분율은 오류 백분율보다 낮아야 합니다."
+
+### Start vpxd test email subject and body
+vpxd.email.smtp.test.subject = "{from}에서 전송된 SMTP 구성 메시지 테스트"
+vpxd.email.smtp.test.body = "{from}에서 전송된 SMTP 구성 메시지 테스트:\nSMTP 서버: {server}"
+### End vpxd test email subject and body
+
+#Start EnvironmentBrowser messages
+com.vmware.vim.EnvironmentBrowser.unknown.hardware.version = "알 수 없는 하드웨어 버전으로 인해 EnvironmentBrowser가 쿼리를 완료할 수 없습니다."
+#end of EnvironmentBrowser messages
+
+#Start mark disk ssd/local messages
+com.vmware.vim.hostsvc.storage.markDiskFailed = "디스크 {disk}을(를) {desiredState.@enum.com.vmware.vim.hostsvc.markDisk.diskState}(으)로 표시할 수 없습니다. {reason.@enum.com.vmware.vim.hostsvc.markDisk.fault}"
+#end of mark disk ssd/local message
+
+#Start VM PromoteDisk messages
+com.vmware.vim.vm.promoteDisk.error.vmInaccessible            = "가상 시스템에 현재 액세스할 수 없습니다. VM의 호스트에 액세스할 수 있는지 그리고 VM 전원이 켜진 상태인지 확인하십시오. 그런 후 작업을 다시 시도해 보십시오."
+com.vmware.vim.vm.promoteDisk.error.unrecoverableError        = "가상 디스크를 승격하는 동안 복구할 수 없는 오류가 발생했습니다. 이 상태는 VirtualMachine이 디스크 작업을 계속해서 생성하는 경우에 나타날 수 있습니다. IO 로드가 줄어들면 이 작업을 다시 시도하십시오."
+com.vmware.vim.vm.promoteDisk.error.diskError                 = "가상 디스크가 없거나 유효하지 않습니다. 작업을 다시 시도하십시오."
+com.vmware.vim.vm.promoteDisk.error.hasSnapshots              = "가상 시스템의 디스크에 대해 스냅샷이 있습니다. 해당 스냅샷을 삭제한 후 작업을 다시 시도하십시오."
+com.vmware.vim.vm.promoteDisk.error.numLinksError             = "가상 디스크 중 하나 이상의 델타 링크 개수가 1개보다 많습니다. 링크를 삭제한 후 작업을 다시 시도하십시오."
+com.vmware.vim.vm.promoteDisk.error.invalidArguments          = "offsetFromBottom이 0이고 numLinks가 1인지 확인하십시오."
+com.vmware.vim.vm.promoteDisk.error.online = "온라인 디스크 승격은 지원되지 않습니다. {arg}을(를) 끄고 재시도하십시오."
+com.vmware.vim.vm.promoteDisk.error.notNativeUnmanagedLinkedClone = "온라인 디스크 '{arg}'을(를) 승격하는 것은 관리되지 않는 네이티브 연결된 복제 디스크에서만 지원됩니다."
+com.vmware.vim.vm.promoteDisk.error.offNativeUnmanagedLinkedClone = "관리되지 않는 네이티브 연결된 복제 디스크 '{diskName}'을(를) 승격하는 것은 전원이 켜진 가상 시스템에서만 지원됩니다."
+com.vmware.vim.vm.promoteDisk.error.notUnlink = "온라인 디스크를 승격하는 것은 {arg} 옵션이 설정된 관리되지 않는 네이티브 연결된 복제에서만 지원됩니다."
+com.vmware.vim.vm.promoteDisk.error.hasParent = "온라인 디스크 '{diskName}'을(를) 승격하는 것은 상위 백업이 없는 관리되지 않는 네이티브 연결된 복제에서만 지원됩니다."
+#end of VM PromoteDisk messages
+
+#Start VCHA messages
+
+com.vmware.vim.vcha.error.invalidClusterNicConfig     = "vCenter HA 네트워크 정보를 가져오지 못했습니다. vCenter HA 인터페이스(NIC1)가 제대로 구성되어 있고 연결 가능한지 확인하십시오."
+com.vmware.vim.vcha.error.invalidFailoverNicConfig    = "관리 네트워크 정보를 가져오지 못했습니다. 관리 인터페이스(NIC0)가 제대로 구성되어 있는지, 연결이 가능한지 확인하고 정방향 및 역방향 호스트 이름 조회를 위해 올바른 DNS 매핑이 제공되었는지 확인하십시오."
+com.vmware.vim.vcha.error.invalidPostgresConfig       = "PostgreSQL 서버가 올바르게 구성되지 않았습니다. PostgreSQL 서버가 주소 '{ipaddress}'에서 수신 중인지 확인하십시오."
+com.vmware.vim.vcha.error.cannotCreateCluster         = "vCenter HA 클러스터를 생성하지 못했습니다."
+com.vmware.vim.vcha.error.cannotCreateFile            = "vCenter HA 구성 파일 {filename}을(를) 노드 {ip}에 생성할 수 없습니다."
+com.vmware.vim.vcha.error.failedBringUpIf             = "관리 인터페이스(NIC0)를 표시하지 못했습니다. 시스템 로그를 확인하고 필요한 경우 GSS를 사용하십시오."
+com.vmware.vim.vcha.error.clusterInStateTransition    = "요청을 처리할 수 없습니다. 충돌하는 상태 전환 작업이 감지되었습니다. 나중에 다시 시도하십시오."
+com.vmware.vim.vcha.error.invalidModeForRequest       = "vCenter HA가 사용되지 않도록 설정된 경우에는 요청을 처리할 수 없습니다."
+com.vmware.vim.vcha.error.invalidNodeCountForRequest  = "vCenter HA 클러스터의 노드가 3개 미만인 경우 요청을 처리할 수 없습니다. 노드 {nodeip}이(가) 구성되었으며 연결될 수 있는지 확인하십시오."
+com.vmware.vim.vcha.error.clusterAlreadyPresetup      = "vCenter Server가 이미 vCenter HA 배포를 위해 미리 구성되어 있습니다."
+com.vmware.vim.vcha.error.clusterNotPresetup          = "vCenter Server가 vCenter HA 배포를 위해 미리 구성되어 있지 않습니다. vCenter HA 배포를 위한 사전 요구 사항을 참조하십시오."
+com.vmware.vim.vcha.error.clusterAlreadyConfigured    = "vCenter HA가 이미 구성되었습니다."
+com.vmware.vim.vcha.error.clusterNotConfigured        = "vCenter HA가 구성되지 않았습니다."
+com.vmware.vcha.health.replication.postgresql.norepl             = "PostgreSQL 복제가 진행되고 있지 않습니다."
+com.vmware.vcha.health.replication.postgresql.mode.async         = "PostgreSQL 복제 모드가 비동기식입니다."
+com.vmware.vcha.health.replication.postgresql.hasdataloss        = "수동 노드에서 PostgreSQL 복제가 능동 노드를 확인하는 중입니다."
+com.vmware.vcha.health.replication.file.state         = "장치 {fileProviderType}이(가) {state}입니다."
+com.vmware.vim.vcha.error.embeddedNode                = "내장형 PSC와 함께 vCenter HA를 사용하도록 설정할 수 없습니다."
+com.vmware.vim.vcha.error.embeddedDb                  = "외부 데이터베이스와 함께 vCenter HA를 사용하도록 설정할 수 없습니다."
+com.vmware.vim.vcha.error.sshdNotRunning              = "vCenter HA에서 SSH 데몬이 실행 중이어야 합니다. SSH를 사용해야 vCenter HA를 구성할 수 있습니다."
+com.vmware.vim.vcha.error.opRunning                   = "vCenter HA 클러스터 생성 또는 수정 작업이 이미 진행되고 있습니다."
+com.vmware.vim.vcha.error.passiveExists               = "vCenter HA 클러스터에 수동 노드가 이미 있습니다. vCenter HA 설정을 참조하십시오."
+com.vmware.vim.vcha.error.witnessExists               = "vCenter HA 클러스터에 감시 노드가 이미 있습니다. vCenter HA 설정을 참조하십시오."
+com.vmware.vcha.cluster.nic.not.created               = "vCenter Server에서 vCenter HA 네트워크 어댑터를 생성하지 못했습니다. 시스템 로그를 확인하고 필요한 경우 GSS를 사용하십시오."
+com.vmware.vcha.error.failedGetPassiveIp              = "수동 노드에서 페일오버 IP 주소를 가져오지 못했습니다. {passiveip}이(가) 활성 상태이며 능동 노드에서 연결될 수 있는지 확인하십시오."
+com.vmware.vcha.checkPassiveWitness                   = "수동 및 감시 노드가 작동 중이고 연결 가능한지 확인하십시오."
+com.vmware.vcha.checkWitness                          = "IP 주소가 {ip}인 감시 노드가 설정되어 연결 가능한지 확인하십시오."
+com.vmware.vcha.checkPassive                          = "IP 주소가 {ip}인 수동 노드가 설정되어 연결 가능한지 확인하십시오."
+com.vmware.vcha.waitForPassiveCatchUp                 = "일시적인 상황일 수 있습니다. 수동 노드가 복원될 때까지 기다리십시오. 문제가 지속되면 능동 노드와 수동 노드 간의 네트워크 연결을 확인하십시오."
+com.vmware.vcha.activeIsolated                        = "vCenter HA 클러스터의 능동 노드가 분리되었습니다."
+com.vmware.vcha.checkPassiveDb                        = "PostgreSQL 서버가 수동 노드에서 실행 중이고 vCenter HA 네트워크에서 해당 수동 노드에 연결할 수 있는지 확인하십시오."
+com.vmware.vcha.nodeLoss                              = "vCenter HA 클러스터에서 노드가 손실되었습니다."
+com.vmware.vcha.error.ipNotSameFamily                 = "능동, 수동 및 감시 노드에 동일한 IP 주소 패밀리가 있어야 합니다."
+com.vmware.vcha.error.differentClusterIp              = "지정한 vCenter HA 네트워크 IP 주소 {given}이(가) vCenter HA를 구성하는 데 사용된 원본 IP 주소 {orig}과(와) 다릅니다. 동일한 IP 주소를 사용해야 합니다."
+com.vmware.vcha.error.differentFailoverIp             = "수동 노드에 대해 지정한 관리 인터페이스(NIC0) IP 주소 {given}이(가) vCenter HA를 구성하는 데 사용된 원본 IP 주소 {orig}과(와) 다릅니다. 동일한 IP 주소를 사용해야 합니다."
+com.vmware.vcha.error.tooManyAddress                  = "vCenter HA 네트워크 인터페이스에 하나의 IPv6 주소만 허용됩니다. 추가 IPv6 주소를 제거하고 다시 시도하십시오."
+com.vmware.vcha.error.unresolvedFailoverIp            = "관리 인터페이스(NIC0) IP 주소가 vCenter Server PNID에 매핑되지 않습니다."
+com.vmware.vcha.error.bothNetworksInSameSubnet        = "관리 인터페이스(NIC0)와 vCenter HA 인터페이스(NIC1)는 서로 다른 서브넷에 있어야 합니다."
+com.vmware.vcha.error.vchaReqsVmOneDs                 = "vCenter HA는 둘 이상의 데이터스토어에 디스크를 갖는 능동 노드를 지원하지 않습니다."
+com.vmware.vcha.error.vchaReqsHostMatchDs             = "vCenter HA 배포에 사용된 하나 이상의 호스트에 데이터스토어가 마운트되지 않았습니다."
+com.vmware.vcha.error.vchaDrsHosts                    = "vCenter HA 노드 배포에 사용된 DRS 클러스터에 호스트가 최소 3개 있어야 합니다."
+com.vmware.vcha.error.pnidHostnameMismatch            = "{nodeIp}의 호스트 이름이 vCenter Server PNID에 매핑되지 않습니다. VM 복제 사용자 지정 단계 중에 지정한 호스트 이름을 검토하십시오."
+com.vmware.vcha.error.managementVcNotReachable        = "관리 vCenter Server에 연결할 수 없습니다. 네트워크 연결을 확인하십시오."
+com.vmware.vcha.error.lazyimport.upgrade.state.unsafe = "기간별 데이터 가져오기 프로세스가 진행 중이므로 vCenter HA 배포를 진행할 수 없습니다."
+#End VCHA messages
+
+#Start SDRS messages
+com.vmware.sdrs.hms.unreachable                       = "vSphere Replication 관리 서버에 연결할 수 없어서 Storage DRS가 작업을 수행할 수 없습니다."
+com.vmware.sdrs.disk.dsUnspecified                    = "디스크 {arg}에 대해 데이터스토어가 지정되지 않았습니다."
+com.vmware.sdrs.disk.moveTypeIvd                      = "디스크 이동 유형 {arg}이(가) 잘못되었습니다."
+com.vmware.sdrs.disk.dsNotInPod                       = "대상 데이터스토어 {arg}이(가) 스토리지 포드에 없습니다."
+com.vmware.sdrs.disk.unsetValue                       = "값이 비어 있거나 설정되지 않았습니다."
+com.vmware.sdrs.disk.dsInPodInvldState                = "디스크 상태로 인해 이미 포드에 있는 디스크의 SDRS 배치가 허용되지 않습니다."
+com.vmware.intraVmRules.invalidDiskCnt                = "잘못된 디스크 수, 최소 예상 {arg} 디스크로 인해 가상 디스크 규칙을 추가할 수 없습니다."
+com.vmware.intraVmRules.disabledDisk                  = "디스크 {arg}에 대해 SDRS가 사용되지 않도록 설정되어 있어서 가상 디스크 규칙을 추가할 수 없습니다."
+com.vmware.intraVmRules.conflict                      = "새 규칙이 기존 선호도 규칙 {arg}과(와) 충돌하여 가상 디스크 규칙을 추가할 수 없습니다."
+com.vmware.intraVmRules.unknown                       = "알 수 없는 규칙 유형 {arg}이(가) 지정되어 가상 디스크 규칙을 추가할 수 없습니다."
+com.vmware.sdrs.datastore.excessVMXlimit              = "데이터스토어로 VM을 마이그레이션할 수 없습니다. 전원을 켠 VM 수 제한에 도달했습니다."
+com.vmware.sdrs.pod.noHostForPartialConnectedPod      = "부분적으로 연결된 이 POD에 디스크를 배치할 수 없습니다. 완전하게 연결된 POD에 VM을 생성해 보십시오."
+#End SDRS messages
+
+#Start CDRS/PlaceVm messages
+com.vmware.cdrs.error.clusterManaged                  = "DRS를 사용하지 않도록 설정할 수 없습니다. 클러스터가 현재 관리되고 있습니다."
+com.vmware.cdrs.placeVm.noCombination                 = "입력 VM에 대한 대상 클러스터에서 호스트 및 데이터스토어 조합을 찾지 못했습니다."
+com.vmware.cdrs.placeVm.RpAdmissionFailure            = "입력 VM에 대한 대상 클러스터에서 리소스 풀 승인 확인에 실패했습니다."
+com.vmware.cdrs.placeVm.noValidHostOrDatastore        = "입력 VM에 대한 대상 클러스터에서 유효한 후보 호스트 또는 데이터스토어를 찾지 못했습니다."
+com.vmware.cdrs.placeVm.noPreferredHost               = "입력 VM에 대해 PlacementSpec 또는 RelocateSpec에 지정된 적합한 호스트를 찾지 못했습니다."
+com.vmware.cdrs.placeVm.noConfigInfo                  = "지정된 VM의 ConfigInfo를 사용할 수 없습니다."
+com.vmware.cdrs.placeVm.emptyCompatSet                = "사용자가 지정한 호스트가 호환되지 않습니다."
+com.vmware.cdrs.placeVm.concurrentAccess              = "{threadID} 스레드가 동일한 VM에서 작동하고 있으므로 ConcurrentAccess 위반 오류가 발생했습니다."
+#End CDRS/PlaceVm messages
+
+#Start CDRS/MM messages
+com.vmware.cdrs.maintenancemode.manual                = "VM이 수동 모드 상태여서 VM을 유지 보수 모드 후보 호스트에서 이동하지 못했습니다."
+com.vmware.cdrs.maintenancemode.vmotionfailure        = "vMotion이 예기치 않게 실패하여 호스트를 유지 보수 모드로 전환하지 못했습니다. 작업을 재시도하십시오."
+com.vmware.cdrs.maintenancemode.powerfailure          = "대기 호스트의 전원 켜기가 예기치 않게 실패하여 호스트를 유지 보수 모드로 전환하지 못했습니다. 작업을 재시도하십시오."
+com.vmware.cdrs.maintenancemode.preCheckFailure       = "사전 검사가 실패하여 개선된 유지 보수 모드 워크플로를 사용하지 못했습니다. queryWhatIfEnterMaintenance API를 사용하여 오류를 확인하십시오."
+com.vmware.cdrs.maintenancemode.drsNotEnabled         = "DRS가 사용되도록 설정되지 않아 enterMaintenance 결과를 쿼리할 수 없습니다."
+com.vmware.cdrs.maintenancemode.hostNotInCluster      = "클러스터에 호스트가 없어 enterMaintenance 결과를 쿼리할 수 없습니다."
+com.vmware.cdrs.maintenancemode.clusterNotInAutomatedMode  = "클러스터에서 DRS가 완전히 자동화된 모드가 아니므로 호스트를 유지 보수 모드로 전환할 수 없습니다."
+com.vmware.cdrs.maintenancemode.clusterLoadViolated  = "결과 클러스터 {resource} 로드({clustload}%)가 허용 임계값({threshold}%)을 초과하므로 호스트를 유지 보수 모드로 전환할 수 없습니다."
+#End CDRS/MM messages
+
+#Start CDRS/Rules messages.
+com.vmware.vim.cdrs.invalidGroupName = “기존 VM-호스트 규칙에 이름이 {arg}인 그룹이 있으며 그룹의 유형이 지정된 그룹 유형과 다릅니다.”
+#End CDRS/Rules messages.
+
+# Start HA messages.
+com.vmware.vc.HA.error.cyclicDependencyOrchestration  = "VM 그룹의 VM 오케스트레이션의 순환 종속성: {arg}"
+com.vmware.vc.HA.error.missingVmGroup                 = "VM-VM 종속성 규칙 {arg}의 누락된 VM 그룹"
+com.vmware.vc.HA.error.vmToVmGroupValidation          = "종속성 규칙 위반: VM이 둘 이상의 VM 그룹에 속해 있음: {arg}"
+com.vmware.vc.HA.error.restartDisabledVmInChain       = "종속성 체인에서 사용하지 않도록 설정된 VM {arg}을(를) 다시 시작하십시오."
+com.vmware.vc.HA.error.vmInDependencyRule             = "VM {arg}이(가) 클러스터의 다른 VM과의 강한 종속성이 있습니다."
+com.vmware.vc.HA.error.vmHasOrchestrationSettings     = "오케스트레이션 설정을 포함하는 VM {arg}이(가) vCenter Server 6.0 이전 버전과 호환되지 않습니다."
+com.vmware.vc.HA.error.vmcHaPolicyViolation           = "HA 페일오버 정책을 충족하려면 {required}개 슬롯이 필요합니다. {placed}개만 예약 위반 없이 배치할 수 있습니다."
+# End HA messages.
+
+# Start Fault Tolerance messages.
+com.vmware.vim.ft.encryptionNotSupported = "암호화를 사용하도록 설정된 VM에 대해서는 Fault Tolerance가 지원되지 않습니다."
+com.vmware.vim.ft.vsanDpNotSupported = "vSAN Data Protection을 사용하도록 설정된 VM에 대해서는 Fault Tolerance가 지원되지 않습니다."
+com.vmware.vim.ft.rrFtVmNotSupported = "{arg} VM에 이 vCenter Server에서 지원되지 않는 레거시 Fault Tolerance가 설정되어 있습니다."
+# End Fault Tolerance messages.
+
+# Start of nvdimmsystem error messages
+vim.hostd.nvdimmsystem.error.noperm = "시스템이 유지 보수 모드가 아닙니다. NVDIMM에 대한 작업이 허용되지 않습니다."
+vim.hostd.nvdimmsystem.error.nomem = "시스템 메모리 부족"
+vim.hostd.nvdimmsystem.error.notinit = "NVDIMM 상태가 초기화되지 않음"
+vim.hostd.nvdimmsystem.error.notready = "NVDIMM 디바이스가 준비되지 않음"
+vim.hostd.nvdimmsystem.error.limitexceed = "NVDIMM 네임스페이스 크기 제한이 초과됨"
+vim.hostd.nvdimmsystem.error.vendorerror = "NVDIMM 벤더 관련 오류"
+vim.hostd.nvdimmsystem.error.addressinvalid = "잘못된 사용자 주소"
+vim.hostd.nvdimmsystem.error.readonly = "읽기 전용 모드이므로 영구 쓰기가 허용되지 않습니다."
+vim.hostd.nvdimmsystem.nameTooLong = "NVDIMM: 이름이 너무 깁니다."
+vim.hostd.nvdimmsystem.error.deleteGpt = "네임스페이스에서 GPT를 삭제할 수 없습니다."
+# End of nvdimmsystem error messages
+
+# Start of TPM2.0 host attestation failure messages
+vim.vmware.tpm.error.internalFailure = "내부 오류가 발생했습니다."
+vim.vmware.tpm.error.invalidInput = "확인 프로그램에 대한 하나 이상의 입력이 잘못되었습니다."
+vim.vmware.tpm.error.nonceMismatch = "Nonce가 일치하지 않습니다."
+vim.vmware.tpm.error.badQuote = "호스트 TPM 인용 인증이 실패했습니다."
+vim.vmware.tpm.error.quoteInvalid = "호스트 TPM 인용에 대해 PCR 값을 확인할 수 없습니다."
+vim.vmware.tpm.error.badVibDescriptor = "호스트 VIB 설명자 인증이 실패했습니다."
+vim.vmware.tpm.error.logValidate = "호스트 이벤트 로그의 하나 이상의 항목이 잘못되었습니다."
+vim.vmware.tpm.error.secureBoot = "호스트 보안 부팅이 사용되지 않도록 설정되었습니다."
+vim.vmware.tpm.error.logReplay = "PCR 재생이 실패했습니다."
+# End of TPM2.0 host attestation failure messages
+
+# Start of TPM2.0 host TPM error messages
+vim.vmware.tpm.error.ek.notFound = "승인 키를 찾을 수 없습니다."
+vim.vmware.tpm.error.ek.parse = "승인 키를 구문 분석하지 못했습니다."
+vim.vmware.tpm.error.ek.templateParse = "승인 키 템플릿을 구문 분석하지 못했습니다."
+vim.vmware.tpm.error.ek.creation = "승인 키를 생성하지 못했습니다."
+vim.vmware.tpm.error.ek.certificateMismatch = "승인 키가 EK 인증서와 일치하지 않습니다."
+vim.vmware.tpm.error.ek.provisionFailure = "승인 키를 프로비저닝하는 동안 오류가 발생했습니다."
+vim.vmware.tpm.error.deviceCommand = "{errorCode} 오류로 인해 TPM 명령 '{commandName}'이(가) 실패했습니다."
+# End of TPM2.0 host TPM error messages
+
+
+# Start Improved Virtual Disk messages.
+com.vmware.vim.fcd.error.infrastructureNamespaceFailed = "다음 네임스페이스를 열지 못했습니다. {arg}"
+# End Improved Virtual Disk messages.

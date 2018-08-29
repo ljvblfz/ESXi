@@ -1,0 +1,108 @@
+#!/bin/sh
+# chkconfig: off 17 83
+
+# variables
+export PATH=/bin:/sbin
+
+CLOMD=/usr/lib/vmware/vsan/bin/clomd
+CLOMD_TAG=clomd
+CLOMD_RP="host/vim/vmvisor/${CLOMD_TAG}"
+CLOMD_MEM_RES="${CLOMD_TAG} 209" # 201 + 8: 201 is the original budget, 8 is for watchdog (PR 1712436)
+CLOMD_PARAM="${CLOMD_PARAM} -f"
+if [ -n "$2" ]; then
+    CLOMD_PARAM="${CLOMD_PARAM} -c $2"
+fi
+
+VSANTRACED_VOLUME_SYMLINK=${VSANTRACED_VOLUME_SYMLINK-/var/log/vsantraces}
+
+testAndSetTracing() {
+   if [ ! -d $VSANTRACED_VOLUME_SYMLINK/ ]; then
+      echo "Failed to find storage for traces"
+      CLOMD_PARAM="$CLOMD_PARAM -o 0"
+   fi
+}
+
+start() {
+   if [ -z "$(pidof -xs "${CLOMD}")" ] ; then
+      /usr/lib/vmware/vsan/bin/configVsanRP reserveMemory ${CLOMD_MEM_RES}
+
+      if [ $? -ne 0 ]; then
+          echo "Failed to set clomd memory reservation."
+          exit 1
+      fi
+
+      testAndSetTracing
+
+      CLOMD_PARAM="$CLOMD_PARAM $CLOMD_TRACE_PARAM"
+
+      if [ `uname -v | awk '{print $3}'` == "Release" ] ; then
+         /sbin/watchdog.sh ++memreliable,group=${CLOMD_RP} -d -s "${CLOMD_TAG}" "${CLOMD}" "${CLOMD_PARAM}" >/dev/null 2>&1
+      else
+         /sbin/watchdog.sh ++memreliable,group=${CLOMD_RP} -d -s "${CLOMD_TAG}" -t 1000 "${CLOMD}" "${CLOMD_PARAM}" >/dev/null 2>&1
+      fi
+
+      echo "clomd started"
+   else
+      echo "clomd already running"
+   fi
+}
+
+stop() {
+   if [ -n "$(pidof -xs "${CLOMD}")" ] ; then
+      # This only stops the watchdog process.
+      /sbin/watchdog.sh -k "${CLOMD_TAG}"
+
+      CLOMD_PID="$(pidof -s "${CLOMD}")"
+      if [ -n "${CLOMD_PID}" ]; then 
+          kill -15 ${CLOMD_PID}
+          echo "Waiting for process to terminate..."
+          while kill -0 ${CLOMD_PID} > /dev/null 2>&1; do
+              sleep 0;
+          done
+      fi
+
+
+      echo "clomd stopped"
+   else
+      echo "clomd is not running"
+   fi
+
+   # if start fails, stop should clean up after itself whether the process
+   # exists or not. This way, we will not leak the reservations.
+   /usr/lib/vmware/vsan/bin/configVsanRP clearMemory ${CLOMD_TAG}
+
+   if [ $? -ne 0 ]; then
+      echo "Failed to clear clomd memory reservation."
+      # don't fail the command - stop can now be called idempotently.
+   fi
+}
+
+#
+# main
+#
+case "${1}" in
+   "start")
+      start
+   ;;
+   "stop")
+      stop
+   ;;
+   "status")
+      if [ -n "$(pidof -xs "${CLOMD}")" ] ; then
+         echo "clomd is running"
+         exit 0
+      else
+         echo "clomd is not running"
+         exit 3
+      fi
+   ;;
+   "restart")
+      stop
+      start
+   ;;
+   *)
+      echo "Usage: $(basename ${0}) {start|stop|status|restart}"
+      exit 1
+   ;;
+esac
+

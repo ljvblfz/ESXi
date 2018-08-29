@@ -1,0 +1,27 @@
+/***********************************************************
+ * Copyright 2010-2012,2014-2016 VMware, Inc.  All rights reserved.
+ * VMware Confidential
+ ***********************************************************/
+
+{
+   "operations" :
+   {
+      "start" :
+      [
+         "boot system restore --advanced-configuration"
+      ]
+      ,
+      "apply_host_profile" :
+      [
+         "boot system restore --advanced-configuration",
+         "boot hostprofile apply --earlybootinit -p OptionProfile"
+      ]
+   }
+   ,
+   "metadata" :
+   {
+      "version"  : 2,
+      "requires" : ["advanced configuration options"],
+      "provides" : ["advanced configuration"]
+   }
+}

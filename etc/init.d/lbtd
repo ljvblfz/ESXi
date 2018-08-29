@@ -1,0 +1,62 @@
+#!/bin/sh
+# chkconfig: on 18 82
+
+# variables
+export PATH=/bin:/sbin
+
+NETLBT=/sbin/net-lbt
+NETLBT_TAG=net-lbt
+NETLBT_RP="lbt"
+WATCHDOG_PARAMS="-u 1000 -q 100 -t 100"
+NETLBT_SCHED_PARAM_ARGS="++min=0"
+
+start() {
+   if [ -z "$(pidof -xs "${NETLBT}")" ] ; then
+      /sbin/watchdog.sh ++memreliable,group=${NETLBT_RP} -d -s "${NETLBT_TAG}" ${WATCHDOG_PARAMS} "${NETLBT}" "${NETLBT_SCHED_PARAM_ARGS}" >/dev/null 2>&1
+      echo "net-lbt started"
+   else
+      echo "net-lbt already running"
+   fi
+}
+
+stop() {
+   if [ -n "$(pidof -xs "${NETLBT}")" ] ; then
+      # This only stops the watchdog process.
+      /sbin/watchdog.sh -k "${NETLBT_TAG}"
+
+      pkill -15 "${NETLBT_TAG}"
+      echo "net-lbt stopped"
+   else
+      echo "net-lbt is not running"
+   fi
+}
+
+#
+# main
+#
+case "${1}" in
+   "start")
+      start
+   ;;
+   "stop")
+      stop
+   ;;
+   "status")
+      if [ -n "$(pidof -xs "${NETLBT}")" ] ; then
+         echo "net-lbt is running"
+         exit 0
+      else
+         echo "net-lbt is not running"
+         exit 3
+      fi
+   ;;
+   "restart")
+      stop
+      start
+   ;;
+   *)
+      echo "Usage: $(basename ${0}) {start|stop|status|restart}"
+      exit 1
+   ;;
+esac
+

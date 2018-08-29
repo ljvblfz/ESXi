@@ -1,0 +1,42 @@
+#!/bin/sh
+# chkconfig: off 90 10
+
+#
+# We leverage this script to stop vit service during ESX shutting down
+#
+
+syslog() {
+echo "$@"
+   logger -p daemon.info -t VITLOADER "[etc/init.d/vit_loader] $@"
+}
+
+vit_stop() {
+/etc/init.d/vitd io_stop >/dev/null 2>&1
+if [ $? -eq 0 ]; then
+   syslog "Shutdown VITD successfully"
+else
+   syslog "Fail to shutdown VITD"
+fi
+}
+
+case $1 in
+   "start")
+   # During ESX booting, we don't need do anything now since the VIT
+   # starting is taken over by jumpstart
+   syslog "Start vit loader"
+   ;;
+   "stop")
+   # Fix PR 1697296. During ESX shutting down, we need shutdown the vit, unload
+   # vit kernel module and then shutdown the vitasfehd as order. Otherwise,
+   # the coredump may happen due to kernel module may hold invalid file handle
+   # if the vitsafed is stopped in advance.
+   #
+   # Notice the more decent fix should be that the jumpstart is responsible for
+   # controlling the service stop sequence just as what it does in ESX starting
+   # process and then we only need integrate with it. However, according to the
+   # jumpstart wiki, the stop support is in their future release plan so that we
+   # cannot leverage right now. In this script we leverage the chkconfig to
+   # make sure the VIT is shutdown by order by calling /etc/init.d/vitd io_stop
+   vit_stop
+   ;;
+esac

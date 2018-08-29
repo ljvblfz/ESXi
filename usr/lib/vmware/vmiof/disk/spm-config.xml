@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ioFilter>
+   <FilterName>spm</FilterName>
+   <FilterType>disk</FilterType>
+   <FilterClass>datastoreIoControl</FilterClass>
+   <FilterVersion>1.0.230</FilterVersion>
+   <FilterCapabilities>
+      <Capability key="limit" type="integer">
+         <allowedValues type="range">
+            <min>-1</min>
+            <default>-1</default>
+            <max>1000000</max>
+         </allowedValues>
+      </Capability>
+      <Capability key="reservation" type="integer">
+         <allowedValues type="range">
+            <min>1</min>
+            <default>1</default>
+            <max>1000000</max>
+         </allowedValues>
+      </Capability>
+      <Capability key="shares" type="integer">
+         <allowedValues type="range">
+            <min>200</min>
+            <default>1000</default>
+            <max>4000</max>
+         </allowedValues>
+      </Capability>
+   </FilterCapabilities>
+</ioFilter>

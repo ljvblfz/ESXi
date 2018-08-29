@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<SOAP-ENV:Envelope
+ xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/"
+ xmlns:SOAP-ENC="http://schemas.xmlsoap.org/soap/encoding/"
+ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+ xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+ xmlns:ns1="http://vasa.vim.vmware.com/xsd"
+ xmlns:placementPolicy="http://placement.policy.data.vasa.vim.vmware.com/xsd"
+ xmlns:fault="http://fault.vasa.vim.vmware.com/xsd"
+ xmlns:capability="http://capability.policy.data.vasa.vim.vmware.com/xsd"
+ xmlns:profile="http://profile.policy.data.vasa.vim.vmware.com/xsd"
+ xmlns:ns2="http://annotation.vasa.vim.vmware.com/xsd"
+ xmlns:policy="http://policy.data.vasa.vim.vmware.com/xsd"
+ xmlns:providerCapability="http://provider.capability.policy.data.vasa.vim.vmware.com/xsd"
+ xmlns:capabilityTypes="http://types.capability.policy.data.vasa.vim.vmware.com/xsd"
+ xmlns:data="http://data.vasa.vim.vmware.com/xsd"
+ xmlns:compliance="http://compliance.policy.data.vasa.vim.vmware.com/xsd"
+ xmlns:ns3="http://iofilters.vmware.com/xsd/"
+ xmlns:vasaServiceBinding11="http://com.vmware.vim.vasa/1.5/vasaServiceSoap11Binding"
+ xmlns:xsdvasa="http://com.vmware.vim.vasa/1.5/xsd"
+ xmlns:vasaServiceBinding12="http://com.vmware.vim.vasa/1.5/vasaServiceSoap12Binding">
+ <SOAP-ENV:Body>
+    <xsdvasa:getEventsResponse>
+
+         <xsdvasa:return>
+            <data:eventConfigType>Update</data:eventConfigType>
+            <data:eventId>0</data:eventId>
+            <data:eventObjType>Schema</data:eventObjType>
+            <data:eventTimeStamp>2014-08-11T23:26:45Z</data:eventTimeStamp>
+            <data:eventType>Policy</data:eventType>
+            <data:messageId></data:messageId>
+            <data:objectId></data:objectId>
+            <data:parameterList>
+               <data:parameterName></data:parameterName>
+               <data:parameterValue></data:parameterValue>
+            </data:parameterList>
+         </xsdvasa:return>
+
+         <xsdvasa:return>
+            <data:eventConfigType>Update</data:eventConfigType>
+            <data:eventId>0</data:eventId>
+            <data:eventObjType>Profile</data:eventObjType>
+            <data:eventTimeStamp>2014-08-11T23:26:45Z</data:eventTimeStamp>
+            <data:eventType>Policy</data:eventType>
+            <data:messageId></data:messageId>
+            <data:objectId></data:objectId>
+            <data:parameterList>
+               <data:parameterName></data:parameterName>
+               <data:parameterValue></data:parameterValue>
+            </data:parameterList>
+         </xsdvasa:return>
+
+         <xsdvasa:return>
+            <data:eventConfigType>Update</data:eventConfigType>
+            <data:eventId>0</data:eventId>
+            <data:eventObjType>MessageCatalog</data:eventObjType>
+            <data:eventTimeStamp>2014-08-11T23:26:45Z</data:eventTimeStamp>
+            <data:eventType>Config</data:eventType>
+            <data:messageId></data:messageId>
+            <data:objectId></data:objectId>
+            <data:parameterList>
+               <data:parameterName></data:parameterName>
+               <data:parameterValue></data:parameterValue>
+            </data:parameterList>
+         </xsdvasa:return>
+
+     </xsdvasa:getEventsResponse>
+ </SOAP-ENV:Body>
+</SOAP-ENV:Envelope>

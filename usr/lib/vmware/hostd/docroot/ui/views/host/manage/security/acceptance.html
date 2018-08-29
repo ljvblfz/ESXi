@@ -1,0 +1,11 @@
+<div
+   ng-if="hostManageSecurityTabs.tabs[getSelectedTab()].state === 'host.manage.security.acceptance'"
+   ng-controller="HostManageSecurityAcceptanceLevelController"
+   class="esx-tertiary-tab-content">
+
+   <div ng-show="!loaded" class="loading"></div>
+
+   <div ng-show="loaded" vui-action-bar="actionBar" style="padding-top: 2px;"></div>
+
+   <div ng-show="loaded" vui-stack-view="stackView"></div>
+</div>

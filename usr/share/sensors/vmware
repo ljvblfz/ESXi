@@ -1,0 +1,57 @@
+#
+# This file contains a list of power sensors that are known to VMware, Inc.
+#
+# OEMs: to add support for new machines, do not modify this file
+# directly, but place a new file in this directory instead.
+#
+# Supported format:
+#
+#   EntryType:SensorType:Manufacturer:Product:Sensor1[,Sensor2...]:Units
+#
+# EntryType must be "default", SensorType must be "power", and Units
+# must be "WATTS" (all without quotation marks).
+#
+# Manufacturer and Product are compared against the system's SMBIOS
+# (also known as DMI) information from its System Information (Type 1)
+# record.  Manufacturer and Product are both case-insensitive and will
+# match even if the actual name is longer; for example, "Dell" would
+# match "DELL, INC.".  Product may be "*" to match all products from
+# the specified Manufacturer.
+#
+# Sensor names are case-sensitive and must match exactly.  If multiple
+# sensor names are listed on a line, and/or the system has multiple
+# sensors with the listed name(s), sensord reads them all, sums them,
+# and reports the total as the system power.  It is acceptable for not
+# all of the sensors listed on a line to be present; sensord will skip
+# any that are missing as long as at least one is present.
+#
+# Lines are considered one by one, in order.  If a line's Manufacturer
+# and Product match and at least one listed Sensor is present on the
+# system, that line is used and sensord does not read any further
+# lines.  If not, sensord proceeds to the next line.  If multiple
+# files exist in this directory, the order the files are read in is
+# unspecified.
+#
+default:power:FUJITSU:*:Pwr Mon:WATTS
+default:power:FUJITSU:*:Total Power:WATTS
+default:power:FUJITSU:*:SYSTEM:WATTS
+default:power:FUJITSU:*:PSU1 Power,PSU2 Power:WATTS
+default:power:Dell:*:System Level:WATTS
+default:power:HP:*:Power Meter:WATTS
+default:power:HP:*:Power Supply 1,Power Supply 2:WATTS
+default:power:Hewlett-Packard:*:Power Meter:WATTS
+default:power:Hewlett-Packard:*:Power Supply 1,Power Supply 2:WATTS
+default:power:NEC:*:POWER:WATTS
+default:power:NEC:*:Power:WATTS
+default:power:NEC:*:Input_Power:WATTS
+default:power:NEC:*:System Power:WATTS
+default:power:MITSUBISHI:*:POWER:WATTS
+default:power:MITSUBISHI:*:Power:WATTS
+default:power:TOSHIBA:*:POWER:WATTS
+default:power:TOSHIBA:*:Power:WATTS
+default:power:BULL:*:POWER:WATTS
+default:power:BULL:*:Pwr Consumption:WATTS
+default:power:Cisco:*:POWER_USAGE:WATTS
+default:power:LENOVO:*:System Power:WATTS
+default:power:Intel:*:PS1 Input Power,PS2 Input Power:WATTS
+default:power:Intel:*:PS1 Power In,PS2 Power In:WATTS

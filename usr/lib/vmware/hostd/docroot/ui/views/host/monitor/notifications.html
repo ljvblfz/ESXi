@@ -1,0 +1,35 @@
+<div
+   ng-if="tabs.notifications.loaded || hostMonitorTabs.tabs[hostMonitorTabs.selectedTabIndex].state === tabs.notifications.state"
+   ng-controller="HostMonitorNotificationsController"
+   class="esx-tab-content">
+
+   <div ng-show="!loaded" class="loading"></div>
+
+   <div ng-if="loaded" vui-datagrid="notificationGrid"></div>
+
+   <hr ng-if="currentNotification" style="margin-top: 20px; margin-bottom: 20px;"/>
+
+   <div ng-if="currentNotification" class="row header-area no-margin key-information">
+      <div class="col-sm-12 col-lg-12 info-block no-padding">
+         <div class="col-sm-1 col-lg-1 no-padding identifying-graphic">
+            <img alt="{{'notification.type.'+currentNotification.type|translate}}" ng-src="images/{{currentNotification.type}}48.png" style="width: 32px;"/>
+         </div>
+         <div class="key-information col-sm-10 col-lg-10">
+            <div class="row">
+               <div class="col-sm-12 title no-padding">
+                  <span class="object-title" ng-bind="currentNotification.key + '.message' | translate"></span>
+               </div>
+            </div>
+            <form class="form-horizontal">
+               <div class="form-group">
+                  <span
+                     class="col-sm-1 col-lg-1 control-label esx-label no-padding">{{'host.monitor.notifications.suggestedAction'|translate}}</span>
+                  <div class="col-sm-7 col-lg-9 no-padding">
+                     <p class="form-control-static">{{currentNotification.key + '.suggested-action' | translate}}</p>
+                  </div>
+               </div>
+            </form>
+         </div>
+      </div>
+   </div>
+</div>

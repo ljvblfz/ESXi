@@ -1,0 +1,84 @@
+<!-- NVDIMMs -->
+<div
+   ng-class="{
+      'stack-new': wizardOptions.data.nvdimms[_index]._operation === 'add' &&
+         wizardOptions.data.Type === 'edit',
+      'stack-warning': nvdimm.invalid
+   }"
+   ng-repeat="(_index, nvdimm) in nvdimms"
+   vui-stack-block="hardwareStackView.nvdimmBlock[_index]">
+
+   <!-- Icon -->
+   <span
+      vui-sb-icon-class="icon-stackview-nvdimm"
+      vui-sb-label>{{nvdimm.title}}</span>
+
+   <!-- content collapsed-->
+   <div vui-sb-content>
+      <label class="label-508"
+         title="{{'vm.wizard.hardware.virtualhardware.nvdimm.size' | translate}}">
+         <input class="inline stack-input"
+            min="0"
+            ng-class="{
+               'invalid': nvdimm.invalidSize
+            }"
+            ng-model-options="{
+               updateOn: 'default blur'
+            }"
+            ng-disabled="wizardOptions.data.general.state !== 'poweredOff'"
+            ng-model="nvdimm.size"
+            type="text"/>
+         {{'units.MB' | translate}}
+      </label>
+
+      <span class="esx-icon-close vui-icon-info-inline esx-close-right"
+         ng-click="removeNVDIMM(_index)"
+         ng-show="wizardOptions.data.general.state === 'poweredOff'"></span>
+   </div>
+
+   <!-- content expanded -->
+   <div vui-sb-content-expanded>
+      <span class="esx-icon-close vui-icon-info-inline esx-close-right"
+         ng-click="removeNVDIMM(_index)"
+         ng-show="wizardOptions.data.general.state === 'poweredOff'"></span>
+   </div>
+
+   <!-- children -->
+   <div vui-stack-block>
+      <!-- Label -->
+      <span vui-sb-label>
+         {{'vm.wizard.hardware.virtualhardware.nvdimm.size' | translate}}</span>
+
+      <!-- content -->
+      <div vui-sb-content>
+         <input class="inline stack-input"
+            min="0"
+            ng-class="{
+               'invalid': nvdimm.invalidSize
+            }"
+            ng-model-options="{
+               updateOn: 'default blur'
+            }"
+            ng-disabled="wizardOptions.data.general.state !== 'poweredOff'"
+            ng-model="nvdimm.size"
+            type="text"/>
+         {{'units.MB' | translate}}
+      </div>
+   </div>
+
+   <div vui-stack-block>
+      <!-- Label -->
+      <span vui-sb-label>
+         {{'vm.wizard.hardware.virtualhardware.nvdimm.location' | translate}}</span>
+
+      <!-- content -->
+      <div vui-sb-content>
+         <label class="label-508"
+            title="{{'vm.wizard.hardware.virtualhardware.nvdimm.location' | translate}}">
+            <div class="stack-dropdown inline"
+               vui-dropdown="nvdimm.VirtualDeviceNodeLocation"></div>
+         </label>
+      </div>
+   </div>
+
+</div>

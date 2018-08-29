@@ -1,0 +1,874 @@
+<?xml version="1.0"?>
+<plugin xmlns="http://www.vmware.com/Products/ESX/5.0/esxcli/">
+   <version>1.0.0</version>
+
+   <namespaces>
+      <namespace path="software">
+         <description>Manage the ESXi software image and packages</description>
+      </namespace>
+      <namespace path="software.acceptance">
+         <description>Retrieve and set the host acceptance level setting</description>
+      </namespace>
+      <namespace path="software.profile">
+         <description>Display, install, update or validates image profiles</description>
+      </namespace>
+      <namespace path="software.sources">
+         <description>Query depot contents for VIBs and image profiles</description>
+      </namespace>
+      <namespace path="software.sources.profile">
+         <description>Query depot contents image profiles</description>
+      </namespace>
+      <namespace path="software.sources.vib">
+         <description>Query depot contents for VIBs; display information about VIB URLs and files</description>
+      </namespace>
+      <namespace path="software.vib">
+         <description>Install, update, remove, or display individual VIB packages</description>
+      </namespace>
+      <namespace path="software.vib.signature">
+         <description>Commands to verify signatures and show information about the signature verification status of VIB packages</description>
+      </namespace>
+   </namespaces>
+
+   <commands>
+
+      <!-- software.acceptance.get -->
+      <command path="software.acceptance.get">
+         <description>Gets the host acceptance level. This controls what VIBs will be allowed on a host.</description>
+         <input-spec />
+         <output-spec>
+            <string />
+         </output-spec>
+         <format-parameters>
+            <formatter>simple</formatter>
+         </format-parameters>
+         <execute>/usr/lib/vmware/esxcli-software acceptance.get</execute>
+      </command>
+
+      <!-- software.acceptance.set -->
+      <command path="software.acceptance.set">
+         <description>Sets the host acceptance level. This controls what VIBs will be allowed on a host.</description>
+         <input-spec>
+            <parameter name="level" type="string" required="true" >
+               <description>Specifies the acceptance level to set. Should be one of VMwareCertified / VMwareAccepted / PartnerSupported / CommunitySupported.</description>
+                  <constraint type="stringenum">
+                  <enum>
+                     <enum-value value="VMwareCertified">VMwareCertified</enum-value>
+                     <enum-value value="VMwareAccepted">VMwareAccepted</enum-value>
+                     <enum-value value="PartnerSupported">PartnerSupported</enum-value>
+                     <enum-value value="CommunitySupported">CommunitySupported</enum-value>
+                  </enum>
+               </constraint>
+            </parameter>
+         </input-spec>
+         <output-spec>
+            <string />
+         </output-spec>
+         <format-parameters>
+            <formatter>simple</formatter>
+         </format-parameters>
+         <execute>/usr/lib/vmware/esxcli-software acceptance.set --level=$val{level}</execute>
+      </command>
+
+      <!-- software.profile.get -->
+      <command path="software.profile.get">
+         <description>Display the installed image profile.</description>
+         <input-spec>
+            <parameter name="rebooting-image" type="flag" required="false">
+               <description>Displays information for the ESXi image which becomes active after a reboot, or nothing if the pending-reboot image has not been created yet.  If not specified, information from the current ESXi image in memory will be returned.</description>
+            </parameter>
+         </input-spec>
+         <output-spec>
+            <structure typeName="ImageProfile">
+               <field name="Name">
+                  <string />
+               </field>
+               <field name="Vendor">
+                  <string />
+               </field>
+               <field name="Creation Time">
+                  <string />
+               </field>
+               <field name="Acceptance Level">
+                  <string />
+               </field>
+               <field name="Modification Time">
+                  <string />
+                  </field>
+               <field name="Description">
+                  <string />
+               </field>
+               <field name="Stateless Ready">
+                  <string />
+               </field>
+               <field name="VIBs">
+                  <list type="string" >
+                  </list>
+               </field>
+            </structure>
+         </output-spec>
+         <format-parameters>
+            <formatter>simple</formatter>
+            <format-parameter name="header:ImageProfile">%Name%</format-parameter>
+            <format-parameter name="fields:ImageProfile">Name,Vendor,Creation Time,Modification Time,Stateless Ready,Description,VIBs</format-parameter>
+            <format-parameter name="show-header">True</format-parameter>
+         </format-parameters>
+         <execute>/usr/lib/vmware/esxcli-software profile.get $if{rebooting-image,--pending}</execute>
+      </command>
+
+      <!-- software.profile.install -->
+      <command path="software.profile.install">
+         <description>Installs or applies an image profile from a depot to this host. This command completely replaces the installed image with the image defined by the new image profile, and may result in the loss of installed VIBs. The common vibs between host and image profile will be skipped. To preserve installed VIBs, use profile update instead. WARNING: If your installation requires a reboot, you need to disable HA first.</description>
+         <input-spec>
+            <parameter name="depot" type="string-list" required="true" shortname="d">
+               <description>Specifies full remote URLs of the depot index.xml or server file path pointing to an offline bundle .zip file.</description>
+            </parameter>
+            <parameter name="profile" type="string" required="true" shortname="p">
+               <description>Specifies the name of the image profile to install.</description>
+            </parameter>
+            <parameter name="force" type="flag" required="false" shortname="f">
+               <description>Bypasses checks for package dependencies, conflicts, obsolescence, and acceptance levels. Really not recommended unless you know what you are doing. Use of this option will result in a warning being displayed in the vSphere Client.  Use this option only when instructed to do so by VMware Technical Support.</description>
+            </parameter>
+            <parameter name="no-live-install" type="flag" required="false">
+               <description>Forces an install to /altbootbank even if the VIBs are eligible for live installation or removal. Will cause installation to be skipped on PXE-booted hosts.</description>
+            </parameter>
+            <parameter name="maintenance-mode" type="flag" required="false" >
+               <description>Pretends that maintenance mode is in effect. Otherwise, installation will stop for live installs that require maintenance mode. This flag has no effect for reboot required remediations.</description>
+            </parameter>
+            <parameter name="proxy" type="string" required="false" >
+               <description>Specifies a proxy server to use for HTTP, FTP, and HTTPS connections. The format is proxy-url:port.</description>
+            </parameter>
+            <parameter name="dry-run" type="flag" required="false" >
+               <description>Performs a dry-run only. Report the VIB-level operations that would be performed, but do not change anything in the system.</description>
+            </parameter>
+            <parameter name="ok-to-remove" type="flag" required="false">
+               <description>Allows the removal of installed VIBs as part of applying the image profile. If not specified, esxcli will error out if applying the image profile results in the removal of installed VIBs.</description>
+            </parameter>
+            <parameter name="no-sig-check" type="flag" required="false">
+               <description>Bypasses acceptance level verification, including signing. Use of this option poses a large security risk and will result in a SECURITY ALERT warning being displayed in the vSphere Client.</description>
+            </parameter>
+         </input-spec>
+         <output-spec>
+            <structure typeName="InstallationResult">
+            <field name="Message">
+               <string />
+            </field>
+            <field name="VIBs Installed">
+               <list type="string" />
+            </field>
+            <field name="VIBs Removed">
+               <list type="string" />
+            </field>
+            <field name="VIBs Skipped">
+               <list type="string" />
+            </field>
+            <field name="Reboot Required">
+               <bool />
+            </field>
+            </structure>
+         </output-spec>
+         <format-parameters>
+            <formatter>simple</formatter>
+            <format-parameter name="header:InstallationResult">Installation Result</format-parameter>
+         </format-parameters>
+         <execute>/usr/lib/vmware/esxcli-software profile.install $multilist{depot,-d,true} -p "$val{profile}" $if{force,-f} $if{no-live-install,--noliveinstall} $if{maintenance-mode,--nomaintmode} $if{dry-run,--dryrun} $if{proxy,--proxy "$val{proxy}"} $if{ok-to-remove,--oktoremove} $if{no-sig-check,--nosigcheck}</execute>
+      </command>
+
+      <!-- software.profile.update -->
+      <command path="software.profile.update">
+         <description>Updates the host with VIBs from an image profile in a depot. Installed VIBs may be upgraded (or downgraded if --allow-downgrades is specified), but they will not be removed. Any VIBs in the image profile which are not related to any installed VIBs will be added to the host. WARNING: If your installation requires a reboot, you need to disable HA first.</description>
+         <input-spec>
+            <parameter name="depot" type="string-list" required="true" shortname="d">
+               <description>Specifies full remote URLs of the depot index.xml or server file path pointing to an offline bundle .zip file.</description>
+            </parameter>
+            <parameter name="profile" type="string" required="true" shortname="p">
+               <description>Specifies the name of the image profile to update the host with.</description>
+            </parameter>
+            <parameter name="force" type="flag" required="false" shortname="f">
+               <description>Bypasses checks for package dependencies, conflicts, obsolescence, and acceptance levels. Really not recommended unless you know what you are doing. Use of this option will result in a warning being displayed in the vSphere Client.  Use this option only when instructed to do so by VMware Technical Support.</description>
+            </parameter>
+            <parameter name="no-live-install" type="flag" required="false">
+               <description>Forces an install to /altbootbank even if the VIBs are eligible for live installation or removal. Will cause installation to be skipped on PXE-booted hosts.</description>
+            </parameter>
+            <parameter name="maintenance-mode" type="flag" required="false" >
+               <description>Pretends that maintenance mode is in effect. Otherwise, installation will stop for live installs that require maintenance mode. This flag has no effect for reboot required remediations.</description>
+            </parameter>
+            <parameter name="proxy" type="string" required="false" >
+               <description>Specifies a proxy server to use for HTTP, FTP, and HTTPS connections. The format is proxy-url:port.</description>
+            </parameter>
+            <parameter name="dry-run" type="flag" required="false" >
+               <description>Performs a dry-run only. Report the VIB-level operations that would be performed, but do not change anything in the system.</description>
+            </parameter>
+            <parameter name="no-sig-check" type="flag" required="false">
+               <description>Bypasses acceptance level verification, including signing. Use of this option poses a large security risk and will result in a SECURITY ALERT warning being displayed in the vSphere Client.</description>
+            </parameter>
+            <parameter name="allow-downgrades" type="flag" required="false">
+               <description>If this option is specified, then the VIBs from the image profile which update, downgrade, or are new to the host will be installed. If the option is not specified, then the VIBs which update or are new to the host will be installed.</description>
+            </parameter>
+         </input-spec>
+         <output-spec>
+            <structure typeName="InstallationResult">
+            <field name="Message">
+               <string />
+            </field>
+            <field name="VIBs Installed">
+               <list type="string" />
+            </field>
+            <field name="VIBs Removed">
+               <list type="string" />
+            </field>
+            <field name="VIBs Skipped">
+               <list type="string" />
+            </field>
+            <field name="Reboot Required">
+               <bool />
+            </field>
+            </structure>
+         </output-spec>
+         <format-parameters>
+            <formatter>simple</formatter>
+            <format-parameter name="header:InstallationResult">Update Result</format-parameter>
+         </format-parameters>
+         <execute>/usr/lib/vmware/esxcli-software profile.update $multilist{depot,-d,true} -p "$val{profile}" $if{force,-f} $if{no-live-install,--noliveinstall} $if{maintenance-mode,--nomaintmode} $if{dry-run,--dryrun} $if{proxy,--proxy "$val{proxy}"} $if{no-sig-check,--nosigcheck} $if{allow-downgrades,--downgrade}</execute>
+      </command>
+
+      <!-- software.profile.validate -->
+      <command path="software.profile.validate">
+         <description>Validates the current image profile on the host against an image profile in a depot.</description>
+         <input-spec>
+            <parameter name="depot" type="string-list" required="true" shortname="d">
+               <description>Specifies full remote URLs of the depot index.xml or server file path pointing to an offline bundle .zip file.</description>
+            </parameter>
+            <parameter name="profile" type="string" required="true" shortname="p">
+               <description>Specifies the name of the image profile to validate the host with.</description>
+            </parameter>
+                  <parameter name="proxy" type="string" required="false" >
+               <description>Specifies a proxy server to use for HTTP, FTP, and HTTPS connections. The format is proxy-url:port.</description>
+            </parameter>
+         </input-spec>
+         <output-spec>
+            <structure typeName="ProfileValidationResult">
+            <field name="Compliant">
+               <bool />
+            </field>
+            <field name="Host Image Profile">
+               <string />
+            </field>
+            <field name="VIBs in Host Image Profile Only">
+               <list type="string" />
+            </field>
+            <field name="Validation Profile">
+               <string />
+               </field>
+            <field name="VIBs in Validation Profile Only">
+               <list type="string" />
+            </field>
+            </structure>
+         </output-spec>
+         <format-parameters>
+            <formatter>simple</formatter>
+            <format-parameter name="header:ProfileValidationResult">Profile Validation Result</format-parameter>
+            <format-parameter
+               name="fields:ProfileValidationResult">Compliant,Host Image Profile,VIBs in Host Image Profile Only,Validation Profile,VIBs in Validation Profile Only</format-parameter>
+         </format-parameters>
+         <execute>/usr/lib/vmware/esxcli-software profile.validate $multilist{depot,-d,true} -p "$val{profile}" $if{proxy,--proxy "$val{proxy}"}</execute>
+      </command>
+
+      <!-- software.sources.profile.get -->
+      <command path="software.sources.profile.get">
+         <description>Display details about an image profile from the depot.</description>
+         <input-spec>
+            <parameter name="depot" type="string-list" required="true" shortname="d">
+               <description>Specifies full remote URLs of the depot index.xml or server file path pointing to an offline bundle .zip file.</description>
+            </parameter>
+            <parameter name="profile" type="string" required="true" shortname="p">
+               <description>Specifies the name of the image profile to display.</description>
+            </parameter>
+            <parameter name="proxy" type="string" required="false" >
+               <description>Specifies a proxy server to use for HTTP, FTP, and HTTPS connections. The format is proxy-url:port.</description>
+            </parameter>
+         </input-spec>
+         <output-spec>
+            <structure typeName="ImageProfile">
+               <field name="Name">
+                  <string />
+               </field>
+               <field name="Vendor">
+                  <string />
+               </field>
+               <field name="Creation Time">
+                  <string />
+               </field>
+               <field name="Acceptance Level">
+                  <string />
+               </field>
+               <field name="Modification Time">
+                  <string />
+                  </field>
+               <field name="Description">
+                  <string />
+               </field>
+               <field name="Stateless Ready">
+                  <string />
+               </field>
+               <field name="VIBs">
+                  <list type="string" >
+                  </list>
+               </field>
+            </structure>
+         </output-spec>
+         <format-parameters>
+            <formatter>simple</formatter>
+            <format-parameter name="header:ImageProfile">%Name%</format-parameter>
+            <format-parameter name="fields:ImageProfile">Acceptance Level,Name,Vendor,Creation Time,Modification Time,Stateless Ready,Description,VIBs</format-parameter>
+            <format-parameter name="show-header">True</format-parameter>
+         </format-parameters>
+         <execute>/usr/lib/vmware/esxcli-software sources.profile.get $multilist{depot,-d,true} -p "$val{profile}" $if{proxy,--proxy "$val{proxy}"}</execute>
+      </command>
+
+      <!-- software.sources.profile.list -->
+      <command path="software.sources.profile.list">
+         <description>List all the image profiles in a depot.</description>
+         <input-spec>
+            <parameter name="depot" type="string-list" required="true" shortname="d">
+               <description>Specifies full remote URLs of the depot index.xml or server file path pointing to an offline bundle .zip file.</description>
+            </parameter>
+            <parameter name="proxy" type="string" required="false" >
+               <description>Specifies a proxy server to use for HTTP, FTP, and HTTPS connections. The format is proxy-url:port.</description>
+            </parameter>
+         </input-spec>
+         <output-spec>
+            <list type="structure">
+               <structure typeName="ImageProfileSummary">
+                  <field name="Name">
+                     <string />
+                  </field>
+                  <field name="Vendor">
+                     <string />
+                  </field>
+                  <field name="Creation Time">
+                     <string />
+                  </field>
+                  <field name="Acceptance Level">
+                     <string />
+                  </field>
+                  <field name="Modification Time">
+                     <string />
+                  </field>
+               </structure>
+            </list>
+         </output-spec>
+         <format-parameters>
+            <formatter>table</formatter>
+            <format-parameter name="table-columns">Name,Vendor,Acceptance Level,Creation Time,Modification Time</format-parameter>
+            <format-parameter name="header:ImageProfileSummary">%Name%</format-parameter>
+            <format-parameter name="fields:ImageProfileSummary">Name,Vendor,Acceptance Level,Creation Time,Modification Time</format-parameter>
+            <format-parameter name="show-header">true</format-parameter>
+         </format-parameters>
+         <execute>/usr/lib/vmware/esxcli-software sources.profile.list $multilist{depot,-d,true} $if{proxy,--proxy "$val{proxy}"}</execute>
+      </command>
+
+      <!-- software.sources.vib.get -->
+      <command path="software.sources.vib.get">
+         <description>Displays detailed information about one or more VIB packages in the depot</description>
+         <input-spec>
+            <parameter name="depot" type="string-list" required="false" shortname="d">
+               <description>Specifies full remote URLs of the depot index.xml or server file path pointing to an offline bundle .zip file.</description>
+            </parameter>
+            <parameter name="vibname" type="string-list" required="false" shortname="n">
+               <description>Specifies one or more VIBs in the depot to display more information about. If this option is not specified, then all of the VIB packages from the depot will be displayed. Must be one of the following forms: name, name:version, vendor:name, or vendor:name:version.</description>
+            </parameter>
+            <parameter name="viburl" type="string-list" required="false" shortname="v">
+               <description>Specifies one or more URLs to VIB packages to display information about. http:, https:, ftp:, and file: are all supported.</description>
+            </parameter>
+            <parameter name="proxy" type="string" required="false" >
+               <description>Specifies a proxy server to use for HTTP, FTP, and HTTPS connections. The format is proxy-url:port.</description>
+            </parameter>
+         </input-spec>
+         <output-spec>
+            <list type="structure">
+               <structure typeName="VIB">
+                  <field name="ID">
+                     <string />
+                  </field>
+                  <field name="Name">
+                     <string />
+                  </field>
+                  <field name="Version">
+                     <string />
+                  </field>
+                  <field name="Type">
+                     <string />
+                  </field>
+                  <field name="Vendor">
+                     <string />
+                  </field>
+                  <field name="Summary">
+                     <string />
+                  </field>
+                  <field name="Description">
+                     <string />
+                  </field>
+                  <field name="ReferenceURLs">
+                     <list type="string" />
+                  </field>
+                  <field name="Creation Date">
+                     <string />
+                  </field>
+                  <field name="Install Date">
+                     <string />
+                  </field>
+                  <field name="Status">
+                     <string />
+                  </field>
+                  <field name="Depends">
+                     <list type="string" />
+                  </field>
+                  <field name="Conflicts">
+                     <list type="string" />
+                  </field>
+                  <field name="Replaces">
+                     <list type="string" />
+                  </field>
+                  <field name="Provides">
+                     <list type="string" />
+                  </field>
+                  <field name="Maintenance Mode Required">
+                     <string />
+                  </field>
+                  <field name="Hardware Platforms Required">
+                     <list type="string" />
+                  </field>
+                  <field name="Stateless Ready">
+                     <string />
+                  </field>
+                  <field name="Acceptance Level">
+                     <string />
+                  </field>
+                  <field name="Live Install Allowed">
+                     <string />
+                  </field>
+                  <field name="Live Remove Allowed">
+                     <string />
+                  </field>
+                  <field name="Overlay">
+                     <string />
+                  </field>
+                  <field name="Tags">
+                     <list type="string" />
+                  </field>
+                  <field name="Payloads">
+                     <list type="string" />
+                  </field>
+               </structure>
+            </list>
+         </output-spec>
+         <format-parameters>
+            <formatter>simple</formatter>
+            <format-parameter name="header:VIB">%ID%</format-parameter>
+            <format-parameter name="fields:VIB">Name,Version,Type,Vendor,Acceptance Level,Summary,Description,ReferenceURLs,Creation Date,Depends,Conflicts,Replaces,Provides,Maintenance Mode Required,Hardware Platforms Required,Live Install Allowed,Live Remove Allowed,Stateless Ready,Overlay,Tags,Payloads</format-parameter>
+         </format-parameters>
+         <execute>/usr/lib/vmware/esxcli-software sources.vib.get $if{depot,$multilist{depot,-d,true}} $if{vibname,$multilist{vibname,-n,true}} $if{viburl,-v $list{viburl,' ',true}} $if{proxy,--proxy "$val{proxy}"}</execute>
+      </command>
+
+      <!-- software.sources.vib.list -->
+      <command path="software.sources.vib.list">
+         <description>List all the VIBs from depots.</description>
+         <input-spec>
+            <parameter name="depot" type="string-list" required="true" shortname="d">
+               <description>Specifies full remote URLs of the depot index.xml or server file path pointing to an offline bundle .zip file.</description>
+            </parameter>
+            <parameter name="proxy" type="string" required="false" >
+               <description>Specifies a proxy server to use for HTTP, FTP, and HTTPS connections. The format is proxy-url:port.</description>
+            </parameter>
+         </input-spec>
+         <output-spec>
+            <list type="structure">
+               <structure typeName="VIBSummary">
+                  <field name="ID">
+                     <string />
+                  </field>
+                  <field name="Name">
+                     <string />
+                  </field>
+                  <field name="Version">
+                     <string />
+                  </field>
+                  <field name="Vendor">
+                     <string />
+                  </field>
+                  <field name="Creation Date">
+                     <string />
+                  </field>
+                  <field name="Install Date">
+                     <string />
+                  </field>
+                  <field name="Status">
+                     <string />
+                  </field>
+                  <field name="Acceptance Level">
+                     <string />
+                  </field>
+               </structure>
+            </list>
+         </output-spec>
+         <format-parameters>
+            <formatter>table</formatter>
+            <format-parameter name="table-columns">Name,Version,Vendor,Creation Date,Acceptance Level,Status</format-parameter>
+            <format-parameter name="header:VIBSummary">%ID%</format-parameter>
+            <format-parameter name="fields:VIBSummary">Name,Version,Vendor,Creation Date,Acceptance Level,Status</format-parameter>
+            <format-parameter name="show-header">true</format-parameter>
+         </format-parameters>
+         <execute>/usr/lib/vmware/esxcli-software sources.vib.list $multilist{depot,-d,true} $if{proxy,--proxy "$val{proxy}"}</execute>
+      </command>
+
+      <!-- software.vib.get -->
+      <command path="software.vib.get">
+         <description>Displays detailed information about one or more installed VIBs</description>
+         <input-spec>
+            <parameter name="vibname" type="string-list" required="false" shortname="n">
+               <description>Specifies one or more installed VIBs to display more information about. If this option is not specified, then all of the installed VIBs will be displayed. Must be one of the following forms: name, name:version, vendor:name, or vendor:name:version.</description>
+            </parameter>
+            <parameter name="rebooting-image" type="flag" required="false">
+               <description>Displays information for the ESXi image which becomes active after a reboot, or nothing if the pending-reboot image has not been created yet. If not specified, information from the current ESXi image in memory will be returned.</description>
+            </parameter>
+         </input-spec>
+         <output-spec>
+            <list type="structure">
+               <structure typeName="VIB">
+                  <field name="ID">
+                     <string />
+                  </field>
+                  <field name="Name">
+                     <string />
+                  </field>
+                  <field name="Version">
+                     <string />
+                  </field>
+                  <field name="Type">
+                     <string />
+                  </field>
+                  <field name="Vendor">
+                     <string />
+                  </field>
+                  <field name="Summary">
+                     <string />
+                  </field>
+                  <field name="Description">
+                     <string />
+                  </field>
+                  <field name="ReferenceURLs">
+                     <list type="string" />
+                  </field>
+                  <field name="Creation Date">
+                     <string />
+                  </field>
+                  <field name="Install Date">
+                     <string />
+                  </field>
+                  <field name="Status">
+                     <string />
+                  </field>
+                  <field name="Depends">
+                     <list type="string" />
+                  </field>
+                  <field name="Conflicts">
+                     <list type="string" />
+                  </field>
+                  <field name="Replaces">
+                     <list type="string" />
+                  </field>
+                  <field name="Provides">
+                     <list type="string" />
+                  </field>
+                  <field name="Maintenance Mode Required">
+                     <string />
+                  </field>
+                  <field name="Hardware Platforms Required">
+                     <list type="string" />
+                  </field>
+                  <field name="Stateless Ready">
+                     <string />
+                  </field>
+                  <field name="Acceptance Level">
+                     <string />
+                  </field>
+                  <field name="Live Install Allowed">
+                     <string />
+                  </field>
+                  <field name="Live Remove Allowed">
+                     <string />
+                  </field>
+                  <field name="Overlay">
+                     <string />
+                  </field>
+                  <field name="Tags">
+                     <list type="string" />
+                  </field>
+                  <field name="Payloads">
+                     <list type="string" />
+                  </field>
+               </structure>
+            </list>
+         </output-spec>
+         <format-parameters>
+            <formatter>simple</formatter>
+            <format-parameter name="header:VIB">%ID%</format-parameter>
+            <format-parameter name="fields:VIB">Name,Version,Type,Vendor,Acceptance Level,Summary,Description,ReferenceURLs,Creation Date,Depends,Conflicts,Replaces,Provides,Maintenance Mode Required,Hardware Platforms Required,Live Install Allowed,Live Remove Allowed,Stateless Ready,Overlay,Tags,Payloads</format-parameter>
+         </format-parameters>
+         <execute>/usr/lib/vmware/esxcli-software vib.get $if{vibname,$multilist{vibname,-n,true}} $if{rebooting-image,--pending}</execute>
+      </command>
+
+      <!-- software.vib.install -->
+      <command path="software.vib.install">
+         <description>Installs VIB packages from a URL or depot. VIBs may be installed, upgraded, or downgraded. WARNING: If your installation requires a reboot, you need to disable HA first.</description>
+         <input-spec>
+            <parameter name="depot" type="string-list" required="false" shortname="d">
+               <description>Specifies full remote URLs of the depot index.xml or server file path pointing to an offline bundle .zip file.</description>
+            </parameter>
+            <parameter name="vibname" type="string-list" required="false" shortname="n">
+               <description>Specifies VIBs from a depot, using one of the following forms: name, name:version, vendor:name, or vendor:name:version.</description>
+            </parameter>
+            <parameter name="viburl" type="string-list" required="false" shortname="v">
+               <description>Specifies one or more URLs to VIB packages to install. http:, https:, ftp:, and file: are all supported.</description>
+            </parameter>
+            <parameter name="force" type="flag" required="false" shortname="f">
+               <description>Bypasses checks for package dependencies, conflicts, obsolescence, and acceptance levels. Really not recommended unless you know what you are doing. Use of this option will result in a warning being displayed in the vSphere Client.  Use this option only when instructed to do so by VMware Technical Support.</description>
+            </parameter>
+            <parameter name="no-live-install" type="flag" required="false">
+               <description>Forces an install to /altbootbank even if the VIBs are eligible for live installation or removal. Will cause installation to be skipped on PXE-booted hosts.</description>
+            </parameter>
+            <parameter name="maintenance-mode" type="flag" required="false" >
+               <description>Pretends that maintenance mode is in effect. Otherwise, installation will stop for live installs that require maintenance mode. This flag has no effect for reboot required remediations.</description>
+            </parameter>
+            <parameter name="proxy" type="string" required="false" >
+               <description>Specifies a proxy server to use for HTTP, FTP, and HTTPS connections. The format is proxy-url:port.</description>
+            </parameter>
+            <parameter name="dry-run" type="flag" required="false" >
+               <description>Performs a dry-run only. Report the VIB-level operations that would be performed, but do not change anything in the system.</description>
+            </parameter>
+            <parameter name="no-sig-check" type="flag" required="false">
+               <description>Bypasses acceptance level verification, including signing. Use of this option poses a large security risk and will result in a SECURITY ALERT warning being displayed in the vSphere Client.</description>
+            </parameter>
+         </input-spec>
+         <output-spec>
+            <structure typeName="InstallationResult">
+            <field name="Message">
+               <string />
+            </field>
+            <field name="VIBs Installed">
+               <list type="string" />
+            </field>
+            <field name="VIBs Removed">
+               <list type="string" />
+            </field>
+            <field name="VIBs Skipped">
+               <list type="string" />
+            </field>
+            <field name="Reboot Required">
+               <bool />
+            </field>
+            </structure>
+         </output-spec>
+         <format-parameters>
+            <formatter>simple</formatter>
+            <format-parameter name="header:InstallationResult">Installation Result</format-parameter>
+         </format-parameters>
+         <execute>/usr/lib/vmware/esxcli-software vib.install $if{depot, $multilist{depot,-d,true}} $if{vibname,$multilist{vibname,-n,true}} $if{viburl,$multilist{viburl,-v,true}} $if{force,-f} $if{no-live-install,--noliveinstall} $if{maintenance-mode,--nomaintmode} $if{dry-run,--dryrun} $if{proxy,--proxy "$val{proxy}"} $if{no-sig-check,--nosigcheck}</execute>
+      </command>
+
+      <!-- software.vib.list -->
+      <command path="software.vib.list">
+         <description>Lists the installed VIB packages</description>
+         <input-spec>
+            <parameter name="rebooting-image" type="flag" required="false">
+               <description>Displays information for the ESXi image which becomes active after a reboot, or nothing if the pending-reboot image has not been created yet. If not specified, information from the current ESXi image in memory will be returned.</description>
+            </parameter>
+         </input-spec>
+         <output-spec>
+            <list type="structure">
+               <structure typeName="VIBSummary">
+                  <field name="ID">
+                     <string />
+                  </field>
+                  <field name="Name">
+                     <string />
+                  </field>
+                  <field name="Version">
+                     <string />
+                  </field>
+                  <field name="Vendor">
+                     <string />
+                  </field>
+                  <field name="Creation Date">
+                     <string />
+                  </field>
+                  <field name="Install Date">
+                     <string />
+                  </field>
+                  <field name="Status">
+                     <string />
+                  </field>
+                  <field name="Acceptance Level">
+                     <string />
+                  </field>
+               </structure>
+            </list>
+         </output-spec>
+         <format-parameters>
+            <formatter>table</formatter>
+            <format-parameter name="table-columns">Name,Version,Vendor,Acceptance Level,Install Date</format-parameter>
+            <format-parameter name="header:VIBSummary">%ID%</format-parameter>
+            <format-parameter name="fields:VIBSummary">Name,Version,Vendor,Acceptance Level,Install Date</format-parameter>
+            <format-parameter name="show-header">true</format-parameter>
+         </format-parameters>
+         <execute>/usr/lib/vmware/esxcli-software vib.list $if{rebooting-image,--pending}</execute>
+      </command>
+
+      <!-- software.vib.remove -->
+      <command path="software.vib.remove">
+         <description>Removes VIB packages from the host. WARNING: If your installation requires a reboot, you need to disable HA first.</description>
+         <input-spec>
+            <parameter name="vibname" type="string-list" required="true" shortname="n">
+               <description>Specifies one or more VIBs on the host to remove. Must be one of the following forms: name, name:version, vendor:name, vendor:name:version.</description>
+            </parameter>
+            <parameter name="force" type="flag" required="false" shortname="f">
+               <description>Bypasses checks for package dependencies, conflicts, obsolescence, and acceptance levels. Really not recommended unless you know what you are doing. Use of this option will result in a warning being displayed in the vSphere Client.  Use this option only when instructed to do so by VMware Technical Support.</description>
+            </parameter>
+            <parameter name="no-live-install" type="flag" required="false">
+               <description>Forces an remove to /altbootbank even if the VIBs are eligible for live removal. Will cause installation to be skipped on PXE-booted hosts.</description>
+            </parameter>
+            <parameter name="maintenance-mode" type="flag" required="false" >
+               <description>Pretends that maintenance mode is in effect. Otherwise, remove will stop for live removes that require maintenance mode. This flag has no effect for reboot required remediations.</description>
+            </parameter>
+            <parameter name="dry-run" type="flag" required="false" >
+               <description>Performs a dry-run only. Report the VIB-level operations that would be performed, but do not change anything in the system.</description>
+            </parameter>
+         </input-spec>
+         <output-spec>
+            <structure typeName="InstallationResult">
+            <field name="Message">
+               <string />
+            </field>
+            <field name="VIBs Installed">
+               <list type="string" />
+            </field>
+            <field name="VIBs Removed">
+               <list type="string" />
+            </field>
+            <field name="VIBs Skipped">
+               <list type="string" />
+            </field>
+            <field name="Reboot Required">
+               <bool />
+            </field>
+            </structure>
+         </output-spec>
+         <format-parameters>
+            <formatter>simple</formatter>
+            <format-parameter name="header:InstallationResult">Removal Result</format-parameter>
+         </format-parameters>
+         <execute>/usr/lib/vmware/esxcli-software vib.remove $multilist{vibname,-n,true} $if{force,-f} $if{no-live-install,--noliveinstall} $if{maintenance-mode,--nomaintmode} $if{dry-run,--dryrun}</execute>
+      </command>
+
+      <!-- software.vib.update -->
+      <command path="software.vib.update">
+         <description>Update installed VIBs to newer VIB packages. No new VIBs will be installed, only updates. WARNING: If your installation requires a reboot, you need to disable HA first.</description>
+         <input-spec>
+            <parameter name="depot" type="string-list" required="false" shortname="d">
+               <description>Specifies full remote URLs of the depot index.xml or server file path pointing to an offline bundle .zip file.</description>
+            </parameter>
+            <parameter name="vibname" type="string-list" required="false" shortname="n">
+               <description>Specifies VIBs from a depot, using one of the following forms: name, name:version, vendor:name, or vendor:name:version. VIB packages which are not updates will be skipped.</description>
+            </parameter>
+            <parameter name="viburl" type="string-list" required="false" shortname="v">
+               <description>Specifies one or more URLs to VIB packages to update to. http:, https:, ftp:, and file: are all supported. VIB packages which are not updates will be skipped.</description>
+            </parameter>
+            <parameter name="force" type="flag" required="false" shortname="f">
+               <description>Bypasses checks for package dependencies, conflicts, obsolescence, and acceptance levels. Really not recommended unless you know what you are doing.  Use of this option will result in a warning being displayed in the vSphere Client.  Use this option only when instructed to do so by VMware Technical Support.</description>
+            </parameter>
+            <parameter name="no-live-install" type="flag" required="false">
+               <description>Forces an install to /altbootbank even if the VIBs are eligible for live installation or removal. Will cause installation to be skipped on PXE-booted hosts.</description>
+            </parameter>
+            <parameter name="maintenance-mode" type="flag" required="false" >
+               <description>Pretends that maintenance mode is in effect. Otherwise, installation will stop for live installs that require maintenance mode. This flag has no effect for reboot required remediations.</description>
+            </parameter>
+            <parameter name="proxy" type="string" required="false" >
+               <description>Specifies a proxy server to use for HTTP, FTP, and HTTPS connections. The format is proxy-url:port.</description>
+            </parameter>
+            <parameter name="dry-run" type="flag" required="false" >
+               <description>Performs a dry-run only. Report the VIB-level operations that would be performed, but do not change anything in the system.</description>
+            </parameter>
+            <parameter name="no-sig-check" type="flag" required="false">
+               <description>Bypasses acceptance level verification, including signing. Use of this option poses a large security risk and will result in a SECURITY ALERT warning being displayed in the vSphere Client.</description>
+            </parameter>
+         </input-spec>
+         <output-spec>
+            <structure typeName="InstallationResult">
+            <field name="Message">
+               <string />
+            </field>
+            <field name="VIBs Installed">
+               <list type="string" />
+            </field>
+            <field name="VIBs Removed">
+               <list type="string" />
+            </field>
+            <field name="VIBs Skipped">
+               <list type="string" />
+            </field>
+            <field name="Reboot Required">
+               <bool />
+            </field>
+            </structure>
+         </output-spec>
+         <format-parameters>
+            <formatter>simple</formatter>
+            <format-parameter name="header:InstallationResult">Installation Result</format-parameter>
+         </format-parameters>
+         <execute>/usr/lib/vmware/esxcli-software vib.install --updateonly $if{depot, $multilist{depot,-d,true}} $if{vibname,$multilist{vibname,-n,true}} $if{viburl,$multilist{viburl,-v,true}} $if{force,-f} $if{no-live-install,--noliveinstall} $if{maintenance-mode,--nomaintmode} $if{dry-run,--dryrun} $if{proxy,--proxy "$val{proxy}"} $if{no-sig-check,--nosigcheck}</execute>
+      </command>
+
+      <!-- software.vib.signature.verify -->
+      <command path="software.vib.signature.verify">
+         <description>Verifies the signatures of installed VIB packages and displays the name, version, vendor, acceptance level and the result of signature verification for each of them</description>
+         <input-spec>
+            <parameter name="rebooting-image" type="flag" required="false">
+               <description>Displays information for the ESXi image which becomes active after a reboot. If not specified, information from the current ESXi image in memory will be returned.</description>
+            </parameter>
+         </input-spec>
+         <output-spec>
+            <list type="structure">
+               <structure typeName="VIBSigVerify">
+                  <field name="ID">
+                     <string />
+                  </field>
+                  <field name="Name">
+                     <string />
+                  </field>
+                  <field name="Version">
+                     <string />
+                  </field>
+                  <field name="Vendor">
+                     <string />
+                  </field>
+                  <field name="Acceptance Level">
+                     <string />
+                  </field>
+                  <field name="Signature Verification">
+                     <string />
+                  </field>
+               </structure>
+            </list>
+         </output-spec>
+         <format-parameters>
+            <formatter>table</formatter>
+            <format-parameter name="table-columns">Name,Version,Vendor,Acceptance Level,Signature Verification</format-parameter>
+            <format-parameter name="header:VIBSig">%ID%</format-parameter>
+            <format-parameter name="fields:VIBSig">Name,Version,Vendor,Acceptance Level,Signature Verification</format-parameter>
+            <format-parameter name="show-header">true</format-parameter>
+         </format-parameters>
+         <execute>/usr/lib/vmware/esxcli-software vib.signature.verify $if{rebooting-image,--rebooting}</execute>
+      </command>
+
+   </commands>
+</plugin>

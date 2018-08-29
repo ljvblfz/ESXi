@@ -1,0 +1,70 @@
+#
+# This file is mechanically generated.  Any changes you make
+# manually will be lost at the next build.
+#
+# Please edit <driver>_devices.py file for permanent changes.
+#
+# Vendors, devices and subsystems.
+#
+# Syntax (initial indentation must be done with TAB characters):
+#
+# vendor  vendor_name
+#       device  device_name                            <-- single TAB
+#               subvendor subdevice  subsystem_name    <-- two TABs
+
+1000  Avago (LSI)
+	0014  MegaRAID Tri-Mode SAS3516
+		1028 1fd4  PERC H745P MX
+		1137 020e  Cisco 12G Modular Raid Controller with 2GB cache
+		1d49 0602  ThinkSystem RAID 930-16i 4GB Flash PCIe 12Gb Adapter
+		1d49 0604  ThinkSystem RAID 930-8e 4GB Flash PCIe 12Gb Adapter
+	0016  MegaRAID Tri-Mode SAS3508
+		1028 1fc9  PERC H840 Adapter
+		1028 1fca  PERC H840 Adapter ESDS
+		1028 1fcb  PERC H740P Adapter 
+		1028 1fcc  PERC H740P Adapter ESDS
+		1028 1fcd  PERC H740P Mini
+		1028 1fce  PERC H740P Mini ESDS
+		1028 1fcf  PERC H740P Mini (blade)
+		1028 1fd0  PERC H740P Mini (blade) ESDS
+		1137 0210  Cisco 12G Modular Raid Controller with 4GB cache
+		1137 0213  Cisco 12G 9460-8i Raid Controller with 2GB cache
+		1d49 0601  ThinkSystem RAID 930-8i 2GB Flash PCIe 12Gb Adapter
+		1d49 0603  ThinkSystem RAID 930-24i 4GB Flash PCIe 12Gb Adapter
+	0017  MegaRAID Tri-Mode SAS3408
+		1d49 0500  ThinkSystem RAID 530-8i PCIe 12Gb Adapter
+		1d49 0502  ThinkSystem RAID 530-8i Dense Adapter
+	001b  MegaRAID Tri-Mode SAS3504
+		1d49 0605  ThinkSystem RAID 930-4i 2GB Flash Flex Adapter
+	001c  MegaRAID Tri-Mode SAS3404
+		1054 3090  HITACHI SAS 3404 iMR ROMB
+		1d49 0501  ThinkSystem RAID 530-4i Flex Adapter
+	0052  MegaRAID SAS Cutlass Controller
+	0053  MegaRAID SAS Cutlass Controller
+	005b  MegaRAID SAS Thunderbolt Controller
+	005d  MegaRAID SAS Invader Controller
+		1028 1f41  PERC H830 Adapter
+		1028 1f42  PERC H730P Adapter
+		1028 1f43  PERC H730 Adapter
+		1028 1f47  PERC H730P Mini
+		1028 1f48  PERC H730P Mini (blade)
+		1028 1f49  PERC H730 Mini
+		1028 1f4a  PERC H730 Mini (blade)
+		1028 1f4d  FD33xS-PERC
+		1028 1f4f  PERC H730P Slim
+		1028 1f54  FD33xD-PERC
+		1028 1fd1  PERC H730P MX
+		1d49 0600  ThinkSystem RAID 730-8i 1GB Cache PCIe 12Gb Adapter
+	005f  MegaRAID SAS Fury Controller
+		1028 1f44  PERC H330
+		1028 1f4b  PERC H330 Mini
+		1028 1f4c  PERC H330 Mini (blade)
+		1028 1f4d  FS33-PERC (Single ROC)
+		1028 1f4e  PERC H310 Adapter
+		1028 1f50  PERC H310 Mini Adapter
+		1028 1f51  PERC H310 Mini Adapter
+		1028 1f52  PERC H310 Embedded Adapter
+		1028 1f53  PERC H310 Embedded Adapter
+	00ce  MegaRAID SAS Intruder Controller
+	00cf  MegaRAID SAS Intruder Controller
+		1590 022c  HPE Smart Array P824i-p MR Gen10 Ctrl

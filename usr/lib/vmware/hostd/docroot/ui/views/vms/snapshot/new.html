@@ -1,0 +1,51 @@
+<div ng-controller="VMSnapshotNewController"
+     class="content-padding new-snapshot-dialog">
+   <div ng-if="loading" ng-include src="'views/loading-dialog.html'"></div>
+
+   <div ng-if="!loading">
+      <div class="row">
+         <div class="col-sm-12">
+            <div class="vui-stack-view">
+               <div class="stack-view-table">
+                  <div vui-stack-block>
+                     <span
+                        vui-sb-label>{{'vm.snapshot.take.name' | translate}}</span>
+
+                     <div vui-sb-content>
+                        <input focus-me="true" type="text" ng-model="snapshot.title"
+                               class="inline"/>
+                     </div>
+                  </div>
+                  <div vui-stack-block>
+                     <span
+                        vui-sb-label>{{'vm.snapshot.take.description' | translate}}</span>
+
+                     <div vui-sb-content>
+                        <textarea class="form-control" rows="5"
+                                  ng-model="snapshot.description"></textarea>
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div>
+      <div class="row row-spacer-top">
+         <div class="col-sm-12">
+            <label style="cursor: pointer;">
+               <input type="checkbox"
+                      ng-model="snapshot.memory"/> {{'vm.snapshot.take.memory' | translate}}
+            </label>
+         </div>
+      </div>
+      <div class="row">
+         <div class="col-sm-12">
+            <label style="cursor: pointer;"
+                  ng-class="{'label-disabled': snapshot.memory}">
+               <input type="checkbox"
+                      ng-disabled="snapshot.memory"
+                      ng-model="snapshot.quiesce"/> {{'vm.snapshot.take.quiesce' | translate}}
+            </label>
+         </div>
+      </div>
+   </div>
+</div>

@@ -1,0 +1,72 @@
+#
+# This file is mechanically generated.  Any changes you make
+# manually will be lost at the next build.
+#
+# Please edit <driver>_devices.py file for permanent changes.
+#
+# Vendors, devices and subsystems.
+#
+# Syntax (initial indentation must be done with TAB characters):
+#
+# vendor  vendor_name
+#       device  device_name                            <-- single TAB
+#               subvendor subdevice  subsystem_name    <-- two TABs
+
+9005  Microsemi
+	028f  
+		1028 1fe0  MSCC SmartRAID 3162-8i/eDell
+		103c 0600  HPE P408i-p SR Gen10
+		103c 0601  HPE P408e-p SR Gen10
+		103c 0602  HPE P408i-a SR Gen10
+		103c 0603  HPE P408i-c SR Gen10
+		103c 0604  HPE P408e-p SR Gen10
+		103c 0606  HPE P408i-p SR Gen10
+		103c 0609  HPE P408i-sb
+		103c 0650  HPE E208i-p SR Gen10
+		103c 0651  HPE E208e-p SR Gen10
+		103c 0652  HPE E208i-c SR Gen10
+		103c 0653  HPE E208i-p SR Gen10
+		103c 0654  HPE E208i-a SR Gen10
+		103c 0655  HPE P408e-m SR Gen10
+		103c 0656  HPE E208e-p SR Gen10
+		103c 0657  HPE E208i-p SR Gen10
+		103c 0700  HPE P204i-c SR Gen10
+		103c 0701  HPE P204i-b SR Gen10
+		103c 1001  MSCC FVB
+		103c 1100  HPE P816i-a SR Gen10
+		103c 1101  HPE P416ie-m SR Gen10
+		152d 8a22  Quanta QS-8204-8i
+		152d 8a23  Quanta QS-8238-16i
+		152d 8a24  Quanta QS-8236-16i
+		152d 8a36  Quanta QS-8240-24i
+		152d 8a37  Quanta QS-8242-24i
+		9005 0605  MSCC SmartRAID 3154-8e
+		9005 0608  MSCC SmartRAID 3162-8i /e
+		9005 0800  MSCC SmartRAID 3154-8i
+		9005 0801  MSCC SmartRAID 3152-8i
+		9005 0802  MSCC SmartRAID 3151-4i
+		9005 0803  MSCC SmartRAID 3101-4i
+		9005 0804  MSCC SmartRAID 3154-8e
+		9005 0805  MSCC SmartRAID 3102-8i
+		9005 0806  MSCC SmartRAID 3100
+		9005 0807  MSCC SmartRAID 3162-8i
+		9005 0900  MSCC SmartHBA 2100-8i
+		9005 0901  MSCC SmartHBA 2100-4i
+		9005 0902  MSCC HBA 1100-8i
+		9005 0903  MSCC HBA 1100-4i
+		9005 0904  MSCC SmartHBA 2100-8e
+		9005 0905  MSCC HBA 1100-8e
+		9005 0906  MSCC SmartHBA 2100-4i4e
+		9005 0907  MSCC HBA 1100
+		9005 0908  MSCC SmartHBA 2100
+		9005 090a  MSCC SmartHBA 2100A-8i
+		9005 1200  MSCC SmartRAID 3154-24i
+		9005 1201  MSCC SmartRAID 3154-8i16e
+		9005 1202  MSCC SmartRAID 3154-8i8e
+		9005 1280  MSCC HBA 1100-16i
+		9005 1281  MSCC HBA 1100-16e
+		9005 1300  MSCC HBA 1100-8i8e
+		9005 1301  MSCC HBA 1100-24i
+		9005 1302  MSCC SmartHBA 2100-8i8e
+		9005 1303  MSCC SmartHBA 2100-24i
+		9005 1380  MSCC SmartRAID 3154-16i

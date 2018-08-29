@@ -1,0 +1,22 @@
+<div ng-controller="StorageDatastoreWizardVMFSUUIDController"
+   class="content-padding vm-wizard">
+
+   <div ng-if="loading" ng-include src="'views/loading-dialog.html'"></div>
+
+   <div class="row" style="margin-top: 10px;">
+      <div class="col-sm-6">
+         <div class="form-group">
+            <label for="vmfsUUID"
+               class="control-label esx-label">VMFS UUID</label>
+
+            <input id="vmfsUUID"
+               type="text"
+               focus-me="true"
+               class="form-control row-spacer"
+               aria-label="VMFS UUID"
+               ng-model="wizardOptions.data.vmfsUUID"/>
+         </div>
+      </div>
+   </div>
+
+</div>

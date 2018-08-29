@@ -1,0 +1,63 @@
+#!/bin/sh
+# chkconfig: on 18 82
+
+# variables.
+export PATH=/bin:/sbin
+
+INJECTOR_TAG=sdrsInjector
+INJECTOR=/sbin/${INJECTOR_TAG}
+INJECTOR_RP="sioc"
+INJECTOR_KILL_SIGNAL=15
+
+endProcess() {
+      # This only stops the watchdog process.
+    /sbin/watchdog.sh -k "${INJECTOR_TAG}"
+    pkill -${INJECTOR_KILL_SIGNAL} "${INJECTOR_TAG}" && echo "${INJECTOR_TAG} stopped"
+}
+
+start() {
+   if [ -z "$(pidof -xs "${INJECTOR}")" ] ; then
+      /sbin/watchdog.sh ++memreliable,group=${INJECTOR_RP} -d -s "${INJECTOR_TAG}" "${INJECTOR}" >/dev/null 2>&1
+      echo "${INJECTOR_TAG} started"
+   else
+      echo "${INJECTOR_TAG} already running"
+   fi
+}
+
+stop() {
+   if [ -n "$(pidof -xs "${INJECTOR}")" ] ; then
+       endProcess
+   else
+      echo "${INJECTOR_TAG} is not running"
+   fi
+}
+
+#
+# main
+#
+case "${1}" in
+   "start")
+      start
+   ;;
+   "stop")
+      stop
+   ;;
+   "status")
+      if [ -n "$(pidof -xs "${INJECTOR}")" ] ; then
+         echo "${INJECTOR_TAG} is running"
+         exit 0
+      else
+         echo "${INJECTOR_TAG} is not running"
+         exit 3
+      fi
+   ;;
+   "restart")
+      stop
+      start
+   ;;
+   *)
+      echo "Usage: $(basename ${0}) {start|stop|status|restart}"
+      exit 1
+   ;;
+esac
+

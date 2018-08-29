@@ -1,0 +1,23 @@
+/***********************************************************
+ * Copyright 2015 VMware, Inc.  All rights reserved.
+ * VMware Confidential
+ ***********************************************************/
+
+{
+   "operations" :
+   {
+      "start" :
+      [
+         /* Call internal CLI to restore persisted configuration. */
+         "--plugin-dir /usr/lib/vmware/esxcli/int/ vsan iscsi internal restore",
+      ]
+   }
+   ,
+   "metadata" :
+   {
+      "version"  : 1,
+      "requires" : ["vsan"],
+      "provides" : ["vit"]
+   }
+}
+

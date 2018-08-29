@@ -1,0 +1,69 @@
+# White list for LoadESX
+#
+# This white list should contain tested modules and the lowest version at
+# which this was deemed to be LoadESX safe. Its assumed that upgraded drivers,
+# at versions higher than the one listed here, are automatically safe.
+#
+# Unauthorized modifications to this file are not supported.
+#
+# A valid entry should start at a new line and specify three things
+# separated by a ":" =>  moduleName:inboxVersion:asyncVersion
+#
+# - The first field indicates the driver/module name.
+# - The second and third fields contain the whitelisted inbox and
+#   async versions. These should either be a valid version string
+#   or "none" if the corresponding inbox/async is not yet deemed as
+#   LoadESX safe.
+#
+# Note: For inbox modules that have an empty version, use 0-0vmw.
+#
+# Examples:
+# <driver_name>:none:6.910.20.00-1OEM.650.0.0.0000
+# <driver_name>:6.910.18.00-3vmw.660.0.0.00000:none
+# <driver_name>:6.910.18.00-3vmw.660.0.0.00000:6.910.20.00-1OEM.650.0.0.0000
+
+elxnet:11.4.1094.0-3vmw:none
+i40en:1.3.1-6vmw:none
+igbn:0.1.0.0-15vmw:none
+ne1000:0.8.2-5vmw:none
+nenic:1.0.11.0-1vmw:none
+nfnic:16.0.0.9-3vmw:none
+nmlx4_core:3.17.9.12-1vmw:none
+nmlx4_en:3.17.9.12-1vmw:none
+nmlx4_rdma:3.17.9.12-1vmw:none
+nmlx5_core:4.17.9.12-1vmw:none
+nmlx5_rdma:4.17.9.12-1vmw:none
+ntg3:4.1.3.0-1vmw:none
+qedentv:2.0.6.4-4vmw:none
+lpfc:11.4.33.1-1vmw:none
+qlnativefc:3.0.1.0-1vmw:none
+brcmfcoe:11.4.1078.0-3vmw:none
+nvme:1.2.1.26-1vmw:none
+nvmxnet3:2.0.0.27-1vmw:none
+mtip32xx_native:3.9.6-1vmw:none
+lsi_msgpt2:20.00.04.00-1vmw:none
+lsi_msgpt3:15.255.02.00-2vmw:none
+lsi_msgpt35:03.00.01.00-4vmw:none
+rste:2.0.2.0088-6vmw:none
+nhpsa:2.0.19-2vmw:none
+vmkata:0.1-1vmw:none
+vmw_ahci:1.2.0-6vmw:none
+pvscsi:0.1-1vmw:none
+vmkusb:0.1-1vmw:none
+bnxtnet:20.6.101.7-3vmw:none
+elxiscsi:11.4.1174.0-2vmw:none
+iavmd:1.2.0.1007-1vmw:none
+iser:1.0.0.0-1vmw:none
+ixgben:1.4.1-8vmw:none
+lpnic:11.4.59.0-1vmw:none
+qcnic:1.0.2.0.4-1vmw:none
+qfle3:1.0.50.8-1vmw:none
+qfle3f:1.0.25.0.2-8vmw:none
+qfle3i:1.0.2.3.8-2vmw:none
+qflge:1.1.0.8-1vmw:none
+smartpqi:1.0.1.553-10vmw:none
+vmkfcoe:1.0.0.0-1vmw:none
+ipmi:0-0vmw:none
+iscsi_vmk:0-0vmw:none
+cru:none:670.6.7.10.12-1OEM.670.0.0.7535516
+ilo:none:670.10.1.0.12-1OEM.670.0.0.7535516

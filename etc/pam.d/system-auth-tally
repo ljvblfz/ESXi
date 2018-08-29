@@ -1,0 +1,32 @@
+#%PAM-1.0
+
+#
+# Skip pam_tally2 if uid > 10000 - the reason is a bug in pam_tally2.c,
+# where uid is used in lseek():
+#
+#    if (lseek(*tfile, (off_t)uid * sizeof(*tally), SEEK_SET) == (off_t)-1) {
+#
+# When a domain user wants to login this will lead to the tally file
+# growing to tens of GB.
+# Besides, Active Directory should have its own account locking policy.
+#
+# Skip pam_tally2 for services 'dcui' and 'login' (local shell).
+# This will prevent a malicious user from locking all access to the host
+# by continuously supplying the wrong password.
+# Only SSH and VIM API access will be affected.
+#
+# Don't do anything if the user is unknown.
+#
+
+auth     [user_unknown=done default=ignore] /lib/security/$ISA/pam_succeed_if.so uid >= 0  quiet
+auth     sufficient  /lib/security/$ISA/pam_succeed_if.so uid > 10000 quiet
+auth     sufficient  /lib/security/$ISA/pam_succeed_if.so service = login quiet
+auth     sufficient  /lib/security/$ISA/pam_succeed_if.so service = dcui quiet
+auth     sufficient  /lib/security/$ISA/pam_tally2.so silent onerr=fail even_deny_root deny=5 unlock_time=900
+auth     optional    /lib/security/$ISA/pam_exec.so /usr/lib/vmware/misc/bin/tally_vob.sh
+auth     required    /lib/security/$ISA/pam_deny.so
+
+account  sufficient  /lib/security/$ISA/pam_succeed_if.so uid > 10000 quiet
+account  sufficient  /lib/security/$ISA/pam_succeed_if.so service = login quiet
+account  sufficient  /lib/security/$ISA/pam_succeed_if.so service = dcui quiet
+account  required    /lib/security/$ISA/pam_tally2.so silent

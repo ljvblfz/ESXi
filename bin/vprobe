@@ -1,0 +1,12 @@
+#!/bin/sh
+# **********************************************************
+# Copyright 2008-2014 VMware, Inc.  All rights reserved.
+# -- VMware Confidential
+# **********************************************************
+
+if [ `uname` != "VMkernel" ] ; then
+   echo "$0: This is a wrapper script for the ESXi platform only."
+   exit 1
+fi
+
+exec /usr/lib/vmware/vprobe/bin/vmware-vprobe "$@"

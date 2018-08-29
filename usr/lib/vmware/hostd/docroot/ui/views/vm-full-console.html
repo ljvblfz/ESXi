@@ -1,0 +1,24 @@
+<style type="text/css">
+   *:focus {
+      outline: none;
+   }
+</style>
+
+<div
+   id="tray-handle"
+   ng-click="showTray($event)"
+   class="tray-handle">
+</div>
+
+<div class="primary-nav" ui-view="contextMenu"></div>
+
+<div
+   id="vm-console-{{moid}}-console"
+   style="position: absolute; top: 0; left: 0; bottom: 0; right: 0; outline: none;"></div>
+
+<div
+   ng-show="loading"
+   style="width: 100%; position: absolute; top: 50%; text-align: center;">
+   <img src="images/vmware_logo_loader.gif?ts={{ts}}"
+      style="width: 250px;" alt="{{'root.loading' |translate}}"/>
+</div>

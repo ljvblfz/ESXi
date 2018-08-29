@@ -1,0 +1,38 @@
+<div ng-controller="VMWizardSummaryController"
+      ng-if="wizardOptions.data.CreationType.id === 'new'" class="vm-wizard">
+   <div class="row no-margin row-spacer">
+      <div class="col-sm-12 no-padding wizard-stack-fixed-height">
+         <esx-portlet-content data="newVMSummary.data"></esx-portlet-content>
+      </div>
+   </div>
+</div>
+
+<div ng-controller="VMDeployFromOVFWizardSummaryController" ng-if="wizardOptions.data.CreationType.id === 'deploy'">
+   <div class="row no-margin row-spacer">
+      <div class="col-sm-12 no-padding">
+         <esx-portlet-content data="deployVMSummary.data" error-message="errorMessage" loading-message="loadingMessage"></esx-portlet-content>
+      </div>
+   </div>
+   <div ng-show="loadingMessage === null && errorMessage === null" class="row no-margin row-spacer">
+      <div class="col-sm-12 no-padding" style="padding: 20px;">
+         <img src="images/warning48.png" alt="{{'notification.type.warning'|translate}}" style="float: left;" />
+         <p style="float: left; margin: 15px;">{{'vm.wizard.deploy.refreshWarning' | translate}}</p>
+      </div>
+   </div>
+</div>
+
+<div ng-controller="VMWizardRegisterSummaryController" ng-if="wizardOptions.data.CreationType.id === 'register'">
+   <div class="row no-margin row-spacer">
+      <div class="col-sm-12 no-padding wizard-stack-fixed-height">
+         <div esx-portlet-content data="registerVMSummary.data"></div>
+      </div>
+   </div>
+</div>
+
+<div ng-controller="VMWizardCloneSummaryController" ng-if="wizardOptions.data.CreationType.id === 'clone'">
+   <div class="row no-margin row-spacer">
+      <div class="col-sm-12 no-padding wizard-stack-fixed-height">
+         <div esx-portlet-content data="cloneVMSummary.data"></div>
+      </div>
+   </div>
+</div>

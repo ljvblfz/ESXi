@@ -1,0 +1,119 @@
+#!/bin/sh
+##########################################################################
+# Copyright 2016 VMware, Inc.  All rights reserved. -- VMware Confidential
+##########################################################################
+
+# VSAN Daemons Resource Pool Utility
+# Below VSAN services are using this utility
+#
+# clomd
+# cmmdsd
+# ddecomd
+# epd
+# vitd
+# vsandevicemonitord
+# vsantraced
+# vsanvpd
+
+RPCMD="localcli --plugin-dir /usr/lib/vmware/esxcli/int sched group"
+DEFGRP="host/vim/vmvisor"
+
+syslog() {
+   echo "$@"
+   logger -p daemon.info -t configVsanRP "$@"
+}
+
+# check existence of a resource pool
+# if the resource pool exist, return 0, else return 1
+# parameter: pool name
+vsanrp_exists()
+{
+   if [ -z "$1" ]; then
+      return 1
+   fi
+   ${RPCMD} list --group-path "${DEFGRP}/$1" > /dev/null 2>&1
+   return $?
+}
+
+# create a resource pool without settings
+# if the resource exist or created successfully, return 0 else return 1
+# parameter: pool name
+vsanrp_create()
+{
+   vsanrp_exists $1
+   if [ $? -ne 0 ]; then
+      ${RPCMD} add --parent-path ${DEFGRP} --group-name $1
+      if [ $? -ne 0 ]; then
+         syslog "Failed to create resource pool ${DEFGRP}/$1"
+         return 1
+      fi
+   fi
+
+   return 0
+}
+
+# set the memory reservation for a resource pool
+# parameters are: pool name, max_mb, {min_mb} as optional
+vsanrp_setmemory()
+{
+   if [ $# -lt 2 ]; then
+      syslog "Wrong argument count"
+      return 1
+   fi
+
+   vsanrp_create $1
+   if [ $? -ne 0 ]; then
+      syslog "Resource pool ${name} does not exist"
+      return 1
+   fi
+
+   local name="${DEFGRP}/$1"
+   local minMem=0
+
+   if [ -n "$3" ]; then
+      minMem=$3
+   else
+      minMem=$2
+   fi
+
+   ${RPCMD} setmemconfig --group-path ${name} \
+                         --max $2 \
+                         --min $minMem \
+                         --minlimit -1 \
+                         --units mb
+   return $?
+}
+
+# clear the memory reservation
+# parameter: pool name
+vsanrp_clearmemory()
+{
+   vsanrp_exists $1
+   if [ $? -ne 0 ]; then
+      syslog "No such pool: $1"
+      return 1
+   fi
+
+   ${RPCMD} delete --group-path "${DEFGRP}/$1"
+   return $?
+}
+
+# main
+if [ $# -lt 1 ]; then
+   syslog "Missing command"
+   exit 1
+fi
+
+case $1 in
+   reserveMemory)
+      vsanrp_setmemory $2 $3 $4
+      ;;
+   clearMemory)
+      vsanrp_clearmemory $2
+      ;;
+   *)
+      syslog "Wrong command"
+      exit 1
+esac
+
+exit $?

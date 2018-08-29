@@ -1,0 +1,55 @@
+<div ng-if="myData.length === 0 && loadingMessage"
+   style="height: 120px; background-image: url('images/tiny_loader_transparent_bg.gif'); background-position: 50% 50%; background-repeat: no-repeat; text-align: center;">
+   <div ng-bind="loadingMessage" style="padding-top: 80px;"></div>
+</div>
+
+<div ng-if="myData.length === 0 && errorMessage" style="height: 120px; text-align: center;">
+   <div ng-bind="errorMessage" style="padding-top: 80px;"></div>
+</div>
+
+<div ng-if="myData.length > 0" class="vui-stack-view" id="{{stackID}}">
+   <div class="stack-view-table"
+      ng-style="{'border-top-width': noTopBorder ? '0px' : '1px'}">
+      <div ng-repeat-start="elem in myData track by $index" ng-class="{
+            'stack-view-row': ((!elem.children || elem.children.length === 0) && !elem.icon),
+            'stack-view-row has-icon': ((!elem.children || elem.children.length === 0) && elem.icon),
+            'stack-view-parent': (elem.children && elem.children.length > 0 && !elem.icon && (elem.collapsed ? true : false)),
+            'stack-view-parent open': (elem.children && elem.children.length > 0 && !elem.icon && !(elem.collapsed? true : false)),
+            'stack-view-parent-i': (elem.children && elem.children.length > 0 && elem.icon && (elem.collapsed ? true : false)),
+            'stack-view-parent-i open': (elem.children && elem.children.length > 0 && elem.icon && !(elem.collapsed ? true : false))}"
+           ng-if="elem.enabled === undefined || elem.enabled">
+         <div class="stack-view-cell" ng-click="elem.collapsed = !elem.collapsed">
+            <span class="icon {{elem.icon}}"></span><span title="{{elem.name}}" class="stack-view-label">{{elem.name}}</span>
+         </div>
+         <div class="stack-view-cell {{elem.extraClasses ? elem.extraClasses : ''}}">
+            <img ng-if="elem.value === null"  src="images/tiny_loader_transparent_bg.gif" style="margin-bottom: 0;" alt="{{'root.loading'|translate}}"/>
+            <span ng-if="elem.value !== null && (!elem.children || elem.children.length === 0 || (elem.collapsed ? true : false))">
+               <a ng-if="elem.state && !elem.value.actions" ui-sref="{{elem.state}}" ng-bind-html="elem.value|evalForType"></a>
+               <span ng-if="!elem.state && elem.type !== 'compiled' && elem.type !== 'template' && !elem.value.actions" ng-bind-html="elem.value|evalForType"></span>
+               <div ng-if="elem.type === 'compiled' || elem.type === 'template'" id="stack-{{stackID}}-item-{{$index}}"></div>
+               <span ng-if="elem.value.value" ng-bind-html="elem.value.value|evalForType"></span>
+            </span>
+            <div ng-if="elem.value !== null && elem.value.actions && elem.value.actions.length > 0" class="portlet-actionbar" vui-action-bar="elem.value"></div>
+         </div>
+      </div> <!-- /stack-view-parent -->
+
+      <div ng-repeat-end ng-show="elem.children && (child.enabled === undefined || child.enabled) && elem.children.length > 0 && !elem.collapsed"
+         ng-repeat="child in elem.children track by $index" class="stack-view-child-i">
+         <div class="stack-view-cell">
+            <span class="stack-view-label">
+               <span ng-if="child.icon" title="{{child.name}}" class="icon {{child.icon}}"></span>
+               {{child.name}}
+            </span>
+         </div>
+         <div class="stack-view-cell {{elem.extraClasses ? elem.extraClasses : ''}}">
+            <img ng-if="child.value === null"  src="images/tiny_loader_transparent_bg.gif" style="margin-bottom: 0;" alt="{{'root.loading'|translate}}"/>
+            <a ng-if="child.value !== null && child.state && !child.value.columnDefs && !child.value.actions" ui-sref="{{child.state}}" ng-bind-html="child.value|evalForType"></a>
+            <span ng-if="child.value !== null && !child.state && !child.value.columnDefs && child.type !== 'compiled'" ng-bind-html="child.value|evalForType"></span>
+            <div ng-if="child.value !== null && child.value.columnDefs" id="{{child.value.id}}" vui-datagrid="child.value"></div>
+            <span ng-if="child.value !== null && child.value.value" ng-bind-html="child.value.value|evalForType"></span>
+            <div ng-if="child.type === 'compiled'" id="stack-{{stackID}}-item-{{$parent.$parent.$index}}-{{$index}}"></div>
+            <div ng-if="child.value !== null && child.value.actions" class="portlet-actionbar" vui-action-bar="child.value"></div>
+         </div>
+      </div> <!-- /stack-view-parent -->
+   <div/> <!-- /stack-view-table -->
+</div> <!-- /stack-view -->

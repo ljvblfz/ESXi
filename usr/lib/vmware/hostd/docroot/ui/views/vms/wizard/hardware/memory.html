@@ -1,0 +1,208 @@
+<!-- Memory configuration -->
+<div
+   vui-stack-block="hardwareStackView.memoryBlock"
+   ng-class="{
+      'stack-warning': memory.MemoryAlert ||
+         memory.RAMInvalid ||
+         memory.ReservationInvalid ||
+         memory.LimitInvalid ||
+         memory.SharesValueInvalid
+   }">
+
+   <!-- Icon -->
+   <span vui-sb-icon-class="icon-stackview-memory"
+      vui-sb-label>{{'vm.wizard.hardware.virtualhardware.memory.label' | translate}}
+
+      <span class="vui-icon-warning vui-icon-info-inline"
+         ng-show="wizardOptions.data.general.isManagedByVC"
+         vui-sign-post="isManagedByVCPostOptions"></span>
+
+   </span>
+
+   <!-- content collapsed-->
+   <div vui-sb-content>
+      <label class="label-508"
+         title="{{'vm.wizard.hardware.virtualhardware.hd.label' | translate}}">
+
+         <input
+            class="inline stack-input"
+            min="1"
+            ng-class="{
+               'invalid': memory.RAMInvalid}"
+            ng-disabled="!wizardOptions.data.memory.SupportMemoryHotAdd"
+            ng-model-options="{
+               updateOn: 'blur'
+            }"
+            ng-model="memory.RAM"
+            to-number
+            type="text"/></label>
+
+      <label class="label-508"
+         title="{{'vm.wizard.hardware.virtualhardware.memory.unit' | translate}}">
+
+         <div class="inline stack-spacer stack-dropdown"
+            vui-dropdown="memory.RAMUnit"></div>
+
+      </label>
+   </div>
+
+   <!-- content expanded -->
+   <div vui-sb-content-expanded></div>
+
+   <!-- children -->
+   <div vui-stack-block>
+      <!-- Label -->
+      <span vui-sb-label>{{'vm.wizard.hardware.virtualhardware.memory.ram.label' | translate}}</span>
+
+      <!-- content -->
+      <div vui-sb-content>
+         <label
+            class="label-508"
+            title="{{'vm.wizard.hardware.virtualhardware.hd.label' | translate}}">
+
+            <input
+               class="inline stack-input"
+               min="1"
+               ng-class="{
+                  'invalid': memory.RAMInvalid
+               }"
+               ng-disabled="!wizardOptions.data.memory.SupportMemoryHotAdd"
+               ng-model-options="{
+                  updateOn: 'blur'
+               }"
+               ng-model="memory.RAM"
+               to-number
+               type="text"/></label>
+
+         <label class="label-508"
+            title="{{'vm.wizard.hardware.virtualhardware.memory.ram.unit' | translate}}">
+
+            <div class="inline stack-spacer stack-dropdown"
+               vui-dropdown="memory.RAMUnit"></div>
+
+         </label>
+      </div>
+   </div>
+
+   <div vui-stack-block>
+      <!-- Label -->
+      <span vui-sb-label>{{'vm.wizard.hardware.virtualhardware.memory.reservation.label' | translate}}</span>
+
+      <!-- content -->
+      <div vui-sb-content>
+         <div class="row no-margin">
+            <div class="col-sm-12 no-padding">
+               <label class="label-508"
+                  title="{{'vm.wizard.hardware.virtualhardware.memory.reservation.label' | translate}}">
+
+                  <div
+                     class="inline stack-dropdown"
+                     ng-class="{
+                        'invalid': memory.ReservationInvalid
+                     }"
+                     vui-combo-box="memory.Reservation"></div>
+
+               </label>
+
+               <label class="label-508"
+                  title="{{'vm.wizard.hardware.virtualhardware.memory.reservation.unit' | translate}}">
+
+                  <div class="inline stack-spacer stack-dropdown"
+                     vui-dropdown="memory.ReservationUnit"></div>
+
+               </label>
+            </div>
+         </div>
+
+         <div class="row no-margin">
+            <div class="col-sm-12" style="padding: 9px 0 0 1px;">
+               <label title="{{'vm.wizard.hardware.virtualhardware.memory.reservation.desc' | translate}}">
+
+                  <input
+                     ng-model="wizardOptions.data.memory.ReserveAll"
+                     type="checkbox"/>
+                     {{'vm.wizard.hardware.virtualhardware.memory.reservation.desc' | translate}}
+
+               </label>
+            </div>
+         </div>
+      </div>
+   </div>
+
+   <div vui-stack-block>
+      <!-- Label -->
+      <span vui-sb-label>{{'vm.wizard.hardware.virtualhardware.memory.limit.label' | translate}}</span>
+
+      <!-- content -->
+      <div vui-sb-content>
+         <label class="label-508"
+            title="{{'vm.wizard.hardware.virtualhardware.memory.limit.label' | translate}}">
+
+            <div class="stack-dropdown inline"
+               ng-class="{
+                  'invalid': memory.LimitInvalid
+               }"
+               vui-combo-box="memory.Limit"></div>
+
+         </label>
+
+         <label class="label-508"
+            title="{{'vm.wizard.hardware.virtualhardware.memory.limit.unit' | translate}}">
+
+            <div class="stack-dropdown inline stack-spacer"
+               vui-dropdown="memory.LimitUnit"></div>
+
+         </label>
+      </div>
+   </div>
+
+   <div vui-stack-block>
+      <!-- Label -->
+      <span vui-sb-label>{{'vm.wizard.hardware.virtualhardware.memory.shares.label' | translate}}</span>
+
+      <!-- content -->
+      <div vui-sb-content>
+         <label class="label-508"
+            title="{{'vm.wizard.hardware.virtualhardware.memory.shares.label' | translate}}">
+
+            <div class="stack-dropdown inline"
+               vui-dropdown="memory.SharesType"></div>
+
+         </label>
+
+         <label class="label-508"
+            title="{{'vm.wizard.hardware.virtualhardware.memory.shares.unit' | translate}}">
+
+            <div class="stack-dropdown inline stack-spacer"
+               ng-class="{
+                  'invalid': memory.SharesValueInvalid
+               }"
+               vui-combo-box="memory.SharesValue"></div>
+
+         </label>
+      </div>
+   </div>
+
+   <div vui-stack-block>
+      <!-- Label -->
+      <span vui-sb-label>{{'vm.wizard.hardware.virtualhardware.memory.hotPlug.label' | translate}}</span>
+
+      <!-- content -->
+      <div vui-sb-content>
+         <label
+            ng-class="{
+               'label-disabled': wizardOptions.data.general.state !== 'poweredOff'
+            }"
+            title="{{'vm.wizard.hardware.virtualhardware.memory.hotPlug.label' | translate}}">
+
+            <input
+               ng-disabled="wizardOptions.data.general.state !== 'poweredOff'"
+               ng-model="wizardOptions.data.memory.HotPlug"
+               type="checkbox"/>
+            {{'vm.wizard.hardware.virtualhardware.memory.hotPlug.desc' | translate}}
+
+         </label>
+      </div>
+   </div>
+</div>
+

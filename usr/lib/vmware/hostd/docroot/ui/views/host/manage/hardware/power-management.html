@@ -1,0 +1,16 @@
+<div ng-if="hostManageHardwareTabs.tabs[getSelectedTab()].state ===  'host.manage.hardware.power-management'"
+   ng-controller="HostManageHardwarePowerManagementController"
+   class="esx-tertiary-tab-content">
+
+   <div ng-if="!loaded" class="loading"></div>
+
+   <div ng-if="loaded" vui-action-bar="powerManagementActionBar" style="padding-top: 2px;"></div>
+
+   <div ng-if="loaded" vui-stack-view="powerManagementStackView"></div>
+
+   <div ng-if="loaded && currentPolicy === 'custom'"
+      style="margin-top: 20px;"
+      id="{{settingsGrid.id}}"
+      vui-datagrid="settingsGrid"></div>
+
+</div>

@@ -1,0 +1,116 @@
+#!/bin/sh
+# chkconfig: on 20 20
+
+MEMSCRUB_GRP=memScrubber
+MEMORY_DEMAND=8
+MEMSCRUB=/usr/lib/vmware/memscrub/bin/memscrubd
+MEMSCRUB_TAG="memscrubd"
+MEMSCRUB_PARAM="++group=${MEMSCRUB_GRP} -s -d"
+CONFIG_RP=/usr/lib/vmware/rp/bin/configRP
+
+
+deflateMemScrubberGroup() {
+   local TIMEOUT=10
+
+   while [ $((TIMEOUT--)) -gt 0 ]; do
+      ${CONFIG_RP} decreaseRPMemMaxSize ${MEMSCRUB_GRP} ${MEMORY_DEMAND}
+      if [ $? -eq 0 ]; then
+         break
+      fi
+      sleep 1
+   done
+
+   if [ $TIMEOUT -eq 0 ]; then
+      echo "Fatal error: memScrubber group could not be deflated. Please reboot."
+      exit 1
+   fi
+}
+
+start() {
+   # PR624956 cannot use esxcli for boot option as it returns <unset>
+   if [ "$(vsish -e get /system/vmk_cotable | grep checkPages | head -n 1 | cut -d':' -f 2)" == "1" ] ||
+      [ "$(vsish -e get /system/vmk_cotable | grep checkPages | head -n 1 | cut -d':' -f 2)" == "TRUE" ]; then
+      if [ -z "$(pidof -xs "${MEMSCRUB}")" ] ; then
+         ${CONFIG_RP} setRPMemMaxSize ${MEMSCRUB_GRP} ${MEMORY_DEMAND}
+
+         if [ $? -ne 0 ]; then
+            echo "Could not inflate memScrubber group"
+            exit 1
+         fi
+
+         # Limit memscrubd's stack size to 512Kb (which should be plenty).
+         # Required to ensure that memscrubd can run in its 8Mb resource pool.
+         ulimit -s 512
+
+         ${MEMSCRUB} ${MEMSCRUB_PARAM}
+
+         RC=$?
+         if [ $RC -eq 0 ]; then
+            echo "memscrubd started"
+         else
+            echo "memscrubd did not start, rc=${RC}"
+
+            deflateMemScrubberGroup
+            exit ${RC}
+         fi
+      else
+         echo "memscrubd already running"
+         exit 3
+      fi
+   else
+      echo "The checkPages boot option is FALSE, hence memscrubd could not be started."
+   fi
+}
+
+stop() {
+   if [ -n "$(pidof -xs "${MEMSCRUB}")" ] ; then
+      pkill -9 "${MEMSCRUB_TAG}"
+
+      local TIMEOUT=10
+      while [ $((TIMEOUT--)) -gt 0 ]; do
+         if [ -z "$(pidof -xs "${MEMSCRUB}")" ]; then
+            break
+         fi
+         sleep 1
+      done
+
+      if [ -z "$(pidof -xs "${MEMSCRUB}")" ]; then
+         deflateMemScrubberGroup
+
+         echo "memscrubd stopped"
+      else
+         echo "Could not kill memscrubd"
+         exit 1
+      fi
+   else
+      echo "memscrubd is not running"
+      exit 3
+   fi
+}
+
+case "${1}" in
+   "start")
+      start
+   ;;
+   "stop")
+      stop
+   ;;
+   "status")
+      if [ -n "$(pidof -xs "${MEMSCRUB}")" ] ; then
+         echo "memscrubd is running"
+         exit 0
+      else
+         echo "memscrubd is not running"
+         exit 3
+      fi
+   ;;
+   "restart")
+      stop
+      start
+   ;;
+   *)
+      echo "Usage: $(basename ${0}) {start|stop|status|restart}"
+      exit 1
+   ;;
+esac
+

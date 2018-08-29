@@ -1,0 +1,25 @@
+<div ng-controller="HostManageSecurityImportCertificateController"
+   class="content-padding time-config-dialog">
+
+   <div ng-if="!esxi5" vui-action-bar="actionBar" style="margin-bottom: 10px;"></div>
+
+   <div class="vui-stack-view">
+      <div class="stack-view-table">
+
+         <div vui-stack-block="certBlock"
+            ng-class="{'stack-warning': error}">
+            <span vui-sb-label
+               vui-sb-icon-class="esx-icon-certificate">{{"host.manage.system.security.certificates.import.certLabel"|translate}}</span>
+            <div vui-sb-content>
+               <textarea ng-model="data.certText"
+                  style="width: 539px; max-width: none; float: left; height: 333px;"
+                  title="{{'host.manage.system.security.certificates.import.certTitle'|translate}}"
+                  focus-me="true"
+                  ng-attr-placeholder="{{'host.manage.system.security.certificates.import.certTitle'|translate}}"/>
+            </div>
+         </div>
+
+      </div>
+   </div>
+
+</div>

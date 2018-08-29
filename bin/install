@@ -1,0 +1,53 @@
+#!/bin/sh
+# vim: set ft=sh:
+
+BootOptionSpecified()
+{
+   /sbin/bootOption -roC | grep -q "\<${1}\>" 2> /dev/null
+}
+
+PATH=/bin:/usr/bin:/sbin ; export PATH
+PYTHONPATH=/usr/lib/vmware ; export PYTHONPATH
+TERMINFO=/usr/share/terminfo ; export TERMINFO
+
+if [ -n "$LC_ALL" ] ; then
+   LC_ALL="en_US.UTF-8"
+   export LC_ALL
+fi
+
+if [ -n "$LANG" ] ; then
+   LANG="en_US.UTF-8"
+   export LANG
+fi
+
+# If the terminal is serial, TERM is set to vt102, which curses does not
+# support.  The standard ESXi terminal is `linux`, so that's what we use here.
+TERM=linux ; export TERM
+
+# start tech support mode
+/etc/init.d/ESXShell start > /dev/null
+
+# reduce vmvisor's reservation for the purposes of getting the installer to
+# complete successfully.
+visorGrpID=$(vsish -e set /sched/groupPathNameToID host vim vmvisor | cut -d' ' -f 1)
+vsish -e set "/sched/groups/${visorGrpID}/memAllocationInMB" min=256
+
+chvt 2
+
+# Takes in a tarball that is supposed to overwrite files in the filesystem,
+# files are to be rooted at '/'.
+if $(BootOptionSpecified remoteweasel) ; then
+   fileurl=$(bootOption -ro | awk '{for(i=1;i<=NF;i++) {if ($i ~ /remoteweasel/) {sub("remoteweasel=",""); print $i}}}')
+   wget -O /tmp/weasel.tgz $fileurl
+   tar xzf /tmp/weasel.tgz -C /
+fi
+
+# Start VUM upgrade agent.
+if [ -e /vum_useragent ] ; then
+   /bin/chmod ugo+rx /vum_useragent
+   /vum_useragent
+fi
+
+cd /usr/lib/vmware/
+/bin/python weasel/main.py
+

@@ -1,0 +1,71 @@
+#
+# vSAN Build Recommendation messages
+#
+com.vmware.vsan.vum.enum.supported = サポートされるハードウェア
+com.vmware.vsan.vum.enum.sameSupport = ハードウェアのサポート レベルは低下しません
+com.vmware.vsan.vum.enum.lessSupport = ハードウェアのサポート レベルは低下します
+com.vmware.vsan.vum.enum.incompleteSupport = ハードウェアは部分的にサポートされています
+com.vmware.vsan.vum.enum.noSupport = ハードウェアはサポートされていません
+com.vmware.vsan.vum.enum.vcNoSupport = vCenter Server はサポートされていません
+com.vmware.vsan.vum.enum.incompatibleBuildType = 互換性のないビルド タイプです
+com.vmware.vsan.vum.enum.missingBuild = リリース データベースにビルドがありません
+com.vmware.vsan.vum.enum.sameSupportNotOnHcl = 既存のリリースと推奨リリースは両方とも HCL でサポートされていません
+com.vmware.vsan.vum.enum.invalidEsxUpgradePath = アップグレード パスが公式にサポートされていません
+
+com.vmware.vsan.vum.note.notRecommended = リリース {evalRelease} は推奨されません。サポートされるハードウェアが、現在インストールされているリリースよりも少なくなるためです。
+com.vmware.vsan.vum.note.recommended = {existingRelease} とは異なり、{evalRelease} ではすべてのハードウェアがサポートされるため、推奨されます
+com.vmware.vsan.vum.note.vcNotSupported = リリース {evalRelease} は推奨されません。vCenter Server {vcVersion} は、このクラスタ内の一部のホストの {evalRelease} へのアップグレードをサポートしていないためです。
+com.vmware.vsan.vum.note.notFullySupport = 注: vSAN HCL によると、選択したリリース ({chosenRelease}) でこのハードウェアは (完全には) サポートされません。しかし、現在インストールされているリリースに比べて、サポート レベルが低下することはないため、選択されています。
+com.vmware.vsan.vum.note.fullySupport = 選択したリリース {chosenRelease} は、このハードウェアを完全にサポートしています。これは、推奨される最新の vSAN リリースです。
+com.vmware.vsan.vum.note.notSupported = vSAN HCL によると、最新のリリース ({chosenRelease}) と現在インストールされているリリースの両方で、このハードウェアがサポートされていません。
+com.vmware.vsan.vum.note.incompatibleBuildType = ソース ビルド タイプ {srcType} に互換性がないため、{chosenRelease} は推奨されません。
+com.vmware.vsan.vum.note.mixVersionInstalled = クラスタには、次のリリースが混在してインストールされています: {releases}
+com.vmware.vsan.vum.note.mixBldTypeInstalled = クラスタには、次のビルド タイプが混在してインストールされています: {buildTypes}
+com.vmware.vsan.vum.note.upgradeToHclEnabledVersion = インストールされている ESXi バージョンが 6.0 U2 よりも古いため、vSAN ではハードウェアの HCL 互換性を評価できません。vSAN では、最新の ESXi リリースへのアップグレードを推奨していますが、これまでサポートされていたハードウェアが最新バージョンでサポートされなくなる場合があるので、手動で再確認する必要があります。
+com.vmware.vsan.vum.note.driverManualUpgradeNeeded = デバイス ({device}) のドライバ {driverName} には、vSAN HCL でサポートされるより新しいバージョン {version} があり、手動でアップグレードする必要があります。
+com.vmware.vsan.vum.note.noDriverUpgradeNeeded = この場合、ドライバのアップグレードまたはアップデートは必要ありません。
+com.vmware.vsan.vum.note.updateTime = 最終更新日は {updateTime} です。
+com.vmware.vsan.vum.note.invalidEsxUpgradePath = {existingRelease} から {evalRelease} へのアップグレード パスが公式にサポートされていません。
+
+com.vmware.vsan.vum.patchName = vSAN では、{chosenRelease} にパッチを適用することを推奨しています
+#
+# vSAN Build Recommendation health check
+#
+com.vmware.vsan.health.test.vum = vSAN ビルドに関する推奨事項
+
+com.vmware.vsan.health.test.vum.vumconfig =  vSAN ビルドに関する推奨事項エンジンは、VMware 互換性ガイドと VMware リリースのメタデータに基づいて推奨事項を提供します。さらに、ビルドに関する推奨事項を提供するためには、VMware Update Manager サービスが利用可能であること、インターネット接続、および有効な my.vmware.com の認証情報の設定が必要です。この健全性チェックでは、これらの条件が揃っており、推奨事項エンジンが適切に機能していることを確認します。
+com.vmware.vsan.health.test.vum.vumconfig.short = ビルドに関する推奨事項エンジンについて、すべての条件が揃っており、適切に機能していることを確認します
+com.vmware.vsan.health.test.vum.vumconfig.testName = vSAN ビルドに関する推奨事項エンジンの健全性
+
+com.vmware.vsan.health.test.vum.vumconfig.testResult.label = 問題
+com.vmware.vsan.health.test.vum.vumconfig.testResult.columnIssue = 問題の情報
+
+com.vmware.vsan.health.test.vum.internetDisconnected = インターネット アクセスが利用できません。vSAN がビルドに関する推奨事項を提供できるよう、インターネット接続を復旧してください。
+com.vmware.vsan.health.test.vum.vumDisabled = VMware Update Manager (VUM) が無効か、またはインストールされていません。VUM がインストールされ、適切に機能していることを確認してください。
+com.vmware.vsan.health.test.vum.vumNotResponsive = VMware Update Manager (VUM) が応答しません。VUM サービスが利用可能であり、適切に機能していることを確認してください。
+com.vmware.vsan.health.test.vum.metadataOutdated = vSAN リリースのメタデータが古くなっています。インターネットに接続可能であり、vSAN が VMware の最新リリースのメタデータにアクセスできることを確認してください。
+com.vmware.vsan.health.test.vum.isoDepotCookieNotSet = my.vmware.com のログイン認証情報が設定されていません。適切な認証情報を使用してログインしてください。該当する場合、ベースラインが約 1 分で生成されます。
+com.vmware.vsan.health.test.vum.isoDepotAuthenticationFailed = my.vmware.com 認証が失敗しました。適切な認証情報を使用してログインし直してください。該当する場合、ベースラインが約 1 分で生成されます。
+com.vmware.vsan.health.test.vum.createBaselineFailed = VMware Update Manager (VUM) のベースライン作成時に予期しない障害が発生しました。詳細については、vSAN および VUM のログを参照してください。
+com.vmware.vsan.health.test.vum.isoDepotIsDown = VMware ISO ダウンロード サイトがダウンしています。
+
+com.vmware.vsan.health.test.vum.vumrecommendation = vSAN ビルドに関する推奨事項。ハードウェア、VMware 互換性ガイドに基いた互換性、および利用可能な VMware リリースを考慮したうえで vSAN が推奨する最も適切な ESXi ビルドです。
+com.vmware.vsan.health.test.vum.vumrecommendation.short =  利用可能なリリースと VMware 互換性ガイドに基いた vSAN ビルドに関する推奨事項
+com.vmware.vsan.health.test.vum.vumrecommendation.testName = vSAN ビルドに関する推奨事項
+com.vmware.vsan.health.test.vum.vumrecommendation.testResult.label = vSAN ビルドに関する推奨事項
+com.vmware.vsan.health.test.vum.vumrecommendation.testResult.columnCluster = クラスタ
+com.vmware.vsan.health.test.vum.vumrecommendation.testResult.columnRecommendation = 推奨
+com.vmware.vsan.health.test.vum.vumrecommendation.recommendationAvailable = クラスタ {cluster} には推奨リリースがあります: {release}
+
+com.vmware.vsan.vum.error.incorrectCredential = my.vmware.com のログイン認証情報が正しくありません。適切な認証情報を使用してログインし直してください。該当する場合、ベースラインが約 1 分で生成されます。
+com.vmware.vsan.vum.error.isoDepotIsDown = VMware ISO ダウンロード サイトがダウンしています。後で再試行してください。
+
+
+# FW checks
+com.vmware.vsan.health.test.fwupdate.fwrecommendation = vSAN ファームウェアに関する推奨事項。これは、現在のホスト上のソフトウェアのバージョン、ハードウェア ドライバのバージョン、および VMware 互換性ガイドによる互換性に基づいたファームウェアに関する提案です。
+com.vmware.vsan.health.test.fwupdate.fwrecommendation.short = VMware 互換性ガイドに基づいた vSAN ファームウェアに関する推奨事項。
+com.vmware.vsan.health.test.fwupdate.fwrecommendation.testName = vSAN ファームウェアのバージョンに関する推奨事項
+com.vmware.vsan.health.test.fwupdate.fwrecommendation.testResult.label = vSAN ファームウェアのバージョンに関する推奨事項
+com.vmware.vsan.health.test.fwupdate.fwrecommendation.testResult.columnHost = ホスト
+com.vmware.vsan.health.test.fwupdate.fwrecommendation.testResult.columnRecommendation = 推奨
+com.vmware.vsan.health.test.fwupdate.fwrecommendation.recommendationAvailable = ホスト {host} のファームウェアは更新する必要があります: {recommendations}

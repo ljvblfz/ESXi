@@ -1,0 +1,873 @@
+#!/bin/sh
+# chkconfig: off 1 99
+
+export PATH=/bin:/sbin
+
+# Source configuration file for overrides.
+VSANTRACED_CONF="/etc/vmware/vsan/vsantraced.conf"
+if [ -e "$VSANTRACED_CONF" ]; then
+   lastSelectedVolumeString=$(grep "^VSANTRACED_LAST_SELECTED_VOLUME" $VSANTRACED_CONF)
+   if [ -n "$lastSelectedVolumeString" ]; then
+      volumePath=${lastSelectedVolumeString#*=}
+      if [[ ${volumePath:0:1} != "\"" ]]; then
+         sed -i '/^VSANTRACED_LAST_SELECTED_VOLUME=/d' $VSANTRACED_CONF
+         echo "VSANTRACED_LAST_SELECTED_VOLUME=\"$volumePath\"" >> $VSANTRACED_CONF
+      fi
+   fi
+   . "$VSANTRACED_CONF"
+fi
+
+VSANTRACED_BIN=/bin/chardevlogger
+VSANTRACED_READER_BIN=/usr/lib/vmware/vsan/bin/vsanTraceReader
+VSANTRACED_READER_PARAM="vsanExtractUrgentTraces"
+VSANTRACED_TAG=vsantraced
+VSANTRACED_URGENT_TAG=vsantracedUrgen # limited num chars
+VSANTRACED_LSOM_TAG=vsantracedLSOM
+VSANTRACED_DOM_OBJ_TAG=vsantracedDOMOb # limited num chars
+VSANTRACED_READER_TAG=vsanreaderd
+VSANTRACED_CHARDEV_PATH=/dev/vsanTraces
+VSANTRACED_URGENT_CHARDEV_PATH=/dev/vsanTracesUrgent
+VSANTRACED_LSOM_CHARDEV_PATH=/dev/vsanTracesLSOM
+VSANTRACED_DOM_OBJ_CHARDEV_PATH=/dev/vsanTracesDOMObj
+VSANTRACED_ENTRY_SIZE=64
+VSANTRACED_SCHED_PARAM="++group=host/vim/vmvisor/vsantraced"
+VSANTRACED_VOLUME=${VSANTRACED_VOLUME-}
+VSANTRACED_PERSISTENT_VOLUME=${VSANTRACED_PERSISTENT_VOLUME-}
+VSANTRACED_VOLUME_SYMLINK=${VSANTRACED_VOLUME_SYMLINK-/var/log/vsantraces}
+VSANTRACED_PREFER_RAMDISK=${VSANTRACED_PREFER_RAMDISK-1}
+VSANTRACED_RAMDISK_NAME=${VSANTRACED_RAMDISK_NAME-vsantraces}
+VSANTRACED_RAMDISK_MOUNT=${VSANTRACED_RAMDISK_MOUNT-/vsantraces}
+VSANTRACED_RAMDISK_SIZE=${VSANTRACED_RAMDISK_SIZE-300}
+VSANTRACED_LOGFILE=${VSANTRACED_LOGNAME-vsantraces}
+VSANTRACED_URGENT_LOGFILE=${VSANTRACED_LOGNAME-vsantracesUrgent}
+VSANTRACED_LSOM_LOGFILE=${VSANTRACED_LOGNAME-vsantracesLSOM}
+VSANTRACED_DOM_OBJ_LOGFILE=${VSANTRACED_LOGNAME-vsantracesDOMObj}
+VSANTRACED_USE_GZIP=${VSANTRACED_USE_GZIP-1}
+VSANTRACED_GZIP_LEVEL=${VSANTRACED_GZIP_LEVEL-3}
+VSANTRACED_ROTATE_MAX_FILES=${VSANTRACED_ROTATE_MAX_FILES-8}
+VSANTRACED_ROTATE_FILE_SIZE=${VSANTRACED_ROTATE_FILE_SIZE-45}
+VSANTRACED_LOG_URGENT_TO_SYSLOG=${VSANTRACED_LOG_URGENT_TO_SYSLOG-1}
+VSANTRACED_LOG_LSOM_TO_SYSLOG=${VSANTRACED_LOG_LSOM_TO_SYSLOG-1}
+VSANTRACED_LOG_DOM_OBJ_TO_SYSLOG=${VSANTRACED_LOG_DOM_OBJ_TO_SYSLOG-1}
+# If the default values for VSANTRACED_ROTATE_MAX_FILES,
+# VSANTRACED_ROTATE_FILE_SIZE and VSANTRACED_LOG_URGENT_TO_SYSLOG
+# are changed, also change the default values at
+# /bora/apps/esxcli/plugins/vsan/VsanTraceGet.cpp
+VSANTRACED_URGENT_ROTATE_MAX_FILES=${VSANTRACED_URGENT_ROTATE_MAX_FILES-4}
+VSANTRACED_URGENT_ROTATE_FILE_SIZE=${VSANTRACED_URGENT_ROTATE_FILE_SIZE-22}
+VSANTRACED_LSOM_ROTATE_MAX_FILES=${VSANTRACED_LSOM_ROTATE_MAX_FILES-4}
+VSANTRACED_LSOM_ROTATE_FILE_SIZE=${VSANTRACED_LSOM_ROTATE_FILE_SIZES-5}
+VSANTRACED_DOM_OBJ_ROTATE_MAX_FILES=${VSANTRACED_DOM_OBJ_ROTATE_MAX_FILES-4}
+VSANTRACED_DOM_OBJ_ROTATE_FILE_SIZE=${VSANTRACED_DOM_OBJ_ROTATE_FILE_SIZES-10}
+VSANTRACED_PARAM="$VSANTRACED_EXTRA_PARAM -o -R timestamp -S $VSANTRACED_ENTRY_SIZE"
+VSANTRACED_LAST_SELECTED_VOLUME=$VSANTRACED_LAST_SELECTED_VOLUME
+VSANOBSERVER_MAX_MB_SIZE=${VSANOBSERVER_MAX_MB_SIZE-52}
+VSANOBSERVER_DEFAULT_MB_SIZE=52
+VSANOBSERVER_NAME=${VSANOBSERVER_NAME-vsanObserver--}
+VSANTRACED_INIT_SCRIPT="/etc/init.d/vsantraced"
+
+# For debug build, we allow more memory budget, since the binaries and
+# libraries are larger than release build.
+if [ `uname -v | awk '{print $3}'` == "Release" ] ; then
+   VSANTRACED_MEM_RES="vsantraced 40" # Increase this value by 8 for each newly added vSAN trace logger
+else
+   VSANTRACED_MEM_RES="vsantraced 55" # Increase this value by 8 for each newly added vSAN trace logger
+fi
+
+if [ "$VSANTRACED_USE_GZIP" -eq 1 ]; then
+   VSANTRACED_PARAM="$VSANTRACED_PARAM -z$VSANTRACED_GZIP_LEVEL"
+fi
+
+syslog() {
+   echo "$@"
+   logger -p daemon.info -t $VSANTRACED_TAG "$@"
+}
+
+getpid() {
+   tag=$1
+   bin=$2
+   # ps userworld output format: "WID" "CID" "World Name" "Command"
+   ps -uc | awk -v TAG="$tag" -v BIN="$bin" \
+      '($1 ~ /^[0-9]/ && $3 == TAG && $4 == BIN) { print $1 }'
+}
+
+increaseRP() {
+   /usr/lib/vmware/vsan/bin/configVsanRP reserveMemory ${VSANTRACED_MEM_RES}
+   if [ $? -ne 0 ]; then
+      syslog "Failed to set $VSANTRACED_TAG memory reservation"
+      return 1
+   fi
+
+   # Set a CPU reservation for the trace daemon if the config option is specified.
+   reservation=`vsish -e get /config/VSAN/intOpts/VsantracedCpuReservation | grep Current | cut -f 2 -d ':'`
+   if [ -n "$reservation" ]; then
+      syslog "Setting vsantraced CPU reservation to $reservation"
+      localcli --plugin-dir /usr/lib/vmware/esxcli/int sched group setcpuconfig \
+        -g host/vim/vmvisor/vsantraced -i $reservation -l $reservation -u pct
+   fi
+}
+
+decreaseRP() {
+   /usr/lib/vmware/vsan/bin/configVsanRP clearMemory ${VSANTRACED_TAG}
+   if [ $? -ne 0 ]; then
+      syslog "Failed to clear $VSANTRACED_TAG memory reservation"
+   fi
+}
+
+#
+# Tests whether the provided path is backed by persistent storage.
+#
+testPersistent() {
+   readlink -f "$1" | grep '^/vmfs/volumes' >/dev/null 2>&1
+}
+
+#
+# Update the config file to the chosen vsantrace volume
+#
+updateConfigFile() {
+    sed -i '/^VSANTRACED_LAST_SELECTED_VOLUME=/d' $VSANTRACED_CONF
+    echo "VSANTRACED_LAST_SELECTED_VOLUME=\"$VSANTRACED_VOLUME\"" >> $VSANTRACED_CONF
+    syslog "Updated the config file to VSANTRACED_LAST_SELECTED_VOLUME=$VSANTRACED_VOLUME"
+    return 0
+}
+
+#
+# Check whether VSAN is enabled on the cluster or not
+#
+checkVsanEnabled() {
+   localcli vsan cluster get >/dev/null 2>/dev/null
+}
+
+#
+# Adjusts rotation parameters to ensure that traces will fit on the ramdisk.
+#
+fixFileSizeForRamdisk() {
+   local maxSize
+
+   # Keep the total trace files' size to 95% of the RAM disk space to prevent
+   # the ramdisk from filling up completely.
+   # The vsanObserver takes up a maximum size of 50MB (refer vsanObserver.sh)
+   # Hence, decrease the VSANTRACED_RAMDISK_SIZE by VSANOBSERVER_MAX_MB_SIZE to
+   # accommodate it.
+
+   maxSize=$((($VSANTRACED_RAMDISK_SIZE - $VSANOBSERVER_MAX_MB_SIZE) * 95 / 100))
+
+
+   if [ $maxSize -le 0 ]; then
+      syslog "Not enough space available on the ramdisk."
+      return 5
+   fi
+
+   if [ $maxSize -lt \
+       $(($VSANTRACED_ROTATE_MAX_FILES * $VSANTRACED_ROTATE_FILE_SIZE \
+       + $VSANTRACED_URGENT_ROTATE_MAX_FILES * \
+       $VSANTRACED_URGENT_ROTATE_FILE_SIZE + $VSANTRACED_LSOM_ROTATE_MAX_FILES * \
+       $VSANTRACED_LSOM_ROTATE_FILE_SIZE + $VSANTRACED_DOM_OBJ_ROTATE_MAX_FILES * \
+       $VSANTRACED_DOM_OBJ_ROTATE_FILE_SIZE)) ]; then
+
+      modSize=$(($maxSize % (16 * $VSANTRACED_ROTATE_MAX_FILES + \
+                             8 * $VSANTRACED_URGENT_ROTATE_MAX_FILES + \
+                             2 * $VSANTRACED_LSOM_ROTATE_MAX_FILES + \
+                             $VSANTRACED_DOM_OBJ_ROTATE_MAX_FILES)))
+
+      # For now, revert to the standard 2 to 1 ratio for file sizes.
+      maxSize=$(($maxSize / (16 * $VSANTRACED_ROTATE_MAX_FILES + \
+                             8 * $VSANTRACED_URGENT_ROTATE_MAX_FILES + \
+                             2 * $VSANTRACED_LSOM_ROTATE_MAX_FILES + \
+                             $VSANTRACED_DOM_OBJ_ROTATE_MAX_FILES)))
+
+      if [ $maxSize -le 0 ]; then
+         syslog "Not enough space available on the ramdisk."
+         return 5
+      fi
+      if [ "$((8*$maxSize))" -lt "$VSANTRACED_ROTATE_FILE_SIZE" ]; then
+         VSANTRACED_ROTATE_FILE_SIZE=$((16 * $maxSize)) + $((($modSize * 2) / (3 * $VSANTRACED_ROTATE_MAX_FILES)))
+         syslog "Setting file size to $VSANTRACED_ROTATE_FILE_SIZE MB to fit on ramdisk"
+      fi
+      if [ "$((4*$maxSize))" -lt "$VSANTRACED_URGENT_ROTATE_FILE_SIZE" ]; then
+         VSANTRACED_URGENT_ROTATE_FILE_SIZE=$((8 * maxSize)) + $(($modSize / (3 * $VSANTRACED_ROTATE_MAX_FILES)))
+         syslog "Setting urgent file size to $VSANTRACED_URGENT_ROTATE_FILE_SIZE MB to fit on ramdisk"
+      fi
+      if [ "$maxSize" -lt "$VSANTRACED_LSOM_ROTATE_FILE_SIZE" ]; then
+         VSANTRACED_LSOM_ROTATE_FILE_SIZE=$((2 * maxSize))
+         syslog "Setting lsom file size to $VSANTRACED_LSOM_ROTATE_FILE_SIZE MB to fit on ramdisk"
+      fi
+      if [ "$maxSize" -lt "$VSANTRACED_DOM_OBJ_ROTATE_FILE_SIZE" ]; then
+         VSANTRACED_DOM_OBJ_ROTATE_FILE_SIZE=$maxSize
+         syslog "Setting dom object file size to $VSANTRACED_DOM_OBJ_ROTATE_FILE_SIZE MB to fit on ramdisk"
+      fi
+   fi
+   return 0
+}
+
+#
+# Searches for a dedicated VSAN traces ramdisk, or creates a new one.
+#
+autoConfigRamdisk() {
+   local vol
+
+   # Look for an existing vsantraces ramdisk; the last field is the mountpoint.
+   vol=$(localcli system visorfs ramdisk list | \
+         grep "^$VSANTRACED_RAMDISK_NAME\\>" | \
+         head -n1 | awk '{print $NF}')
+   if [ -n "$vol" ]; then
+      VSANTRACED_VOLUME=$vol
+      fixFileSizeForRamdisk
+      if [ $? -ne 0 ]; then
+         syslog "Unable to fix file size for the ramdisk."
+         return 5
+      fi
+      return 0
+   fi
+
+   syslog "No $VSANTRACED_RAMDISK_NAME ramdisk found"
+
+   # Try to create a ramdisk.
+   mkdir -p $VSANTRACED_RAMDISK_MOUNT
+   if [ $? -ne 0 ]; then
+      syslog "Failed to mkdir: $VSANTRACED_RAMDISK_MOUNT"
+      return 5
+   fi
+
+   localcli --plugin-dir /usr/lib/vmware/esxcli/int systemInternal visorfs \
+      ramdisk add --coredump --name "$VSANTRACED_RAMDISK_NAME"             \
+      --min-size 0 --max-size $VSANTRACED_RAMDISK_SIZE                     \
+      --permissions 0755 --target $VSANTRACED_RAMDISK_MOUNT
+
+   if [ $? -ne 0 ]; then
+      syslog "Failed to create ramdisk"
+      return 5
+   fi
+
+   syslog "Successfully created ramdisk"
+   VSANTRACED_VOLUME=$VSANTRACED_RAMDISK_MOUNT
+   fixFileSizeForRamdisk
+   if [ $? -ne 0 ]; then
+      syslog "Unable to fix file size for the ramdisk."
+      return 5
+   fi
+}
+
+#
+# Searches for a suitable storage location for VSAN trace logs.
+#
+# Because the volume of trace logs may be quite large, we prefer persistent
+# storage. If none is available, we fall back on a dedicated ramdisk.
+#
+autoConfigStorage() {
+   local vol
+
+   if [ "$VSANTRACED_PREFER_RAMDISK" -eq 1 ]; then
+      autoConfigRamdisk
+      return $?
+   fi
+
+   # Check whether /scratch is backed by persistent storage.
+   testPersistent "/scratch"
+   if [ $? -eq 0 ]; then
+      VSANTRACED_VOLUME=/scratch/vsantraces
+      return 0
+   fi
+   syslog "Scratch partition is not backed by persistent storage"
+
+   # Try to set the volume to the previously chosen volume based on
+   # the last chosen value in vsantraced.conf
+   if [ -n "$VSANTRACED_LAST_SELECTED_VOLUME" ]; then
+      if [ -e "$VSANTRACED_LAST_SELECTED_VOLUME" ]; then
+         VSANTRACED_VOLUME=$VSANTRACED_LAST_SELECTED_VOLUME
+         syslog "Previously selected VMFS volume chosen as vsantraced volume"
+         return 0
+      else
+         syslog "Previously selected volume $VSANTRACED_LAST_SELECTED_VOLUME does not exist"
+      fi
+   fi
+
+   # Look for a persistent local VMFS volume.
+   # Look for volumes in the form of '12345668-12345678-1234-123456789012' (UUID)
+   vmfsDevices=$(localcli storage vmfs extent list | \
+                 grep '[[:alnum:]]\{8\}[ -][[:alnum:]]\{8\}[ -][[:alnum:]]\{4\}[ -][[:alnum:]]\{12\}' | \
+                 awk '{print $(NF-1)}')
+
+   for devName in $vmfsDevices; do
+      volume=$(localcli storage vmfs extent list | grep "$devName" | \
+               head -n1 | awk '{print $(NF-3)}')
+      volume="/vmfs/volumes/$volume"
+      [ -e "$volume" ] || continue
+      [ -e "$chosenVolume" ] || chosenVolume=$volume
+
+      check=$(localcli storage core device list -d $devName | \
+              grep 'Is Local: true')
+      if [ -n "$check" ]; then
+         chosenVolume=$volume
+         break
+      fi
+   done
+
+   if [ -n "$chosenVolume" ]; then
+      VSANTRACED_VOLUME=$chosenVolume/vsantraces
+      return 0
+   fi
+
+   syslog "No local VMFS volumes found, attempting to configure a ramdisk"
+
+   autoConfigRamdisk
+   return $?
+}
+
+#
+# Searches for a suitable persistent storage location to back up VSAN trace
+# logs shutdown and to restore from on startup.  We deliberately do not verify
+# whether preconfigured $VSANTRACED_PERSISTENT_VOLUME is persistent so as to
+# provide a handy mechanism for developers to disable this functionality.
+#
+autoConfigurePersistentVolume() {
+   if [ ! -n "$VSANTRACED_PERSISTENT_VOLUME" ]; then
+      testPersistent "/scratch"
+      if [ $? -eq 0 ]; then
+         VSANTRACED_PERSISTENT_VOLUME="/scratch"
+      else
+         testPersistent "/locker"
+         if [ $? -eq 0 ]; then
+            VSANTRACED_PERSISTENT_VOLUME="/locker"
+         fi
+      fi
+   fi
+}
+
+#
+# If we have a persistent volume then restore traces from it
+#
+autoRestoreRamdiskTracefilesFromPersistentVolume() {
+   ls $VSANTRACED_VOLUME_SYMLINK/* > /dev/null 2>&1
+   if [ $? -eq 0 ]; then
+      syslog "VSAN traces ramdisk is not empty, not restoring from persistent volume"
+      if [ -n "$VSANTRACED_PERSISTENT_VOLUME" ]; then
+         testPersistent $VSANTRACED_PERSISTENT_VOLUME
+         if [ $? -eq 0 ]; then
+            if [ -d "$VSANTRACED_PERSISTENT_VOLUME/vsantraces" ]; then
+               syslog "Possibly stale VSAN traces remain on VSAN traces persistent volume $VSANTRACED_PERSISTENT_VOLUME; all will be overwritten on next shutdown"
+            fi
+         fi
+      fi
+      return 0
+   fi
+
+   if [ -n "$VSANTRACED_PERSISTENT_VOLUME" ]; then
+      testPersistent $VSANTRACED_PERSISTENT_VOLUME
+      if [ $? -eq 0 ]; then
+         if [ -d "$VSANTRACED_PERSISTENT_VOLUME/vsantraces" ]; then
+            syslog "Restoring traces from $VSANTRACED_PERSISTENT_VOLUME/vsantraces"
+            cp -p $VSANTRACED_PERSISTENT_VOLUME/vsantraces/*.index $VSANTRACED_VOLUME_SYMLINK
+            cp -p `ls $VSANTRACED_PERSISTENT_VOLUME/vsantraces/*.gz | sort -r` $VSANTRACED_VOLUME_SYMLINK
+	    # If some files didn't fit on save create them so indexFile matches
+            # Timestamp of next trace approximates last modtime of this trace
+            for indexFile in $VSANTRACED_VOLUME_SYMLINK/*.index
+            do
+               prefix=`basename $indexFile | cut -d'.' -f1`
+               prevTimestamp=""
+               for timestamp in `cat $indexFile`
+               do
+                  if [ -n "$prevTimestamp" ]; then
+                     touch -t `echo $timestamp | awk -F- '{printf "%s%s%s%s%s.%s", $1,$2,substr($3,1,2),substr($3,4,2),substr($3,7,2),substr($3,10,2)}'` $VSANTRACED_VOLUME_SYMLINK/$prefix--$prevTimestamp.gz
+                  fi
+                  if [ ! -f $VSANTRACED_VOLUME_SYMLINK/$prefix--$timestamp.gz ]; then
+                     prevTimestamp=$timestamp
+                  else
+                     prevTimestamp=""
+                  fi
+               done
+               if [ -n "$prevTimestamp" ]; then
+                  touch $VSANTRACED_VOLUME_SYMLINK/$prefix--$prevTimestamp.gz
+                  syslog "Most recent $prefix trace was not persisted; traces history is compromised"
+               fi
+            done
+            rm -rf $VSANTRACED_PERSISTENT_VOLUME/vsantraces
+            chmod 644 $VSANTRACED_VOLUME_SYMLINK/*.gz
+         fi
+      else
+         # Not an error if user has deliberatedly configured this
+         syslog "VSAN traces persistent volume $VSANTRACED_PERSISTENT_VOLUME"
+         syslog "not persistent, not restoring from non-persistent volume"
+      fi
+   fi
+}
+
+#
+# If we have a ramdisk then save traces to a persistent volume
+#
+autoSaveRamdiskTracefilesToPersistentVolume() {
+      autoConfigurePersistentVolume
+
+      # Only persist the traces if the ramdisk is not empty.
+      # This prevents a restart of the service from deleting
+      # existing saved traces.
+      ls $VSANTRACED_VOLUME_SYMLINK/* > /dev/null 2>&1
+      if [ $? -eq 0 -a -n "$VSANTRACED_PERSISTENT_VOLUME" ]; then
+         testPersistent $VSANTRACED_PERSISTENT_VOLUME
+         if [ $? -eq 0 ]; then
+            syslog "Persisting traces to $VSANTRACED_PERSISTENT_VOLUME/vsantraces"
+            rm -rf $VSANTRACED_PERSISTENT_VOLUME/vsantraces
+            mkdir $VSANTRACED_PERSISTENT_VOLUME/vsantraces
+            cp -p $VSANTRACED_VOLUME_SYMLINK/*.index $VSANTRACED_PERSISTENT_VOLUME/vsantraces
+
+            # Copy traces from newest to oldest
+            for trace in `ls -1t $VSANTRACED_VOLUME_SYMLINK/*.gz`
+            do
+               cp -p $trace $VSANTRACED_PERSISTENT_VOLUME/vsantraces
+               if [ $? -ne 0 ]; then
+                  syslog "Failed to copy $trace, assuming out of space on $VSANTRACED_PERSISTENT_VOLUME"
+                  break
+               fi
+            done
+         else
+            syslog "VSANTRACED_PERSISTENT_VOLUME $VSANTRACED_PERSISTENT_VOLUME is not persistent"
+         fi
+      else
+         syslog "No VSANTRACED_PERSISTENT_VOLUME"
+      fi
+}
+
+#
+# Check the current configuration values of the vsantrace and observer files
+# and determine if those values will allow to store the trace files given the
+# available space. Tweak the size of the trace and observer files if the space
+# is too small (default values assume 500MB of space).
+#
+detectAvailableSpace() {
+   local freeVolMB
+   local traceMB
+   local traceLSOMMB
+   local traceDOMObjMB
+   local availMB
+   local projectedMB
+   local needToSave
+   local last
+
+   needToSave=0
+
+   freeVolMB=$(df -m $VSANTRACED_VOLUME | tail -1 | awk '{ print $4 }')
+
+   realPath=$(readlink -f $VSANTRACED_VOLUME_SYMLINK)
+
+   traceMB=$(du -cm $realPath | tail -1 | awk '{ print $1 }')
+   syslog "vsantraced: freeVolMB is ${freeVolMB}M, traceMB is ${traceMB}M"
+
+   if [ $VSANOBSERVER_MAX_MB_SIZE -lt $VSANOBSERVER_DEFAULT_MB_SIZE ]; then
+      # Always restart with a default of 52MB if the saved value is less.
+      VSANOBSERVER_MAX_MB_SIZE=$VSANOBSERVER_DEFAULT_MB_SIZE
+      needToSave=1
+   fi
+
+   # Calculate the projected space usage
+   projectedMB=$(($VSANTRACED_ROTATE_MAX_FILES * $VSANTRACED_ROTATE_FILE_SIZE))
+   projectedMB=$(($projectedMB + $VSANTRACED_URGENT_ROTATE_MAX_FILES * \
+       $VSANTRACED_URGENT_ROTATE_FILE_SIZE))
+   projectedMB=$(($projectedMB + $VSANTRACED_LSOM_ROTATE_MAX_FILES * \
+       $VSANTRACED_LSOM_ROTATE_FILE_SIZE))
+   projectedMB=$(($projectedMB + $VSANTRACED_DOM_OBJ_ROTATE_MAX_FILES * \
+       $VSANTRACED_DOM_OBJ_ROTATE_FILE_SIZE))
+
+   projectedMB=$(($projectedMB + $VSANOBSERVER_MAX_MB_SIZE))
+   availMB=$(($freeVolMB + $traceMB))
+
+   # We need to adjust the space of the trace files
+   while [ $availMB -lt $projectedMB ]; do
+      if [ $VSANOBSERVER_MAX_MB_SIZE -gt 10 ]; then
+         VSANOBSERVER_MAX_MB_SIZE=$(($VSANOBSERVER_MAX_MB_SIZE - 1))
+         needToSave=1
+      fi
+      # Assume a 2 to 1 ratio between normal to urgent trace size
+      if [ $VSANTRACED_URGENT_ROTATE_FILE_SIZE -gt 10 ]; then
+         VSANTRACED_URGENT_ROTATE_FILE_SIZE=$(($VSANTRACED_URGENT_ROTATE_FILE_SIZE - 1))
+         VSANTRACED_ROTATE_FILE_SIZE=$(($VSANTRACED_URGENT_ROTATE_FILE_SIZE * 2))
+      fi
+      projectedMB=$(($VSANTRACED_ROTATE_MAX_FILES * \
+          $VSANTRACED_ROTATE_FILE_SIZE))
+      projectedMB=$(($projectedMB + $VSANTRACED_URGENT_ROTATE_MAX_FILES * \
+          $VSANTRACED_URGENT_ROTATE_FILE_SIZE))
+      projectedMB=$(($projectedMB + $VSANOBSERVER_MAX_MB_SIZE))
+      if [ ! $VSANOBSERVER_MAX_MB_SIZE -gt 10 -a \
+           ! $VSANTRACED_URGENT_ROTATE_FILE_SIZE -gt 10 ]; then
+         break # we did our best
+      fi
+   done
+   if [ $needToSave -eq 1 ]; then
+      sed -i '/^VSANOBSERVER_MAX_MB_SIZE=/d' $VSANTRACED_CONF
+      echo "VSANOBSERVER_MAX_MB_SIZE=\"$VSANOBSERVER_MAX_MB_SIZE\"" \
+          >> $VSANTRACED_CONF
+      syslog "Updated the config file to VSANOBSERVER_MAX_MB_SIZE=$VSANOBSERVER_MAX_MB_SIZE"
+   fi
+}
+
+#
+# Converts any existing traces with old naming (e.g. vsanTrace.log.0.gz) to files
+# with new names and sets up an initial index file
+#
+processOldTraceLogs()
+{
+   local oldPrefix
+   local indexFile
+   local newFile
+   local i
+   local f
+   local ms
+   local ts
+
+   oldPrefix="$VSANTRACED_VOLUME/$VSANTRACED_LOGFILE.log"
+   indexFile="$VSANTRACED_VOLUME/$VSANTRACED_LOGFILE.index"
+
+   if [ -e "$indexFile" -o ! -f "$oldPrefix.0.gz" ]; then
+      # We already have an index, or there are no old-style trace files around
+      return 0
+   fi
+
+   echo Renaming old traces..
+
+   i=0
+   while [ -f "$oldPrefix.$i.gz" ]; do
+      f="$oldPrefix.$i.gz"
+
+      # Generate a timestamp for this file
+
+      ts=`stat -c'%y' "$f" | awk -F '[ :.]' '{ print $1 "T" $2 "h" $3 "m" $4 "s"; }'`
+      if [ -z "$ts" ]; then
+         # If there was an error, use a dummy timestamp
+         ts="1980-01-01T00h00m00s"
+      fi
+      # We don't have a millisecond value, set it to (999-i) to avoid any
+      # overlaps for strange cases.
+      ms=`printf "%03d" $(( 999 - ($i % 1000) ))`
+      ts="$ts$ms"
+
+      # Rename the file
+      newFile="$VSANTRACED_VOLUME/$VSANTRACED_LOGFILE--$ts.gz"
+      echo "Renaming $f to $newFile"
+      mv -f $f $newFile
+
+      # Add the timestamp to the index
+      if [ $i -eq 0 ]; then
+         echo "$ts" > "$indexFile"
+      else
+         # Older timestamp must go at the top of the file
+         sed -i "1i$ts" "$indexFile"
+      fi
+
+      i=$((i+1))
+   done
+}
+
+start() {
+   local pid=$(getpid $VSANTRACED_TAG $VSANTRACED_BIN)
+   if [ -n "$pid" ]; then
+      echo "$VSANTRACED_TAG is already running"
+      exit 2
+   fi
+
+   checkVsanEnabled
+   if [ $? -ne 0 ]; then
+      syslog "VSAN Cluster not configured, not starting $VSANTRACED_TAG"
+      exit 3
+   fi
+
+   increaseRP
+   if [ $? -ne 0 ]; then
+      exit 1
+   fi
+
+   if [[ $VSANTRACED_ROTATE_FILE_SIZE -le 0 || \
+         $VSANTRACED_ROTATE_FILE_SIZE -gt 4095 ]]; then
+      syslog "File size should be < 4096 MB"
+      decreaseRP
+      exit 4
+   fi
+
+   if [[ $VSANTRACED_URGENT_ROTATE_FILE_SIZE -le 0 || \
+         $VSANTRACED_URGENT_ROTATE_FILE_SIZE -gt 4095 ]]; then
+      syslog "File size should be < 4096 MB"
+      decreaseRP
+      exit 4
+   fi
+
+   if [ -n "$VSANTRACED_VOLUME" ]; then
+      if [ -e "$VSANTRACED_VOLUME" ]; then
+         syslog "User selected volume chosen as vsantraced volume ($VSANTRACED_VOLUME)"
+      else
+         syslog "User selected volume $VSANTRACED_VOLUME does not exist"
+         VSANTRACED_VOLUME=""
+      fi
+   fi
+
+   if [ -z "$VSANTRACED_VOLUME" ]; then
+      autoConfigurePersistentVolume
+      if [ ! -d "$VSANTRACED_PERSISTENT_VOLUME" ]; then
+         syslog "Failed to select a suitable persistent volume for VSAN traces"
+         decreaseRP
+         exit 5
+      fi
+      autoConfigStorage
+      if [ $? -ne 0 ]; then
+         syslog "Failed to auto-configure trace storage"
+         decreaseRP
+         exit 5
+      fi
+   fi
+
+   updateConfigFile
+
+   syslog "Storing traces to $VSANTRACED_VOLUME"
+   mkdir -p "$VSANTRACED_VOLUME"
+   if [ $? -ne 0 ]; then
+      syslog "Failed to mkdir: $VSANTRACED_VOLUME"
+      decreaseRP
+      exit 5
+   fi
+   touch "$VSANTRACED_VOLUME/dummy.log"
+   if [ $? -ne 0 ]; then
+      syslog "Failed to write at: $VSANTRACED_VOLUME"
+      decreaseRP
+      exit 5
+   else
+      rm -f "$VSANTRACED_VOLUME/dummy.log"
+   fi
+
+   rm -f "$VSANTRACED_VOLUME_SYMLINK"
+   ln -s "$VSANTRACED_VOLUME" "$VSANTRACED_VOLUME_SYMLINK"
+   if [ $? -ne 0 ]; then
+      syslog "Failed to create symlink: $VSANTRACED_VOLUME_SYMLINK"
+      decreaseRP
+      exit 5
+   fi
+
+   testPersistent "$VSANTRACED_VOLUME_SYMLINK"
+   if [ $? -ne 0 ]; then
+      autoRestoreRamdiskTracefilesFromPersistentVolume
+   else
+      # Temporary hack to convert old-style .<num>.gz logs to the timestamp style.
+      processOldTraceLogs
+   fi
+
+   detectAvailableSpace
+
+   if [ "$VSANTRACED_LOG_URGENT_TO_SYSLOG" -eq 1 ]; then
+      /sbin/watchdog.sh -d -s $VSANTRACED_READER_TAG \
+         "\\\"$VSANTRACED_READER_BIN\\\"" $VSANTRACED_READER_PARAM \
+         $VSANTRACED_READER_TAG >/dev/null 2>&1
+      rc=$?
+      if [ $rc -ne 0 ]; then
+         syslog "Failed to start vsanreaderd: $rc"
+         decreaseRP
+         exit 3
+      fi
+   fi
+
+   echo "$VSANTRACED_READER_TAG started"
+
+   TRACED_LOGFILE=`echo "$VSANTRACED_VOLUME/$VSANTRACED_LOGFILE" | sed -e 's|(|\\\\(|' -e 's|)|\\\\)|' -e 's|\\$|\\\\$|'`
+   /sbin/watchdog.sh $VSANTRACED_SCHED_PARAM -d -s $VSANTRACED_TAG \
+      "\\\"$VSANTRACED_BIN\\\"" $VSANTRACED_PARAM \
+      -m $VSANTRACED_ROTATE_MAX_FILES -s $VSANTRACED_ROTATE_FILE_SIZE \
+      -n $VSANTRACED_TAG "\\\"$VSANTRACED_CHARDEV_PATH\\\"" \
+      "\\\"$TRACED_LOGFILE\\\"" >/dev/null 2>&1
+   rc=$?
+   if [ $rc -ne 0 ]; then
+      syslog "Failed to start vsantraced: $rc"
+      decreaseRP
+      exit 3
+   fi
+
+   echo "$VSANTRACED_TAG started"
+
+   TRACED_URGENT_LOGFILE=`echo $VSANTRACED_VOLUME/$VSANTRACED_URGENT_LOGFILE | sed -e 's|(|\\\\(|' -e 's|)|\\\\)|' -e 's|\\$|\\\\$|'`
+   /sbin/watchdog.sh $VSANTRACED_SCHED_PARAM -d -s $VSANTRACED_URGENT_TAG \
+      "\\\"$VSANTRACED_BIN\\\"" $VSANTRACED_PARAM \
+      -m $VSANTRACED_URGENT_ROTATE_MAX_FILES \
+      -s $VSANTRACED_URGENT_ROTATE_FILE_SIZE \
+      -n $VSANTRACED_URGENT_TAG "\\\"$VSANTRACED_URGENT_CHARDEV_PATH\\\"" \
+      "\\\"$TRACED_URGENT_LOGFILE\\\""
+   rc=$?
+   if [ $rc -ne 0 ]; then
+      syslog "Failed to start low-bandwidth vsantraced: $rc"
+      stop
+      exit 3
+   fi
+
+   echo "$VSANTRACED_URGENT_TAG started"
+
+   TRACED_LSOM_LOGFILE=`echo $VSANTRACED_VOLUME/$VSANTRACED_LSOM_LOGFILE | sed -e 's|(|\\\\(|' -e 's|)|\\\\)|' -e 's|\\$|\\\\$|'`
+   /sbin/watchdog.sh $VSANTRACED_SCHED_PARAM -d -s $VSANTRACED_LSOM_TAG \
+      "\\\"$VSANTRACED_BIN\\\"" $VSANTRACED_PARAM \
+      -m $VSANTRACED_LSOM_ROTATE_MAX_FILES \
+      -s $VSANTRACED_LSOM_ROTATE_FILE_SIZE \
+      -n $VSANTRACED_LSOM_TAG "\\\"$VSANTRACED_LSOM_CHARDEV_PATH\\\"" \
+      "\\\"$TRACED_LSOM_LOGFILE\\\""
+   rc=$?
+   if [ $rc -ne 0 ]; then
+      syslog "Failed to start lsom vsantraced: $rc"
+      stop
+      exit 3
+   fi
+
+   echo "$VSANTRACED_LSOM_TAG started"
+
+   TRACED_DOM_OBJ_LOGFILE=`echo $VSANTRACED_VOLUME/$VSANTRACED_DOM_OBJ_LOGFILE | sed -e 's|(|\\\\(|' -e 's|)|\\\\)|' -e 's|\\$|\\\\$|'`
+   /sbin/watchdog.sh $VSANTRACED_SCHED_PARAM -d -s $VSANTRACED_DOM_OBJ_TAG \
+      "\\\"$VSANTRACED_BIN\\\"" $VSANTRACED_PARAM \
+      -m $VSANTRACED_DOM_OBJ_ROTATE_MAX_FILES \
+      -s $VSANTRACED_DOM_OBJ_ROTATE_FILE_SIZE \
+      -n $VSANTRACED_DOM_OBJ_TAG "\\\"$VSANTRACED_DOM_OBJ_CHARDEV_PATH\\\"" \
+      "\\\"$TRACED_DOM_OBJ_LOGFILE\\\""
+   rc=$?
+   if [ $rc -ne 0 ]; then
+      syslog "Failed to start dom object vsantraced: $rc"
+      stop
+      exit 3
+   fi
+
+   echo "$VSANTRACED_DOM_OBJ_TAG started"
+
+
+}
+
+stop() {
+   for tag in $VSANTRACED_TAG $VSANTRACED_URGENT_TAG $VSANTRACED_LSOM_TAG $VSANTRACED_DOM_OBJ_TAG $VSANTRACED_READER_TAG
+   do
+      # Stop the watchdog first.
+      /sbin/watchdog.sh -k $tag
+
+      if [ "$tag" == "$VSANTRACED_READER_TAG" ]; then
+         local pid=$(getpid $tag $VSANTRACED_READER_BIN)
+      else
+         local pid=$(getpid $tag $VSANTRACED_BIN)
+      fi
+      if [ -n "$pid" ]; then
+         kill -15 $pid
+         while kill -0 $pid > /dev/null 2>&1; do
+            sleep 0;
+         done
+         echo "$tag stopped"
+      else
+         echo "$tag is not running"
+      fi
+   done
+
+   # If the VSANTRACED_VOLUME is not persistent then try to back it up
+   testPersistent "$VSANTRACED_VOLUME_SYMLINK"
+   if [ $? -ne 0 ]; then
+      autoSaveRamdiskTracefilesToPersistentVolume
+   fi
+
+   decreaseRP
+}
+
+status() {
+   ret=0
+   for tag in $VSANTRACED_READER_TAG $VSANTRACED_TAG $VSANTRACED_URGENT_TAG $VSANTRACED_LSOM_TAG $VSANTRACED_DOM_OBJ_TAG
+   do
+      if [ "$tag" == "$VSANTRACED_READER_TAG" ]; then
+         local pid=$(getpid $tag $VSANTRACED_READER_BIN)
+      else
+         local pid=$(getpid $tag $VSANTRACED_BIN)
+      fi
+      if [ -z "$pid" ] ; then
+         echo "$tag is not running"
+         checkVsanEnabled
+         if [ $? -eq 0 ]; then
+            ret=2
+         else
+            ret=3
+         fi
+      else
+         echo "$tag is running"
+      fi
+   done
+   exit $ret
+}
+
+getMostRecentLogSize()
+{
+   # get the latest timestamp
+   local index="$VSANTRACED_VOLUME_SYMLINK/${VSANTRACED_LOGFILE}.index"
+   timestamp=`tail -1 "$index"`
+
+
+   # stat the file corresponding to the latest timestamp
+   local path="$VSANTRACED_VOLUME_SYMLINK/${VSANTRACED_LOGFILE}--$timestamp"
+
+   if [ "$VSANTRACED_USE_GZIP" -eq 1 ]; then
+      path="$path.gz"
+   fi
+
+   stat -c'%s' $path
+}
+
+#
+# Send vsantraced a signal, asking it to flush any in-memory traces to disk.
+# Then wait a few moments, watching for the file size to change.
+#
+flush() {
+   for tag in $VSANTRACED_TAG $VSANTRACED_URGENT_TAG $VSANTRACED_LSOM_TAG $VSANTRACED_DOM_OBJ_TAG
+   do
+      local pid=$(getpid $tag $VSANTRACED_BIN)
+      if [ -z "$pid" ]; then
+         echo "$tag is not running"
+         exit 3
+      fi
+
+      local sizeBefore=$(getMostRecentLogSize)
+      local sizeRet=$?
+
+      echo "Signalling $tag"
+      kill -USR1 $pid
+      if [ $? -ne 0 -o $sizeRet -ne 0 ]; then
+         return 0
+      fi
+
+      echo "Waiting for increase in log size"
+      local iters=0
+      local sizeAfter=$(getMostRecentLogSize)
+      while [ $? -eq 0 -a "$sizeBefore" -eq "$sizeAfter" -a "$iters" -lt 5 ]; do
+         sleep 1
+         iters=$((iters + 1))
+         sizeAfter=$(getMostRecentLogSize)
+      done
+   done
+}
+
+checkConcurrentRestart()
+{
+   local pidCount=`sh -c "ps -uc | awk -v BIN=\\"$VSANTRACED_INIT_SCRIPT\\" '(\\$1 ~ /^[0-9]/ && \\$5 == BIN) { print \\$1 }' | wc -l"`
+   syslog "There are $pidCount $VSANTRACED_INIT_SCRIPT running ..."
+   if [ $pidCount -gt 1 ]; then
+      syslog "someone else is also starting vsantraced, skip this try"
+      # return this code to indicate there are conflict starting procedures,
+      # caller could decide to restart it after certain random delay.
+      exit 6 # 6 means detecting conflict starting
+   fi
+}
+
+#
+# main
+#
+case "${1}" in
+   "start")
+      start
+   ;;
+   "stop")
+      stop
+   ;;
+   "status")
+      status
+   ;;
+   "restart")
+      checkConcurrentRestart
+      stop
+      start
+   ;;
+   "flush")
+      flush
+   ;;
+   *)
+      echo "Usage: $(basename $0) {start|stop|status|restart}"
+      exit 1
+   ;;
+esac

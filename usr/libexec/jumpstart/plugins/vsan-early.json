@@ -1,0 +1,28 @@
+/***********************************************************
+ * Copyright 2015-2017 VMware, Inc.  All rights reserved.
+ * VMware Confidential
+ ***********************************************************/
+
+{
+   "operations" :
+   {
+      "start" :
+      [
+         "system module load --module vsanapi",
+         "system module load --module vsanbase",
+      ]
+      ,
+      "apply_host_profile" :
+      [
+         "system module load --module vsanapi",
+         "system module load --module vsanbase",
+      ]
+   }
+   ,
+   "metadata" :
+   {
+      "version"  : 2,
+      "requires" : ["vmkeventd", "lfHelper"],
+      "provides" : ["vsan early", "advanced configuration options"]
+   }
+}

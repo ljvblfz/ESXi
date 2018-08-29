@@ -1,0 +1,2 @@
+com.vmware.vsan.iscsi.label = "Servicio del destino iSCSI de VMware vSAN"
+com.vmware.vsan.iscsi.summary = ""

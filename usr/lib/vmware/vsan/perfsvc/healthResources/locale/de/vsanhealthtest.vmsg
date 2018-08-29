@@ -1,0 +1,1372 @@
+# This message file defines all of labels, descriptions in vSAN health test result showing in UI
+
+#
+# Common string
+#
+common.yes = Ja
+common.no = Nein
+common.unknown = Unbekannt
+common.green = grün
+common.yellow = gelb
+common.red = rot
+common.success = Erfolg
+common.error = Fehler
+common.timeout = Zeitüberschreitung
+common.alive = aktiv
+common.abnormal = abnormal
+common.normal = Normal
+common.of = von
+common.hybrid = Hybrid
+common.allflash = All Flash
+common.comma = ,
+common.notavailable =  n.v.
+common.witness = Zeuge
+#
+# Host Vmdk load test
+#
+com.vmware.vsan.health.test.storageloadtest.overallStatusDescription = Der Gesamtstatus ist gut
+com.vmware.vsan.health.test.storageloadtest.testName = Speicherleistungstest
+com.vmware.vsan.health.test.storageloadtest.testResult.notRunLabel = vSAN-Cluster-Speicherlasttest für Aktion: [{action}]
+com.vmware.vsan.health.test.storageloadtest.testResult.columnHost = Host
+com.vmware.vsan.health.test.storageloadtest.testResult.columnStatus = Status
+com.vmware.vsan.health.test.storageloadtest.testResult.columnError = Fehler
+com.vmware.vsan.health.test.storageloadtest.testResult.runLabel = vSAN-Hosts - Ergebnis des Speicherleistungstests
+com.vmware.vsan.health.test.storageloadtest.testResult.columnWorkloadType = Arbeitslasttyp
+com.vmware.vsan.health.test.storageloadtest.testResult.columnVmdkDiskNumber = VMDK-Datenträgernummer
+com.vmware.vsan.health.test.storageloadtest.testResult.columnDuration = Dauer (s)
+com.vmware.vsan.health.test.storageloadtest.testResult.columnIOPS = IOPS
+com.vmware.vsan.health.test.storageloadtest.testResult.columnThroughput = Durchsatz MB/s
+com.vmware.vsan.health.test.storageloadtest.testResult.columnAvgLatency = Durchschnittliche Latenz (ms)
+com.vmware.vsan.health.test.storageloadtest.testResult.columnMaxLatency = Maximale Latenz (ms)
+com.vmware.vsan.health.test.storageloadtest.failed.overallStatusDescription = Der vSAN-Cluster-Speicherlasttest ist fehlgeschlagen, da einige Hosts den Test nicht absolviert haben
+com.vmware.vsan.health.test.storageloadtest.testResult.failedLabel = vSAN-Host-Speicherlasttest - Ergebnis
+com.vmware.vsan.health.test.storageloadtest = Der vSAN-Speicherlasttest bedeutet eine hohe E/A-Belastung und Sie sollten sicherstellen, dass der vSAN-Cluster dafür ausgelegt ist. Der Test verwendet dafür speziell für diesen Zweck erstellte Objekte. Darüber hinaus werden ausreichend Objekte erstellt, um die gewünschte Parallelität zu erzielen und alle Festplatten des Systems abzudecken. Dieser Test kann in Abhängigkeit von Parametern wie etwa Arbeitssatz, Cache-Aufwärmdauer usw. Minuten oder Stunden dauern.
+com.vmware.vsan.health.test.storageloadtest.short = Überprüft, ob der vSAN-Cluster für eine hohe E/A-Belastung ausgelegt ist.
+
+#
+# Cluster network performance test
+#
+com.vmware.vsan.health.test.networkperftest.testName = Multicast-Leistungstest
+com.vmware.vsan.health.test.networkperftest.testResult.label = vSAN-Hosts - Multicast-Leistungstestergebnis
+com.vmware.vsan.health.test.networkperftest.testResult.columnHost = Host
+com.vmware.vsan.health.test.networkperftest.testResult.columnHealthStatus = Integritätsstatus
+com.vmware.vsan.health.test.networkperftest.testResult.columnReceivedBandwidth = Empfangene Bandbreite (MB/s)
+com.vmware.vsan.health.test.networkperftest.testResult.columnDesiredBandwidth = Maximal erreichbare Bandbreite (MB/s)
+com.vmware.vsan.health.test.networkperftest = Mit dem Multicast-Leistungstest soll festgestellt werden, ob nicht nur Konnektivität besteht, sondern ob die Multicast-Geschwindigkeit zwischen den Hosts die Anforderungen von vSAN erfüllen kann. Dabei wird ein Host als Absender ausgewählt, und alle anderen Hosts sind dann Empfänger. Aufgrund der Tatsache, dass es sich um Multicast-Datenverkehr handelt, sollten alle vom Absender gesendeten Pakete an alle Empfänger übermittelt werden. Wenn daher keine Engpässe in ESXi und diesem Testfall vorhanden sind und wenn das physische Netzwerk mit voller Bandbreite betrieben werden kann, würden theoretisch bei einem Absender mit 10 GBit/s alle Empfänger 10 GBit/s erhalten. In der Praxis kann dieser Test die Absenderverbindung nicht vollständig auslasten. Darüber hinaus unterstützt praktisch kein physischer Switch Multicast bei voller Bandbreite. vSAN muss jedoch nicht bei voller Bandbreite ausgeführt werden. vSAN benötigt bei Spitzenarbeitslasten weniger als 20 MB/s (oder 200 MBit/s) an Multicast-Geschwindigkeit. Für typische Enterprise-Switches gängiger Anbieter erzielt der Test mindestens 50 MB/s. Für einige Low-End-Switches konnte VMware nur 10 MB/s ermitteln. Anhand dieses Spektrums ergibt der Test, dass Werte unterhalb von 20 MB/s zu niedrig sind, dass Werte zwischen 20 MB/s und 50 MB/s zwar niedrig, aber in Ordnung sind, und dass Werte über 50 MB/s den von VMware erwarteten Werten entsprechen.
+com.vmware.vsan.health.test.networkperftest.short = Überprüft, ob das Netzwerk die Anforderungen an die Multicast-Bandbreite von vSAN erfüllt (mindestens 50 MB/s).
+
+#
+# Cluster VM creation test
+#
+com.vmware.vsan.health.test.createvmtest.testName = VM-Erstellungstest
+com.vmware.vsan.health.test.createvmtest.testResult.label = Host-VM-Erstellung - Testergebnis
+com.vmware.vsan.health.test.createvmtest.testResult.columnHost = Host
+com.vmware.vsan.health.test.createvmtest.testResult.columnStatus = Status
+com.vmware.vsan.health.test.createvmtest.testResult.columnError = Fehler
+com.vmware.vsan.health.test.createvmtest = Der VM-Erstellungstest erstellt eine sehr einfache kleine VM auf jedem Host. Wenn dieser Erstellungsvorgang erfolgreich ist, wird die VM gelöscht und es kann davon ausgegangen werden, dass viele vSAN-Aspekte betriebsbereit sind. Alle Management-Stacks sind auf allen Hosts betriebsbereit, die vSAN-Vernetzung funktioniert, das Erstellen/Löschen und die E/A von Objekten in vSAN funktioniert usw. Bei einem solchen aktiven Test können Probleme gefunden werden, die bei passiven Integritätsprüfungen möglicherweise nicht erkannt werden. Durch die systemische Vorgehensweise ist es außerdem einfach, einen bestimmten fehlerhaften Host zu isolieren und anschließend entsprechende Maßnahmen zu ergreifen.
+com.vmware.vsan.health.test.createvmtest.short = Überprüft, ob eine kleine VM auf jedem Host des vSAN-Clusters erstellt werden kann.
+
+
+com.vmware.vsan.health.test.host.issues.notConnected = Host ist nicht verbunden
+com.vmware.vsan.health.test.host.issues.notHealthInstall = Host wurde nicht auf 6.0 U2 oder höher aktualisiert. Integritätsprüfungen sind deaktiviert.
+com.vmware.vsan.health.test.host.issues.notHealth65Install = Host wurde nicht auf 6.5 Express Patch 2 oder höher aktualisiert. Prüfungen des Konfigurationsassistenten sind nicht verfügbar.
+com.vmware.vsan.health.test.cluster.issues.hostNotConnected = Mindestens ein Host ist nicht verbunden.
+com.vmware.vsan.health.test.cluster.issues.HostNotHealthInstall = Der vSAN Health Service ist auf mindestens einem der Hosts nicht installiert.
+
+# overall health status related string.
+com.vmware.vsan.health.test.cluster.overall.notEnabled = Der Cluster ist nicht aktiviert
+
+#
+# Health service installation status check
+#
+com.vmware.vsan.health.test.cluster.healthEamInstall.testName = ESXi vSAN-Integritäts-Dienstinstallation
+com.vmware.vsan.health.test.cluster.healthEamInstall.host.testName = Host vSAN Health Service-Installation
+com.vmware.vsan.health.test.cluster.healthEamInstall.host.columnHost = Host
+com.vmware.vsan.health.test.cluster.healthEamInstall.host.columnStatus = Status
+com.vmware.vsan.health.test.cluster.healthEamInstall.host.columnError = Fehler
+com.vmware.vsan.health.test.cluster.healthEamInstall.host.untracked = Wird nicht mehr aufgezeichnet
+com.vmware.vsan.health.test.cluster.healthEamInstall.host.removed = (nicht mehr im Cluster)
+com.vmware.vsan.health.test.healtheaminstall = Überprüft, ob auf allen Hosts der vSAN Health Service installiert wurde. Andere vSAN-Integritätsprüfungen werden nur durchgeführt, nachdem alle Hosts auf Version 6.0 U2 aktualisiert wurden.
+com.vmware.vsan.health.test.healtheaminstall.short = Überprüft, ob auf allen Hosts im vSAN-Cluster der vSAN Health Service installiert wurde. Andere vSAN-Integritätsprüfungen werden nur durchgeführt, nachdem alle Hosts auf Version 6.0 U2 oder höher aktualisiert wurden.
+
+com.vmware.vsan.health.test.cluster.easyinstalleaminstall.testName = ESXi-vSAN Health Service-Version
+com.vmware.vsan.health.test.cluster.easyinstalleaminstall.host.testName = Host-vSAN-Integritätsdienstversion
+
+com.vmware.vsan.health.test.easyinstalleaminstall = Verifiziert, dass für alle Hosts im vSAN-Cluster die richtige Version des vSAN-Integritätsdiensts für den Konfigurationsassistenten vorliegt. Weitere Prüfungen und Funktionen des Konfigurationsassistenten stehen zur Verfügung, wenn das Upgrade aller Hosts auf 6.5 Express Patch 2 oder höher durchgeführt wurde.
+com.vmware.vsan.health.test.easyinstalleaminstall.short = Überprüft, ob für alle Hosts im vSAN-Cluster die richtige Version des vSAN-Integritätsdiensts für den Konfigurationsassistenten vorliegt. Weitere Prüfungen und Funktionen des Konfigurationsassistenten stehen zur Verfügung, wenn das Upgrade aller Hosts auf 6.5 Express Patch 2 oder höher durchgeführt wurde.
+
+#
+# Health service version check
+#
+com.vmware.vsan.health.test.cluster.healthVersion.testName = vSAN Health Service aktuell
+com.vmware.vsan.health.test.cluster.healthVersion.testResult.label = vSAN Health Service-Versionen
+com.vmware.vsan.health.test.cluster.healthVersion.testResult.columnHost = Host
+com.vmware.vsan.health.test.cluster.healthVersion.testResult.columnVersionEsx = Version in ESXi
+com.vmware.vsan.health.test.cluster.healthVersion.testResult.columnVersionVc = Version in VC
+com.vmware.vsan.health.test.cluster.healthVersion.testResult.columnError = Fehler
+com.vmware.vsan.health.test.healthversion = Überprüft, ob die auf allen ESXi-Hosts im Cluster installierte VIB-Version von vSAN Integrität mit der Integrität-Version von VC identisch ist. Wenn die Überprüfung fehlschlägt, empfiehlt es sich, die VIB-Version von vSAN Integrität im Cluster zu aktualisieren.
+com.vmware.vsan.health.test.healthversion.short = Überprüft die VIB-Version von vSAN Integrität auf allen Hosts in einem vSAN-Cluster.
+
+#
+# Time drift check
+#
+com.vmware.vsan.health.test.cluster.timeDrift.testName = Uhrzeit ist über Hosts und VC hinweg synchronisiert
+com.vmware.vsan.health.test.cluster.timeDrift.testResult.columnHost = Host
+com.vmware.vsan.health.test.cluster.timeDrift.testResult.columnStatus = Status
+com.vmware.vsan.health.test.cluster.timeDrift.testResult.columnNtpEnabled = NTP-Dienst aktiviert
+com.vmware.vsan.health.test.cluster.timeDrift.testResult.columnTimeDrift = Zeitunterschied zu VC
+com.vmware.vsan.health.test.cluster.timeDrift.testResult.columnError = Grund
+com.vmware.vsan.health.test.cluster.timeDrift.testResult.error.notFound = Hostzeit oder VC-Zeit konnte nicht abgerufen werden
+com.vmware.vsan.health.test.cluster.timeDrift.testResult.error.notSync = Host- und VC-Zeit weichen mehr als 1 Minute voneinander ab
+com.vmware.vsan.health.test.cluster.timeDrift.testResult.error.computeError = Zeitunterschied kann nicht berechnet werden
+com.vmware.vsan.health.test.timedrift = Prüft den Zeitunterschied zwischen VC und Hosts. Zeitabweichungen von über 60 Sekunden führen zu einem Fehlschlagen dieser Prüfung. Falls die Prüfung fehlschlägt, wird empfohlen, die NTP-Serverkonfiguration zu überprüfen.
+com.vmware.vsan.health.test.timedrift.short = Prüft, ob die Zeit von Hosts und VC innerhalb von 1 Minute synchronisiert werden.
+
+#
+# Cluster membership check
+#
+com.vmware.vsan.health.test.cluster.clusterMembership.testName = vSphere-Clustermitglieder stimmen mit vSAN-Clustermitgliedern überein
+com.vmware.vsan.health.test.cluster.clusterMembership.testResult.label = Cluster-Mitgliedschaft
+com.vmware.vsan.health.test.cluster.clusterMembership.testResult.columnHost = Host
+com.vmware.vsan.health.test.cluster.clusterMembership.testResult.columnInVcCluster = In vSphere-Cluster
+com.vmware.vsan.health.test.cluster.clusterMembership.testResult.columnInVsanCluster = In vSAN-Cluster
+com.vmware.vsan.health.test.cluster.clusterMembership.testResult.additionalLabel = vSAN zuletzt bekannt
+com.vmware.vsan.health.test.clustermembership = Prüft, ob vSphere-Clustermitglieder mit vSAN-Clustermitgliedern übereinstimmen.
+com.vmware.vsan.health.test.clustermembership.short = Prüft, ob vSphere-Clustermitglieder mit vSAN-Clustermitgliedern übereinstimmen.
+
+#
+# vSAN advanced configuration sync check
+#
+com.vmware.vsan.health.test.cluster.advCfgSync.testName = Erweiterte vSAN-Konfiguration synchronisiert
+com.vmware.vsan.health.test.cluster.advCfgSync.testResult.label = Optionen nicht synchronisiert
+com.vmware.vsan.health.test.cluster.advCfgSync.testResult.columnOption = Option
+com.vmware.vsan.health.test.cluster.advCfgSync.testResult.columnValue = Wert
+com.vmware.vsan.health.test.cluster.advCfgSync.testResult.columnHostsWithValue = Hosts mit diesem Wert
+com.vmware.vsan.health.test.advcfgsync = vSAN weist eine Reihe erweiterter Konfigurationsoptionen auf, die für die Optimierung oder für spezielle Anforderungen bestimmter Bereitstellungen verwendet werden können. Solche Einstellungen werden gewöhnlich auf Anweisung des VMware-Supports mithilfe eines VMware-KB-Artikels geändert. Diese erweiterten Konfigurationsoptionen werden pro Host festgelegt, was schnell zu inkonsistenten Konfigurationen in einem Cluster führen kann. Mit dieser Prüfung wird sichergestellt, dass kritische erweiterte Konfigurationsoptionen für vSAN auf allen Hosts in einem bestimmten Cluster denselben Wert oder Standardwert aufweisen.
+com.vmware.vsan.health.test.advcfgsync.short = Überprüft, ob alle Hosts in einem vSAN-Cluster über konsistente erweiterte Nicht-Standard-Konfigurationsoptionen verfügen. Die erweiterte Konfiguration mit Standardwert wird übersprungen und im Ergebnis nicht angezeigt.
+#
+# vSAN clomd liveness check
+#
+com.vmware.vsan.health.test.cluster.clomdLiveness.testName = vSAN CLOMD-Aktivität
+com.vmware.vsan.health.test.cluster.clomdLiveness.testResult.label = vSAN CLOMD-Aktivität - Host
+com.vmware.vsan.health.test.cluster.clomdLiveness.testResult.columnHost = Host
+com.vmware.vsan.health.test.cluster.clomdLiveness.testResult.columnState = Status
+com.vmware.vsan.health.test.cluster.clomdLiveness.testResult.columnError = Fehler
+com.vmware.vsan.health.test.clomdliveness = Überprüft die CLOMD-Aktivität auf allen vSAN-Hosts
+com.vmware.vsan.health.test.clomdliveness.short = Überprüft, ob der CLOM-Daemon aktiv ist.
+
+#
+# Dedup config health check
+#
+com.vmware.vsan.health.test.cluster.physdiskDedupConfig.testName = Konfigurationskonsistenz der Deduplizierung und Komprimierung
+com.vmware.vsan.health.test.cluster.physdiskDedupConfig.testResult.labelDisk = Festplattengruppen
+com.vmware.vsan.health.test.cluster.physdiskDedupConfig.testResult.labelHost = Hosts
+com.vmware.vsan.health.test.cluster.physdiskDedupConfig.testResult.columnHost = Host
+com.vmware.vsan.health.test.cluster.physdiskDedupConfig.testResult.columnDisk = Festplattengruppe
+com.vmware.vsan.health.test.cluster.physdiskDedupConfig.testResult.columnIssue = Problem
+com.vmware.vsan.health.test.cluster.physdiskDedupConfig.testResult.columnRecommendation = Empfehlung
+com.vmware.vsan.health.test.cluster.physdiskDedupConfig.testResult.columnReasonIncorrectDedupDisabled = Deduplizierung und Komprimierung sind deaktiviert, sollten jedoch aktiviert sein
+com.vmware.vsan.health.test.cluster.physdiskDedupConfig.testResult.columnReasonIncorrectDedupEnabled = Deduplizierung und Komprimierung sind aktiviert, sollten jedoch deaktiviert sein
+com.vmware.vsan.health.test.cluster.physdiskDedupConfig.testResult.columnReasonHybridInDedupEnabled = Hybride Festplattengruppe in Deduplizierungs-aktiviertem Cluster
+com.vmware.vsan.health.test.cluster.physdiskDedupConfig.testResult.columnRecommendRemediation = Festplattenformat konvertieren
+com.vmware.vsan.health.test.cluster.physdiskDedupConfig.testResult.columnRecommendManualFixHybrid = Hybride Festplattengruppe aus Cluster entfernen
+com.vmware.vsan.health.test.cluster.physdiskDedupConfig.testResult.columnRecommendAskVMware = Schritte im Artikel „AskVMware“ folgen
+com.vmware.vsan.health.test.physdiskdedupconfig = Wenn diese Überprüfung fehlschlägt, bedeutet dies, dass die Einrichtung der Deduplizierung und Komprimierung der Festplatte mit dem Cluster und die Einrichtung zwischen den Hosts inkonsistent erfolgt ist.
+com.vmware.vsan.health.test.physdiskdedupconfig.short = Überprüft, ob die Hosts und Festplatten über eine konsistente Konfiguration der Deduplizierung und Komprimierung mit dem Cluster verfügen.
+
+#
+# Dedup usage health check
+#
+com.vmware.vsan.health.test.cluster.physdiskDedupUsage.testName = Nutzungsintegrität der Deduplizierung und Komprimierung
+com.vmware.vsan.health.test.cluster.physdiskDedupUsage.testResult.label = Festplattengruppe mit nicht ordnungsgemäßer Deduplizierungs- und Komprimierungskonfiguration
+com.vmware.vsan.health.test.cluster.physdiskDedupUsage.testResult.columnDisk = Festplattengruppe
+com.vmware.vsan.health.test.cluster.physdiskDedupUsage.testResult.columnReason = Grund
+com.vmware.vsan.health.test.cluster.physdiskDedupUsage.testResult.columnReasonIncorrectDedupEnabled = Hybride Festplattengruppe mit aktivierter Deduplizierung und Komprimierung
+com.vmware.vsan.health.test.cluster.physdiskDedupUsage.testResult.columnReasonIncorrectDedupDisabled = All-Flash-Festplattengruppe ohne aktivierte Deduplizierung und Komprimierung
+com.vmware.vsan.health.test.physdiskdedupusage = Wenn diese Überprüfung fehlschlägt, bedeutet dies, dass bei einer hybriden Festplattengruppe die Deduplizierungs- und Komprimierungsfunktion aktiviert wurde.
+com.vmware.vsan.health.test.physdiskdedupusage.short = Überprüft, ob die Deduplizierungs- und Komprimierungsfunktion bei hybriden Festplattengruppen aktiviert wurde.
+
+#
+# Software version compatibility check
+#
+com.vmware.vsan.health.test.cluster.upgradesoftware.testName = Kompatibilität der Softwareversion
+
+#
+#Disk format version
+#
+com.vmware.vsan.health.test.cluster.upgradelowerhosts.testName = Version des Datenträgerformats
+
+#
+## Cluster config consistency health check
+#
+com.vmware.vsan.health.test.cluster.consistentConfig.testName = Konsistenz der vSAN-Clusterkonfiguration 
+com.vmware.vsan.health.test.cluster.consistentConfig.testResult.labelIssue = Probleme
+com.vmware.vsan.health.test.cluster.consistentConfig.testResult.columnHost = Host
+com.vmware.vsan.health.test.cluster.consistentConfig.testResult.columnDisk = Festplatte
+com.vmware.vsan.health.test.cluster.consistentConfig.testResult.columnIssue = Problem
+com.vmware.vsan.health.test.cluster.consistentConfig.testResult.columnRecommendation = Empfehlung
+com.vmware.vsan.health.test.cluster.consistentConfig.testResult.encryption.enabledwhenclusterdisabled.host = Verschlüsselung ist auf dem Host aktiviert, jedoch auf dem Cluster deaktiviert
+com.vmware.vsan.health.test.cluster.consistentConfig.testResult.encryption.disabledwhenclusterenabled.host = Verschlüsselung ist auf dem Host deaktiviert, jedoch auf dem Cluster aktiviert
+com.vmware.vsan.health.test.cluster.consistentConfig.testResult.encryption.keyencryptionkeyinconsistent.host = Datenverschlüsselungsschlüssel wurde mit einem alten Schlüssel-Verschlüsselungsschlüssel verschlüsselt
+com.vmware.vsan.health.test.cluster.consistentConfig.testResult.encryption.dataencryptionkeyinconsistent.host = Daten wurden mit einem alten Datenverschlüsselungsschlüssel verschlüsselt
+com.vmware.vsan.health.test.cluster.consistentConfig.testResult.encryption.kmsinfoinconsistent.host = Informationen von Schlüsselmanagementservern sind mit Clusterkonfiguration nicht konsistent
+com.vmware.vsan.health.test.cluster.consistentConfig.testResult.encryption.hostkeyinconsistent.host = Hostschlüssel für Host-Core-Dump-Verschlüsselung ist mit Clusterkonfiguration nicht konsistent
+com.vmware.vsan.health.test.cluster.consistentConfig.testResult.encryption.erasedisksbeforeuseinconsistent.host = Die Konfiguration des Löschens von Festplatten, bevor die Verwendung auf dem Host mit der Clusterkonfiguration nicht konsistent ist
+com.vmware.vsan.health.test.cluster.consistentConfig.testResult.encryption.enabledwhenclusterdisabled.disk = Festplattengruppe ist verschlüsselt, aber die Verschlüsselung ist auf dem Cluster deaktiviert
+com.vmware.vsan.health.test.cluster.consistentConfig.testResult.encryption.disabledwhenclusterenabled.disk = Festplattengruppe ist nicht verschlüsselt, aber die Verschlüsselung ist auf dem Cluster aktiviert
+com.vmware.vsan.health.test.cluster.consistentConfig.testResult.encryption.kmsinfoinconsistent.disk = Informationen von Schlüsselmanagementservern sind mit Clusterkonfiguration nicht konsistent
+com.vmware.vsan.health.test.cluster.consistentConfig.testResult.encryption.keyencryptionkeyinconsistent.disk = Schlüssel-Verschlüsselungsschlüssel ist mit Clusterkonfiguration nicht konsistent
+com.vmware.vsan.health.test.cluster.consistentConfig.testResult.encryption.dataencryptionkeyinconsistent.disk = Daten wurden mit einem alten Datenverschlüsselungsschlüssel verschlüsselt
+com.vmware.vsan.health.test.cluster.consistentConfig.testResult.unicast = Netzwerkkonfiguration ist nicht synchronisiert
+com.vmware.vsan.health.test.cluster.consistentConfig.testResult.remediation = Inkonsistente Konfiguration standardisieren
+com.vmware.vsan.health.test.cluster.consistentConfig.testResult.perfsvcRemediation = Automatische Standardisierung ist aktiviert. Weitere Informationen finden Sie unter 'VMware fragen'.
+com.vmware.vsan.health.test.cluster.consistentConfig.testResult.freespaceRemediation = Fügen Sie weiteren Speicher hinzu oder geben Sie Speicherplatz frei. Weitere Informationen finden Sie unter 'VMware fragen'.
+com.vmware.vsan.health.test.cluster.consistentConfig.testResult.compatibilityRemediation = Beheben Sie das Übereinstimmungsproblem. Weitere Informationen finden Sie unter 'VMware fragen'.
+com.vmware.vsan.health.test.consistentconfig = Falls diese Prüfung fehlschlägt, wurde eine inkonsistente Konfiguration (wie beispielsweise Deduplizierung/Komprimierung, Verschlüsselung) auf Hosts oder Festplatten mit dem Cluster eingerichtet.
+com.vmware.vsan.health.test.consistentconfig.short = Überprüft, ob die Hosts und Festplatten über eine konsistente Konfiguration mit dem Cluster verfügen.
+
+#
+## Encryption Key Management Server connections health check
+#
+com.vmware.vsan.health.test.encryption.kmsConnection.testName = vCenter und alle Hosts sind mit Schlüsselmanagementservern verbunden
+com.vmware.vsan.health.test.encryption.kmsConnection.testResult.labelVc = vCenter-KMS-Status
+com.vmware.vsan.health.test.encryption.kmsConnection.testResult.labelHost = Host-KMS-Status
+com.vmware.vsan.health.test.encryption.kmsConnection.testResult.columnHost = Hosts
+com.vmware.vsan.health.test.encryption.kmsConnection.testResult.columnKmsCluster = KMS-Cluster
+com.vmware.vsan.health.test.encryption.kmsConnection.testResult.columnKms = KMS-Alias
+com.vmware.vsan.health.test.encryption.kmsConnection.testResult.columnHealth = Verbindungsstatus
+com.vmware.vsan.health.test.encryption.kmsConnection.testResult.columnTrust = Vertrauensstatus
+com.vmware.vsan.health.test.encryption.kmsConnection.testResult.columnCert = Zertifikatstatus
+com.vmware.vsan.health.test.encryption.kmsConnection.testResult.columnServerCertExpire = Ablaufdatum Serverzertifikat
+com.vmware.vsan.health.test.encryption.kmsConnection.testResult.columnClientCertExpire = Ablaufdatum Clientzertifikat
+com.vmware.vsan.health.test.encryption.kmsConnection.testResult.columnIssue = Problem
+com.vmware.vsan.health.test.encryption.kmsConnection.testResult.columnRecommendation = Empfehlung
+com.vmware.vsan.health.test.encryption.kmsConnection.testResult.configissue = Informationen von Schlüsselmanagementservern sind mit Clusterkonfiguration nicht konsistent
+com.vmware.vsan.health.test.encryption.kmsConnection.testResult.remediation = Inkonsistente Konfiguration standardisieren
+com.vmware.vsan.health.test.encryption.kmsConnection.testResult.checkkms = Einstellung für Schlüsselmanagementserver überprüfen
+com.vmware.vsan.health.test.encryption.kmsConnection.testResult.certwarning = Zertifikat läuft in {days} Tagen ab.
+com.vmware.vsan.health.test.encryption.kmsConnection.testResult.certexpired = Zertifikat ist abgelaufen.
+com.vmware.vsan.health.test.encryption.kmsConnection.testResult.certinvalid = Zertifikat ist ungültig.
+com.vmware.vsan.health.test.kmsconnection = Falls diese Prüfung fehlschlägt, gibt es bei vCenter oder Hosts Probleme mit der Verbindung zu Schlüsselmanagementservern.
+com.vmware.vsan.health.test.kmsconnection.short = Prüft, ob der vCenter Server und die Hosts eine Verbindung zu Schlüsselmanagementservern herstellen können.
+
+#
+## Encryption hosts CPU AESNI enabled state check
+#
+com.vmware.vsan.health.test.encryption.hostCpuAesni.testName = CPU AES-NI ist auf Hosts aktiviert
+com.vmware.vsan.health.test.encryption.hostCpuAesni.testResult.label = CPU AES-NI-Status von Hosts
+com.vmware.vsan.health.test.encryption.hostCpuAesni.testResult.columnHost = Hosts
+com.vmware.vsan.health.test.encryption.hostCpuAesni.testResult.columnHealth = Status
+com.vmware.vsan.health.test.encryption.hostCpuAesni.testResult.columnIssue = Grund
+com.vmware.vsan.health.test.encryption.hostCpuAesni.testResult.aesnidisabled = Der CPU AES-NI wird auf dem Host nicht unterstützt oder ist deaktiviert
+com.vmware.vsan.health.test.encryption.hostcpuaesni = Falls diese Prüfung fehlschlägt, werden Hosts mit CPU AES-NI nicht unterstützt oder sind deaktiviert. Stattdessen wird Softwareverschlüsselung verwendet, die erheblich langsamer als AES-NI ist.
+com.vmware.vsan.health.test.encryption.hostcpuaesni.short = Prüft, ob bei CPU AES-NI von Hosts die Verschlüsselung aktiviert ist.
+
+#
+## Resync control health check
+#
+com.vmware.vsan.health.test.cluster.resynclimit.testName = Drosselung von Neusynchronisierungsvorgängen
+com.vmware.vsan.health.test.cluster.resynclimit.testResult.label = Hosts mit gedrosselten Neusynchronisierungsvorgängen
+com.vmware.vsan.health.test.cluster.resynclimit.testResult.columnHost = Host
+com.vmware.vsan.health.test.cluster.resynclimit.testResult.columnLimit = Grenzwert Neusynchronisierungsbandbreite
+com.vmware.vsan.health.test.resynclimit = Falls diese Prüfung fehlschlägt, werden Neusynchronisierungsvorgänge gedrosselt. Löschen Sie den Grenzwert, es sei denn, er wird für besondere Fälle wie einen potenziellen Clusterzusammenbruch benötigt.
+com.vmware.vsan.health.test.resynclimit.short = Prüft, ob die Neusynchronisierungsvorgänge auf allen Hosts gedrosselt werden. Löschen Sie den Grenzwert, es sei denn, er wird für besondere Fälle wie einen potenziellen Clusterzusammenbruch benötigt.
+
+#
+## vCenter state authoritative health check
+#
+com.vmware.vsan.health.test.cluster.vcauthoritative.testName = vCenter-Zustand ist autoritativ
+com.vmware.vsan.health.test.cluster.vcauthoritative.testResult.label = Nicht synchronisierte Hosts
+com.vmware.vsan.health.test.cluster.vcauthoritative.testResult.columnHost = Host
+com.vmware.vsan.health.test.cluster.vcauthoritative.testResult.columnLastUpdate = Zuletzt aktualisiert von VC
+com.vmware.vsan.health.test.cluster.vcauthoritative.testResult.columnLastUpdateTime = Uhrzeit der letzten Aktualisierung
+com.vmware.vsan.health.test.cluster.vcauthoritative.testResult.columnRecommendation = Empfehlung
+com.vmware.vsan.health.test.cluster.vcauthoritative.testResult.rowCurrentVc = Aktuelles VC
+com.vmware.vsan.health.test.cluster.vcauthoritative.testResult.rowDifferentVc = Anderes VC ({0})
+com.vmware.vsan.health.test.cluster.vcauthoritative.testResult.Recommendation = Wenn ein vCenter Server aus einem Backup ersetzt bzw. wiederhergestellt wurde und die aktuelle Hostliste im vCenter Server korrekt ist, die Aktion 'ESXi-Konfiguration aktualisieren' ausführen
+com.vmware.vsan.health.test.vcauthoritative = Während des normalen Betriebs wird der vCenter Server-Zustand als Wahrheitsquelle (Source of Truth) betrachtet, und ESXi-Hosts werden automatisch mit den neuesten Host-Mitgliedslisten aktualisiert. Wenn der vCenter Server aus einem Backup ersetzt oder wiederhergestellt wird, ist die Host-Mitgliedsliste im vCenter Server möglicherweise nicht synchronisiert. Bei dieser Integritätsprüfung werden solche Fälle erkannt, und eine Warnung wird ausgegeben, wenn der vCenter Server-Zustand aufgrund der Tatsache, dass der vCenter Server nicht synchronisiert ist, nicht an ESXi übertragen wurde. Stellen Sie in solchen Fällen zuerst die Mitgliedsliste im vCenter Server vollständig wieder her und führen Sie bei Bedarf die Aktion 'ESXi-Konfiguration aktualisieren' aus.
+com.vmware.vsan.health.test.vcauthoritative.short = Prüft, ob der vCenter Server-Zustand an ESXi übertragen wird und ob die Hostmitgliedschaft nicht synchronisiert ist.
+
+#
+# vSAN HCL DB up-to-date check
+#
+com.vmware.vsan.health.test.hcl.hclDbUptodate.testName = vSAN-HCL-DB aktuell
+com.vmware.vsan.health.test.hcl.hclDbUptodate.testResult.label = Info zur HCL-DB
+com.vmware.vsan.health.test.hcl.hclDbUptodate.testResult.columnEntity = Element
+com.vmware.vsan.health.test.hcl.hclDbUptodate.testResult.columnTime = Zeit in UTC
+com.vmware.vsan.health.test.hcl.hclDbUptodate.testResult.rowCurrentTime = Aktuelle Uhrzeit
+com.vmware.vsan.health.test.hcl.hclDbUptodate.testResult.rowLocalDBUpdateTime = Zuletzt aktualisierte lokale Kopie der HCL-DB
+com.vmware.vsan.health.test.hcldbuptodate = Überprüft das Alter der Hardware-Kompatibilitätshandbuch-Datenbank von VMware, die für die HCL-Prüfungen verwendet wird. Zeigt eine Warnung oder einen Fehler an, wenn sie älter als 90 bzw. 180 Tage ist. VMware aktualisiert VCG häufig, weshalb Sie darauf achten sollten, dass die lokale Kopie auf dem aktuellen Stand ist.
+com.vmware.vsan.health.test.hcldbuptodate.short = Überprüft das Alter der Hardware-Kompatibilitätshandbuch-Datenbank von VMware.
+
+
+#
+# vSAN HCL DB Auto-update check
+#
+com.vmware.vsan.health.test.hcl.autohclupdate.testName = Automatische Aktualisierung der vSAN-HCL-DB
+com.vmware.vsan.health.test.hcl.autohclupdate.testResult.label = Informationen zur automatischen Aktualisierung der HCL-DB
+com.vmware.vsan.health.test.autohclupdate = Überprüft, ob die vSAN HCL-Datenbank über die VMware HCL-Versions-Website automatisch heruntergeladen und aktualisiert werden kann. Wenn kein Internetzugang zur öffentlichen VMware-Website vorhanden oder die automatische Aktualisierung der vSAN HCL-Datenbank deaktiviert ist, befindet sich diese Integritätsprüfung standardmäßig in der Liste für automatische Integritätsprüfungen, um den übersprungenen Status anzuzeigen, es sei denn, der Benutzer entfernt sie manuell aus der Liste für die automatische Prüfung. Andernfalls wird eine Warnung anzeigt, wenn die HCL-Datenbank aus einem anderen Grund nicht automatisch aktualisiert werden kann. Mögliche Gründe sind, dass keine Verbindung zur VMware HCL-Versions-Website aufgebaut, dass die neueste HCL-Datenbank nicht heruntergeladen oder die lokale HCL-Datenbank nicht aktualisiert werden kann.
+com.vmware.vsan.health.test.autohclupdate.short = Überprüft, ob die vSAN HCL-Datenbank über die VMware HCL-Versions-Website automatisch heruntergeladen und aktualisiert werden kann. Wenn kein Internetzugang zur öffentlichen VMware-Website vorhanden oder die automatische Aktualisierung der vSAN HCL-Datenbank deaktiviert ist, befindet sich diese Integritätsprüfung standardmäßig in der Liste für automatische Integritätsprüfungen, um den übersprungenen Status anzuzeigen, es sei denn, der Benutzer entfernt sie manuell aus der Liste für die automatische Prüfung. Andernfalls wird eine Warnung anzeigt, wenn die HCL-Datenbank aus einem anderen Grund nicht automatisch aktualisiert werden kann. Mögliche Gründe sind, dass keine Verbindung zur VMware HCL-Versions-Website aufgebaut, dass die neueste HCL-Datenbank nicht heruntergeladen oder die lokale HCL-Datenbank nicht aktualisiert werden kann.
+#
+#
+# SCSI Controller on vSAN HCL check
+#
+com.vmware.vsan.health.test.hcl.controllerOnHcl.testName = SCSI-Controller ist von VMware zertifiziert
+com.vmware.vsan.health.test.hcl.controllerOnHcl.testResult.label = Liste der Controller
+com.vmware.vsan.health.test.hcl.controllerOnHcl.testResult.columnHost = Host
+com.vmware.vsan.health.test.hcl.controllerOnHcl.testResult.columnDevice = Gerät
+com.vmware.vsan.health.test.hcl.controllerOnHcl.testResult.columnUsedByVsan = Von vSAN verwendet
+com.vmware.vsan.health.test.hcl.controllerOnHcl.testResult.contentUsedByVsanYes = Ja
+com.vmware.vsan.health.test.hcl.controllerOnHcl.testResult.contentUsedByVsanNo = Nein
+com.vmware.vsan.health.test.hcl.controllerOnHcl.testResult.columnDisplayName = Aktueller Controller
+com.vmware.vsan.health.test.hcl.controllerOnHcl.testResult.contentDisplayNameNA =  n.v.
+com.vmware.vsan.health.test.hcl.controllerOnHcl.testResult.columnPCIId = PCI-ID
+com.vmware.vsan.health.test.hcl.controllerOnHcl.testResult.columnOnHCL = Zertifizierter Controller
+com.vmware.vsan.health.test.controlleronhcl.short = Überprüft, ob der Controller mit dem VMware-Kompatibilitätshandbuch kompatibel ist.
+com.vmware.vsan.health.test.controlleronhcl = Zeigt Informationen zum Speicher-E/A-Controller an und prüft basierend auf seiner PCI-ID, ob der Controller im VMware-Kompatibilitätshandbuch unterstützt wird. Ist die Übereinstimmung nicht gegeben, wenden Sie sich an den VMware-Support.
+
+#
+# Controller release support check
+#
+com.vmware.vsan.health.test.hcl.controllerReleaseSupport.testName = Controller ist von VMware zertifiziert für ESXi-Version
+com.vmware.vsan.health.test.hcl.controllerReleaseSupport.testResult.label = Liste der Controller
+com.vmware.vsan.health.test.hcl.controllerReleaseSupport.testResult.columnHost = Host
+com.vmware.vsan.health.test.hcl.controllerReleaseSupport.testResult.columnDevice = Gerät
+com.vmware.vsan.health.test.hcl.controllerReleaseSupport.testResult.columnReleaseOfESX = Aktuelle ESXi-Version
+com.vmware.vsan.health.test.hcl.controllerReleaseSupport.testResult.columnReleaseSupported = Unterstützte Version
+com.vmware.vsan.health.test.hcl.controllerReleaseSupport.testResult.columnReleaseOnHCL = Zertifizierte ESXi-Versionen
+com.vmware.vsan.health.test.controllerreleasesupport = Zeigt Informationen zu den Speicher-E/A-Controller-Treibern an. Überprüft, ob der installierte Treiber für den entsprechenden Controller in der aktuellen Version von ESXi unterstützt wird. Nur der von VMware zertifizierte Controller wird getestet und im Ergebnis aufgeführt.
+com.vmware.vsan.health.test.controllerreleasesupport.short = Zeigt Informationen dazu an, ob in der installierten Version von ESXi ein Treiber für einen bestimmten Controller unterstützt wird. Nur der von VMware zertifizierte Controller wird getestet und im Ergebnis aufgeführt.
+
+#
+# Controller Driver check
+#
+com.vmware.vsan.health.test.hcl.controllerDriver.testName = Controller-Treiber ist von VMware zertifiziert
+com.vmware.vsan.health.test.hcl.controllerDriver.testResult.label = Liste der Controller
+com.vmware.vsan.health.test.hcl.controllerDriver.testResult.columnHost = Host
+com.vmware.vsan.health.test.hcl.controllerDriver.testResult.columnDevice = Gerät
+com.vmware.vsan.health.test.hcl.controllerDriver.testResult.columnDriverInUse = Aktueller Treiber
+com.vmware.vsan.health.test.hcl.controllerDriver.testResult.columnDriverHealth = Zertifizierter Treiber
+com.vmware.vsan.health.test.hcl.controllerDriver.testResult.columnDriversOnHCL = Empfohlene Treiber
+com.vmware.vsan.health.test.controllerdriver = Prüft, ob der von einem Controller verwendete Treiber im VMware-Kompatibilitätshandbuch als zertifiziert aufgeführt ist. Nur der Controller, der auf vSAN HCL vorhanden und für die aktuelle Version von ESXi zertifiziert ist, wird getestet und im Ergebnis aufgeführt.
+com.vmware.vsan.health.test.controllerdriver.short = Überprüft, ob der Controller-Treiber von VMware zertifiziert ist. Nur der Controller, der auf vSAN HCL vorhanden und für die aktuelle Version von ESXi zertifiziert ist, wird getestet und im Ergebnis aufgeführt.
+
+
+# Controller Firmware check
+#
+#com.vmware.vsan.health.test.hcl.cimProviderInstall.testName = CIM Provider Installation
+com.vmware.vsan.health.test.hcl.cimProviderInstall.testResult.columnCIMInUse = CIM-Anbieter installiert
+com.vmware.vsan.health.test.hcl.cimProviderInstall.testResult.columnCIMSupported = CIM-Anbieter installiert?
+com.vmware.vsan.health.test.hcl.cimProviderInstall.testResult.columnCIMOnHCL = CIM-Anbieter in HCL
+com.vmware.vsan.health.test.hcl.cimProviderInstall.testResult.columnCIMSettingSupported = Unterstützte Controller-Einstellung
+com.vmware.vsan.health.test.cimproviderinstall = Überprüft, ob der Host diejenige Version des CIM-Anbieters installiert hat, die mit der im VMware-Kompatibilitätshandbuch empfohlenen Version übereinstimmt. Der Status wird in Grün angezeigt, wenn die HCL-DB entweder keinen unterstützten CIM-Anbieter ausgibt oder wenn ein empfohlener Anbieter vorhanden und mit der korrekten Version installiert ist. Andernfalls wird der Status in Gelb angezeigt.
+com.vmware.vsan.health.test.cimproviderinstall.short = Überprüft, ob das bereitgestellte CIM installiert wurde und mit dem VMware-Kompatibilitätshandbuch kompatibel ist
+
+#
+# Controller Firmware check
+#
+com.vmware.vsan.health.test.hcl.controllerFirmware.testName = Controller-Firmware ist von VMware zertifiziert
+com.vmware.vsan.health.test.hcl.controllerFirmware.testResult.columnFirmwareInUse = Aktuelle Firmware
+com.vmware.vsan.health.test.hcl.controllerFirmware.testResult.columnFirmwareHealth = Zertifizierte Firmware
+com.vmware.vsan.health.test.hcl.controllerFirmware.testResult.columnFirmwareOnHCL = Empfohlene Firmware-Versionen
+com.vmware.vsan.health.test.controllerfirmware = Prüft, ob Controller-Firmware gemäß dem VMware-Kompatibilitätshandbuch zertifiziert ist. Das Ergebnis 'n. v.' bedeutet, dass ein Anbieter-Tool (sofern verfügbar) installiert werden sollte, um die tatsächliche Firmwareversion zu ermitteln. Führen Sie dazu die Aktion 'Software aktualisieren' (sofern verfügbar) aus, um das Anbieter-Tool und die Firmware auf die empfohlene Version zu aktualisieren. Nur der Controller, der auf vSAN HCL vorhanden und für die aktuelle Version von ESXi zertifiziert ist, wird getestet und im Ergebnis aufgeführt.
+com.vmware.vsan.health.test.controllerfirmware.short = Überprüft, ob die Controller-Firmware von VMware zertifiziert ist. Das Ergebnis 'n. v.' bedeutet, dass ein Anbieter-Tool (sofern verfügbar) installiert werden sollte, um die tatsächliche Firmwareversion zu ermitteln. Führen Sie dazu die Aktion 'Software aktualisieren' (sofern verfügbar) aus, um das Anbieter-Tool und die Firmware auf die empfohlene Version zu aktualisieren. Nur der Controller, der auf vSAN HCL vorhanden und für die aktuelle Version von ESXi zertifiziert ist, wird getestet und im Ergebnis aufgeführt.
+com.vmware.vsan.health.test.controllerfirmware.norecommendedfw = Firmwareversion für diesen Controller kann nicht geprüft werden
+#
+# Controller Queue Depth check
+#
+#com.vmware.vsan.health.test.hcl.controllerQueueDepth.testName = Controller queue depth is VMware certified
+com.vmware.vsan.health.test.hcl.controllerQueueDepth.testResult.columnQueueDepthInUse = Aktuelle Warteschlangentiefe
+com.vmware.vsan.health.test.hcl.controllerQueueDepth.testResult.columnQueueDepthOnHCL = Empfohlene Warteschlangentiefe
+com.vmware.vsan.health.test.hcl.controllerQueueDepth.testResult.columnQueueDepthHealth = Zertifizierte Warteschlangentiefe
+com.vmware.vsan.health.test.controllerqueuedepth = Prüft, ob die Warteschlangentiefe des Controllers im VMware-Kompatibilitätshandbuch erfüllt ist.
+com.vmware.vsan.health.test.controllerqueuedepth.short = Prüfen, ob die Controller-Warteschlangentiefe von VMware zertifiziert ist
+
+#
+# Controller Disk Mode check
+#
+com.vmware.vsan.health.test.hcl.controllerDiskMode.testName = Controller-Festplattengruppenmodus ist von VMware zertifiziert
+com.vmware.vsan.health.test.hcl.controllerDiskMode.testResult.columnDiskModeInUse = Aktueller Festplattengruppenmodus
+com.vmware.vsan.health.test.hcl.controllerDiskMode.testResult.columnDiskModeOnHCL = Empfohlener Festplattengruppenmodus
+com.vmware.vsan.health.test.hcl.controllerDiskMode.testResult.columnDiskModeHealth = Festplattengruppenmodus ist zertifiziert
+com.vmware.vsan.health.test.controllerdiskmode = Überprüft, ob der vSAN-Festplattengruppentyp (All-Flash oder Hybrid) für den verwendeten SCSI-Controller im VMware-Kompatibilitätshandbuch zertifiziert ist. Nur der Controller, der auf vSAN HCL vorhanden und für die aktuelle Version von ESXi zertifiziert ist, wird getestet und im Ergebnis aufgeführt.
+com.vmware.vsan.health.test.controllerdiskmode.short = Überprüft, ob der vSAN-Festplattengruppentyp (All-Flash oder Hybrid) von VMware für den verwendeten SCSI-Controller zertifiziert ist, der sich auf vSAN HCL befindet und für die aktuelle Version von ESXi zertifiziert ist.
+
+#
+# Controller Cache Setting check
+#
+#com.vmware.vsan.health.test.hcl.controllerCache.testName = Controller Cache Setting
+com.vmware.vsan.health.test.hcl.controllerCache.testResult.columnCacheInUse = Verwendete Cache-Einstellung
+com.vmware.vsan.health.test.hcl.controllerCache.testResult.columnCacheHealth = Cache-Einstellungsintegrität
+com.vmware.vsan.health.test.hcl.controllerCache.testResult.columnCacheOnHCL = Cache-Einstellungen in HCL
+com.vmware.vsan.health.test.controllercache = Überprüft, ob die von einem Controller verwendete Cache-Einstellung mit einer der zertifizierten Cache-Einstellungen im VMware-Kompatibilitätshandbuch übereinstimmt.
+com.vmware.vsan.health.test.controllercache.short = Überprüft, ob die Cache-Einstellung des Controllers von VMware zertifiziert ist.
+
+#
+# Controller RAID Setting check
+#
+#com.vmware.vsan.health.test.hcl.controllerRaid.testName = Controller RAID Setting
+com.vmware.vsan.health.test.hcl.controllerRaid.testResult.columnRaidInUse = Verwendete RAID-Einstellung
+com.vmware.vsan.health.test.hcl.controllerRaid.testResult.columnRaidHealth = RAID-Einstellungsintegrität
+com.vmware.vsan.health.test.hcl.controllerRaid.testResult.columnRaidOnHCL = RAID-Einstellungen in HCL
+com.vmware.vsan.health.test.controllerraid = Überprüft, ob die von einem Controller verwendete RAID-Einstellung mit einer der zertifizierten RAID-Einstellungen im VMware-Kompatibilitätshandbuch übereinstimmt.
+com.vmware.vsan.health.test.controllerraid.short = Überprüft, ob die RAID-Einstellung für den Controller von VMware zertifiziert ist.
+
+#
+#
+# Network Adapter on vSphere VMware HCL check
+#
+com.vmware.vsan.health.test.hcl.pnicOnHcl.testName = Netzwerkadapter ist von VMware zertifiziert
+com.vmware.vsan.health.test.hcl.pnicOnHcl.testResult.label = Netzwerkadapterliste
+com.vmware.vsan.health.test.hcl.pnicOnHcl.testResult.columnHost = Host
+com.vmware.vsan.health.test.hcl.pnicOnHcl.testResult.columnDevice = Gerät
+com.vmware.vsan.health.test.hcl.pnicOnHcl.testResult.columnDisplayName = Aktueller Adapter
+com.vmware.vsan.health.test.hcl.pnicOnHcl.testResult.contentDisplayNameNA =  n.v.
+com.vmware.vsan.health.test.hcl.pnicOnHcl.testResult.columnPCIId = PCI-ID
+com.vmware.vsan.health.test.hcl.pnicOnHcl.testResult.columnOnHCL = Adapter zertifiziert
+com.vmware.vsan.health.test.pniconhcl.short = Überprüft, ob der Netzwerkadapter mit dem VMware-Kompatibilitätshandbuch kompatibel ist.
+com.vmware.vsan.health.test.pniconhcl = Zeigt Informationen zum Netzwerkadapter an und prüft basierend auf seiner PCI-ID, ob der Adapter im VMware-Kompatibilitätshandbuch unterstützt wird.
+
+#
+# Network Adapter release support check
+#
+com.vmware.vsan.health.test.hcl.pnicReleaseSupport.testName = Netzwerkadapter ist von VMware zertifiziert für ESXi-Version
+com.vmware.vsan.health.test.hcl.pnicReleaseSupport.testResult.label = Netzwerkadapterliste
+com.vmware.vsan.health.test.hcl.pnicReleaseSupport.testResult.columnHost = Host
+com.vmware.vsan.health.test.hcl.pnicReleaseSupport.testResult.columnDevice = Gerät
+com.vmware.vsan.health.test.hcl.pnicReleaseSupport.testResult.columnReleaseOfESX = Aktuelle ESXi-Version
+com.vmware.vsan.health.test.hcl.pnicReleaseSupport.testResult.columnReleaseSupported = Unterstützte Version
+com.vmware.vsan.health.test.hcl.pnicReleaseSupport.testResult.columnReleaseOnHCL = Zertifizierte ESXi-Versionen
+com.vmware.vsan.health.test.pnicreleasesupportt = Zeigt Informationen zu den Netzwerkadaptertreibern an. Überprüft, ob der installierte Treiber für den entsprechenden Adapter in der aktuellen Version von ESXi unterstützt wird.
+com.vmware.vsan.health.test.pnicreleasesupport.short = Zeigt Informationen dazu an, ob in der installierten Version von ESXi ein Treiber für einen bestimmten Netzwerkadapter unterstützt wird.
+
+#
+# Network Adapter Driver check
+#
+com.vmware.vsan.health.test.hcl.pnicDriver.testName = Netzwerkadaptertreiber ist von VMware zertifiziert
+com.vmware.vsan.health.test.hcl.pnicDriver.testResult.label = Netzwerkadapterliste
+com.vmware.vsan.health.test.hcl.pnicDriver.testResult.columnHost = Host
+com.vmware.vsan.health.test.hcl.pnicDriver.testResult.columnDevice = Gerät
+com.vmware.vsan.health.test.hcl.pnicDriver.testResult.columnDriverInUse = Aktueller Treiber
+com.vmware.vsan.health.test.hcl.pnicDriver.testResult.columnDriverHealth = Zertifizierter Treiber
+com.vmware.vsan.health.test.hcl.pnicDriver.testResult.columnDriversOnHCL = Empfohlene Treiber
+com.vmware.vsan.health.test.pnicdriver = Prüft, ob der von einem Netzwerkadapter verwendete Treiber im VMware-Kompatibilitätshandbuch als zertifiziert aufgeführt ist.
+com.vmware.vsan.health.test.pnicdriver.short = Überprüft, ob der Netzwerkadaptertreiber von VMware zertifiziert ist.
+
+#
+# Network Adapter Firmware check
+#
+com.vmware.vsan.health.test.hcl.pnicFirmware.testName = Netzwerkadapter-Firmware ist von VMware zertifiziert
+com.vmware.vsan.health.test.hcl.pnicFirmware.testResult.columnFirmwareInUse = Aktuelle Firmware
+com.vmware.vsan.health.test.hcl.pnicFirmware.testResult.columnFirmwareHealth = Zertifizierte Firmware
+com.vmware.vsan.health.test.hcl.pnicFirmware.testResult.columnFirmwaresOnHCL = Empfohlene Firmware-Versionen
+com.vmware.vsan.health.test.pnicfirmware = Prüft, ob die Netzwerkadapter-Firmware gemäß dem VMware-Kompatibilitätshandbuch zertifiziert ist.
+com.vmware.vsan.health.test.pnicfirmware.short = Überprüft, ob die Netzwerkadapter-Firmware von VMware zertifiziert ist. Die Überprüfung wird durchgeführt, wenn das Gerät und der Treiber von VMware zertifiziert sind. Wenn die Firmwareversion für das Gerät der entsprechenden Treiber nicht vorhanden ist, wird die Überprüfung grün angezeigt.
+com.vmware.vsan.health.test.pnicfirmware.norecommendedfw = Firmwareversion für diesen Netzwerkadapter kann nicht geprüft werden
+
+#
+# Host issues retrieving hardware info check
+#
+com.vmware.vsan.health.test.hcl.hclHostBadState.testName = Hostprobleme beim Abrufen von Hardwareinfo
+com.vmware.vsan.health.test.hcl.hclHostBadState.testResult.label = Hosts in ungültigem Zustand
+com.vmware.vsan.health.test.hcl.hclHostBadState.testResult.columnHost = Host
+com.vmware.vsan.health.test.hcl.hclHostBadState.testResult.columnIssue = Problem
+com.vmware.vsan.health.test.hcl.hclHostBadState.testResult.rowUnknownError = Unbekannter Fehler
+com.vmware.vsan.health.test.hclhostbadstate = Falls irgendein Host getrennt ist, nicht reagiert oder auf Versuche zum Abrufen von Hardwareinfo nicht reagiert, werden mit diesem Test solche Probleme erfasst. Für hier aufgelistete Hosts wird die Hardware nicht anhand des VMware-Kompatibilitätshandbuchs überprüft.
+com.vmware.vsan.health.test.hclhostbadstate.short = Überprüft, ob ein Host seine Hardwareinformationen nicht zurückgegeben hat.
+
+#
+#  Network health check
+#
+com.vmware.vsan.health.test.network.testResult.partitionList.label = Partitionsliste
+com.vmware.vsan.health.test.network.testResult.partitionList.columnHost = Host
+com.vmware.vsan.health.test.network.testResult.partitionList.columnPartition = Partition
+com.vmware.vsan.health.test.network.testResult.partitionList.columnHostUUID = Host-UUID
+com.vmware.vsan.health.test.network.testResult.partitionList.contentUnknownPartition = "Partition ist unbekannt"
+
+com.vmware.vsan.health.test.network.testResult.multicastMismatch.label = Multicast-Konfigurationen
+com.vmware.vsan.health.test.network.testResult.multicastMismatch.columnHost = Host
+com.vmware.vsan.health.test.network.testResult.multicastMismatch.columnMulticastIPs = Multicast-IPs
+
+com.vmware.vsan.health.test.network.testResult.subnetMismatch.label = vSAN - IP-Subnetzkonfigurationen
+com.vmware.vsan.health.test.network.testResult.subnetMismatch.columnHost = Host
+com.vmware.vsan.health.test.network.testResult.subnetMismatch.columnIPSubnet = IP-Subnetz(e)
+
+com.vmware.vsan.health.test.network.testResult.pingResult.label = Ping-Ergebnisse
+com.vmware.vsan.health.test.network.testResult.pingResult.label.onlyFailed = Nur fehlgeschlagene Pings
+com.vmware.vsan.health.test.network.testResult.pingResult.columnFromHost = Vom Host
+com.vmware.vsan.health.test.network.testResult.pingResult.columnToHost = Zu Host
+com.vmware.vsan.health.test.network.testResult.pingResult.columnToDevice = Zu Gerät
+com.vmware.vsan.health.test.network.testResult.pingResult.columnPingResult = Ping-Ergebnis
+
+com.vmware.vsan.health.test.network.testResult.hostLatencyCheck.label = Ergebnisse der Netzwerklatenzprüfung
+com.vmware.vsan.health.test.network.testResult.hostLatencyCheck.label.onlyFailed = Nur Ergebnisse von fehlgeschlagenen Netzwerklatenzprüfungen
+com.vmware.vsan.health.test.network.testResult.hostLatencyCheck.columnFromHost = Vom Host
+com.vmware.vsan.health.test.network.testResult.hostLatencyCheck.columnToHost = Zu Host
+com.vmware.vsan.health.test.network.testResult.hostLatencyCheck.columnMaxLatency = Netzwerklatenz (ms)
+com.vmware.vsan.health.test.network.testResult.hostLatencyCheck.columnPingResult = Ergebnis der Netzwerklatenzprüfung
+
+com.vmware.vsan.health.test.network.testResult.simpleHost.columnHost = Host
+
+#
+# Hosts disconnected from VC check
+#
+com.vmware.vsan.health.test.network.hostDisconnected.testName = Von VC getrennte Hosts
+com.vmware.vsan.health.test.network.hostDisconnected.testResult.label = Nicht verbundene Hosts
+com.vmware.vsan.health.test.network.testResult.hostDisconnected = Getrennt
+com.vmware.vsan.health.test.network.testResult.hostNotResponding = Keine Antwort
+com.vmware.vsan.health.test.hostdisconnected.short = Überprüft, ob VC aktiv mit allen Hosts im Cluster verbunden ist.
+com.vmware.vsan.health.test.hostdisconnected = Mit dieser Prüfung wird festgestellt, ob VC aktiv mit allen Hosts im Cluster verbunden ist. Falls ein Host von VC getrennt ist (oder nicht reagiert), können Betriebsprobleme auftreten. Falls VC nicht mit dem Host verbunden ist, ist der Status des Hosts für VC unbekannt. Möglicherweise ist der Host betriebsbereit, am vSAN-Cluster beteiligt, stellt Daten bereit und spielt eine wichtige Rolle bei den Speicherfunktionen des Clusters. Oder der Host ist möglicherweise ausgefallen und nicht verfügbar. VC und damit die vSAN-Integritätsprüfung können die Situation nicht vollständig auswerten, solange der Host getrennt ist. Falls der Host am vSAN-Cluster beteiligt ist, wird der Host bei der Prüfung 'Unerwartete vSAN-Clustermitglieder' als unerwartet angezeigt, da seine UUID nicht bestimmt werden kann. Deshalb kann die Integritätsprüfung nicht schlüssig nachweisen, ob es sich bei dem im vSAN-Cluster angezeigten Host um den getrennten Host handelt. Darüber hinaus können andere Integritätsprüfungen wie die vSAN-Konnektivitätsprüfungen oder Festplattenintegritätsprüfungen den getrennten Host nicht berücksichtigen.
+
+#
+# Hosts with connectivity issues check
+#
+com.vmware.vsan.health.test.network.hostConnectivity.testName = Hosts mit Konnektivitätsproblemen
+com.vmware.vsan.health.test.network.hostConnectivity.testResult.label = Hosts mit Kommunikationsproblemen
+com.vmware.vsan.health.test.hostconnectivity.short = Überprüft, ob API-Aufrufe von VC zu einem Host fehlschlagen, während sich der Host im Status 'verbunden' befindet.
+com.vmware.vsan.health.test.hostconnectivity = Diese Prüfung bezieht sich auf Situationen, in denen VC den Host als verbunden auflistet, aber API-Aufrufe von VC zum Host fehlschlagen. Dies sollte sehr selten vorkommen und führt ggf. zu ähnlichen Problemen wie die Situation 'Von VC getrennte Hosts'.
+
+# Cluster partition check
+com.vmware.vsan.health.test.network.clusterPartition.testName = vSAN-Clusterpartition
+com.vmware.vsan.health.test.clusterpartition = Um eine ordnungsgemäße Funktion sicherzustellen, müssen alle vSAN-Hosts in der Lage sein, sowohl über Multicast als auch über Unicast zu kommunizieren. Ist dies nicht der Fall, wird ein vSAN-Cluster in mehrere "Partitionen" aufgeteilt, also Untergruppen von Hosts, die kommunizieren können, allerdings nicht mit anderen Untergruppen. Wenn dieser Fall eintritt, werden vSAN-Objekte möglicherweise nicht mehr erreichbar, bis die falsche Netzwerkkonfiguration korrigiert wurde.
+com.vmware.vsan.health.test.clusterpartition.short = Überprüft, ob der vSAN-Cluster aufgrund eines Netzwerkproblems partitioniert wurde.
+
+#
+# Hosts vmknic check
+#
+com.vmware.vsan.health.test.network.vsanVmknic.testName = Für alle Hosts ist vSAN-vmknic konfiguriert
+com.vmware.vsan.health.test.network.vsanVmknic.testResult.label = Hosts ohne vSAN-vmknic
+com.vmware.vsan.health.test.vsanvmknic = Für die Teilnahme an einem vSAN-Cluster und die Erstellung einer einzelnen Gruppe mit vollständig verbundenen Hosts muss für jeden Host in einem vSAN-Cluster eine vmknic (VMkernel-Netzwerkschnittstelle oder VMkernel-Adapter) für vSAN-Datenverkehr konfiguriert sein.
+com.vmware.vsan.health.test.vsanvmknic.short = Überprüft, ob zu allen Hosts im vSAN-Cluster eine vmknic mit aktiviertem vSAN-Datenverkehr konfiguriert ist.
+
+#
+# Hosts subnets check
+#
+com.vmware.vsan.health.test.network.matchingSubnet.testName = Alle Hosts nutzen dieselben Subnetze
+com.vmware.vsan.health.test.matchingsubnet = Für die Teilnahme an einem vSAN-Cluster und die Erstellung einer einzelnen Gruppe mit vollständig verbundenen Hosts muss jeder Host in einem vSAN-Cluster mit jedem anderen Host im Cluster kommunizieren können. Hiermit wird überprüft, ob sich alle vSAN-vmknics im selben IP-Subnetz befinden. Falls Sie bewusst vSAN über ein L3-Netzwerk einrichten, sollte das Fehlschlagen dieser Prüfung ignoriert werden.
+com.vmware.vsan.health.test.matchingsubnet.short = Überprüft, ob sich alle Hosts im vSAN-Cluster im selben IP-Subnetz befinden.
+
+#
+# Hosts multicast settings check
+#
+com.vmware.vsan.health.test.network.multicastSettings.testName = Alle Hosts weisen dieselben Multicast-Einstellungen auf
+com.vmware.vsan.health.test.multicastsettings = Für die Teilnahme an einem vSAN-Cluster und die Erstellung einer einzelnen Gruppe mit vollständig verbundenen Hosts muss jeder Host in einem vSAN-Cluster dieselben IP-Multicast-Adressen verwenden. Darüber hinaus wird je nachdem, ob der Cluster IPv4 oder IPv6 verwendet, die entsprechende Multicast-Konfiguration verifiziert. Passen Sie die Multicast-IPs mithilfe von 'esxcli vsan network list' und 'esxcli vsan network ip set' an.
+com.vmware.vsan.health.test.multicastsettings.short = Überprüft, ob es zu allen Hosts im vSAN-Cluster eine entsprechende IP-Multicast-Konfiguration gibt. Je nachdem, ob der Cluster IPv4 oder IPv6 verwendet, wird die entsprechende Multicast-Konfiguration verifiziert.
+
+#
+# Hosts unicast conectivity check
+#
+com.vmware.vsan.health.test.network.smallPing.testName = vSAN: Einfache (Unicast) Konnektivitätsprüfung
+com.vmware.vsan.health.test.network.smallping = Führt einen Ping-Test mit einem kleinen Paket von jedem Host zu allen anderen Hosts durch. Falls diese Prüfung fehlschlägt, liegt ein grundlegendes Problem mit der Netzwerkkonnektivität vor. Überprüfen Sie vmknic, Uplink, VLAN, den physischen Switch und die zugehörigen Einstellungen. Wenn diese Prüfung erfolgreich absolviert wird, funktioniert die Basis-Unicast-Konnektivität ordnungsgemäß.
+com.vmware.vsan.health.test.network.smallping.short = Führt einen Ping-Test mit einem kleinen Paket von jedem Host zu allen anderen Hosts durch.
+
+#
+# Hosts MTU check
+#
+com.vmware.vsan.health.test.network.largePing.testName = vSAN: MTU-Prüfung (Ping mit großem Paket)
+com.vmware.vsan.health.test.network.largeping = Führt einen Ping-Test mit einem großen Paket von jedem Host zu allen anderen Hosts durch. Falls diese Überprüfung fehlschlägt, die einfache Konnektivitätsprüfung aber erfolgreich ist, liegt ein Problem mit den MTU-Einstellungen vor.
+com.vmware.vsan.health.test.network.largeping.short = Führt einen Ping-Test mit einem großen Paket von jedem Host zu allen anderen Hosts durch.
+
+#
+# Hosts network latency check
+#
+com.vmware.vsan.health.test.network.hostLatencyCheck.testName = Netzwerklatenzprüfung
+com.vmware.vsan.health.test.hostlatencycheck = Führt eine Überprüfung der Netzwerklatenz von vSAN-Hosts durch. Die Netzwerkkonfigurationsanweisung für normale Cluster erfordert eine RTT von weniger als 1 ms. Um temporäre Schwankungen zuzulassen, meldet diese Integritätsprüfung Warnungen auf Basis eines konservativen Grenzwerts von 5 ms. Wenn diese Integritätsprüfung fehlschlägt, überprüfen Sie vmknic, Uplink, VLAN, physischen Switch und zugehörige Einstellungen zum Auffinden des Netzwerkproblems. Hinweis: Diese Prüfung wird übersprungen, wenn die Konnektivitätsprüfung des Hostpaars fehlgeschlagen ist.
+com.vmware.vsan.health.test.hostlatencycheck.short = Führt eine Überprüfung der Netzwerklatenz von vSAN-Hosts durch. Erforderlich ist eine RTT größer 1 ms. Um temporäre Schwankungen zuzulassen, meldet diese Integritätsprüfung Warnungen auf Basis eines konservativen Grenzwerts von 5 ms. Hinweis: Diese Prüfung wird übersprungen, wenn die Konnektivitätsprüfung des Hostpaars fehlgeschlagen ist.
+
+#
+# Hosts multicast assessment based on other checks
+#
+com.vmware.vsan.health.test.network.multicastSuspected.testName = Multicast-Überprüfung basierend auf anderen Prüfungen
+com.vmware.vsan.health.test.multicastsuspected = Diese Prüfung weist auf ein mögliches Multicast-Problem hin, falls die vSAN-Konfigurationsprüfungen und die Unicast-Konnektivitätsprüfungen erfolgreich absolviert wurden, aber eine vSAN-Clusterpartition vorhanden ist. Falls diese Prüfung fehlschlägt, wird zusätzlich eine 'Aktive Multicast-Konnektivitätsprüfung' durchgeführt.
+com.vmware.vsan.health.test.multicastsuspected.short = Überprüft, ob ein Host im vSAN-Cluster ein IP-Multicast-Konnektivitätsproblem hat.
+
+#
+# Active multicast connectivity check
+#
+com.vmware.vsan.health.test.network.multicastDeepDive.testName = Aktive Multicast-Konnektivitätsprüfung
+com.vmware.vsan.health.test.network.multicastDeepDive.testResult.issueLabel = Erkannte Probleme
+com.vmware.vsan.health.test.network.multicastDeepDive.testResult.columnIssue = Problem
+com.vmware.vsan.health.test.network.multicastDeepDive.testResult.connectGroupLabel = Konnektivitätsgruppen
+com.vmware.vsan.health.test.network.multicastDeepDive.testResult.columnMaster = Master
+com.vmware.vsan.health.test.network.multicastDeepDive.testResult.columnMembers = Mitglieder
+com.vmware.vsan.health.test.network.multicastDeepDive.testResult.packetLabel = Pakete
+com.vmware.vsan.health.test.network.multicastDeepDive.testResult.columnTimestamp = Zeitstempel
+com.vmware.vsan.health.test.network.multicastDeepDive.testResult.columnMsgType = MsgType
+com.vmware.vsan.health.test.network.multicastDeepDive.testResult.columnSeq = Seq#
+com.vmware.vsan.health.test.network.multicastDeepDive.testResult.columnFrom = Von
+com.vmware.vsan.health.test.network.multicastDeepDive.testResult.columnTo = Bis
+com.vmware.vsan.health.test.network.multicastDeepDive.testResult.columnReceivedBy = Empfangen von
+com.vmware.vsan.health.test.multicastdeepdive = Diese Integritätsprüfung erfasst für einen bestimmten Zeitraum Multicast-Pakete auf allen Hosts im Cluster. Es wird speziell das so genannte 'CMMDS-Master-Taktsignal' überprüft. Alle als 'vSAN/CMMDS-Master' ausgewählten Hosts (einer pro Partition) senden einmal pro Sekunde ein solches Taktsignal. Diese Taktsignale werden per Multicast gesendet und alle Hosts im Cluster müssen sie empfangen, damit der Cluster ordnungsgemäß funktioniert. Wenn demnach ein Host ein Taktsignal sendet und ein anderer Host dieses nicht empfängt, weist dies auf eine fehlerhafte Multicast-Konfiguration hin, und zwar in der Regel im physischen Netzwerk.
+com.vmware.vsan.health.test.multicastdeepdive.short = Überprüft, ob alle Hosts im vSAN-Cluster das Multicast-Taktsignal des 'vSAN Master'-Hosts empfangen.
+
+#
+# Object health check
+#
+com.vmware.vsan.health.test.data.objectHealth.testName = vSAN-Objektintegrität
+com.vmware.vsan.health.test.data.objectHealth.testResult.label = Übersicht Objektintegrität
+com.vmware.vsan.health.test.data.objectHealth.testResult.columnHealthObject = Integrität/Objekte
+com.vmware.vsan.health.test.data.objectHealth.testResult.columnNumber = Anzahl
+com.vmware.vsan.health.test.data.objectHealth.testResult.columnObjectUuid = Objekte-UUID
+com.vmware.vsan.health.test.objecthealth = Liefert eine Übersicht für den gesamten Cluster, indem eine Zusammenfassung aller Objekte im Cluster angezeigt wird und die Objekte in Detailkategorien der Objektintegrität gruppiert werden.
+com.vmware.vsan.health.test.objecthealth.short = Überprüft den Integritätsstatus aller vSAN-Objekte.
+
+#
+# Inconsistent VM health check
+#
+com.vmware.vsan.health.test.data.inconsistentVm.testName = Konsistenz des VM-Betriebszustands
+com.vmware.vsan.health.test.data.inconsistentVm.testResult.label = Inkonsistenter VM-Status
+com.vmware.vsan.health.test.data.inconsistentVm.testResult.columnVm = VM
+com.vmware.vsan.health.test.data.inconsistentVm.testResult.columnHost = Host
+com.vmware.vsan.health.test.data.inconsistentVm.testResult.columnVmUuid = VM-Pfadname
+com.vmware.vsan.health.test.data.inconsistentVm.testResult.columnError = Fehler
+com.vmware.vsan.health.test.data.inconsistentVm.testResult.error.existAtHost= Nur bei Host vorhanden.
+com.vmware.vsan.health.test.data.inconsistentVm.testResult.error.existAtVC= Nur bei VC vorhanden.
+com.vmware.vsan.health.test.data.inconsistentVm.testResult.error.powerOnVCOffOnHost= Bei VC eingeschaltet, aber bei Host ausgeschaltet.
+com.vmware.vsan.health.test.data.inconsistentVm.testResult.error.powerOffVCOnHost= Bei VC ausgeschaltet, aber bei Host eingeschaltet.
+com.vmware.vsan.health.test.data.inconsistentVm.testResult.error.existMultipleHosts= Bei mehreren Hosts vorhanden.
+com.vmware.vsan.health.test.data.inconsistentVm.testResult.error.injectedError= Eingefügter Fehler für Tests.
+com.vmware.vsan.health.test.inconsistentVm = Bietet eine cluster-weite Übersicht, indem alle in vSAN bereitgestellten VMs mit inkonsistentem Betriebszustand zusammengefasst werden.
+com.vmware.vsan.health.test.inconsistentVm.short = Überprüft den Betriebszustand aller VMs, um eine Liste mit inkonsistenten VMs abzurufen.
+
+#
+# Inaccessible VM health check
+#
+com.vmware.vsan.health.test.data.inaccessibleVm.testName = VM-Zugriffsfähigkeit
+com.vmware.vsan.health.test.data.inaccessibleVm.testResult.label = Status "Nicht zugreifbare VM"
+com.vmware.vsan.health.test.data.inaccessibleVm.testResult.columnVm = VM
+com.vmware.vsan.health.test.data.inaccessibleVm.testResult.columnHost = Host
+com.vmware.vsan.health.test.data.inaccessibleVm.testResult.columnVmUuid = VM-Pfadname
+com.vmware.vsan.health.test.inaccessibleVm = Bietet eine cluster-weite Übersicht, indem alle in vSAN bereitgestellten VMs zusammengefasst werden, auf die ein Zugriff nicht möglich ist.
+com.vmware.vsan.health.test.inaccessibleVm.short = Überprüft den Verbindungsstatus aller VMs, um eine Liste mit VMs abzurufen, auf die ein Zugriff nicht möglich ist.
+
+#
+# Object Data protection health check
+#
+com.vmware.vsan.health.test.dataprotection.objectdphealth.testName = vSAN-Objektdatenschutz-Integrität
+com.vmware.vsan.health.test.dataprotection.objectdphealth.testResult.label = Übersicht Objektdatenschutz-Integrität
+com.vmware.vsan.health.test.dataprotection.objectdphealth.testResult.columnHealthObject = Integrität/Objekte
+com.vmware.vsan.health.test.dataprotection.objectdphealth.testResult.columnNumber = Anzahl
+com.vmware.vsan.health.test.dataprotection.objectdphealth.testResult.columnObjectUuid = Objekt-UUIDs
+com.vmware.vsan.health.test.objectdphealth = Bietet eine Übersicht für den gesamten Cluster, indem eine Zusammenfassung aller Objekte im Cluster angezeigt wird und die Objekte in Detailkategorien der Objektdatenschutz-Integrität gruppiert werden.
+com.vmware.vsan.health.test.objectdphealth.short = Überprüft den Objektdatenschutz-Integritätsstatus aller vSAN-Objekte.
+
+#
+# Data protection version check
+#
+com.vmware.vsan.health.test.dataprotection.dataprotectionversion.testName = Datenschutzdienst-Versionsüberprüfung
+com.vmware.vsan.health.test.dataprotection.dataprotectionversion.testResult.label = vSAN-Datenschutzdienst-Versionsüberprüfung
+com.vmware.vsan.health.test.dataprotection.dataprotectionversion.testResult.columnHost = Host
+com.vmware.vsan.health.test.dataprotection.dataprotectionversion.testResult.columnVersionEsx = Version in ESXi
+com.vmware.vsan.health.test.dataprotection.dataprotectionversion.testResult.columnVersionVc = Version in VC
+com.vmware.vsan.health.test.dataprotection.dataprotectionversion.testResult.columnError = Fehler
+com.vmware.vsan.health.test.dataprotectionversion = Überprüft, ob die Hosts im Cluster über Datenschutz-kompatible Softwareversionen verfügen.
+com.vmware.vsan.health.test.dataprotectionversion.short = Überprüft, ob alle Hosts in einem vSAN-Cluster über Datenschutz-kompatible Softwareversionen verfügen.
+com.vmware.vsan.health.test.dataprotection.dataprotectionversion.issues.notSupported = Der Host unterstützt keinen Datenschutz.
+
+#
+# vSAN DPD liveness check
+#
+com.vmware.vsan.health.test.dataprotection.dpdliveness.testName = vSAN DPD-Aktivität
+com.vmware.vsan.health.test.dataprotection.dpdliveness.testResult.label = vSAN DPD-Aktivität - Host
+com.vmware.vsan.health.test.dataprotection.dpdliveness.testResult.columnHost = Host
+com.vmware.vsan.health.test.dataprotection.dpdliveness.testResult.columnState = Status
+com.vmware.vsan.health.test.dataprotection.dpdliveness.testResult.columnError = Fehler
+com.vmware.vsan.health.test.dataprotection.dpdliveness.testResult.hostUnknown = Unbekannt
+com.vmware.vsan.health.test.dpdliveness = Überprüfen der DPD-Aktivität auf allen vSAN-Hosts
+com.vmware.vsan.health.test.dpdliveness.short = Überprüfen, ob der DP-Daemon aktiv ist
+
+#
+# vSAN datastore usage threshold check
+#
+com.vmware.vsan.health.test.dataprotection.datastoreusage.testName = Überprüfung des Schwellenwerts für vSAN-Datenspeichernutzung
+com.vmware.vsan.health.test.dataprotection.datastoreusage.testResult.label = Schwellenwert für vSAN-Datenspeichernutzung - Host
+com.vmware.vsan.health.test.dataprotection.datastoreusage.testResult.columnHost = Host
+com.vmware.vsan.health.test.dataprotection.datastoreusage.testResult.columnDatastoreUsage  = Datenspeichernutzung
+com.vmware.vsan.health.test.dataprotection.datastoreusage.testResult.columnConfiguredUsageThreshold  = Konfigurierter Nutzungsschwellenwert
+com.vmware.vsan.health.test.dataprotection.datastoreusage.testResult.columnStatus = Status
+com.vmware.vsan.health.test.dataprotection.datastoreusage.testResult.columnError = Fehler
+com.vmware.vsan.health.test.datastoreusage = Überprüfen der vSAN-Datenspeichernutzung im Cluster, um zu ermitteln, ob der Datenschutz fortgeführt werden soll
+com.vmware.vsan.health.test.datastoreusage.short = Überprüfen Sie die vSAN-Datenspeichernutzung. Der Datenschutz wird beendet, wenn die Datenspeichernutzung unterhalb des konfigurierten Nutzungsschwellenwerts liegt. Nur diejenigen Hosts, die den konfigurierten Schwellenwert überschritten haben oder im Begriff sind, diesen zu überschreiten, werden gemeldet.
+
+#
+# Data protection config check
+#
+com.vmware.vsan.health.test.dataprotection.dpcfgsync.testName = vSAN-Datenschutzdienst-Konfiguration synchronisiert
+com.vmware.vsan.health.test.dataprotection.dpcfgsync.testResult.label = vSAN-Datenschutzdienst-Konfigurationsoptionen
+com.vmware.vsan.health.test.dataprotection.dpcfgsync.testResult.columnOption = Option
+com.vmware.vsan.health.test.dataprotection.dpcfgsync.testResult.columnValue = Wert
+com.vmware.vsan.health.test.dataprotection.dpcfgsync.testResult.columnStatus = Konsistenzprüfung
+com.vmware.vsan.health.test.dataprotection.dpcfgsync.testResult.columnHostsWithValue = Inkonsistente Hosts
+com.vmware.vsan.health.test.dpcfgsync = Mit dieser Prüfung wird sichergestellt, dass die Konfiguration des vSAN-Datenschutzdiensts auf allen Hosts im Cluster konsistent mit der Konfiguration auf Clusterebene ist.
+com.vmware.vsan.health.test.dpcfgsync.short = Überprüft, ob alle Hosts in einem vSAN-Cluster über konsistente Datenschutz-Konfigurationsoptionen verfügen.
+
+#
+# Data protection archival target accessibility check
+#
+com.vmware.vsan.health.test.dataprotection.archivalaccessibility.testName = Verfügbarkeit des vSAN-Datenschutz-Archivierungsziels
+com.vmware.vsan.health.test.dataprotection.archivalaccessibility.testResult.label = Verfügbarkeit des vSAN-Datenschutz-Archivierungsziels
+com.vmware.vsan.health.test.dataprotection.archivalaccessibility.testResult.columnHost = Host
+com.vmware.vsan.health.test.dataprotection.archivalaccessibility.testResult.columnArchive = Archiv
+com.vmware.vsan.health.test.dataprotection.archivalaccessibility.testResult.columnArchiveUrl = Archiv-URL
+com.vmware.vsan.health.test.dataprotection.archivalaccessibility.testResult.columnStatus = Status
+com.vmware.vsan.health.test.dataprotection.archivalaccessibility.testResult.columnError = Fehler
+com.vmware.vsan.health.test.archivalaccessibility = Überprüfen Sie die Verfügbarkeit des Datenschutz-Archivierungsziels auf allen Hosts im vSAN-Cluster.
+com.vmware.vsan.health.test.archivalaccessibility.short = Überprüfen Sie die Verfügbarkeit des Datenschutz-Archivierungsziels auf allen Hosts im vSAN-Cluster.
+
+#
+# VM health check
+#
+com.vmware.vsan.health.test.data.vmHealth.testName = vSAN-VM-Integrität
+com.vmware.vsan.health.test.data.vmHealth.testResult.label = Übersicht VM-Integrität
+com.vmware.vsan.health.test.data.vmHealth.testResult.columnHealthVM = Integritätsstatus
+com.vmware.vsan.health.test.data.vmHealth.testResult.columnNumber = Anzahl
+com.vmware.vsan.health.test.data.vmHealth.testResult.columnMoRefs = Virtuelle Maschinen
+com.vmware.vsan.health.test.vmhealth = Liefert eine Übersicht für den gesamten Cluster, indem eine Zusammenfassung aller VMs im Cluster angezeigt wird und die VMs in Detailkategorien der VM-Integrität gruppiert werden.
+com.vmware.vsan.health.test.vmhealth.short = Überprüft den Integritätsstatus aller vSAN-VMs.
+
+# Limit check
+#
+com.vmware.vsan.health.test.limits.limit0hf.testName = Aktuelle Clustersituation
+com.vmware.vsan.health.test.limits.limit1hf.testName = Nach 1 zusätzlichem Host-Fehler
+com.vmware.vsan.health.test.limits.nodecomponentlimit.testName = Host-Komponentengrenzwert
+com.vmware.vsan.health.test.nodecomponentlimit = Diese Integritätsprüfungen listen den Komponentengrenzwert und seine Nutzung für jeden Host auf. Wenn der Komponentengrenzwert erreicht oder die Komponente nicht verteilt wurde, sollten Sie einen neuen Host hinzufügen oder diese Komponenten neu verteilen.
+com.vmware.vsan.health.test.nodecomponentlimit.short = Überprüft den Host-Komponentengrenzwert und die Nutzung für alle Hosts im vSAN-Cluster
+com.vmware.vsan.health.test.limit0hf = Überprüft die Komponentengrenzwerte, die freie Festplattenkapazität und die Lesecache-Reservierungen im gesamten Cluster. Beachten Sie, dass dies eine einfache Sichtweise der Ressourcen darstellt und nicht alle vSAN-Platzierungsregeln berücksichtigt werden. Die Anzahl der tatsächlich verwendbaren Ressourcen ist möglicherweise geringer.
+com.vmware.vsan.health.test.limit0hf.short = Überprüft die Komponentengrenzwerte, den Speicherplatz und Lesecache-Reservierungen in vSAN.
+com.vmware.vsan.health.test.limit1hf = Diese Integritätsprüfung simuliert den Ausfall des Hosts durch die Belegung des Großteils der Ressourcen und zeigt dann die Belegung der Clusterressourcen an. Zunächst einmal wären die Ressourcen auf diesem Host nicht mehr verfügbar. Zweitens versucht vSAN, alle Objekte erneut zu schützen, die nun mit verringerter Redundanz ausgeführt werden. Der erneute Schutz aller Objekte ist nicht möglich, falls die Auslastung höher als 100 % ist.
+com.vmware.vsan.health.test.limit.testResult.columnHostCompUtilization = Nutzung der Hostkomponenten
+com.vmware.vsan.health.test.limit1hf.short = Überprüft die Komponentengrenzwerte, den Speicherplatz und RC-Reservierungen in vSAN, indem davon ausgegangen wird, dass ein Host fehlgeschlagen ist.
+com.vmware.vsan.health.test.limit.testResult.label = Ressourcen
+com.vmware.vsan.health.test.limit.testResult.columnResource = Ressourcen
+com.vmware.vsan.health.test.limit.testResult.columnUtilization = Auslastung
+com.vmware.vsan.health.test.limit.testResult.columnHealth = Integrität
+com.vmware.vsan.health.test.limit.testResult.compUtilization = Komponentennutzung
+com.vmware.vsan.health.test.limit.testResult.rowDiskSpaceUtilization = Festplattenspeichernutzung
+com.vmware.vsan.health.test.limit.testResult.rowRCReservations = Lesecache-Reservierungen
+com.vmware.vsan.health.test.limit.testResult.columnHostType = Typ
+
+#
+# Physical disk health retrieval issues check
+#
+com.vmware.vsan.health.test.physicalDisks.physdiskHostIssues.testName = Probleme beim Abrufen der Integrität des physischen Datenträgers
+com.vmware.vsan.health.test.physicalDisks.physdiskHostIssues.testResult.label = Hosts mit Problemen
+com.vmware.vsan.health.test.physicalDisks.physdiskHostIssues.testResult.columnHost = Host
+com.vmware.vsan.health.test.physicalDisks.physdiskHostIssues.testResult.columnError = Fehler
+com.vmware.vsan.health.test.physdiskhostissues = Diese Prüfung weist darauf hin, dass es beim Abrufen der Informationen zum physischen Datenträger von mindestens einem Host im vSAN-Cluster ein Problem gab. Informationen zur genauen Ursache finden Sie in den Details.
+com.vmware.vsan.health.test.physdiskhostissues.short = Überprüft, ob es beim Abrufen der Informationen zum physischen Datenträger von Hosts im vSAN-Cluster ein Problem gibt.
+
+#
+# Overall disk health check
+#
+com.vmware.vsan.health.test.physicalDisks.physdiskOverall.testName = Betriebsintegrität
+com.vmware.vsan.health.test.physicalDisks.physdiskOverall.testResult.label = Datenträger mit Problemen
+com.vmware.vsan.health.test.physicalDisks.physdiskOverall.testResult.columnHost = Host
+com.vmware.vsan.health.test.physicalDisks.physdiskOverall.testResult.columnDisk = Festplatte
+com.vmware.vsan.health.test.physicalDisks.physdiskOverall.testResult.columnOverall = Gesamt-Betriebsintegrität
+com.vmware.vsan.health.test.physicalDisks.physdiskOverall.testResult.columnOperational = Betriebsbereit
+com.vmware.vsan.health.test.physicalDisks.physdiskOverall.testResult.columnMetadata = Metadaten
+com.vmware.vsan.health.test.physicalDisks.physdiskOverall.testResult.columnUUID = UUID
+com.vmware.vsan.health.test.physicalDisks.physdiskOverall.testResult.columnOperationalState = Betriebszustand
+com.vmware.vsan.health.test.physicalDisks.physdiskOverall.testResult.columnRecommendation = Empfehlung
+com.vmware.vsan.health.test.physicalDisks.physdiskOverall.testResult.failed = Permanenter Festplattenfehler
+com.vmware.vsan.health.test.physicalDisks.physdiskOverall.testResult.failed.propagated = Weitergegebener permanenter Festplattenfehler in Festplattengruppe
+com.vmware.vsan.health.test.physicalDisks.physdiskOverall.testResult.offline = Permanenter Festplattenverlust
+com.vmware.vsan.health.test.physicalDisks.physdiskOverall.testResult.decommissioned = Festplatte außer Betrieb
+com.vmware.vsan.health.test.physicalDisks.physdiskOverall.testResult.latency.evacuating = Bevorstehender permanenter Festplattenfehler, Daten werden evakuiert
+com.vmware.vsan.health.test.physicalDisks.physdiskOverall.testResult.latency.evacuateFailed = Bevorstehender permanenter Festplattenfehler, Evakuierung ist aufgrund von zu wenig Ressourcen fehlgeschlagen
+com.vmware.vsan.health.test.physicalDisks.physdiskOverall.testResult.latency.evacuateInaccessible = Bevorstehender permanenter Festplattenfehler, Evakuierung ist aufgrund von nicht zugreifbaren Objekten fehlgeschlagen
+com.vmware.vsan.health.test.physicalDisks.physdiskOverall.testResult.latency.evacuated = Bevorstehender permanenter Festplattenfehler, Datenevakuierung abgeschlossen
+com.vmware.vsan.health.test.physicalDisks.physdiskOverall.testResult.logCongestion.evacuating = Übermäßige Protokollüberlastung festgestellt, Daten werden evakuiert
+com.vmware.vsan.health.test.physicalDisks.physdiskOverall.testResult.logCongestion.evacuateFailed = Übermäßige Protokollüberlastung festgestellt, Evakuierung aufgrund unzureichender Ressourcen fehlgeschlagen
+com.vmware.vsan.health.test.physicalDisks.physdiskOverall.testResult.logCongestion.evacuateInaccessible = Übermäßige Protokollüberlastung festgestellt, Evakuierung aufgrund nicht zugreifbarer Objekte fehlgeschlagen
+com.vmware.vsan.health.test.physicalDisks.physdiskOverall.testResult.logCongestion.evacuated = Übermäßige Protokollüberlastung festgestellt, Datenevakuierung wurde abgeschlossen
+com.vmware.vsan.health.test.physicalDisks.physdiskOverall.testResult.propagated.evacuating = Weitergegebener permanenter Festplattenfehler in der Festplattengruppe, Daten werden evakuiert
+com.vmware.vsan.health.test.physicalDisks.physdiskOverall.testResult.propagated.evacuateFailed = Weitergegebener permanenter Festplattenfehler in der Festplattengruppe, Evakuierung aufgrund unzureichender Ressourcen fehlgeschlagen
+com.vmware.vsan.health.test.physicalDisks.physdiskOverall.testResult.propagated.evacuateInaccessible = Weitergegebener permanenter Festplattenfehler in der Festplattengruppe, Evakuierung aufgrund nicht zugreifbarer Objekte fehlgeschlagen
+com.vmware.vsan.health.test.physicalDisks.physdiskOverall.testResult.propagated.evacuated = Weitergegebener permanenter Festplattenfehler in der Festplattengruppe, Datenevakuierung wurde abgeschlossen
+com.vmware.vsan.health.test.physicalDisks.physdiskOverall.testResult.unknown = Unbekannter Festplattenintegritätszustand
+com.vmware.vsan.health.test.physdiskoverall = Überprüft die Betriebsintegrität der physischen Festplatten für alle Hosts im vSAN-Cluster. Wenn diese Überprüfung fehlschlägt, kann die entsprechende Festplatte nicht mehr von vSAN verwendet werden. Mögliche Gründe können hierbei ein Problem beim Lesen der Festplatten-Metadaten oder ein vSAN-Softwareproblem sein, aufgrund dessen diese Festplatte nicht mehr verwendet werden kann.
+com.vmware.vsan.health.test.physdiskoverall.short = Überprüft die Betriebsintegrität der physischen Festplatten aller Hosts im vSAN-Cluster.
+com.vmware.vsan.health.test.physicalDisks.physdiskOverall.testResult.recommendation.error = Entfernen Sie die Festplatte.
+com.vmware.vsan.health.test.physicalDisks.physdiskOverall.testResult.recommendation.error.propagated = Unmounten Sie die Festplattengruppe.
+com.vmware.vsan.health.test.physicalDisks.physdiskOverall.testResult.recommendation.refer = Weitere Informationen finden Sie bei der Empfehlung einer Cache-Festplatte.
+com.vmware.vsan.health.test.physicalDisks.physdiskOverall.testResult.recommendation.latency.evacuating = Festplatte muss nach Abschluss der Evakuierung ausgetauscht werden, stellen Sie eine Ersatzfestplatte bereit
+com.vmware.vsan.health.test.physicalDisks.physdiskOverall.testResult.recommendation.latency.evacuateFailed = {0} GB Kapazität zum Cluster hinzufügen
+com.vmware.vsan.health.test.physicalDisks.physdiskOverall.testResult.recommendation.latency.evacuateInaccessible = Sehen Sie sich die Integritätsprüfung zu 'Daten' an und beheben Sie das Problem mit den nicht zugreifbaren Objekten.
+com.vmware.vsan.health.test.physicalDisks.physdiskOverall.testResult.recommendation.latency.evacuated = Wenn die Festplatte zu einer Festplattengruppe mit aktivierter Deduplizierung gehört, entfernen Sie die Festplattengruppe aus vSAN, tauschen Sie die betroffene Festplatte aus und fügen Sie die Festplattengruppe wieder hinzu. Andernfalls entfernen Sie nur die betroffene Festplatte und fügen Sie einen entsprechenden Ersatz hinzu
+com.vmware.vsan.health.test.physicalDisks.physdiskOverall.testResult.recommendation.logCongestion.evacuating = Keine Aktion während der Evakuierung notwendig
+com.vmware.vsan.health.test.physicalDisks.physdiskOverall.testResult.recommendation.logCongestion.evacuateFailed = {0} GB Kapazität zum Cluster hinzufügen
+com.vmware.vsan.health.test.physicalDisks.physdiskOverall.testResult.recommendation.logCongestion.evacuateInaccessible = Sehen Sie sich die Integritätsprüfung zu 'Daten' an und beheben Sie das Problem mit den nicht zugreifbaren Objekten.
+com.vmware.vsan.health.test.physicalDisks.physdiskOverall.testResult.recommendation.logCongestion.evacuated = Entfernen Sie die Festplattengruppe aus vSAN und fügen Sie sie wieder hinzu
+com.vmware.vsan.health.test.physicalDisks.physdiskOverall.testResult.recommendation.propagated.evacuating = Keine Aktion während der Evakuierung notwendig
+com.vmware.vsan.health.test.physicalDisks.physdiskOverall.testResult.recommendation.propagated.evacuateFailed = {0} GB Kapazität zum Cluster hinzufügen
+com.vmware.vsan.health.test.physicalDisks.physdiskOverall.testResult.recommendation.propagated.evacuateInaccessible = Sehen Sie sich die Integritätsprüfung zu 'Daten' an und beheben Sie das Problem mit den nicht zugreifbaren Objekten.
+com.vmware.vsan.health.test.physicalDisks.physdiskOverall.testResult.recommendation.propagated.evacuated = Entfernen Sie die Festplattengruppe aus vSAN, tauschen Sie die betroffene Festplatte aus und fügen Sie die Festplattengruppe wieder hinzu
+
+#
+# Component limit health check
+#
+com.vmware.vsan.health.test.physicalDisks.physdiskcomplimithealth.testName = Integrität des Komponentengrenzwerts
+com.vmware.vsan.health.test.physicalDisks.componentUtilization.testResult.label = Alle Datenträger
+com.vmware.vsan.health.test.physicalDisks.componentLimitHealth.testResult.label = Datenträger mit Problemen
+com.vmware.vsan.health.test.physicalDisks.componentLimitHealth.testResult.columnHost = Host
+com.vmware.vsan.health.test.physicalDisks.componentLimitHealth.testResult.columnUtilization = Nutzung der Festplattenkomponenten
+com.vmware.vsan.health.test.physicalDisks.componentLimitHealth.testResult.columnHealth = Integrität
+com.vmware.vsan.health.test.physdiskcomplimithealth = Überprüft, ob die Anzahl der Komponenten auf dem physischen Datenträger den maximalen Grenzwert erreicht
+com.vmware.vsan.health.test.physdiskcomplimithealth.short = Überprüft die Komponentengrenzwerte auf allen physischen Datenträgern.
+
+#
+# Disk capacity check
+#
+# Metadata health check
+#
+com.vmware.vsan.health.test.physicalDisks.physdiskMetadata.testName = Metadaten-Integrität
+com.vmware.vsan.health.test.physicalDisks.physdiskMetadata.testResult.label = Datenträger mit Problemen
+com.vmware.vsan.health.test.physicalDisks.physdiskMetadata.testResult.columnHost = Host
+com.vmware.vsan.health.test.physicalDisks.physdiskMetadata.testResult.columnDisk = Festplatte
+com.vmware.vsan.health.test.physicalDisks.physdiskMetadata.testResult.columnMetadata = Metadaten
+com.vmware.vsan.health.test.physicalDisks.physdiskMetadata.testResult.columnUuid = UUID
+com.vmware.vsan.health.test.physdiskmetadata = Wenn diese Prüfung fehlschlägt, hat vSAN ein Problem beim Lesen der Metadaten auf dem Datenträger festgestellt und kann deshalb den Datenträger nicht verwenden.
+com.vmware.vsan.health.test.physdiskmetadata.short = Überprüft die Integrität der Metadaten auf allen physischen Datenträgern.
+
+#
+# Disk capacity check
+#
+com.vmware.vsan.health.test.physicalDisks.physdiskCapacity.testName = Festplattenkapazität
+com.vmware.vsan.health.test.physicalDisks.physdiskCapacity.testResult.label = Datenträger mit Problemen
+com.vmware.vsan.health.test.physicalDisks.physdiskCapacity.testResult.columnHost = Host
+com.vmware.vsan.health.test.physicalDisks.physdiskCapacity.testResult.columnDisk = Festplatte
+com.vmware.vsan.health.test.physicalDisks.physdiskCapacity.testResult.columnCapacity = Kapazität
+com.vmware.vsan.health.test.physicalDisks.physdiskCapacity.testResult.columnFreeSpace = Freier Speicherplatz
+com.vmware.vsan.health.test.physicalDisks.physdiskCapacity.testResult.columnRebalanceState = Status neu verteilen
+com.vmware.vsan.health.test.physicalDisks.physdiskCapacity.testResult.columnUuid = UUID
+com.vmware.vsan.health.test.physdiskcapacity = Wenn diese Prüfung für einen bestimmten Datenträger fehlschlägt, ist dies ein Hinweis darauf, dass auf diesem Datenträger wenig freier Speicherplatz vorhanden ist. Diese Integritätsprüfung betrifft nur Kapazitätslaufwerke, nicht die Cache-Geräte.
+com.vmware.vsan.health.test.physdiskcapacity.short = Überprüft den freien Speicherplatz auf den physischen Datenträgern im vSAN-Cluster.
+
+#
+# Software state check
+#
+com.vmware.vsan.health.test.physicalDisks.physdiskSoftware.testName = Softwarezustand-Integrität
+com.vmware.vsan.health.test.physicalDisks.physdiskSoftware.testResult.label = Datenträger mit Problemen
+com.vmware.vsan.health.test.physicalDisks.physdiskSoftware.testResult.columnHost = Host
+com.vmware.vsan.health.test.physicalDisks.physdiskSoftware.testResult.columnDisk = Festplatte
+com.vmware.vsan.health.test.physicalDisks.physdiskSoftware.testResult.columnSoftware = Software
+com.vmware.vsan.health.test.physicalDisks.physdiskSoftware.testResult.columnInCmmdsVsi = In CMMDS/VSI
+com.vmware.vsan.health.test.physicalDisks.physdiskSoftware.testResult.columnUuid = UUID
+com.vmware.vsan.health.test.physicalDisks.physdiskSoftware.testResult.columnReason = Grund
+com.vmware.vsan.health.test.physicalDisks.physdiskSoftware.testResult.locked = Die Festplatte ist verschlüsselt und gesperrt, da der Verschlüsselungsschlüssel nicht verfügbar ist. Überprüfen Sie den KMS-Serverstatus und vergewissern Sie sich, dass der Verschlüsselungsschlüssel abgerufen werden kann.
+com.vmware.vsan.health.test.physicalDisks.physdiskSoftware.testResult.recovery = Der Datenträger befindet sich in der regulären Wiederherstellungs-/Initialisierungsphase und steht nach Abschluss der Wiederherstellung zur Verwendung bereit.
+com.vmware.vsan.health.test.physdisksoftware = Wenn diese Prüfung für einen bestimmten Datenträger fehlschlägt, hat vSAN ein Problem festgestellt, das die Verwendung des Datenträgers verhindert. Wenn von keiner anderen Integritätsprüfung ein Fehler angezeigt wird, ist das Problem wahrscheinlich in der vSAN-Software selbst vorhanden.
+com.vmware.vsan.health.test.physdisksoftware.short = Prüft, ob Softwareprobleme vorhanden sind, die vSAN daran hindern, vom Datenträger zu lesen.
+
+#
+# Congestion check
+#
+com.vmware.vsan.health.test.physicalDisks.physdiskCongestion.testName = Überlastung
+com.vmware.vsan.health.test.physicalDisks.physdiskCongestion.testResult.label = Datenträger mit Problemen
+com.vmware.vsan.health.test.physicalDisks.physdiskCongestion.testResult.columnHost = Host
+com.vmware.vsan.health.test.physicalDisks.physdiskCongestion.testResult.columnDisk = Festplatte
+com.vmware.vsan.health.test.physicalDisks.physdiskCongestion.testResult.columnCongestion = Überlastung
+com.vmware.vsan.health.test.physicalDisks.physdiskCongestion.testResult.columnCongestionInfo = Überlastungs-Info
+com.vmware.vsan.health.test.physicalDisks.physdiskCongestion.testResult.columnUuid = UUID
+com.vmware.vsan.health.test.physdiskcongestion = Wenn dieser Integritätsstatus nicht grün/OK ist, verwendet vSAN den Datenträger noch, aber er weist einen Status mit (möglicherweise stark) verminderter Leistung auf. Sichtbar ist dies an niedrigem Durchsatz/IOPS und hoher Latenz für vSAN-Objekte, die diesen Datenträger verwenden.
+com.vmware.vsan.health.test.physdiskcongestion.short = Überprüft, ob vSAN den Datenträger mit verminderter Leistung nutzt.
+
+#
+# Components metadata check
+#
+com.vmware.vsan.health.test.physicalDisks.componentMetadata.testName = Metadaten-Integrität: Komponenten
+com.vmware.vsan.health.test.physicalDisks.componentMetadata.testResult.label = Komponenten mit Problemen
+com.vmware.vsan.health.test.physicalDisks.componentMetadata.testResult.columnHost = Host
+com.vmware.vsan.health.test.physicalDisks.componentMetadata.testResult.columnHeap = Komponente
+com.vmware.vsan.health.test.physicalDisks.componentMetadata.testResult.columnHealth = Integrität
+com.vmware.vsan.health.test.physicalDisks.componentMetadata.testResult.columnNotes = Notizen
+com.vmware.vsan.health.test.componentmetadata = Diese Prüfung schlägt fehl, wenn vSAN ein Problem mit der Integrität der Metadaten einer Komponente auf diesem Datenträger gefunden hat. Dies könnte zurückzuführen sein auf fehlerhafte Laufwerke, einen fehlerhaften Controller oder einen Gerätetreiber mit fehlerhaftem Verhalten, aber auch auf ein Problem in der vSAN-Software. Es wird empfohlen, sich an den VMware-Support zu wenden.
+com.vmware.vsan.health.test.componentmetadata.short = Überprüft, ob vSAN ein Integritätsproblem der Metadaten einer Komponente auf diesem Datenträger gefunden hat.
+
+#
+# Memory pools (heaps) check
+#
+com.vmware.vsan.health.test.physicalDisks.lsomHeap.testName = Speicherpools (Heaps)
+com.vmware.vsan.health.test.physicalDisks.lsomHeap.testResult.label = Heaps mit Problemen
+com.vmware.vsan.health.test.physicalDisks.lsomHeap.testResult.columnHost = Host
+com.vmware.vsan.health.test.physicalDisks.lsomHeap.testResult.columnHeap = Heap
+com.vmware.vsan.health.test.physicalDisks.lsomHeap.testResult.columnHealth = Integrität
+com.vmware.vsan.health.test.lsomheap = Diese Prüfung schlägt fehl, wenn vSAN nur über wenige wichtige Speicherpools verfügt, die für den ordnungsgemäßen Betrieb physischer Datenträger erforderlich sind. Selbst bei hoher Auslastung sollte dies nicht passieren. Falls dieses Problem dennoch auftritt, sollten Sie sich an den VMware-Support wenden. Der Datenträger wird wahrscheinlich auch als überlastet eingestuft, was wiederum zu Leistungsproblemen führt.
+com.vmware.vsan.health.test.lsomheap.short = Überprüft, ob vSAN nur über wenige wichtige Speicherpools verfügt, die für den ordnungsgemäßen Betrieb physischer Datenträger erforderlich sind.
+
+#
+# Memory pools (slabs) check
+#
+com.vmware.vsan.health.test.physicalDisks.lsomslab.testName = Speicherpools (bereiche)
+com.vmware.vsan.health.test.physicalDisks.lsomslab.testResult.label = Bereiche mit Problemen
+com.vmware.vsan.health.test.physicalDisks.lsomslab.testResult.columnHost = Host
+com.vmware.vsan.health.test.physicalDisks.lsomslab.testResult.columnSlab = Bereich
+com.vmware.vsan.health.test.physicalDisks.lsomslab.testResult.columnHealth = Integrität
+com.vmware.vsan.health.test.lsomslab = Diese Prüfung schlägt fehl, wenn vSAN nur über wenig wichtigen Speicherpool verfügt, der für den ordnungsgemäßen Betrieb physischer Datenträger erforderlich ist. Selbst bei hoher Auslastung sollte dies nicht passieren. Falls dieses Problem dennoch auftritt, sollten Sie sich an den VMware-Support wenden. Der Datenträger wird wahrscheinlich auch als überlastet eingestuft, was wiederum zu Leistungsproblemen führt.
+com.vmware.vsan.health.test.lsomslab.short = Überprüft, ob vSAN nur über wenig wichtigen Speicherpool verfügt, der für den Betrieb physischer Datenträger erforderlich ist.
+
+#
+# Generic cluster check
+#
+com.vmware.vsan.health.test.genericCluster.drsEnabled.testName = DRS aktiviert
+com.vmware.vsan.health.test.genericcluster.drsenabled = Überprüft, ob DRS für diesen Cluster aktiviert ist.
+com.vmware.vsan.health.test.genericcluster.drsenabled.short = Überprüft, ob DRS für diesen Cluster aktiviert ist.
+com.vmware.vsan.health.test.genericCluster.drsEnabled.testResult.issue = DRS ist nicht aktiviert
+com.vmware.vsan.health.test.genericCluster.drsEnabled.testResult.recommendation = Dialogfeld 'DRS konfigurieren' starten
+com.vmware.vsan.health.test.genericCluster.drsEnabled.testResult.label = Probleme und Empfehlungen
+com.vmware.vsan.health.test.genericCluster.drsEnabled.testResult.columnIssue = Problem
+com.vmware.vsan.health.test.genericCluster.drsEnabled.testResult.columnRecommendation = Empfehlung
+
+com.vmware.vsan.health.test.genericCluster.haEnabled.testName = HA aktiviert
+com.vmware.vsan.health.test.genericcluster.haenabled = Überprüft, ob HA für diesen Cluster aktiviert ist.
+com.vmware.vsan.health.test.genericcluster.haenabled.short = Überprüft, ob HA für diesen Cluster aktiviert ist.
+com.vmware.vsan.health.test.genericCluster.haEnabled.testResult.issue = HA ist nicht aktiviert
+com.vmware.vsan.health.test.genericCluster.haEnabled.testResult.recommendation = Dialogfeld 'HA konfigurieren' starten
+com.vmware.vsan.health.test.genericCluster.haEnabled.testResult.label = Probleme und Empfehlungen
+com.vmware.vsan.health.test.genericCluster.haEnabled.testResult.columnIssue = Problem
+com.vmware.vsan.health.test.genericCluster.haEnabled.testResult.columnRecommendation = Empfehlung
+
+#
+# vSAN config - vSAN enablement check
+#
+com.vmware.vsan.health.test.vsanconfiggroup.enablementforvsan.testName = vSAN aktiviert
+com.vmware.vsan.health.test.vsanconfiggroup.enablementforvsan.testResult.label = Probleme
+com.vmware.vsan.health.test.vsanconfiggroup.enablementforvsan.testResult.columnIssue = Problem
+com.vmware.vsan.health.test.vsanconfiggroup.enablementforvsan.testResult.columnRecommendation = Empfehlung
+com.vmware.vsan.health.test.vsanconfiggroup.enablementforvsan.testResult.vsanNotEnabledIssue = vSAN ist auf dem Cluster nicht aktiviert.
+com.vmware.vsan.health.test.vsanconfiggroup.enablementforvsan.testResult.vsanNotEnabledRecommendation = Best Practice: Starten Sie die Aktion 'vSAN konfigurieren'.
+
+com.vmware.vsan.health.test.vsanconfiggroup.enablementforvsan = Diese Prüfung stellt sicher, dass vSAN auf dem Cluster aktiviert ist. Falls keine Konfiguration vorgenommen wurde, verwenden Sie die Schaltfläche "vSAN konfigurieren".
+com.vmware.vsan.health.test.vsanconfiggroup.enablementforvsan.short = Diese Prüfung stellt sicher, dass vSAN auf dem Cluster aktiviert ist.
+
+#
+# vSAN config - All disks claimed by vSAN check
+#
+com.vmware.vsan.health.test.vsanconfiggroup.diskforvsan.testName = Alle Festplatten sind beansprucht.
+com.vmware.vsan.health.test.vsanconfiggroup.diskforvsan.testResult.label = Hosts mit Problemen
+com.vmware.vsan.health.test.vsanconfiggroup.diskforvsan.testResult.columnHost = Host
+com.vmware.vsan.health.test.vsanconfiggroup.diskforvsan.testResult.columnUnclaimedDisk = Nicht beanspruchte Festplatte
+com.vmware.vsan.health.test.vsanconfiggroup.diskforvsan.testResult.columnIssue = Problem
+com.vmware.vsan.health.test.vsanconfiggroup.diskforvsan.testResult.columnRecommendation = Empfehlung
+com.vmware.vsan.health.test.vsanconfiggroup.diskforvsan.testResult.notClaimedByVsanIssue = Festplatte wird nicht von vSAN beansprucht.
+com.vmware.vsan.health.test.vsanconfiggroup.diskforvsan.testResult.notClaimedByVsanRecommendation = Best Practice: Starten Sie die Aktion 'vSAN-Festplatten beanspruchen'.
+
+com.vmware.vsan.health.test.vsanconfiggroup.diskforvsan = Diese Prüfung erkennt alle qualifizierten Festplatten, die von vSAN beansprucht werden können. Sie soll Ihnen dabei helfen, alle qualifizierten Festplatten zu identifizieren und zu verwenden. Hinweis: Es wird empfohlen, dieselbe Anzahl an Festplatten pro Host zu beanspruchen. In dem Fall, dass durch die Beanspruchung aller qualifizierten Festplatten eine andere Anzahl von vSAN-Festplatten pro Host eingeführt wird, kann das Ergebnis dieser Prüfung ignoriert werden, um der Empfehlung zu folgen.
+com.vmware.vsan.health.test.vsanconfiggroup.diskforvsan.short = Best Practice (hat nur Empfehlungscharakter): Beanspruchen Sie alle qualifizierten Festplatten für vSAN. Hinweis: Es wird empfohlen, dieselbe Anzahl von Festplatten pro Host zu beanspruchen. In dem Fall, dass durch die Beanspruchung aller qualifizierten Festplatten eine andere Anzahl von vSAN-Festplatten pro Host eingeführt wird, kann das Ergebnis dieser Prüfung ignoriert werden, um der Empfehlung zu folgen.
+
+
+#
+# Network config - Use VDS for vSAN
+#
+com.vmware.vsan.health.test.networkconfiggroup.dvsforvsan.testName = VDS für vSAN verwenden
+com.vmware.vsan.health.test.networkconfiggroup.dvsforvsan.testResult1.label = Probleme
+com.vmware.vsan.health.test.networkconfiggroup.dvsforvsan.testResult1.columnIssue = Problem
+com.vmware.vsan.health.test.networkconfiggroup.dvsforvsan.testResult1.columnRecommendation = Empfehlung
+com.vmware.vsan.health.test.networkconfiggroup.dvsforvsan.testResult1.noVdsIssue = Auf dem Cluster ist kein VDS konfiguriert.
+com.vmware.vsan.health.test.networkconfiggroup.dvsforvsan.testResult1.noVdsRecommendation = Best Practice: Starten Sie die Aktion "VDS erstellen".
+
+com.vmware.vsan.health.test.networkconfiggroup.dvsforvsan.testResult2.label = Hosts mit Problemen
+com.vmware.vsan.health.test.networkconfiggroup.dvsforvsan.testResult2.columnHost = Host
+com.vmware.vsan.health.test.networkconfiggroup.dvsforvsan.testResult2.columnIssue = Problem
+com.vmware.vsan.health.test.networkconfiggroup.dvsforvsan.testResult2.columnRecommendation = Empfehlung
+com.vmware.vsan.health.test.networkconfiggroup.dvsforvsan.testResult2.issue = vSAN-vmknic {vmknic} verwendet VDS nicht.
+com.vmware.vsan.health.test.networkconfiggroup.dvsforvsan.testResult2.recommendation = Best Practice: Verwenden Sie VDS für das vSAN-Netzwerk.
+
+com.vmware.vsan.health.test.networkconfiggroup.dvsforvsan = Es wird empfohlen, vDS für vSAN-Netzwerkdatenverkehr zu verwenden. Mit dieser Prüfung wird sichergestellt, dass VDS für den Cluster und für den vSAN-Netzwerkdatenverkehr konfiguriert wurde.
+com.vmware.vsan.health.test.networkconfiggroup.dvsforvsan.short = Best Practice (hat nur Empfehlungscharakter): Überprüfen Sie, ob vSAN VDS für den Netzwerkdatenverkehr verwendet.
+
+#
+# Network config - Use VDS for vSAN
+#
+com.vmware.vsan.health.test.networkconfiggroup.dvsscope.testName = VDS für vSAN deckt den gesamten Cluster ab
+com.vmware.vsan.health.test.networkconfiggroup.dvsscope.testResult.label = Probleme
+com.vmware.vsan.health.test.networkconfiggroup.dvsscope.testResult.columnVds = VDS
+com.vmware.vsan.health.test.networkconfiggroup.dvsscope.testResult.columnNonMemberHosts = Nichtmitglieder-Hosts
+com.vmware.vsan.health.test.networkconfiggroup.dvsscope.testResult.columnRecommendation = Empfehlung
+com.vmware.vsan.health.test.networkconfiggroup.dvsscope.testResult.recommendation = Best Practice: Fügen Sie VDS alle Hosts im Cluster hinzu.
+com.vmware.vsan.health.test.networkconfiggroup.dvsscope = Es wird empfohlen, für das zentrale Konfigurationsmanagement alle Hosts in einem Cluster mit demselben VDS zu verbinden, der auch von vSAN verwendet wird. Mit dieser Prüfung wird nach einem VDS mit teilweiser Belegung des Clusters gesucht.
+com.vmware.vsan.health.test.networkconfiggroup.dvsscope.short = Best Practice (hat nur Empfehlungscharakter): Überprüfen Sie, ob ein VDS, der von vSAN verwendet wird, die Cluster-Hosts nur teilweise belegt.
+
+#
+# Network config - Physical NIC checks
+#
+com.vmware.vsan.health.test.networkconfiggroup.pnic.testName = Physische Netzwerkkarte
+com.vmware.vsan.health.test.networkconfiggroup.pnic.testResult.label = Hosts mit Problemen
+com.vmware.vsan.health.test.networkconfiggroup.pnic.testResult.columnHost = Host
+com.vmware.vsan.health.test.networkconfiggroup.pnic.testResult.columnNetwork = vSwitch/Portgruppe
+com.vmware.vsan.health.test.networkconfiggroup.pnic.testResult.columnIssue = Problem
+com.vmware.vsan.health.test.networkconfiggroup.pnic.testResult.0numPnicsIssue = Keine physischen Netzwerkkarten konfiguriert
+com.vmware.vsan.health.test.networkconfiggroup.pnic.testResult.1numPnicsIssue = Nur 1 physische Netzwerkkarte, mangelnde Redundanz
+com.vmware.vsan.health.test.networkconfiggroup.pnic.testResult.portgroup.0numPnicsIssue = Für Portgruppe sind keine konfigurierten Netzwerkkarten vorhanden
+com.vmware.vsan.health.test.networkconfiggroup.pnic.testResult.portgroup.1numPnicsIssue = Portgruppe weist lediglich 1 aktive physische Netzwerkkarte auf, Redundanz fehlt
+com.vmware.vsan.health.test.networkconfiggroup.pnic.testResult.pnicSpeedIssue = Mehrere Link-Geschwindigkeiten erkannt: {speedsMb}
+com.vmware.vsan.health.test.networkconfiggroup.pnic = Prüft, ob der virtuelle Switch und die Portgruppe für vSAN-vmknics mit mindestens zwei physischen Netzwerkkarten konfiguriert ist, um Failover zu unterstützen. Außerdem wird geprüft, ob die physischen Netzwerkkarten in einem Team für dieselbe Geschwindigkeit konfiguriert sind. Dies sind Empfehlungen für Best Practices.
+com.vmware.vsan.health.test.networkconfiggroup.pnic.short = Best Practice (hat nur Empfehlungscharakter): Überprüfen Sie, ob alle vSAN-vmknics durch zwei physische Netzwerkkarten eines übereinstimmenden und ggf. richtigen Typs unterstützt werden.
+
+#
+# Network config - vMotion Ping
+#
+com.vmware.vsan.health.test.network.vmotionpingsmall.testName = vMotion: Basis-(Unicast)-Konnektivitätsprüfung
+com.vmware.vsan.health.test.network.vmotionpingsmall = Führt einen Ping-Test mit einem kleinen Paket zwischen allen VMkernel-Adaptern durch, für die vMotion-Datenverkehr aktiviert ist.
+com.vmware.vsan.health.test.network.vmotionpingsmall.short = Führt einen Ping-Test mit einem kleinen Paket zwischen allen VMkernel-Adaptern durch, für die vMotion-Datenverkehr aktiviert ist.
+
+com.vmware.vsan.health.test.network.vmotionpinglarge.testName = vMotion: MTU-Prüfung (Ping mit großem Paket)
+com.vmware.vsan.health.test.network.vmotionpinglarge = Führt einen Ping-Test mit einem großen Paket zwischen allen VMkernel-Adaptern durch, für die vMotion-Datenverkehr aktiviert ist.
+com.vmware.vsan.health.test.network.vmotionpinglarge.short = Führt einen Ping-Test mit einem großen Paket zwischen allen VMkernel-Adaptern durch, für die vMotion-Datenverkehr aktiviert ist.
+
+#
+# Network config - Use VDS for vSAN
+#
+com.vmware.vsan.health.test.networkconfiggroup.vmotionnic.testName = Für alle Hosts ist vMotion-vmknic konfiguriert.
+com.vmware.vsan.health.test.networkconfiggroup.vmotionnic.testResult.label = Hosts ohne vMotion-vmknic
+com.vmware.vsan.health.test.networkconfiggroup.vmotionnic.testResult.columnHost = Host
+com.vmware.vsan.health.test.networkconfiggroup.vmotionnic = Es empfiehlt sich, jeden Host mit mindestens einem vMotion-vmknic zu konfigurieren.
+com.vmware.vsan.health.test.networkconfiggroup.vmotionnic.short = Best Practice (hat nur Empfehlungscharakter): Überprüfen Sie, ob für alle Hosts ein vMotion-vmknic konfiguriert ist.
+
+#
+# Burn in test check
+#
+com.vmware.vsan.health.test.burnintestgroup.burnintest.testName = Prüfung des Burn-In-Tests
+com.vmware.vsan.health.test.burnintestgroup.burnintest.testResult.label = Ergebnisse des Burn-In-Tests
+com.vmware.vsan.health.test.burnintestgroup.burnintest.testResult.columnTestname = Burn-In-Test
+com.vmware.vsan.health.test.burnintestgroup.burnintest.testResult.columnWorkload = Arbeitslast
+com.vmware.vsan.health.test.burnintestgroup.burnintest.testResult.columnDuration = Dauer (in Sekunden)
+com.vmware.vsan.health.test.burnintestgroup.burnintest.testResult.columnResult = Ergebnis
+com.vmware.vsan.health.test.burnintestgroup.burnintest.testResult.columnIssue = Problem
+com.vmware.vsan.health.test.burnintestgroup.burnintest.testResult.columnRecommendation = Empfehlung
+com.vmware.vsan.health.test.burnintestgroup.burnintest.testResult.notPerformedIssue = Burn-In-Test wurde nicht durchgeführt
+com.vmware.vsan.health.test.burnintestgroup.burnintest.testResult.clusterChanged = Cluster-Konfiguration wurde nach letztem Burn-In-Test geändert; eine Wiederholung des Vorgangs wird empfohlen
+com.vmware.vsan.health.test.burnintestgroup.burnintest.testResult.failedIssue = Burn-In-Test fehlgeschlagen
+com.vmware.vsan.health.test.burnintestgroup.burnintest.testResult.recommendation = Führen Sie den empfohlenen Burn-In-Test in der Ansicht "Proaktive Tests" durch.
+
+com.vmware.vsan.health.test.burnintestgroup.burnintest = Führen Sie alle empfohlenen Burn-In-Tests aus. Zu den empfohlenen Burn-In-Tests zählt der Test bei geringer Belastung in den proaktiven vSAN-Speicherleistungstests. Die Tests sollten über die standardmäßige oder eine längere Dauer ausgeführt werden. Wechseln Sie zur Ansicht "Proaktive Tests" und führen Sie die entsprechenden Tests aus.
+com.vmware.vsan.health.test.burnintestgroup.burnintest.short = Best Practice (hat nur Empfehlungscharakter): Führen Sie alle empfohlenen Burn-In-Tests (den Test bei geringer Belastung usw.) aus. Die Tests sollten über die standardmäßige oder eine längere Dauer ausgeführt werden.
+
+#
+# vSAN Health Actions Description
+#
+com.vmware.vsan.health.action.repairclusterobjects.short = Repariert die fehlenden oder herabgestuften vSAN-Objekte sofort.
+com.vmware.vsan.health.action.label.repairclusterobjects = Objekte sofort reparieren
+com.vmware.vsan.health.action.uploadhcldb.short = Aktualisiert die HCL-DB durch Hochladen einer Datei.
+com.vmware.vsan.health.action.label.uploadhcldb = Aus Datei hochladen...
+com.vmware.vsan.health.action.label.updatehcldbfrominternet = Neueste Version online abrufen
+com.vmware.vsan.health.action.updatehcldbfrominternet.short = Lädt ein Update der HCL-DB aus dem Internet herunter.
+com.vmware.vsan.health.action.enablehealthservice.short = Durch Aktivieren des Integritätsdiensts wird das vSAN Integrität-VIB auf allen Hosts im Cluster installiert. Zum Abschließen der Installation müssen alle Hosts neu gestartet werden. DRS muss sich im vollautomatisierten Modus befinden, damit ein rollender Neustart durchgeführt werden kann. Hierbei wird ein Host nach dem anderen in den Wartungsmodus versetzt und neu gestartet. Auf diese Weise werden alle VMs weiterhin ausgeführt, und der Neustart hat keinerlei Auswirkung auf die aktuellen Produktions-Arbeitslasten.
+com.vmware.vsan.health.action.label.enablehealthservice = Aktivieren
+com.vmware.vsan.health.action.diskbalance.short = Verteilen Sie die vSAN-Objekte auf den Festplatten neu.
+com.vmware.vsan.health.action.label.diskbalance = Proaktive Neuverteilung von Festplatten
+com.vmware.vsan.health.action.stopdiskbalance.short = Unterbrechen Sie die Neuverteilung der vSAN-Objekte auf den Festplatten.
+com.vmware.vsan.health.action.label.stopdiskbalance = Proaktive Neuverteilung von Festplatten unterbrechen
+com.vmware.vsan.health.action.remediatededup.short = Festplatten standardisieren, die über inkonsistente Deduplizierungseinstellungen mit dem Cluster verfügen
+com.vmware.vsan.health.action.label.remediatededup = Festplattenformat konvertieren
+com.vmware.vsan.health.action.remediateconfig.short = Standardisieren Sie Hosts und Festplatten, die inkonsistente Konfigurationen (z. B. Deduplizierung/Komprimierung, Verschlüsselung) mit dem Cluster aufweisen.
+com.vmware.vsan.health.action.label.remediateconfig = Inkonsistente Konfiguration standardisieren
+com.vmware.vsan.health.action.overrideconfig.short = Aktualisiert die ESXi-Konfiguration, die nicht mit dem aktuellen vCenter Server synchronisiert ist.
+com.vmware.vsan.health.action.label.overrideconfig = ESXi-Konfiguration aktualisieren
+com.vmware.vsan.health.action.remediatekms.short = Standardisieren Sie Hosts, die Probleme bei der Verbindung mit dem Schlüsselmanagementserver haben.
+com.vmware.vsan.health.action.label.remediatekms = KMS-Verbindung standardisieren
+com.vmware.vsan.health.action.label.enableperformanceservice = Aktivieren
+com.vmware.vsan.health.action.enableperformanceservice.short = vSAN-Leistungservice aktivieren
+com.vmware.vsan.health.action.label.loginvumisodepot = Bei my.vmware.com anmelden
+com.vmware.vsan.health.action.loginvumisodepot.short = Bei my.vmware.com anmelden und Cookie speichern
+
+com.vmware.vsan.health.action.label.createdvs = VDS erstellen
+com.vmware.vsan.health.action.createdvs.short = Erstellen Sie VDS.
+com.vmware.vsan.health.action.label.configureha = VMware HA konfigurieren
+com.vmware.vsan.health.action.configureha.short = Konfigurieren Sie VMware HA.
+com.vmware.vsan.health.action.label.configuredrs = DRS konfigurieren
+com.vmware.vsan.health.action.configuredrs.short = Konfigurieren Sie DRS.
+com.vmware.vsan.health.action.label.configurevsan = vSAN konfigurieren
+com.vmware.vsan.health.action.configurevsan.short = Konfigurieren Sie vSAN.
+com.vmware.vsan.health.action.label.claimvsandisks = Festplatten für vSAN beanspruchen
+com.vmware.vsan.health.action.claimvsandisks.short = Beanspruchen Sie Festplatten für vSAN.
+com.vmware.vsan.health.action.label.clusterupgrade = Software aktualisieren
+com.vmware.vsan.health.action.clusterupgrade.short = Aktualisieren Sie die Software.
+com.vmware.vsan.health.action.label.createvmknic = VMkernel-Netzwerkadapter erstellen
+com.vmware.vsan.health.action.createvmknic.short = Erstellen Sie den VMkernel-Netzwerkadapter.
+com.vmware.vsan.health.action.label.runburnintest = Burn-In-Test durchführen
+com.vmware.vsan.health.action.runburnintest.short = Führen Sie einen Burn-In-Test aus.
+com.vmware.vsan.health.action.label.enableceip = CEIP konfigurieren
+com.vmware.vsan.health.action.enableceip.short = Konfigurieren Sie CEIP.
+
+com.vmware.vsan.health.action.remediateDataProtectionConfig.short = Standardisiert eine inkonsistente Datenschutzkonfiguration im Cluster.
+com.vmware.vsan.health.action.label.remediateDataProtectionConfig = Inkonsistente Datenschutzkonfiguration standardisieren
+
+# VM action
+com.vmware.vsan.health.action.fixinconsistentvm.short = Im vSAN-Datenspeicher bereitgestellte VMs sofort korrigieren.
+com.vmware.vsan.health.action.label.fixinconsistentvm = Inkonsistente VMs korrigieren
+#
+# vSAN Storage WorkLoad Description
+#
+com.vmware.vsan.health.workload.low-stress-test=Dies ist ein Test bei geringer Belastung; es werden niedrige Latenzen erwartet.
+com.vmware.vsan.health.workload.sanity-test=Simuliert den 'aktiven Arbeitssatz' mithilfe eines realistischen 70/30-Verhältnisses, aber innerhalb des Bereichs von 1 GB pro Host.
+com.vmware.vsan.health.workload.stress-test=Dies ist ein Belastungstest. Eine hohe Latenz wird erwartet, aber alle Ebenen sollten entsprechend belastet werden. Pro Host wird 1 TB Speicherplatz belegt.
+com.vmware.vsan.health.workload.perf-100read-seq=Hiermit sollte RC veranschaulicht werden. Es sollte genügend Parallelität vorhanden sein, um vSAN maximal zu belasten, aber auch nicht zu viel Parallelität, um eine hohe Latenz zu verursachen. Pro Host werden 10 GB Speicherplatz belegt.
+com.vmware.vsan.health.workload.perf-100write-rand=Hiermit sollte WB veranschaulicht werden. Pro Host werden 5 GB Speicherplatz belegt.
+com.vmware.vsan.health.workload.perf-100read-rand=Hiermit sollte RC nach einer Aufwärmphase veranschaulicht werden. Es sollte genügend Parallelität vorhanden sein, um vSAN maximal zu belasten, aber auch nicht zu viel Parallelität, um eine hohe Latenz zu verursachen. Pro Host werden 10 GB Speicherplatz belegt.
+com.vmware.vsan.health.workload.perf-70read-rand=Simuliert den 'aktiven Arbeitssatz' mithilfe eines realistischen 70/30-Verhältnisses, aber innerhalb des Bereichs von 30 GB pro Host.
+com.vmware.vsan.health.workload.perf-70read-rand-bigio=Simuliert den 'aktiven Arbeitssatz' mithilfe eines realistischen 70/30-Verhältnisses, aber innerhalb des Bereichs von 30 GB pro Host. Es wird ein hoher E/A-Größenwert verwendet und aufgezeigt, dass sich im Vergleich zur regulären Version dieses Tests, bei der die typischere E/A-Größe von 4000 verwendet wird, die E/A-Größe auf die Latenz auswirkt.
+com.vmware.vsan.health.workload.perf-100read-rand-bigactive=Dieser Test liefert schlechte Ergebnisse für Hybrid und gute Ergebnisse für All-Flash. Dies ist also der All-Flash-Demotest. Pro Host wird 1 TB Speicherplatz belegt.
+com.vmware.vsan.health.workload.perf-100read-seq-bigactive=Simuliert eine reine Streaming-Lesearbeitslast, wie beispielsweise ein Medien-Cache-Server. Pro Host wird 1 TB Speicherplatz belegt.
+com.vmware.vsan.health.workload.perf-100write-seq-bigactive=Simuliert eine reine Streaming-Schreibarbeitslast, wie beispielsweise ein Sicherungsziel. Pro Host wird 1 TB Speicherplatz belegt.
+
+#
+# vSAN Proactive Health Check Workload Type
+#
+com.vmware.vsan.health.workload.lowStressTest = Test bei geringer Belastung
+com.vmware.vsan.health.workload.basicSanityTest = Grundlegende Integritätsprüfung, Schwerpunkt auf Flash-Cache-Ebene
+com.vmware.vsan.health.workload.stressTest = Belastungstest
+com.vmware.vsan.health.workload.perf100RRCTest = Leistungsbeschreibung - 100% Lesen, optimale RC-Nutzung
+com.vmware.vsan.health.workload.perf100WTest = Leistungsbeschreibung - 100% Schreiben, optimale WB-Nutzung
+com.vmware.vsan.health.workload.perf100RRCAfterWarmUpTest = Leistungsbeschreibung - 100% Lesen, optimale RC-Nutzung nach Aufwärmen
+com.vmware.vsan.health.workload.perf70R30WRealisticTest = Leistungsbeschreibung - 70/30 Kombination Lesen/Schreiben, realistische, optimale Flash-Cache-Nutzung
+com.vmware.vsan.health.workload.perf100R30WHighIOTest = Leistungsbeschreibung - 70/30 Kombination Lesen/Schreiben, hohe E/A-Größe, optimale Flash-Cache-Nutzung
+com.vmware.vsan.health.workload.perf100RLowRCHitRateTest = Leistungsbeschreibung - 100% Lesen, niedrige RC-Zugriffsrate/All-Flash-Demo
+com.vmware.vsan.health.workload.perf100RStreamTest = Leistungsbeschreibung - 100% Streaming-Lesevorgänge
+com.vmware.vsan.health.workload.perf100WStreamTest = Leistungsbeschreibung - 100% Streaming-Schreibvorgänge
+
+#
+# vSAN Health Install & Uninstall Precheck
+#
+com.vmware.vsan.health.cluster.installprecheck=Vorprüfung für die Installation des vSAN Health Services auf den ESXi-Hosts.
+com.vmware.vsan.health.cluster.installprecheck.short=Vorprüfung für die Installation des vSAN Health Services auf den ESXi-Hosts.
+com.vmware.vsan.health.cluster.uninstallprecheck=Vorprüfung für die Deinstallation des vSAN Health Services auf den ESXi-Hosts.
+com.vmware.vsan.health.cluster.uninstallprecheck.short=Vorprüfung für die Deinstallation des vSAN Health Services auf den ESXi-Hosts.
+
+#
+# vSAN Health Test Group label
+#
+com.vmware.vsan.health.test.cluster=Cluster
+com.vmware.vsan.health.test.hcl=Hardwarekompatibilität
+com.vmware.vsan.health.test.genericcluster=Allgemeiner Cluster
+com.vmware.vsan.health.test.network=Netzwerk
+com.vmware.vsan.health.test.data=Daten
+com.vmware.vsan.health.test.limits=Grenzwerte
+com.vmware.vsan.health.test.physicaldisks=Physische Festplatte
+com.vmware.vsan.health.test.stretchedcluster=Ausgeweiteter Cluster
+com.vmware.vsan.health.test.vsanconfiggroup=vSAN-Konfiguration
+com.vmware.vsan.health.test.networkconfiggroup=Netzwerkkonfiguration
+com.vmware.vsan.health.test.burnintestgroup=Burn-In-Test
+com.vmware.vsan.health.test.encryption=Verschlüsselung
+com.vmware.vsan.health.test.perfsvc = Leistungsdienst
+com.vmware.vsan.health.test.cloudhealth = Cloudintegrität
+com.vmware.vsan.health.test.iscsi = vSAN-iSCSI-Zieldienst
+com.vmware.vsan.health.test.dataprotection=Datenschutz
+
+#
+# vSAN Health Stretched Cluster Check
+#
+com.vmware.vsan.health.test.stretchedCluster.columnTarget=Ziel
+com.vmware.vsan.health.test.stretchedCluster.columnSummary=Übersicht
+
+com.vmware.vsan.health.test.stretchedCluster.ClusterWithoutOneWitnessHost.testName=Zeugenhost nicht gefunden
+com.vmware.vsan.health.test.stretchedCluster.ClusterWithoutOneWitnessHost.label=Zeugenhost nicht gefunden
+com.vmware.vsan.health.test.clusterwithoutonewitnesshost=Der ausgeweitete Cluster enthält keinen gültigen Zeugenhost.
+com.vmware.vsan.health.test.stretchedCluster.ClusterWithoutTwoDataFaultDomains.testName=Unerwartete Anzahl an Fehlerdomänen
+com.vmware.vsan.health.test.stretchedCluster.ClusterWithoutTwoDataFaultDomains.label=Unerwartete Anzahl an Fehlerdomänen
+com.vmware.vsan.health.test.clusterwithouttwodatafaultdomains=Der ausgeweitete Cluster enthält keine zwei gültigen Fehlerdomänen.
+com.vmware.vsan.health.test.stretchedCluster.ClusterWithMultipleUnicastAgents.testName=Inkonsistente Konfiguration von Unicast-Agenten
+com.vmware.vsan.health.test.stretchedCluster.ClusterWithMultipleUnicastAgents.label=Inkonsistente Konfiguration von Unicast-Agenten
+com.vmware.vsan.health.test.clusterwithmultipleunicastagents=Der ausgeweitete Cluster enthält mehrere Unicast-Agenten. Das bedeutet, dass für Nicht-Zeugenhosts mehrere Unicast-Agenten festgelegt wurden.
+com.vmware.vsan.health.test.stretchedCluster.WitnessPreferredFaultDomainInvalid.testName=Ungültige bevorzugte Fehlerdomäne auf Zeugenhost
+com.vmware.vsan.health.test.stretchedCluster.WitnessPreferredFaultDomainInvalid.label=Ungültige bevorzugte Fehlerdomänen
+com.vmware.vsan.health.test.witnesspreferredfaultdomaininvalid=Die folgenden (Zeugen-)Hosts weisen ungültige bevorzugte Fehlerdomänen auf.
+com.vmware.vsan.health.test.stretchedCluster.WitnessPreferredFaultDomainNotExist.testName=Bevorzugte Fehlerdomäne nicht festgelegt
+com.vmware.vsan.health.test.stretchedCluster.WitnessPreferredFaultDomainNotExist.label=Bevorzugte Fehlerdomäne nicht festgelegt
+com.vmware.vsan.health.test.witnesspreferredfaultdomainnotexist=Die bevorzugte Fehlerdomäne ist im Cluster für den Zeugenhost nicht festgelegt.
+com.vmware.vsan.health.test.stretchedCluster.WitnessInsideVcCluster.testName=Zeugenhost innerhalb des vCenter-Clusters
+com.vmware.vsan.health.test.stretchedCluster.WitnessInsideVcCluster.label=Zeugenhost innerhalb des vCenter-Clusters
+com.vmware.vsan.health.test.witnessinsidevccluster=Der Zeugenhost sollte nicht Teil des vCenter-Clusters sein, der den ausgeweiteten Cluster gestaltet.
+com.vmware.vsan.health.test.stretchedCluster.WitnessFaultDomainInvalid.testName=Fehlerdomäne des Zeugenhosts falsch konfiguriert
+com.vmware.vsan.health.test.stretchedCluster.WitnessFaultDomainInvalid.label=Fehlerdomäne des Zeugenhosts falsch konfiguriert
+com.vmware.vsan.health.test.witnessfaultdomaininvalid=Der folgende Zeugenknoten befindet sich in einer der Daten-Fehlerdomänen.
+com.vmware.vsan.health.test.stretchedCluster.HostUnicastAgentUnset.testName=Unicast-Agent nicht konfiguriert
+com.vmware.vsan.health.test.stretchedCluster.HostUnicastAgentUnset.label=Unicast-Agent nicht konfiguriert
+com.vmware.vsan.health.test.hostunicastagentunset=Für die Hosts sollte ein Unicast-Agent eingerichtet werden, um die Kommunikation mit dem Zeugenknoten zu ermöglichen.
+com.vmware.vsan.health.test.stretchedCluster.WitnessWithNoDiskMapping.testName=Keine Festplatte auf Zeugenhost beansprucht
+com.vmware.vsan.health.test.stretchedCluster.WitnessWithNoDiskMapping.label=Keine Festplatte auf Zeugenhost beansprucht
+com.vmware.vsan.health.test.witnesswithnodiskmapping=Der ausgeweitete Cluster enthält einen Zeugenhost ohne eine gültige Festplattengruppe.
+com.vmware.vsan.health.test.stretchedCluster.HostWithNoStretchedClusterSupport.testName=Nicht unterstützte Hostversion
+com.vmware.vsan.health.test.stretchedCluster.HostWithNoStretchedClusterSupport.label=Nicht unterstützte Hostversion
+com.vmware.vsan.health.test.hostwithnostretchedclustersupport=Der Cluster enthält Hosts, deren ESXi-Version keine ausgeweiteten Cluster unterstützen.
+com.vmware.vsan.health.test.stretchedCluster.HostWithInvalidUnicastAgent.testName=Ungültiger Unicast-Agent
+com.vmware.vsan.health.test.stretchedCluster.HostWithInvalidUnicastAgent.label=Hosts mit ungültigem Unicast-Agenten
+com.vmware.vsan.health.test.hostwithinvalidunicastagent=Cluster enthält Hosts mit ungültigem Unicast-Agenten
+
+com.vmware.vsan.health.test.stretchedCluster.siteConnectivity.testName = Site-Latenzintegrität
+com.vmware.vsan.health.test.stretchedCluster.siteConnectivity.testResult.label = Site-Latenz
+com.vmware.vsan.health.test.stretchedCluster.siteConnectivity.testResult.columnDomainName = Fehlerdomäne
+com.vmware.vsan.health.test.stretchedCluster.siteConnectivity.testResult.columnObservedLatency = Festgestellte Latenz (ms)
+com.vmware.vsan.health.test.stretchedCluster.siteConnectivity.testResult.columnThreshold = Schwellenwert (ms)
+com.vmware.vsan.health.test.stretchedCluster.siteConnectivity.testResult.columnLatencyResult = Latenzergebnis
+com.vmware.vsan.health.test.siteconnectivity = Diese Integritätsprüfung zeigt die schlechteste Latenz zwischen zwei Hosts an Daten-Sites und dem Zeugen an. Warnschwellenwert: 5 ms zwischen Daten-Sites, 200 ms zwischen Daten-Site und Zeuge in NON-ROBO-Cluster, 500 ms zwischen Daten-Site und Zeuge in ROBO-Cluster. Wenn ein Fehlerergebnis angezeigt wird, ist es ratsam, die Netzwerkkonnektivität zwischen den beiden Sites zu überprüfen. So stellen Sie sicher, dass die Netzwerkeinrichtung die Mindestanforderungen erfüllt.
+com.vmware.vsan.health.test.siteconnectivity.short = Prüft die schlechteste Netzwerklatenz zwischen zwei Hosts an Daten-Sites und dem Zeugen.
+
+#Cluster Disk Balance
+com.vmware.vsan.health.test.cluster.diskbalance.testName = vSAN-Datenträgerverteilung
+com.vmware.vsan.health.test.cluster.diskbalance.testResult.label = Datenträgerverteilung
+com.vmware.vsan.health.test.cluster.diskbalance.testResultOverview.label = Überblick
+com.vmware.vsan.health.test.cluster.diskbalance.testResult.columnHost = Host
+com.vmware.vsan.health.test.cluster.diskbalance.testResult.columnDevice = Gerät
+com.vmware.vsan.health.test.cluster.diskbalance.testResult.columnDiskUsage = Festplattennutzung
+com.vmware.vsan.health.test.cluster.diskbalance.testResult.columnDataToMove = Zu verschiebende Daten
+com.vmware.vsan.health.test.cluster.diskbalance.testResult.columnRebalanceState = Status neu verteilen
+com.vmware.vsan.health.test.cluster.diskbalance.testResult.columnRebalanceProgress = Datenverschiebung
+com.vmware.vsan.health.test.cluster.diskbalance.testResultOverview.columnMetric = Metrik
+com.vmware.vsan.health.test.cluster.diskbalance.testResultOverview.columnValue = Wert
+com.vmware.vsan.health.test.cluster.diskbalance.testResultOverview.rowAverageDiskUsage = Durchschn. Datenträgernutzung
+com.vmware.vsan.health.test.cluster.diskbalance.testResultOverview.rowMaximumDiskUsage = Max. Datenträgernutzung
+com.vmware.vsan.health.test.cluster.diskbalance.testResultOverview.rowMaximumVariance = Max. Varianz
+com.vmware.vsan.health.test.cluster.diskbalance.testResultOverview.rowImbalanceIndex = LM-Verteilungsindex
+com.vmware.vsan.health.test.cluster.diskbalance.state.rebalanceoff = Neuverteilung ist deaktiviert
+com.vmware.vsan.health.test.cluster.diskbalance.state.rebalanceentitydecom = Vorübergehend deaktiviert, Festplatte/Festplattengruppe oder zugehöriger Knoten wird außer Betrieb genommen
+com.vmware.vsan.health.test.cluster.diskbalance.state.rebalancediskunhealthy = Festplatte ist nicht ordnungsgemäß
+com.vmware.vsan.health.test.cluster.diskbalance.state.imbalancewithintolerance = Nicht erforderlich, Ungleichgewicht liegt innerhalb des Toleranzgrenzwerts von 2 % oder Füllungsgrad des Datenträgers liegt unter dem Mittelwert
+com.vmware.vsan.health.test.cluster.diskbalance.state.reactiverebalanceinprogress = Reaktive Neuverteilungsaufgabe läuft
+com.vmware.vsan.health.test.cluster.diskbalance.state.reactiverebalancefailed = Eine reaktive Neuverteilung wird benötigt, ist allerdings aufgrund fehlender Ressourcen oder nicht gefundener Komponenten, die aufgrund von Richtlinieneinschränkungen verschoben werden können, fehlgeschlagen.
+com.vmware.vsan.health.test.cluster.diskbalance.state.proactiveneededbutdisabled  = Es wird eine proaktive Neuverteilung benötigt,
+com.vmware.vsan.health.test.cluster.diskbalance.state.proactiverebalanceinprogress = Proaktive Neuverteilung läuft
+com.vmware.vsan.health.test.cluster.diskbalance.state.proactiverebalancefailed = Eine proaktive Neuverteilung wird benötigt, ist allerdings aufgrund fehlender Ressourcen oder nicht gefundener Komponenten, die aufgrund von Richtlinieneinschränkungen verschoben werden können, fehlgeschlagen
+com.vmware.vsan.health.test.diskbalance = Mit dieser Funktion kann ein Benutzer den Verteilungsstatus auf einem Host überwachen. Ein Benutzer kann eine proaktive Neuverteilung einer Festplatte auslösen, wenn eine Festplatte ein Ungleichgewicht anzeigt. Ein Benutzer kann auch eine proaktive Neuverteilung anhalten, wenn sie bereits gestartet wurde. Klicken Sie auf den AskVMware-Link, um weitere Einzelheiten zu erhalten.
+com.vmware.vsan.health.test.diskbalance.short = Überprüft den vSAN-Festplattenverteilungsstatus auf allen Hosts.
+
+#vSAN Performance Service Check
+com.vmware.vsan.health.test.perfsvc.groupName = Leistungsdienst
+com.vmware.vsan.health.test.perfsvc.perfsvcstatus.testName = Status des Leistungsdiensts
+com.vmware.vsan.health.test.perfsvc.perfsvcstatus.testResult.label = Details
+com.vmware.vsan.health.test.perfsvc.perfsvcstatus.testResult.columnStatus = Status
+com.vmware.vsan.health.test.perfsvc.perfsvcstatus.testResult.columnHealth = Ergebnis
+com.vmware.vsan.health.test.perfsvc.perfsvcstatus.testResult.rowPerfSvcEnabled = Leistungsservice ist aktiviert
+com.vmware.vsan.health.test.perfsvc.perfsvcstatus.testResult.rowPerfSvcDisabled = Leistungsdienst ist deaktiviert
+com.vmware.vsan.health.test.perfsvc.perfsvcstatus.desc = Überprüft den Status des vSAN-Leistungsdienst. Warnungen von dieser Überprüfung können behoben werden, indem der vSAN-Leistungsdienst entsprechend den Anweisungen im VMware vSAN-Administratorhandbuch aktiviert wird.
+com.vmware.vsan.health.test.perfsvc.perfsvcstatus.short = VMware empfiehlt die Aktivierung des vSAN-Leistungsservices für alle vSAN-Bereitstellungen. Dadurch ist Zugriff auf Echtzeit- und historische Leistungsdaten von vSAN gegeben.
+com.vmware.vsan.health.test.perfsvc.statsdb.testName = DB-Statistikobjekt
+com.vmware.vsan.health.test.perfsvc.statsdb.testResult.label = Details
+com.vmware.vsan.health.test.perfsvc.statsdb.testResult.columnCheck = Überprüfen
+com.vmware.vsan.health.test.perfsvc.statsdb.testResult.columnStatus = Status
+com.vmware.vsan.health.test.perfsvc.statsdb.testResult.columnHealth = Ergebnis
+com.vmware.vsan.health.test.perfsvc.statsdb.testResult.rowStatsDBExists = Objekt vorhanden
+com.vmware.vsan.health.test.perfsvc.statsdb.testResult.rowStatsDBHealth = Objektintegrität
+com.vmware.vsan.health.test.perfsvc.statsdb.testResult.rowStatsDBFreePct = Freier Speicherplatz für Objekt
+com.vmware.vsan.health.test.perfsvc.statsdb.testResult.rowStatsDBUsed = {0}% verwendet
+com.vmware.vsan.health.test.perfsvc.statsdb.desc = Überprüft die Integrität des DB-Statistikobjekts im vSAN-Leistungservice
+com.vmware.vsan.health.test.perfsvc.statsdb.short = Überprüft die Integrität des DB-Statistikobjekts im vSAN-Leistungservice
+com.vmware.vsan.health.test.perfsvc.masterexist.testName = Auswahl Statistik-Master
+com.vmware.vsan.health.test.perfsvc.masterexist.testResult.label = Knoteninformationen
+com.vmware.vsan.health.test.perfsvc.masterexist.testResult.columnHost = Host
+com.vmware.vsan.health.test.perfsvc.masterexist.testResult.columnIsCMMDSMaster = Ist CMMDS-Master
+com.vmware.vsan.health.test.perfsvc.masterexist.testResult.columnIsStatsMaster = Ist Statistik-Master
+com.vmware.vsan.health.test.perfsvc.masterexist.desc = Überprüft den Statistik-Master des vSAN-Leistungservice
+com.vmware.vsan.health.test.perfsvc.masterexist.short = Überprüft den Statistik-Master des vSAN-Leistungservice
+com.vmware.vsan.health.test.perfsvc.collection.testName = Leistungsdatensammlung
+com.vmware.vsan.health.test.perfsvc.collection.testResult.label = Details
+com.vmware.vsan.health.test.perfsvc.collection.testResult.columnCheck = Überprüfen
+com.vmware.vsan.health.test.perfsvc.collection.testResult.columnStatus = Status
+com.vmware.vsan.health.test.perfsvc.collection.testResult.columnHealth = Ergebnis
+com.vmware.vsan.health.test.perfsvc.collection.testResult.rowStatsGather = Statistikerfassung
+com.vmware.vsan.health.test.perfsvc.collection.testResult.rowStatsPersist = Statistikpersistenz
+com.vmware.vsan.health.test.perfsvc.collection.testResult.rowSuccess = OK
+com.vmware.vsan.health.test.perfsvc.collection.testResult.rowLastSuccess = Zuletzt erfolgreich vor {0} Minuten {1} Sekunden
+com.vmware.vsan.health.test.perfsvc.collection.desc = Überprüft die Statistikerfassung des vSAN-Leistungservice
+com.vmware.vsan.health.test.perfsvc.collection.short = Überprüft die Statistikerfassung des vSAN-Leistungservice
+com.vmware.vsan.health.test.perfsvc.hostsmissing.testName = Statistik über alle bereitstellenden Hosts
+com.vmware.vsan.health.test.perfsvc.hostsmissing.testResult.label = Statistik über alle nicht bereitstellenden Hosts
+com.vmware.vsan.health.test.perfsvc.hostsmissing.testResult.columnHost = Host
+com.vmware.vsan.health.test.perfsvc.hostsmissing.desc = Überprüft, ob alle Hosts zu den Leistungsstatistiken beitragen
+com.vmware.vsan.health.test.perfsvc.hostsmissing.short = Überprüft, ob alle Hosts zu den Leistungsstatistiken beitragen
+com.vmware.vsan.health.test.perfsvc.renameddirs.testName = DB-Statistikobjektkonflikte
+com.vmware.vsan.health.test.perfsvc.renameddirs.testResult.label = Umbenannte Verzeichnisse
+com.vmware.vsan.health.test.perfsvc.renameddirs.testResult.columnDirName = Verzeichnisname
+com.vmware.vsan.health.test.perfsvc.renameddirs.desc = Überprüft DB-Objektstatistikkonflikte
+com.vmware.vsan.health.test.perfsvc.renameddirs.short = Überprüft DB-Objektstatistikkonflikte
+com.vmware.vsan.health.test.perfsvc.verbosemode.testName = Ausführlicher Modus
+com.vmware.vsan.health.test.perfsvc.verbosemode.testResult.label = Details
+com.vmware.vsan.health.test.perfsvc.verbosemode.testResult.columnVerboseModeStatus = Status
+com.vmware.vsan.health.test.perfsvc.verbosemode.testResult.rowVerboseModeStatusGreen = Der ausführliche Modus ist {0} Tage lang aktiviert.
+com.vmware.vsan.health.test.perfsvc.verbosemode.testResult.rowVerboseModeStatusYellow = Der ausführliche Modus ist über 5 Tage aktiviert ({0} Tage). Die zusätzlichen, im ausführlichen Modus erfassten Daten verbrauchen möglicherweise den Speicherplatz der Statistik-Datenbank.
+com.vmware.vsan.health.test.perfsvc.verbosemode.desc = Überprüft den Status des ausführlichen Modus des vSAN-Leistungsservice
+com.vmware.vsan.health.test.perfsvc.verbosemode.short = Überprüft den Status des ausführlichen Modus des vSAN-Leistungsservice
+com.vmware.vsan.health.test.cluster.consistentconfig.testResult.perfsvc.rowNotConsistentEnablePerfsvc = Der Leistungsservice ist in der Clusterkonfiguration eingeschaltet, aber er ist noch nicht aktiviert.
+com.vmware.vsan.health.test.cluster.consistentconfig.testResult.perfsvc.rowNotConsistentDisablePerfsvc = Der Leistungsservice ist in der Clusterkonfiguration ausgeschaltet, aber er ist noch nicht deaktiviert.
+com.vmware.vsan.health.test.cluster.consistentconfig.testResult.perfsvc.rowPolicyNotConsistent = Die Richtlinienkonfiguration für ein Statistikobjekt ist veraltet
+com.vmware.vsan.health.test.cluster.consistentconfig.testResult.perfsvc.rowVsanDsNotcompatible = vSAN-Datenspeicher ist nicht mit der für den vSAN-Leistungsservice konfigurierten Richtlinie kompatibel
+com.vmware.vsan.health.test.cluster.consistentconfig.testResult.perfsvc.rowVsanDsNotEnoughFreeSpace = vSAN-Datenspeicher verfügt nicht über genügend freien Speicherplatz zum Aktivieren des vSAN-Leistungsservice
+
+#
+# iscsi health check
+#
+com.vmware.vsan.health.test.iscsi.iscsihomeobjectstatustest.testname = Home-Objekt
+com.vmware.vsan.health.test.iscsi.iscsiinstallstatustest.testname = Dienstinstallationsstatus
+com.vmware.vsan.health.test.iscsi.iscsiservicenetworktest.testname = Netzwerkkonfiguration
+com.vmware.vsan.health.test.iscsi.iscsiservicerunningtest.testname = Laufzeitstatus des Diensts
+
+#vSAN online health configuration check
+com.vmware.vsan.health.test.cloudhealth.groupName = Onlineintegrität
+
+com.vmware.vsan.health.test.cloudhealth.disabled = Deaktiviert
+com.vmware.vsan.health.test.cloudhealth.updating = Letzte Überprüfung: gerade jetzt
+com.vmware.vsan.health.test.cloudhealth.lastTimeStr = Letzte Prüfung:
+com.vmware.vsan.health.test.cloudhealth.nextQueryStrKey = Nächste Prüfung:
+com.vmware.vsan.health.test.cloudhealth.weeks = Woche(n)
+com.vmware.vsan.health.test.cloudhealth.days = Tag(e)
+com.vmware.vsan.health.test.cloudhealth.hours = Stunde(n)
+com.vmware.vsan.health.test.cloudhealth.minutes = Minute(n)
+com.vmware.vsan.health.test.cloudhealth.ago = vor
+com.vmware.vsan.health.test.cloudhealth.comma = ,
+
+com.vmware.vsan.health.test.cloudhealth.vsancloudhealthceipexception.testName = Programm zur Verbesserung der Benutzerfreundlichkeit (CEIP)
+com.vmware.vsan.health.test.vsancloudhealthceipexception.desc.enabled = Der aktuelle Status des Programms zur Verbesserung der Benutzerfreundlichkeit (CEIP) ist aktiviert. Onlineintegritätsprüfungen sind nicht verfügbar, wenn CEIP deaktiviert ist.
+com.vmware.vsan.health.test.vsancloudhealthceipexception.short.enabled = Der aktuelle Status des Programms zur Verbesserung der Benutzerfreundlichkeit (CEIP) ist aktiviert. Onlineintegritätsprüfungen sind nicht verfügbar, wenn CEIP deaktiviert ist.
+com.vmware.vsan.health.test.vsancloudhealthceipexception.desc.disabled = Der aktuelle Status des Programms zur Verbesserung der Benutzerfreundlichkeit (CEIP) ist deaktiviert. Onlineintegritätsprüfungen sind nicht verfügbar, wenn CEIP deaktiviert ist.
+com.vmware.vsan.health.test.vsancloudhealthceipexception.short.disabled = Der aktuelle Status des Programms zur Verbesserung der Benutzerfreundlichkeit (CEIP) ist deaktiviert. Onlineintegritätsprüfungen sind nicht verfügbar, wenn CEIP deaktiviert ist.
+
+com.vmware.vsan.health.test.cloudhealth.vsancloudhealthconnectionexception.testName = Onlineintegritätskonnektivität
+com.vmware.vsan.health.test.vsancloudhealthconnectionexception.desc.enabled = Der aktuelle Status der Internetverbindung ist aktiviert. Onlineintegritätsprüfungen sind nicht verfügbar, wenn die Internetverbindung deaktiviert ist.
+com.vmware.vsan.health.test.vsancloudhealthconnectionexception.short.enabled = Der aktuelle Status der Internetverbindung ist aktiviert. Onlineintegritätsprüfungen sind nicht verfügbar, wenn die Internetverbindung deaktiviert ist.
+com.vmware.vsan.health.test.vsancloudhealthconnectionexception.desc.disabled = Der aktuelle Status der Internetverbindung ist deaktiviert. Onlineintegritätsprüfungen sind nicht verfügbar, wenn die Internetverbindung deaktiviert ist.
+com.vmware.vsan.health.test.vsancloudhealthconnectionexception.short.disabled = Der aktuelle Status der Internetverbindung ist deaktiviert. Onlineintegritätsprüfungen sind nicht verfügbar, wenn die Internetverbindung deaktiviert ist.
+
+com.vmware.vsan.health.update.update.acceptlevelwarning = (Hostakzeptanzebene {levelname} ist erforderlich)
+
+com.vmware.vsan.health.test.cluster.extendedconfig.testResult.label = Erweiterter Konfigurationsstatus des vSAN-Hosts
+com.vmware.vsan.health.test.cluster.extendedconfig.testResult.columnHost = vSAN-Host
+com.vmware.vsan.health.test.cluster.extendedconfig.testResult.columnObjectRepairTimer = Objekt Reparatur-Timer
+com.vmware.vsan.health.test.cluster.extendedconfig.testResult.columnDisableSiteReadLocality = Site-Lesebelegung
+com.vmware.vsan.health.test.cluster.extendedconfig.testResult.columnEnableCustomizedSwapObject = Angepasstes Auslagerungsobjekt
+com.vmware.vsan.health.test.cluster.extendedconfig.testResult.columnLargeScaleClusterSupport = Unterstützung für umfangreiche Cluster
+com.vmware.vsan.health.test.cluster.extendedconfig.testResult.columnEffect = Konfigurationen sind wirksam
+com.vmware.vsan.health.test.cluster.extendedconfig.testResult.columnState = Ergebnis überprüfen
+com.vmware.vsan.health.test.cluster.extendedconfig.testResult.columnRecommendation = Empfehlung
+com.vmware.vsan.health.test.cluster.extendedconfig.testName = Erweiterte Konfiguration von vSAN synchronisiert
+com.vmware.vsan.health.test.cluster.extendedconfig.short = Überprüfen der erweiterten Konfigurationen für alle vSAN-Hosts. Der Wert für den erwarteten Objektreparaturtimer beträgt {0} Minuten, die Site-Lesebelegung beträgt {1}, der Wert für das angepasste Auslagerungsobjekt beträgt {2} und der Wert für die Unterstützung für umfangreiche Cluster {3}.
+com.vmware.vsan.health.test.cluster.extendedconfig.on = Aktiviert
+com.vmware.vsan.health.test.cluster.extendedconfig.off = Deaktiviert
+com.vmware.vsan.health.test.cluster.extendedconfig.desc = Die erweiterten Konfigurationen des vSAN-Clusters sind wie folgt festgelegt: Der Wert für den erwarteten Objekt Reparatur-Timer beträgt {0} Minuten, die Site-Lesebelegung ist {1}, das angepasste Auslagerungsobjekt ist {2} und die Unterstützung für umfangreiche Cluster ist {3}. Bei Hosts mit inkonsistenten erweiterten Konfigurationen wird eine vSAN-Clusterwartung empfohlen. Bei Hosts, die keine externe Konfiguration zulassen, ist ein ESXi-Softwareupgrade erforderlich. Damit die Clusterskalierbarkeit wirksam wird, ist möglicherweise ein Neustart des Hosts erforderlich.
+com.vmware.vsan.health.test.cluster.extendedconfig.match = Übereinstimmung
+com.vmware.vsan.health.test.cluster.extendedconfig.mismatch = Nichtübereinstimmung
+com.vmware.vsan.health.test.cluster.extendedconfig.notsupported = Nicht unterstützt
+com.vmware.vsan.health.test.cluster.extendedconfig.noeffect = Nein
+com.vmware.vsan.health.test.cluster.extendedconfig.takeneffect = Ja
+com.vmware.vsan.health.test.cluster.extendedconfig.needmemory = Nein
+com.vmware.vsan.health.test.cluster.extendedconfig.unknown = Unbekannt
+com.vmware.vsan.health.test.cluster.extendedconfig.na = OK
+com.vmware.vsan.health.test.cluster.extendedconfig.remediation = vSAN-Clusterstandardisierung wird empfohlen
+com.vmware.vsan.health.test.cluster.extendedconfig.upgrade = ESXi-Software dieses Hosts aktualisieren
+com.vmware.vsan.health.test.cluster.extendedconfig.reboot = Neustart des Hosts wird empfohlen
+com.vmware.vsan.health.test.cluster.extendedconfig.memory = Erhöhen Sie den Arbeitsspeicher des Hosts auf mehr als 8 GB.
+
+# host EMM and node decom state in sync check
+com.vmware.vsan.health.test.cluster.mmdecominsync.testName = Hostwartungsmodus
+com.vmware.vsan.health.test.cluster.mmdecominsync.testResult.label = Hostwartungsmodus
+com.vmware.vsan.health.test.cluster.mmdecominsync.testResult.columnHost = Host
+com.vmware.vsan.health.test.cluster.mmdecominsync.testResult.columnHostInMM = Host im Wartungsmodus
+com.vmware.vsan.health.test.cluster.mmdecominsync.testResult.columnHostInDecom = vSAN-Knoten im Außerbetriebnahmestatus
+com.vmware.vsan.health.test.cluster.mmdecominsync.testResult.columnHostInSync = Status synchronisiert
+com.vmware.vsan.health.test.cluster.mmdecominsync.testResult.contentYes = Ja
+com.vmware.vsan.health.test.cluster.mmdecominsync.testResult.contentNo = Nein
+com.vmware.vsan.health.test.cluster.mmdecominsync.testResult.contentTransient = In Bearbeitung
+com.vmware.vsan.health.test.mmdecominsync = Überprüfen Sie, ob der Wartungsmodus des Hosts mit dem Außerbetriebnahmestatus des vSAN-Knoten synchronisiert ist. Wenn sich der Host im Wartungsmodus befindet, sollte sich der vSAN-Knoten im Außerbetriebnahmestatus befinden. Wenn ein Knoten außer Betrieb genommen wird, der Host sich jedoch nicht im Wartungsmodus befindet, versetzen Sie den Host mithilfe einer beliebigen vSAN-Option in den Wartungsmodus und beenden Sie dann den Wartungsmodus des Hosts, um den vSAN-Außerbetriebnahmestatus zurückzusetzen und dafür zu sorgen, dass er mit dem Status des vSphere-Wartungsmodus konsistent ist.
+com.vmware.vsan.health.test.mmdecominsync.short = Überprüfen Sie, ob der Wartungsmodus des Hosts mit dem Außerbetriebnahmestatus des vSAN-Knotens synchronisiert ist. Wenn ein Knoten außer Betrieb genommen wird, der Host sich jedoch nicht im Wartungsmodus befindet, versetzen Sie den Host mithilfe einer beliebigen vSAN-Option in den Wartungsmodus und beenden Sie dann den Wartungsmodus des Hosts, um den vSAN-Außerbetriebnahmestatus zurückzusetzen und dafür zu sorgen, dass er mit dem Status des vSphere-Wartungsmodus konsistent ist.
+

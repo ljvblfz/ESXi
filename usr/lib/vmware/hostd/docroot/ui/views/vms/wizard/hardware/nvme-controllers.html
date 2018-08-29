@@ -1,0 +1,21 @@
+<!-- NVMe Controllers -->
+<div
+   ng-class="{
+      'stack-new': wizardOptions.data.nvmes[_index]._operation === 'add'
+   }"
+   ng-repeat="(_index, nvme) in nvmes"
+   vui-stack-block="hardwareStackView.nvmeBlock[_index]">
+
+   <!-- Icon -->
+   <span style="margin-left: 10px;"
+      vui-sb-icon-class="icon-stackview-nvme"
+      vui-sb-label>{{nvme.title}}</span>
+
+   <!-- content collapsed-->
+   <div vui-sb-content>
+      <span class="esx-icon-close vui-icon-info-inline esx-close-right"
+         ng-click="removeNVMEController(_index)"
+         ng-show="wizardOptions.data.general.state !== 'suspended'"></span>
+   </div>
+</div>
+

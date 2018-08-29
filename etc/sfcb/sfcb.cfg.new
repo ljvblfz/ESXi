@@ -1,0 +1,36 @@
+# Do not modify this header
+# VMware ESXi 0.0.0 build-00000 
+#
+enabled: false
+wsman: true
+loglevel: warning
+httpPort: 5988
+enableHttp: true
+httpProcs: 2
+httpsPort: 5989
+enableHttps: true
+httpsProcs: 4
+provProcs: 16
+httpLocalOnly: true
+doBasicAuth: true
+basicAuthLib: sfcBasicPAMAuthentication
+useChunking: true
+keepaliveTimeout: 1
+keepaliveMaxRequest: 10
+providerTimeoutInterval: 120
+sslKeyFilePath: /etc/vmware/ssl/rui.key
+sslCertificateFilePath: /etc/vmware/ssl/rui.crt
+sslClientTrustStore: /etc/sfcb/client.pem
+sslClientCertificate: ignore
+certificateAuthLib: sfcCertificateAuthentication
+enableInterOp:  true
+threadStackSize: 524288
+rcvSocketTimeOut: 0
+requestQueueSize: 10
+threadPoolSize: 5
+intSockTimeout: 600
+maxSemInitRetries: 5
+maxFailureThreshold: 3
+cimXmlFdSoftLimit: 512
+cimXmlFdHardLimit: 1024
+disabledProviders:

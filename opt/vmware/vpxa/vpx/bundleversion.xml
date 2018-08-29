@@ -1,0 +1,60 @@
+<!--
+This config file provides a mapping from product to the filename of a vpxa 
+bundle that must be installed on that product so that VirtualCenter can
+manage it.
+
+The Vim::AboutInfo data of a host is used to find an appropriate bundle
+in this config file. The path productLineId/osType specifies a list 
+of bundles and the version and build are used to chose amoung those bundles
+using a first-match algorithm. The version field in the config file is 
+specified as x[.y[.z[-build]]][+] where x, y, z and build are numbers and
+the optional '+' means 'or greater' for the number it is closest to.
+(A special case used to specify an experimental/development build is to specify
+the version as "e.x.p")
+
+The filename specified in the <install> and <uninstall> tags can either be
+a plain filename or a regular expression of the form [prefix]-* where the "*"
+is a wildcard for the build number of the package. VirtualCenter will select
+a package with the highest build number for the package that matches the prefix.
+
+For example,
+  id=1: <version>2.5.3</version>
+  id=2: <version>2.5.0+</version>
+
+Here bundle id=1 is used for version 2.5.3 (first match) while bundle id=2
+is used for version 2.5.x for x != 3.
+-->
+
+<ConfigRoot>
+<esx>
+  <vmnix-x86>
+     <bundle id="1000000">
+         <!-- For internal use only. Does not correspond to any real host version -->
+         <version>5.5&lt;</version>
+         <install>vpx-upgrade-esx-7-linux-*</install>
+         <uninstall>vpx-uninstall-esx-7-linux-*</uninstall>
+     </bundle>
+     <bundle id="8">
+         <version>e.x.p</version>
+         <install>vpx-upgrade-esx-7-linux-*</install>
+         <uninstall>vpx-uninstall-esx-7-linux-*</uninstall>
+     </bundle>
+  </vmnix-x86>
+</esx>
+<embeddedEsx>
+  <vmnix-x86>
+     <!-- 1000000 is a magic id used by vpxd to know that esx5.0+ hosts don't 
+          need to download vpxa bundles -->
+     <bundle id="1000000">
+         <version>5.5&lt;</version>
+         <install>vpx-upgrade-eesx-1-linux-*</install>
+         <uninstall>vpx-uninstall-eesx-1-linux-*</uninstall>
+     </bundle>
+     <bundle id="14">
+         <version>e.x.p</version>
+         <install>vpx-upgrade-eesx-1-linux-*</install>
+         <uninstall>vpx-uninstall-eesx-1-linux-*</uninstall>
+     </bundle>
+  </vmnix-x86>
+</embeddedEsx>
+</ConfigRoot>

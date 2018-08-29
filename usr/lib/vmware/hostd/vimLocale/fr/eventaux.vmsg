@@ -1,0 +1,2578 @@
+# en_US resources
+signature="sIgNaTuRe"
+###
+###
+
+HostInventoryFullEvent.longDescription = "\
+    <EventLongDescription id="vim.event.HostInventoryFullEvent">\
+       <description>\
+          La clé de licence vCenter Server Foundation autorise actuellement l'ajout de trois hôtes dans  l'inventaire uniquement. L'ajout d'hôtes supplémentaires engendre des erreurs  et l'enregistrement de cet événement. \
+       </description>\
+       <cause>\
+            <description>Tentative d'ajouter un nombre d'hôtes plus important que celui autorisé par la clé de licence  assignée à vCenter Server</description>\
+            <action>Assignez à vCenter Server une clé de licence qui autorise un plus grand nombre d'hôtes ou  sans limite d'hôte</action>\
+       </cause>\
+    </EventLongDescription>\
+    "
+
+LicenseNonComplianceEvent.longDescription = "\
+    <EventLongDescription id="vim.event.LicenseNonComplianceEvent">\
+       <description>\
+         vCenter Server n'impose pas strictement l'utilisation de la licence. Au lieu de cela, il vérifie l'utilisation abusive de la licence  périodiquement. Si vCenter Server détecte une utilisation abusive, il enregistre cet événement et  déclenche une alarme.\
+       </description>\
+       <cause>\
+            <description>Surutilisation de licences</description>\
+            <action>Vérifiez les rapports de licence via vSphere Client et réduisez le nombre  d'entités utilisant la clé de licence, ou ajoutez une nouvelle clé de licence disposant d'une plus grande  capacité</action>\
+       </cause>\
+    </EventLongDescription>\
+    "
+
+LicenseServerUnavailableEvent.longDescription = "\
+    <EventLongDescription id="vim.event.LicenseServerUnavailableEvent">\
+       <description>\
+          vCenter Server assure le suivi de l'état du serveur de licences et enregistre cet événement si  le serveur de licences ne répond plus. \
+       </description>\
+       <cause>\
+            <description>Le serveur de licences ne répond pas et n'est pas disponible pour vCenter Server</description>\
+            <action>Vérifiez que le serveur de licences fonctionne. Si tel est le cas, vérifiez la connectivité entre  vCenter Server et le serveur de licences.</action>\
+       </cause>\
+    </EventLongDescription>\
+    "
+
+NoLicenseEvent.longDescription = "\
+    <EventLongDescription id="vim.event.NoLicenseEvent">\
+       <description>\
+         vCenter Server enregistre cet événement s'il ne parvient pas à acquérir une fonction du serveur de licences pour  une raison inconnue. \
+       </description>\
+       <cause>\
+            <description>L'acquisition d'une licence de fonction échoue pour une raison inconnue</description>\
+            <action>Vérifiez que le serveur de licences a la licence pour la fonction</action>\
+       </cause>\
+    </EventLongDescription>\
+    "
+
+
+InvalidEditionEvent.longDescription = "\
+    <EventLongDescription id="vim.event.InvalidEditionEvent">\
+       <description>\
+          vCenter Server a tenté d'acquérir une fonction non définie auprès du serveur de licences \
+       </description>\
+       <cause>\
+            <description>Toute opération nécessitant une licence de fonction telle que vMotion, DRS, vSphere HA pourrait entraîner  cet événement si cette fonction n'est pas définie sur le serveur de licences</description>\
+            <action>Vérifiez que la fonction en question est présente sur le serveur de licences</action>\
+       </cause>\
+    </EventLongDescription>\
+    "
+
+HostLicenseExpiredEvent.longDescription = "\
+    <EventLongDescription id="vim.event.HostLicenseExpiredEvent">\
+       <description>\
+         vCenter Server assure le suivi des délais d'expiration des licences d'hôte sur le serveur de licences  et utilise cet événement pour vous informer au sujet des licences d'hôte sur le point d'expirer\
+       </description>\
+       <cause>\
+            <description>Les licences d'hôte sur le serveur de licences sont sur le point d'expirer</description>\
+            <action>Mettez à jour le serveur de licences pour obtenir une nouvelle version de la licence d'hôte</action>\
+       </cause>\
+    </EventLongDescription>\
+    "
+
+VMotionLicenseExpiredEvent.longDescription = "\
+    <EventLongDescription id="vim.event.VMotionLicenseExpiredEvent">\
+       <description>\
+         vCenter Server assure le suivi des délais d'expiration des licences vMotion sur le serveur de licences  et utilise cet événement pour vous informer au sujet des licences vMotion sur le point d'expirer\
+       </description>\
+       <cause>\
+            <description>Les licences vMotion sur le serveur de licences sont sur le point d'expirer</description>\
+            <action>Mettez à jour le serveur de licences pour obtenir une version plus récente de la licence vMotion</action>\
+       </cause>\
+    </EventLongDescription>\
+    "
+
+LicenseRestrictedEvent.longDescription = "\
+    <EventLongDescription id="vim.event.LicenseRestrictedEvent">\
+       <description>\
+         vCenter Server enregistre cet événement s'il ne peut pas extraire une licence  du serveur de licences en raison des restrictions contenues dans le fichier de licences\
+       </description>\
+       <cause>\
+            <description>Le fichier de licence dans le serveur de licences comporte des restrictions qui empêchent l'extraction</description>\
+            <action>Vérifiez le fichier de licence et supprimez autant de restrictions que possible</action>\
+       </cause>\
+    </EventLongDescription>\
+    "
+
+VmFailedToPowerOffEvent.longDescription = "\
+   <EventLongDescription id="vim.event.VmFailedToPowerOffEvent">\
+      <description>Échec de mise hors tension de la machine virtuelle</description>\
+      <cause>\
+         <description>\
+            La machine virtuelle exécute peut-être plusieurs opérations en même temps\
+         </description>\
+         <action>Mettez fin aux opérations simultanées et retentez l'opération de mise hors tension</action>\
+      </cause>\
+      <cause>\
+         <description>La machine virtuelle est dans un état incorrect. Les machines virtuelles peuvent entrer dans  un état incorrect pour de nombreuses raisons, par exemple l'inaccessibilité de la banque de données. </description>\
+         <action>\
+           Identifiez la raison pour laquelle la machine virtuelle est entrée dans un état incorrect, corrigez le problème, et retentez l'opération.\
+         </action>\
+      </cause>\
+   </EventLongDescription>\
+   "
+
+VmFailedToPowerOnEvent.longDescription = "\
+   <EventLongDescription id="vim.event.VmFailedToPowerOnEvent">\
+      <description>\
+         Échec de mise sous tension de la machine virtuelle\
+      </description>\
+      <cause>\
+         <description>\
+            Les tentatives de démarrage de la machine virtuelle peuvent échouer parce que l'état de cette dernière est déjà  en marche, d'autres systèmes fonctionnent simultanément sur la machine virtuelle, etc. </description>\
+         <action>\
+	  Vérifiez la raison dans le message d'événement pour trouver la cause de l'échec de mise sous tension et corriger le problème.\
+         </action>\
+      </cause>\
+   </EventLongDescription>\
+   "
+
+VmFailedToRebootGuestEvent.longDescription = "\
+   <EventLongDescription id="vim.event.VmFailedToRebootGuestEvent">\
+      <description>\
+         Échec de redémarrage du système d'exploitation client sur la machine virtuelle.\
+      </description>\
+      <cause>\
+         <description>\
+            L'initialisation du système d'exploitation client peut échouer parce que l'état de la machine virtuelle n'est pas  en marche, d'autres systèmes fonctionnent simultanément sur la machine virtuelle, etc.\
+         </description>\
+	 <action>\
+	  Vérifiez la raison dans le message d'événement pour trouver la cause de l'échec de redémarrage et corriger le problème.\
+         </action>\
+       </cause>\
+   </EventLongDescription>\
+   "
+
+VmFailedToResetEvent.longDescription = "\
+   <EventLongDescription id="vim.event.VmFailedToResetEvent">\
+      <description>Échec de réinitialisation de la machine virtuelle</description>\
+      <cause>\
+         <description>\
+		Il se peut que la machine virtuelle attende une réponse à une question ou une invite</description>\
+         <action>\
+           Allez à l'onglet de synthèse de la machine virtuelle dans vSphere Client et répondez à la question  ou à l'invite\
+         </action>\
+      </cause>\
+      <cause>\
+         <description>Il se peut que vous n'ayez pas suffisamment de licences disponibles pour exécuter cette opération.</description>\
+         <action>\
+            Obtenez les licences requises et retentez l'opération de réinitialisation\
+         </action>\
+      </cause>\
+      <cause>\
+         <description>\
+            Il se peut que des opérations simultanées soit en cours d'exécution sur la machine virtuelle\
+         </description>\
+         <action>Mettez fin aux opérations simultanées et retentez l'opération de réinitialisation</action>\
+      </cause>\
+      <cause>\
+         <description>\
+            L'hôte sur lequel la machine virtuelle est en cours d'exécution entre en mode maintenance\
+         </description>\
+         <action>\
+            Attendez que l'hôte quitte le mode maintenance et retentez l'exécution\
+         </action>\
+      </cause>\
+      <cause>\
+         <description>La machine virtuelle est dans un état incorrect. Les machines virtuelles peuvent entrer dans  un état incorrect pour de nombreuses raisons, par exemple l'inaccessibilité de la banque de données.</description>\
+         <action>\
+           Identifiez la raison pour laquelle la machine virtuelle est entrée dans un état incorrect, corrigez le problème, et retentez l'opération.\
+         </action>\
+      </cause>\
+   </EventLongDescription>\
+   "
+
+VmUpgradingEvent.longDescription = "\
+   <EventLongDescription id="vim.event.VmUpgradingEvent">\
+      <description>Le matériel virtuel sur cette machine virtuelle est mis à jour</description>\
+      <cause>\
+         <description>Une action de l'utilisateur a déclenché une mise à niveau du matériel de la machine virtuelle</description>\
+      </cause>\
+      <cause>\
+         <description>Une tâche planifiée a lancé une mise à niveau du matériel de la machine virtuelle</description>\
+      </cause>\
+   </EventLongDescription>\
+   "
+
+VmUuidAssignedEvent.longDescription = "\
+   <EventLongDescription id="vim.event.VmUuidAssignedEvent">\
+      <description>Un nouveau UUID de BIOS a été assigné à la machine virtuelle</description>\
+      <cause>\
+         <description>L'utilisateur qui a créé la machine virtuelle n'a pas spécifié un UUID de BIOS au moment de la création.  vCenter Server a généré un nouvel UUID et l'a affecté à la machine virtuelle.\
+         </description>\
+      </cause>\
+   </EventLongDescription>\
+   "
+
+VmInstanceUuidAssignedEvent.longDescription = "\
+   <EventLongDescription id="vim.event.VmInstanceUuidAssignedEvent">\
+      <description>Un nouvel UUID d'instance spécifique de vCenter Server a été assigné à la machine virtuelle\
+      </description>\
+      <cause>\
+         <description> \
+             L'utilisateur qui a créé la machine virtuelle n'a pas spécifié un UUID d'instance spécifique à vCenter Server  au moment de la création. vCenter Server a généré un nouvel UUID et l'a affecté à la  machine virtuelle.\
+         </description>\
+      </cause>\
+   </EventLongDescription>\
+   "
+
+VmUuidChangedEvent.longDescription = "\
+   <EventLongDescription id="vim.event.VmUuidChangedEvent">\
+      <description>L'UUID de BIOS de la machine virtuelle a changé</description>\
+      <cause>\
+         <description>\
+            Un utilisateur a changé l'UUID de BIOS de la machine virtuelle directement sur l'hôte\
+         </description>\
+      </cause>\
+   </EventLongDescription>\
+   "
+
+VmInstanceUuidChangedEvent.longDescription = "\
+   <EventLongDescription id="vim.event.VmInstanceUuidChangedEvent">\
+      <description> \
+         L'UUID d'instance spécifique de vCenter Server de la machine virtuelle a changé\
+      </description> \
+      <cause>\
+         <description>\
+           Une action de l'utilisateur a entraîné une modification de l'UUID d'instance spécifique de vCenter Server de  la machine virtuelle\
+         </description>\
+      </cause>\
+      <cause>\
+         <description>\
+           vCenter Server a changé l'UUID d'instance de la machine virtuelle parce qu'il a détecté  un conflit\
+         </description>\
+      </cause>\
+   </EventLongDescription>\
+   "
+
+VmInstanceUuidConflictEvent.longDescription = "\
+   <EventLongDescription id="vim.event.VmInstanceUuidChangedEvent">\
+      <description> \
+         L'UUID d'instance spécifique de vCenter Server de la machine virtuelle était en conflit avec celui  d'une autre machine virtuelle. \
+      </description>\
+      <cause>\
+         <description>\
+            Des conflits d'UUID d'instance de machine virtuelle peuvent se produire si vous copiez des fichiers de machine virtuelle  manuellement sans utiliser vCenter Server. \
+         </description>\
+      </cause>\
+   </EventLongDescription>\
+   "
+
+VmRelocateFailedEvent.longDescription = "\
+   <EventLongDescription id="vim.event.VmRelocateFailedEvent">\
+      <description>\
+         Échec du déplacement d'une machine virtuelle vers un hôte ou une banque de données différent(e)\
+      </description>\
+      <cause>\
+         <description>\
+           Le déplacement de la machine virtuelle peut échouer pour un certain nombre de raisons, y compris  des pannes de réseau, l'insuffisance d'espace disque, etc\
+         </description>\
+         <action>\
+            Examinez la tâche associée à cet événement, évaluez la raison de l'échec, et agissez en conséquence\
+         </action>\
+      </cause>\
+   </EventLongDescription>\
+   "
+
+VmUnsupportedStartingEvent.longDescription = "\
+   <EventLongDescription id="vim.event.VmUnsupportedStartingEvent">\
+      <description>\
+         Tentative de mise sous tension d'une machine virtuelle dotée d'un système d'exploitation client non pris en charge\
+      </description>\
+      <cause>\
+         <description>\
+           Une action de l'utilisateur a lancé une opération de mise sous tension d'une machine virtuelle, mais la machine virtuelle possède  un système d'exploitation client non pris en charge.\
+         </description>\
+      </cause>\
+   </EventLongDescription>\
+   "
+
+# VmRegisteredEvent: Basic event has enough details
+# VmRenamedEvent: Basic event has enough details
+# VmUuidConflictEvent: Not used anymore
+
+VmFailedToShutdownGuestEvent.longDescription = "\
+   <EventLongDescription id="vim.event.VmFailedToShutdownGuestEvent">\
+      <description>\
+         Échec d'arrêt du système d'exploitation client pour la machine virtuelle\
+      </description>\
+      <cause>\
+         <description>\
+            L'arrêt du système d'exploitation client peut échouer si VMware Tools  n'est pas installé dans la machine virtuelle.\
+         </description>\
+         <action>Installez VMware Tools.</action>\
+      </cause>\
+      <cause>\
+         <description>\
+	    Il se peut que la machine virtuelle attende une réponse à une question ou une invite</description>\
+         <action>\
+            Allez sur l'onglet Résumé de la machine virtuelle dans vSphere Client et répondez à la question  ou à l'invite\
+         </action>\
+      </cause>\
+      <cause>\
+         <description>\
+            D'autres systèmes peuvent fonctionner simultanément sur la machine virtuelle\
+         </description>\
+         <action>Mettez fin aux opérations simultanées et retentez l'opération d'arrêt</action>\
+      </cause>\
+      <cause>\
+         <description>La machine virtuelle est dans un état incorrect. Les machines virtuelles peuvent entrer dans  un état incorrect pour de nombreuses raisons, par exemple l'inaccessibilité de la banque de données.</description>\
+         <action>\
+           Identifiez la raison pour laquelle la machine virtuelle est entrée dans un état incorrect, corrigez le problème, et retentez l'opération.\
+         </action>\
+      </cause>\
+   </EventLongDescription>\
+   "
+
+AlarmEmailFailedEvent.longDescription = "\
+    <EventLongDescription id="vim.event.AlarmEmailFailedEvent">\
+       <description>\
+          Une erreur s'est produite pendant l'envoi de la notification e-mail lors d'un déclenchement d'alarme\
+       </description>\
+       <cause>\
+            <description>N'a pas envoyé l'e-mail pour une alarme déclenchée</description>\
+            <action>Vérifiez les paramètres SMTP de vCenter Server pour l'envoi de notifications par e-mail</action>\
+       </cause>\
+    </EventLongDescription>\
+    "
+    
+AlarmReconfiguredEvent.longDescription = "\
+    <EventLongDescription id="vim.event.AlarmReconfiguredEvent">\
+       <description>\
+          Une alarme a été reconfigurée \
+       </description>\
+       <cause>\
+            <description>Un utilisateur a reconfiguré une alarme</description>\
+       </cause>\
+    </EventLongDescription>\
+    "
+        
+AlarmScriptFailedEvent.longDescription = "\
+    <EventLongDescription id="vim.event.AlarmScriptFailedEvent">\
+       <description>\
+          vCenter Server enregistre cet événement si une erreur se produit lors de l'exécution d'un script après le déclenchement d'une alarme.\
+       </description>\
+       <cause>\
+            <description>Une erreur s'est produite lors de l'exécution du script</description>\
+            <action>Corrigez le script ou l'état d'échec</action>\
+       </cause>\
+    </EventLongDescription>\
+    "
+
+    
+AlarmSnmpFailedEvent.longDescription = "\
+    <EventLongDescription id="vim.event.AlarmSnmpFailedEvent">\
+       <description>\
+          vCenter Server enregistre cet événement si une erreur se produit lors de l'envoie d'un piège SNMP au déclenchement d'une alarme.\
+       </description>\
+       <cause>\
+            <description>Impossible d'envoyer un piège SNMP pour une alarme déclenchée</description>\
+            <action>Vérifiez les paramètres SNMP de vCenter Server. Vérifiez que le réseau de vCenter Server peut gérer des paquets SNMP.</action>\
+       </cause>\
+    </EventLongDescription>\
+    "
+   
+   
+ScheduledTaskEmailFailedEvent.longDescription = "\
+    <EventLongDescription id="vim.event.ScheduledTaskEmailFailedEvent">\
+       <description>\
+          Une erreur s'est produite pendant l'envoi de la notification d'e-mail indiquant qu'une tâche programmée est exécutée\
+       </description>\
+       <cause>\
+            <description>Échec d'envoi de l'e-mail pour la tâche planifiée</description>\
+            <action>Vérifiez les paramètres SMTP de vCenter Server pour l'envoi d'e-mails</action>\
+       </cause>\
+    </EventLongDescription>\
+    "
+
+ScheduledTaskFailedEvent.longDescription = "\
+    <EventLongDescription id="vim.event.ScheduledTaskFailedEvent">\
+       <description>\
+          Une erreur s'est produite lors de l'exécution d'une tâche planifiée \
+       </description>\
+       <cause>\
+            <description>Échec d'exécution d'une tâche planifiée</description>\
+            <action>Corrigez l'état d'échec</action>\
+       </cause>\
+    </EventLongDescription>\
+    "
+
+
+DasAgentUnavailableEvent.longDescription = "\
+    <EventLongDescription id="vim.event.DasAgentUnavailableEvent">\
+       <description>\
+         vCenter Server ne peut contacter aucun bon hôte primaire dans le cluster vSphere HA.  Il se peut que la protection vSphere HA ne soit pas disponible pour des machines virtuelles en cours d'exécution dans le cluster.  En outre, vous ne pouvez pas activer ou reconfigurer vSphere HA sur les hôtes dans  le cluster tant que le contact entre vCenter Server et un bon hôte primaire n'est pas rétabli.\
+       </description>\
+       <cause>\
+          <description>\
+             En raison d'une panne de réseau, tous les hôtes apparaissent dans l'inventaire comme « ne répondant pas »\
+          </description>\
+          <action>Restaurez le réseau</action>\
+       </cause>\
+       <cause>\
+          <description>Échec de tous les hôtes primaires dans le cluster</description>\
+          <action>\
+            Si les hôtes primaires défaillants ne peuvent pas être restaurés, désactivez vSphere HA sur le cluster,  attendez la fin des tâches d'annulation de configuration de vSphere HA sur tous les hôtes, puis  réactivez vSphere HA sur le cluster\
+          </action>\
+       </cause>\
+    </EventLongDescription>\
+    "
+
+DasDisabledEvent.longDescription = "\
+    <EventLongDescription id="vim.event.DasDisabledEvent">\
+       <description>\
+          vSphere HA a été désactivé sur cet hôte en raison d'une action de l'utilisateur. vSphere HA est désactivé quand un hôte  est déconnecté de vCenter Server ou placé en mode maintenance ou standby.  Les machines virtuelles sur les autres hôtes dans le cluster n'échoueront pas  sur cet hôte en cas d'échec de l'hôte. En outre, si l'hôte est déconnecté,  toutes les machines virtuelles en cours d'exécution sur cet hôte n'échoueront pas en cas d'échec de l'hôte. De plus,  aucune tentative ne sera faite par la VM vSphere HA et le contrôle d'application pour réinitialiser les VM. \
+       </description>\
+    </EventLongDescription>\
+    "
+
+DasEnabledEvent.longDescription = "\
+    <EventLongDescription id="vim.event.DasEnabledEvent">\
+       <description>\
+         vSphere HA a été activé sur cet hôte à la suite d'une action de l'utilisateur. vSphere HA est activé \
+         quand un hôte est ajouté à ou déplacé vers un cluster vSphere HA ou quand vSphere HA est activé sur \
+         un cluster. Si l'hôte était déjà dans un cluster vSphere HA, vSphere HA est activé quand l'hôte est reconnecté à vCenter \
+         Server ou sorti du mode de maintenance ou veille. vSphere HA essayera de protéger toutes les VM qui sont en cours \
+         d'exécution sur l'hôte au moment où HA est activé sur celui-ci. \
+       </description>\
+    </EventLongDescription>\
+    "
+
+HostDasEnablingEvent.longDescription = "\
+     <EventLongDescription id="vim.event.HostDasEnablingEvent">\
+        <description>\
+           vSphere HA est en cours d'activation sur cet hôte.\
+        </description>\
+     </EventLongDescription>\
+     "
+
+InsufficientFailoverResourcesEvent.longDescription = "\
+     <EventLongDescription id="vim.event.InsufficientFailoverResourcesEvent">\
+        <description>\
+           Le cluster n'a pas de capacité non réservée suffisante pour satisfaire le niveau configuré  pour le contrôle d'admission vSphere HA. Il reste possible que vSphere HA effectue des basculements mais ce sera  dans le cadre d'un service au mieux.\
+        </description>\
+        <cause>\
+            <description>\
+               Si la règle de « nombre de défaillances d'hôte à tolérer » est configurée et que quelques  machines virtuelles ont une réservation de CPU ou de mémoire supérieurs à celles des autres  machines virtuelles, le contrôle d'admission vSphere HA peut être trop conservateur  pour s'assurer qu'il y a assez de ressources défragmentées en cas d'échec d'un hôte.\
+            </description>\
+            <action>\
+                Utilisez un CPU identique et des réservations de mémoire pour toutes les machines virtuelles  dans le cluster. Sinon, envisagez l'utilisation d'une règle de contrôle d'admission vSphere HA différente  telle que la réservation d'un pourcentage de la ressource de clusters en cas de basculement.  Vous pouvez également utiliser les options avancées pour spécifier un seuil pour la taille du logement.  Pour plus d'informations, consultez le Guide de disponibilité vSphere.\
+            </action>\
+        </cause>\
+        <cause>\
+           <description>\
+                Les hôtes présentant des erreurs d'agent vSphere HA ne sont pas de bons candidats  pour offrir une capacité de basculement dans le cluster et leurs ressources ne sont  pas prises en compte à des fins de contrôle d'admission vSphere HA. Si de nombreux hôtes présentent une  erreur d'agent vSphere HA, vCenter Server génère cet événement.\
+           </description>\
+           <action>\
+              Consultez le journal d'événements des hôtes pour déterminer la cause des erreurs d'agent vSphere HA.  Après avoir abordé tous les problèmes de configuration, reconfigurez vSphere HA sur les hôtes  concernés ou sur le cluster.\
+           </action>\
+        </cause>\
+     </EventLongDescription>\
+     "
+
+VmDasBeingResetEvent.longDescription = "\
+     <EventLongDescription id="vim.event.VmDasBeingResetEvent">\
+        <description>\
+          La machine virtuelle a été réinitialisée par vSphere HA. Selon la façon dont vSphere HA a été configuré,  il se peut que la machine virtuelle soit réinitialisée car l'état du battement de cœur VMware Tools ou  de l'application est devenu rouge.\
+        </description>\
+        <cause>\
+           <description>\
+               Le battement de cœur de VMware Tools est devenu rouge. Cela peut se produire si le système d'exploitation  est entré en échec avec un écran bleu ou cesse de répondre. Cela peut également se produire en cas  d'échec ou d'arrêt de VMware Tools.\
+           </description>\
+           <action>\
+               Si la machine virtuelle est réinitialisée fréquemment, recherchez  un problème persistant dans le système d'exploitation qui nécessiterait votre attention.  Envisagez de configurer le cluster de manière que vSphere HA attende plus longtemps  après la perte des battements de cœur avant d'agir. Cela permet d'éviter  de déclencher des réinitialisations pour des problèmes passagers. Vous pouvez définir une période plus longue en diminuant  la « sensibilité de surveillance » dans la section de surveillance de VM de l'Assistant de modification de cluster.\
+           </action>\
+        </cause>\
+        <cause>\
+           <description>\
+               Le battement de cœur de l'application est devenu rouge. Cet état peut se produire si l'application  qui est configurée pour envoyer des battements de cœur est défaillante ou a cessé de répondre.\
+           </description>\
+           <action>\
+               Déterminez si l'application a cessé d'envoyer des battements de cœur en raison d'une erreur  de configuration et résolvez le problème.\
+           </action>\
+        </cause>\
+     </EventLongDescription>\
+     "
+
+VmDasBeingResetWithScreenshotEvent.longDescription = "\
+     <EventLongDescription id="vim.event.VmDasBeingResetWithScreenshotEvent">\
+        <description>\
+          La machine virtuelle a été réinitialisée par vSphere HA. Selon la façon dont vSphere HA est configuré, cet état peut se produire parce que l'état de battement de cœur de VMware Tools ou  de l'application est devenu rouge. L'événement contient l'emplacement de la capture d'écran prise de la console invitée avant sa réinitialisation. Vous pouvez utiliser ces informations pour déterminer la cause de la défaillance des battements de cœur.\
+        </description>\
+        <cause>\
+           <description>\
+               Le battement de cœur de VMware Tools est devenu rouge. Cela peut se produire si le système d'exploitation  est entré en échec avec un écran bleu ou cesse de répondre. Cela peut également se produire en cas  d'échec ou d'arrêt de VMware Tools.\
+           </description>\
+           <action>\
+                Vérifiez l'image de capture d'écran pour voir si la cause était une défaillance du système d'exploitation client. Si la machine virtuelle est réinitialisée fréquemment, cherchez  un problème persistant dans le système d'exploitation qui nécessiterait votre attention.  Envisagez de configurer le cluster de manière que vSphere HA attende plus longtemps  après la perte des battements de cœur avant d'agir. Cela permet d'éviter  de déclencher des réinitialisations pour des problèmes passagers. Vous pouvez définir une période plus longue en diminuant  la « sensibilité de surveillance » dans la section de surveillance de VM de l'Assistant de modification de cluster.\
+           </action>\
+        </cause>\
+        <cause>\
+           <description>\
+               Le battement de cœur de l'application est devenu rouge. Cet état peut se produire si l'application  qui est configurée pour envoyer des battements de cœur est défaillante ou a cessé de répondre.\
+           </description>\
+           <action>\
+               Déterminez si l'application a cessé d'envoyer des battements de cœur en raison d'une erreur  de configuration et résolvez le problème.\
+           </action>\
+        </cause>\
+     </EventLongDescription>\
+     "
+
+VmDasResetFailedEvent.longDescription = "\
+     <EventLongDescription id="vim.event.VmDasResetFailedEvent">\
+        <description>\
+           vSphere HA a tenté de réinitialiser la machine virtuelle en raison d'une défaillance des battements de cœur  de VMware Tools ou d'une application invitée, selon la façon dont vSphere HA a été configuré. Cependant, l'opération de réinitialisation a échoué.\
+        </description>\
+        <cause>\
+            <description>\
+                La raison la plus probable de l'échec de réinitialisation est que la machine virtuelle exécutait  une autre tâche au moment de la réinitialisation.\
+            </description>\
+            <action>Vérifiez si la machine virtuelle nécessite votre attention et réinitialisez-la  manuellement au besoin.</action>\
+        </cause>\
+     </EventLongDescription>\
+     "
+
+VmFailoverFailed.longDescription = "\
+     <EventLongDescription id="vim.event.VmFailoverFailed">\
+        <description>\
+           vSphere HA n'a pas basculé cette machine virtuelle. L'événement inclut les informations sur l'échec qui \
+           a été généré quand vSphere HA a essayé de basculer. vSphere HA réessayera le basculement sur un autre \
+           hôte, sauf si le nombre maximal de tentatives de basculement a été dépassé. Dans de nombreux cas, \
+           la nouvelle tentative réussira.\
+        </description>\
+        <cause>\
+           <description>\
+                Le basculement a échoué, car un problème est survenu pendant que vSphere HA essayait \
+                de redémarrer  la machine virtuelle. Les problèmes potentiels incluent l'incapacité à enregistrer \
+                ou reconfigurer la machine virtuelle sur le nouvel hôte étant donné qu'une autre\
+                opération sur la même machine virtuelle est déjà en cours ou que la machine virtuelle est \
+                toujours sous tension. Cela peut également se produire si le fichier de configuration de la machine virtuelle est corrompu.\
+           </description>\
+           <action> \
+                   Si vSphere HA est incapable de basculer la machine virtuelle après des tentatives répétées, rechercher l'erreur signalée par chaque occurrence de cet événement ou essayer de mettre sous tension la machine virtuelle et rechercher toutes les erreurs retournées.\
+           </action> \
+           <action> \
+                   Si l'erreur signale qu'un fichier est verrouillée, la VM peut mettre sous tension un hôte que l'agent maître vSphere HA ne peut plus contrôler en utilisant le réseau de gestion ou les banques de données de signal de pulsation, ou elle peut avoir été mise sous tension par un utilisateur sur un hôte en dehors du cluster. Si tous les hôtes ont été déclarés morts, rechercher si un problème de mise en réseau stockage peut en être la cause. \
+           </action> \
+           <action> \
+                   Cependant, si l'erreur signale que la machine virtuelle est dans un état non valide, il est possible qu'une opération en cours empêche l'accès aux fichiers de la machine virtuelle. Recherchez si des opérations sont en cours, notamment une opération de clonage qui prend beaucoup de temps. \
+           </action>\
+        </cause>\
+     </EventLongDescription>\
+     "
+
+VmMaxRestartCountReached.longDescription = "\
+     <EventLongDescription id="vim.event.VmMaxRestartCountReached">\
+        <description>\
+           vSphere HA a atteint le nombre maximal de tentatives de basculement pour cette machine \
+           virtuelle et n'a pas été capable de la redémarrer. Aucune autre tentative de \
+           basculement ne sera effectuée. Par défaut, vSphere HA tente de basculer une machine virtuelle 5 fois. \
+        </description>\
+        <cause>\
+           <description>\
+                Le basculement peut échouer pour plusieurs raisons :  \
+                le fichier de configuration de la VM est corrompu ou plusieurs banques de données des \
+                machines virtuelles ne sont pas accessibles par un hôte du cluster en raison d'une\
+                condition défaillance de tous les chemins. De plus, la VM peut être mise sous tension sur un hôte que \
+                l'agent principal vSphere HA ne peut plus contrôler en utilisant le réseau de gestion ou les banques de données \
+                des signaux de pulsations, ou elle peut avoir été mise sous tension par un utilisateur d'un hôte extérieur au cluster.\
+                </description>\
+           <action>\
+                Pour déterminer les raisons pour lesquelles les tentatives de basculement précédentes \
+                ont échoué, recherchez dans les événements de la machine virtuelle consignés les occurrences \
+                d'événements signalées par vSphere HA lors d'un échec de basculement. Ils indiquent le motif de l'échec \
+                du basculement. Pour rechercher des événements vSphere HA, il suffit d'entrer la chaîne\
+                de recherche « vSphere HA ». Pour déterminer s'il existe des problèmes, essayez de \
+                mettre manuellement sous tension la machine virtuelle. Si la mise sous tension échoue, \
+                recherchez l'erreur qui est renvoyée. En revanche, si la mise sous tension reste en attente pendant \
+                un long moment, recherchez s'il existe une condition de défaillance pour tous les chemins. En outre, si un hôte a été déclaré inactif, \
+                recherchez si un problème de mise en réseau ou de stockage peut en être la cause. \
+           </action>\
+        </cause>\
+     </EventLongDescription>\
+     "
+
+VmPowerOffOnIsolationEvent.longDescription = "\
+     <EventLongDescription id="vim.event.VmPowerOffOnIsolationEvent">\
+        <description>\
+          vSphere HA a mis cette machine virtuelle hors tension parce que l'hôte sur lequel elle s'exécutait  était isolé du réseau de gestion. \
+        </description>\
+     </EventLongDescription>\
+     "
+
+VmShutdownOnIsolationEvent.longDescription = "\
+     <EventLongDescription id="vim.event.VmShutdownOnIsolationEvent">\
+        <description>\
+          vSphere HA a arrêté cette machine virtuelle parce que l'hôte sur lequel elle s'exécutait  était isolé du réseau de gestion.\
+        </description>\
+     </EventLongDescription>\
+     "
+
+VmAutoRenameEvent.longDescription = "\
+    <EventLongDescription id="vim.event.VmAutoRenameEvent">\
+       <description>\
+          La machine virtuelle a été renommée en raison de conflits de nom potentiels avec une autre machine virtuelle\
+       </description>\
+       <cause>\
+            <description>Il se peut que la machine virtuelle ait été ajoutée à l'inventaire de vCenter Server pendant que le balayage des banques de données des hôtes ajoutait à l'inventaire. Pendant ce type d'action, le nom de la machine virtuelle nouvellement ajoutée peut se trouver en conflit avec un nom de machine virtuelle déjà dans l'inventaire. Pour résoudre ce problème, vCenter Server renomme la machine virtuellement nouvellement ajoutée.\
+            </description>\
+        </cause>\
+    </EventLongDescription>\
+    "
+
+VmBeingDeployedEvent.longDescription = "\
+     <EventLongDescription id="vim.event.VmBeingDeployedEvent">\
+        <description>\
+           Une machine virtuelle est en cours de création à partir d'un modèle\
+        </description>\
+        <cause>\
+             <description>\
+                Une action de l'utilisateur a demandé la création d'une machine virtuelle à partir de ce modèle.\
+             </description>\
+         </cause>\
+     </EventLongDescription>\
+     "
+
+VmBeingHotMigratedEvent.longDescription = "\
+  <EventLongDescription id="vim.event.VmBeingHotMigratedEvent">\
+     <description>\
+        Une machine virtuelle sous tension est en cours de migration avec vMotion\
+     </description>\
+     <cause>\
+          <description> Une action de l'utilisateur peut avoir entraîné la migration d'une machine virtuelle sous tension avec vMotion\
+          </description>\
+      </cause>\
+       <cause>\
+          <description> Une recommandation DRS peut avoir entraîné la migration d'une machine virtuelle sous tension avec vMotion\
+          </description>\
+      </cause>\
+  </EventLongDescription>\
+  "
+
+DatastoreDiscoveredEvent.longDescription = "\
+  <EventLongDescription id="vim.event.DatastoreDiscoveredEvent">\
+     <description>\
+        Une banque de données a été détectée sur un hôte\
+     </description>\
+     <cause>\
+        <description>\
+           Un hôte ayant accès à cette banque de données a été ajouté au centre de données\
+        </description>\
+     </cause>\
+     <cause>\
+        <description>\
+           Le stockage sauvegardant cette banque de données a été démasqué à un hôte dans le centre de données\
+        </description>\
+     </cause>\
+     <cause>\
+        <description>\
+           Une action de l'utilisateur ou du système a entraîné la création de cette banque de données sur un hôte\
+        </description>\
+     </cause>\
+     <cause>\
+        <description>\
+          Une action de l'utilisateur ou du système a entraîné la création de cette banque de données sur un hôte et la banque de données était visible sur au moins un autre hôte dans le centre de données avant cette opération. \
+        </description>\
+     </cause>\
+   </EventLongDescription>\
+   "
+
+DatastoreRenamedOnHostEvent.longDescription = "\
+   <EventLongDescription id="vim.event.DatastoreRenamedOnHostEvent">\
+      <description>\
+         Une banque de données a été renommée sur un hôte géré par vCenter Server\
+      </description>\
+      <cause>\
+         <description>\
+           vCenter Server a détecté la banque de données sur un hôte et renommé la banque de données parce qu'elle existe déjà dans l'inventaire vCenter Server sous un nom différent. vCenter Server peut également avoir renommé la banque de données parce que le nom est en conflit avec une autre banque de données dans le même centre de données. \
+         </description>\
+      </cause>\
+   </EventLongDescription>\
+  "
+
+VMFSDatastoreExtendedEvent.longDescription = "\
+   <EventLongDescription id="vim.event.VMFSDatastoreExtendedEvent">\
+      <description>\
+         Un volume VMFS existant a été étendu pour augmenter sa capacité\
+      </description>\
+      <cause>\
+         <description>\
+           Une action de l'utilisateur ou du système a entraîné l'extension de la banque de données avec une partition sur un LUN pour augmenter sa capacité. \
+         </description>\
+      </cause>\
+   </EventLongDescription>\
+   "
+
+VMFSDatastoreExpandedEvent.longDescription = "\
+   <EventLongDescription id="vim.event.VMFSDatastoreExpandedEvent">\
+      <description>\
+         Une étendue existante dans un volume VMFS a été accrue pour augmenter sa capacité\
+      </description>\
+      <cause>\
+         <description>\
+           Une action de l'utilisateur ou du système a entraîné l'extension d'une banque de données   VMFS existante. Seules les étendues dotées d'espace libre immédiatement après elles  sont extensibles. En conséquence, l'action a rempli la capacité adjacente disponible sur le LUN.\
+         </description>\
+      </cause>\
+   </EventLongDescription>\
+   "
+
+VmConfigMissingEvent.longDescription = "\
+   <EventLongDescription id="vim.event.VmConfigMissingEvent">\
+      <description>\
+         Un ou plusieurs fichiers de configuration pour la machine virtuelle sont introuvables\
+      </description>\
+      <cause>\
+         <description>\
+            La banque de données sur laquelle cette machine virtuelle réside peut être inaccessible\
+         </description>\
+         <action>\
+            Vérifiez la connectivité de la banque de données sur laquelle cette machine virtuelle  réside. Si la banque de données a un LUN de sauvegarde, vérifiez si des défaillances de disque passagères sont présentes.\
+         </action>\
+      </cause>\
+   </EventLongDescription>\
+   "
+
+VmDeployedEvent.longDescription = "\
+   <EventLongDescription id="vim.event.VmDeployedEvent">\
+      <description>\
+         Une machine virtuelle a été créée à partir du modèle spécifié\
+      </description>\
+      <cause>\
+         <description>\
+            Une action de l'utilisateur a entraîné la création d'une machine virtuelle à partir du modèle\
+         </description>\
+      </cause>\
+      <cause>\
+         <description>\
+            Une tâche planifiée a entraîné la création d'une machine virtuelle à partir du modèle\
+         </description>\
+      </cause>\
+   </EventLongDescription>\
+   "
+
+VmMacChangedEvent.longDescription = "\
+   <EventLongDescription id="vim.event.VmMacChangedEvent">\
+      <description>\
+         L'adresse MAC de la machine virtuelle a changé\
+      </description>\
+      <cause>\
+         <description>\
+            Une action de l'utilisateur a changé l'adresse MAC de la machine virtuelle\
+         </description>\
+      </cause>\
+      <cause>\
+         <description>\
+           vCenter a changé l'adresse MAC de la machine virtuelle parce qu'il a détecté un conflit d'adresses MAC\
+         </description>\
+      </cause>\
+   </EventLongDescription>\
+   "
+
+VmMacConflictEvent.longDescription = "\
+   <EventLongDescription id="vim.event.VmMacConflictEvent">\
+      <description>\
+        L'adresse MAC de la machine virtuelle est en conflit avec celle d'une autre machine virtuelle\
+      </description>\
+      <cause>\
+         <description> L'adresse MAC de cette machine virtuelle est identique à celle d'une autre machine virtuelle. Reportez-vous aux détails de l'événement pour plus d'informations sur la machine virtuelle qui a provoqué le conflit.\
+         </description>\
+      </cause>\
+   </EventLongDescription>\
+   "
+
+VmOrphanedEvent.longDescription = "\
+   <EventLongDescription id="vim.event.VmOrphanedEvent">\
+      <description>\
+         La machine virtuelle n'existe pas sur l'hôte auquel elle est associée\
+      </description>\
+      <cause>\
+         <description> La machine virtuelle a été supprimée pendant que son hôte était déconnecté de vCenter Server. \
+         </description>\
+      </cause>\
+   </EventLongDescription>\
+   "
+
+VmConnectedEvent.longDescription = "\
+   <EventLongDescription id="vim.event.VmConnectedEvent">\
+      <description>\
+        La machine virtuelle est dans un état connecté dans l'inventaire  et vCenter Server peut y accéder\
+      </description>\
+      <cause>\
+         <description>\
+           Une action de l'utilisateur ou du système qui a entraîné des opérations telles que la création, l'enregistrement, le clonage ou le déploiement d'une machine virtuelle a donné à vCenter Server l'accès à  la machine virtuelle\
+         </description>\
+      </cause>\
+       <cause>\
+         <description>\
+           Une action de l'utilisateur ou du système qui a entraîné des opérations telles que l'ajout ou  la reconnexion d'un hôte a donné à vCenter Server l'accès à la machine virtuelle\
+         </description>\
+      </cause>\
+      <cause>\
+         <description>\
+           L'état de l'hôte de machine virtuelle a changé de Not Responding en Connected et l'hôte a donné à vCenter Server l'accès à la machine virtuelle\
+         </description>\
+      </cause>\
+    </EventLongDescription>\
+    "
+   MigrationErrorEvent.longDescription = "\
+         <EventLongDescription id="vim.event.MigrationErrorEvent">\
+            <description>\
+               Échec de migration d'une machine virtuelle car elle n'a pas rempli tous les critères de compatibilité\
+            </description>\
+            <cause>\
+                 <description> La migration d'une machine virtuelle de l'hôte source a échoué, car  la machine virtuelle n'a pas rempli tous les critères de compatibilité\
+                 </description>\
+                  <action> \
+                      Utilisez vSphere Client pour rechercher des erreurs au moment de l'échec pour pouvoir identifier les raisons possibles de ce problème\
+                  </action>\
+             </cause>\
+         </EventLongDescription>\
+         "
+
+ MigrationHostErrorEvent.longDescription = "\
+         <EventLongDescription id="vim.event.MigrationHostErrorEvent">\
+            <description>\
+               Échec de migration d'une machine virtuelle, car elle n'a pas rempli tous les critères de compatibilité\
+            </description>\
+            <cause>\
+                 <description> La migration d'une machine virtuelle vers l'hôte ou la banque de données de destination a échoué, car la machine virtuelle n'a pas rempli tous les critères de compatibilité\
+                 </description>\
+                  <action> \
+                      Utilisez vSphere Client pour rechercher des erreurs au moment de l'échec pour pouvoir identifier les raisons possibles de ce problème\
+                  </action>\
+             </cause>\
+         </EventLongDescription>\
+         "
+
+VmBeingMigratedEvent.longDescription = "\
+     <EventLongDescription id="vim.event.VmBeingMigratedEvent">\
+        <description>\
+           Changement de l'hôte sur lequel la machine virtuelle est en cours d'exécution\
+        </description>\
+        <cause>\
+           <description>\
+                Une action de l'utilisateur a entraîné la migration de la machine virtuelle vers un hôte différent\
+           </description>\
+        </cause>\
+     </EventLongDescription>\
+     "
+
+VmMigratedEvent.longDescription = "\
+   <EventLongDescription id="vim.event.VmMigratedEvent">\
+      <description>\
+         L'hôte de la machine virtuelle a été changé\
+      </description>\
+      <cause>\
+         <description>\
+Une action de l'utilisateur a entraîné la migration  de la machine virtuelle vers un hôte différent\
+         </description>\
+      </cause>\
+   </EventLongDescription>\
+   "
+
+VmBeingRelocatedEvent.longDescription = "\
+     <EventLongDescription id="vim.event.VmBeingRelocatedEvent">\
+        <description>\
+           L'exécution et/ou le stockage de la machine virtuelle est déplacé(e)\
+        </description>\
+        <cause>\
+           <description>\
+          Une action de l'utilisateur peut avoir entraîné la modification de l'exécution et/ou du stockage de la machine virtuelle\
+           </description>\
+        </cause>\
+     </EventLongDescription>\
+     "
+
+VmRelocatedEvent.longDescription = "\
+   <EventLongDescription id="vim.event.VmRelocatedEvent">\
+      <description>\
+         L'exécution et/ou le stockage de la machine virtuelle a été déplacé(e)\
+      </description>\
+      <cause>\
+         <description>\
+               Une action de l'utilisateur a entraîné la modification de l'exécution et/ou du stockage de la machine virtuelle\
+         </description>\
+      </cause>\
+   </EventLongDescription>\
+   "
+
+VmCloneFailedEvent.longDescription = "\
+     <EventLongDescription id="vim.event.VmCloneFailedEvent">\
+        <description>\
+           Échec de clonage d'une machine virtuelle\
+        </description>\
+        <cause>\
+           <description>\
+                Une erreur a empêché le clonage de la machine virtuelle\
+           </description>\
+        </cause>\
+     </EventLongDescription>\
+     "
+
+MigrationHostWarningEvent.longDescription = "\
+         <EventLongDescription id="vim.event.MigrationHostWarningEvent">\
+            <description>\
+              La machine virtuelle peut être migrée mais pourrait perdre certaines fonctionnalités après la migration\
+            </description>\
+            <cause>\
+                 <description> La migration de la machine vers l'hôte ou la banque de données de destination est susceptible d'aboutir mais certaines fonctionnalités pourraient ne pas fonctionner correctement après, car la machine virtuelle n'a pas rempli tous les critères de compatibilité.\
+                 </description>\
+                  <action> \
+                      Utilisez vSphere Client pour rechercher des avertissements au moment de l'échec pour pouvoir identifier les raisons possibles de ce problème\
+                  </action>\
+             </cause>\
+         </EventLongDescription>\
+         "
+
+MigrationResourceErrorEvent.longDescription = "\
+         <EventLongDescription id="vim.event.MigrationResourceErrorEvent">\
+            <description>\
+               Échec de migration d'une machine virtuelle en raison d'incompatibilités avec le pool de ressources cible\
+            </description>\
+            <cause>\
+                 <description>La migration d'une machine virtuelle vers l'hôte ou vers la banque de données de destination est impossible en raison d'incompatibilités avec le pool de ressources cible.\
+                 </description>\
+                  <action> \
+                      Utilisez vSphere Client pour rechercher des erreurs au moment de l'échec pour pouvoir identifier les raisons possibles de ce problème\
+                  </action>\
+             </cause>\
+         </EventLongDescription>\
+         "
+
+MigrationResourceWarningEvent.longDescription = "\
+         <EventLongDescription id="vim.event.MigrationResourceWarningEvent">\
+            <description>\
+              La machine virtuelle peut être migrée mais pourrait perdre certaines fonctionnalités  après la migration\
+            </description>\
+            <cause>\
+                 <description> La migration de la machine vers le pool de ressources de destination est susceptible d'aboutir mais certaines fonctionnalités pourraient ne pas fonctionner correctement après, car la machine virtuelle n'a pas rempli tous les critères de compatibilité.\
+                 </description>\
+                  <action> \
+                      Utilisez vSphere Client pour rechercher des avertissements au moment de l'échec pour pouvoir identifier les raisons possibles de ce problème\
+                  </action>\
+             </cause>\
+         </EventLongDescription>\
+         "
+
+VmDeployFailedEvent.longDescription = "\
+    <EventLongDescription id="vim.event.VmDeployFailedEvent">\
+        <description>\
+           Échec de déploiement d'une machine virtuelle pour des raisons décrites dans le message d'événement\
+        </description>\
+        <cause>\
+           <description>\
+               Échec de déploiement de la machine virtuelle.  Cette condition peut se produire si l'espace disque est insuffisant, si l'hôte ou la machine virtuelle perd  sa connexion au réseau, si l'hôte est déconnecté, etc.\
+           </description>\
+          <action>\
+	   Identifiez la raison dans le message d'événement pour déterminer la cause de l'échec et corriger le problème.\
+         </action>\
+	</cause>\
+     </EventLongDescription>\
+     "
+
+VmDiskFailedEvent.longDescription = "\
+    <EventLongDescription id="vim.event.VmDiskFailedEvent">\
+        <description>\
+           Échec de création d'un disque virtuel pour la machine virtuelle pour des raisons décrites dans le message d'événement\
+        </description>\
+        <cause>\
+           <description>\
+                Un disque virtuel n'a pas été créé pour la machine virtuelle. Cette condition peut se produire si  l'opération n'a pas réussi à accéder au disque, le disque n'a pas eu assez d'espace, vous n'avez pas  l'autorisation pour l'opération et ainsi de suite.\
+           </description>\
+           <action>\
+                Vérifiez la raison dans le message d'événement pour trouver la cause de l'échec. Assurez-vous que le disque est accessible, qu'il dispose de suffisamment d'espace, et que les paramètres d'autorisation permettent l'opération.\
+           </action>\
+        </cause>\
+     </EventLongDescription>\
+     "
+
+VmFailedMigrateEvent.longDescription = "\
+    <EventLongDescription id="vim.event.VmFailedMigrateEvent">\
+        <description>\
+           Échec de migration de la machine virtuelle pour des raisons décrites dans le message d'événement\
+        </description>\
+        <cause> \
+            <description> \
+               La machine virtuelle n'a pas été migrée. Cet état peut se produire si les adresses IP vMotion ne sont pas configurées,  si les hôtes source et de destination ne sont pas accessibles, etc.\
+            </description> \
+            <action> \
+                Vérifier le motif dans le message d'événement pour trouver la cause de l'échec. S'assurer que les IP  vMotion sont configurés sur les hôtes source et de destination, que les hôtes sont accessibles, etc.\
+            </action> \
+        </cause> \
+     </EventLongDescription>\
+     "
+
+VmFailedRelayoutOnVmfs2DatastoreEvent.longDescription = "\
+    <EventLongDescription id="vim.event.VmFailedRelayoutOnVmfs2DatastoreEvent">\
+        <description>\
+           Échec de migration d'une machine virtuelle sur la banque de données VMFS2\
+        </description>\
+        <cause>\
+           <description>\
+                Une tentative de migrer une machine virtuelle a échoué car  la machine virtuelle a toujours un (des) disque(s) sur une banque de données VMFS2. Les banques de données VMFS2 sont en lecture seule pour  les hôtes ESX 3.0 et ultérieurs.\
+           </description>\
+           <action> \
+                Mettez à jour les banques de données de VMFS2 à VMFS3\
+           </action> \
+        </cause>\
+     </EventLongDescription>\
+     "
+
+VmFailedRelayoutEvent.longDescription = "\
+    <EventLongDescription id="vim.event.VmFailedRelayoutEvent">\
+        <description>\
+           Échec d'agencement de la machine virtuelle \
+        </description>\
+        <cause>\
+           <description>\
+               Une tentative d'agencement d'une machine virtuelle sur le disque a échoué pour les raisons décrites dans le message d'événement.  Cet état peut se produire pour l'une de plusieurs raisons, par exemple l'incapacité d'accéder au disque.\
+           </description>\
+        <action>\
+	   Identifiez la raison dans le message d'événement déterminer la cause de l'échec et corriger le problème.\
+         </action>\
+	</cause>\
+     </EventLongDescription>\
+     "
+
+VmAcquiredMksTicketEvent.longDescription = "\
+    <EventLongDescription id="vim.event.VmAcquiredMksTicketEvent">\
+        <description>\
+           Acquisition du ticket MKS réussie pour la machine virtuelle\
+        </description>\
+        <cause>\
+           <description>\
+               Le ticket MKS utilisé pour la connexion à la console distante de la machine virtuelle  a été acquis.\
+           </description>\
+        </cause>\
+     </EventLongDescription>\
+     "
+
+VmWwnAssignedEvent.longDescription = "\
+   <EventLongDescription id="vim.event.VmWwnAssignedEvent">\
+      <description>\
+         La machine virtuelle s'est vue assigner un WWN (World Wide Name)\
+      </description>\
+      <cause>\
+         <description>La machine virtuelle s'est vue assigner un WWN car elle  a été créée avec un disque RDM (Raw Device Mappings) ou car elle a été reconfigurée pour accéder à un disque RDM\
+         </description>\
+      </cause>\
+   </EventLongDescription>\
+   "
+
+VmWwnChangedEvent.longDescription = "\
+   <EventLongDescription id="vim.event.VmWwnChangedEvent">\
+      <description>\
+         Le WWN (World Wide Name) assigné à la machine virtuelle a été changé \
+      </description>\
+      <cause>\
+         <description>La machine virtuelle s'est vue assigner un nouveau WWN, probablement en raison  d'un conflit provoqué par une autre machine virtuelle à laquelle  le même WWN était assigné\
+         </description>\
+      </cause>\
+   </EventLongDescription>\
+   "
+
+VmWwnConflictEvent.longDescription = "\
+   <EventLongDescription id="vim.event.VmWwnConflictEvent">\
+      <description>\
+Le WWN (World Wide Name) assigné à la machine virtuelle présente un  conflit \
+      </description>\
+      <cause>\
+         <description>Le WWN assigné à cette machine virtuelle était identique  à celui d'une machine virtuelle différente.\
+       </description>\
+      <action>\
+	    Vérifiez les détails de l'événement pour plus informations sur le conflit et corrigez le problème.\
+         </action>\</cause>\
+   </EventLongDescription>\
+   "
+
+VmReloadFromPathFailedEvent.longDescription = "\
+   <EventLongDescription id="vim.event.VmReloadFromPathFailedEvent">\
+      <description>\
+         Échec de rechargement de la machine virtuelle à partir d'un nouveau chemin de banque de données \
+      </description>\
+      <cause>\
+         <description>Le chemin de la banque de données de destination était inaccessible ou  incorrect\
+         </description>\
+         <action>Utilisez un chemin de banque de données de destination correct \
+         </action> \
+      </cause>\
+      <cause>\
+         <description>La machine virtuelle est dans un état incorrect\
+         </description>\
+         <action>Vérifiez l'état d'alimentation de la machine virtuelle. Si la machine virtuelle est sous tension, mettez-la hors tension \
+         </action>\
+      </cause>\
+      <cause>\
+         <description>La machine virtuelle est activée pour Fault Tolerance\
+         </description>\
+         <action>Arrêter Fault Tolerance pour la machine  virtuelle et retentez l'opération \
+         </action>\
+      </cause>\
+   </EventLongDescription>\
+   "
+
+CustomizationLinuxIdentityFailed.longDescription = "\
+   <EventLongDescription id="vim.event.CustomizationLinuxIdentityFailed">\
+      <description>\
+        La distribution de Linux du système d'exploitation client n'est pas prise en charge par les scripts de personnalisation.  Reportez-vous à la matrice de compatibilité VMware vSphere pour la liste des distributions Linux  prises en charge.\
+      </description>\
+      <cause>\
+         <description>\
+            La personnalisation de la distribution de Linux du système d'exploitation client cible n'est pas prise en charge.\
+         </description>\
+         <action>\
+           Consultez VMware sur la date à partir de laquelle la distribution de Linux spécifique  sera prise en charge.  Si la distribution Linux est déjà prise en charge dans une version plus récente, envisagez une mise à niveau.\
+         </action>\
+      </cause>\
+   </EventLongDescription>\
+   "
+
+CustomizationNetworkSetupFailed.longDescription = "\
+   <EventLongDescription id="vim.event.CustomizationNetworkSetupFailed">\
+      <description>\
+        Les scripts de personnalisation ont échoué à définir les paramètres dans les fichiers de configuration correspondants pour Linux ou dans  le Registre de Windows\
+      </description>\
+      <cause>\
+         <description>\
+            La spécification de personnalisation contient un nom d'hôte ou un nom de domaine incorrect\
+         </description>\
+         <action>\
+            Examinez les fichiers journaux du système d'exploitation client pour cet événement pour plus de détails\
+         </action>\
+         <action>\
+            Fournissez un nom d'hôte valide pour le système d'exploitation client cible. Le nom doit être conforme  aux définitions de nom d'hôte et de nom de domaine dans RFC 952, 1035, 1123, 2181.\
+         </action>\
+      </cause>\
+      <cause>\
+         <description>\
+            N'a pas pu trouver de NIC avec l'adresse MAC spécifiée dans le module de personnalisation \
+         </description>\
+         <action>\
+            Examinez les fichiers journaux du système d'exploitation client pour cet événement pour plus de détails\
+         </action>\
+         <action>\
+            Confirmez qu'il n'y avait aucun changement dans l'adresse MAC NIC virtuelle entre la création du module de personnalisation et son déploiement. Le déploiement se produit pendant le premier démarrage de la machine virtuelle après que la personnalisation a été programmée.\
+         </action>\
+      </cause>\
+      <cause>\
+         <description>\
+            Le code de personnalisation a besoin des autorisations de lecture/écriture pour certains fichiers de configuration.  On n'a pas accordé ces autorisations au compte "racine" sur Linux ou au compte utilisé par VMware Tools Service sur le système d'exploitation client de Windows.\
+         </description>\
+         <action>\
+            Examinez les fichiers journaux du système d'exploitation client pour cet événement pour plus de détails\
+         </action>\
+         <action>\
+            Accorder les permissions de lecture/écriture du compte "racine" pour Linux ou du compte utilisé par VMware Tools Service sur le système d'exploitation client de Windows et les clés du registre qui doivent être modifiées par le code de personnalisation\
+         </action>\
+      </cause>\
+   </EventLongDescription>\
+   "
+
+CustomizationSysprepFailed.longDescription = "\
+   <EventLongDescription id="vim.event.CustomizationSysprepFailed">\
+      <description>\
+         Les fichiers sysprep  dans le dossier correspondant au système d'exploitation client cible ne sont pas compatibles avec la version réelle du système d'exploitation client\
+      </description>\
+      <cause>\
+         <description>\
+            Les fichiers sysprep dans le dossier correspondant au système d'exploitation client cible (par exemple Windows XP) sont pour un système d'exploitation client différent (par exemple Windows 2003)\
+         </description>\
+         <action>\
+            Sur la machine exécutant vCenter Server, placez les fichiers sysprep corrects dans le dossier  correspondant au système d'exploitation client cible\
+         </action>\
+      </cause>\
+      <cause>\
+         <description>\
+            Les fichiers sysprep dans le dossier correspondant au système d'exploitation client sont pour  un Service Pack différent, par exemple le système d'exploitation client est Windows XP SP2  mais les fichiers sysprep sont pour Windows XP SP1.\
+         </description>\
+         <action>\
+            Sur la machine exécutant vCenter Server, placez les fichiers sysprep corrects dans le dossier  correspondant au système d'exploitation client cible\
+         </action>\
+      </cause>\
+   </EventLongDescription>\
+   "
+
+CustomizationUnknownFailure.longDescription = "\
+   <EventLongDescription id="vim.event.CustomizationUnknownFailure">\
+      <description>\
+         Le composant de personnalisation pour définir les paramètres requis à l'intérieur du système d'exploitation client manque\
+      </description>\
+      <cause>\
+         <description>\
+            Sous Windows, le compte utilisateur sous lequel le code de personnalisation fonctionne n'a aucune autorisation de lecture/écriture pour les clés du registre utilisées par le code de personnalisation.  Le code de personnalisation est habituellement exécuté sous le compte "système local" mais vous pouvez changer ceci en sélectionnant un compte différent pour l'exécution de VMware Tools Service.\
+         </description>\
+         <action>\
+            Examinez les fichiers journaux du système d'exploitation client pour cet événement pour plus de détails\
+         </action>\
+         <action>\
+            Déterminez quel compte utilisateur est sélectiononé pour l'exécution de VMware Tools Service et confirmez que ce compte a des autorisations de lecture/écriture sur des clés du registre utilisées par le code de personnalisation\
+         </action>\
+      </cause>\
+      <cause>\
+         <description>\
+            Sous Windows, le compte utilisateur sous lequel le code de personnalisation fonctionne n'a aucune autorisation de lecture/écriture pour les fichiers et les dossiers utilisés par le code de personnalisation.  Le code de personnalisation est habituellement exécuté sous le compte "système local" mais vous pouvez changer ceci en sélectionnant  un compte différent  pour l'exécution de VMware Tools Service.\
+         </description>\
+         <action>\
+            Examinez les fichiers journaux du système d'exploitation client pour cet événement pour plus de détails\
+         </action>\
+         <action>\
+            Déterminez quel compte utilisateur est sélectionné pour l'exécution de VMware Tools Service et confirmez que ce compte a des autorisations de ecture/écriture sur les fichiers et les dossiers  utilisés par le code de personnalisation\
+         </action>\
+      </cause>\
+      <cause>\
+         <description>\
+            Sous Linux, un fuseau horaire incorrect ou non pris en charge est passé aux scripts de personnalisation et, en conséquence, la configuration du fuseau horaire a échoué\
+         </description>\
+         <action>\
+            Examinez les fichiers journaux du système d'exploitation client pour cet événement pour plus de détails\
+         </action>\
+         <action>\
+            Confirmez qu'un fuseau horaire pris en charge est passé dans la spécification de personnalisation.\
+         </action>\
+      </cause>\
+      <cause>\
+         <description>\
+            Sous Linux, le compte "racine" du système d'exploitation client n'a pas d'autorisations  de lecture/écriture pour les fichiers de configuration dont les scripts de personnalisation ont besoin pour modifier  ("/etc/hosts ")\
+         </description>\
+         <action>\
+            Accorder les autorisations de lecture/écriture pour les fichiers de configuration du  compte "racine" du système d'exploitation client\
+         </action>\
+      </cause>\
+      <cause>\
+         <description>\
+            Pour activer la personnalisation d'invité sous Linux, si open-vm-tools est utilisé, vous devez également installer le plug-in deployPkg.\
+         </description>\
+         <action>\
+            Suivez les instructions kb.vmware.com/kb/2075048 pour installer le plug-in deployPkg open-vm-tools.\
+         </action>\
+      </cause>\
+      <cause>\
+         <description>\
+            La personnalisation du système d'exploitation invité cible n'est pas prise en charge\
+         </description>\
+         <action>\
+            Demandez à VMware la date à partir de laquelle la distribution Linux spécifique sera prise en charge. Si la distribution Linux est déjà prise en charge dans une version plus récente, envisagez une mise à niveau.\
+         </action>\
+      </cause>\
+   </EventLongDescription>\
+   "
+#
+# FT Related Events
+#
+
+VmFailedStartingSecondaryEvent.longDescription = "\
+    <EventLongDescription id="vim.event.VmFailedStartingSecondaryEvent">\
+       <description>\
+          vCenter Server n'a pas pu commencer le VM secondaire en raison d'une erreur\
+       </description>\
+       <cause>\
+            <description>\
+              L'hôte distant est incompatible pour la VM secondaire.  Par exemple, cette condition peut se produire quand l'hôte n'a pas accès  au réseau ou à la banque de données de la machine virtuelle.\
+            </description>\
+            <action>Assurez-vous que les hôtes dans le cluster sont compatibles avec FT</action>\
+        </cause>\
+        <cause>\
+            <description>Échec de la connexion à un hôte distant. Si l'hôte a été ajouté récemment à l'inventaire  ou juste redémarré, cela pourrait prendre un certain temps pour les empreintes SSL se propagent aux hôtes.\
+            </description>\
+            <action>Si le problème persiste, déconnectez et rebranchez l'hôte.</action>\
+        </cause>\
+        <cause>\
+            <description>Échec d'enregistrement du VM secondaire sur le serveur distant</description>\
+            <action>Déterminez si le serveur distant a accès au magasin de données sur lequel  la machine virtuelle avec FT réside</action>\
+        </cause>\
+        <cause>\
+            <description>Une erreur s'est produite au démarrage du VM secondaire</description>\
+            <action>Déterminez la cause de l'erreur de migration. vCenter Server essayera de redémarrer  le VM secondaire s'il le peut.</action>\
+        </cause>\
+    </EventLongDescription>\
+    "
+
+VmFailedUpdatingSecondaryConfig.longDescription = "\
+    <EventLongDescription id="vim.event.VmFailedUpdatingSecondaryConfig">\
+       <description>\
+          Après un basculement, le nouveau VM primaire n'est pas parvenu à mettre à jour la configuration du VM secondaire\
+       </description>\
+       <cause>\
+            <description> </description>\
+            <action></action>\
+        </cause>\
+    </EventLongDescription>\
+    "
+
+VmFaultToleranceStateChangedEvent.longDescription = "\
+    <EventLongDescription id="vim.event.VmFaultToleranceStateChangedEvent">\
+       <description>\
+          L'état de Fault Tolerance de la machine virtuelle a changé\
+       </description>\
+       <cause>\
+            <description> </description>\
+            <action></action>\
+        </cause>\
+    </EventLongDescription>\
+    "
+
+VmFaultToleranceTurnedOffEvent.longDescription = "\
+    <EventLongDescription id="vim.event.VmFaultToleranceTurnedOffEvent">\
+       <description>\
+          Tous les VM secondaires ont été retirés et la protection de Fault Tolerance est désactivée pour cette machine virtuelle.\
+       </description>\
+       <cause>\
+            <description> </description>\
+            <action></action>\
+        </cause>\
+    </EventLongDescription>\
+    "
+
+
+VmFaultToleranceVmTerminatedEvent.longDescription = "\
+    <EventLongDescription id="vim.event.VmFaultToleranceVmTerminatedEvent">\
+       <description>\
+          Un VM primaire ou un VM secondaire est devenu inactif\
+       </description>\
+       <cause>\
+            <description> Le VM secondaire est devenu inactif parce que ses opérations  ne sont plus synchronisées avec celles du VM primaire</description>\
+            <action>vSphere HA essaiera de redémarrer la VM secondaire</action>\
+        </cause>\
+       <cause>\
+            <description> Le VM secondaire est devenu inactif parce qu'un matériel ou un échec de réseau  a fait perdre au VM primaire  sa connexion entre primaire et secondaire</description>\
+            <action>vSphere HA essaiera de redémarrer la VM secondaire</action>\
+        </cause>\
+       <cause>\
+            <description> La VM avec Fault Tolerance est devenue inactive en raison d'une panne partielle de matériel sur l'hôte physique</description>\
+            <action>vSphere HA essaiera de redémarrer la VM secondaire</action>\
+        </cause>\
+       <cause>\
+            <description> Un utilisateur a arrêté Fault Tolerance VM</description>\
+            <action>La VM avec Fault Tolerance restante devient la VM principale. vSphere HA  essaiera de redémarrer la VM secondaire.</action>\
+        </cause>\
+    </EventLongDescription>\
+    "
+
+
+VmMaxFTRestartCountReached.longDescription = "\
+    <EventLongDescription id="vim.event.VmMaxFTRestartCountReached">\
+       <description>\
+          Le système a atteint la limite maximum de redémarrages dans sa tentative de redémarrer un VM secondaire\
+       </description>\
+       <cause>\
+            <description>Le système a dépassé le nombre de tentatives permises de redémarrages pour le VM secondaire  quand il a essayé de rétablir Fault Tolerance</description>\
+            <action>Examinez les causes d'échec de redémarrage et résolvez-les. Désactivez puis réactivez la protection de Fault Tolerance.</action>\
+        </cause>\
+    </EventLongDescription>\
+    "
+
+VmNoCompatibleHostForSecondaryEvent.longDescription = "\
+    <EventLongDescription id="vim.event.VmNoCompatibleHostForSecondaryEvent">\
+       <description>\
+          Aucun hôte compatible n'a été trouvé en essayant de placer un VM secondaire\
+       </description>\
+       <cause>\
+            <description>Il n'y avait aucun hôte compatible disponible pour placer un VM secondaire</description>\
+            <action>Résolvez les incompatibilités et relancez l'opération</action>\
+        </cause>\
+    </EventLongDescription>\
+    "
+
+VmSecondaryDisabledBySystemEvent.longDescription = "\
+    <EventLongDescription id="vim.event.VmSecondaryDisabledBySystemEvent">\
+       <description>\
+          vCenter Server a désactivé un VM secondaire parce qu'il ne pouvait pas mettre le VM secondaire sous tension\
+       </description>\
+       <cause>\
+            <description>vCenter Server n'a pas réussi à mettre le VM secondaire sous tension </description>\
+            <action>Examinez la raison dans le message de l'événement pour plus de détails, résolvez l'erreur et  réactivez la protection de Fault Tolerance pour mettre le VM secondaire sous tension.</action>\
+        </cause>\
+    </EventLongDescription>\
+    "
+
+
+VmTimedoutStartingSecondaryEvent.longDescription = "\
+    <EventLongDescription id="vim.event.VmTimedoutStartingSecondaryEvent">\
+       <description> Une tentative de démarrage d'un VM secondaire est arrivée au bout de son délai.\
+       </description>\
+       <cause>\
+            <description>Un utilisateur a essayé d'allumer ou d'activer Fault Tolerance, déclenchant le démarrage  du VM secondaire. L'opération de démarrage est arrivée au bout de son délai et, en conséquence, vCenter Server désactive Fault Tolerance. </description>\
+            <action>Résolvez tout problème et réactivez la protection de Fault Tolerance</action>\
+        </cause>\
+       <cause>\
+            <description>Le VM secondaire a été démarré en réponse à un échec, mais la tentative est arrivée  au bout de son délai</description>\
+            <action> vSphere HA essayera de mettre la VM secondaire sous tension</action>\
+        </cause>\
+    </EventLongDescription>\
+    "
+
+CanceledHostOperationEvent.longDescription = "\
+	<EventLongDescription id="vim.event.CanceledHostOperationEvent">\
+		<description>\
+			Une opération exécutée sur l'hôte a été annulée\
+		</description>\
+		<cause>\
+			<description>\
+		Un événement précédent dans la séquence d'événements fournira plus d'informations au sujet de la cause de cette annulation\
+			</description>\
+		</cause>\
+	</EventLongDescription>\
+    "
+
+ChangeOwnerOfFileFailedEvent.longDescription = "\
+	<EventLongDescription id="vim.event.ChangeOwnerOfFileFailedEvent">\
+		<description>\
+			Le changement de propriétaire d'un fichier ou d'un dossier a échoué\
+		</description>\
+	</EventLongDescription>\
+    "
+
+HostAddFailedEvent.longDescription = "\
+	<EventLongDescription id="vim.event.HostAddFailedEvent">\
+		<description>\
+			L'ajout d'un hôte a échoué\
+		</description>\
+	</EventLongDescription>\
+    "
+
+HostAdminDisableEvent.longDescription = "\
+	<EventLongDescription id="vim.event.HostAdminDisableEvent">\
+		<description>\
+			Des autorisations d'hôte ont été modifiées afin que seul le compte utilisé pour des opérations de vCenter Server ait des autorisations d'administrateur\
+		</description>\
+		<cause>\
+			<description>\
+				Cette condition se produit quand vCenter Server supprime tout autre accès administrateur vers l'hôte étant donné que l'hôte a été placé en mode Verrouillage. L'hôte peut être géré par vCenter Server uniquement et seul vCenter Server peut réactiver l'accès administrateur pour les autres comptes.\
+			</description>\
+		</cause>\
+	</EventLongDescription>\
+    "
+
+HostAdminEnableEvent.longDescription = "\
+	<EventLongDescription id="vim.event.HostAdminEnableEvent">\
+		<description>\
+			vCenter Server a restauré des permissions d'administrateur pour les comptes utilisateurs d'hôte dont les autorisations ont été désactivées par mode verrouillage\
+		</description>\
+		<cause>\
+			<description>\
+				Cette condition se produit quand vCenter Server restaure l'accès d'administrateur aux comptes utilisateurs d'hôte qui ont détruit leurs permissions d'administrateur quand l'hôte a été placé en mode verrouillage\
+			</description>\
+		</cause>\
+	</EventLongDescription>\
+    "
+
+HostCnxFailedAccountFailedEvent.longDescription = "\
+	<EventLongDescription id="vim.event.HostCnxFailedAccountFailedEvent">\
+		<description>\
+			N'a pas pu le connecter à l'hôte parce que l'installation d'un compte de gestion a échoué\
+		</description>\
+		<cause>\
+			<description>\
+			Le compte utilisé par vCenter Server pour gérer l'hôte n'a pas pu être configuré\
+			</description>\
+		</cause>\
+	</EventLongDescription>\
+    "
+
+HostCnxFailedAlreadyManagedEvent.longDescription = "\
+	<EventLongDescription id="vim.event.HostCnxFailedAlreadyManagedEvent">\
+		<description>\
+			N'a pas pu se connecter à l'hôte parce qu'il est déjà géré par une instance différente de vCenter Server.\
+		</description>\
+		<cause>\
+			<description>\
+				L'hôte est déjà géré par une instance différente de vCenter Server\
+			</description>\
+			<action>\
+				Retirez l'hôte de l'inventaire pour l'autre instance de vCenter Server\
+			</action>\
+			<action>\
+				Oblige l'ajout de l'hôte à l'instance actuelle de vCenter Server\
+			</action>\
+		</cause>\
+	</EventLongDescription>\
+    "
+
+HostCnxFailedBadCcagentEvent.longDescription = "\
+	<EventLongDescription id="vim.event.HostCnxFailedBadCcagentEvent">\
+		<description>\
+			N'a pas pu se connecter à l'hôte parce que l'agent hôte n'a pas répondu\
+		</description>\
+		<cause>\
+			<description>\
+				Aucune réponse n'a été reçue de l'agent hôte\
+			</description>\
+			<action>\
+				Redémarrez l'agent hôte sur l'hôte d'ESX/ESXi\
+			</action>\
+		</cause>\
+	</EventLongDescription>\
+    "
+
+HostCnxFailedBadUsernameEvent.longDescription = "\
+	<EventLongDescription id="vim.event.HostCnxFailedBadUsernameEvent">\
+		<description>\
+			N'a pas pu se connecter à l'hôte en raison d'une combinaison incorrecte de nom d'utilisateur et de mot de passe\
+		</description>\
+		<cause>\
+			<description>\
+				Combinaison incorrecte de nom d'utilisateur et de mot de passe\
+			</description>\
+			<action>\
+				Utilisez le nom d'utilisateur et le mot de passe corrects\
+			</action>\
+		</cause>\
+	</EventLongDescription>\
+    "
+
+HostCnxFailedBadVersionEvent.longDescription = "\
+	<EventLongDescription id="vim.event.HostCnxFailedBadVersionEvent">\
+		<description>\
+			N'a pas pu se connecter à l'hôte en raison d'une version incompatible de vSphere Client\
+		</description>\
+		<cause>\
+			<description>\
+			La version de vSphere Client est incompatible avec l'hôte d'ESX/ESXi, aussi la tentative de connexion a échoué\
+			</description>\
+			<action>\
+			Téléchargez et employez une version compatible de vSphere Client pour vous connecter à l'hôte\
+			</action>\
+		</cause>\
+	</EventLongDescription>\
+    "
+
+HostCnxFailedCcagentUpgradeEvent.longDescription = "\
+	<EventLongDescription id="vim.event.HostCnxFailedCcagentUpgradeEvent">\
+		<description>\
+			N'a pas pu se connecter à l'hôte parce qu'une mise à niveau ou une installation d'agent hôte est en cours\
+		</description>\
+		<cause>\
+			<description>\
+				L'agent hôte est mis à niveau ou installé sur l'hôte\
+			</description>\
+			<action>\
+				Attente de mise à niveau ou installation à compléter\
+			</action>\
+		</cause>\
+	</EventLongDescription>\
+    "
+
+HostCnxFailedEvent.longDescription = "\
+	<EventLongDescription id="vim.event.HostCnxFailedEvent">\
+		<description>\
+			N'a pas pu se connecter à l'hôte en raison d'un état non spécifié\
+		</description>\
+		<cause>\
+			<description>\
+				Cause inconnue d'échec\
+			</description>\
+		</cause>\
+	</EventLongDescription>\
+    "
+
+HostCnxFailedNetworkErrorEvent.longDescription = "\
+	<EventLongDescription id="vim.event.HostCnxFailedNetworkErrorEvent">\
+		<description>\
+			N'a pas pu se connecter à l'hôte en raison d'une erreur réseau\
+		</description>\
+		<cause>\
+			<description>\
+				Une erreur réseau est survenue en connectant l'hôte\
+			</description>\
+			<action>\
+				Vérifiez que la gestion de réseau d'hôte est configurée correctement\
+			</action>\
+		</cause>\
+	</EventLongDescription>\
+    "
+
+HostCnxFailedNoAccessEvent.longDescription = "\
+	<EventLongDescription id="vim.event.HostCnxFailedNoAccessEvent">\
+		<description>\
+			N'a pas pu se connecter à l'hôte en raison des privilèges insuffisants de compte\
+		</description>\
+		<cause>\
+			<description>\
+				Le compte utilisé pour se connecter à l'hôte n'a pas de de privilèges d'accès\
+			</description>\
+			<action>\
+				Utilisez un compte qui a des privilèges suffisants pour se connecter à l'hôte\
+			</action>\
+		</cause>\
+	</EventLongDescription>\
+    "
+
+HostCnxFailedNoConnectionEvent.longDescription = "\
+	<EventLongDescription id="vim.event.HostCnxFailedNoConnectionEvent">\
+		<description>\
+			N'a pas pu seconnecter à l'hôte parce que l'hôte n'est pas dans le réseau\
+		</description>\
+		<cause>\
+			<description>\
+				L'hôte au lequel vous essayez de vous connecter n'est pas présent dans le réseau\
+			</description>\
+			<action>\
+				Vérifiez que la gestion de réseau de l'hôte est configurée correctement et que l'hôte est connecté au même réseau que vCenter Server\
+			</action>\
+		</cause>\
+	</EventLongDescription>\
+    "
+
+HostCnxFailedNoLicenseEvent.longDescription = "\
+	<EventLongDescription id="vim.event.HostCnxFailedNoLicenseEvent">\
+		<description>\
+			N'a pas pu se connecter à l'hôte en raison d'un problème de licence\
+		</description>\
+		<cause>\
+			<description>\
+				Il n'y a pas assez de licences pour ajouter l'hôte à l'inventaire de vCenter Server. Cet événement est accompagné d'une défaillance qui spécifie les licences manquantes exigées pour ajouter l'hôte avec succès.\
+			</description>\
+			<action>\
+				Ajoutez les licences nécessaires à vCenter Server et réessayez d'ajouter l'hôte\
+			</action>\
+		</cause>\
+	</EventLongDescription>\
+    "
+
+HostCnxFailedNotFoundEvent.longDescription = "\
+	<EventLongDescription id="vim.event.HostCnxFailedNotFoundEvent">\
+		<description>\
+			N'a pas pu se connecter à l'hôte parce que vCenter Server n'a pas pu trouver le nom de hôte\
+		</description>\
+		<cause>\
+			<description>\
+				Impossible de trouver le nom de l'hôte\
+			</description>\
+			<action>\
+				Vérifiez que le nom correct de l'hôte a été fourni pour l'hôte\
+			</action>\
+			<action>\
+				Configurez l'hôte pour utiliser un nom d'hôte trouvable\
+			</action>\
+			<action>\
+				Ajoutez le nom de hôte au serveur DNS\
+			</action>\
+		</cause>\
+	</EventLongDescription>\
+    "
+
+HostCnxFailedTimeoutEvent.longDescription = "\
+	<EventLongDescription id="vim.event.HostCnxFailedTimeoutEvent">\
+		<description>\
+			N'a pas pu la connecter à l'hôte parce que la tentative de connexion est arrivée au bout du délai\
+		</description>\
+		<cause>\
+			<description>\
+				Une temposrisation est survenue en essayant de se connecter à l'hôte\
+			</description>\
+		</cause>\
+	</EventLongDescription>\
+    "
+
+HostConnectionLostEvent.longDescription = "\
+	<EventLongDescription id="vim.event.HostConnectionLostEvent">\
+		<description>\
+			La connexion à l'hôte a été perdue\
+		</description>\
+		<cause>\
+			<description>\
+				L'hôte n'est pas dans un état où il peut répondre\
+			</description>\
+		</cause>\
+	</EventLongDescription>\
+    "
+
+HostReconnectionFailedEvent.longDescription = "\
+	<EventLongDescription id="vim.event.HostReconnectionFailedEvent">\
+		<description>\
+			N'a pas pu rétablir une connexion à l'hôte\
+		</description>\
+		<cause>\
+			<description>\
+				L'hôte n'est pas dans un état où il peut répondre\
+			</description>\
+		</cause>\
+	</EventLongDescription>\
+    "
+
+TimedOutHostOperationEvent.longDescription = "\
+	<EventLongDescription id="vim.event.TimedOutHostOperationEvent">\
+		<description>\
+			Une opération exécutée sur l'hôte est arrivée au bout du délai\
+		</description>\
+		<cause>\
+			<description>\
+		Un événement précédent dans la séquence d'événements fournira plus d'informations sur la cause de ce dépassement de délai\
+			</description>\
+		</cause>\
+	</EventLongDescription>\
+    "
+
+AccountCreatedEvent.longDescription = "\
+	<EventLongDescription id="vim.event.AccountCreatedEvent">\
+		<description>\
+			Un compte a été créé sur l'hôte\
+		</description>\
+	</EventLongDescription>\
+    "
+
+AccountRemovedEvent.longDescription = "\
+	<EventLongDescription id="vim.event.AccountRemovedEvent">\
+		<description>\
+			Un compte a été retiré de l'hôte\
+		</description>\
+	</EventLongDescription>\
+    "
+
+AccountUpdatedEvent.longDescription = "\
+	<EventLongDescription id="vim.event.AccountUpdatedEvent">\
+		<description>\
+			Un compte a été mis à jour sur l'hôte\
+		</description>\
+	</EventLongDescription>\
+    "
+
+AdminPasswordNotChangedEvent.longDescription = "\
+	<EventLongDescription id="vim.event.AdminPasswordNotChangedEvent">\
+		<description>\
+			Le mot de passe par défaut pour l'utilisateur d'administrateur sur l'hôte n'a pas été changé\
+		</description>\
+		<cause>\
+			<description>\
+			Vous n'avez pas changé le mot de passe pour l'utilisateur d'administrateur sur l'hôte. \
+ 			Le mot de passe par défaut est donc toujours activé\
+			</description>\
+			<action>\
+				Changez le mot de passe pour l'utilisateur d'administrateur sur l'hôte\
+			</action>\
+		</cause>\
+	</EventLongDescription>\
+    "
+
+BadUsernameSessionEvent.longDescription = "\
+	<EventLongDescription id="vim.event.BadUsernameSessionEvent">\
+		<description>\
+			Un utilisateur a essayé d'ouvrir une session avec un nom d'utilisateur inconnu ou incorrect\
+		</description>\
+		<cause>\
+            <description>\
+			Le nom d'utilisateur est inconnu au système\
+			</description>\
+            <action>\
+			Utilisez un nom d'utilisateur qui est inclus dans le répertoire d'utilisateurs du système\
+			</action>\
+            <action>\
+			Sous Linux, vérifiez que le répertoire d'utilisateurs est correctement configuré\
+			</action>\
+            <action>\
+			Si vous utilisez le Répertoire actif, vérifiez l'état de santé du contrôleur de domaine\
+			</action>\
+        </cause>\
+        <cause>\
+            <description>\
+			L'utilisateur a fourni un mot de passe incorrect\
+			</description>\
+            <action>\
+			Fournissez le mot de passe correct\
+			</action>\
+        </cause>\
+	</EventLongDescription>\
+    "
+
+ErrorUpgradeEvent.longDescription = "\
+	<EventLongDescription id="vim.event.ErrorUpgradeEvent">\
+		<description>\
+			Une erreur est survenue pendant la mise à niveau d'agent\
+		</description>\
+	</EventLongDescription>\
+    "
+
+GeneralHostErrorEvent.longDescription = "\
+	<EventLongDescription id="vim.event.GeneralHostErrorEvent">\
+		<description>\
+			Une erreur est survenue sur l'hôte\
+		</description>\
+		<cause>\
+            <description>\
+			L'agent ne peut pas envoyer des signaux de pulsations en raison d'un échec relatif à la gestion de réseau sur l'hôte\
+			</description>\
+        </cause>\
+        <cause>\
+            <description>\
+			L'agent n'a pas réussi à mettre à jour le fichier de configuration sur l'hôte\
+			</description>\
+        </cause>\
+        <cause>\
+            <description>\
+			L'agent n'a pas réussi à sauvegarder le fichier de configuration au disque sur l'hôte\
+			</description>\
+        </cause>\
+        <cause>\
+            <description>\
+			Le module de provisionnement n'a pas réussi à charger. En conséquence, toutes les opérations de provisionnement  échouent sur l'hôte.\
+			</description>\
+        </cause>\
+	</EventLongDescription>\
+    "
+
+GeneralHostInfoEvent.longDescription = "\
+	<EventLongDescription id="vim.event.GeneralHostInfoEvent">\
+		<description>\
+			Un événement d'informations générales est survenu sur l'hôte\
+		</description>\
+	</EventLongDescription>\
+    "
+
+GeneralHostWarningEvent.longDescription = "\
+	<EventLongDescription id="vim.event.GeneralHostWarningEvent">\
+		<description>\
+			Un événement d'avertissement général est survenu sur l'hôte\
+		</description>\
+		<cause>\
+            <description>\
+			La création de machines virtuelles pourrait échouer parce que l'agent a été incapable de récupérer les  options de création de machine virtuelle de l'hôte\
+			</description>\
+        </cause>\
+	</EventLongDescription>\
+    "
+
+GeneralUserEvent.longDescription = "\
+	<EventLongDescription id="vim.event.GeneralUserEvent">\
+		<description>\
+			Un événement d'utilisateur général est survenu sur l'hôte\
+		</description>\
+		<cause>\
+            <description>\
+			Un utilisateur a démarré une action sur l'hôte\
+			</description>\
+        </cause>\
+	</EventLongDescription>\
+    "
+
+GeneralVmErrorEvent.longDescription = "\
+	<EventLongDescription id="vim.event.GeneralVmErrorEvent">\
+		<description>\
+			Une erreur est survenue sur la machine virtuelle\
+		</description>\
+	</EventLongDescription>\
+    "
+
+GeneralVmInfoEvent.longDescription = "\
+	<EventLongDescription id="vim.event.GeneralVmInfoEvent">\
+		<description>\
+			Un événement d'informations générales est survenu sur la machine virtuelle\
+		</description>\
+	</EventLongDescription>\
+    "
+
+GeneralVmWarningEvent.longDescription = "\
+	<EventLongDescription id="vim.event.GeneralVmWarningEvent">\
+		<description>\
+			Un événement d'avertissement général est survenu sur la machine virtuelle\
+		</description>\
+	</EventLongDescription>\
+    "
+
+HostSyncFailedEvent.longDescription = "\
+	<EventLongDescription id="vim.event.HostSyncFailedEvent">\
+		<description>\
+			A échoué pour la synchro avec l'agent de vCenter sur l'hôte\
+		</description>\
+		<cause>\
+            <description>\
+				L'événement contient des détails sur la raison de cet échec\
+			</description>\
+        </cause>\
+	</EventLongDescription>\
+    "
+
+HostUpgradeFailedEvent.longDescription = "\
+	<EventLongDescription id="vim.event.HostUpgradeFailedEvent">\
+		<description>\
+			N'a pas réussi à se connecter à l'hôte en raison d'un problème d'installation ou de mise à niveau\
+		</description>\
+	</EventLongDescription>\
+    "
+
+NoAccessUserEvent.longDescription = "\
+	<EventLongDescription id="vim.event.NoAccessUserEvent">\
+		<description>\
+			Un utilisateur n'a pas pu ouvrir une session en raison d'une permission d'accès insuffisante\
+		</description>\
+		<cause>\
+            <description>\
+			Le compte utilisateur a une permission d'accès insuffisante\
+			</description>\
+			<action>\
+			Ouvrez une session avec un compte utilisateur qui a l'autorisation d'accès nécessaire ou accordez  des autorisations d'accès supplémentaires à l'utilisateur courant\
+			</action>\
+        </cause>\
+	</EventLongDescription>\
+    "
+
+SessionTerminatedEvent.longDescription = "\
+	<EventLongDescription id="vim.event.SessionTerminatedEvent">\
+		<description>\
+			Une session a été terminée\
+		</description>\
+	</EventLongDescription>\
+    "
+
+TaskTimeoutEvent.longDescription = "\
+	<EventLongDescription id="vim.event.TaskTimeoutEvent">\
+		<description>\
+			Une tâche a été supprimée parce qu'elle s'est terminée au bout du délai\
+		</description>\
+	</EventLongDescription>\
+    "
+
+UserUpgradeEvent.longDescription = "\
+	<EventLongDescription id="vim.event.UserUpgradeEvent">\
+		<description>\
+			Un événement général d'utilisateur est survenu dû à une mise à niveau\
+		</description>\
+	</EventLongDescription>\
+    "
+
+VcAgentUninstalledEvent.longDescription = "\
+	<EventLongDescription id="vim.event.VcAgentUninstalledEvent">\
+		<description>\
+			L'agent de vCenter a été désinstallé de l'hôte\
+		</description>\
+	</EventLongDescription>\
+    "
+
+VcAgentUninstallFailedEvent.longDescription = "\
+	<EventLongDescription id="vim.event.VcAgentUninstallFailedEvent">\
+		<description>\
+			Une tentative de désinstallation de l'agent de vCenter a échoué sur l'hôte\
+		</description>\
+		<cause>\
+            <description>\
+				L'événement contient des détails sur la raison de cet échec\
+			</description>\
+        </cause>\
+	</EventLongDescription>\
+    "
+
+VcAgentUpgradedEvent.longDescription = "\
+	<EventLongDescription id="vim.event.VcAgentUpgradedEvent">\
+		<description>\
+			L'agent de vCenter a été mis à jour sur l'hôte\
+		</description>\
+	</EventLongDescription>\
+    "
+
+VcAgentUpgradeFailedEvent.longDescription = "\
+	<EventLongDescription id="vim.event.VcAgentUpgradeFailedEvent">\
+		<description>\
+			Une tentative de mise à niveau d'agent de vCenter a échoué sur l'hôte\
+		</description>\
+		<cause>\
+            <description>\
+				L'événement contient des détails sur la raison de cet échec\
+			</description>\
+        </cause>\
+	</EventLongDescription>\
+    "
+
+VimAccountPasswordChangedEvent.longDescription = "\
+	<EventLongDescription id="vim.event.VimAccountPasswordChangedEvent">\
+		<description>\
+			Le mot de passe pour l'utilisateur de compte Vim sur l'hôte a été changé.  Ce compte est créé par vCenter Server et utilisé pour gérer l'hôte.\
+		</description>\
+		<cause>\
+            <description>\
+			vCenter Server change périodiquement le mot de passe du compte de Vim qu'il  utilise pour gérer l'hôte\
+			</description>\
+        </cause>\
+	</EventLongDescription>\
+    "
+
+VmMessageErrorEvent.longDescription = "\
+	<EventLongDescription id="vim.event.VmMessageErrorEvent">\
+		<description>\
+			Un message d'erreur mentionnant une liste d'observations a été enregistré par la machine virtuelle\
+		</description>\
+		<cause>\
+            <description>\
+				L'événement contient des détails sur la raison de cette erreur\
+			</description>\
+        </cause>\
+	</EventLongDescription>\
+    "
+
+VmMessageEvent.longDescription = "\
+	<EventLongDescription id="vim.event.VmMessageEvent">\
+		<description>\
+			Un message d'information mentionnant une liste d'observations a été enregistré par la machine virtuelle\
+		</description>\
+		<cause>\
+            <description>\
+				L'événement contient des détails sur les messages de la machiene virtuelle\
+			</description>\
+        </cause>\
+	</EventLongDescription>\
+    "
+
+VmMessageWarningEvent.longDescription = "\
+	<EventLongDescription id="vim.event.VmMessageWarningEvent">\
+		<description>\
+			Un message d'avertissement mentionnant une liste d'observations a été signalé par la machine virtuelle\
+		</description>\
+		<cause>\
+            <description>\
+				L'événement contient des détails sur la raison de cet avertissement\
+			</description>\
+        </cause>\
+	</EventLongDescription>\
+    "
+
+DvsHostWentOutOfSyncEvent.longDescription = "\
+    <EventLongDescription id="vim.event.DvsHostWentOutOfSyncEvent">\
+       <description> La configuration de vSphere Distributed Switch sur l'hôte est différente de celle de vCenter Server\
+       </description>\
+       <cause>\
+         <description> L'hôte n'a pas été connecté à vCenter Server quand des mises à jour ont été envoyées </description>\
+       </cause>\
+       <cause>\
+         <description> Auparavant, vCenter Server ne pouvait pas envoyer la configuration de vSphere Distributed Switch à l'hôte</description>\
+       </cause>\
+    </EventLongDescription>\
+    "
+
+GhostDvsProxySwitchDetectedEvent.longDescription = "\
+    <EventLongDescription id="vim.event.GhostDvsProxySwitchDetectedEvent">\
+       <description> \
+          vCenter Server a trouvé un commutateur de proxy vSphere Distributed Switch sur l'hôte qui ne correspond à aucun  vSphere Distributed Switch dans vCenter Server\
+       </description>\
+       <cause>\
+            <description> \
+               vSphere Distributed Switch correspondant au commutateur de proxy vSphere Distributed Switch sur l'hôte a été supprimé alors que l'hôte était déconnecté de vCenter Server\
+            </description>\
+        </cause>\
+       <cause>\
+            <description> \
+               L'hôte n'est plus membre vSphere Distributed Switch auquel le commutateur de proxy dans l'hôte  correspond \
+            </description>\
+        </cause>\
+    </EventLongDescription>\
+    "
+
+IncorrectHostInformationEvent.longDescription = "\
+    <EventLongDescription id="vim.event.IncorrectHostInformationEvent">\
+       <description> L'hôte n'a pas fourni les informations requises pour saisir l'ensemble correct de licences </description>\
+       <cause>\
+            <description> Les cpuCores, les cpuPackages ou l'information de hostType sur l'hôte ne sont pas corrects </description>\
+        </cause>\
+       <cause>\
+            <description> L'information de l'hôte n'est pas disponible parce que l'hôte a été ajouté comme déconnecté </description>\
+        </cause>\
+    </EventLongDescription>\
+    "
+
+HostWwnConflictEvent.longDescription = "\
+    <EventLongDescription id="vim.event.HostWwnConflictEvent">\
+       <description> \
+          Le WWN (World Wide Name) de cet hôte est en conflit avec le WWN d'un hôte ou d'une autre machine virtuelle\
+       </description>\
+       <cause>\
+            <description> Le WWN de cet hôte est en conflit avec le WWN d'un autre hôte </description>\
+       </cause>\
+       <cause>\
+            <description> Le WWN de cet hôte est en conflit avec le WWN d'une autre machine virtuelle</description>\
+       </cause>\
+    </EventLongDescription>\
+    "
+
+HostIpChangedEvent.longDescription = "\
+    <EventLongDescription id="vim.event.HostIpChangedEvent">\
+       <description> \
+          L'adresse IP de l'hôte a été changée\
+       </description>\
+       <cause>\
+            <description> L'adresse IP de l'hôte a été changée par vCenter Server </description>\
+       </cause>\
+       <cause>\
+            <description> L'adresse IP de l'hôte a été changée par l'hôte </description>\
+       </cause>\
+    </EventLongDescription>\
+    "
+
+DrsExitStandbyModeFailedEvent.longDescription = "\
+    <EventLongDescription id="vim.event.DrsExitStandbyModeFailedEvent">\
+       <description>\
+          DPM n'a pas mis un hôte dans le mode de veille.  DPM a essayé de mettre un hôte sous tension en utilisant IPMI, iLO ou le protocole LAN d'éveil par appel réseau, mais l'hôte  n'a pas été mis sous tension.\
+       </description>\
+       <cause>\
+            <description>DPM n'a pas pu communiquer avec le BMC sur l'hôte</description>\
+            <action>Vérifiez les qualifications d'IPMI/iLO présentées dans vCenter Server</action>\
+            <action>Vérifiez que l'accès LAN est activé dans le BMC</action>\
+        </cause>\
+        <cause>\
+            <description>le NIC de vMotion sur l'hôte ne prend pas en charge l'éveil par appel réseau LAN</description>\
+            <action>Sélectiononez un NIC vMotion qui prend en charge l'éveil par appel réseau LAN</action>\
+        </cause>\
+    </EventLongDescription>\
+    "
+
+ClusterOvercommittedEvent.longDescription = "\
+    <EventLongDescription id="vim.event.ClusterOvercommittedEvent">\
+       <description>\
+          Les ressources cumulatives CPU et/ou de mémoire de tous les hôtes dans le cluster  ne sont pas adéquates pour satisfaire les réservations de ressources de toutes les machines virtuelles dans le  cluster\
+       </description>\
+       <cause>\
+            <description>Vous avez essayé de mettre sous tension une machine virtuelle en contournant vCenter Server.  Cette condition se produit quand vous tentez de mettre sous tension en utilisant vSphere Client directement  connecté à l'hôte.</description>\
+            <action>Dans un cluster DRS, ne mettez pas sous tension de machines virtuelles en contournant vCenter Server</action>\
+        </cause>\
+        <cause>\
+            <description>Un hôte a été placé en mode maintenance, veille ou déconnexion</description>\
+            <action>Cessez tout mode d'hôte en mode maintenance, veille ou déconnexion</action>\
+        </cause>\
+    </EventLongDescription>\
+    "
+
+ResourceViolatedEvent.longDescription = "\
+    <EventLongDescription id="vim.event.ResourceViolatedEvent">\
+       <description>\
+          La consommation cumulative de ressource en CPU et/ou en mémoire de toutes les machines virtuelles dans le  pool de ressources dépasse la configuration de pool de ressources \
+       </description>\
+       <cause>\
+            <description>Vous avez essayé de faire passer une machine virtuelle d'un pool de ressources à un autre  en contournant vCenter Server. Cette condition se produit quand vous essayez d'utiliser  vSphere Client directement connecté à l'hôte.\
+		</description>\
+            <action>Dans un cluster DRS, ne déplacez pas, ni ne mettez sous tension une machine virtuelle en contournant vCenter Server</action>\
+        </cause>\
+    </EventLongDescription>\
+    "
+
+HostComplianceCheckedEvent.longDescription = "\
+   <EventLongDescription id="vim.event.HostComplianceCheckedEvent">\
+      <description>\
+         L'hôte a été examiné pour assurer la conformité avec un profil d'hôte\
+      </description>\
+      <cause>\
+         <description>\
+            L'utilisateur a initié un contrôle de conformité sur l'hôte contre un profil d'hôte \
+          </description>\
+      </cause>\
+      <cause>\
+         <description>\
+            Une tâche planifiée a initié un contrôle de conformité pour  l'hôte contre un profil d'hôte\
+         </description>\
+      </cause>\
+    </EventLongDescription>\
+    "
+
+ClusterComplianceCheckedEvent.longDescription = "\
+   <EventLongDescription id="vim.event.ClusterComplianceCheckedEvent">\
+      <description>\
+         Le cluster a été examiné pour assurer la conformité avec un profil de cluster\
+      </description>\
+      <cause>\
+         <description>\
+            L'utilisateur a initié un contrôle de conformité sur le cluster contre un profil de cluster \
+         </description>\
+      </cause>\
+      <cause>\
+         <description>\
+            Un programme a initié un contrôle de conformité pour  le cluster contre un profil de cluster\
+         </description>\
+      </cause>\
+    </EventLongDescription>\
+    "
+
+HostNonCompliantEvent.longDescription = "\
+   <EventLongDescription id="vim.event.HostNonCompliantEvent">\
+      <description>\
+         L'hôte ne se conforme pas au profil d'hôte\
+       </description>\
+       <cause>\
+          <description>\
+             L'hôte n'est pas en conformité avec le profil relié \
+          </description>\
+       <action>\
+          Examinez l'onglet récapitulatif afin que l'hôte dans vSphere Client détermine  les causes possibles de la non conformité \
+       </action>\
+       </cause>\
+</EventLongDescription>\
+   "
+
+ClusterReconfiguredEvent.longDescription = "\
+    <EventLongDescription id="vim.event.ClusterReconfiguredEvent">\
+       <description>\
+          La configuration de cluster a été changée. La configuration de cluster inclut des informations sur les paramètres DRS, DPM, EVC et vSphere HA du cluster. Les règles DRS AII  sont également stockées dans la configuration de cluster. Éditer la configuration  de cluster peut déclencher un lancement de DRS et/ou activer/désactiver  le vSphere HA sur chaque hôte dans le cluster. \
+       </description>\
+    </EventLongDescription>\
+    "
+
+ClusterStatusChangedEvent.longDescription = "\
+    <EventLongDescription id="vim.event.ClusterStatusChangedEvent">\
+       <description>\
+          L'état du cluster a changé. Cet état est le statut du pool de ressources racine qui englobe le cluster en entier. Une modification d'état de cluster peut  être accompagnée de la suppression d'un problème de configuration si un problème avait été précédemment détecté.  Une fonction de statut de cluster en vert indique que tout fonctionne très bien. Un état en jaune  indique que le pool de ressources racine n'a pas les ressources pour satisfaire  les réservations de ses enfants.  Un état en rouge signifie qu'un noeud dans le pool de ressources  a des enfants dont les réservations dépassent la configuration du noeud.  \
+       </description>\
+       <cause>\
+            <description>L'état du cluster est devenu jaune</description>\
+            <action>Ajoutez plus de ressources (plus d'hôtes) ou réduisez la réservation  des pools de ressources directement sous la racine pour correspondre à la nouvelle capacité</action>\
+        </cause>\
+        <cause>\
+            <description>La fonction d'état du cluster est devenue rouge</description>\
+            <action>Changez les paramètres de ressources sur les pools de ressources qui sont rouges de sorte qu'  ils puissent faciliter leurs machines virtuelles enfants. Si ce n'est pas possible, abaissez  les réservations de machines virtuelles. Si ce n'est pas non plus possible, mettez hors tension quelques  machines virtuelles.</action>\
+        </cause>\
+    </EventLongDescription>\
+    "
+
+DrsInvocationFailedEvent.longDescription = "\
+    <EventLongDescription id="vim.event.DrsInvocationFailedEvent">\
+       <description>\
+          Un lancement DRS n'a pas pu se terminer entièrement avec succès. Cette condition peut se produire pour toute une série de  raisons, dont certaines peuvent être résidentes.. \
+       </description>\
+       <cause>\
+            <description>Une erreur est survenue pendant un lancement de DRS</description>\
+            <action>Désactivez et réactivez le DRS</action>\
+        </cause>\
+    </EventLongDescription>\
+    "
+
+DrsResourceConfigureFailedEvent.longDescription = "\
+    <EventLongDescription id="vim.event.DrsResourceConfigureFailedEvent">\
+       <description>\
+          Les paramètres de ressource en DRS n'ont pas pu être appliqués avec succès à un hôte dans  le cluster. Cette condition est en général typiquement résidente.. \
+       </description>\
+       <cause>\
+            <description>Des paramètres de ressource en DRS n'ont pas pu être appliqués à un hôte.</description>\
+            <action>Le DRS génère les paramètres de ressource qui mappent les valeurs de cluster à  l'hôte. Cependant, dans ce cas précis, les valeurs n'ont pas pu être appliquées avec succès  à l'hôte. C'est typiquement une erreur résidente provoquée par une synchronisation retardée depuis le DRS à l'hôte. Si cette condition persiste, activez debug logging dans vpxa et  contacter le service d'assistance VMware. </action>\
+        </cause>\
+    </EventLongDescription>\
+    "
+
+DrsVmMigratedEvent.longDescription = "\
+    <EventLongDescription id="vim.event.DrsVmMigratedEvent">\
+       <description>\
+          Une machine virtuelle a été transférée, basée sur une recommandation de DRS. La recommandation pourrait  avoir été émise soit pour réaliser un meilleur équilibrage de charge dans le cluster ou pour évacuer  un hôte dans le cluster qui est mis en veille ou en mode maintenance. \
+       </description>\
+       <cause>\
+            <description>Le DRS a recommandé la migration d'une machine virtuelle</description>\
+        </cause>\
+    </EventLongDescription>\
+    "
+
+DrsVmPoweredOnEvent.longDescription = "\
+    <EventLongDescription id="vim.event.DrsVmPoweredOnEvent">\
+       <description>\
+          Une machine virtuelle était sous tension par l'utilisateur et le DRS choisit un hôte pour la machine virtuelle basé sur  la répartition des charges actuelle de cluster combinée avec les conditions de ressource de la machine virtuelle\
+       </description>\
+       <cause>\
+            <description>Le DRS a choisi un hôte pour une machine virtuelle qui était sous tension</description>\
+        </cause>\
+    </EventLongDescription>\
+    "
+
+HostOvercommittedEvent.longDescription = "\
+    <EventLongDescription id="vim.event.HostOvercommittedEvent">\
+       <description>\
+          Un hôte n'a pas le CPU suffisant et/ou la capacité de stockage  de satisfaire sa configuration de ressource. L'hôte a son propre contrôle d'admission, ainsi cette  condition devrait ne jamais se produire.\
+       </description>\
+       <cause>\
+            <description>Un hôte a une capacité insuffisante pour sa configuration de ressource</description>\
+            <action>Si vous rencontrez cette condition, entrez en contact avec le service d'assistance VMware </action>\
+	</cause>\
+    </EventLongDescription>\
+    "
+
+HostStatusChangedEvent.longDescription = "\
+    <EventLongDescription id="vim.event.HostStatusChangedEvent">\
+       <description>\
+          L'état de l'hôte a changé. Cet état est le statut du pool de ressources racine qui englobe l'hôte entier. Une modification d'état de l'hôte peut  être accompagnée de la suppression d'un numéro de configuration s'il en avait précédemment détecté un.  Un statut d'hôte en vert indique que tout fonctionne très bien. Un état en jaune  indique que le pool de ressources racine n'a pas les ressources pour satisfaire  les réservations de ses enfants. Un état en rouge signifie qu'un noeud dans le pool de ressources  a des enfants dont les réservations dépassent la configuration du noeud. \
+       </description>\
+       <cause>\
+            <description>L'état de l'hôte est devenu jaune</description>\
+            <action>Réduisez la réservation des pools de ressources directement sous  la racine pour correspondre à la nouvelle capacité</action>\
+        </cause>\
+        <cause>\
+            <description>L'état de hôte est devenu rouge</description>\
+            <action>Changez les paramètres de ressources sur les pools de ressources qui sont rouges de sorte qu'  ils puissent faciliter leurs machines virtuelles enfants. Si ce n'est pas possible, abaissez  les réservations de machines virtuelles. Si ce n'est pas non plus possible, mettez hors tension quelques  machines virtuelles.</action>\
+        </cause>\
+    </EventLongDescription>\
+    "
+
+NoMaintenanceModeDrsRecommendationForVM.longDescription = "\
+    <EventLongDescription id="vim.event.NoMaintenanceModeDrsRecommendationForVM">\
+       <description>\
+          Le DRS a échoué dans la génération d'une recommandation de vMotion pour une machine virtuelle sur un hôte en écrivant  Mode maintenance. Cette condition se produit typiquement parce qu'aucun autre hôte  dans le cluster de DRS n'est compatible avec la machine virtuelle. À moins que vous migriez  manuellement ou mettiez hors tension cette machine virtuelle, l'hôte ne pourra pas entrer  Mode maintenance. \
+       </description>\
+       <cause>\
+            <description>Le DRS a échoué dans l'évacuation d'une mise sous tension d'une machine virtuelle</description>\
+            <action>Migrez manuellement la machine virtuelle à un autre hôte dans le cluster</action>\
+            <action>Mise hors tension de la machine virtuelle</action>\
+            <action>Mettez tous les hôtes en mode maintenance hors de ce mode</action>\
+            <action>Annulez la tâche qui fait passer l'hôte  en mode maintenance </action>\
+        </cause>\
+    </EventLongDescription>\
+    "
+
+NotEnoughResourcesToStartVmEvent.longDescription = "\
+    <EventLongDescription id="vim.event.NotEnoughResourcesToStartVmEvent">\
+       <description>\
+          Cet événement est généré par vSphere HA lorsque l'agent maître n'a pas réussi à basculer une \
+	  machine virtuelle sur l'un de ses hôtes compatibles. Ceci est lié à une ou plusieurs des causes indiquées ci-dessous. Lorsqu'un tel cas se \
+	  produit, vSphere HA en signale la cause dans le résumé de l'événement, mais précise qu'il peut y \
+	  avoir d'autres causes. Ce cas de figure est plus probable si le contrôle d'admission vSphere HA \
+	  est désactivé ou si le nombre d'hôtes qui échouent est supérieur au nombre d'hôtes \
+	  provisionnés. Lorsqu'il est impossible de placer une machine virtuelle, vSphere HA réessaie \
+	  de la placer lors du changement d'état du cluster. En outre, si vSphere DRS est activé, \
+	  il sera appelé pour tenter de défragmenter le cluster ou de faire sortir les hôtes du mode Veille.\
+       </description>\
+       <cause>\
+            <description>\
+            Une machine virtuelle a des réservations de bande passante pour le CPU, la mémoire, le cache vFlash ou les cartes réseau virtuelles. \
+	            Aucun hôte compatible ne dispose de suffisamment de ressources pour satisfaire \
+	            les réservations.\
+            </description>\
+            <action>Diminuez la réservation de ressources de la machine virtuelle</action>\
+            <action>Ajoutez plus d'hôtes au cluster</action>\
+            <action>Mettez en ligne un hôte en échec ou corriger une partition de réseau s'il en existe une</action>\
+            <action>Si le DRS est en mode manuel, recherchez toutes les recommandations en souffrance et approuvez-les de sorte que le basculement vSphere HA puisse avoir cours</action>\
+        </cause>\
+        <cause>\
+            <description>\
+	         vSAN est activé sur le cluster et un ou plusieurs hôtes contribuant au stockage dans le cluster sont inaccessibles, ce qui empêche vSphere HA de mettre la machine virtuelle sous tension. Cela s'applique aux machines virtuelles qui ont un ou plusieurs fichiers dans une banque de données vSAN.\
+            </description>\
+            <action>Mettez en ligne tous les hôtes en panne ou résolvez une partition réseau, le cas échéant, qui implique des hôtes contribuant au stockage dans le cluster vSAN</action>\
+        </cause>\
+        <cause>\
+            <description>Une ou plusieurs banques de données associées à une machine virtuelle sont inaccessibles via tous les hôtes compatibles du cluster.</description>\
+            <action>Mettez en ligne tous les hôtes qui ne répondent pas et qui montent les banques de données de machine virtuelle</action>\
+            <action>Corrigez les problèmes APD (tous chemins hors service) ou PDL (perte permanente de périphérique).</action>\
+        </cause>\
+        <cause>\
+            <description>vSphere HA applique des règles d'anti-affinité entre machines virtuelles et la règle ne peut pas être respectée. </description>\
+            <action>Ajoutez d'autres hôtes au cluster</action>\
+            <action>Mettez en ligne tous les hôtes qui ne répondent pas ou corrigez une partition réseau, le cas échéant</action>\
+            <action>Supprimez toutes les règles d'anti-affinité qui restreignent le placement</action>\
+        </cause>\
+        <cause>\
+            <description>Le nombre de VM pouvant s'exécuter sur chaque hôte est limité. Aucun hôte ne peut mettre sous tension la VM sans dépasser la limite.</description>\
+            <action>Si vous avez défini l'option HA avancée limitVmsPerESXHost, augmentez la limite.</action>\
+            <action>Mettez en ligne tous les hôtes qui ne répondent pas ou ajoutez de nouveaux hôtes au cluster</action>\
+        </cause>\
+    </EventLongDescription>\
+    "
+
+ResourcePoolReconfiguredEvent.longDescription = "\
+    <EventLongDescription id="vim.event.ResourcePoolReconfiguredEvent">\
+       <description>\
+          La configuration de pool de ressources a changé. La configuration de pool de ressources  inclut des informations sur les réservations de ressources du pool de ressources et les réservations de ressources de ses enfants. \
+       </description>\
+    </EventLongDescription>\
+    "
+
+DasHostIsolatedEvent.longDescription = "\
+    <EventLongDescription id="vim.event.DasHostIsolatedEvent">\
+       <description>\
+          vSphere HA a détecté que l'hôte est isolé du réseau. Quand un hôte est dans cet état, vSphere HA  applique  la réponse d'isolement d'hôte de mise hors tension ou d'arrêt aux machines virtuelles en cours d'exécution sur l'hôte et  continue à contrôler les machines virtuelles qui sont laissées sous tension. Quand un hôte est dans cet état, la capacité de vSphere HA  à redémarrer les machines virtuelles après un échec est affectée. vSphere HA met hors tension ou arrête une  machine virtuelle uniquement si l'agent sur l'hôte détermine qu'un agent maître est responsable de la machine virtuelle. \
+       </description>\
+       <cause>\
+            <description> \
+                Un hôte est isolé du réseau si les deux conditions suivantes sont satisfaites : (1)  les adresses d'isolation ont été configurées et l'hôte est incapable de les ping ; (2)  l'agent vSphere HA sur l'hôte est incapable d'accéder à l'un des agents en cours d'exécution sur les autres hôtes du cluster. \
+            </description>\
+            <action>\
+                 Corriger le problème de mise en réseau qui empêche l'hôte de ping ses adresses d'isolation et de communiquer avec les autres hôtes. S'assurer qu'il y a une redondance dans les  réseaux de gestion utilisés par vSphere HA. Avec la redondance, vSphere HA est capable de communiquer sur plus d'un chemin, réduisant ainsi la chance qu'un hôte devienne isolé. \
+            </action>\
+       </cause>\
+    </EventLongDescription>\
+    "
+
+HostMissingNetworksEvent.longDescription = "\
+    <EventLongDescription id="vim.event.HostMissingNetworksEvent">\
+       <description>\
+       L'hôte ajouté au cluster vSphere HA a moins de réseaux de gestion que  les hôtes existant dans le cluster. Quand vSphere HA est configuré pour un hôte, un hôte existant  dans le cluster est examiné pour les réseaux utilisés par vSphere HA pour les signaux de pulsation  et l'autre communication de vSphere HA. L'l'hôte commun doit avoir le même  nombre de réseaux de gestion et idéalement, des sous-réseaux communs. Cela  facilite le couplage de paires source/destination pour les signaux de pulsation.  Si des sous-réseaux communs ne sont pas détectés (à l'aide de l'adresse IP/masque sous-réseau) entre  le membre ajouté et les membres existants du cluster, cet événement est  généré et la tâche de configuration échoue. Les détails de l'événement signalent  les sous-réseaux du membre existant qui ne sont pas présents sur le membre commun. \
+       </description>\
+       <cause>\
+            <description>\
+                L'hôte n'a pas de réseaux compatibles avec un membre existant de cluster\
+            </description>\
+            <action>\
+                Modifiez la configuration de réseau de l'hôte pour activer le trafic vSphere HA sur les mêmes  sous-réseaux que les hôtes existant dans le cluster. vSphere HA utilisera les groupes de ports de la Console de service  sur ESX et, sur les hôtes ESXi, les groupes de ports avec la case à cocher "Trafic gestion"  sélectionnée. Après avoir modifié la configuration de réseau de l'hôte, reconfigurez  vSphere HA pour cet hôte.\
+            </action>\
+            <action>\
+                Utilisez les options avancées pour remplacer la sélection par défaut du groupe de ports pour  la communication du cluster vSphere HA. Vous pouvez utiliser l'option avancée das.allowNetwork[X]  pour dire à vSphere HA d'utiliser le groupe de ports spécifié dans cette option.  Pour chaque nom de groupe de ports qui doit être utilisé, spécifiez une option avancée das.allowNetwork[X].  La configuration de vSphere HA examine l'hôte ajouté pour les groupes de ports qui correspondent au nom spécifié. La tâche de configuration examine également  un membre existant dont les groupes de ports correspondent au nom spécifié. Le nombre de  noms de groupes de ports correspondants doit être le même sur chaque hôte. Après avoir paramétré les  options avancées, réactiver vSphere HA pour ce cluster.\
+            </action>\
+       </cause>\
+    </EventLongDescription>\
+    "
+
+HostExtraNetworksEvent.longDescription = "\
+    <EventLongDescription id="vim.event.HostExtraNetworksEvent">\
+       <description>\
+       L'hôte ajouté au cluster vSphere HA a plus de réseaux de gestion que  les hôtes existant dans le cluster. Quand vSphere HA est configuré pour un hôte, un hôte existant  dans le cluster est examiné pour les réseaux utilisés par vSphere HA pour les signaux de pulsation  et l'autre communication de vSphere HA. L'hôte commun doit avoir le même  nombre de réseaux de gestion et, idéalement, se trouver dans les mêmes sous-réseaux. Cela  facilitez le couplage de paires source/destination pour les signaux de pulsation.  Si des sous-réseaux communs ne sont pas détectés (à l'aide de l'adresse IP/du masque sous-réseau) entre  le membre ajouté et les membres existants du cluster, cet événement est  généré et la tâche de configuration échoue. Les détails de l'événement signalent le  sous-réseau du membre commun qui n'est pas présent sur le membre existant. \
+       </description>\
+       <cause>\
+            <description>\
+                L'hôte a des réseaux supplémentaires qui manquent sur un membre existant de cluster\
+            </description>\
+            <action>\
+                Modifiez la configuration du réseau de l'hôte pour activer le trafic de vSphere HA sur les mêmes  sous-réseaux comme hôtes existants dans le cluster. vSphere HA utilisera les groupes de ports de la Console de service  sur ESX et, sur les hôtes ESXi, les groupes de ports avec la case à cocher "Trafic gestion"  sélectionnée.\
+            </action>\
+            <action>\
+                Utilisez les options avancées pour remplacer la sélection par défaut du groupe de ports pour la  communication du cluster vSphere HA. Vous pouvez utiliser l'option avancée das.allowNetwork[X]  pour dire à vSphere HA d'utiliser le groupe de ports spécifié dans cette option.  Pour chaque nom de groupe de ports qui doit être utilisé, spécifiez une  option avancée das.allowNetwork[X]. La configuration vSphere HA examine l'hôte ajouté pour  les groupes de ports qui correspondent au nom spécifié. La tâche de configuration examine également  un membre existant dont les groupes de ports correspondent au nom spécifié. Le nombre de  noms de groupes de ports correspondants doit être le même sur chaque hôte. Après avoir paramétré les options avancées,  réactiver vSphere HA pour le cluster.\
+            </action>\
+       </cause>\
+    </EventLongDescription>\
+    "
+
+HostNoHAEnabledPortGroupsEvent.longDescription = "\
+    <EventLongDescription id="vim.event.HostNoHAEnabledPortGroupsEvent">\
+       <description>\
+       vSphere HA a déterminé qu'aucun réseau de gestion n'est disponible sur l'hôte pour la communication entre les agents vSphere HA.\
+       </description>\
+       <cause>\
+            <description>\
+                L'hôte n'a aucun réseau de gestion vSphere HA disponible\
+            </description>\
+            <action>\
+                Si cet événement est observé lors de l'ajout de l'hôte dans un cluster vSphere HA, \
+                 modifiez la configuration réseau de l'hôte pour autoriser le trafic vSphere HA sur un ou plusieurs \
+                 groupes de ports. Par défaut, vSphere HA utilise les groupes de ports de la \
+                 console de service sur ESX et, sur les hôtes ESXi, les groupes de ports avec la case \
+                Trafic de gestion cochée. Si vSphere HA était déjà configuré sur l'hôte, il est \
+                possible que les paramètres réseau de l'hôte aient changé et invalidé la configuration du \
+                réseau de gestion. Passez en revue les paramètres pour vérifier que les groupes de ports \
+                configurés pour le réseau de gestion existent toujours sur l'hôte et, pour ESXi, que \
+                l'option Trafic de gestion est cochée. Reconfigurez vSphere HA sur l'hôte une fois les \
+                problèmes de configuration résolus.\
+            </action>\
+       </cause>\
+    </EventLongDescription>\
+    "
+
+HostNoAvailableNetworksEvent.longDescription = "\
+    <EventLongDescription id="vim.event.HostNoAvailableNetworksEvent">\
+       <description>\
+       L'hôte ajouté au cluster vSphere HA n'a aucun réseau de gestion disponible pour la  communication du cluster vSphere HA. L'option avancée das.allowNetwork[X] est paramétrée, mais aucun  nom de groupe de ports ne correspond à l'option avancée pour cet hôte.\
+       </description>\
+       <cause>\
+            <description>\
+                L'hôte n'a aucun groupe de ports qui correspond aux noms utilisés par les options avancées  pour contrôler quel groupe de ports vSphere HA utilise\
+            </description>\
+            <action>\
+                Supprimez les options avancées das.allowNetwork[X] pour autoriser vSphere HA à sélectionner les  groupes de ports de gestion par défaut\
+            </action>\
+            <action>\
+                Corrigez les noms des groupes de ports spécifiés dans les options avancées pour qu'ils correspondent à ceux  devant être utilisés par vSphere HA pour cet hôte\
+            </action>\
+            <action>\
+                Spécifiez das options avancées das.allowNetwork[X] supplémentaires pour apparier les noms de groupe de port  pour cet hôte\
+            </action>\
+       </cause>\
+    </EventLongDescription>\
+    "
+
+HostIsolationIpPingFailedEvent.longDescription = "\
+    <EventLongDescription id="vim.event.HostIsolationIpPingFailedEvent">\
+       <description>\
+        vSphere HA était incapable de ping une plusieurs adresses IP d'isolation. L'incapacité de ping les adresses \
+        peut causer que HA déclare mal l'hôte comme isolé du réseau. Un hôte est déclaré comme isolé s'il ne peut pas \
+        ping les adresses d'isolation configurées et l'agent vSphere HA sur l'hôte est incapable d'accéder à l'un des \
+        agents en cours d'exécution sur les autres hôtes du cluster. \
+       </description>\
+       <cause>\
+            <description>N'a pas pu effectuer de ping à l'adresse d'isolation</description>\
+            <action>Corrigez la cause de l'erreur d'effectuation de ping d'adresse</action>\
+            <action>\
+                Utiliser les options avancées pour modifier les adresses utilisées par vSphere HA pour déterminer si un hôte est \
+                isolé du réseau. Par défaut, l'adresse d'isolation est la passerelle par défaut \
+        	du réseau de gestion. Vous pouvez remplacer le défaut en utilisant les options avancées, ou \
+        	spécifier les adresses supplémentaires à utiliser pour déterminer si un hôte est isolé du réseau. \
+        	Paramétrer l'option avancée das.useDefaultIsolationAddress à "faux" si vous préférez que \
+        	vSphere HA n'utilise pas de passerelle par défaut comme l'adresse d'isolation. Spécifier \
+        	l'option avancée das.isolationAddress[X] pour chaque adresse d'isolation que vous voulez spécifier. Les nouvelles valeurs \
+        	prennent effet quand vSphere HA est reconfiguré pour chaque hôte.\
+            </action>\
+       </cause>\
+    </EventLongDescription>\
+    "
+
+HostNoRedundantManagementNetworkEvent.longDescription = "\
+    <EventLongDescription id="vim.event.HostNoRedundantManagementNetworkEvent">\
+       <description>\
+       vSphere HA a déterminé qu'il y a un seul chemin pour le trafic de gestion vSphere HA,  entraînant un seul point d'échec. Les meilleures pratiques nécessitent  plus d'un chemin pour vSphere HA à utiliser pour les signaux de pulsation et la communication du cluster.   Un hôte avec un seul chemin est plus susceptible d'être déclaré mort, partitionné du réseau ou  isolé après un échec de réseau. S'il est déclaré mort, vSphere HA ne répondra pas si l'hôte  échoue ultérieurement, alors que s'il est déclaré isolé, vSphere HA peut appliquer la réponse d'isolation,  affectant ainsi le temps disponible des machines virtuelles en cours d'exécution dessus.\
+       </description>\
+       <cause>\
+            <description>Il n'existe qu'un seul groupe de ports disponible pour la communication vSphere HA</description>\
+            <action>Configurez un autre groupe de ports de console du service sur l'hôte ESX</action>\
+            <action>\
+                Configurez un autre groupe de ports sur l'hôte d'ESXi en sélectionnant la  case à cocher Trafic de gestion\
+            </action>\
+            <action>\
+                Employez l'association NIC sur le groupe de ports de gestion pour permettre à l'ESX ou à l'ESXi de diriger le trafic  de gestion hors de plus d'un NIC en cas d'échec de chemin\
+            </action>\
+            <action>\
+                Si vous acceptez le risque de ne pas avoir de redondance pour la communication de vSphere HA, vous pouvez  éliminer le problème de configuration en paramétrant  l'option avancée das.ignoreRedundantNetWarning à "vrai"\
+            </action>\
+       </cause>\
+    </EventLongDescription>\
+    "
+
+HostIpToShortNameFailedEvent.longDescription = "\
+    <EventLongDescription id="vim.event.HostIpToShortNameFailedEvent">\
+       <description>\
+          L'adresse IP de l'hôte n'a pas pu être résolue par un nom abrégé \
+       </description>\
+       <cause>\
+            <description>L'hôte ou les enregistrements DNS sont incorrectement configurés</description>\
+            <action>Contrôlez la configuration du réseau d'hôte</action>\
+            <action>Contrôlez la configuration de DNS</action>\
+        </cause>\
+    </EventLongDescription>\
+    "
+
+HostGetShortNameFailedEvent.longDescription = "\
+    <EventLongDescription id="vim.event.HostGetShortNameFailedEvent">\
+       <description>\
+          Le nom du serveur de la commande -s a manqué sur l'hôte \
+       </description>\
+       <cause>\
+            <description>Le réseau d'hôte est incorrectement configuré</description>\
+            <action>Contrôlez la configuration du réseau d'hôte</action>\
+        </cause>\
+    </EventLongDescription>\
+    "
+
+HostPrimaryAgentNotShortNameEvent.longDescription = "\
+    <EventLongDescription id="vim.event.HostPrimaryAgentNotShortNameEvent">\
+       <description>\
+          L'agent primaire n'est pas spécifié au format de nom abrégé \
+       </description>\
+       <cause>\
+            <description>Le réseau d'hôte est incorrectement configuré</description>\
+            <action>Contrôlez la configuration du réseau d'hôte</action>\
+        </cause>\
+    </EventLongDescription>\
+    "
+
+HostShortNameInconsistentEvent.longDescription = "\
+    <EventLongDescription id="vim.event.HostShortNameInconsistentEvent">\
+       <description>\
+          Le contrôle de résolution du nom sur l'hôte renvoie différents noms pour l'hôte \
+       </description>\
+       <cause>\
+            <description>Le réseau d'hôte est incorrectement configuré</description>\
+            <action>Contrôlez la configuration du réseau d'hôte</action>\
+            <action>Contrôlez la configuration de DNS</action>\
+        </cause>\
+    </EventLongDescription>\
+    "
+
+HostShortNameToIpFailedEvent.longDescription = "\
+    <EventLongDescription id="vim.event.HostShortNameToIpFailedEvent">\
+       <description>\
+          Le nom abrégé de l'hôte ne peut pas être résolu à une adresse IP \
+       </description>\
+       <cause>\
+            <description>Le réseau d'hôte est incorrectement configuré</description>\
+            <action>Contrôlez la configuration du réseau d'hôte</action>\
+            <action>Contrôlez la configuration de DNS</action>\
+        </cause>\
+    </EventLongDescription>\
+    "

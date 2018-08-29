@@ -1,0 +1,71 @@
+#
+# vSAN Build Recommendation messages
+#
+com.vmware.vsan.vum.enum.supported = Hardware supported
+com.vmware.vsan.vum.enum.sameSupport = Hardware support not worse
+com.vmware.vsan.vum.enum.lessSupport = Hardware support worse
+com.vmware.vsan.vum.enum.incompleteSupport = Hardware partially supported
+com.vmware.vsan.vum.enum.noSupport = Hardware not supported
+com.vmware.vsan.vum.enum.vcNoSupport = vCenter not supported
+com.vmware.vsan.vum.enum.incompatibleBuildType = Incompatible build type
+com.vmware.vsan.vum.enum.missingBuild = Build is missing in release database
+com.vmware.vsan.vum.enum.sameSupportNotOnHcl = Both existing release and recommended release are not supported by HCL
+com.vmware.vsan.vum.enum.invalidEsxUpgradePath = Not officially supported upgrade path
+
+com.vmware.vsan.vum.note.notRecommended = Release(s) {evalRelease} are not recommended because less hardware are supported than with current installed release.
+com.vmware.vsan.vum.note.recommended = {evalRelease} is recommended because unlike {existingRelease} all hardware is supported
+com.vmware.vsan.vum.note.vcNotSupported = Release(s) {evalRelease} are not recommended because vCenter {vcVersion} does not support upgrade some of hosts in this cluster to {evalRelease}.
+com.vmware.vsan.vum.note.notFullySupport = NOTE: According to the vSAN HCL the hardware is not (fully) supported on the chosen release ({chosenRelease}). It is chosen anyway, because the support situation is no worse than with the currently installed release.
+com.vmware.vsan.vum.note.fullySupport = The chosen release {chosenRelease} is fully supported on the hardware. It is the latest recommended vSAN release.
+com.vmware.vsan.vum.note.notSupported = According to vSAN HCL the hardware is not supported on both the latest release ({chosenRelease}) and currently installed release.
+com.vmware.vsan.vum.note.incompatibleBuildType = {chosenRelease} is not recommended because source build type {srcType} is incompatible.
+com.vmware.vsan.vum.note.mixVersionInstalled = Cluster has a mix of installed releases: {releases}
+com.vmware.vsan.vum.note.mixBldTypeInstalled = Cluster has a mix of build type installed: {buildTypes}
+com.vmware.vsan.vum.note.upgradeToHclEnabledVersion = vSAN is unable to assess the HCL compatibility of the hardware as the installed ESXi version is older than 6.0 U2. vSAN suggests upgrading to the latest ESXi release, but users should manually double check that no previously supported hardware becomes unsupported on the latest version.
+com.vmware.vsan.vum.note.driverManualUpgradeNeeded = Driver {driverName} for device ({device}) has a newer vSAN HCL supported version {version} which needs to be upgraded manually.
+com.vmware.vsan.vum.note.noDriverUpgradeNeeded = No driver upgrade/update is involved in this case.
+com.vmware.vsan.vum.note.updateTime = Last updated at {updateTime}.
+com.vmware.vsan.vum.note.invalidEsxUpgradePath = Upgrade path from {existingRelease} to {evalRelease} is not officially supported.
+
+com.vmware.vsan.vum.patchName = vSAN recommended patch to be applied on top of {chosenRelease}
+#
+# vSAN Build Recommendation health check
+#
+com.vmware.vsan.health.test.vum = vSAN Build Recommendation
+
+com.vmware.vsan.health.test.vum.vumconfig =  vSAN Build Recommendation Engine relies on VMware compatibility guide and VMware release metadata for its recommendation. In addition, it also requires VMware Update Manager service to be available, Internet connectivity and valid my.vmware.com credentials to be set to provide build recommendations. This health check makes sure that these dependecies are met and the recommendation engine is functioning correctly.
+com.vmware.vsan.health.test.vum.vumconfig.short = Checks that the build recommendation engine has all its dependencies met and is functioning as expected
+com.vmware.vsan.health.test.vum.vumconfig.testName = vSAN Build Recommendation Engine Health
+
+com.vmware.vsan.health.test.vum.vumconfig.testResult.label = Issues
+com.vmware.vsan.health.test.vum.vumconfig.testResult.columnIssue = Issue Information
+
+com.vmware.vsan.health.test.vum.internetDisconnected = Internet access is unavailable. Please restore Internet connectivity for vSAN to come up with build recommendations.
+com.vmware.vsan.health.test.vum.vumDisabled = VMware Update Manager (VUM) is disabled or is not installed. Please make sure VUM is installed and functioning properly.
+com.vmware.vsan.health.test.vum.vumNotResponsive = VMware Update Manager (VUM) is not responsive. Please make sure VUM service is available and functioning properly.
+com.vmware.vsan.health.test.vum.metadataOutdated = vSAN release metadata is outdated. Please make sure there is Internet connectivity and vSAN has access to the latest release metadata from VMware.
+com.vmware.vsan.health.test.vum.isoDepotCookieNotSet = my.vmware.com login credentials are not set. Please login with proper credentials. Baselines will be generated, if applicable, in around 1 minute or so.
+com.vmware.vsan.health.test.vum.isoDepotAuthenticationFailed = my.vmware.com authentication failed. Retry login with proper credentials. Baselines will be generated, if applicable, in around 1 minute or so.
+com.vmware.vsan.health.test.vum.createBaselineFailed = Unexpected VMware Update Manager (VUM) baseline creation failure. Please check vSAN and VUM logs for details.
+com.vmware.vsan.health.test.vum.isoDepotIsDown = VMware ISO download site is down.
+
+com.vmware.vsan.health.test.vum.vumrecommendation = vSAN build recommendation. This is the ESXi build that vSAN recommends to be the most appropriate, given the hardware, its compatibility per VMware Compatibility Guide and the available releases from VMware.
+com.vmware.vsan.health.test.vum.vumrecommendation.short =  vSAN build recommendation based on the available releases and VCG compatibility guide
+com.vmware.vsan.health.test.vum.vumrecommendation.testName = vSAN build recommendation
+com.vmware.vsan.health.test.vum.vumrecommendation.testResult.label = vSAN build recommendation
+com.vmware.vsan.health.test.vum.vumrecommendation.testResult.columnCluster = Cluster
+com.vmware.vsan.health.test.vum.vumrecommendation.testResult.columnRecommendation = Recommendation
+com.vmware.vsan.health.test.vum.vumrecommendation.recommendationAvailable = Cluster {cluster} has a recommended release: {release}
+
+com.vmware.vsan.vum.error.incorrectCredential = Incorrect my.vmware.com login credentials. Please retry login with proper credentials. Baselines will be generated, if applicable, in around 1 minute or so.
+com.vmware.vsan.vum.error.isoDepotIsDown = VMware ISO download site is down, please retry later.
+
+
+# FW checks
+com.vmware.vsan.health.test.fwupdate.fwrecommendation = vSAN firmware recommendation. This is firmware suggestion based on the current on host software version, hardware driver version and its compatibility per VMware Compatibility Guide.
+com.vmware.vsan.health.test.fwupdate.fwrecommendation.short = vSAN firmware recommendation based on the VCG.
+com.vmware.vsan.health.test.fwupdate.fwrecommendation.testName = vSAN firmware version recommendation
+com.vmware.vsan.health.test.fwupdate.fwrecommendation.testResult.label = vSAN firmware version recommendation
+com.vmware.vsan.health.test.fwupdate.fwrecommendation.testResult.columnHost = Host
+com.vmware.vsan.health.test.fwupdate.fwrecommendation.testResult.columnRecommendation = Recommendation
+com.vmware.vsan.health.test.fwupdate.fwrecommendation.recommendationAvailable = Host {host} require firmware update: {recommendations}

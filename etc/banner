@@ -1,0 +1,4 @@
+#!/bin/sh
+echo "[2J      ${INDENTATION:-}[01;33mESXi 6.7.0 [01;34mhttp://www.vmware.com[00;00m
+      ${INDENTATION:-}Copyright (c) 2007-2018 VMware, Inc."
+

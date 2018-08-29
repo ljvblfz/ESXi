@@ -1,0 +1,38 @@
+<div ng-class="{'esx-main-content': !nested}">
+
+   <div ng-show="!loaded" class="loading">
+   </div>
+
+   <div ng-show="loaded" class="row header-area no-margin">
+      <div class="col-sm-9 info-block no-padding">
+         <div class="row">
+            <div ng-if="!currentAdapter" vui-action-bar="actionBarOptions" class="col-sm-12 col-lg-12"></div>
+         </div>
+         <div class="identifying-graphic col-sm-4 col-lg-3">
+            <img src="images/storage/objAdapter.png" alt="{{'storage.adapter.summary.alt'|translate}}" style="width: 60px; margin: 0 10px 20px 0;"/>
+         </div>
+         <div class="key-information col-sm-8 col-lg-9">
+            <div class="row">
+               <div class="col-sm-12 title no-padding">
+                  <span class="object-title" ng-bind="currentAdapter.device"></span>
+               </div>
+            </div>
+            <form class="form-horizontal">
+               <div class="form-group">
+                  <span class="col-sm-3 col-lg-3 control-label esx-label no-padding">{{'storage.adapter.summary.model' | translate}}</span>
+                  <div class="col-sm-8 col-lg-8 no-padding">
+                     <p class="form-control-static">{{currentAdapter.model}}</p>
+                  </div>
+               </div>
+               <div class="form-group">
+                  <span class="col-sm-3 col-lg-3 control-label esx-label no-padding">{{'storage.adapter.summary.driver' | translate}}</span>
+                  <div class="col-sm-8 col-lg-8 no-padding">
+                     <p class="form-control-static">{{currentAdapter.driver}}</p>
+                  </div>
+               </div>
+            </form>
+         </div>
+      </div>
+   </div>
+
+</div>

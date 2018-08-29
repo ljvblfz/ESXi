@@ -1,0 +1,98 @@
+<div ng-class="{'esx-main-content': !nested}">
+   <div ng-show="!loaded" class="loading">
+   </div>
+
+   <div ng-if="loaded && !nested" vui-action-bar="vmknicActionBarOptions" style="margin-bottom: 20px;"></div>
+
+   <div ng-show="loaded" class="row header-area no-margin">
+      <div class="col-sm-9 info-block no-padding">
+         <div class="identifying-graphic col-sm-4 col-lg-3">
+            <img src="images/network/obj-vmknic.png" style="width: 60px;
+               margin: 0 10px 20px 0;" alt="{{'network.vmknic.alt' | translate}}"/>
+         </div>
+         <div class="key-information col-sm-8 col-lg-9">
+            <div class="row">
+               <div class="col-sm-12 title no-padding">
+                  <span class="object-title" ng-bind="currentVMKNIC.device"></span>
+               </div>
+            </div>
+            <form class="form-horizontal">
+               <div ng-if="currentVMKNIC && currentVMKNIC.vswitch" class="form-group">
+                  <span
+                     class="col-sm-2 col-lg-2 control-label esx-label no-padding">{{'network.vmknic.summary.virtualSwitch' | translate}}</span>
+                  <div class="col-sm-8 col-lg-8 no-padding">
+                     <p class="form-control-static">
+                        <a href="#/host/networking/vswitches/{{currentVMKNIC.vswitch.moid}}">
+                           <em style="height: 12px; background-position: 0 -2px; margin: -2px 3px 0px 0; left: 10px;" class="esx-icon-network-standard-switch"></em>{{currentVMKNIC.vswitch.name}}</a>
+                     </p>
+                  </div>
+               </div>
+               <div ng-if="currentVMKNIC && currentVMKNIC.portgroupMoid" class="form-group">
+                  <span
+                     class="col-sm-2 col-lg-2 control-label esx-label no-padding">{{'network.vmknic.summary.portGroup' | translate}}</span>
+                  <div class="col-sm-8 col-lg-8 no-padding">
+                     <p class="form-control-static">
+                        <a href="#/host/networking/portgroups/{{currentVMKNIC.portgroupMoid}}">
+                           <em style="margin: 0px 3px 0px 0; left: 10px;" class="esx-icon-networking"></em>{{currentVMKNIC.portgroupName}}</a>
+                     </p>
+                  </div>
+               </div>
+            </form>
+         </div>
+      </div>
+      <div class="col-sm-3 metrics">&nbsp;</div>
+   </div>
+
+   <div ng-if="!nested" ng-show="loaded" class="portlet-area container-fluid no-margin no-padding">
+      <div class="row">
+         <div class="col-lg-6 col-sm-12">
+            <div class="vui-portlet no-margin" ng-class="{'collapsed': vmknicPortlet.collapsed}">
+               <div class="portlet-titlebar" ng-click="vmknicPortlet.toggle()">
+                  <span class="icon" ng-class="{
+                     'vui-icon-caret-dark-gray-right': vmknicPortlet.collapsed,
+                     'vui-icon-caret-dark-gray-down': !vmknicPortlet.collapsed}"></span>
+                  <span class="titlebar-text"
+                        title="{{'network.vmknic.summary.tcpIpConfiguration' | translate}}">
+                     {{'network.vmknic.summary.tcpIpConfiguration' | translate}}</span>
+               </div>
+               <div class="portlet-content">
+                  <div esx-portlet-content data="vmknicPortlet.data"></div>
+               </div>
+            </div>
+         </div>
+         <div class="col-lg-6 col-sm-12" ng-if="showTopo">
+            <div class="vui-portlet no-margin" ng-class="{'collapsed': vswitchDiagramPortlet.collapsed}">
+               <div class="portlet-titlebar" ng-click="vswitchDiagramPortlet.toggle()">
+                  <span class="icon" ng-class="{
+                     'vui-icon-caret-dark-gray-right': vswitchDiagramPortlet.collapsed,
+                     'vui-icon-caret-dark-gray-down': !vswitchDiagramPortlet.collapsed}"></span>
+                  <span class="titlebar-text"
+                        title="{{'network.vmknic.summary.vswitchTopology' | translate}}">
+                     {{'network.vmknic.summary.vswitchTopology' | translate}}</span>
+               </div>
+               <div class="portlet-content">
+                  <div esx-vswitch-diagram data="vswitch"></div>
+               </div>
+            </div>
+         </div>
+      </div>
+
+      <div class="row">
+         <div class="col-lg-6 col-sm-12">
+            <div class="vui-portlet no-margin" ng-class="{'collapsed': servicePortlet.collapsed}">
+               <div class="portlet-titlebar" ng-click="servicePortlet.toggle()">
+                  <span class="icon" ng-class="{
+                     'vui-icon-caret-dark-gray-right': servicePortlet.collapsed,
+                     'vui-icon-caret-dark-gray-down': !servicePortlet.collapsed}"></span>
+                  <span class="titlebar-text"
+                        title="{{'network.vmknic.summary.services' | translate}}">
+                     {{'network.vmknic.summary.services' | translate}}</span>
+               </div>
+               <div class="portlet-content">
+                  <div esx-portlet-content data="servicePortlet.data"></div>
+               </div>
+            </div>
+         </div>
+      </div>
+   </div>
+</div>

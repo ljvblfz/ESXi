@@ -1,0 +1,153 @@
+# en_US resources
+signature="sIgNaTuRe"
+
+# vSphere Replication enums
+hbr.primary.ReasonForDeltaAbort.fileTransfer.label                = "File transfer failed"
+hbr.primary.ReasonForDeltaAbort.fileTransfer.summary              = "The configuration files could not be transferred."
+hbr.primary.ReasonForDeltaAbort.filter.label                      = "Filter failed"
+hbr.primary.ReasonForDeltaAbort.filter.summary                    = "The VR filter operation failed."
+hbr.primary.ReasonForDeltaAbort.quiesceApps.label                 = "Application quiesce failed"
+hbr.primary.ReasonForDeltaAbort.quiesceApps.summary               = "The application quiescing failed in the guest."
+hbr.primary.ReasonForDeltaAbort.quiesceFS.label                   = "File system quiesce failed"
+hbr.primary.ReasonForDeltaAbort.quiesceFS.summary                 = "The file system quiescing failed in the guest."
+hbr.primary.ReasonForDeltaAbort.paused.label                      = "User paused"
+hbr.primary.ReasonForDeltaAbort.paused.summary                    = "The user paused the replication."
+hbr.primary.ReasonForDeltaAbort.offline.label                     = "Virtual machine powered off"
+hbr.primary.ReasonForDeltaAbort.offline.summary                   = "The virtual machine is being powered off."
+hbr.primary.ReasonForDeltaAbort.diskNeedsSync.label               = "Disk needs sync"
+hbr.primary.ReasonForDeltaAbort.diskNeedsSync.summary             = "The disk needs full resync."
+hbr.primary.ReasonForDeltaAbort.userAbort.label                   = "User abort"
+hbr.primary.ReasonForDeltaAbort.userAbort.summary                 = "The user aborted the replication."
+hbr.primary.ReasonForDeltaAbort.quiesceUncommitted.label          = "Incomplete quiesce"
+hbr.primary.ReasonForDeltaAbort.quiesceUncommitted.summary        = "The quiescing operation could not be completed."
+hbr.primary.ReasonForDeltaAbort.configurationChanged.label        = "Configuration changed"
+hbr.primary.ReasonForDeltaAbort.configurationChanged.summary      = "Virtual machine configuration changed during replication."
+hbr.primary.ReasonForDeltaAbort.serverAborted.label               = "Server aborted."
+hbr.primary.ReasonForDeltaAbort.serverAborted.summary             = "Instance aborted by VR Server."
+hbr.primary.ReasonForDeltaAbort.diskSetMismatch.label             = "Disk Set Mismatch"
+hbr.primary.ReasonForDeltaAbort.diskSetMismatch.summary           = "The set of disks configured on the VR Server does not match the replicated disks."
+#
+hbr.primary.ReasonForNoServerConnection.noNetwork.label           = "Network"
+hbr.primary.ReasonForNoServerConnection.noNetwork.summary         = "No network."
+hbr.primary.ReasonForNoServerConnection.notResponding.label       = "Not responding"
+hbr.primary.ReasonForNoServerConnection.notResponding.summary     = "VR Server not responding."
+hbr.primary.ReasonForNoServerConnection.protocolMismatch.label    = "Protocol mismatch"
+hbr.primary.ReasonForNoServerConnection.protocolMismatch.summary  = "Incompatible VR Server version."
+hbr.primary.ReasonForNoServerConnection.noMemory.label            = "No memory"
+hbr.primary.ReasonForNoServerConnection.noMemory.summary          = "No memory for kernel module"
+hbr.primary.ReasonForNoServerConnection.diskSizeMismatch.label    = "Disk size mismatch"
+hbr.primary.ReasonForNoServerConnection.diskSizeMismatch.summary  = "Disk size mismatch between primary VM and VR server"
+hbr.primary.ReasonForNoServerConnection.unknown.label             = "Unknown"
+hbr.primary.ReasonForNoServerConnection.unknown.summary           = "Unknown."
+#
+hbr.primary.ReasonForNoServerProgress.noGroupOnServer.label       = "VM not configured on server"
+hbr.primary.ReasonForNoServerProgress.noGroupOnServer.summary     = "This VM is not configured on the VR Server."
+hbr.primary.ReasonForNoServerProgress.diskSetMismatch.label       = "Disk set mismatch"
+hbr.primary.ReasonForNoServerProgress.diskSetMismatch.summary     = "Mismatch between the set of replicated disks and the set of configured disks on the server."
+hbr.primary.ReasonForNoServerProgress.unknown.label               = "Unknown"
+hbr.primary.ReasonForNoServerProgress.unknown.summary             = "Unknown."
+#
+hbr.primary.ReasonForPausedReplication.diskAdded.label            = "Disk added to VM"
+hbr.primary.ReasonForPausedReplication.diskAdded.summary          = "A disk was added to the virtual machine."
+#
+hbr.primary.ReasonForAppQuiesceFailure.diskUUIDNotEnabled.label   = "disk UUID is not enabled"
+hbr.primary.ReasonForAppQuiesceFailure.diskUUIDNotEnabled.summary = "The virtual machine configuration does not have disk UUID enabled."
+hbr.primary.ReasonForAppQuiesceFailure.hasIDEDisks.label          = "the virtual machine has IDE or SATA disks"
+hbr.primary.ReasonForAppQuiesceFailure.hasIDEDisks.summary        = "Application quiescing is not supported for virtual machines with IDE or SATA disks."
+hbr.primary.ReasonForAppQuiesceFailure.hasIndependentDisks.label  = "the virtual machine has independent disks"
+hbr.primary.ReasonForAppQuiesceFailure.hasIndependentDisks.summary = "Application quiescing is not supported for virtual machines with independent disks."
+hbr.primary.ReasonForAppQuiesceFailure.notEnoughFreeSlots.label   = "not enough free SCSI slots"
+hbr.primary.ReasonForAppQuiesceFailure.notEnoughFreeSlots.summary = "The virtual machine does not have enough free SCSI slots to perform application quiescing."
+hbr.primary.ReasonForAppQuiesceFailure.guestConfigIssue.label     = "unsuported guest configuration such as dynamic disks"
+hbr.primary.ReasonForAppQuiesceFailure.guestConfigIssue.summary   = "Application quiescing is not supported in some guest configurations such as dynamic disks."
+# vSphere replication enums end here
+
+# guest operation enums
+com.vmware.vc.guestOp.ValidateCredentialsInGuest.label = "Validate Credentials"
+com.vmware.vc.guestOp.ValidateCredentialsInGuest.summary = "Validate user credentials in the guest operating system>"
+#
+com.vmware.vc.guestOp.AcquireCredentialsInGuest.label = "Acquire Credentials "
+com.vmware.vc.guestOp.AcquireCredentialsInGuest.summary = "Acquire user credentials in the guest operating system>"
+#
+com.vmware.vc.guestOp.ReleaseCredentialsInGuest.label = "Release Credentials "
+com.vmware.vc.guestOp.ReleaseCredentialsInGuest.summary = "Release user credentials in the guest operating system>"
+#
+com.vmware.vc.guestOp.StartProgramInGuest.label = "Start Program"
+com.vmware.vc.guestOp.StartProgramInGuest.summary = "Start a program in the guest operating system."
+#
+com.vmware.vc.guestOp.ListProcessesInGuest.label = "List Processes"
+com.vmware.vc.guestOp.ListProcessesInGuest.summary = "List processes in the guest operating system."
+#
+com.vmware.vc.guestOp.TerminateProcessInGuest.label = "Terminate Process"
+com.vmware.vc.guestOp.TerminateProcessInGuest.summary = "Terminate a process in the guest operating system."
+#
+com.vmware.vc.guestOp.ReadEnvironmentVariableInGuest.label = "Read Environment Variables."
+com.vmware.vc.guestOp.ReadEnvironmentVariableInGuest.summary = "Read environment variables in the guest operating system."
+#
+com.vmware.vc.guestOp.MakeDirectoryInGuest.label = "Make Directory"
+com.vmware.vc.guestOp.MakeDirectoryInGuest.summary = "Make a directory in the guest operating system."
+#
+com.vmware.vc.guestOp.DeleteFileInGuest.label = "Delete File"
+com.vmware.vc.guestOp.DeleteFileInGuest.summary = "Delete a file in the guest operating system."
+#
+com.vmware.vc.guestOp.DeleteDirectoryInGuest.label = "Delete Directory"
+com.vmware.vc.guestOp.DeleteDirectoryInGuest.summary = "Delete a directory in the guest operating system."
+#
+com.vmware.vc.guestOp.MoveDirectoryInGuest.label = "Move Directory"
+com.vmware.vc.guestOp.MoveDirectoryInGuest.summary = "Move a directory in the guest operating system."
+#
+com.vmware.vc.guestOp.MoveFileInGuest.label = "Move File"
+com.vmware.vc.guestOp.MoveFileInGuest.summary = "Move a file in the guest operating system."
+#
+com.vmware.vc.guestOp.CreateTemporaryFileInGuest.label = "Create Temporary File"
+com.vmware.vc.guestOp.CreateTemporaryFileInGuest.summary = "Create a temporary file in the guest operating system."
+#
+com.vmware.vc.guestOp.CreateTemporaryDirectoryInGuest.label = "Create Temporary Directory"
+com.vmware.vc.guestOp.CreateTemporaryDirectoryInGuest.summary = "Create a temporary directory in the guest operating system."
+#
+com.vmware.vc.guestOp.ListFilesInGuest.label = "List Files"
+com.vmware.vc.guestOp.ListFilesInGuest.summary = "List files in the guest operating system."
+#
+com.vmware.vc.guestOp.ChangeFileAttributesInGuest.label = "Change File Attributes"
+com.vmware.vc.guestOp.ChangeFileAttributesInGuest.summary = "Change the attributes of a file in the guest operating system."
+#
+com.vmware.vc.guestOp.InitiateFileTransferFromGuest.label = "Initiate File Transfer From Guest"
+com.vmware.vc.guestOp.InitiateFileTransferFromGuest.summary = "Initiate a file transfer from the guest operating system."
+#
+com.vmware.vc.guestOp.InitiateFileTransferToGuest.label = "Initiate File Transfer To Guest"
+com.vmware.vc.guestOp.InitiateFileTransferToGuest.summary = "Initiate a file transfer to the guest operating system."
+#
+com.vmware.vc.guestOp.AddAlias.label = "Add Alias"
+com.vmware.vc.guestOp.AddAlias.summary = "Add an authentication alias to the guest operating system."
+#
+com.vmware.vc.guestOp.RemoveAlias.label = "Remove Alias"
+com.vmware.vc.guestOp.RemoveAlias.summary = "Remove an authentication alias from the guest operating system."
+#
+com.vmware.vc.guestOp.RemoveAliasByCert.label = "Remove Alias By Cert"
+com.vmware.vc.guestOp.RemoveAliasByCert.summary = "Remove an all authentication aliases associated with a certificate from the guest operating system."
+#
+com.vmware.vc.guestOp.ListGuestAliases.label = "List Aliases"
+com.vmware.vc.guestOp.ListGuestAliases.summary = "List authentication aliases in the guest operating system."
+#
+com.vmware.vc.guestOp.ListGuestMappedAliases.label = "List Mapped Aliases"
+com.vmware.vc.guestOp.ListGuestMappedAliases.summary = "List mapped authentication Aliases in the guest operating system."
+#
+com.vmware.vc.guestOp.CreateRegistryKey.label = "Create Windows Registry Key"
+com.vmware.vc.guestOp.CreateRegistryKey.summary = "Create Windows registry key in the guest operating system."
+#
+com.vmware.vc.guestOp.ListRegistryKeys.label = "List Windows Registry Keys"
+com.vmware.vc.guestOp.ListRegistryKeys.summary = "List Windows registry keys in the guest operating system."
+#
+com.vmware.vc.guestOp.DeleteRegistryKey.label = "Delete Windows Registry Key"
+com.vmware.vc.guestOp.DeleteRegistryKey.summary = "Delete Windows registry key in the guest operating system."
+#
+com.vmware.vc.guestOp.SetRegistryValue.label = "Set Windows Registry Value"
+com.vmware.vc.guestOp.SetRegistryValue.summary = "Set Windows registry value in the guest operating system."
+#
+com.vmware.vc.guestOp.ListRegistryValues.label = "List Windows Registry Values"
+com.vmware.vc.guestOp.ListRegistryValues.summary = "List Windows registry values in the guest operating system."
+#
+com.vmware.vc.guestOp.DeleteRegistryValue.label = "Delete Windows Registry Value"
+com.vmware.vc.guestOp.DeleteRegistryValue.summary = "Delete Windows registry value in the guest operating system."
+#
+# guest operation enums end here

@@ -1,0 +1,53 @@
+<?xml version="1.0"?>
+<plugin xmlns="http://www.vmware.com/Products/ESX/5.0/esxcli/">
+   <version>1.0.0</version>
+
+   <namespaces>
+      <namespace path="softwareinternal">
+         <description>Manage the ESXi software image and packages but not are not exposed to the end users</description>
+      </namespace>
+      <namespace path="softwareinternal.profile">
+         <description>Operations related with a profile.</description>
+       </namespace>
+   </namespaces>
+
+   <commands>
+      <command path="softwareinternal.profile.getvibmap">
+         <description>Gets a mapping for each of the payload local filename to its corresponding vib name.</description>
+         <input-spec  />
+         <output-spec>
+            <list type="structure">
+               <structure typeName="MapSummary">
+                   <field  name="PayloadName">
+                      <string />
+                    </field>
+                    <field name="VibID">
+                        <string />
+                     </field>
+                 </structure>
+            </list>
+         </output-spec>
+         <format-parameters>
+            <formatter>table</formatter>
+            <format-parameter name="table-columns">PayloadName,VibID</format-parameter>
+            <format-parameter name="header:MapSummary">%PayloadName%</format-parameter>
+            <format-parameter  name="fields:MapSummary">PayloadName,VibID</format-parameter>
+            <format-parameter name="show-header">true</format-parameter>
+         </format-parameters>
+         <execute>/usr/lib/vmware/esxcli/int/esxcli-softwareinternal profile.getvibmap</execute>
+      </command>
+
+      <command path="softwareinternal.profile.setacceptance">
+         <description>Sets the acceptance level of the host to that of the installed image profile if the host's acceptance is not already set.</description>
+         <input-spec  />
+         <output-spec>
+            <string />
+         </output-spec>
+         <format-parameters>
+            <formatter>simple</formatter>
+         </format-parameters>
+         <execute>/usr/lib/vmware/esxcli/int/esxcli-softwareinternal profile.setacceptance</execute>
+      </command>
+   </commands>
+
+</plugin>

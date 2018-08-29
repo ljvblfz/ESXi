@@ -1,0 +1,306 @@
+<!-- CPU configuration -->
+<div
+   ng-class="{
+      'stack-warning': cpu.ReservationInvalid ||
+         cpu.LimitInvalid ||
+         cpu.SharesValueInvalid ||
+         cpu.SchedulingAffinityInvalid
+   }"
+   vui-stack-block="hardwareStackView.cpuBlock">
+
+   <!-- Icon -->
+   <span vui-sb-icon-class="icon-stackview-cpu"
+      vui-sb-label>{{'vm.wizard.hardware.virtualhardware.cpu.label' | translate}}
+
+      <span class="vui-icon-warning vui-icon-info-inline"
+         ng-show="wizardOptions.data.general.isManagedByVC"
+         vui-sign-post="isManagedByVCPostOptions"></span>
+
+   </span>
+
+   <!-- content collapsed-->
+   <div vui-sb-content>
+      <label class="label-508"
+         title="{{'vm.wizard.hardware.virtualhardware.cpu.label' | translate}}">
+
+         <div class="stack-dropdown inline"
+            focus-me="true"
+            vui-dropdown="cpu.CPU"></div>
+
+      </label>
+
+      <div class="inline">
+         <span class="vui-icon-info vui-icon-info-inline esx-stack-valign-tall"
+            vui-sign-post="cpu.cpuSignPostOptions"></span>
+      </div>
+   </div>
+
+   <!-- content expanded -->
+   <div vui-sb-content-expanded>
+      <label class="label-508"
+         title="{{'vm.wizard.hardware.virtualhardware.cpu.label' | translate}}">
+
+         <div class="stack-dropdown inline"
+            vui-dropdown="cpu.CPU"></div>
+
+      </label>
+
+      <div class="inline">
+         <span class="vui-icon-info vui-icon-info-inline esx-stack-valign-tall"
+            vui-sign-post="cpu.cpuSignPostOptions"></span>
+      </div>
+   </div>
+
+   <!-- children -->
+   <div vui-stack-block>
+      <!-- Label -->
+      <span vui-sb-label>{{'vm.wizard.hardware.virtualhardware.cpu.cores.label' | translate}}</span>
+
+      <!-- content -->
+      <div vui-sb-content>
+         <label class="label-508"
+            title="{{'vm.wizard.hardware.virtualhardware.cpu.cores.label' | translate}}">
+
+            <div class="stack-dropdown inline"
+               vui-dropdown="cpu.CoresPerSocket"></div>
+
+         </label>
+
+         <p class="inline esx-stack-valign-tall">
+            <span>{{'vm.wizard.hardware.virtualhardware.cpu.cores.desc' | translate}}
+               {{cpu.Sockets}}</span>
+         </p>
+      </div>
+   </div>
+
+   <div vui-stack-block>
+      <!-- Label -->
+      <span vui-sb-label>{{'vm.wizard.hardware.virtualhardware.cpu.hotPlug.label' | translate}}</span>
+
+      <!-- content -->
+      <div vui-sb-content>
+         <label
+            ng-class="{
+               'label-disabled': !wizardOptions.data.ConfigOptionsOS.supportsCpuHotAdd ||
+                  wizardOptions.data.general.state !== 'poweredOff'
+            }"
+            title="{{'vm.wizard.hardware.virtualhardware.cpu.hotPlug.label' | translate}}">
+
+            <input
+               ng-disabled="
+                  !wizardOptions.data.ConfigOptionsOS.supportsCpuHotAdd ||
+                  wizardOptions.data.general.state !== 'poweredOff'"
+               ng-model="wizardOptions.data.cpu.CPUHotPlug"
+               type="checkbox"/>
+            {{'vm.wizard.hardware.virtualhardware.cpu.hotPlug.desc' | translate}}
+
+         </label>
+      </div>
+   </div>
+
+   <div vui-stack-block>
+      <!-- Label -->
+      <span vui-sb-label>{{'vm.wizard.hardware.virtualhardware.cpu.reservation.label' | translate}}</span>
+      <!-- content -->
+      <div vui-sb-content>
+         <label class="label-508"
+            title="{{'vm.wizard.hardware.virtualhardware.cpu.reservation.label' | translate}}">
+
+            <div class="stack-dropdown inline"
+               ng-class="{
+                  'invalid': cpu.ReservationInvalid
+               }"
+               vui-combo-box="cpu.Reservation"></div>
+
+         </label>
+
+         <label class="label-508"
+            title="{{'vm.wizard.hardware.virtualhardware.cpu.reservation.unit' | translate}}">
+
+            <div class="stack-dropdown stack-spacer inline"
+               vui-dropdown="cpu.ReservationUnit"></div>
+
+         </label>
+      </div>
+   </div>
+
+   <div vui-stack-block>
+      <!-- Label -->
+      <span vui-sb-label>{{'vm.wizard.hardware.virtualhardware.cpu.limit.label' | translate}}</span>
+
+      <!-- content -->
+      <div vui-sb-content>
+         <label class="label-508"
+            title="{{'vm.wizard.hardware.virtualhardware.cpu.limit.label' | translate}}">
+
+            <div class="stack-dropdown inline"
+               ng-class="{
+                  'invalid': cpu.LimitInvalid
+               }"
+               vui-combo-box="cpu.Limit"></div>
+
+         </label>
+
+         <label class="label-508"
+            title="{{'vm.wizard.hardware.virtualhardware.cpu.limit.unit' | translate}}">
+
+            <div class="stack-dropdown stack-spacer inline"
+               vui-dropdown="cpu.LimitUnit"></div>
+
+         </label>
+      </div>
+   </div>
+
+   <div vui-stack-block>
+      <!-- Label -->
+      <span vui-sb-label>{{'vm.wizard.hardware.virtualhardware.cpu.shares.label' | translate}}</span>
+
+      <!-- content -->
+      <div vui-sb-content>
+         <label class="label-508"
+            title="{{'vm.wizard.hardware.virtualhardware.cpu.shares.label' | translate}}">
+
+            <div class="stack-dropdown inline"
+               vui-dropdown="cpu.SharesType"></div>
+
+         </label>
+
+         <label class="label-508"
+            title="{{'vm.wizard.hardware.virtualhardware.cpu.shares.unit' | translate}}">
+
+            <div class="stack-dropdown stack-spacer inline"
+               ng-class="{
+                  'invalid': cpu.SharesValueInvalid
+               }"
+               vui-combo-box="cpu.SharesValue"></div>
+         </label>
+      </div>
+   </div>
+
+   <div vui-stack-block>
+      <!-- Label -->
+      <span vui-sb-label>{{'vm.wizard.hardware.virtualhardware.cpu.hardwareVirtualization.label' | translate}}</span>
+
+      <!-- content -->
+      <div vui-sb-content>
+         <label
+            ng-class="{
+               'label-disabled': wizardOptions.data.general.state !== 'poweredOff'
+            }"
+            title="{{'vm.wizard.hardware.virtualhardware.cpu.hardwareVirtualization.label' | translate}}">
+
+            <input
+               ng-disabled="wizardOptions.data.general.state !== 'poweredOff' || wizardOptions.data.vm.vbsEnabled"
+               ng-model="wizardOptions.data.cpu.HardwareVirtualization"
+               type="checkbox"/>
+            {{'vm.wizard.hardware.virtualhardware.cpu.hardwareVirtualization.desc' | translate}}
+
+         </label>
+
+         <div class="inline">
+            <span class="vui-icon-info vui-icon-info-inline"
+               vui-sign-post="cpu.hardwareVirtualizationSignPostOptions"></span>
+         </div>
+      </div>
+   </div>
+
+   <div vui-stack-block ng-show="wizardOptions.data.general.VMHardwareVersion >= 14 && wizardOptions.data.vm.vvtdSupported">
+      <!-- Label -->
+      <span vui-sb-label>{{'vm.wizard.hardware.virtualhardware.cpu.vvtd.label' | translate}}</span>
+
+      <!-- content -->
+      <div vui-sb-content>
+         <label
+            ng-class="{
+               'label-disabled': wizardOptions.data.general.state !== 'poweredOff'
+            }"
+            title="{{'vm.wizard.hardware.virtualhardware.cpu.vvtd.label' | translate}}">
+
+            <input
+               ng-disabled="wizardOptions.data.general.state !== 'poweredOff' || wizardOptions.data.vm.vbsEnabled"
+               ng-model="wizardOptions.data.vm.vvtdEnabled"
+               type="checkbox"/>
+            {{'vm.wizard.hardware.virtualhardware.cpu.vvtd.desc' | translate}}
+
+         </label>
+      </div>
+   </div>
+
+   <div vui-stack-block>
+      <!-- Label -->
+      <span vui-sb-label>{{'vm.wizard.hardware.virtualhardware.cpu.performanceCounters.label' | translate}}</span>
+
+      <!-- content -->
+      <div vui-sb-content>
+         <label
+            ng-class="{
+               'label-disabled': wizardOptions.data.general.state !== 'poweredOff'
+            }"
+            title="{{'vm.wizard.hardware.virtualhardware.cpu.performanceCounters.label' | translate}}">
+
+            <input
+               ng-disabled="wizardOptions.data.general.state !== 'poweredOff'"
+               ng-model="wizardOptions.data.cpu.PerformanceCounters"
+               type="checkbox"/>
+            {{'vm.wizard.hardware.virtualhardware.cpu.performanceCounters.desc' | translate}}
+
+         </label>
+      </div>
+   </div>
+
+   <div vui-stack-block>
+      <!-- Label -->
+      <span vui-sb-label>{{'vm.wizard.hardware.virtualhardware.cpu.schedulingAffinity.label' | translate}}</span>
+
+      <!-- content -->
+      <div vui-sb-content>
+         <form class="form-horizontal">
+            <div class="form-group">
+               <span>{{'vm.wizard.hardware.virtualhardware.cpu.schedulingAffinity.hyper' | translate}}</span>
+               <span>{{cpu.HyperthreadingStatus}}</span>
+            </div>
+
+            <div class="form-group">
+               <span>{{'vm.wizard.hardware.virtualhardware.cpu.schedulingAffinity.available' | translate}}</span>
+               <span>{{cpu.LogicalProcessors}}
+                  {{'vm.wizard.hardware.virtualhardware.cpu.schedulingAffinity.logical' | translate}}</span>
+            </div>
+         </form>
+
+         <input
+            class="form-control inline"
+            id="vmCPUAffinity"
+            ng-class="{
+               'invalid': cpu.SchedulingAffinityInvalid
+            }"
+            ng-model="cpu.SchedulingAffinity"
+            placeholder="0, 2, 4-7"
+            title="{{'vm.wizard.hardware.virtualhardware.cpu.schedulingAffinity.value' | translate}}"
+            type="text"/>
+
+         <span class="vui-icon-info vui-icon-info-inline"
+            vui-sign-post="cpu.SchedulingAffinitySignPostOptions"></span>
+      </div>
+   </div>
+
+   <div vui-stack-block ng-show="cpu.CPUMMU.show">
+      <!-- Label -->
+      <span vui-sb-label>{{'vm.wizard.hardware.virtualhardware.cpu.cpuMmuVirtualization.label' | translate}}</span>
+
+      <!-- content -->
+      <div vui-sb-content>
+         <label class="label-508"
+            title="{{'vm.wizard.hardware.virtualhardware.cpu.cpuMmuVirtualization.label' | translate}}">
+
+            <div class="stack-dropdown inline"
+               id="vmCPUMMU"
+               vui-dropdown="cpu.CPUMMU"></div>
+
+         </label>
+
+         <span class="vui-icon-info vui-icon-info-inline esx-stack-valign-tall"
+            vui-sign-post="cpu.CPUMMUSignPostOptions"></span>
+      </div>
+   </div>
+</div>
+

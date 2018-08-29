@@ -1,0 +1,22 @@
+#!/bin/sh
+
+censor_password()
+{
+   CENSOR_CMD="/usr/lib/vmware/vm-support/bin/extract_hp_docs.py"
+   ETC_DIR="/etc/vmware"
+   if [ -f $ETC_DIR/$1 ]; then
+      $CENSOR_CMD $ETC_DIR/$1 > $ETC_DIR/${1/.gz/}
+      gzip -f $ETC_DIR/${1/.gz/}
+      chmod 400 $ETC_DIR/$1
+   fi
+}
+
+if [ -f /etc/vmware/hostprofile.xml ] || [ -f /etc/vmware/hostprofile.xml.gz ]; then
+   /sbin/applyHostProfile --postbootinit ||
+      /bin/logger -t host-profiles "Host profile application failed.  Please see system logs for more information"
+   # Once host profile is applied, the host profile docs won't be used later.
+   # But we want to preserve it for debugging purpose. So censoring all PasswordField.
+   censor_password hostprofile.xml.gz
+   censor_password answerfile.xml.gz
+fi
+

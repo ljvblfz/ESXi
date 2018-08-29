@@ -1,0 +1,86 @@
+#!/bin/sh
+# chkconfig: off 18 82
+
+# variables
+export PATH=/bin:/sbin
+
+PCSCD=/bin/pcscd
+PCSCD_TAG=pcscd
+PCSCD_GROUP="pcscd"
+PCSCD_MEM_SIZE=32
+CONFIG_RP=/usr/lib/vmware/rp/bin/configRP
+
+PCSCD_PID="$(pidof -xs ${PCSCD})"
+
+start() {
+   if [ -z "${PCSCD_PID}" ] ; then
+      ${CONFIG_RP} setRPMemMaxSize ${PCSCD_GROUP} ${PCSCD_MEM_SIZE}
+      if [ $? -ne 0 ]; then
+         echo "error: cannot increase ${PCSCD_TAG}'s memory reservation."
+         exit 1
+      fi
+
+      /sbin/watchdog.sh ++memreliable,group=${PCSCD_GROUP} -d -s "${PCSCD_TAG}" "${PCSCD}" -f >/dev/null 2>&1
+      echo "${PCSCD_TAG} started"
+   else
+      echo "${PCSCD_TAG} already running"
+   fi
+}
+
+stop() {
+   if [ -n "${PCSCD_PID}" ] ; then
+      # This only stops the watchdog process.
+      /sbin/watchdog.sh -k "${PCSCD_TAG}"
+
+      pkill -9 "${PCSCD_TAG}"
+
+      # Wait for pcscd to terminate, but no more than 10 seconds.
+      local TIMEOUT=1000
+      while [ $((TIMEOUT--)) -gt 0  -a  -n "$(pidof -xs ${PCSCD})" ]; do
+         usleep 10000
+      done
+      if [ $TIMEOUT -eq 0 ] ; then
+         echo "error: cannot kill ${PCSCD_TAG}"
+         exit 1
+      fi
+
+      echo "${PCSCD_TAG} stopped"
+   else
+      echo "${PCSCD_TAG} is not running"
+   fi
+
+   ${CONFIG_RP} setRPMemMaxSize ${PCSCD_GROUP} 0
+   if [ $? -ne 0 ]; then
+      echo "error: cannot clear ${PCSCD_TAG}'s memory reservation."
+      exit 1
+   fi
+}
+
+#
+# main
+#
+case "${1}" in
+   "start")
+      start
+   ;;
+   "stop")
+      stop
+   ;;
+   "status")
+      if [ -n "${PCSCD_PID}" ] ; then
+         echo "${PCSCD_TAG} is running"
+         exit 0
+      else
+         echo "${PCSCD_TAG} is not running"
+         exit 3
+      fi
+   ;;
+   "restart")
+      stop
+      start
+   ;;
+   *)
+      echo "Usage: $(basename ${0}) {start|stop|status|restart}"
+      exit 1
+   ;;
+esac

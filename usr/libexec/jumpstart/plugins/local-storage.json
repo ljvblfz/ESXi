@@ -1,0 +1,67 @@
+/***********************************************************
+ * Copyright 2010-2012,2014-2015 VMware, Inc.  All rights reserved.
+ * VMware Confidential
+ ***********************************************************/
+
+{
+   "operations" :
+   {
+      "start" :
+      [
+         "system module load --module dm",
+         "system module load --module nmp",
+         "system module load --module hpp",
+
+         "system module load --module vmw_satp_local",
+         "system module load --module vmw_satp_default_aa",
+
+         /* order is important since all psp modules depend on psp_lib */
+         "system module load --module vmw_psp_lib",
+         "system module load --module vmw_psp_fixed",
+         "system module load --module vmw_psp_rr",
+         "system module load --module vmw_psp_mru",
+
+         /*
+          * The rules are currently built up by release, inserted and then
+          * deleted and reinserted.  The storage team will consolidate the list
+          * in a later changeset.  See bug #551829 for more details.
+          */
+         // First unconditionally load the default local rules for ESX 4.0
+         "storage nmp satp rule add --satp VMW_SATP_LOCAL --transport usb --description \"USB Devices\" --boot",
+         "storage nmp satp rule add --satp VMW_SATP_LOCAL --transport ide --description \"IDE Devices\" --boot",
+         "storage nmp satp rule add --satp VMW_SATP_LOCAL --transport block --description \"RAID Block Devices\" --boot",
+         "storage nmp satp rule add --satp VMW_SATP_LOCAL --transport parallel --description \"Parallel SCSI Devices\" --boot",
+         "storage nmp satp rule add --satp VMW_SATP_LOCAL --transport sas --description \"Serial Attached SCSI Devices\" --boot",
+         "storage nmp satp rule add --satp VMW_SATP_LOCAL --transport sata --description \"Serial ATA Devices\" --boot",
+         "storage nmp satp rule add --satp VMW_SATP_LOCAL --transport unknown --description \"Unknown Devices\" --boot",
+
+         "storage nmp satp rule add --satp VMW_SATP_DEFAULT_AA --transport fc --description \"Fibre Channel Devices\" --boot",
+         "storage nmp satp rule add --satp VMW_SATP_DEFAULT_AA --transport fcoe --description \"Fibre Channel over Ethernet Devices\" --boot",
+         "storage nmp satp rule add --satp VMW_SATP_DEFAULT_AA --transport iscsi --description \"iSCSI Devices\" --boot",
+
+         /* IBM SES device is multipathed despite showing up on aacraid, which purpots to be parallel scsi */
+         "storage nmp satp rule add --satp VMW_SATP_DEFAULT_AA --vendor IBM --model \"SAS SES-2 DEVICE\" --description \"IBM SAS SES-2\" --boot",
+
+         /* BM BladeServer with RSSM (SAS switch) has a multipathed device */
+         "storage nmp satp rule add --satp VMW_SATP_DEFAULT_AA --vendor IBM --model 1820N00 --description \"IBM BCS RSSM\" --boot",
+
+         "storage nmp satp set --satp VMW_SATP_LOCAL --default-psp VMW_PSP_FIXED --boot",
+
+         "storage nmp satp set --satp VMW_SATP_DEFAULT_AA --default-psp VMW_PSP_FIXED --boot",
+
+         // Unconditionally load the default local rules for ESX 4.1
+         "storage nmp satp rule remove --satp VMW_SATP_DEFAULT_AA --vendor IBM --model 1820N00 --boot",
+         "storage nmp satp rule add --satp VMW_SATP_DEFAULT_AA --claim-option tpgs_off --vendor IBM --model 1820N00 --description=\"IBM BCS RSSM\" --boot",
+
+         "boot storage load --usb-storage",
+      ]
+   }
+   ,
+   "metadata" :
+   {
+      "version"  : 1,
+      "requires" : ["system configuration", "PSA VAAI plugin registration", "NMP PSP registration", "NMP SATP registration", "PSA MP Plugin registration", "usb"],
+      "provides" : ["local storage support", "dm", "NMP", "NMP SATP claim rules", "NMP PSP claim rules", "libata", "usb storage"]
+   }
+}
+

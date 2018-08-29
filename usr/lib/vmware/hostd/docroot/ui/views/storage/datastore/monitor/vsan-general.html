@@ -1,0 +1,88 @@
+<div  ng-controller="VsanGeneralController"
+   class="esx-tab-content"
+   vm-loaded="loaded">
+   <div class="action-bar"
+      vui-action-bar="actionBar">
+   </div>
+
+   <div class="not-enabled"
+      ng-show="!config.isEnabled">
+      <span>Virtual SAN is not enabled</span>
+   </div>
+
+   <div vui-stack-view ng-show="config.isEnabled">
+
+      <div vui-stack-block>
+         <span vui-sb-label>{{"storage.datastore.monitor.general.settings.claimingMode"|translate}}</span>
+         <div vui-sb-content>
+            <span>{{config.isAutoClaiming ? "storage.datastore.monitor.common.auto" : "storage.datastore.monitor.common.manual" | translate}}</span>
+         </div>
+      </div>
+
+      <div vui-stack-block>
+         <span vui-sb-label>{{"storage.datastore.monitor.general.settings.deduplication"|translate}}</span>
+         <div vui-sb-content>
+            <span>{{config.isDeduped ? "storage.datastore.monitor.common.enabled" : "storage.datastore.monitor.common.disabled" | translate}}</span>
+         </div>
+      </div>
+
+      <div vui-stack-block>
+         <span vui-sb-label>{{"storage.datastore.monitor.general.settings.encryption"|translate}}</span>
+         <div vui-sb-content>
+            <span>{{config.isEncrypted ? "storage.datastore.monitor.common.enabled" : "storage.datastore.monitor.common.disabled" | translate}}</span>
+         </div>
+      </div>
+
+      <div vui-stack-block>
+         <span vui-sb-label>{{"storage.datastore.monitor.general.settings.iscsi"|translate}}</span>
+         <div vui-sb-content>
+            <span>{{config.isISCSIEnabled ? "storage.datastore.monitor.common.enabled" : "storage.datastore.monitor.common.disabled" | translate}}</span>
+         </div>
+      </div>
+
+      <!--Not expandable section when the perf svc is disabled-->
+      <div vui-stack-block ng-show="!config.isPerformanceSvcEnabled">
+         <span vui-sb-label>{{"storage.datastore.monitor.general.settings.performance.status"|translate}}</span>
+         <div vui-sb-content>
+            <span>{{"storage.datastore.monitor.common.disabled" | translate}}</span>
+         </div>
+      </div>
+
+
+      <!--Expandable section when the perf svc is disabled-->
+      <div vui-stack-block ng-show="config.isPerformanceSvcEnabled">
+         <span vui-sb-label>{{"storage.datastore.monitor.general.settings.performance.status"|translate}}</span>
+         <div vui-sb-content>
+            <span>{{"storage.datastore.monitor.common.enabled" | translate}}</span>
+         </div>
+
+         <div vui-stack-block>
+            <span vui-sb-label>{{"storage.datastore.monitor.general.settings.performance.statsObjectHealth" | translate}}</span>
+            <div vui-sb-content>
+               <div class="{{statsObjectIcon}}"></div>
+               <span>{{statsObjectLabel | translate}}</span>
+            </div>
+         </div>
+         <div vui-stack-block>
+            <span vui-sb-label>{{"storage.datastore.monitor.general.settings.performance.statsObjectUuid" | translate}}</span>
+            <div vui-sb-content>
+               <span>{{config.statsObjectUuid}}</span>
+            </div>
+         </div>
+         <div vui-stack-block>
+            <span vui-sb-label>{{"storage.datastore.monitor.general.settings.performance.storagePolicy" | translate}}</span>
+            <div vui-sb-content>
+               <span>{{config.policyName}}</span>
+            </div>
+         </div>
+         <div vui-stack-block>
+            <span vui-sb-label>{{"storage.datastore.monitor.general.settings.performance.complianceStatus" | translate}}</span>
+            <div vui-sb-content>
+               <div class="{{complianceStatusIcon}}"></div>
+               <span>{{complianceStatusLabel | translate}}</span>
+            </div>
+         </div>
+      </div>
+
+   </div>
+</div>

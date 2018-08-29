@@ -1,0 +1,9 @@
+#%PAM-1.0
+
+auth       required     /lib/security/$ISA/pam_env.so
+auth       substack     system-auth-tally
+auth       [default=ignore success=1] /lib/security/$ISA/pam_succeed_if.so user != vpxuser quiet
+auth       [success=done new_authtok_reqd=done default=die] /lib/security/$ISA/pam_unix.so try_first_pass likeauth nullok
+auth       include      system-auth-generic
+
+account    include      system-auth

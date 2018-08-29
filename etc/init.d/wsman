@@ -1,0 +1,200 @@
+#!/bin/sh
+#
+# Copyright 2007-2016 VMware, Inc.  All rights reserved.
+#
+# wsman:
+#    Web Services Management daemon
+#
+# chkconfig: on 98 78
+# description: Web Services Management (WS-MAN) daemon
+#
+
+export PATH=/sbin:/usr/sbin:/bin:/usr/bin
+
+if [ -t 0 ]; then
+   LOGERR="-s"
+fi
+
+wsmand_log()
+{
+  logger -t openwsmand -p daemon.info ${LOGERR} "$1"
+}
+
+WSMAND="/sbin/openwsmand"
+WSMAND_TAG="openwsmand"
+RP_PGM="/usr/lib/vmware/rp/bin/configRP"
+WSMAND_MEM_RES="host/vim/vmvisor/wsman 23"
+SECPOLICYTOOLS="/sbin/secpolicytools"
+WSMAND_SECURITY_DOM_NAME="pluginFrameworkDom"
+WSMAND_OPTS="--syslog=3 --foreground-process"
+WSMAND_RP="wsman"
+WATCHDOG_PARAMS="-d -s openwsmand -u 60 -q 5 -t 10"
+WSMAND_SCHED_PARAM="min=0"
+WSMAND_KILL_SIGNAL="TERM"
+WSMAND_STACK_SIZE=128
+# singleton control file
+WSMAND_INIT_LOCK=/var/run/wsmand-init.lock
+
+singleton_instance() {
+   # block for up to 10 seconds then fail
+   wsmand_log "Getting Exclusive access, please wait..."
+   lockfile -10 -r 1 ${WSMAND_INIT_LOCK}
+   if [ $? != 0 ]; then
+       wsmand_log "ERROR: another instance of wsmand is still running, exiting."
+       exit 1
+   fi
+   wsmand_log "Exclusive access granted."
+   trap "[ -f ${WSMAND_INIT_LOCK}  ] && rm -f ${WSMAND_INIT_LOCK} > /dev/null 2>&1; exit ${RC}" INT TERM EXIT
+}
+
+#
+# Sanity check
+#
+[ -x "${WSMAND}" ] || exit 0
+
+TEMPLATE_FILE="/etc/openwsman/openwsman.conf.tmpl"
+CONFIG_FILE="/etc/openwsman/openwsman.conf"
+
+#
+# Combine the oem.conf file with the openwsman.conf.tmpl
+# file to create the openwsman.conf file.
+#
+
+reconfigure()
+{
+   #
+   # If the template file does not exist then exit,
+   # since there is no way to create a configuration
+   # file.
+   #
+   [ -e "${TEMPLATE_FILE}" ] || exit 1
+
+   #
+   # If an openwsman.conf file is already present
+   # then delete the file, since we will be
+   # recreating the file.
+   #
+   [ -e "${CONFIG_FILE}" ] && rm "${CONFIG_FILE}"
+
+   #
+   # Test to see if the oem file is present. If so,
+   # then add the namespaces to the default
+   # config file.
+   #
+   local oem_lines=$(awk '{ printf "%s,", $0 }' /etc/cim/openwsman/*.conf 2>/dev/null | sed  -e 's-,\{2,\}-,-g' -e 's-,$--')
+
+   sed -e "/vendor_namespace/s|\s*$|,${oem_lines}|" "${TEMPLATE_FILE}" > "${CONFIG_FILE}"
+}
+
+
+#
+# Start openwsmand
+#
+wsmand_start()
+{
+   if [ -n "$(pidof -s ${WSMAND_TAG})" ] ; then
+      echo "Openwsmand is already running"
+      return 1
+   fi
+
+    SFCBD_CFG="/etc/sfcb/sfcb.cfg"
+    DISABLED=$(egrep -i "^\s*enabled\s*:\s*false\s*$" ${SFCBD_CFG})
+    if [ "${DISABLED}" != "" ]; then
+       wsmand_log "openwsman is administratively disabled, enable sfcbd."
+       return
+    fi
+    DISABLED=$(egrep -i "^\s*wsman\s*:\s*false\s*$" ${SFCBD_CFG})
+    if [ "${DISABLED}" != "" ]; then
+       wsmand_log "openwsman is administratively disabled, enable wsman."
+       return
+    fi
+
+   wsmand_log "Starting openwsmand"
+   reconfigure
+   ulimit -c unlimited
+   ulimit -s ${WSMAND_STACK_SIZE}
+   ${RP_PGM} setRPMemMaxSize ${WSMAND_MEM_RES} || logger -s -p daemon.err "${WSMAND_TAG} Resource pool request failed $!"
+   WSMAND_SECURITY_DOM=$("${SECPOLICYTOOLS}" -D "${WSMAND_SECURITY_DOM_NAME}")
+   WSMAND_SECURITY_DOM_PARAM="securitydom=${WSMAND_SECURITY_DOM}"
+
+   WSMAND_UW_PARAM="++${WSMAND_SCHED_PARAM},${WSMAND_SECURITY_DOM_PARAM}"
+
+   /sbin/watchdog.sh ++memreliable,group=${WSMAND_RP} ${WATCHDOG_PARAMS} "${WSMAND}" ${WSMAND_UW_PARAM} ${WSMAND_OPTS} >/dev/null 2>&1
+}
+
+#
+# Stop openwsmand
+#
+wsmand_stop()
+{
+   wsmand_log "Stopping openwsmand"
+
+   if [ -z "$(pidof -s ${WSMAND_TAG})" ] ; then
+      echo "Openwsmand is not running."
+      return 0
+   fi
+
+   /sbin/watchdog.sh -k "${WSMAND_TAG}" > /dev/null 2>&1
+
+   #
+   # pkill can potentially fail without killing the
+   # worlds. Hence, if pkill does fail, retry the op
+   # a few times before giving up. See PR 1349484.
+   #
+   pkill -9 "${WSMAND_TAG}" > /dev/null 2>&1
+   res=$?
+   retries=5
+   while [ $res -ne 0 -a $retries -gt 0 ]; do
+      logger -s -p daemon.crit -t wsman "pkill failed trying again"
+      pkill -9 "${WSMAND_TAG}" > /dev/null 2>&1
+      res=$?
+      let "retries--"
+   done
+   ${RP_PGM} decreaseRPMemMaxSizeWithRetry ${WSMAND_MEM_RES} 2
+   return $res
+}
+
+#
+# Process comand line options
+#
+case "$1" in
+   start)
+      singleton_instance
+      wsmand_start
+   ;;
+
+   stop)
+      singleton_instance
+      wsmand_stop
+   ;;
+
+   status)
+      if [ -n "$(pidof -s ${WSMAND_TAG})" ]; then
+         echo "openwsmand is running"
+         return 0
+      else
+         echo "openwsmand is not running"
+         return 3
+      fi
+   ;;
+
+   restart)
+      wsmand_stop
+      res=$?
+      if [ $res -ne 0 -a -n "$(pidof -s ${WSMAND_TAG})" ]; then
+         return $res
+      fi
+
+      #wait till all instances have stopped
+      while [ -n "$(pidof -s ${WSMAND_TAG})" ]; do
+         sleep 1
+      done
+
+      wsmand_start
+   ;;
+
+   *)
+      echo "Usage: $(basename "$0") {start|stop|status|restart}"
+      exit 1
+   ;;
+esac

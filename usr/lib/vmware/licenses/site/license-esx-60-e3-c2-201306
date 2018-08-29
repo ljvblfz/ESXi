@@ -1,0 +1,12 @@
+# VMware software license
+StartFields = "Cpt, ProductID, LicenseVersion, LicenseType, LicenseEdition, Option, Epoch"
+Cpt = "COPYRIGHT (c) VMware, Inc."
+ProductID = "VMware ESX Server"
+LicenseVersion = "6.0"
+LicenseType = "Site"
+Epoch = "2013-6-1"
+LicenseEdition = "esx.embeddedEssentials.cpuPackage12core"
+Option = "7"
+Data = "FileVersion=6.7.0.0;capacityType=cpuPackage:12core;enable=vsmp:32,h264remote,vimapi,contentlib,vstorage,smartcard,serialuri:2;desc=VMware vSphere 6 Embedded Essentials"
+DataHash = "a831fbb4-99430dda-04fe9118-cb3a23eb-32e3c1a8"
+Hash = "d40a17b0-fd4f10f6-41046ad8-98856d59-89505176"

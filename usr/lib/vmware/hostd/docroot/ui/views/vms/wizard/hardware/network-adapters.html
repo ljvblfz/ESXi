@@ -1,0 +1,148 @@
+<!-- Network adapters -->
+<div
+   ng-class="{
+      'stack-new': wizardOptions.data.networks[_index]._operation === 'add' &&
+         wizardOptions.data.Type === 'edit',
+      'stack-warning': network.MACAddressInvalid
+   }"
+   ng-repeat="(_index, network) in networks"
+   vui-stack-block="hardwareStackView.networkBlock[_index]"
+   id="network-adapter-{{_index}}">
+
+   <!-- Icon -->
+   <span vui-sb-icon-class="icon-stackview-networking-adapter"
+      vui-sb-label>{{network.title}}</span>
+
+   <!-- content collapsed-->
+   <div vui-sb-content>
+      <label class="label-508" title="{{network.title}}">
+         <div class="inline stack-dropdown" vui-dropdown="network.Network"></div>
+      </label>
+
+      <div class="inline checkbox">
+         <label
+            class="esx-stack-valign-tall"
+            title="{{'vm.wizard.hardware.virtualhardware.network.connect' | translate}}">
+            <input ng-model="wizardOptions.data.networks[_index].connect" type="checkbox"/>
+            {{'vm.wizard.hardware.virtualhardware.network.connect' | translate}}
+         </label>
+      </div>
+
+      <span class="esx-icon-close vui-icon-info-inline esx-stack-valign-tall esx-close-right"
+         ng-click="removeNetwork(_index)"
+         ng-show="wizardOptions.data.general.state !== 'suspended' &&
+            !(wizardOptions.data.networks[_index].AdapterType === 'VirtualSriovEthernetCard' &&
+             wizardOptions.data.general.state === 'poweredOn') "></span>
+   </div>
+
+   <!-- content expanded -->
+   <div vui-sb-content-expanded>
+      <label class="label-508" title="{{network.title}}">
+         <div class="inline stack-dropdown" vui-dropdown="network.Network"></div>
+      </label>
+
+      <span class="esx-icon-close vui-icon-info-inline esx-stack-valign-tall esx-close-right"
+         ng-click="removeNetwork(_index)"
+         ng-show="wizardOptions.data.general.state !== 'suspended' &&
+            !(wizardOptions.data.networks[_index].AdapterType === 'VirtualSriovEthernetCard' &&
+             wizardOptions.data.general.state === 'poweredOn') "></span>
+   </div>
+
+   <!-- children -->
+   <div vui-stack-block>
+      <!-- Label -->
+      <span vui-sb-label>{{'vm.wizard.hardware.virtualhardware.network.status' | translate}}</span>
+      <!-- content -->
+      <div vui-sb-content>
+         <label title="{{'vm.wizard.hardware.virtualhardware.network.status' | translate}}">
+            <input
+               ng-model="wizardOptions.data.networks[_index].connect"
+               type="checkbox"/>
+            {{'vm.wizard.hardware.virtualhardware.network.connectAt' | translate}}
+         </label>
+      </div>
+   </div>
+
+   <div vui-stack-block>
+      <!-- Label -->
+      <span vui-sb-label>{{'vm.wizard.hardware.virtualhardware.network.adapterType' | translate}}</span>
+      <!-- content -->
+      <div vui-sb-content>
+         <label class="label-508" title="{{'vm.wizard.hardware.virtualhardware.network.adapterType' | translate}}">
+            <div class="inline stack-dropdown"
+               ng-if="network.AdapterType"
+               vui-dropdown="network.AdapterType"></div>
+         </label>
+      </div>
+   </div>
+
+   <div vui-stack-block ng-show="wizardOptions.data.networks[_index]._operation === 'add' &&
+         wizardOptions.data.networks[_index].AdapterType === 'VirtualSriovEthernetCard'">
+      <!-- Label -->
+      <span vui-sb-label>{{'vm.wizard.hardware.virtualhardware.network.sriovMemReserved' | translate}}</span>
+      <!-- content -->
+      <div vui-sb-content>
+         <label class="label-508">
+            {{'vm.wizard.hardware.virtualhardware.network.passthroughAllMemReserved' | translate}}
+         </label>
+      </div>
+   </div>
+
+   <div ng-show="wizardOptions.data.networks[_index].AdapterType === 'VirtualSriovEthernetCard'" vui-stack-block>
+      <!-- Label -->
+      <span vui-sb-label>{{'vm.wizard.hardware.virtualhardware.network.physicalFunction' | translate}}</span>
+
+      <!-- content -->
+      <div vui-sb-content>
+         <label class="label-508" title="{{'vm.wizard.hardware.virtualhardware.network.physicalFunction' | translate}}">
+            <div class="inline stack-dropdown"
+               ng-if="network.PhysicalFunction"
+               vui-dropdown="network.PhysicalFunction"></div>
+         </label>
+      </div>
+   </div>
+
+   <div vui-stack-block>
+      <!-- Label -->
+      <span vui-sb-label>{{'vm.wizard.hardware.virtualhardware.network.macAddress' | translate}}</span>
+
+      <!-- content -->
+      <div vui-sb-content>
+         <input
+            class="inline stack-input"
+            ng-class="{
+               'invalid': network.MACAddressInvalid}"
+            ng-disabled="wizardOptions.data.general.state !== 'poweredOff'"
+            ng-maxlength="'300'"
+            ng-model-options="{
+               updateOn: 'blur'
+            }"
+            ng-model="network.MACAddress"
+            ng-readonly="network.MACAddressType.selectedValue === 'generated'"
+            placeholder="00:00:00:00:00:00"
+            style="width: 150px;"
+            title="{{'vm.wizard.hardware.virtualhardware.network.macAddress' | translate}}"
+            type="text"/>
+         <label class="label-508"
+            title="{{'vm.wizard.hardware.virtualhardware.network.macAddressType.label' | translate}}">
+            <div class="inline stack-dropdown"
+               ng-if="network.MACAddressType"
+               vui-dropdown="network.MACAddressType"></div>
+         </label>
+      </div>
+   </div>
+
+   <div ng-show="wizardOptions.data.networks[_index].AdapterType === 'VirtualSriovEthernetCard'" vui-stack-block>
+      <!-- Label -->
+      <span vui-sb-label>{{'vm.wizard.hardware.virtualhardware.network.guestOSMTUChange.label' | translate}}</span>
+      <!-- content -->
+      <div vui-sb-content>
+         <label class="label-508" title="{{'vm.wizard.hardware.virtualhardware.network.guestOSMTUChange.label' | translate}}">
+            <div class="inline stack-dropdown"
+               ng-if="network.GuestOSMTU"
+               vui-dropdown="network.GuestOSMTU"></div>
+         </label>
+      </div>
+   </div>
+</div>
+

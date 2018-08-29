@@ -1,0 +1,130 @@
+#!/bin/sh
+#
+# Copyright 2007 VMware, Inc.  All rights reserved.
+#
+# ntpd:
+#   Start and stop the NTP daemon
+#
+# chkconfig: - 10 90
+# description: Network Time Protocol (NTP) daemon.
+#
+
+SNTP="/sbin/sntp"
+NTPD="/sbin/ntpd"
+NTPD_CONFIG="/etc/ntp.conf"
+NTPD_OPTS="-g -n -c ${NTPD_CONFIG} -f /etc/ntp.drift"
+NTPD_RP="ntpd"
+NTPD_TAG="ntpd"
+UPGRADE_NTP_CONF=/usr/lib/vmware/hostd/bin/upgrade-ntp.conf.sh
+
+export PATH=/bin:/sbin
+
+#
+# Sanity check
+#
+[ -x "${NTPD}" -a -f "${NTPD_CONFIG}" ] || exit 0
+
+#
+# Log action
+#
+ntpd_log() {
+   echo "${1}"
+   logger ntpd "${1}"
+}
+
+#
+# Start ntpd
+#
+ntpd_start() {
+   # As we are not sure which init script is called first - hostd or ntpd,
+   # the upgrade is called from both scripts.
+   ${UPGRADE_NTP_CONF}
+
+   ntp_servers=`awk '
+             /^server[ \t]*127.127/ {next}
+             /^(server|peer)/       {
+                if ($2 ~/^-/)       {printf "%s " $3}
+                else                {printf "%s " $2}}
+             ' < ${NTPD_CONFIG}`
+
+   if [ -n "$(pidof -xs "${NTPD}")" ] ; then
+      return 1
+   fi
+
+   # if the service is configured, start it
+   if [ -n "$ntp_servers" ]; then
+      ntpd_log "Starting ntpd"
+      "${SNTP}" ++memreliable,group=${NTPD_RP} -K /dev/null -S $ntp_servers >/dev/null 2>&1
+      /sbin/watchdog.sh ++memreliable,group=${NTPD_RP} -d -t 100 -s "${NTPD_TAG}" "${NTPD}" ${NTPD_OPTS}  >/dev/null 2>&1
+   else
+      return 1
+   fi
+}
+
+#
+# Stop ntpd
+#
+ntpd_stop() {
+   if [ -n "$(pidof -xs ${NTPD})" ] ; then
+      ntpd_log "Stopping ntpd"
+
+      # This only stops the watchdog process.
+      /sbin/watchdog.sh -k "${NTPD_TAG}"
+
+      if [ -n "$(pidof -xs "${NTPD}")" ]; then
+         pkill -HUP "${NTPD_TAG}"
+
+         while [ -n "$(pidof -xs ${NTPD})" ] ; do
+            pkill -HUP "${NTPD_TAG}"
+            sleep 1
+         done
+      fi
+   else
+      return 0
+   fi
+}
+
+#
+# Process comand line options
+#
+case "${1}" in
+   start)
+      ntpd_start
+      retCode=$?
+      if [ $retCode -eq 0 ] ; then
+         # wait for ntpd to start (for a max of 5 seconds)
+         sleepCount=0
+         while [ -z "$(pidof -xs "${NTPD}")" ] && [ $sleepCount -lt 5 ] ; do
+            sleep 1
+            let "sleepCount+=1"
+         done
+      fi
+      exit $retCode
+   ;;
+
+   stop)
+      ntpd_stop
+   ;;
+
+   status)
+      if [ -n "$(pidof -xs "${NTPD}")" ] ; then
+         echo "ntpd is running"
+         exit 0
+      else
+         echo "ntpd is not running"
+         exit 3
+      fi
+   ;;
+
+   restart)
+      ntpd_stop
+
+      ntpd_start
+   ;;
+
+   *)
+      echo "Usage: $(basename "$0") {start|stop|status|restart}"
+      exit 1
+   ;;
+esac
+

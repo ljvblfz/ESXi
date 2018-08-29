@@ -1,0 +1,14 @@
+[VMware_HypervisorStorageExtent]
+   provider: VMwareHypervisorStorageExtent
+   location: hdr
+   type: instance
+   group: vmware_base
+   memsize: 80
+   namespace: root/cimv2
+
+[VMware_HypervisorStorageExtentIdentityAssociation]
+   provider: VMwareHypervisorStorageExtentIdentityAssociation
+   location: hdr_assoc
+   type: instance association
+   group: vmware_base
+   namespace: root/cimv2

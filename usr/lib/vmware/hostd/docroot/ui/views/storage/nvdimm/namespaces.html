@@ -1,0 +1,14 @@
+<div ng-if="tabs.namespaces.loaded || storageNvdimmTabs.tabs[getSelectedTab()].state === tabs.namespaces.state"
+     ng-controller="StorageNvdimmNamespacesController" class="esx-tab-content">
+
+   <div ng-if="!loaded" class="loading"></div>
+
+   <div ng-show="loaded" id="{{nvdimmGrid.id}}" vui-datagrid="nvdimmGrid"></div>
+
+   <hr ng-if="currentDevice" class="ng-cloak" ng-cloak/>
+
+   <div ng-controller="StorageNvdimmSummaryController" ng-cloak ng-if="currentDevice">
+      <div ng-include src="'views/storage/nvdimm/summary.html'"></div>
+   </div>
+
+</div>

@@ -1,0 +1,20 @@
+{
+     "title": "Feedback",
+     "text": "We welcome your feedback about the VMware Host Client. Please use the form below to provide comments or suggestions. You can also take a screen shot and annotate it with any visual feedback you like. Use the redacter to remove any data you do not want to share.",
+     "experience": "Generally, how was your experience?",
+     "tellMore": "Tell us more ($1 chars left)",
+     "privacyPolicy": "Privacy Policy",
+     "privacyPolicyContent": "Any feedback you provide may be used by VMware to improve VMware products and services, to fix problems, and to advise customers on how best to deploy and use VMware products and services. You are responsible for obfuscating or removing any confidential, sensitive or personal information from any screen shots you may provide to VMware and should not include any such information in your feedback. Your email address will be used to contact you in relation to your feedback.",
+     "emailPlaceholder": "E-mail address",
+     "screenshotTitle": "",
+     "penTooltip": "Annotate",
+     "eraserTooltip": "Redact",
+     "undoTooltip": "Undo",
+     "zoomInTooltip": "Zoom in",
+     "zoomOutTooltip": "Zoom out",
+     "takeScreenshotButton": "Take screenshot",
+     "removeScreenshotButton": "Remove screenshot",
+     "sendButton": "Send",
+     "cancelButton": "Cancel"
+}
+

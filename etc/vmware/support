@@ -1,0 +1,27 @@
+{color:white}Serial Number:
+{serial-number}
+
+License Serial Number:
+{license}
+
+SSL Thumbprint (SHA1):
+{ssl-thumbprint}
+
+SSH DSA Key Fingerprint:
+{ssh-dsa-fingerprint}
+SSH RSA Key Fingerprint:
+{ssh-rsa-fingerprint}
+
+VMware Global Support Services:
+http://www.vmware.com/support
+{/color}
+
+$
+{color:white}Service Tag: {servicetag}{/color}
+
+{color:white}{assettag}
+BIOS Firmware Version: {BIOSversion}
+BMC Firmware Version: {BMCversion}
+
+PLSA Firmware Version: {PLSAversion}
+{/color}

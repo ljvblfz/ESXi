@@ -1,0 +1,130 @@
+<div ng-class="{'esx-main-content': !nested}">
+   <div ng-show="!loaded" class="loading"></div>
+
+   <div ng-if="loaded && !nested" vui-action-bar="vswitchActionBarOptions" style="margin-bottom: 20px;"></div>
+
+   <div ng-show="loaded" class="row header-area no-margin">
+      <div class="col-sm-9 info-block no-padding">
+         <div class="identifying-graphic col-sm-4 col-lg-3">
+            <img src="images/network/vSwitch96.png" style="width: 72px;" alt="{{'network.vswitch.alt' | translate}}"/>
+         </div>
+         <div class="key-information col-sm-8 col-lg-9">
+            <div class="row">
+               <div class="col-sm-12 title no-padding">
+                  <span class="object-title" ng-bind="currentVSwitch.name"></span>
+               </div>
+            </div>
+            <form class="form-horizontal">
+               <div class="form-group">
+                  <span
+                     class="col-sm-3 col-lg-3 control-label esx-label no-padding">{{'network.vswitch.summary.type' | translate}}</span>
+                  <div class="col-sm-8 col-lg-8 no-padding">
+                     <p class="form-control-static">{{'network.vswitch.type.' + currentVSwitch.type|translate}}</p>
+                  </div>
+               </div>
+               <div class="form-group">
+                  <span
+                     class="col-sm-3 col-lg-3 control-label esx-label no-padding">{{'network.vswitch.summary.portGroups' | translate}}</span>
+                  <div class="col-sm-8 col-lg-8 no-padding">
+                     <p class="form-control-static">{{currentVSwitch.portgroup.length}}</p>
+                  </div>
+               </div>
+               <div class="form-group">
+                  <span
+                     class="col-sm-3 col-lg-3 control-label esx-label no-padding">{{'network.vswitch.summary.uplinks' | translate}}</span>
+                  <div class="col-sm-8 col-lg-8 no-padding">
+                     <p class="form-control-static">{{currentVSwitch.pnic.length}}</p>
+                  </div>
+               </div>
+            </form>
+         </div>
+      </div>
+      <div class="col-sm-3 metrics">&nbsp;</div>
+   </div>
+
+   <div ng-if="!nested && loaded && showNotifications()" class="row notification-area no-margin" style="position: relative; margin-top: 10px;">
+      <div esx-notification ng-repeat="notification in notifications"
+         type="{{notification.type}}" close="closeNotification(notification.key)" ng-if="!notification.closed">
+         <span ng-if="!notification.link && !notification.state" ng-bind-html="notification.message"></span>
+         <a ng-if="notification.link" href="{{notification.link}}" class="alert-link">{{notification.text}}</a>
+         <a ng-if="notification.state" ui-sref="{{notification.state}}" class="alert-link">{{notification.text}}</a>
+         <div ng-if="notification.actionsButton" style="display: inline-block; margin: -3px 0 -3px 0;" vui-action-bar="{actions: [notification.actionsButton]}"></div>
+      </div>
+   </div>
+
+   <div ng-if="!nested" ng-show="loaded" class="portlet-area container-fluid no-margin no-padding">
+      <div class="row">
+         <div class="col-lg-6 col-sm-12">
+            <div class="vui-portlet no-margin" ng-class="{'collapsed': vswitchPortlet.collapsed}">
+               <div class="portlet-titlebar" ng-click="vswitchPortlet.toggle()">
+                  <span class="icon" ng-class="{
+                     'vui-icon-caret-dark-gray-right': vswitchPortlet.collapsed,
+                     'vui-icon-caret-dark-gray-down': !vswitchPortlet.collapsed}"></span>
+                  <span class="titlebar-text"
+                        title="{{'network.vswitch.summary.vswitchDetails' | translate}}">{{'network.vswitch.summary.vswitchDetails' | translate}}</span>
+               </div>
+               <div class="portlet-content">
+                  <div esx-portlet-content data="vswitchPortlet.data"></div>
+               </div>
+            </div>
+
+            <div class="vui-portlet no-margin" ng-class="{'collapsed': teamingPolicyPortlet.collapsed}">
+               <div class="portlet-titlebar" ng-click="teamingPolicyPortlet.toggle()">
+                  <span class="icon" ng-class="{
+                     'vui-icon-caret-dark-gray-right': teamingPolicyPortlet.collapsed,
+                     'vui-icon-caret-dark-gray-down': !teamingPolicyPortlet.collapsed}"></span>
+                  <span class="titlebar-text"
+                     title="{{'network.portgroup.summary.nicTeamingPolicy' | translate}}">
+                     {{'network.portgroup.summary.nicTeamingPolicy' | translate}}</span>
+               </div>
+               <div class="portlet-content">
+                  <div esx-portlet-content data="teamingPolicyPortlet.data"></div>
+               </div>
+            </div>
+
+            <div class="vui-portlet no-margin" ng-class="{'collapsed': securityPolicyPortlet.collapsed}">
+               <div class="portlet-titlebar" ng-click="securityPolicyPortlet.toggle()">
+                  <span class="icon" ng-class="{
+                     'vui-icon-caret-dark-gray-right': securityPolicyPortlet.collapsed,
+                     'vui-icon-caret-dark-gray-down': !securityPolicyPortlet.collapsed}"></span>
+                  <span class="titlebar-text"
+                     title="{{'network.portgroup.summary.securityPolicy' | translate}}">
+                     {{'network.portgroup.summary.securityPolicy' | translate}}</span>
+               </div>
+               <div class="portlet-content">
+                  <div esx-portlet-content data="securityPolicyPortlet.data"></div>
+               </div>
+            </div>
+
+            <div class="vui-portlet no-margin" ng-class="{'collapsed': shapingPolicyPortlet.collapsed}">
+               <div class="portlet-titlebar" ng-click="shapingPolicyPortlet.toggle()">
+                  <span class="icon" ng-class="{
+                     'vui-icon-caret-dark-gray-right': shapingPolicyPortlet.collapsed,
+                     'vui-icon-caret-dark-gray-down': !shapingPolicyPortlet.collapsed}"></span>
+                  <span class="titlebar-text"
+                     title="{{'network.portgroup.summary.shapingPolicy' | translate}}">
+                     {{'network.portgroup.summary.shapingPolicy' | translate}}</span>
+               </div>
+               <div class="portlet-content">
+                  <div ng-if="shapingPolicyPortlet.data" esx-portlet-content data="shapingPolicyPortlet.data"></div>
+               </div>
+            </div>
+         </div>
+
+         <div class="col-lg-6 col-sm-12">
+            <div class="vui-portlet no-margin" ng-class="{'collapsed': topologyPortlet.collapsed}">
+               <div class="portlet-titlebar" ng-click="topologyPortlet.toggle()">
+                  <span class="icon" ng-class="{
+                     'vui-icon-caret-dark-gray-right': topologyPortlet.collapsed,
+                     'vui-icon-caret-dark-gray-down': !topologyPortlet.collapsed}"></span>
+                  <span class="titlebar-text" title="{{'network.vswitch.summary.vswitchTopology' | translate}}">
+                     {{'network.vswitch.summary.vswitchTopology' | translate}}</span>
+               </div>
+               <div class="portlet-content">
+                  <div esx-vswitch-diagram data="vSwitchTopoData"></div>
+               </div>
+            </div>
+         </div>
+      </div>
+   </div>
+</div>

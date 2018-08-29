@@ -1,0 +1,35 @@
+#!/bin/sh
+
+
+if [ $# -eq "0" ];
+then
+   echo "Usage: `basename $0` </path/to/VMFS/folder or file>/";
+   exit 1;
+fi
+
+if [ ! -e $1 ]; 
+then
+   echo "$1 does not exist";
+   exit 1;
+fi
+
+if [ -d "$1" ];
+then
+   files=`find $1 -type f`
+   for f in $files
+   do
+      echo "vmkfstools -D $f"
+      vmkfstools -D $f
+   done
+   dirs=`find $1 -type d`
+   for f in $dirs
+   do
+      echo "vmkfstools -D $f"
+      vmkfstools -D $f
+   done
+else
+   echo "vmkfstools -D $1"
+   vmkfstools -D $1
+fi
+
+

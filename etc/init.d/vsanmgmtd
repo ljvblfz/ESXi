@@ -1,0 +1,206 @@
+#!/bin/sh
+# vsanmgmtd is turned-off by default.
+# Daemon gets started in two conditions:
+# 1. Gets started by cluster join porcess.
+# 2. Hostd starts 'vsanmgmtd' if user invokes any VSAN
+# VIM API which can not be serverd by VsanPropMOProvider.
+
+# chkconfig: off 16 84
+
+export PATH=/bin:/sbin:/usr/bin
+VSANPERFSVC=/usr/lib/vmware/vsan/perfsvc/vsanperfsvc.pyc
+VSANPERFSVC_MATCH_STR="[p]ython /usr/lib/vmware/vsan/perfsvc/vsanperfsvc.py"
+VSANPERFSVC_TAG=vsanperfsvc
+VSANMGMTD_WATCHDOG_TAG=vsanmgmtdWatchdog
+VSANPERFSVC_SCHED_PARAM="++group=host/vim/vmvisor/${VSANPERFSVC_TAG}"
+
+VSANPERFPID_FILE="/var/run/vmware/vsanperfsvc.pid"
+
+RPCMD="localcli --plugin-dir=/usr/lib/vmware/esxcli/int sched group"
+#the initial memory allocation for agent role in the resource pool
+#may need adjustment (unit is MB)
+MINMEMSIZE=95
+MAXMEMSIZE=152
+
+# The watchdog memory is calculated per experiment in PR 1712436
+WATCHDOG_MIN_MEMSIZE=10
+WATCHDOG_MAX_MEMSIZE=18
+
+#the timeout of waiting vsanmgmtd to stop
+STOPWAITTIMEOUT=5
+#XXX no cpu reservation, may need adjustment
+CPURES=0
+
+syslog() {
+   echo "$@"
+   logger -p daemon.info -t VSANMGMTD "[etc/init.d/vsanmgmtd] $@"
+}
+
+getpid() {
+   ps -c | grep -e "$VSANPERFSVC_MATCH_STR" | head -n1 | awk '{ print $2 }'
+}
+
+check_create_rp() {
+   for rp_tag in "${VSANPERFSVC_TAG}" "${VSANMGMTD_WATCHDOG_TAG}"; do
+      ${RPCMD} list -l 4 | grep ${rp_tag} >/dev/null
+      # Create the vsanperfsvc resource pool if not found
+      if [ $? -ne 0 ]; then
+         ${RPCMD} add --group-name=${rp_tag} --parent-path=host/vim/vmvisor 2> /dev/null
+         if [ $? -ne 0 ]; then
+            syslog "Failed to construct resource pool '${rp_tag}'"
+            return 1
+         fi
+         ${RPCMD} setmemconfig --group-path=host/vim/vmvisor/${rp_tag} --min=0 --max=0 --minlimit=-1 --shares=0 --units=mb 2> /dev/null
+         if [ $? -ne 0 ]; then
+            ${RPCMD} delete --group-path=host/vim/vmvisor/${rp_tag} 2> /dev/null
+            if [ $? -ne 0 ]; then
+               syslog "Resource pool '${rp_tag}' destruction failed. Host may require rebooting."
+            fi
+            return 1
+         fi
+
+         ${RPCMD} setcpuconfig --group-path=host/vim/vmvisor/${rp_tag} --min=${CPURES} --max=-1 --minlimit=-1 --shares=${CPURES} --units=mhz 2> /dev/null
+         if [ $? -ne 0 ]; then
+            ${RPCMD} delete --group-path=host/vim/vmvisor/${rp_tag} 2> /dev/null
+            if [ $? -ne 0 ]; then
+               syslog "Resource pool '${rp_tag}' destruction failed. Host may require rebooting."
+            fi
+            return 1
+         fi
+      fi
+   done
+
+   return 0
+}
+
+reserve_rp_memory() {
+   ${RPCMD} setmemconfig --group-path=host/vim/vmvisor/${VSANPERFSVC_TAG} --min=${MINMEMSIZE} --max=${MAXMEMSIZE} --units=mb 2> /dev/null
+   if [ $? -ne 0 ]; then
+      syslog "Failed to set memory reservation to resource pool '${VSANPERFSVC_TAG}'"
+      return 1
+   fi
+   ${RPCMD} setmemconfig --group-path=host/vim/vmvisor/${VSANMGMTD_WATCHDOG_TAG} --min=${WATCHDOG_MIN_MEMSIZE} --max=${WATCHDOG_MAX_MEMSIZE} --units=mb 2> /dev/null
+   if [ $? -ne 0 ]; then
+      syslog "Failed to set memory reservation to resource pool '${VSANMGMTD_WATCHDOG_TAG}'"
+      return 1
+   fi
+}
+
+clear_rp_memory() {
+   ${RPCMD} setmemconfig --group-path=host/vim/vmvisor/${VSANPERFSVC_TAG} --min=0 --max=0 --units=mb 2> /dev/null
+   if [ $? -ne 0 ]; then
+      syslog "Failed to clear memory reservation to resource pool '${VSANPERFSVC_TAG}'"
+   fi
+
+   ${RPCMD} list -l 4 | grep ${VSANMGMTD_WATCHDOG_TAG} >/dev/null
+   if [ $? -eq 0 ]; then
+      ${RPCMD} setmemconfig --group-path=host/vim/vmvisor/${VSANMGMTD_WATCHDOG_TAG} --min=0 --max=0 --units=mb 2> /dev/null
+      if [ $? -ne 0 ]; then
+         syslog "Failed to clear memory reservation to resource pool '${VSANMGMTD_WATCHDOG_TAG}'"
+      fi
+   fi
+}
+
+#
+# Check whether VSAN is enabled on the cluster or not
+#
+checkVsanEnabled() {
+   localcli vsan cluster get >/dev/null 2>/dev/null
+}
+
+start() {
+   WATCHDOG_PID="$(/sbin/watchdog.sh -r ${VSANPERFSVC_TAG})"
+   if [ -n "${WATCHDOG_PID}" ] ; then
+      echo "${VSANPERFSVC_TAG} is running"
+   else
+      ulimit -c unlimited -s 384
+      check_create_rp
+      if [ $? -eq 0 ]; then
+         reserve_rp_memory
+         #as we added a new syslog filter - /etc/vmsyslog.conf.d/vsanmgmt.conf,
+         #need to notify syslogd to load it
+         localcli system syslog reload
+         # watchdog.sh -d -s <tag> [-i <respawn_delay>] [-q <maxmax_quick_failures>] [-b <pid file>] <command>
+         /sbin/watchdog.sh ++memreliable,group="host/vim/vmvisor/${VSANMGMTD_WATCHDOG_TAG}" -d -i 20 -q 1 -s "${VSANPERFSVC_TAG}" -b ${VSANPERFPID_FILE} python ${VSANPERFSVC_SCHED_PARAM} "${VSANPERFSVC}"
+         if [ $? -ne 0 ]; then
+            syslog "Failed to start $VSANPERFSVC_TAG: $?"
+            clear_rp_memory
+         else
+            echo "$VSANPERFSVC_TAG started"
+         fi
+      fi
+   fi
+}
+
+stop() {
+   ps -c |grep -e "$VSANPERFSVC_MATCH_STR" >/dev/null
+   if [ $? -eq 0 ] ; then
+      /sbin/watchdog.sh -k "${VSANPERFSVC_TAG}"
+      python "${VSANPERFSVC}" stop
+      local WAIT_TIME=0
+      local pid=$(getpid)
+      local coredump=0
+      if [ -n "$pid" ]; then
+         kill -15 $pid
+         while kill -0 $pid > /dev/null 2>&1; do
+            if [ $coredump -eq 0 -a $WAIT_TIME -gt $STOPWAITTIMEOUT ]; then
+               syslog "stopping timed out"
+               kill -9 $pid
+               coredump=1
+            fi
+            sleep 1;
+            WAIT_TIME=$(($WAIT_TIME + 1))
+         done
+      fi
+      clear_rp_memory
+   else
+      echo "${VSANPERFSVC_TAG} is not running"
+   fi
+}
+#The ssl_reset will be called by hostd on your daemon automatically if the
+#certificates on the host have been refreshed by VMCA.
+ssl_reset() {
+   if [ ! -e ${VSANPERFPID_FILE} ]; then
+      syslog "ssl_reset: ${VSANPERFSVC_TAG} is not running"
+      return 1
+   fi
+
+   VSANPERFPID=$(head -n1 ${VSANPERFPID_FILE})
+   if [ "$VSANPERFPID" != "" ]; then
+      kill -HUP $VSANPERFPID && syslog "$VSANPERFSVC_TAG signalled for SSL reset"
+   else
+      syslog "ssl_reset: No PID in ${VSANPERFPID_FILE}"
+      return 1
+   fi
+}
+
+case $1 in
+   "start")
+      start
+      ;;
+   "stop")
+      stop
+      ;;
+   "restart")
+      stop
+      sleep 2
+      start
+      ;;
+   "status")
+      ps -c |grep -e "$VSANPERFSVC_MATCH_STR" >/dev/null
+      if [ $? -eq 0 ] ; then
+         echo "${VSANPERFSVC_TAG} is running"
+         exit 0
+      else
+         echo "${VSANPERFSVC_TAG} is not running"
+         exit 3
+      fi
+      ;;
+   "ssl_reset")
+      ssl_reset
+      ;;
+   *)
+      echo "Usage: $0 {start|stop|restart|status|ssl_reset}"
+      exit 1
+      ;;
+esac

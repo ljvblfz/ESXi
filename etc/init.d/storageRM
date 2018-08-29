@@ -1,0 +1,63 @@
+#!/bin/sh
+# chkconfig: on 18 82
+
+# variables.
+export PATH=/bin:/sbin
+
+STORAGERM_TAG=storageRM
+STORAGERM=/sbin/${STORAGERM_TAG}
+STORAGERM_RP="sioc"
+STORAGERM_KILL_SIGNAL=15
+
+endProcess() {
+      # This only stops the watchdog process.
+    /sbin/watchdog.sh -k "${STORAGERM_TAG}"
+    pkill -${STORAGERM_KILL_SIGNAL} "${STORAGERM_TAG}" && echo "${STORAGERM_TAG} stopped"
+}
+
+start() {
+   if [ -z "$(pidof -xs "${STORAGERM}")" ] ; then
+      /sbin/watchdog.sh ++memreliable,group=${STORAGERM_RP} -d -s "${STORAGERM_TAG}" "${STORAGERM}" >/dev/null 2>&1
+      echo "${STORAGERM_TAG} started"
+   else
+      echo "${STORAGERM_TAG} already running"
+   fi
+}
+
+stop() {
+   if [ -n "$(pidof -xs "${STORAGERM}")" ] ; then
+       endProcess
+   else
+      echo "${STORAGERM_TAG} is not running"
+   fi
+}
+
+#
+# main
+#
+case "${1}" in
+   "start")
+      start
+   ;;
+   "stop")
+      stop
+   ;;
+   "status")
+      if [ -n "$(pidof -xs "${STORAGERM}")" ] ; then
+         echo "${STORAGERM_TAG} is running"
+         exit 0
+      else
+         echo "${STORAGERM_TAG} is not running"
+         exit 3
+      fi
+   ;;
+   "restart")
+      stop
+      start
+   ;;
+   *)
+      echo "Usage: $(basename ${0}) {start|stop|status|restart}"
+      exit 1
+   ;;
+esac
+

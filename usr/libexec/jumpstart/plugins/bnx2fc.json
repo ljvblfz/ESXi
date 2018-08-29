@@ -1,0 +1,17 @@
+{
+   "operations" :
+   {
+      "start" :
+      [
+          "boot storage load --bnx2fc"
+      ]
+   }
+   ,
+   "metadata" :
+   {
+      "version"  : 1,
+      "requires" : ["storage drivers"],
+      "provides" : ["fcoe", "bnx2fc"]
+   }
+}
+

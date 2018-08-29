@@ -1,0 +1,45 @@
+<div ng-controller="HostManageHardwareConfigureSriovController"
+      class="content-padding">
+   <div class="vui-stack-view">
+      <div class="stack-view-table">
+
+       <div vui-stack-block="enabledBlock">
+          <span vui-sb-label>
+             {{'host.manage.system.hardware.pciDevices.sriov.enabled.label'|translate}}</span>
+
+          <div vui-sb-content>
+             <label style="margin-bottom: 0; margin-right: 5px;">
+                <input
+                   type="radio"
+                   ng-model="data.sriovEnabled"
+                   ng-value="true"/> {{'host.manage.system.hardware.pciDevices.sriov.enabled.yes'|translate}}
+             </label>
+
+             <label style="margin-bottom: 0; margin-right: 5px;">
+                <input
+                   type="radio"
+                   ng-model="data.sriovEnabled"
+                   ng-value="false"/> {{'host.manage.system.hardware.pciDevices.sriov.enabled.no'|translate}}
+             </label>
+          </div>
+       </div>
+
+       <div vui-stack-block="virtualFunctionsBlock">
+          <span vui-sb-label>
+             {{'host.manage.system.hardware.pciDevices.sriov.virtualFunctions.label' |
+                translate}}</span>
+
+          <div vui-sb-content>
+             <input
+                class="inline"
+                style="width: 60px;"
+                type="number"
+                min="1"
+                max="data.maxVirtualFunctionSupported"
+                ng-disabled="!data.sriovEnabled"
+                ng-model="data.numVirtualFunction"/>
+             {{'host.manage.system.hardware.pciDevices.sriov.virtualFunctions.maximum' |
+                translate:data}}
+          </div>
+       </div>
+</div>

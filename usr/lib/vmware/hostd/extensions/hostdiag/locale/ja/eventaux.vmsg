@@ -1,0 +1,261 @@
+#
+# This catalog is for long descriptions for Events. Long descriptions are
+# shown in the UI when the user asks to see more details about the event,
+# and can contain causes and potential user actions for recovery.
+#
+# See vim/lib/vimLocale/en/eventaux.vmsg for examples.
+#
+
+#
+signature="sIgNaTuRe"
+#
+# event long descriptions go here..
+
+com.vmware.vc.ft.VmAffectedByDasDisabledEvent.longDescription = "\
+   <EventLongDescription id="com.vmware.vc.ft.VmAffectedByDasDisabledEvent">\
+      <description>\
+         vSphere HA がクラスタ内で無効になっていると、障害の発生後にプライマリ仮想マシンまたはセカンダリ仮想マシンを再起動できません。このイベントは、vSphere HA が無効で、Fault Tolerance 対応の仮想マシンがパワーオンの状態になったときに発生します。このイベントは、vSphere HA を無効することで Fault Tolerance 対応の仮想マシンに危険が及ぶことを警告します。 \
+      </description>\
+      <cause>\
+           <description>Fault Tolerance 対応の仮想マシンがパワーオン状態になったとき、vSphere HA が無効な状態でした</description>\
+           <action>vSphere HA を再度有効にしてください</action>\
+      </cause>\
+   </EventLongDescription>\
+
+   "
+
+com.vmware.vc.HA.DasHostCompleteDatastoreFailureEvent.longDescription = "\
+   <EventLongDescription id="com.vmware.vc.HA.DasHostCompleteDatastoreFailureEvent">\
+      <description>\
+        コンポーネント保護が有効になっているクラスタ内のホストで、すべての共有データストアとの接続が失われました。\
+     </description>\
+      <cause>\
+           <description>すべての共有データストアとの接続が失われました。</description>\
+           <action>少なくとも 1 つの共有データストアと再接続してください。</action>\
+      </cause>\
+   </EventLongDescription>\
+
+   "
+
+com.vmware.vc.HA.DasHostCompleteNetworkFailureEvent.longDescription = "\
+   <EventLongDescription id="com.vmware.vc.HA.DasHostCompleteNetworkFailureEvent">\
+      <description>\
+        コンポーネント保護が有効になっているクラスタ内のホストで、すべての仮想マシン ネットワークとの接続が失われました。\
+     </description>\
+      <cause>\
+           <description>すべての仮想マシン ネットワークとの接続が失われました。</description>\
+           <action>少なくとも 1 つの仮想マシン ネットワークと再接続してください。</action>\
+      </cause>\
+   </EventLongDescription>\
+
+   "
+
+com.vmware.vc.HA.CreateConfigVvolFailedEvent.longDescription = "\
+   <EventLongDescription id="com.vmware.vc.HA.CreateConfigVvolFailedEvent">\
+      <description>\
+        vSphere HA はデータストア上での Config VVOL の作成に失敗しました \
+     </description>\
+      <cause>\
+           <description>vSphere HA で Config VVOL を作成できないのは、VP、ホスト、ネットワークまたはリソース不足が原因である可能性があります</description>\
+           <action>環境内のエラーを修正してから、vSphere HA を再度有効にしてください</action>\
+      </cause>\
+   </EventLongDescription>\
+
+   "
+
+com.vmware.vc.HA.CreateConfigVvolSucceededEvent.longDescription = "\
+   <EventLongDescription id="com.vmware.vc.HA.CreateConfigVvolSucceededEvent">\
+      <description>\
+        vSphere HA は、データストアでの Config VVOL の作成に成功しました。Config VVOL データストア設定の問題も解決しています。 \
+     </description>\
+      <cause>\
+           <description> データストアで Config VVOL を作成する際にエラーは発生しませんでした</description>\
+      </cause>\
+   </EventLongDescription>\
+
+   "
+
+vim.event.LicenseDowngradedEvent.longDescription = "\
+    <EventLongDescription id="vim.event.LicenseDowngradedEvent">\
+       <description>\
+          このライセンスにより、一部の機能セットが削除されます。以前に使用可能だった機能の一部が、新規ライセンスではアクセスできなくなります。\
+       </description>\
+       <cause>\
+            <description>このライセンスは交換されています。</description>\
+            <action>期限が切れていない場合は、以前にインストールされていたライセンスに戻ります。</action>\
+            <action>必要な機能を使用するための新規ライセンスを取得するには、VMware までお問い合わせください。</action>\
+        </cause>\
+    </EventLongDescription>\
+
+    "
+
+vim.event.SystemSwapInaccessible.longDescription = "\
+    <EventLongDescription id="vim.event.SystemSwapInaccessible">\
+       <description>\
+          システム スワップが設定され、このシステムで使用されていますが、システム スワップ用のデータストアは現在使用できません。これにより、パフォーマンスが低下し、システム スワップ ファイルにスワップされたメモリを持つ一部のユーザー環境がクラッシュする可能性があります。また、リファレンスが格納されているため、ホストのインベントリからデータストアを削除できないといった問題が生じます。\
+    </description>\
+       <cause>\
+            <description>基盤となる LUN が、「APD (All Path Down)」状態にあるか、物理的に削除されたか、このデバイスとの通信にエラーが発生しています。</description>\
+            <action>システム スワップを再設定するか、ホスト システムのスワップファイルの場所を変更してください。</action>\
+        </cause>\
+    </EventLongDescription>\
+
+    "
+
+ad.event.JoinDomainFailedEvent.longDescription = "\
+   <EventLongDescription id="ad.event.JoinDomainFailedEvent">\
+      <description>\
+         ドメインへの参加に失敗しました\
+      </description>\
+   </EventLongDescription>\
+
+   "
+
+ad.event.JoinDomainEvent.longDescription = "\
+   <EventLongDescription id="ad.event.JoinDomainEvent">\
+      <description>\
+         ドメインへの参加に成功しました\
+      </description>\
+   </EventLongDescription>\
+
+   "
+
+ad.event.LeaveDomainFailedEvent.longDescription = "\
+   <EventLongDescription id="ad.event.LeaveDomainFailedEvent">\
+      <description>\
+         ドメインからの離脱に失敗しました\
+      </description>\
+   </EventLongDescription>\
+
+   "
+
+ad.event.LeaveDomainEvent.longDescription = "\
+   <EventLongDescription id="ad.event.LeaveDomainEvent">\
+      <description>\
+         ドメインからの離脱に成功しました\
+      </description>\
+   </EventLongDescription>\
+
+   "
+
+ad.event.ImportCertFailedEvent.longDescription = "\
+   <EventLongDescription id="ad.event.ImportCertFailedEvent">\
+      <description>\
+         証明書のインポートに失敗しました\
+      </description>\
+   </EventLongDescription>\
+
+   "
+
+ad.event.ImportCertEvent.longDescription = "\
+   <EventLongDescription id="ad.event.ImportCertEvent">\
+      <description>\
+         証明書のインポートに成功しました\
+      </description>\
+   </EventLongDescription>\
+
+   "
+
+com.vmware.vc.vmam.VmAppHealthMonitoringStateChangedEvent.longDescription = "\
+   <EventLongDescription id="com.vmware.vc.vmam.VmAppHealthMonitoringStateChangedEvent">\
+      <description>\
+        アプリケーション監視状態は、監視対象のアプリケーションの健全性またはアプリケーション監視プロセスの変化を示すものです。アプリケーション ハートビートがゲスト内で有効になると、灰色から緑色に変わります。vSphere HA が 30 秒以内にハートビートを受け取らなかった場合は、赤色に変化します。vSphere HA が応答する前にハートビートが再開されると、赤色から緑色に遷移します。ゲスト内でアプリケーションのハートビートが無効に設定されると、灰色に変わります。 \
+      </description>\
+      <cause>\
+        <description>\
+          ゲスト内でユーザーがアクションを開始したか、vSphere HA がアプリケーション監視エージェントから、30 秒の間隔でアプリケーション ハートビートを受け取りませんでした。 \
+        </description>\
+        <action>\
+          状態が赤色に変化した場合、アプリケーション監視エージェントがハートビートを停止した原因を調べてください。ハートビートが失われた原因は、アプリケーションの障害またはアプリケーション監視エージェントの問題の可能性があります。状態が頻繁に灰色になったり、戻ったりした場合、アプリケーション監視エージェントの問題の可能性があります。この場合、監視の有効化/無効化が要求されているかどうかを調べてください。\
+        </action>\
+      </cause>\
+   </EventLongDescription>\
+
+   "
+
+com.vmware.vc.vmam.VmDasAppHeartbeatFailedEvent.longDescription = "\
+   <EventLongDescription id="com.vmware.vc.vmam.VmDasAppHeartbeatFailedEvent">\
+      <description>\
+        vSphere HA が、ゲスト内のアプリケーション監視エージェントからハートビート障害を検知しました。vSphere でアプリケーション監視が有効になっている場合、仮想マシンはリセットされます。\
+      </description>\
+      <cause>\
+        <description>\
+          vSphere HA が 30 秒の間隔で、アプリケーション監視エージェントからアプリケーション ハートビートを受け取りませんでした。 \
+        </description>\
+        <action>\
+          アプリケーション監視エージェントがハートビートを停止した原因を調べてください。ハートビートが失われたのは、アプリケーションの障害またはアプリケーション監視エージェントの問題が原因である可能性があります。\
+        </action>\
+      </cause>\
+   </EventLongDescription>\
+
+   "
+
+com.vmware.vc.vmam.VmAppHealthStateChangedEvent.longDescription = "\
+   <EventLongDescription id="com.vmware.vc.vmam.VmAppHealthStateChangedEvent">\
+      <description>\
+        アプリケーション状態の変化は、ゲスト内のアプリケーションで許可されているいずれかの値 (appStateOk または appStateNeedReset) が送信されたことを示しています。appStateOk は、監視対象のアプリケーションが正常であることを示します。appStateNeedReset は、この仮想マシンのアプリケーション監視が有効になっている場合に、即座にリセットされることを示します。\
+      </description>\
+      <cause>\
+        <description>\
+          これはゲスト内で開始されたアクションです。\
+        </description>\
+        <action>\
+          この仮想マシンで vSphere HA およびアプリケーション監視が有効になっていると、状態が appStateNeedReset の場合に仮想マシンがリセットされます。仮想マシンが vMotion を使って移行されている場合は、仮想マシンがターゲットに移行されるまでリセットは延期されます。また、データストアで接続の問題があると、仮想マシンのリセットは問題が解決するまで延期されます。 \
+        </action>\
+      </cause>\
+   </EventLongDescription>\
+
+   "
+
+com.vmware.vc.host.problem.VStorageObjectInfraNamespacePolicyEmptyEvent.longDescription = "\
+   <EventLongDescription id="com.vmware.vc.host.problem.VStorageObjectInfraNamespacePolicyEmptyEvent">\
+      <description>\
+        強化された仮想ディスク インフラストラクチャの名前空間が、空のストレージ ポリシーで作成されました。 \
+        インフラストラクチャの名前空間のストレージ ポリシーを更新して、データ損失が発生しないようにしてください。\
+      </description>\
+      <cause>\
+        <description>\
+          これは、強化された仮想ディスク インフラストラクチャの名前空間を、空のストレージ ポリシーで作成したことが原因で発生します。\
+        </description>\
+        <action>\
+          インフラストラクチャの名前空間のストレージ ポリシーを更新してください。\
+        </action>\
+      </cause>\
+   </EventLongDescription>\
+
+   "
+
+com.vmware.vc.host.problem.vFlashResource.inaccessible.longDescription = "\
+   <EventLongDescription id="com.vmware.vc.host.problem.vFlashResource.inaccessible">\
+      <description>\
+        ホスト仮想フラッシュ リソースがアクセスできません。これは、バッキング VFFS ボリュームにアクセスできないことを示します。ホスト仮想フラッシュ リソースにアクセスできないと、vSphere Flash Read Cache が設定された仮想マシンをパワーオンできないか、パワーオンしたときに予期しない動作が発生する可能性があります。\
+      </description>\
+      <cause>\
+        <description>\
+          アンマウントされた VFFS ボリュームまたは VFFS ボリューム上の APD/PDL が原因となっている可能性があります。 \
+        </description>\
+        <action>\
+          アンマウントされた VFFS ボリュームをマウントしたり、APD (All Path Down)/PDL (Permanent Device Loss) の問題を解決するなどして、バッキング VFFS ボリュームの接続ステータスを確認してください。バッキング VFFS ボリュームにアクセスできれば、ホスト仮想フラッシュ リソースにアクセスできます。 \
+        </action>\
+      </cause>\
+   </EventLongDescription>\
+
+   "
+
+com.vmware.vc.host.vFlash.modulesLoadedEvent = "\
+   <EventLongDescription id="com.vmware.vc.host.vFlash.modulesLoadedEvent">\
+      <description>\
+         サーバにロードされた仮想フラッシュ モジュールのリストが更新されました。新しくロードまたは再ロードされたモジュールは、仮想 Flash Read Cache 設定で使用できます。\
+      </description>\
+   </EventLongDescription>\
+
+   "
+
+com.vmware.vc.host.vFlash.defaultModuleChangedEvent.longDescription = "\
+   <EventLongDescription id="com.vmware.vc.host.vFlash.defaultModuleChangedEvent">\
+      <description>\
+         デフォルトの仮想フラッシュ モジュールが変更されました。新しい仮想 Flash Read Cache 設定では、設定で未定義の場合、デフォルトの新しい仮想フラッシュ モジュールが使用されます。既存の設定は一切変更されません。\
+      </description>\
+   </EventLongDescription>\
+
+   "

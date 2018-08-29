@@ -1,0 +1,218 @@
+<!-- Serial ports -->
+<div
+   ng-class="{
+      'stack-new': wizardOptions.data.serials[_index]._operation === 'add',
+      'stack-warning': serial.OutputFileInvalid || serial.PipeNameInvalid || serial.PortURIInvalid || serial.vSPCURIInvalid
+   }"
+   ng-repeat="(_index, serial) in serials"
+   vui-stack-block="hardwareStackView.serialBlock[_index]"
+   id="serial-port-{{_index}}">
+
+   <!-- Icon -->
+   <span vui-sb-icon-class="icon-stackview-serial-port"
+      vui-sb-label>{{serial.title}}</span>
+
+   <!-- content collapsed-->
+   <div vui-sb-content>
+      <label class="label-508" title="{{serial.title}}">
+         <div class="inline stack-dropdown"
+            vui-dropdown="serial.Type"></div>
+      </label>
+
+      <div class="inline checkbox">
+         <label class="esx-stack-valign-tall"
+            title="{{'vm.wizard.hardware.virtualhardware.serialPort.connect' | translate}}">
+            <input
+               ng-model="wizardOptions.data.serials[_index].Status"
+               type="checkbox"/>
+            {{'vm.wizard.hardware.virtualhardware.serialPort.connect' | translate}}
+         </label>
+      </div>
+
+      <span class="esx-icon-close vui-icon-info-inline esx-stack-valign-tall esx-close-right"
+         ng-click="removeSerialPort(_index)"
+         ng-show="wizardOptions.data.general.state !== 'suspended'"></span>
+   </div>
+
+   <!-- content expanded -->
+   <div vui-sb-content-expanded>
+      <label class="label-508" title="{{serial.title}}">
+         <div class="inline stack-dropdown"
+            vui-dropdown="serial.Type"></div>
+      </label>
+      <span class="esx-icon-close vui-icon-info-inline esx-stack-valign-tall esx-close-right"
+         ng-click="removeSerialPort(_index)"
+         ng-show="wizardOptions.data.general.state !== 'suspended'"></span>
+   </div>
+   <div vui-stack-block>
+      <!-- Label -->
+      <span vui-sb-label>{{'vm.wizard.hardware.virtualhardware.serialPort.status' | translate}}</span>
+      <!-- content -->
+      <div vui-sb-content>
+         <label
+            title="{{'vm.wizard.hardware.virtualhardware.serialPort.connectAt' | translate}}">
+            <input
+               ng-model="wizardOptions.data.serials[_index].Status"
+               type="checkbox"/>
+            {{'vm.wizard.hardware.virtualhardware.serialPort.connectAt' | translate}}</label>
+      </div>
+   </div>
+
+   <!-- children -->
+   <div vui-stack-block
+         ng-show="wizardOptions.data.serials[_index].Type !== '4'">
+      <!-- Label -->
+      <span vui-sb-label>{{'vm.wizard.hardware.virtualhardware.serialPort.connection' | translate}}</span>
+
+      <!-- content -->
+      <div vui-sb-content>
+         <div class="row no-margin" ng-if="wizardOptions.data.serials[_index].Type === '0'">
+            <div class="col-sm-12 no-padding">
+               <input
+                  class="inline stack-input"
+                  ng-class="{
+                     'invalid': serial.OutputFileInvalid}"
+                  ng-model-options="{
+                     updateOn: 'blur'
+                  }"
+                  ng-model="wizardOptions.data.serials[_index].OutputFile"
+                  style="width: 100%;"
+                  title="{{'vm.wizard.hardware.virtualhardware.serialPort.connection' | translate}}"
+                  type="text"/>
+               <button class="stack-spacer"
+                  ng-click="selectSerialPortFile(_index)">
+                  {{'vm.wizard.hardware.virtualhardware.serialPort.browse' | translate}}
+               </button>
+            </div>
+         </div>
+
+         <div class="row no-margin" ng-if="wizardOptions.data.serials[_index].Type === '1'">
+            <div class="col-sm-12 no-padding">
+               <label
+                  class="label-508"
+                  title="{{'vm.wizard.hardware.virtualhardware.serialPort.physicalType' | translate}}">
+                  <div class="stack-dropdown"
+                     vui-dropdown="serial.PhysicalSerialPort"></div>
+               </label>
+            </div>
+         </div>
+
+         <form class="form-horizontal"
+            ng-if="wizardOptions.data.serials[_index].Type === '2'">
+
+            <div class="form-group">
+               <label class="col-sm-4">{{'vm.wizard.hardware.virtualhardware.serialPort.pipeName' | translate}}</label>
+
+               <div class="col-sm-8">
+                  <input
+                     class="stack-input form-control"
+                     ng-class="{
+                        'invalid': serial.PipeNameInvalid
+                     }"
+                     ng-model-options="{
+                        updateOn: 'blur'
+                     }"
+                     ng-model="wizardOptions.data.serials[_index].PipeName"
+                     style="width: 250px;"
+                     title="{{'vm.wizard.hardware.virtualhardware.serialPort.pipeName' | translate}}"
+                     type="text"/>
+               </div>
+            </div>
+
+            <div class="form-group">
+               <label class="col-sm-4 control-label">{{'vm.wizard.hardware.virtualhardware.serialPort.nearEnd.label' | translate}}</label>
+
+               <div class="col-sm-8">
+                  <label
+                     class="label-508"
+                     title="{{'vm.wizard.hardware.virtualhardware.serialPort.nearEnd.label' | translate}}">
+                     <div class="stack-dropdown"
+                        vui-dropdown="serial.NearEnd"></div>
+                  </label>
+               </div>
+            </div>
+            <div class="form-group">
+               <label class="col-sm-4 control-label">{{'vm.wizard.hardware.virtualhardware.serialPort.farEnd.label' | translate}}</label>
+
+               <div class="col-sm-8">
+                  <label
+                     class="label-508"
+                     title="{{'vm.wizard.hardware.virtualhardware.serialPort.farEnd.label' | translate}}">
+                     <div class="stack-dropdown" vui-dropdown="serial.FarEnd"></div>
+                  </label>
+               </div>
+            </div>
+         </form>
+
+         <form class="form-horizontal" ng-if="wizardOptions.data.serials[_index].Type === '3'">
+            <div class="form-group">
+               <label class="col-sm-4 control-label">{{'vm.wizard.hardware.virtualhardware.serialPort.direction.label' | translate}}</label>
+
+               <div class="col-sm-8">
+                  <div class="stack-dropdown"
+                     vui-dropdown="serial.Direction"></div>
+               </div>
+            </div>
+
+            <div class="form-group">
+               <label class="col-sm-4 control-label">{{'vm.wizard.hardware.virtualhardware.serialPort.portURI.label' | translate}}</label>
+
+               <div class="col-sm-8">
+                  <input
+                     class="stack-input"
+                     ng-class="{
+                        'invalid': serial.PortURIInvalid
+                     }"
+                     ng-model-options="{
+                        updateOn: 'blur'
+                     }"
+                     ng-model="wizardOptions.data.serials[_index].PortURI"
+                     style="width: 250px;"
+                     title="{{'vm.wizard.hardware.virtualhardware.serialPort.portURI.label' | translate}}"
+                     type="text"/>
+               </div>
+            </div>
+
+            <div class="form-group">
+               <div class="col-sm-8 col-sm-offset-4">
+                  <label
+                     ng-class="{
+                     'label-disabled': wizardOptions.data.general.state === 'suspended'
+                     }"
+                     title="{{'vm.wizard.hardware.virtualhardware.serialPort.portURI.desc' | translate}}">
+                     <input
+                        ng-disabled="wizardOptions.data.general.state === 'suspended'"
+                        ng-model="wizardOptions.data.serials[_index].UseVirtualSerialPortConcentrator"
+                        type="checkbox"/>
+                     {{'vm.wizard.hardware.virtualhardware.serialPort.portURI.desc' | translate}}
+                  </label>
+               </div>
+            </div>
+
+            <div class="form-group">
+               <label class="col-sm-4 control-label"
+                  ng-class="{
+                     'label-disabled': !wizardOptions.data.serials[_index].UseVirtualSerialPortConcentrator
+                  }">{{'vm.wizard.hardware.virtualhardware.serialPort.vSPCURI' | translate}}</label>
+
+               <div class="col-sm-8">
+                  <input
+                     class="stack-input"
+                     ng-class="{
+                        'invalid': serial.vSPCURIInvalid
+                     }"
+                     ng-disabled="!wizardOptions.data.serials[_index].UseVirtualSerialPortConcentrator"
+                     ng-model-options="{
+                        updateOn: 'blur'
+                     }"
+                     ng-model="wizardOptions.data.serials[_index].VSPCURI"
+                     style="width: 250px;"
+                     title="{{'vm.wizard.hardware.virtualhardware.serialPort.vSPCURI' | translate}}"
+                     type="text"/>
+               </div>
+            </div>
+         </form>
+      </div>
+   </div>
+</div>
+

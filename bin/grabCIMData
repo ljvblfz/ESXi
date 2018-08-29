@@ -1,0 +1,2 @@
+#!/bin/sh
+exec /bin/prop_of_instances "root/cimv2" "${1}" "${2}"

@@ -1,0 +1,153 @@
+# en_US resources
+signature="sIgNaTuRe"
+
+# vSphere Replication enums
+hbr.primary.ReasonForDeltaAbort.fileTransfer.label                = "Error en la transferencia de archivos"
+hbr.primary.ReasonForDeltaAbort.fileTransfer.summary              = "No se pudieron transferir los archivos de configuración."
+hbr.primary.ReasonForDeltaAbort.filter.label                      = "Se produjo un error de filtro"
+hbr.primary.ReasonForDeltaAbort.filter.summary                    = "No se pudo realizar la operación con el filtro VR."
+hbr.primary.ReasonForDeltaAbort.quiesceApps.label                 = "Error al poner la aplicación en modo inactivo"
+hbr.primary.ReasonForDeltaAbort.quiesceApps.summary               = "No se pudo poner la aplicación en modo inactivo en el invitado."
+hbr.primary.ReasonForDeltaAbort.quiesceFS.label                   = "Error al poner el sistema de archivos en modo inactivo"
+hbr.primary.ReasonForDeltaAbort.quiesceFS.summary                 = "No se pudo poner el sistema de archivos en modo inactivo en el invitado."
+hbr.primary.ReasonForDeltaAbort.paused.label                      = "Pausado por el usuario"
+hbr.primary.ReasonForDeltaAbort.paused.summary                    = "El usuario pausó la replicación."
+hbr.primary.ReasonForDeltaAbort.offline.label                     = "La máquina virtual está apagada"
+hbr.primary.ReasonForDeltaAbort.offline.summary                   = "Se está apagando la máquina virtual."
+hbr.primary.ReasonForDeltaAbort.diskNeedsSync.label               = "El disco requiere sincronización."
+hbr.primary.ReasonForDeltaAbort.diskNeedsSync.summary             = "El disco requiere una resincronización completa."
+hbr.primary.ReasonForDeltaAbort.userAbort.label                   = "Anulado por el usuario"
+hbr.primary.ReasonForDeltaAbort.userAbort.summary                 = "El usuario anuló la replicación."
+hbr.primary.ReasonForDeltaAbort.quiesceUncommitted.label          = "Modo inactivo incompleto"
+hbr.primary.ReasonForDeltaAbort.quiesceUncommitted.summary        = "No se pudo completar la operación de puesta en modo inactivo."
+hbr.primary.ReasonForDeltaAbort.configurationChanged.label        = "Cambio en la configuración"
+hbr.primary.ReasonForDeltaAbort.configurationChanged.summary      = "La configuración de la máquina virtual cambió durante la replicación."
+hbr.primary.ReasonForDeltaAbort.serverAborted.label               = "Anulado por el servidor"
+hbr.primary.ReasonForDeltaAbort.serverAborted.summary             = "El servidor VR anuló la instancia."
+hbr.primary.ReasonForDeltaAbort.diskSetMismatch.label             = "Se produjo un error de coincidencia de conjuntos de discos"
+hbr.primary.ReasonForDeltaAbort.diskSetMismatch.summary           = "El conjunto de discos configurado en el servidor VR no coincide con los discos replicados."
+#
+hbr.primary.ReasonForNoServerConnection.noNetwork.label           = "Red"
+hbr.primary.ReasonForNoServerConnection.noNetwork.summary         = "Sin red."
+hbr.primary.ReasonForNoServerConnection.notResponding.label       = "No responde"
+hbr.primary.ReasonForNoServerConnection.notResponding.summary     = "El servidor VR no responde."
+hbr.primary.ReasonForNoServerConnection.protocolMismatch.label    = "Se produjo un error de coincidencia de protocolos"
+hbr.primary.ReasonForNoServerConnection.protocolMismatch.summary  = "Versión de servidor VR no compatible."
+hbr.primary.ReasonForNoServerConnection.noMemory.label            = "Sin memoria"
+hbr.primary.ReasonForNoServerConnection.noMemory.summary          = "No hay memoria para el módulo kernel."
+hbr.primary.ReasonForNoServerConnection.diskSizeMismatch.label    = "Se produjo un error de coincidencia de tamaño de disco"
+hbr.primary.ReasonForNoServerConnection.diskSizeMismatch.summary  = "El tamaño de disco de la máquina virtual principal no coincide con el del servidor VR."
+hbr.primary.ReasonForNoServerConnection.unknown.label             = "Desconocido"
+hbr.primary.ReasonForNoServerConnection.unknown.summary           = "Desconocido."
+#
+hbr.primary.ReasonForNoServerProgress.noGroupOnServer.label       = "Máquina virtual sin configurar en el servidor"
+hbr.primary.ReasonForNoServerProgress.noGroupOnServer.summary     = "Esta máquina virtual no se configuró en el servidor VR."
+hbr.primary.ReasonForNoServerProgress.diskSetMismatch.label       = "Se produjo un error de coincidencia de conjuntos de discos"
+hbr.primary.ReasonForNoServerProgress.diskSetMismatch.summary     = "El conjunto de discos replicados y el conjunto de discos configurados en el servidor no coinciden."
+hbr.primary.ReasonForNoServerProgress.unknown.label               = "Desconocido"
+hbr.primary.ReasonForNoServerProgress.unknown.summary             = "Desconocido."
+#
+hbr.primary.ReasonForPausedReplication.diskAdded.label            = "Disco agregado a la máquina virtual"
+hbr.primary.ReasonForPausedReplication.diskAdded.summary          = "Se agregó un disco a la máquina virtual."
+#
+hbr.primary.ReasonForAppQuiesceFailure.diskUUIDNotEnabled.label   = "UUID de disco sin habilitar"
+hbr.primary.ReasonForAppQuiesceFailure.diskUUIDNotEnabled.summary = "No se habilitó el UUID de disco en la configuración de la máquina virtual."
+hbr.primary.ReasonForAppQuiesceFailure.hasIDEDisks.label          = "La máquina virtual contiene discos IDE o SATA."
+hbr.primary.ReasonForAppQuiesceFailure.hasIDEDisks.summary        = "No se admite el modo inactivo de aplicaciones en las máquinas virtuales con discos IDE o SATA."
+hbr.primary.ReasonForAppQuiesceFailure.hasIndependentDisks.label  = "La máquina virtual contiene discos independientes."
+hbr.primary.ReasonForAppQuiesceFailure.hasIndependentDisks.summary = "No se admite la puesta de aplicaciones en modo inactivo en las máquinas virtuales con discos independientes."
+hbr.primary.ReasonForAppQuiesceFailure.notEnoughFreeSlots.label   = "Ranuras de SCSI libres insuficientes"
+hbr.primary.ReasonForAppQuiesceFailure.notEnoughFreeSlots.summary = "La máquina virtual no dispone de suficientes ranuras de SCSI libres para poner las aplicaciones en modo inactivo."
+hbr.primary.ReasonForAppQuiesceFailure.guestConfigIssue.label     = "Configuración de invitado no compatible (p. ej., en discos dinámicos)"
+hbr.primary.ReasonForAppQuiesceFailure.guestConfigIssue.summary   = "No se admite el modo inactivo de aplicaciones en algunas configuraciones de invitado, por ejemplo, en discos dinámicos."
+# vSphere replication enums end here
+
+# guest operation enums
+com.vmware.vc.guestOp.ValidateCredentialsInGuest.label = "Validar credenciales"
+com.vmware.vc.guestOp.ValidateCredentialsInGuest.summary = "Valida credenciales de usuario en el sistema operativo invitado."
+#
+com.vmware.vc.guestOp.AcquireCredentialsInGuest.label = "Adquirir credenciales "
+com.vmware.vc.guestOp.AcquireCredentialsInGuest.summary = "Permite adquirir credenciales de usuario en el sistema operativo invitado."
+#
+com.vmware.vc.guestOp.ReleaseCredentialsInGuest.label = "Liberar credenciales "
+com.vmware.vc.guestOp.ReleaseCredentialsInGuest.summary = "Libera credenciales de usuario en el sistema operativo invitado."
+#
+com.vmware.vc.guestOp.StartProgramInGuest.label = "Iniciar programa"
+com.vmware.vc.guestOp.StartProgramInGuest.summary = "Inicia un programa en el sistema operativo invitado."
+#
+com.vmware.vc.guestOp.ListProcessesInGuest.label = "Enumerar procesos"
+com.vmware.vc.guestOp.ListProcessesInGuest.summary = "Enumera los procesos en el sistema operativo invitado."
+#
+com.vmware.vc.guestOp.TerminateProcessInGuest.label = "Finalizar proceso"
+com.vmware.vc.guestOp.TerminateProcessInGuest.summary = "Finaliza un proceso en el sistema operativo invitado."
+#
+com.vmware.vc.guestOp.ReadEnvironmentVariableInGuest.label = "Leer variables de entorno"
+com.vmware.vc.guestOp.ReadEnvironmentVariableInGuest.summary = "Lee las variables del entorno en el sistema operativo invitado."
+#
+com.vmware.vc.guestOp.MakeDirectoryInGuest.label = "Crear directorio"
+com.vmware.vc.guestOp.MakeDirectoryInGuest.summary = "Crea un directorio en el sistema operativo invitado."
+#
+com.vmware.vc.guestOp.DeleteFileInGuest.label = "Eliminar archivo"
+com.vmware.vc.guestOp.DeleteFileInGuest.summary = "Elimina un archivo en el sistema operativo invitado."
+#
+com.vmware.vc.guestOp.DeleteDirectoryInGuest.label = "Eliminar directorio"
+com.vmware.vc.guestOp.DeleteDirectoryInGuest.summary = "Elimina un directorio en el sistema operativo invitado."
+#
+com.vmware.vc.guestOp.MoveDirectoryInGuest.label = "Mover directorio"
+com.vmware.vc.guestOp.MoveDirectoryInGuest.summary = "Mueve un directorio en el sistema operativo invitado."
+#
+com.vmware.vc.guestOp.MoveFileInGuest.label = "Mover archivo"
+com.vmware.vc.guestOp.MoveFileInGuest.summary = "Mueve un archivo en el sistema operativo invitado."
+#
+com.vmware.vc.guestOp.CreateTemporaryFileInGuest.label = "Crear archivo temporal"
+com.vmware.vc.guestOp.CreateTemporaryFileInGuest.summary = "Crea un archivo temporal en el sistema operativo invitado."
+#
+com.vmware.vc.guestOp.CreateTemporaryDirectoryInGuest.label = "Crear directorio temporal"
+com.vmware.vc.guestOp.CreateTemporaryDirectoryInGuest.summary = "Crea un directorio temporal en el sistema operativo invitado."
+#
+com.vmware.vc.guestOp.ListFilesInGuest.label = "Enumerar archivos"
+com.vmware.vc.guestOp.ListFilesInGuest.summary = "Enumera los archivos en el sistema operativo invitado."
+#
+com.vmware.vc.guestOp.ChangeFileAttributesInGuest.label = "Cambiar atributos de archivo"
+com.vmware.vc.guestOp.ChangeFileAttributesInGuest.summary = "Cambia los atributos de un archivo en el sistema operativo invitado."
+#
+com.vmware.vc.guestOp.InitiateFileTransferFromGuest.label = "Iniciar transferencia de archivos desde invitado"
+com.vmware.vc.guestOp.InitiateFileTransferFromGuest.summary = "Inicia una transferencia de archivos desde el sistema operativo invitado."
+#
+com.vmware.vc.guestOp.InitiateFileTransferToGuest.label = "Iniciar transferencia de archivos a invitado"
+com.vmware.vc.guestOp.InitiateFileTransferToGuest.summary = "Inicia una transferencia de archivos al sistema operativo invitado."
+#
+com.vmware.vc.guestOp.AddAlias.label = "Agregar alias"
+com.vmware.vc.guestOp.AddAlias.summary = "Agrega un alias de autenticación al sistema operativo invitado."
+#
+com.vmware.vc.guestOp.RemoveAlias.label = "Quitar alias"
+com.vmware.vc.guestOp.RemoveAlias.summary = "Quita un alias de autenticación del sistema operativo invitado."
+#
+com.vmware.vc.guestOp.RemoveAliasByCert.label = "Quitar alias por certificado"
+com.vmware.vc.guestOp.RemoveAliasByCert.summary = "Quita todos los alias de autenticación asociados con un certificado del sistema operativo invitado."
+#
+com.vmware.vc.guestOp.ListGuestAliases.label = "Enumerar alias"
+com.vmware.vc.guestOp.ListGuestAliases.summary = "Enumera los alias de autenticación en el sistema operativo invitado."
+#
+com.vmware.vc.guestOp.ListGuestMappedAliases.label = "Enumerar alias asignados"
+com.vmware.vc.guestOp.ListGuestMappedAliases.summary = "Enumera los alias de autenticación asignados en el sistema operativo invitado."
+#
+com.vmware.vc.guestOp.CreateRegistryKey.label = "Crear clave del Registro de Windows"
+com.vmware.vc.guestOp.CreateRegistryKey.summary = "Crea una clave del Registro de Windows en el sistema operativo invitado."
+#
+com.vmware.vc.guestOp.ListRegistryKeys.label = "Enumerar claves del Registro de Windows"
+com.vmware.vc.guestOp.ListRegistryKeys.summary = "Enumera las claves del Registro de Windows en el sistema operativo invitado."
+#
+com.vmware.vc.guestOp.DeleteRegistryKey.label = "Eliminar clave del Registro de Windows"
+com.vmware.vc.guestOp.DeleteRegistryKey.summary = "Elimina una clave del Registro de Windows en el sistema operativo invitado."
+#
+com.vmware.vc.guestOp.SetRegistryValue.label = "Establecer valor del Registro de Windows"
+com.vmware.vc.guestOp.SetRegistryValue.summary = "Establece el valor del Registro de Windows en el sistema operativo invitado."
+#
+com.vmware.vc.guestOp.ListRegistryValues.label = "Enumerar valores del Registro de Windows"
+com.vmware.vc.guestOp.ListRegistryValues.summary = "Enumera los valores del Registro de Windows en el sistema operativo invitado."
+#
+com.vmware.vc.guestOp.DeleteRegistryValue.label = "Eliminar valor del Registro de Windows"
+com.vmware.vc.guestOp.DeleteRegistryValue.summary = "Elimina el valor del Registro de Windows en el sistema operativo invitado."
+#
+# guest operation enums end here

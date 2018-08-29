@@ -1,0 +1,80 @@
+<div ng-controller="VMWizardBasicsController" class="content-padding vm-wizard">
+   <div ng-if="loading" ng-include src="'views/loading-dialog.html'"></div>
+
+   <div ng-show="!loading">
+      <div class="form-group">
+         <label for="vmName" class="control-label esx-label">
+            {{'vm.wizard.basics.name.placeholder' | translate}}</label>
+
+         <input id="vmName"
+            type="text"
+            ng-pattern="SANITIZE_INPUT_REGEX"
+            focus-me="true"
+            placeholder="{{'vm.wizard.basics.name.label' | translate}}"
+            class="form-control row-spacer"
+            aria-label="{{'vm.wizard.basics.name.placeholder' | translate}}"
+            ng-model="wizardOptions.data.general.vmName"/>
+
+         <span>{{'vm.wizard.basics.name.desc' | translate}}</span>
+      </div>
+
+      <form ng-if="wizardOptions.data.CreationType.id !== 'clone'" class="form-horizontal">
+         <div class="form-group">
+            <span class="row-spacer">{{'vm.wizard.basics.desc' | translate}}</span>
+         </div>
+
+         <div class="form-group">
+            <label class="col-lg-5 control-label esx-label no-padding">
+               {{'vm.wizard.basics.compatibility' | translate}}</label>
+
+            <div class="col-lg-7">
+               <div vui-dropdown="CompatibilityOptions"></div>
+            </div>
+         </div>
+
+         <div class="form-group">
+            <label class="col-lg-5 control-label esx-label no-padding">
+               {{'vm.wizard.basics.guestOSFamily' | translate}}</label>
+
+            <div class="col-lg-7">
+               <div vui-dropdown="OSFamilyOptions"></div>
+            </div>
+         </div>
+
+         <div class="form-group">
+            <label class="col-lg-5 control-label esx-label no-padding">
+               {{'vm.wizard.basics.guestOSVersion' | translate}}</label>
+
+            <div class="col-lg-7">
+               <div vui-dropdown="OSVersionOptions"></div>
+            </div>
+         </div>
+
+         <div class="form-group" ng-if="wizardOptions.showVBS">
+            <label class="col-lg-5 control-label esx-label no-padding">
+            </label>
+            <div class="col-lg-7">
+               <input
+                  type="checkbox"
+                  ng-model="wizardOptions.data.vm.vbsEnabled"/>
+               <span
+                  ng-click="wizardOptions.data.vm.vbsEnabled =
+                           !wizardOptions.data.vm.vbsEnabled">
+               {{'vm.wizard.basics.vbs.label' | translate}}
+               <span
+                  class="vui-icon-info vui-icon-info-inline"
+                  vui-sign-post="vbsSignPostOptions"></span>
+               </span>
+            </div>
+         </div>
+      </form>
+   </div>
+   <div ng-if="warn" class="row no-margin row-spacer">
+      <div class="col-sm-12 no-padding" style="padding: 20px;">
+         <img src="images/warning48.png"
+            alt="{{'notification.type.warning'|translate}}"
+            style="float: left; margin: 15px 30px 15px 15px;" />
+         <p style="margin: 20px;" ng-bind-html="warnMessage"></p>
+      </div>
+   </div>
+</div>

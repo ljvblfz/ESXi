@@ -1,0 +1,79 @@
+<div class="esx-main-content">
+   <div ng-show="!loaded" class="loading">
+   </div>
+   <div ng-show="loaded" class="row header-area no-margin">
+      <div class="col-sm-8 col-lg-9 info-block no-padding">
+         <div class="identifying-graphic col-sm-4 col-lg-3">
+            <img src="images/resourcepool/obj-rp.png"/>
+         </div>
+         <div class="key-information col-sm-8 col-lg-9">
+            <div class="row">
+               <div class="col-sm-12 title no-padding">
+                  <span class="object-title" ng-bind="resourcePool.name"></span>
+               </div>
+            </div>
+            <form class="form-horizontal">
+               <div class="form-group">
+                  <label class="col-sm-4 col-lg-2 control-label esx-label no-padding"></label>
+                  <div class="col-sm-8 col-lg-10 no-padding">
+                     <p class="form-control-static">This pool / Total</p>
+                  </div>
+               </div>
+               <div class="form-group">
+                  <label class="col-sm-4 col-lg-2 control-label esx-label no-padding">VMs and Templates:</label>
+                  <div class="col-sm-8 col-lg-10 no-padding">
+                     <p class="form-control-static">{{resourcePool.basicInfo.vmsTemplates}}</p>
+                  </div>
+               </div>
+               <div class="form-group">
+                  <label class="col-sm-4 col-lg-2 control-label esx-label no-padding">Powered on VMs:</label>
+                  <div class="col-sm-8 col-lg-10 no-padding">
+                     <p class="form-control-static">{{resourcePool.basicInfo.poweredOnVMs}}</p>
+                  </div>
+               </div>
+               <div class="form-group">
+                  <label class="col-sm-4 col-lg-2 control-label esx-label no-padding">Child Resource Pools:</label>
+                  <div class="col-sm-8 col-lg-10 no-padding">
+                     <p class="form-control-static">{{resourcePool.basicInfo.childResourcePools}}</p>
+                  </div>
+               </div>
+            </form>
+         </div>
+      </div>
+      <div class="col-sm-4 col-lg-3 metrics">
+         <div esx-progress-chart title="CPU" data="resourcePool.chart.cpu"></div>
+         <div esx-progress-chart title="MEMORY" data="resourcePool.chart.memory"></div>
+      </div>
+   </div>
+   <div ng-show="loaded" ng-if="resourcePool.notification" class="row notification-area no-margin">
+      <div class="col-sm-2"></div>
+      <div class="col-sm-2"></div>
+      <div class="col-sm-8"></div>
+   </div>
+   <div ng-show="loaded" class="portlet-area container-fluid no-margin no-padding">
+      <div class="row">
+         <div class="col-lg-6 col-sm-12">
+            <div class="vui-portlet no-margin" ng-class="{'collapsed': resourcePool.resourceSettingsPortlet.collapsed}">
+               <div class="portlet-titlebar">
+                  <span ng-click="resourcePool.resourceSettingsPortlet.toggle()" ng-class="{'down-arrow': !resourcePool.resourceSettingsPortlet.collapsed, 'right-arrow': resourcePool.resourceSettingsPortlet.collapsed}"></span>
+                  <span class="titlebar-text" title="VM Storage Profiles">Resource Settings</span>
+               </div>
+               <div class="portlet-content">
+                  <div esx-portlet-content data="resourcePool.resourceSettingsPortlet.data"></div>
+               </div>
+            </div>
+         </div>
+         <div class="col-lg-6 col-sm-12">
+            <div class="vui-portlet no-margin" ng-class="{'collapsed': resourcePool.resourceConsumersPortlet.collapsed}">
+               <div class="portlet-titlebar">
+                  <span ng-click="resourcePool.resourceConsumersPortlet.toggle()" ng-class="{'down-arrow': !resourcePool.resourceConsumersPortlet.collapsed, 'right-arrow': resourcePool.resourceConsumersPortlet.collapsed}"></span>
+                  <span class="titlebar-text" title="VM Storage Profiles">Resource Consumers</span>
+               </div>
+               <div class="portlet-content">
+                  <div esx-portlet-content data="resourcePool.resourceConsumersPortlet.data"></div>
+               </div>
+            </div>
+         </div>
+      </div>
+   </div>
+</div>

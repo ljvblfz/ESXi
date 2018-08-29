@@ -1,0 +1,75 @@
+<div ng-if="hostManageSystemTabs.tabs[hostManageSystemTabs.selectedTabIndex].state === tabs.advancedSettings.state"
+   ng-controller="HostManageAdvancedSettingsController"
+   class="esx-tertiary-tab-content">
+
+   <div ng-show="!loaded" class="loading"></div>
+
+   <div ng-if="loaded" id="{{settingsGrid.id}}" vui-datagrid="settingsGrid"></div>
+
+   <hr ng-if="currentOption" style="margin-top: 20px; margin-bottom: 20px;"/>
+
+   <div ng-if="currentOption" class="row header-area no-margin key-information">
+      <div class="col-sm-12 col-lg-12 info-block no-padding">
+         <div class="col-sm-2 col-lg-2 no-padding">
+            <img src="images/host/settings20.png" style="margin: 5px 0 0 25px;" alt="{{'host.manage.system.settings'|translate}}"/>
+         </div>
+         <div class="key-information col-sm-10 col-lg-10">
+            <div class="row">
+               <div class="col-sm-12 title no-padding">
+                  <span class="object-title" ng-bind="currentOption.label"></span>
+               </div>
+            </div>
+            <form class="form-horizontal">
+               <div class="form-group">
+                  <span class="col-sm-2 col-lg-2 control-label esx-label no-padding"
+                        title="{{'host.manage.system.advancedSettings.key'|translate}}">
+                     {{'host.manage.system.advancedSettings.key'|translate}}</span>
+                  <div class="col-sm-10 col-lg-10 no-padding">
+                     <p class="form-control-static">{{currentOption.key}}</p>
+                  </div>
+               </div>
+               <div class="form-group">
+                  <span class="col-sm-2 col-lg-2 control-label esx-label no-padding"
+                        title="{{'host.manage.system.advancedSettings.description'|translate}}">
+                     {{'host.manage.system.advancedSettings.description'|translate}}</span>
+                  <div class="col-sm-10 col-lg-10 no-padding">
+                     <p class="form-control-static">{{currentOption.summary}}</p>
+                  </div>
+               </div>
+               <div class="form-group">
+                  <span class="col-sm-2 col-lg-2 control-label esx-label no-padding"
+                        title="{{'host.manage.system.advancedSettings.value'|translate}}">
+                     {{'host.manage.system.advancedSettings.value'|translate}}</span>
+                  <div class="col-sm-10 col-lg-10 no-padding">
+                     <p class="form-control-static">{{currentOption.value || ('general.none' | translate)}}</p>
+                  </div>
+               </div>
+               <div class="form-group">
+                  <span class="col-sm-2 col-lg-2 control-label esx-label no-padding"
+                        title="{{'host.manage.system.advancedSettings.default'|translate}}">
+                     {{'host.manage.system.advancedSettings.default'|translate}}</span>
+                  <div class="col-sm-10 col-lg-10 no-padding">
+                     <p class="form-control-static">{{currentOption.default || ('general.none' | translate)}}</p>
+                  </div>
+               </div>
+               <div class="form-group">
+                  <span class="col-sm-2 col-lg-2 control-label esx-label no-padding"
+                        title="{{'host.manage.system.advancedSettings.readOnly'|translate}}">
+                     {{'host.manage.system.advancedSettings.readOnly'|translate}}</span>
+                  <div class="col-sm-10 col-lg-10 no-padding">
+                     <p class="form-control-static">{{currentOption.readOnly || ('general.no' | translate)}}</p>
+                  </div>
+               </div>
+               <div ng-if="currentOption.max" class="form-group">
+                  <span class="col-sm-2 col-lg-2 control-label esx-label no-padding"
+                        title="{{'host.manage.system.advancedSettings.range'|translate}}">
+                     {{'host.manage.system.advancedSettings.range'|translate}}:</span>
+                  <div class="col-sm-10 col-lg-10 no-padding">
+                     <p class="form-control-static">{{currentOption.min}} &le; x &le; {{currentOption.max}}</p>
+                  </div>
+               </div>
+            </form>
+         </div>
+      </div>
+   </div>
+</div>

@@ -1,0 +1,239 @@
+#!/bin/sh
+# chkconfig: on 99 99
+
+# variables
+export PATH=/bin:/sbin
+
+XORG_TAG=Xorg
+XORG=/bin/Xorg
+XORG_PARAMS="-dumbSched -xkbpre -syslog -novtswitch -sharevts -keeptty -quiet -nolock -noreset vt01 -config"
+XORG_GROUP="host/vim/vimuser/xorg"
+XORG_SCHED_PARAMS="++group=${XORG_GROUP}"
+XORG_RPCMD="localcli --plugin-dir=/usr/lib/vmware/esxcli/int sched group"
+XORG_CONF="/etc/X11/xorg.conf"
+XORG_MEMSIZE=256
+XORG_MAX_SERVERS=16
+NVIDIA_SMI=/bin/nvidia-smi
+NVIDIA_HOST_VGPU=3
+NVIDIA_HOST_VSGA=4
+
+destroy_rp() {
+   ${XORG_RPCMD} delete --group-path=$1 2> /dev/null
+   if [ $? -ne 0 ]; then
+      echo "Resource pool '$1' destruction failed. Host may require rebooting."
+      return 1;
+   fi
+   
+   return 0
+}
+
+create_rp() {
+   ${XORG_RPCMD} add --group-name=xorg$1 --parent-path=host/vim/vimuser 2> /dev/null
+   if [ $? -ne 0 ]; then
+      return 1
+   fi
+   ${XORG_RPCMD} setmemconfig --group-path=${XORG_GROUP}$1 --min=${XORG_MEMSIZE} --max=${XORG_MEMSIZE} --minlimit=${XORG_MEMSIZE} --units=mb 2> /dev/null
+   if [ $? -ne 0 ]; then
+      destroy_rp ${XORG_GROUP}$1
+      return 1
+   fi
+   ${XORG_RPCMD} setcpuconfig --max=-1 --group-path=${XORG_GROUP}$1 --units=mhz 2> /dev/null
+   if [ $? -ne 0 ]; then
+      destroy_rp {XORG_GROUP}$1
+      return 1
+   fi
+   
+   return 0
+}
+
+set_nvidia_mode() {
+   # Setting virtual mode can fail if another user client is bound to
+   # nvidia device, so we retry a few times.
+   retry=5
+   while [ $retry -gt 0 ] ; do
+      ${NVIDIA_SMI} --id=$1 --virt-mode=$2 > /dev/null
+      if [ $? -eq 0 -o $? -eq 2 ]; then  # success or invalid parameter
+         retry=0
+      else
+         sleep 1
+         retry=$(($retry-1))
+      fi
+   done
+}
+
+setup() {
+   FILE=${XORG_CONF}.$1$count
+   cp -f ${XORG_CONF} $FILE
+   PCIDEV=$(echo $2 | awk '{split($1, pci, ":"); domain="0x"pci[1]; bus="0x"pci[2]; dev="0x"pci[3]; printf "%d@%d:%d:0",bus,domain,dev}')
+   SUBDEV=$(echo $2 | awk '{split($1, pci, "."); s="0x"pci[2]; printf "%d",s}')
+   if [ $SUBDEV == "0" ]; then
+      if [ $1 == "nvidia" ]; then
+         if [ $3 == "Shared" ] && [ -x /lib64/nvidia/libGL.so.1 ]; then
+            sed -i -e "s/dummy\"/nvidia\"\n\tBusID \"$PCIDEV\"\n\tOption \"RegistryDwords\" \"MachineCacheLimit=1024\"\n\tOption \"UseDisplayDevice\" \"none\"\n\tOption \"IndirectMemoryAccess\" \"FALSE\"/" $FILE
+            sed -i -e "s/ihvpath/nvidia/" $FILE
+            set_nvidia_mode $2 ${NVIDIA_HOST_VSGA}
+	 else
+            sed -i -e "s/dummy\"/dummy\"\n\tBusID \"$PCIDEV\"\n\t/" $FILE
+            sed -i -e "s/ihvpath/dummy/" $FILE
+            set_nvidia_mode $2 ${NVIDIA_HOST_VGPU}
+	 fi
+      else
+         if [ $1 == "fglrx" ]; then
+            sed -i -e "s/dummy\"/fglrx\"\n\tBusID \"$PCIDEV\"\n\t/" $FILE
+            sed -i -e "s/ihvpath/fglrx/" $FILE
+	 else
+            if [ $1 == "intelIgpu" ]; then
+               sed -i -e "s/dummy\"/intel\"\n\tBusID \"$PCIDEV\"\n\t/" $FILE
+               sed -i -e "s/ihvpath/intel/" $FILE
+            else
+               continue
+            fi
+         fi
+      fi
+      
+      create_rp $count
+      if [ $? -ne 0 ]; then
+         echo "Resource pool '${XORG_GROUP}$count creation failed. Unable to start. Host may require rebooting."
+         exit 3
+      fi
+
+      MODULES="$MODULES $1"
+      count=$(($count+1))
+   fi
+}
+
+start() {
+   count=0
+   graphics=`localcli graphics device list`
+   if [ -n "$graphics" ] ; then 
+      MODULES=""
+      stop   # clean up previous xorg resource pools
+      IFS=$'\n';
+      for line in $graphics; do
+         unset IFS
+         # Only support upto XORG_MAX_SERVERS Xservers
+         if [ $count == ${XORG_MAX_SERVERS} ]; then
+            break
+         fi
+
+         # look for device PCI id in form ssss:bb:dd.f:
+         if [ "$(echo $line | grep -e ".*:.*:.*.\..:")" ]; then
+            address="$(echo $line | cut -d: -f1,2,3)"
+
+         elif [ "$(echo $line | grep -e "Module Name:")" ]; then
+            module="$(echo $line | grep -e "Module Name:" | cut -d\  -f3)"
+
+         elif [ "$(echo $line | grep -e "Graphics Type:")" ]; then
+            gfxtype="$(echo $line | grep -e "Graphics Type:" | cut -d\  -f3)"
+            if [ "$module" == "nvidia" ] || [ "$module" == "intelIgpu" ] || [ "$module" == "fglrx" ]; then
+               setup $module $address $gfxtype
+            fi
+         fi
+      done
+      unset IFS
+
+      # Start xorg processes after setup complete for all graphics devices
+      i=0
+      for module in $MODULES; do
+         FILE=${XORG_CONF}.$module$i
+
+         # We use a precompiled xkb keymap to avoid Xserver fork with the
+         # -xkbpre option, otherwise xkbcomp will cause the Xserver to fork().
+         cp -f /etc/X11/server.xkm /tmp/server-$i.xkm
+         /sbin/watchdog.sh ++memreliable -d -q 3 -t 3 -s "${XORG_TAG}"$i "${XORG}" ${XORG_SCHED_PARAMS}$i :$i "${XORG_PARAMS} ${FILE}" >/dev/null 2>&1
+         echo "Xorg$i started"
+         i=$(($i+1))
+      done
+
+      if [ $count -gt 0 ]; then
+         esxcli graphics host refresh   # trigger CliInvalidationMsg
+      fi
+   fi
+}
+
+stop() {
+   for i in `ls /var/run/vmware/watchdog-Xorg*PID 2>/dev/null`; do
+      # This only stops the watchdog process.
+      TAG=`basename $i | sed -e 's/.*-//' -e 's/.PID//'`
+      /sbin/watchdog.sh -k $TAG
+   done
+
+   for i in `pidof "${XORG}"`; do
+      kill $i
+      sleep 1
+      echo "Process $i stopped"
+   done
+
+   for i in `pidof "${XORG}"`; do
+      kill -9 $i
+      sleep 1
+      echo "Process $i killed"
+   done
+
+   failure=0
+   for grp in `${XORG_RPCMD} list -l 4 | grep ${XORG_GROUP}`; do
+      destroy_rp $grp
+      if [ $? -ne 0 ]; then
+         failure=1
+      fi
+   done
+
+   if [ $failure -ne 0 ]; then
+      exit 3;
+   fi
+}
+
+vm_is_active() {
+   num_lines=`localcli graphics vm list | wc -l`
+   # check if more than 2 line header
+   if [ $num_lines -gt 2 ] ; then
+      return 0
+   fi
+   return 1
+}
+
+#
+# main
+#
+case "${1}" in
+   "start")
+      if [ -n "$(pidof "${XORG}")" ] ; then
+         echo "Xorg is running, please stop first."
+         exit 0
+      fi
+      start
+   ;;
+   "stop")
+      if [ -z "$(pidof "${XORG}")" ] ; then
+         echo "Xorg is not running"
+         exit 0
+      fi
+      if vm_is_active ; then
+         echo "VM is using Xorg, please stop VM first." 
+         exit 3
+      fi
+      stop
+   ;;
+   "status")
+      if [ -n "$(pidof "${XORG}")" ] ; then
+         echo "Xorg is running"
+         exit 0
+      else
+         echo "Xorg is not running"
+         exit 3
+      fi
+   ;;
+   "restart")
+      if vm_is_active ; then
+         echo "VM is using Xorg, please stop VM first." 
+         exit 3
+      fi
+      stop
+      start
+   ;;
+   *)
+      echo "Usage: $(basename ${0}) {start|stop|status|restart}"
+      exit 1
+   ;;
+esac
+

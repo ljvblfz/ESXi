@@ -1,0 +1,28 @@
+/* **********************************************************
+ * Copyright 2017 VMware, Inc.  All rights reserved.
+ * VMware Confidential
+ * **********************************************************/
+
+/*
+ * lfHelper.json --
+ *
+ *	Jumpstart plug-in to load LFHelper kernel module.
+ */
+
+
+{
+   "operations" :
+   {
+      "start" :
+      [
+         "system module load --module lfHelper"
+      ]
+   }
+   ,
+   "metadata" :
+   {
+      "version"  : 1,
+      "requires" : ["vmkeventd"],
+      "provides" : ["lfHelper"]
+   }
+}

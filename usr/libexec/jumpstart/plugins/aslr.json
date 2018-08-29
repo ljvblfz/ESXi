@@ -1,0 +1,22 @@
+/***********************************************************
+ * Copyright 2010,2012 VMware, Inc.  All rights reserved.
+ * VMware Confidential
+ ***********************************************************/
+
+{
+   "operations" :
+   {
+      "start" :
+      [
+         "boot system restore --aslr-seed"
+      ]
+   }
+   ,
+   "metadata" :
+   {
+      "version"  : 1,
+      "requires" : ["system configuration"],
+      "provides" : ["random"]
+   }
+}
+

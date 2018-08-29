@@ -1,0 +1,29 @@
+/***********************************************************
+ * Copyright 2010-2012,2015 VMware, Inc.  All rights reserved.
+ * VMware Confidential
+ ***********************************************************/
+
+{
+   "operations" :
+   {
+      "start" :
+      [
+         "system module load --module vmkibft",
+         "boot storage restore --iscsi-boot-lun",
+         "boot storage restore --iscsi-configuration"
+      ],
+      "apply_host_profile" :
+      [
+         "boot hostprofile apply --earlybootinit -p iscsi.iscsiProfile.IscsiInitiatorProfile",
+         "boot storage restore --iscsi-configuration"
+      ]
+   }
+   ,
+   "metadata" :
+   {
+      "version"  : 2,
+      "requires" : ["system configuration", "storage drivers", "networking", "network auto-configuration", "pxe-marker"],
+      "provides" : ["software iSCSI"]
+   }
+}
+

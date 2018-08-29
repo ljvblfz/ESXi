@@ -1,0 +1,51 @@
+#!/bin/python
+
+from __future__ import print_function
+import sys
+import os
+from optparse import OptionParser
+import binascii
+import re
+
+# modules which could be used by standalone scripts should not tie themselves to environment.
+sys.path.append('/usr/lib/vmware/osfs')
+
+import common
+import osfsIpc
+
+usage = "usage: %prog  dirname"
+parser = OptionParser(usage)
+parser.description = "osfs-rmdir -- remove a directory under OSFS."
+parser.add_option("-f", "--force", action="store_true", dest="force", help='''Force remove the directory''')
+(options, args) = parser.parse_args()
+
+provider = None
+containerIdStr = None
+uuid = None
+forceFlag = options.force or False
+
+if len(args) != 1:
+   parser.error("Need to specify directory to be removed!")
+
+dirname = os.path.dirname(args[0])
+realpath = os.path.realpath(args[0])
+if ((re.match('^/vmfs/volumes/vsan', realpath)) or
+    (re.match('^/vmfs/volumes/file', realpath)) or
+    (re.match('^/vmfs/volumes/vvol', realpath))):
+   (provider, containerIdStr) = common.getPidCid(dirname)
+   uuid = os.path.basename(realpath)
+   print("Deleting directory %s in container id %s backed by %s (force=%s)" \
+         % (uuid, containerIdStr, provider, forceFlag))
+
+if (not (provider and containerIdStr and uuid)):
+   parser.error("Directory %s does not exist!" % args[0])
+
+result = osfsIpc.NSIpc(action      = osfsIpc.OSFSD_IPC_OP_DELETENS,
+                       entryName   = '',
+                       objectUuid  = uuid,
+                       providerID  = provider,
+                       containerID = binascii.unhexlify(containerIdStr),
+                       force       = forceFlag)
+
+if result.error:
+   print("Failed.  Search vmkernel log and osfsd log for opID '%s'." % result.opID)

@@ -1,0 +1,64 @@
+#!/bin/sh
+#
+# Copyright 2012 VMware, Inc.  All rights reserved.
+#
+# nscd:
+#   Start and stop the NSCD daemon
+#
+# chkconfig: on 20 20
+# description: Name Service Cache Daemon
+
+NSCD=/usr/lib/vmware/nscd/bin/nscd
+NSCD_TAG=nscd
+NSCD_SCHED_PARAM="++group=nscd"
+NSCD_ARGS="-d"
+
+start() {
+   if [ -z "$(pidof -xs "${NSCD}")" ] ; then
+      /sbin/watchdog.sh "${NSCD_SCHED_PARAM}" -d -s "${NSCD_TAG}" "${NSCD}" "${NSCD_ARGS}" >/dev/null 2>&1
+      echo "nscd started"
+   else
+      echo "nscd already running"
+   fi
+}
+
+stop() {
+   if [ -n "$(pidof -xs "${NSCD}")" ] ; then
+      /sbin/watchdog.sh -k "${NSCD_TAG}"
+      pkill -9 "${NSCD_TAG}"
+   else
+      echo "nscd is not running"
+   fi
+}
+
+case "${1}" in
+   "start")
+      start
+   ;;
+   "stop")
+      stop
+   ;;
+   "status")
+      if [ -n "$(pidof -xs "${NSCD}")" ] ; then
+         echo "nscd is running"
+         exit 0
+      else
+         echo "nscd is not running"
+         exit 3
+      fi
+   ;;
+   "restart")
+      stop
+
+      while [ -n "$(pidof -xs "${NSCD}")" ] ; do
+         sleep 1
+      done
+
+      start
+   ;;
+   *)
+      echo "Usage: $(basename ${0}) {start|stop|status|restart}"
+      exit 1
+   ;;
+esac
+

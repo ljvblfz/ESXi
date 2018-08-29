@@ -1,0 +1,37 @@
+<!--Card header-->
+<div class="health-card-header">
+   <div class="left">{{group.groupName}}</div>
+   <div id="expandCollapseButton" class="right icon-expand" ng-click="expandCollapse($event)"></div>
+   <div class="clear"></div>
+</div>
+
+<!--Collapsed card content-->
+<div class="health-card-content" ng-if="group.groupHealth === 'green'">
+   <div class="center icon-success"></div>
+</div>
+<div class="health-card-content" ng-if="group.groupHealth !== 'green'">
+   <div class="test" ng-repeat="test in group.groupTests.getNonGreen().slice(0,2)">
+      <div class="left icon-{{test.testHealth}}"></div>
+      <div class="left">{{test.testName}}</div>
+      <div class="clear"></div>
+   </div>
+</div>
+
+<!--Expanded card content-->
+<div class="health-card-content-expanded" style="display: none">
+   <div class="left-panel">
+      <div class="health-check-card" ng-repeat="test in group.groupTests" ng-class="{selected : isSelected(test)}" title="{{test.testShortDescription}}" ng-click="changeCurrentTest($event, test)">
+         <div class="left icon-{{test.testHealth}}"></div>
+         <div class="left test-name">{{test.testName}}</div>
+         <div class="clear"></div>
+      </div>
+   </div>
+   <div class="right-panel">
+      <div vui-tabs="primaryTabOptions"></div>
+   </div>
+</div>
+
+<!--Card footer-->
+<div class="health-card-footer" ng-if="group.groupHealth !== 'green' && group.groupTests.getNonGreen().length > 2">
+   <a href="" ng-click="expandCollapse($event)">({{group.groupTests.length - 2}} more)</a>
+</div>

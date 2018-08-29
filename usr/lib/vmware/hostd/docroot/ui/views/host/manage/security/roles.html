@@ -1,0 +1,11 @@
+<div
+   ng-if="hostManageSecurityTabs.tabs[getSelectedTab()].state === 'host.manage.security.roles'"
+   ng-controller="HostManageSecurityRolesController"
+   class="esx-tertiary-tab-content">
+
+   <div ng-show="!loaded" class="loading"></div>
+
+   <div ng-if="error" style="text-align: center;">{{error}}</div>
+
+   <div ng-show="loaded" id="{{roleGrid.id}}" vui-datagrid="roleGrid"></div>
+</div>

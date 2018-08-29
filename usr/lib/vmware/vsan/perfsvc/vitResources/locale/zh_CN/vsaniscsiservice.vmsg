@@ -1,0 +1,95 @@
+# VSAN iSCSI target service related
+# msgId = 001
+com.vmware.vsan.iscsi.common.comma = ，
+com.vmware.vsan.iscsi.common.colon = :
+com.vmware.vsan.iscsi.common.ok = 确定
+com.vmware.vsan.iscsi.common.yes = 是
+com.vmware.vsan.iscsi.common.no = 否
+com.vmware.vsan.iscsi.msg.installVibFailed = 使用 EAM 在群集上安装 VIB 时发生未知错误
+com.vmware.vsan.iscsi.msg.createHomeObjectFailed = 无法在群集上创建主对象
+com.vmware.vsan.iscsi.msg.settingsFailed = 无法在群集上设置 vSAN iSCSI 目标服务
+com.vmware.vsan.iscsi.host.issues.notConnected = 主机未连接
+com.vmware.vsan.iscsi.host.issues.notVITInstall = 主机未安装 vSAN iSCSI 目标服务
+com.vmware.vsan.iscsi.host.issues.notVITServiceFound = 主机上找不到 vSAN iSCSI 目标服务。请检查主机是否为 6.5 或更高版本。
+com.vmware.vsan.iscsi.cluster.issues.hostNotConnected = 至少一个主机未连接
+com.vmware.vsan.iscsi.cluster.issues.HostNotVITInstall = 至少一个主机未安装 vSAN iSCSI 目标服务
+
+# For service process status
+com.vmware.vsan.iscsi.service.process.running = 正在运行
+com.vmware.vsan.iscsi.service.process.stopped = 已停止
+com.vmware.vsan.iscsi.service.process.unknown = 未知
+com.vmware.vsan.iscsi.service.process.hostDisconnected = 主机已断开连接
+
+# For service pre-check failed.
+com.vmware.vsan.iscsi.service.enabled.failed = 无法启用服务，ESXi 主机版本 6.1 提供 vSAN iSCSI 目标服务，确保群集中所有主机的版本均正确并且不存在连接问题。
+
+# For service installation health test
+com.vmware.vsan.iscsi.health.test.installStatus = 服务安装状态
+com.vmware.vsan.iscsi.health.test.installStatus.desc.short = 检查 vSAN 群集中的所有主机是否已安装 vSAN iSCSI 目标服务以及 VC 和每个主机中的服务版本是否相同。
+com.vmware.vsan.iscsi.health.test.installStatus.desc.long = ESXi 主机版本 6.1 提供 vSAN iSCSI 目标服务。如果发现某些主机中未安装 vSAN iSCSI 目标服务，则表示主机版本不正确。如果某些主机上的 vSAN iSCSI 目标服务状态未知，则表示主机存在其他问题，如连接问题等。
+com.vmware.vsan.iscsi.health.test.installStatus.table.label = 服务安装
+com.vmware.vsan.iscsi.health.test.installStatus.table.column.host = 主机
+com.vmware.vsan.iscsi.health.test.installStatus.table.column.installationStatus = 安装状态
+com.vmware.vsan.iscsi.health.test.installStatus.table.column.versionESX = ESX 中的版本
+com.vmware.vsan.iscsi.health.test.installStatus.table.column.versionVC = VC 中的版本
+com.vmware.vsan.iscsi.health.test.installStatus.table.column.error = 错误
+
+# For service runtime health test
+com.vmware.vsan.iscsi.health.test.runningStatus = 服务运行时状态
+com.vmware.vsan.iscsi.health.test.runningStatus.desc.short = 检查 vSAN iSCSI 目标服务的状态。
+com.vmware.vsan.iscsi.health.test.runningStatus.desc.long = 检查群集中的所有主机是否已启用此服务。如果某个主机未启用此服务，请运行以下命令:“esxcli vsan iscsi status set --enabled=true”。您也可以使用“编辑”操作 (管理 > 设置 > 常规 > vSAN iSCSI 目标服务) 启用 iSCSI 目标服务。此检查还验证以下进程的运行状况:“vitd”用于提供服务，“vitsafehd”用于使 VMDK 保持打开状态。如果“vitd”进程未运行，请使用以下命令启动此进程:“/etc/init.d/vitd start”。如果“vitsafehd”进程未运行，请使用以下命令启动此进程:“/etc/init.d/vitd io_restart”。
+com.vmware.vsan.iscsi.health.test.runningStatus.table.label = 服务运行时状态
+com.vmware.vsan.iscsi.health.test.runningStatus.table.column.host = 主机
+com.vmware.vsan.iscsi.health.test.runningStatus.table.column.processesStatus = 进程运行状况
+com.vmware.vsan.iscsi.health.test.runningStatus.table.column.enabledStatus = 已启用
+com.vmware.vsan.iscsi.health.test.runningStatus.table.column.error = 错误
+
+# For home object health test
+com.vmware.vsan.iscsi.health.test.groupName = vSAN iSCSI 目标服务
+com.vmware.vsan.iscsi.health.test.homeObject = 主对象
+com.vmware.vsan.iscsi.health.test.homeObject.storageOutOfDate = 过期
+com.vmware.vsan.iscsi.health.test.homeObject.storageCompliant = 合规
+com.vmware.vsan.iscsi.health.test.homeObject.storageNonCompliant = 不合规
+com.vmware.vsan.iscsi.health.test.homeObject.storageNotApplicable = 不适用
+com.vmware.vsan.iscsi.health.test.homeObject.storageUnknown = 未知
+com.vmware.vsan.iscsi.health.test.homeObject.desc.short = 检查 vSAN iSCSI 目标服务主对象的运行状况。
+com.vmware.vsan.iscsi.health.test.homeObject.desc.long = 主对象存储 vSAN iSCSI 目标服务使用的元数据。此检查验证以下项: 主对象已创建且可置于系统中。主对象正常运行且符合存储策略。主对象具有唯一性。如果存在多个主对象，群集中的某些主机可能会访问不同的主对象。主对象中的元数据文件存在且可解析，所有元数据均已正确存储。
+com.vmware.vsan.iscsi.health.test.homeObject.table.label = 主对象信息
+com.vmware.vsan.iscsi.health.test.homeObject.table.column.check = 检查
+com.vmware.vsan.iscsi.health.test.homeObject.table.column.result = 结果
+com.vmware.vsan.iscsi.health.test.homeObject.table.column.status = 状态
+com.vmware.vsan.iscsi.health.test.homeObject.table.exist = 主对象存在
+com.vmware.vsan.iscsi.health.test.homeObject.table.healthStatus = 运行状况
+com.vmware.vsan.iscsi.health.test.homeObject.table.storageStatus = 存储策略合规性
+com.vmware.vsan.iscsi.health.test.homeObject.table.entryStatus = 主对象唯一
+com.vmware.vsan.iscsi.health.test.homeObject.table.metadataStatus = 元数据文件状态
+com.vmware.vsan.iscsi.health.test.homeObject.table.noEntry = 当前无条目
+com.vmware.vsan.iscsi.health.test.homeObject.table.isUnique = 唯一
+com.vmware.vsan.iscsi.health.test.homeObject.table.isMultiple = 多个
+com.vmware.vsan.iscsi.health.test.homeObject.table.metadataPresentParse = 存在且可解析
+com.vmware.vsan.iscsi.health.test.homeObject.table.metadataNotPresentParse = 不存在或无法解析。请在检查此项目前确保服务运行时状态检查结果为绿色。
+
+com.vmware.vsan.iscsi.health.test.homeObject.status.notFound = 未找到
+
+com.vmware.vsan.iscsi.health.test.cluster.iscsiEamInstall.host.untracked = 未跟踪
+com.vmware.vsan.iscsi.health.test.cluster.iscsiEamInstall.host.removed = (不再位于群集中)
+
+com.vmware.vsan.iscsi.health.test.serviceNetwork = 网络配置
+com.vmware.vsan.iscsi.health.test.serviceNetwork.desc.short = 检查 vSAN iSCSI 目标服务的网络配置。
+com.vmware.vsan.iscsi.health.test.serviceNetwork.desc.long = 必须在群集中的所有主机上配置 vSAN iSCSI 目标服务使用的所有网络接口 (包括默认接口)。具有相同名称的所有网络接口形成分布式门户。如果一个或多个主机没有网络接口，则 vSAN iSCSI 目标服务无法正常运行。
+com.vmware.vsan.iscsi.health.test.serviceNetwork.defaultnic = 获取默认网络接口
+com.vmware.vsan.iscsi.health.test.serviceNetwork.defaultnic.notFound = 找不到默认网络接口
+com.vmware.vsan.iscsi.health.test.serviceNetwork.defaultnic.error = 无法获取默认网络接口，请检查 vSAN iSCSI 目标服务是否在所有主机上均处于运行状态
+com.vmware.vsan.iscsi.health.test.serviceNetwork.nicsUsedByTargets = 获取目标使用的网络接口
+com.vmware.vsan.iscsi.health.test.serviceNetwork.nicsUsedByTargets.notFound = 找不到目标使用的网络接口
+com.vmware.vsan.iscsi.health.test.serviceNetwork.table.service.label = 服务网络配置
+com.vmware.vsan.iscsi.health.test.serviceNetwork.table.service.column.check = 检查
+com.vmware.vsan.iscsi.health.test.serviceNetwork.table.service.column.status = 状态
+com.vmware.vsan.iscsi.health.test.serviceNetwork.table.service.column.vmknics = 网络接口
+com.vmware.vsan.iscsi.health.test.serviceNetwork.table.service.column.error = 错误
+
+com.vmware.vsan.iscsi.health.test.serviceNetwork.table.label = 主机网络配置
+com.vmware.vsan.iscsi.health.test.serviceNetwork.table.column.host = 主机
+com.vmware.vsan.iscsi.health.test.serviceNetwork.table.column.status = 状态
+com.vmware.vsan.iscsi.health.test.serviceNetwork.table.column.error = 错误
+com.vmware.vsan.iscsi.health.test.serviceNetwork.table.column.vmknicsMissed = 找不到网络接口

@@ -1,0 +1,21 @@
+<div ng-controller="StorageDatastoreWizardNameController"
+   class="content-padding vm-wizard">
+
+   <div  class="row" style="margin-top: 10px;">
+      <div class="col-sm-6">
+         <div class="form-group">
+            <label for="datastoreName"
+               class="control-label esx-label">
+               {{'vm.wizard.basics.name.placeholder' | translate}}</label>
+
+            <input id="datastoreName"
+               type="text"
+               ng-pattern="SANITIZE_INPUT_REGEX"
+               focus-me="true"
+               class="form-control row-spacer"
+               aria-label="{{'vm.wizard.basics.name.placeholder' | translate}}"
+               ng-model="wizardOptions.data.name"/>
+         </div>
+      </div>
+   </div>
+</div>

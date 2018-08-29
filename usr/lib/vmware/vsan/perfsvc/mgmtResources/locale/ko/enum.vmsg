@@ -1,0 +1,16 @@
+# vSAN features
+com.vmware.vim.license.Feature.vit.label                              = "iSCS "
+com.vmware.vim.license.Feature.vit.summary                            = "iSCSI"
+com.vmware.vim.license.Feature.allflash.label                         = "플래시 전용"
+com.vmware.vim.license.Feature.allflash.summary                       = "플래시 전용"
+com.vmware.vim.license.Feature.stretchedcluster.label                 = "확장된 클러스터"
+com.vmware.vim.license.Feature.stretchedcluster.summary               = "확장된 클러스터"
+com.vmware.vim.license.Feature.erasurecoding.label                    = "RAID5/RAID6 지원"
+com.vmware.vim.license.Feature.erasurecoding.summary                  = "RAID5/RAID6 지원"
+com.vmware.vim.license.Feature.iopslimit.label                        = "VM/VMDK당 최대 IOPS 설정"
+com.vmware.vim.license.Feature.iopslimit.summary                      = "VM/VMDK당 최대 IOPS 설정"
+com.vmware.vim.license.Feature.storageefficiency.label                = "중복 제거 및 압축에 의한 스토리지 절약"
+com.vmware.vim.license.Feature.storageefficiency.summary              = "중복 제거 및 압축에 의한 스토리지 절약"
+com.vmware.vim.license.Feature.encryption.label                       = "vSAN 암호화"
+com.vmware.vim.license.Feature.encryption.summary                     = "vSAN 암호화"
+

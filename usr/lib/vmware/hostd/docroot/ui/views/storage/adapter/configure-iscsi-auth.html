@@ -1,0 +1,127 @@
+<div vui-stack-block="chapBlock">
+   <span vui-sb-label>{{'storage.adapter.iscsi.authentication.chapAuthentication' | translate}}</span>
+
+   <div vui-sb-content>
+      <div vui-dropdown="chap" ng-if="chap" class="inline"></div>
+
+      <div ng-show="showInherited" class="inline" style="margin-left: 5px;">
+         <label>
+            <input
+               ng-disabled="chap.selectedValue === 'chapNone'"
+               ng-model="authProperties.chapInherited"
+               type="checkbox"/>
+            {{'storage.adapter.iscsi.isInherited' | translate}}
+         </label>
+      </div>
+   </div>
+
+   <div vui-sb-content-expanded>
+      <div vui-dropdown="chap" ng-if="chap"></div>
+   </div>
+
+   <!-- children -->
+   <div vui-stack-block="chapNameBlock">
+      <!-- Label -->
+      <span vui-sb-label>{{'storage.adapter.iscsi.authentication.name' | translate}}</span>
+
+      <!-- content -->
+      <div vui-sb-content>
+         <input
+            ng-disabled="chap.selectedValue === 'chapNone' ||
+               authProperties.chapInherited"
+            ng-model="authProperties.chapName"
+            type="text"/>
+      </div>
+   </div>
+
+   <div vui-stack-block="chapSecretBlock">
+      <!-- Label -->
+      <span vui-sb-label>{{'storage.adapter.iscsi.authentication.secret' | translate}}</span>
+
+      <!-- content -->
+      <div vui-sb-content>
+         <input
+            ng-disabled="chap.selectedValue === 'chapNone' ||
+               authProperties.chapInherited"
+            ng-model="authProperties.chapSecret"
+            type="password"/>
+      </div>
+   </div>
+
+   <div ng-show="showInherited" vui-stack-block="chapInheritedBlock">
+      <!-- Label -->
+      <span vui-sb-label>{{'storage.adapter.iscsi.isInherited' | translate}}</span>
+
+      <!-- content -->
+      <div vui-sb-content>
+         <input
+            ng-disabled="chap.selectedValue === 'chapNone'"
+            ng-model="authProperties.chapInherited"
+            type="checkbox"/>
+      </div>
+   </div>
+</div>
+
+<div vui-stack-block="mutualChapBlock">
+   <span vui-sb-label>{{'storage.adapter.iscsi.authentication.mutualChapAuthentication' | translate}}</span>
+
+   <div vui-sb-content>
+      <div vui-dropdown="mutualChap" ng-if="mutualChap" class="inline"></div>
+
+      <div ng-show="showInherited" class="inline" style="margin-left: 5px;">
+         <label>
+            <input
+               ng-disabled="chap.selectedValue === 'chapNone'"
+               ng-model="authProperties.mutualChapInherited"
+               type="checkbox"/>
+            {{'storage.adapter.iscsi.isInherited' | translate}}
+         </label>
+      </div>
+   </div>
+
+   <div vui-sb-content-expanded>
+      <div vui-dropdown="mutualChap" ng-if="mutualChap"></div>
+   </div>
+
+   <!-- children -->
+   <div vui-stack-block="mutualChapNameBlock">
+      <!-- Label -->
+      <span vui-sb-label>{{'storage.adapter.iscsi.authentication.name' | translate}}</span>
+
+      <!-- content -->
+      <div vui-sb-content>
+         <input
+            ng-disabled="mutualChap.selectedValue === 'chapNone' ||
+               authProperties.mutualChapInherited"
+            ng-model="authProperties.mutualChapName"
+            type="text"/>
+      </div>
+   </div>
+
+   <div vui-stack-block="secretBlock">
+      <!-- Label -->
+      <span vui-sb-label>{{'storage.adapter.iscsi.authentication.secret' | translate}}</span>
+
+      <!-- content -->
+      <div vui-sb-content>
+         <input
+            ng-disabled="mutualChap.selectedValue === 'chapNone' ||
+               authProperties.mutualChapInherited"
+            ng-model="authProperties.mutualChapSecret"
+            type="password"/>
+      </div>
+   </div>
+
+   <div ng-show="showInherited" vui-stack-block="mutualChapInheritedBlock">
+      <!-- Label -->
+      <span vui-sb-label>{{'storage.adapter.iscsi.isInherited' | translate}}</span>
+
+      <!-- content -->
+      <div vui-sb-content>
+         <input
+            ng-disabled="chap.selectedValue === 'chapNone'"
+            ng-model="authProperties.mutualChapInherited"
+            type="checkbox"/>
+      </div>
+   </div>
+</div>

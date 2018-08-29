@@ -1,0 +1,29 @@
+/***********************************************************
+ * Copyright 2010,2016 VMware, Inc.  All rights reserved.
+ * VMware Confidential
+ ***********************************************************/
+
+{
+   "operations" :
+   {
+      "start" :
+      [
+         /* Load the default rules for masking certain disk types */
+
+         /* Add claim rules for masked LUNs */
+         /* Mask Dell Universal Xports */
+         "storage core claimrule add -r 101 --type vendor --vendor DELL --model \"Universal Xport\" --plugin MASK_PATH --if-unset psa/defaultLunMasksInstalled",
+
+         /* Mark that we've loaded the rules */
+         "boot system useropt --user-option psa/defaultLunMasksInstalled --value 1"
+      ]
+   }
+   ,
+   "metadata" :
+   {
+      "version"  : 1,
+      "requires" : ["local storage support"],
+      "provides" : ["path masks"]
+   }
+}
+

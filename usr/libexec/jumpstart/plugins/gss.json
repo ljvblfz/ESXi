@@ -1,0 +1,22 @@
+/***********************************************************
+ * Copyright 2013,2015 VMware, Inc.  All rights reserved.
+ * VMware Confidential
+ ***********************************************************/
+
+{
+   "operations" :
+   {
+      "start" :
+      [
+         "system module load --module gss"
+      ]
+   }
+   ,
+   "metadata" :
+   {
+      "version"  : 1,
+      "requires" : ["system configuration", "vmkcrypto"],
+      "provides" : ["gss"]
+   }
+}
+

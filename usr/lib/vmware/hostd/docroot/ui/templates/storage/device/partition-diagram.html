@@ -1,0 +1,29 @@
+<div ng-style="{'height': maxHeight + 'px'};">
+   <div ng-repeat="partition in partitions track by $index"
+      ng-style="{
+         'height': partition.height + '%'
+      }">
+
+      <div style="width: 100px; margin-left: 3px;"
+         ng-click="internalPartitionClick($index)"
+         ng-style="{
+            'float': labelPosition,
+            'border-radius': $index === 0 && $index === partitions.length - 1 ? '5px' :
+               $index === 0 ? '5px 5px 0 0' :
+               $index === partitions.length - 1 ? '0 0 5px 5px' : '',
+            'border': partition.selected ? '2px solid #f00' : '',
+            'border-bottom': !partition.selected ? '1px solid ' + borderColor(partition.guid) : '2px solid #f00',
+            'background-color': color(partition.guid),
+            'height': '100%'
+            }"></div>
+
+      <div style="margin-left: 4px; height: 100%;"
+         ng-style="{'float': labelPosition}">
+         <span ng-if="showNumber && partition.partition">{{partition.partition}}. </span>{{'storage.partitionTypes.' + partition.guid | translate}}
+         <span ng-if="showSize"
+            style="padding-left: 5px;">
+            ({{((partition.endSector - partition.startSector) * 512) | formatMemory}})
+         </span>
+      </div>
+   </div>
+</div>

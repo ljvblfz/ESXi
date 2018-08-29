@@ -1,0 +1,351 @@
+#!/bin/sh
+# chkconfig: off 17 83
+
+#
+# -------------------------------------------------------------
+# vitd.sc --
+#
+#   This script controls VITD daemon and VITSAFEHD daemons.
+#   The behaviour of the script is as follows:
+#      1) start:    Starts both daemons. No action is taken for a daemon
+#                   that is already running.
+#      2) stop :    Vitd is stopped. I/O to LUNs not interrupted (vitsafehd not
+#                   affected). Behavior similar to BSD iSCSI deamon crash.
+#      3) restart:  Restarts vitd without affecting IO to LUNs
+#                   (vitsafehd not affected).
+#      4) io_stop:  Stops vitd and then stops vitsafehd. Cleans up kernel and
+#                   closes DiskLib. Interrupts IO to LUNs.
+#      5) io_reset: Stops vitd, then stops vitsafehd, cleans up kernel,
+#                   closes DiskLib and interrupts IO to LUNs.
+#                   Then restarts vitsafehd and vitd.
+#      6) status:   Provides status of vitd and vitsafehd.
+#
+#   Both VIT and VITSAFEHD are monitored by watchdog.
+# --------------------------------------------------------------
+#
+
+export PATH=/bin:/sbin:/usr/bin
+VITD=/usr/lib/vmware/vsan/bin/vitd
+VITD_TAG=vitd
+VITD_RP="host/vim/vmvisor/$VITD_TAG"
+
+# Fix PR 1710031. We need reserve the memory resource
+# for the vitd watch dog process instead using default
+# temp one to avoid out of memory in watch dog
+# The major memory requirement for the vitd watch dog is
+# forking the vitd process, so that 10M memory is enough
+VITD_WATCH_DOG_TAG=vitdwatchdog
+VITD_WATCH_DOG_RP="host/vim/vmvisor/$VITD_WATCH_DOG_TAG"
+VITD_WATCH_DOG_MEM_RES="${VITD_WATCH_DOG_TAG} 18" # 10 + 8: 10 is the original budget, 8 is for watchdog (PR 1712436)
+
+# Fix the cannot allocate memory issue 1698900
+#
+# The original memory tunning for deciding the reserved memory is not
+# accurate since it only creates 256 luns in one single host which
+# doesn't take the initiator/initiator group, maximum target and luns
+# into account. Here we just set it as 32M after getting the memory
+# profiling number from QE ST test result. (See mem_stats.txt in PR 1698900)
+VITD_MEM_RES="${VITD_TAG} 32"
+VITD_PID_FILE="/var/run/vitd.pid"
+
+VITSAFEHD=/usr/lib/vmware/vsan/bin/vitsafehd
+VITSAFEHD_TAG=vitsafehd
+VITSAFEHD_RP="host/vim/vmvisor/$VITSAFEHD_TAG"
+VITSAFEHD_MEM_RES="${VITSAFEHD_TAG} 32"
+
+VIT_DAEMON_STOP_TIMEOUT=60 # Wait maximum of 60s for vitd daemon to stop
+# Wait maximum of 70s for watchdog to stop. Note watchdog might sleep for 60
+# seconds when it hits a number of quick failures.
+VIT_WATCHDOG_STOP_TIMEOUT=70
+VITD_LOCK_FILE="/var/lock/vitd"
+
+vitdlog() {
+   echo "$@"
+   # Write log to vitd.log
+   logger -p daemon.info -t vitd "[etc/init.d/vitd] $@"
+}
+
+_exitLock() { esxcfg-init -U `echo $$` $VITD_LOCK_FILE > /dev/null 2>&1; }
+_lockOrExit()  {
+   # esxcfs-init verifiy the whether a lock is stale i.e. Whether the process
+   # with the pid is still running. If the process doesn't exist, it will clean
+   # up the stale locks automatically
+   # Note: $VITD_LOCK_FILE doesn't need to be exist.
+   # esxcfs-init create lock files like below in /var/lock
+   # vitd.LOCK -> /var/lock/vitd.LOCK.1002568882
+   # vitd.LOCK.1002568882
+   esxcfg-init -L `echo $$` $VITD_LOCK_FILE
+   if [ $? -ne 0 ] ; then
+      vitdlog "Already have a running vitd script"
+      exit 1
+   else
+      trap _exitLock SIGHUP SIGINT SIGTERM EXIT
+   fi
+}
+
+
+getWatchdogPid() {
+   local WATCHDOG_TAG=$1
+   /sbin/watchdog.sh -r $WATCHDOG_TAG
+}
+
+startVitsafehd() {
+   ulimit -c unlimited
+   local VITSAFEHD_WATCHDOG_PID=$(getWatchdogPid $VITSAFEHD_TAG)
+   local VITSAFEHD_PID="$(pidof -s ${VITSAFEHD})"
+   if [ -z "${VITSAFEHD_WATCHDOG_PID}" -a -z "${VITSAFEHD_PID}" ] ; then
+      vitdlog "${VITSAFEHD_TAG} is starting"
+
+      /usr/lib/vmware/vsan/bin/configVsanRP reserveMemory ${VITSAFEHD_MEM_RES}
+      if [ $? -ne 0 ]; then
+          vitdlog "Failed to set VITSAFEHD memory reservation."
+          exit 1
+      fi
+
+      /sbin/watchdog.sh ++memreliable,group=${VITSAFEHD_RP} -d -s "${VITSAFEHD_TAG}" -i 60 "${VITSAFEHD}" > /dev/null 2>&1
+   else
+      if [ -n "$VITSAFEHD_WATCHDOG_PID" ] ; then
+         vitdlog "${VITSAFEHD_TAG} watchdog is already running as $VITSAFEHD_WATCHDOG_PID"
+      fi
+      if [ -n "$VITSAFEHD_PID" ] ; then
+         vitdlog "${VITSAFEHD_TAG} is already running as $VITSAFEHD_PID"
+      fi
+   fi
+}
+
+startVitd() {
+   ulimit -c unlimited
+   local VITD_WATCHDOG_PID=$(getWatchdogPid $VITD_TAG)
+   local VITD_PID="$(pidof -s ${VITD})"
+   if [ -z "${VITD_WATCHDOG_PID}" -a -z "$VITD_PID" ] ; then
+      vitdlog "${VITD_TAG} is starting"
+
+      /usr/lib/vmware/vsan/bin/configVsanRP reserveMemory ${VITD_MEM_RES}
+      if [ $? -ne 0 ]; then
+          vitdlog "Failed to set VITD memory reservation."
+          exit 1
+      fi
+
+      /usr/lib/vmware/vsan/bin/configVsanRP reserveMemory ${VITD_WATCH_DOG_MEM_RES}
+      if [ $? -ne 0 ]; then
+          vitdlog "Failed to set VITD watch dog memory reservation."
+          exit 1
+      fi
+
+      /sbin/watchdog.sh ++memreliable,group=${VITD_WATCH_DOG_RP} -b ${VITD_PID_FILE} -d -s "${VITD_TAG}" -i 60 "${VITD}" "++group=${VITD_RP}" > /dev/null 2>&1
+   else
+      if [ -n "$VITD_WATCHDOG_PID" ] ; then
+         vitdlog "${VITD_TAG} watchdog is already running as $VITD_WATCHDOG_PID"
+      fi
+      if [ -n "$VITD_PID" ] ; then
+         vitdlog "${VITD_TAG} is already running as $VITD_PID"
+      fi
+   fi
+}
+
+loadVit() {
+   # check if vit module is loaded, and if not, load it
+   localcli system module get -m vit > /dev/null 2>&1
+   if [ $? -ne 0 ]; then
+      vitdlog "Loading vit module"
+      localcli system module load -m vit > /dev/null 2>&1
+      if [ $? -ne 0 ]; then
+         vitdlog "Failed to load vit module."
+         exit 1
+      fi
+   fi
+}
+
+start() {
+   loadVit
+   startVitsafehd
+   startVitd
+}
+
+stopVitd() {
+   local SIGNAL=$1
+
+   if [ -z $SIGNAL ] ; then
+      SIGNAL="SIGKILL"
+   fi
+
+   # Stop vitd
+   local VITD_WATCHDOG_PID=$(getWatchdogPid $VITD_TAG)
+   local VITD_PID="$(pidof -s ${VITD})"
+   if [ -n "${VITD_WATCHDOG_PID}" -o -n "${VITD_PID}" ] ; then
+      /sbin/watchdog.sh -k "${VITD_TAG}"
+      # Wait for vitd watchdog to stop
+      waitForWatchdogExit $VITD_TAG
+
+      VITD_PID="$(pidof -s ${VITD})"
+      if [ -n "${VITD_PID}" ]; then
+         kill -$SIGNAL $VITD_PID && vitdlog $SIGNAL signal has been sent to ${VITD_TAG}
+         # Wait for vitd to die
+         waitForWorldExit ${VITD}
+         # Force kill the process if it still exist
+         VITD_PID="$(pidof -s ${VITD})"
+         if [ -n "${VITD_PID}" ]; then
+            kill -9 $VITD_PID
+            vitdlog "SIGKILL signal has been sent to ${VITD_TAG}"
+            waitForWorldExit ${VITD}
+         fi
+      fi
+      /usr/lib/vmware/vsan/bin/configVsanRP clearMemory ${VITD_TAG}
+      /usr/lib/vmware/vsan/bin/configVsanRP clearMemory ${VITD_WATCH_DOG_TAG}
+   else
+      vitdlog ${VITD_TAG} is not running
+      if [ $SIGNAL = "SIGTERM" ] ; then
+         vitdlog Cleaning kernel configuration
+         ${VITD} -c
+      fi
+   fi
+}
+
+stopVitsafehd() {
+
+   local VITSAFEHD_WATCHDOG_PID=$(getWatchdogPid $VITSAFEHD_TAG)
+   local VITSAFEHD_PID="$(pidof -s ${VITSAFEHD})"
+   if [ -n "${VITSAFEHD_WATCHDOG_PID}" -o -n "${VITSAFEHD_PID}" ] ; then
+      /sbin/watchdog.sh -k "${VITSAFEHD_TAG}"
+      # Wait for vitsafehd watchdog to stop
+      waitForWatchdogExit $VITSAFEHD_TAG
+
+      VITSAFEHD_PID="$(pidof -s ${VITSAFEHD})"
+      if [ -n "${VITSAFEHD_PID}" ]; then
+         kill -SIGKILL ${VITSAFEHD_PID} && vitdlog SIGKILL has been sent to ${VITSAFEHD_TAG}
+         # Wait for vitsafehd to die
+         waitForWorldExit ${VITSAFEHD}
+      fi
+      /usr/lib/vmware/vsan/bin/configVsanRP clearMemory ${VITSAFEHD_TAG}
+   else
+      vitdlog "${VITSAFEHD_TAG} is not running"
+   fi
+}
+
+stop() {
+   stopVitd SIGKILL
+}
+
+reload() {
+   local VITD_PID="$(pidof -s ${VITD})"
+   if [ -n "${VITD_PID}" ] ; then
+      kill -SIGHUP ${VITD_PID}
+   fi
+}
+
+io_stop() {
+   stopVitd SIGTERM
+   # Unload the vit kernel module
+   # only when the vitd is stopped successfully
+   local VITD_PID="$(pidof -s ${VITD})"
+   if [ ! -n "${VITD_PID}" ]; then
+      esxcfg-module -u vit
+      stopVitsafehd
+   else
+      vitdlog "Cannot unload vit module due to ${VITD_TAG} is still running"
+   fi
+}
+
+io_reset() {
+   stopVitd SIGTERM
+   stopVitsafehd
+   loadVit
+   startVitsafehd
+   startVitd
+}
+
+restart() {
+   stopVitd SIGKILL
+   loadVit
+   startVitsafehd
+   startVitd
+}
+
+waitForWorldExit() {
+   local WORLD_NAME=$1
+   # wait for $VIT_DAEMON_STOP_TIMEOUT seconds.
+   local TIMEOUT=$VIT_DAEMON_STOP_TIMEOUT
+   while [ $((TIMEOUT--)) -gt 0 ]; do
+      if [ -z "$(pidof -xs $WORLD_NAME)" ]; then
+         break
+      fi
+      # retry after wait.
+      sleep 1
+   done
+
+   if [ -n "$(pidof -xs $WORLD_NAME)" ]; then
+      vitdlog "Failed to stop $WORLD_NAME"
+   fi
+}
+
+waitForWatchdogExit() {
+   local WATCHDOG_TAG=$1
+
+   # wait for $VIT_WATCHDOG_STOP_TIMEOUT seconds.
+   local TIMEOUT=$VIT_WATCHDOG_STOP_TIMEOUT
+   while [ $((TIMEOUT--)) -gt 0 ]; do
+      if [ -z "$(getWatchdogPid $WATCHDOG_TAG)" ]; then
+         vitdlog "${WATCHDOG_TAG} watchdog stopped."
+         break
+      fi
+      # retry after wait.
+      sleep 1
+   done
+
+   if [ -n "$(getWatchdogPid $WATCHDOG_TAG)" ]; then
+      vitdlog "Failed to stop watchdog ${WATCHDOG_TAG}"
+   fi
+}
+
+case $1 in
+   "start")
+      _lockOrExit
+      start
+      ;;
+   "stop")
+      _lockOrExit
+      stop
+      ;;
+   "restart")
+      _lockOrExit
+      restart
+      ;;
+   "io_stop")
+      _lockOrExit
+      io_stop
+      ;;
+   "io_reset")
+      _lockOrExit
+      io_reset
+      ;;
+   "status")
+      local res=0
+      if [ -n "$(pidof -xs ${VITD})" ] ; then
+         vitdlog "${VITD_TAG} is running"
+      else
+         vitdlog "${VITD_TAG} is not running"
+         res=3
+      fi
+      if [ -n "$(pidof -xs ${VITSAFEHD})" ] ; then
+         vitdlog "${VITSAFEHD_TAG} is running"
+      else
+         vitdlog "${VITSAFEHD_TAG} is not running"
+         res=3
+      fi
+      exit $res
+      ;;
+   "reload")
+      _lockOrExit
+      reload
+      ;;
+   *)
+      echo "Usage: $0 {start|stop|restart|reload|io_stop|io_reset|status}"
+      echo "   start    - start vitd and vitsafehd"
+      echo "   stop     - stop vitd (does not interrupt I/O)"
+      echo "   restart  - restart vitd (does not interrupt I/O)"
+      echo "   reload   - reload vit config (does not restart vitd)"
+      echo "   io_stop  - stop vitd and vitsafehd (interrupts I/O)"
+      echo "   io_reset - restart vitd and vitsafehd (interrupts I/O)"
+      exit 1
+      ;;
+esac

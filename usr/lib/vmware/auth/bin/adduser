@@ -1,0 +1,8 @@
+#!/bin/sh
+
+#
+# The 'adduser' script in busybox makes a call to 'addgroup'.
+# We set $PATH, since 'addgroup' is not in the default path.
+#
+
+PATH=$PATH:/usr/lib/vmware/auth/bin /usr/lib/vmware/busybox/bin/busybox adduser "$@"

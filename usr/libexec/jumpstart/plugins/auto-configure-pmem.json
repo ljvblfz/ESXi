@@ -1,0 +1,22 @@
+/***********************************************************
+ * Copyright 2015-2016 VMware, Inc.  All rights reserved.
+ * VMware Confidential
+ ***********************************************************/
+
+{
+   "operations" :
+   {
+      "start" :
+      [
+         "storage pmem autoconfigure"
+      ]
+   }
+   ,
+   "metadata" :
+   {
+      "version"  : 1,
+      "requires" : ["vmkdevmgr", "vmfs"],
+      "provides" : ["auto config pmem", "datastore"]
+   }
+}
+

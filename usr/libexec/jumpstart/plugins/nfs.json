@@ -1,0 +1,22 @@
+/***********************************************************
+ * Copyright 2010-2012 VMware, Inc.  All rights reserved.
+ * VMware Confidential
+ ***********************************************************/
+
+{
+   "operations" :
+   {
+      "start" :
+      [
+         "system module load --module nfsclient"
+      ]
+   }
+   ,
+   "metadata" :
+   {
+      "version"  : 1,
+      "requires" : ["system configuration", "rpc", "networking", "network auto-configuration", "dm"],
+      "provides" : ["nfs"]
+   }
+}
+

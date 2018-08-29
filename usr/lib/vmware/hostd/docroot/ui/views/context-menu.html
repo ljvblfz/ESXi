@@ -1,0 +1,146 @@
+<ul
+   class="dropdown-menu multi-level"
+   id="contextMenu"
+   style="display: block; position: absolute;"
+   ng-style="{
+      'z-index': 2147483647
+   }"
+   ng-class="{
+      'ng-show': isOpen,
+      'fade': fade
+   }"
+   ng-show="isOpen"
+   role="menu">
+
+   <li ng-if="contextMenu.title" class="dropdown-menu-title"
+      id="contextMenuTitle">
+      <span class="{{contextMenu.titleIconClass}}"
+         style="margin-right: 7px;"></span>
+      {{contextMenu.title}}
+      <i class="esx-icon-close-menu" style="float: right; margin-top: 5px;"
+         ng-if="tablet"
+         ng-click="contextMenu.hide()"></i>
+   </li>
+
+   <li ng-repeat="d in contextMenu.structure"
+      title="{{d.toolTip ? d.toolTip : d.title}}"
+      ng-if="!d.hidden"
+      id="{{d.id}}"
+      ng-class="{'highlight': d.highlight,
+                 'disabled': !d.enabled,
+                 'divider': d.divider,
+                 'dropdown-submenu': d.children && d.children.length > 0}"
+      role="presentation">
+
+      <a ng-if="!d.divider"
+         ng-click="d.enabled && d.onClick()"
+         role="menuitem">
+         <span ng-if="d.iconClass" class="{{d.iconClass}}"></span>
+         <span
+            ng-style="{'font-weight': d.bold ? 'bold' : 'normal'}">{{d.title}}</span>
+      </a>
+
+      <ul ng-if="d.children.length > 0 && !d.divider"
+         class="dropdown-menu"
+         ng-class="{'left': left}">
+
+         <li ng-repeat="dc in d.children"
+            title="{{dc.toolTip ? dc.toolTip : dc.title}}"
+            id="{{dc.id}}"
+            ng-if="!dc.hidden"
+            role="presentation"
+            ng-class="{'highlight': dc.highlight,
+                       'disabled': !dc.enabled,
+                       'divider': dc.divider,
+                       'dropdown-submenu': dc.children && dc.children.length > 0}"
+            role="presentation">
+
+            <a ng-if="!dc.divider && dc.state"
+               ng-click="dc.enabled && dc.onClick()"
+               role="menuitem" tabindex="-1">
+               <span ng-if="dc.iconClass" class="{{dc.iconClass}}"></span>
+               <span
+                  ng-style="{'font-weight': dc.bold ? 'bold' : 'normal'}">{{dc.title}}</span>
+            </a>
+
+            <a ng-if="!dc.divider && !dc.state"
+               ng-click="dc.enabled && dc.onClick()"
+               role="menuitem" tabindex="-1">
+               <span ng-if="dc.iconClass" class="{{dc.iconClass}}"></span>
+               <span
+                  ng-style="{'font-weight': dc.bold ? 'bold' : 'normal'}">{{dc.title}}</span>
+            </a>
+
+            <ul ng-if="dc.children.length > 0 && !dc.divider"
+               class="dropdown-menu"
+               ng-class="{'left': left}">
+
+               <li ng-repeat="dcc in dc.children"
+                  title="{{dcc.toolTip ? dcc.toolTip : dcc.title}}"
+                  ng-if="!dcc.hidden"
+                  id="{{dcc.id}}"
+                  role="presentation"
+                  ng-class="{'highlight': dcc.highlight,
+                             'disabled': !dcc.enabled,
+                             'divider': dcc.divider,
+                             'dropdown-submenu': dcc.children && dcc.children.length > 0}">
+
+                  <a ng-if="!dcc.divider && dcc.state"
+                     ng-click="dcc.enabled && dcc.onClick()"
+                     role="menuitem">
+                     <span ng-if="dcc.iconClass"
+                        class="{{dcc.iconClass}}"></span>
+                     <span
+                        title="{{dcc.toolTip}}"
+                        ng-style="{'font-weight': d.bold ? 'bold' : 'normal'}">{{dcc.title}}</span>
+                  </a>
+
+                  <a ng-if="!dcc.divider && !dcc.state"
+                     ng-click="dcc.enabled && dcc.onClick()"
+                     role="menuitem">
+                     <span ng-if="dcc.iconClass"
+                        class="{{dcc.iconClass}}"></span>
+                     <span
+                        ng-style="{'font-weight': dcc.bold ? 'bold' : 'normal'}"
+                        title="{{dcc.toolTip}}">{{dcc.title}}</span>
+                  </a>
+
+                  <ul ng-if="dcc.children.length > 0 && !dcc.divider"
+                     class="dropdown-menu"
+                     ng-class="{'left': left}">
+
+                     <li ng-repeat="dccc in dcc.children"
+                        title="{{dccc.toolTip ? dccc.toolTip : dccc.title}}"
+                        role="presentation"
+                        id="{{dccc.id}}"
+                        ng-class="{'highlight': dccc.highlight,
+                                   'disabled': !dccc.enabled,
+                                   'divider': dccc.divider}">
+
+                        <a ng-if="!dccc.divider && dccc.state"
+                           ng-click="dccc.enabled && dccc.onClick()"
+                           role="menuitem">
+                           <span ng-if="dccc.iconClass"
+                              class="{{dccc.iconClass}}"></span>
+                           <span
+                              ng-style="{'font-weight': dccc.bold ? 'bold' : 'normal'}"
+                              title="{{dccc.toolTip}}">{{dccc.title}}</span>
+                        </a>
+
+                        <a ng-if="!dccc.divider && !dccc.state"
+                           ng-click="dccc.enabled && dccc.onClick()"
+                           role="menuitem">
+                           <span ng-if="dccc.iconClass"
+                              class="{{dccc.iconClass}}"></span>
+                           <span
+                              ng-style="{'font-weight': dccc.bold ? 'bold' : 'normal'}"
+                              title="{{dccc.toolTip}}">{{dccc.title}}</span>
+                        </a>
+                     </li>
+                  </ul>
+               </li>
+            </ul>
+         </li>
+      </ul>
+   </li>
+</ul>

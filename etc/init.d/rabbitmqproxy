@@ -1,0 +1,143 @@
+#!/bin/sh
+#
+# Copyright 2012 VMware, Inc. All rights reserved.
+#
+# rabbitmqproxy:
+#   Start and stop the rabbitmqproxy service
+#
+# chkconfig: on 18 85
+
+export PATH=/bin:/sbin
+
+RABBITMQPROXY=/usr/lib/vmware/rabbitmqproxy/bin/rabbitmqproxy
+RABBITMQPROXY_TAG=rabbitmqproxy
+RABBITMQPROXY_CONFIG_FILE=/etc/vmware/rabbitmqproxy/config.xml
+RABBITMQPROXY_GROUP="rabbitmqproxy"
+RABBITMQPROXY_MEM_SIZE=255
+CONFIG_RP=/usr/lib/vmware/rp/bin/configRP
+
+MAX_QUICK_FAILURES=1
+MAX_RETRIES=5
+
+RABBITMQPROXY_PID="$(pidof -xs ${RABBITMQPROXY})"
+
+start() {
+   # Note: must evaluate the pid here again in the restart case
+   if [ -n "$(pidof -xs ${RABBITMQPROXY})" ] ; then
+      echo "${RABBITMQPROXY_TAG} already running"
+      return
+   fi
+
+   ${CONFIG_RP} setRPMemMaxSize ${RABBITMQPROXY_GROUP} ${RABBITMQPROXY_MEM_SIZE}
+   if [ $? -ne 0 ]; then
+      echo "error: cannot increase ${RABBITMQPROXY_TAG}'s memory reservation."
+      exit 1
+   fi
+
+   /sbin/watchdog.sh ++memreliable,group=${RABBITMQPROXY_GROUP} -d -s "${RABBITMQPROXY_TAG}" -q "${MAX_QUICK_FAILURES}" -t "${MAX_RETRIES}" "${RABBITMQPROXY}" "${RABBITMQPROXY_CONFIG_FILE}"
+   # The rabbitmqproxy could exit if it is not yet configured with a broker yet.
+   # We need to wait and the check whether the rabbitmqproxy is still running
+
+   local TIMEOUT=10
+
+   while [ $((TIMEOUT--)) -gt 0 ]; do
+      WATCHDOG_PID="$(/sbin/watchdog.sh -r ${RABBITMQPROXY_TAG})"
+      if [ -z "${WATCHDOG_PID}" ] ; then
+         echo "${RABBITMQPROXY_TAG} not up, probably not unconfigured yet."
+
+         ${CONFIG_RP} setRPMemMaxSize ${RABBITMQPROXY_GROUP} 0
+         if [ $? -ne 0 ]; then
+            echo "error: cannot clear ${RABBITMQPROXY_TAG}'s memory reservation."
+	    exit 1
+         fi
+         # The normal case, rabbitmqproxy not configured, we bail out quickly
+         return
+      fi
+      usleep 10000
+   done
+
+   echo "${RABBITMQPROXY_TAG} started"
+}
+
+stop() {
+   if [ -z "${RABBITMQPROXY_PID}" ] ; then
+      echo "${RABBITMQPROXY_TAG} is not running"
+      return
+   fi
+
+   # this only stops the watchdog process
+   /sbin/watchdog.sh -k "${RABBITMQPROXY_TAG}"
+
+   pkill -15 "${RABBITMQPROXY_TAG}"
+   waitforexit
+
+   echo "${RABBITMQPROXY_TAG} stopped"
+
+   ${CONFIG_RP} setRPMemMaxSize ${RABBITMQPROXY_GROUP} 0
+   if [ $? -ne 0 ]; then
+      echo "error: cannot clear ${RABBITMQPROXY_TAG}'s memory reservation."
+      exit 1
+   fi
+}
+
+waitforexit() {
+   while  [ -n "$(pidof -xs ${RABBITMQPROXY})" ] ; do
+      usleep 10000
+   done
+}
+
+reload() {
+   if [ -z "${RABBITMQPROXY_PID}" ] ; then
+      echo "${RABBITMQPROXY_TAG} is not running"
+      start
+      return
+   fi
+
+   pkill -1 "${RABBITMQPROXY_TAG}"
+
+   echo "${RABBITMQPROXY_TAG} reloaded"
+}
+
+ssl_reset() {
+   reload
+}
+
+
+case "${1}" in
+   "start")
+      start
+   ;;
+   "stop")
+      stop
+   ;;
+   "restart")
+      stop
+      waitforexit
+      start
+   ;;
+   "reload")
+      reload
+   ;;
+   "status")
+      if [ -n "${RABBITMQPROXY_PID}" ] ; then
+         echo "${RABBITMQPROXY_TAG} is running"
+         return 0
+      else
+         echo "${RABBITMQPROXY_TAG} is not running"
+         return 3
+      fi
+   ;;
+   "ssl_reset")
+      if [ -n "${RABBITMQPROXY_PID}" ] ; then
+	 ssl_reset
+      else
+         echo "${RABBITMQPROXY_TAG} is not running"
+         return 3
+      fi
+   ;;
+   *)
+      echo "Usage: $0 {start|stop|status|restart|reload|ssl_reset}"
+      return 1
+   ;;
+esac
+

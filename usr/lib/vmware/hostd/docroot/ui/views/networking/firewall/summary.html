@@ -1,0 +1,79 @@
+<div ng-class="{'esx-main-content': !nested}">
+   <div ng-show="!loaded" class="loading"></div>
+
+   <div ng-if="loaded && !nested" vui-action-bar="actionBarOptions" style="margin-bottom: 20px;"></div>
+
+   <div ng-show="loaded" class="row header-area no-margin">
+      <div class="col-sm-9 info-block no-padding">
+         <div class="identifying-graphic col-sm-4 col-lg-3">
+            <img src="images/network/obj-network.png" alt="{{'network.firewall.alt' | translate}}"/>
+         </div>
+         <div class="key-information col-sm-8 col-lg-9">
+            <div class="row">
+               <div class="col-sm-12 title no-padding">
+                  <span class="object-title" ng-bind="currentFirewallRule.label"></span>
+               </div>
+            </div>
+            <form class="form-horizontal">
+               <div class="form-group">
+                  <span class="col-sm-2 col-lg-2 control-label esx-label no-padding">
+                     {{'network.firewall.summary.key' | translate}}</span>
+                  <div class="col-sm-8 col-lg-8 no-padding">
+                     <p class="form-control-static">{{currentFirewallRule.key}}</p>
+                  </div>
+               </div>
+               <div class="form-group">
+                  <span class="col-sm-2 col-lg-2 control-label esx-label no-padding">
+                     {{'network.firewall.summary.enabled' | translate}}</span>
+                  <div class="col-sm-8 col-lg-8 no-padding">
+                     <p class="form-control-static">{{'network.firewall.summary.' + currentFirewallRule.enabled | translate}}</p>
+                  </div>
+               </div>
+               <div ng-if="currentFirewallRule.service" class="form-group">
+                  <span class="col-sm-2 col-lg-2 control-label esx-label no-padding">
+                     {{'network.firewall.summary.service' | translate}}</span>
+                  <div class="col-sm-8 col-lg-8 no-padding">
+                     <p class="form-control-static">{{currentFirewallRule.service}}</p>
+                  </div>
+               </div>
+               <div ng-if="currentFirewallRule.sourcePackageName" class="form-group">
+                  <span class="col-sm-2 col-lg-2 control-label esx-label no-padding">
+                     {{'network.firewall.summary.package' | translate}}</span>
+                  <div class="col-sm-8 col-lg-8 no-padding">
+                     <p class="form-control-static">{{currentFirewallRule.sourcePackageName}}</p>
+                     <p class="form-control-static">{{currentFirewallRule.sourcePackageDescription}}</p>
+                  </div>
+               </div>
+               <div class="form-group">
+                  <span class="col-sm-2 col-lg-2 control-label esx-label no-padding">
+                     {{'network.firewall.summary.allowedIP' | translate}}</span>
+                  <div class="col-sm-8 col-lg-8 no-padding">
+                     <p ng-if="currentFirewallRule.allIps" class="form-control-static">{{'network.firewall.summary.all'|translate}}</p>
+                     <p ng-if="!currentFirewallRule.allIps" class="form-control-static">{{currentFirewallRule.allowedIps}}</p>
+                  </div>
+               </div>
+            </form>
+         </div>
+      </div>
+      <div class="col-sm-3 metrics">&nbsp;</div>
+   </div>
+
+   <div ng-if="!nested" ng-show="loaded" class="portlet-area container-fluid no-margin no-padding">
+      <div class="row">
+         <div class="col-lg-6 col-sm-12">
+            <div class="vui-portlet no-margin" ng-class="{'collapsed': rulesPortlet.collapsed}">
+               <div class="portlet-titlebar" ng-click="rulesPortlet.toggle()">
+                  <span class="icon" ng-class="{
+                     'vui-icon-caret-dark-gray-right': rulesPortlet.collapsed,
+                     'vui-icon-caret-dark-gray-down': !rulesPortlet.collapsed}"></span>
+                  <span class="titlebar-text" title="{{'network.firewall.summary.portlets.rules.tooltip' | translate}}">
+                     {{'network.firewall.summary.portlets.rules.title' | translate}}</span>
+               </div>
+               <div class="portlet-content">
+                  <div esx-portlet-content data="rulesPortlet.data"></div>
+               </div>
+            </div>
+         </div>
+      </div>
+   </div>
+</div>

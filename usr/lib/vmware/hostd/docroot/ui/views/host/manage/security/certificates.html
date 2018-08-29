@@ -1,0 +1,16 @@
+<div ng-if="hostManageSecurityTabs.tabs[getSelectedTab()].state ===  'host.manage.security.certificates'"
+   ng-controller="HostManageSecurityCertificatesController" class="esx-tertiary-tab-content">
+
+   <div ng-if="!loaded" class="loading"></div>
+
+   <div class="notification-area" ng-if="isManagedByVC">
+      <div esx-notification
+            type="warning">
+         {{'host.manage.system.security.certificates.warningVC' | translate}}
+      </div>
+   </div>
+
+   <div ng-if="loaded" vui-action-bar="certificatesActionBar" style="padding-top: 2px;"></div>
+
+   <div ng-if="loaded && certLoaded" vui-stack-view="certificatesStackView"></div>
+</div>

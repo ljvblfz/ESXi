@@ -1,0 +1,12 @@
+<div ng-controller="VMDeployFromOVFWizardPropertiesController" ng-if="wizardOptions.data.CreationType.id === 'deploy'">
+   <div class="row no-margin row-spacer">
+      <div class="col-sm-12 no-padding wizard-stack-fixed-height">
+         <esx-portlet-content
+            data="propertiesPortlet.data"
+            item-scope="scope"
+            error-message="errorMessage"
+            loading-message="loadingMessage"></esx-portlet-content>
+      </div>
+   </div>
+</div>
+

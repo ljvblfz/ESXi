@@ -1,0 +1,95 @@
+<div ng-controller="StorageDatastoreWizardNFSController" class="content-padding vm-wizard">
+
+   <div ng-if="loading" ng-include src="'views/loading-dialog.html'"></div>
+
+   <div class="vui-stack-view">
+      <div class="stack-view-table">
+
+         <div class="stack-view-row">
+            <div class="stack-view-cell">
+               <span>{{'vm.wizard.basics.name.placeholder' | translate}}</span>
+            </div>
+            <div class="stack-view-cell">
+               <input id="datastoreName"
+                  type="text"
+                  focus-me="true"
+                  ng-pattern="SANITIZE_INPUT_REGEX"
+                  class="form-control row-spacer"
+                  aria-label="{{'vm.wizard.basics.name.placeholder' | translate}}"
+                  ng-model="wizardOptions.data.name"/>
+            </div>
+         </div>
+
+         <div class="stack-view-row">
+            <div class="stack-view-cell">
+               <span>{{'storage.datastore.create.nfs.server' | translate}}</span>
+            </div>
+            <div class="stack-view-cell">
+               <input id="nfsHost"
+                  type="text"
+                  class="form-control row-spacer"
+                  aria-label="NFS host"
+                  ng-model="wizardOptions.data.nfsHost"/>
+            </div>
+         </div>
+
+         <div class="stack-view-row">
+            <div class="stack-view-cell">
+               <span>{{'storage.datastore.create.nfs.share' | translate}}</span>
+            </div>
+            <div class="stack-view-cell">
+               <input id="nfsShare"
+                  type="text"
+                  class="form-control row-spacer"
+                  aria-label="NFS share"
+                  ng-model="wizardOptions.data.nfsShare"/>
+            </div>
+         </div>
+
+         <div class="stack-view-row">
+            <div class="stack-view-cell">
+               <span>{{'storage.datastore.create.nfs.version' | translate}}</span>
+            </div>
+            <div class="stack-view-cell">
+               <label>
+                  <input type="radio" name="nfsType" ng-value="'NFS'"
+                     ng-model="wizardOptions.data.nfsType"/> NFS 3
+               </label>
+               <label>
+                  <input type="radio" name="nfsType" ng-value="'NFS41'"
+                     ng-model="wizardOptions.data.nfsType"/> NFS 4
+               </label>
+            </div>
+         </div>
+
+         <div ng-if="wizardOptions.data.nfsType === 'NFS41'" class="stack-view-row">
+            <div class="stack-view-cell">
+               <span>{{'storage.datastore.create.nfs.user' | translate}}</span>
+            </div>
+            <div class="stack-view-cell">
+               <input id="nfsUsername"
+                  type="text"
+                  class="form-control row-spacer"
+                  aria-label="NFS username"
+                  ng-model="wizardOptions.data.nfsUsername"/>
+            </div>
+         </div>
+
+         <div ng-if="wizardOptions.data.nfsType === 'NFS41'" class="stack-view-row">
+            <div class="stack-view-cell">
+               <span>{{'storage.datastore.create.nfs.password' | translate}}</span>
+            </div>
+            <div class="stack-view-cell">
+               <input id="nfsPassword"
+                  type="password"
+                  class="form-control row-spacer"
+                  aria-label="NFS password"
+                  ng-model="wizardOptions.data.nfsPassword"/>
+            </div>
+         </div>
+
+      </div>
+
+   </div>
+
+</div>

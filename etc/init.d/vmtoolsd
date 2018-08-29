@@ -1,0 +1,89 @@
+#!/bin/sh
+# chkconfig: on 99 99
+
+TOOLSD=/bin/vmtoolsd
+TOOLSD_TAG=vmtoolsd
+TOOLSD_RP="host/vim/vimuser/vmtoolsd"
+MAX_RETRIES=5
+RP_SIZE=46
+
+
+setupResourcePool() {
+   localcli --plugin-dir /usr/lib/vmware/esxcli/int sched group list | \
+   grep '^host/vim/vimuser/vmtoolsd$' > /dev/null 2>&1 || \
+   localcli --plugin-dir /usr/lib/vmware/esxcli/int sched group \
+      add -g host/vim/vimuser -n vmtoolsd || exit 1
+   localcli --plugin-dir /usr/lib/vmware/esxcli/int sched group \
+      setmemconfig -g host/vim/vimuser/vmtoolsd \
+      -m ${RP_SIZE} -i ${RP_SIZE} -l ${RP_SIZE} -u mb || exit 1
+   localcli --plugin-dir /usr/lib/vmware/esxcli/int sched group \
+      setcpuconfig -g host/vim/vimuser/vmtoolsd -m 100 -u mhz || exit 1
+}
+
+removeResourcePool() {
+   localcli --plugin-dir /usr/lib/vmware/esxcli/int sched group \
+      delete -g host/vim/vimuser/vmtoolsd || exit 1
+}
+
+runningInAVM() {
+   vsish -e cat /hardware/cpu/cpuInfo | grep -q NVOA:1 &&
+      vsish -e cat /hardware/bios/dmiInfo | grep -q 'Vendor Name:VMware'
+}
+
+start() {
+   if runningInAVM; then
+      if [ -z "$(pidof -xs "${TOOLSD}")" ] ; then
+         setupResourcePool
+         /sbin/watchdog.sh ++memreliable,group=${TOOLSD_RP} -d \
+            -s "${TOOLSD_TAG}" -t "${MAX_RETRIES}" -e "" \
+            "${TOOLSD}" >/dev/null 2>&1
+         echo "vmtoolsd started"
+      else
+         echo "vmtoolsd already running"
+      fi
+   fi
+}
+
+stop() {
+   if [ -n "$(pidof -xs "${TOOLSD}")" ] ; then
+      /sbin/watchdog.sh -k "${TOOLSD_TAG}"
+      pkill -9 "${TOOLSD_TAG}"
+      echo "vmtoolsd stopped"
+   else
+      echo "vmtoolsd is not running"
+   fi
+   TIMEOUT=10
+   while [ -n "$(pidof -xs "${TOOLSD}")" -a ${TIMEOUT} -gt 0 ] ; do
+      sleep 1
+      TIMEOUT=$(expr $TIMEOUT - 1)
+   done
+   removeResourcePool
+}
+
+case "${1}" in
+   "start")
+      start
+   ;;
+   "stop")
+      stop
+   ;;
+   "status")
+      if [ -n "$(pidof -xs "${TOOLSD}")" ] ; then
+         echo "vmtoolsd is running"
+         exit 0
+      else
+         echo "vmtoolsd is not running"
+         exit 3
+      fi
+   ;;
+   "restart")
+      stop
+      start
+   ;;
+   *)
+      echo "Usage: $(basename ${0}) {start|stop|status|restart}"
+      exit 1
+   ;;
+esac
+
+exit 0

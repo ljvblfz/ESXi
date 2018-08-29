@@ -1,0 +1,57 @@
+#!/bin/sh
+# chkconfig: on 20 20
+
+DCB=/usr/sbin/dcbd
+DCB_TAG=dcbd
+DCB_RP="net-daemons"
+MAX_RETRIES=5
+
+start() {
+   if [ -z "$(pidof -xs "${DCB}")" ] ; then
+      /sbin/watchdog.sh ++memreliable,group=${DCB_RP} -d -s "${DCB_TAG}" -t "${MAX_RETRIES}" "${DCB}" >/dev/null 2>&1
+      echo "dcbd started"
+   else
+      echo "dcbd already running"
+   fi
+}
+
+stop() {
+   if [ -n "$(pidof -xs "${DCB}")" ] ; then
+      /sbin/watchdog.sh -k "${DCB_TAG}"
+      pkill -9 "${DCB_TAG}"
+      while [ -n "$(pidof -xs ${DCB})" ] ; do
+         pkill -9 "${DCB_TAG}"
+         sleep 1
+      done
+      echo "dcbd stopped"
+   else
+      echo "dcbd is not running"
+   fi
+}
+
+case "${1}" in
+   "start")
+      start
+   ;;
+   "stop")
+      stop
+   ;;
+   "status")
+      if [ -n "$(pidof -xs "${DCB}")" ] ; then
+         echo "dcbd is running"
+         exit 0
+      else
+         echo "dcbd is not running"
+         exit 3
+      fi
+   ;;
+   "restart")
+      stop
+      start
+   ;;
+   *)
+      echo "Usage: $(basename ${0}) {start|stop|status|restart}"
+      exit 1
+   ;;
+esac
+

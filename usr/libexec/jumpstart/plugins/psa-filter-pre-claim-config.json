@@ -1,0 +1,54 @@
+/***********************************************************
+ * Copyright 2010-2011,2013,2015 VMware, Inc.  All rights reserved.
+ * VMware Confidential
+ ***********************************************************/
+
+{
+   "operations" :
+   {
+      "start" :
+      [
+         /* Add the default Filter Rules */
+         "storage core claimrule add --claimrule-class Filter --rule 65429 --plugin VAAI_FILTER --type vendor --vendor MSFT --model \"Virtual HD\" --if-unset corestorage/Filter/DefaultVMWRulesLoaded",
+         "storage core claimrule add --claimrule-class Filter --rule 65430 --plugin VAAI_FILTER --type vendor --vendor EMC --model SYMMETRIX --if-unset corestorage/Filter/DefaultVMWRulesLoaded",
+         "storage core claimrule add --claimrule-class Filter --rule 65431 --plugin VAAI_FILTER --type vendor --vendor DGC --if-unset corestorage/Filter/DefaultVMWRulesLoaded",
+         "storage core claimrule add --claimrule-class Filter --rule 65432 --plugin VAAI_FILTER --type vendor --vendor EQLOGIC --if-unset corestorage/Filter/DefaultVMWRulesLoaded",
+         // Add/Remove rule 65433 before adding rule for model=LUN* to support both fresh install and upgrade scenarios. See PR 1042642
+         "storage core claimrule add --claimrule-class Filter --rule 65433 --plugin VAAI_FILTER --type vendor --vendor NETAPP --if-unset corestorage/Filter/DefaultVMWRulesLoaded",
+
+         "storage core claimrule remove --claimrule-class Filter --rule 65433",
+         "storage core claimrule add --claimrule-class Filter --rule 65433 --plugin VAAI_FILTER --type vendor --vendor NETAPP --model LUN*",
+
+         "storage core claimrule add --claimrule-class Filter --rule 65434 --plugin VAAI_FILTER --type vendor --vendor HITACHI --if-unset corestorage/Filter/DefaultVMWRulesLoaded",
+         "storage core claimrule add --claimrule-class Filter --rule 65435 --plugin VAAI_FILTER --type vendor --vendor LEFTHAND --if-unset corestorage/Filter/DefaultVMWRulesLoaded",
+
+         /* Mark that we've loaded the rules */
+         "boot system useropt --user-option corestorage/Filter/DefaultVMWRulesLoaded --value 1",
+
+         /* Add the default VAAI Rules */
+         "storage core claimrule add --claimrule-class VAAI --rule 65429 --plugin VMW_VAAIP_MASK --type vendor --vendor MSFT --model \"Virtual HD\" --if-unset corestorage/VAAI/DefaultVMWRulesLoaded",
+         "storage core claimrule add --claimrule-class VAAI --rule 65430 --plugin VMW_VAAIP_SYMM --type vendor --vendor EMC --model SYMMETRIX --if-unset corestorage/VAAI/DefaultVMWRulesLoaded",
+         "storage core claimrule add --claimrule-class VAAI --rule 65431 --plugin VMW_VAAIP_CX --type vendor --vendor DGC --if-unset corestorage/VAAI/DefaultVMWRulesLoaded",
+         "storage core claimrule add --claimrule-class VAAI --rule 65432 --plugin VMW_VAAIP_EQL --type vendor --vendor EQLOGIC --if-unset corestorage/VAAI/DefaultVMWRulesLoaded",
+         // Add/Remove rule 65433 before adding rule for model=LUN* to support both fresh install and upgrade scenarios. See PR 1042642
+         "storage core claimrule add --claimrule-class VAAI --rule 65433 --plugin VMW_VAAIP_NETAPP --type vendor --vendor NETAPP --if-unset corestorage/VAAI/DefaultVMWRulesLoaded",
+
+         "storage core claimrule remove --claimrule-class VAAI --rule 65433",
+         "storage core claimrule add --claimrule-class VAAI --rule 65433 --plugin VMW_VAAIP_NETAPP --type vendor --vendor NETAPP --model LUN*",
+
+         "storage core claimrule add --claimrule-class VAAI --rule 65434 --plugin VMW_VAAIP_HDS --type vendor --vendor HITACHI --if-unset corestorage/VAAI/DefaultVMWRulesLoaded",
+         "storage core claimrule add --claimrule-class VAAI --rule 65435 --plugin VMW_VAAIP_LHN --type vendor --vendor LEFTHAND --if-unset corestorage/VAAI/DefaultVMWRulesLoaded",
+
+         /* Mark that we've loaded the rules */
+         "boot system useropt --user-option corestorage/VAAI/DefaultVMWRulesLoaded --value 1"
+      ]
+   }
+   ,
+   "metadata" :
+   {
+      "version"  : 1,
+      "requires" : ["PSA VAAI filter registration", "PSA VAAI plugin registration", "path masks"],
+      "provides" : ["PSA filter pre-claim configuration", "PSA Filter claim rules", "PSA VAAI claim rules"]
+   }
+}
+

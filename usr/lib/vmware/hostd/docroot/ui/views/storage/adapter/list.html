@@ -1,0 +1,14 @@
+<div ng-if="tabs.adapters.loaded || storageTabs.tabs[getSelectedTab()].state === tabs.adapters.state"
+     ng-controller="StorageAdapterListController" class="esx-tab-content">
+
+   <div ng-if="!loaded" class="loading"></div>
+
+   <div ng-if="loaded" id="{{adapterGrid.id}}" vui-datagrid="adapterGrid"></div>
+
+   <hr ng-if="currentAdapter" class="ng-cloak" ng-cloak/>
+
+   <div ng-controller="StorageAdapterController" ng-cloak ng-if="currentAdapter">
+      <div ng-include src="'views/storage/adapter/summary.html'"></div>
+   </div>
+
+</div>

@@ -1,0 +1,278 @@
+#!/usr/bin/env python
+
+########################################################################
+# Copyright 2017 VMware, Inc.  All rights reserved.
+# -- VMware Confidential
+########################################################################
+
+"""Bootloader install script for esxcli profile install/upgrade scenarios"""
+
+"""
+   This script finds the boot disk and writes mbr and boot partition
+   when they need an update, which is determined by comparing uuid written in
+   the FAT reserved sector.
+
+   esx-base vib packs this script with the required components as a payload.
+
+   During bootbank install of esxcli, this script is executed with the
+   new bootloader payload mounted to upgrade bootloader.
+
+   During jumpstart, this script is also executed to perform bootloader
+   update for esxcli profile update from releases before 6.5.
+"""
+
+import logging
+import logging.handlers
+import os
+import re
+import gzip
+import sys
+import traceback
+import vmkctl
+
+from subprocess import PIPE
+from subprocess import Popen
+
+LOG_LEVEL = logging.INFO
+LOG_IDENTIFIER = "install-bootloader"
+PARTEDUTIL_BIN = '/sbin/partedUtil'
+PARTEDUTIL_GETINFO = 'getptbl'
+# Max bootloader size as specified by the MBR specification
+MAX_BOOTLOADER_SIZE = 446
+# Boot partition numbers used by ESXi based on the partitioning
+# scheme
+BOOTPART_NUM = {'msdos' : 4,
+                'gpt' : 1,
+               }
+
+_bootPartDD = "/usr/lib/vmware/bootloader-installer/bootpart.gz"
+_bootPartDD4kn = "/usr/lib/vmware/bootloader-installer/bootpart4kn.gz"
+_msdosSyslinuxDD = "/usr/lib/vmware/bootloader-installer/mbr.bin"
+_gptSyslinuxDD = "/usr/lib/vmware/bootloader-installer/gptmbr.bin"
+_syslinuxDD = {'msdos' : _msdosSyslinuxDD,
+               'gpt' : _gptSyslinuxDD,
+              }
+
+log = None
+
+def setupLogging():
+   """Setup the logger for this script."""
+
+   global log
+
+   logger = logging.getLogger(LOG_IDENTIFIER)
+   logger.setLevel(LOG_LEVEL)
+
+   try:
+      syslog = logging.handlers.SysLogHandler(address="/dev/log")
+      syslog.setFormatter(
+         logging.Formatter("%(name)s: %(levelname)s: %(message)s"))
+      syslog.log_format_string = "<%d>%s"
+      logger.addHandler(syslog)
+   except:
+      # disable logging when syslog is down
+      logger.addHandler(logging.NullHandler())
+
+   log = logger
+
+def execCommand(command):
+   """Execute a command"""
+   env = {}
+   env["PATH"] = "/sbin:/bin:/usr/sbin:/usr/bin:/usr/bin/vmware"
+
+   process = Popen(command, shell=True, env=env, stdout=PIPE,
+                    stderr=PIPE, close_fds=True)
+   stdout = None
+   stderr = None
+   try:
+      (stdout, stderr) = process.communicate()
+   except OSError as e:
+      raise Exception("%s failed to execute: (%d): %s" % (command, e.errno, e.strerror))
+   except:
+      raise Exception("%s failed to execute." % command)
+
+   if stderr:
+      log.error("stderr: %s\n" % (stderr,))
+
+   if process.returncode:
+      raise Exception("%s failed to execute: status(%d)" % (command, process.returncode))
+
+   return (process.returncode, stdout, stderr)
+
+def findBootDisk():
+   """Find the boot disk which ESXi is using"""
+   rc, bootDiskUUID, err = execCommand("esxcfg-info -b")
+
+   bootDiskUUID = bootDiskUUID.decode().strip()
+   log.info("Got bootDiskUUID: '%s'" % bootDiskUUID)
+   if bootDiskUUID == "":
+      return ""
+
+   si = vmkctl.StorageInfoImpl()
+   vfats = [vfat.get() for vfat in si.GetVFATFileSystems()]
+   bootFS = None
+   for vfat in vfats:
+      if vfat.GetUuid() == bootDiskUUID:
+         bootFS = vfat
+         break
+
+   if not bootFS:
+      return ''
+
+   bootPart = bootFS.GetHeadPartition().get()
+   diskName = bootPart.GetDeviceName()
+   log.info("Found boot disk: %s" % diskName);
+   return diskName
+
+def writeBuf(src, destPath):
+   """Write content to destination"""
+   READ_SIZE = 1024
+   read = 0
+   written = 0
+   dest = None
+   try:
+      dest = open(destPath, 'rb+')
+      buf = src.read(READ_SIZE)
+      read += len(buf)
+      while buf:
+         written += dest.write(buf)
+         buf = src.read(READ_SIZE)
+         read += len(buf)
+   except Exception as e:
+      log.info('Writing to %s failed: %s' % (destPath, str(e)))
+      raise
+   finally:
+      if dest:
+         dest.close()
+
+   log.info('Wrote %d bytes to disk %s. Source size is %d.' %
+            (written, destPath, read))
+
+def getDiskInfo(diskPath):
+   """Get partition information for the specified disk"""
+   command = ' '.join([PARTEDUTIL_BIN, PARTEDUTIL_GETINFO, diskPath])
+
+   rc, out, err = execCommand(command)
+   output = out.decode().splitlines()
+   partType = output[0]
+   diskGeom = output[1]
+   parts = output[2:]
+
+   return partType, diskGeom, parts
+
+def getLunByName(name):
+   """Get a disk lun given a name"""
+   luns = [ptr.get() for ptr in vmkctl.StorageInfoImpl().GetDiskLuns()]
+   matches = [lun for lun in luns
+              if lun.GetConsoleDevice().endswith(name)]
+   if not matches:
+      raise Exception("Disk %s was not found after rescan" % name);
+
+   return matches[0]
+
+def bootPartUuidEqual(bootPartPath, bootPartDD):
+   """Determine if boot partition uuid are the same"""
+   # uuid is located in second sector between offset 16 and 32, thus 528 to 544
+   oldSrc = open(bootPartPath, 'rb')
+   oldSrc.seek(528)
+   oldUuid = oldSrc.read(16)
+   oldSrc.close()
+   newSrc = gzip.GzipFile(bootPartDD)
+   newSrc.seek(528)
+   newUuid = newSrc.read(16)
+   newSrc.close()
+   return oldUuid == newUuid
+
+def actionDDSysLinux(diskPath, partType):
+   """Write the primary bootloader to the MBR"""
+   syslinuxDD = _syslinuxDD[partType]
+   log.info('Writing bootloader %s to disk %s.' % (syslinuxDD, diskPath))
+   with open(syslinuxDD, 'rb') as fobj:
+      writeBuf(fobj, diskPath)
+
+def actionDDBootPart(diskPath, bootPartDD):
+   """Write the boot partition"""
+   log.info('Writing boot partition %s to disk %s.' %
+            (_bootPartDD, diskPath))
+   with gzip.open(bootPartDD, 'rb') as fobj:
+      writeBuf(fobj, diskPath)
+
+def isInstaller():
+   """Is the installer running ?"""
+   # get boot options
+   rc, bootOptions, _stderr = execCommand("/sbin/bootOption -roC")
+   return (re.search("(^|\s)(runweasel|ks=\S)", bootOptions.decode()) != None)
+
+def main():
+   """Check prerequisites and perform actions"""
+
+   # Setup logging for the script
+   setupLogging()
+
+   if isInstaller():
+      # Installer is running. It will take care of upgrading the bootloader
+      # if required. Let the script bail.
+      log.info('Installer is running, skipping update.')
+      return
+
+   # Jumpstart mode
+   if len(sys.argv) > 1 and sys.argv[1] == '--jumpstart':
+      jumpstart = True
+   else:
+      jumpstart = False
+
+   # Find boot disk
+   bootDiskName = findBootDisk()
+   if bootDiskName == "":
+      log.info("Could not identify the boot disk, skipping update.")
+      return
+
+   # Get disk info
+   installDisk = getLunByName(bootDiskName)
+   diskFormatType = installDisk.GetFormatType()
+   diskPath = installDisk.GetConsoleDevice()
+   partType, diskGeom, parts = getDiskInfo(diskPath)
+   bootPartNum = BOOTPART_NUM[partType]
+   bootPartPath = diskPath + ':' + str(bootPartNum)
+
+   if diskFormatType in [vmkctl.DiskLun.LUN_FORMAT_TYPE_512N,
+                         vmkctl.DiskLun.LUN_FORMAT_TYPE_512E,
+                         vmkctl.DiskLun.LUN_FORMAT_TYPE_UNKNOWN]:
+       bootPartDD = _bootPartDD
+       log.info("The disk format type is 512/sector, using bootpart.gz file.")
+   else:
+       bootPartDD = _bootPartDD4kn
+       log.info("The disk format type is 4K/sector, using bootpart4kn.gz file.")
+
+   # No action when boot partition UUIDs are equal
+   if bootPartUuidEqual(bootPartPath, bootPartDD):
+      log.info('Bootloader is up-to-date, skipping update.')
+      return
+
+   # Update loading screen for jumpstart mode
+   if jumpstart:
+      execCommand('/bin/esxcfg-init -T '
+                  '"Updating bootloader, system will reboot shortly..."')
+
+   actionDDSysLinux(diskPath, partType)
+   actionDDBootPart(bootPartPath, bootPartDD)
+
+   # Reboot in jumpstart when update is performed
+   if jumpstart:
+      os.system('reboot')
+
+
+if __name__ == "__main__":
+   try:
+      main()
+   except Exception as e:
+      vmkctl_sys = vmkctl.SystemInfoImpl()
+      vmkctl_sys.SetSystemAlert('Failed to execute bootloader update script, '
+                                'bootloader might be out of date: %s' % str(e))
+      if log is not None:
+         log.exception(e)
+      else:
+         import syslog
+         syslog.syslog(syslog.LOG_EMERG, traceback.format_exc())
+      sys.stderr.write(traceback.format_exc())
+      sys.exit(1)

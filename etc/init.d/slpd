@@ -1,0 +1,121 @@
+#!/bin/sh
+#
+# Copyright 2007 VMware, Inc.  All rights reserved.
+#
+# slpd:
+#    Service Location Protocol daemon
+#
+# chkconfig: on 19 78
+# description: Service Location Protocol (SLP) daemon
+#
+
+SLPD="/sbin/slpd"
+SLPD_TAG="slpd"
+SLPD_OPTS="-N -l syslog"
+SLPD_SCHED_PARAM="++min=0,group=slp"
+
+export PATH=/sbin:/bin
+
+#
+# Sanity check
+#
+[ -x "${SLPD}" ] || exit 0
+
+#
+# Log action
+#
+slpd_log() {
+   echo "$1"
+   logger slpd "$1"
+}
+
+generate_slpd_registration()
+{
+   local vmw_id=$(vmware -v)
+   local slp_reg=/etc/slp.reg
+   local product=""
+   if [ -f ${slp_reg} ]; then
+      local product=$(awk -F= '/product/{ print substr($2, 2, length($2) - 2) }' "${slp_reg}")
+   fi
+   # if the registration file does not exist, or if the product has changed
+   # (which may change across system updates), regenerate the registration file.
+   if [ ! -e "${slp_reg}" ] || [ "${product}" != "${vmw_id}" ] ; then
+      slpd_log "Generating registration file ${slp_reg}"
+      cat > "${slp_reg}" <<-EOF
+service:VMwareInfrastructure://\$HOSTNAME,en,65535
+product="${vmw_id}"
+hardwareUuid="$(esxcfg-info -u)"
+EOF
+   fi
+   chmod 1644 ${slp_reg}
+}
+
+#
+# Start slpd
+#
+slpd_start() {
+   slpd_log "Starting slpd"
+
+   generate_slpd_registration
+
+   if [ -n "$(pidof -xs "${SLPD}")" ] ; then
+      return 1
+   fi
+
+   "${SLPD}" "${SLPD_SCHED_PARAM}" ${SLPD_OPTS} &
+}
+
+#
+# Stop slpd
+#
+slpd_stop() {
+   slpd_log "Stopping slpd"
+
+   if [ -z "$(pidof "${SLPD}")" ] ; then
+      return 1
+   fi
+
+   pkill "${SLPD_TAG}"
+
+   return 0
+}
+
+#
+# Process comand line options
+#
+case "${1}" in
+   start)
+      slpd_start
+   ;;
+
+   stop)
+      slpd_stop
+   ;;
+
+   status)
+      if [ -n "$(pidof -xs "${SLPD}")" ] ; then
+         echo "slpd is running"
+         exit 0
+      else
+         echo "slpd is not running"
+         exit 3
+      fi
+   ;;
+
+   restart)
+      slpd_stop
+
+      # wait till all instances have stopped
+      while [ -n "$(pidof -xs "${SLPD}")" ] ; do
+         sleep 1
+      done
+
+      slpd_start
+   ;;
+
+   *)
+      echo "Usage: $(basename "$0") {start|stop|status|restart}"
+      exit 1
+   ;;
+esac
+

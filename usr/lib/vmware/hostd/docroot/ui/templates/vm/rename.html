@@ -1,0 +1,12 @@
+<div ng-controller="VMRenameController" class="content-padding">
+   <form>
+      <div class="form-group form-group-horizontal">
+         <div class="label-col col-xs-4">
+            <label for="name">{{'vm.rename.new' | translate}}</label>
+         </div>
+         <div class="input-col col-xs-8">
+            <input type="text" ng-pattern="SANITIZE_INPUT_REGEX" ng-model="name"/>
+         </div>
+      </div>
+   </form>
+</div>

@@ -1,0 +1,625 @@
+[OMC_SmashCLPAdminDomain]
+   provider: CLPAdminDomain
+   location: omc_clp_admin_domain
+   type: instance
+   group: vmware_base
+   namespace: root/cimv2
+
+[OMC_MAPComputerSystemComponent]
+   provider: CLPAdminDomain
+   location: omc_clp_admin_domain
+   type: association instance
+   group: vmware_base
+   namespace: root/cimv2
+
+[OMC_ElementConformsToBatteryProfile]
+   provider: ElementConformsToBatteryProfile
+   location: omc_registered_battery_profile
+   type: instance association
+   group: vmware_aux
+   namespace: root/cimv2 root/interop
+
+[OMC_RegisteredBatteryProfile]
+   provider: RegisteredBatteryProfile
+   slpservice: Battery
+   location: omc_registered_battery_profile
+   type: instance
+   group: vmware_base
+   namespace: root/interop
+
+[OMC_ElementConformsToBaseServerProfile]
+   provider: ElementConformsToBaseServerProfile
+   location: omc_base_server_profile
+   type: instance association
+   group: vmware_aux
+   namespace: root/cimv2 root/interop
+
+[OMC_ReferencedBaseServerProfile]
+   provider: ReferencedBaseServerProfile
+   location: omc_base_server_profile
+   type: instance association
+   group: vmware_base
+   namespace: root/interop
+
+[OMC_RegisteredBaseServerProfile]
+   provider: BaseServerProfile
+   slpservice: Base Server
+   location: omc_base_server_profile
+   type: instance
+   group: vmware_base
+   namespace: root/interop
+
+[OMC_SystemDevice]
+   provider: CompositeAssociation
+   location: omc_composite_association_provider
+   type: instance association
+   group: vmware_aux
+   namespace: root/cimv2
+
+[OMC_ComponentCS]
+   provider: ModularAssociation
+   location: omc_composite_association_provider
+   type: instance association
+   group: vmware_aux
+   namespace: root/cimv2
+[OMC_RegisteredCPUProfile]
+   provider: CPUProfile
+   slpservice: CPU
+   location: omc_cpu_profile
+   type: instance
+   group: vmware_base
+   namespace: root/interop
+
+[OMC_ElementConformsToCPUProfile]
+   provider: ElementConformsToCPUProfile
+   location: omc_cpu_profile
+   type: association instance
+   group: vmware_aux
+   namespace: root/cimv2 root/interop
+
+[OMC_AssociatedCPUCacheMemory]
+   provider: CPUAssociatedCacheMemory
+   location: omc_cpu_profile
+   type: association instance
+   group: vmware_base
+   namespace: root/cimv2
+
+[OMC_ProcessorRealizes]
+   provider: ProcessorAssociations
+   location: omc_cpu_profile
+   type: association instance
+   group: vmware_base
+   namespace: root/cimv2
+
+[OMC_ProcessorContainer]
+   provider: ProcessorAssociations
+   location: omc_cpu_profile
+   type: association instance
+   group: vmware_base
+   namespace:  root/cimv2
+
+[OMC_ProcessorPackageInConnector]
+   provider: ProcessorAssociations
+   location: omc_cpu_profile
+   type: association instance
+   group: vmware_base
+   namespace: root/cimv2
+
+[OMC_UnitaryComputerSystem]
+   provider: OMC_UnitaryComputerSystem
+   location: omc_computer_system
+   type: instance
+   group: vmware_base
+   namespace: root/cimv2
+
+[OMC_ElementConformsToFanProfile]
+   provider: ElementConformsToFanProfile
+   location: omc_registered_fan_profile
+   type: instance association
+   group: vmware_aux
+   namespace: root/cimv2 root/interop
+
+[OMC_RegisteredFanProfile]
+   provider: RegisteredFanProfile
+   slpservice: Fan
+   location: omc_registered_fan_profile
+   type: instance
+   group: vmware_base
+   namespace: root/interop
+
+[OMC_Battery]
+   provider: OMCBatteryProvider
+   location: omc_battery_provider
+   type: instance
+   group: vmw_ipmi
+   namespace: root/cimv2
+
+[OMC_NumericSensor]
+   provider: SensorProvider
+   location: omc_sensor_provider
+   type: instance method
+   group: vmw_ipmi
+   namespace: root/cimv2
+
+[OMC_DiscreteSensor]
+   provider: SensorProvider
+   location: omc_sensor_provider
+   type: instance method
+   group: vmw_ipmi
+   namespace: root/cimv2
+
+[OMC_DiskDrive]
+   provider: LogicalIpmiProvider
+   location: omc_logical_ipmi_provider
+   type: instance
+   group: vmw_ipmi
+   namespace: root/cimv2
+
+[OMC_PowerSupply]
+   provider: LogicalIpmiProvider
+   location: omc_logical_ipmi_provider
+   type: instance
+   group: vmw_ipmi
+   namespace: root/cimv2
+
+[OMC_FanRedundancySet]
+   provider: RedundancySetIpmiProvider
+   location: omc_logical_ipmi_provider
+   type: instance
+   group: vmw_ipmi
+   namespace: root/cimv2
+
+[OMC_MemberOfFanRedundancySet]
+   provider: RedundancyIpmiProvider
+   location: omc_logical_ipmi_provider
+   type: instance association
+   group: vmw_ipmi
+   namespace: root/cimv2
+
+[OMC_PowerSupplyRedundancySet]
+   provider: RedundancySetIpmiProvider
+   location: omc_logical_ipmi_provider
+   type: instance
+   group: vmw_ipmi
+   namespace: root/cimv2
+
+[OMC_MemberOfPowerSupplyRedundancySet]
+   provider: RedundancyIpmiProvider
+   location: omc_logical_ipmi_provider
+   type: instance association
+   group: vmw_ipmi
+   namespace: root/cimv2
+
+[OMC_OwningRedundancyCollectionElement]
+   provider: RedundancyIpmiProvider
+   location: omc_logical_ipmi_provider
+   type: instance association
+   group: vmw_ipmi
+   namespace: root/cimv2
+
+[OMC_Fan]
+   provider: OMCFanProvider
+   location: omc_fan_provider
+   type: instance
+   group: vmw_ipmi
+   namespace: root/cimv2
+
+[OMC_SMASHSoftwareIdentity]
+   provider: SWIpmiProvider
+   location: omc_sw_ipmi_provider
+   type: instance
+   group: vmw_ipmi
+   namespace: root/cimv2
+
+[OMC_HardwareSubSystem]
+   provider: CSIpmiProvider
+   location: omc_cs_ipmi_provider
+   type: instance
+   group: vmw_ipmi
+   namespace: root/cimv2
+
+[OMC_IPMIAccessPoint]
+   provider: APIpmiProvider
+   location: omc_ap_ipmi_provider
+   type: instance
+   group: vmw_ipmi
+   namespace: root/cimv2
+
+[OMC_IPMISubSystem]
+   provider: CSIpmiProvider
+   location: omc_cs_ipmi_provider
+   type: instance
+   group: vmw_ipmi
+   namespace: root/cimv2
+
+[OMC_IPMIIPProtocolEndpoint]
+   provider: CSIpmiProvider
+   location: omc_cs_ipmi_provider
+   type: instance
+   group: vmw_ipmi
+   namespace: root/cimv2
+
+[OMC_IPMIHostedIPProtocolEndpointAccessPoint]
+   provider: IPMIHostedAccessPoint
+   location: omc_cs_ipmi_provider
+   type: instance association
+   group: vmw_ipmi
+   namespace: root/cimv2
+
+[OMC_IpmiEnabledLogCapabilities]
+   provider: RawIpmiProvider
+   location: omc_rawipmi_provider
+   type: instance
+   group: vmw_ipmi
+   namespace: root/cimv2
+
+[OMC_IpmiLogRecord]
+   provider: RawIpmiProvider
+   location: omc_rawipmi_provider
+   type: instance
+   group: vmw_ipmi
+   memsize: 100
+   namespace: root/cimv2
+
+[OMC_IpmiRecordLog]
+   provider: RawIpmiProvider
+   location: omc_rawipmi_provider
+   type: instance method
+   group: vmw_ipmi
+   namespace: root/cimv2
+
+[OMC_IpmiAlertIndication]
+   provider: RawIpmiProvider
+   location: omc_rawipmi_provider
+   type: indication
+   group: vmw_ipmi
+   namespace: root/cimv2
+
+[OMC_MCFirmwareIdentity]
+   provider: FWIpmiProvider
+   location: omc_fw_ipmi_provider
+   type: instance
+   group: vmw_ipmi
+   namespace: root/cimv2
+
+[OMC_ComputerSystemPackage]
+   provider: ComputerSystemPackage
+   location: omc_registered_physicalasset_profile
+   type: instance association
+   group: vmware_base
+   namespace: root/cimv2
+
+[OMC_ElementConformsToPhysicalAssetProfile]
+   provider: RegisteredPhysicalAssetProfile
+   location: omc_registered_physicalasset_profile
+   type: instance association
+   group: vmware_base
+   namespace: root/cimv2 root/interop
+
+[OMC_RegisteredPhysicalAssetProfile]
+   provider: RegisteredPhysicalAssetProfile
+   slpservice: Physical Asset
+   location: omc_registered_physicalasset_profile
+   type: instance
+   group: vmware_base
+   namespace: root/interop
+
+[OMC_ElementConformsToProfileRegistrationProfile]
+   provider: ElementConformsToProfileRegistrationProfile
+   location: omc_profile_registration_profile
+   type: association instance
+   group: vmware_aux
+   namespace: root/cimv2 root/interop
+
+[OMC_RegisteredProfileRegistrationProfile]
+   provider: OMC_ProfileRegistrationProfile
+   slpservice: Profile Registration
+   location: omc_profile_registration_profile
+   type: instance
+   group: vmware_base
+   namespace: root/interop
+
+[OMC_RegisteredPowerSupplyProfile]
+   provider: RegisteredPowerSupplyProfile
+   slpservice: Power Supply
+   location: omc_registered_powersupply_profile
+   type: instance
+   group: vmware_base
+   namespace: root/interop
+
+[OMC_ElementConformsToPowerSupplyProfile]
+   provider: RegisteredPowerSupplyProfile
+   location: omc_registered_powersupply_profile
+   type: association instance
+   group: vmware_aux
+   namespace: root/cimv2 root/interop
+
+[OMC_IPMIInterface]
+   provider: RawIpmiProvider
+   location: omc_rawipmi_provider
+   type: instance
+   group: vmw_ipmi
+   namespace: root/cimv2
+
+[OMC_RawIpmiEntity]
+   provider: RawIpmiProvider
+   location: omc_rawipmi_provider
+   type: instance
+   group: vmw_ipmi
+   namespace: root/cimv2
+
+[OMC_RawIpmiSensor]
+   provider: RawIpmiProvider
+   location: omc_rawipmi_provider
+   type: instance method
+   group: vmw_ipmi
+   namespace: root/cimv2
+
+[OMC_ElementConformsToRecordLogProfile]
+   provider: RegisteredRecordLogProfile
+   location: omc_registered_recordlog_profile
+   type: instance association
+   group: vmware_base
+   namespace: root/cimv2 root/interop
+
+[OMC_RegisteredRecordLogProfile]
+   provider: RegisteredRecordLogProfile
+   slpservice: Record Log
+   location: omc_registered_recordlog_profile
+   type: instance
+   group: vmware_base
+   namespace: root/interop
+
+[OMC_IpmiLogManagesRecord]
+   provider: IpmiLogAssociations
+   location: omc_registered_recordlog_profile
+   type: instance association
+   group: vmware_base
+   namespace: root/cimv2
+
+[OMC_UseOfIpmiLog]
+   provider: IpmiLogAssociations
+   location: omc_registered_recordlog_profile
+   type: instance association
+   group: vmware_base
+   namespace: root/cimv2
+
+[OMC_IpmiLogCapabilities]
+   provider: IpmiLogAssociations
+   location: omc_registered_recordlog_profile
+   type: instance association
+   group: vmware_base
+   namespace: root/cimv2
+
+[OMC_Chassis]
+   provider: SMBIOSChassisProvider
+   location: omc_smbios_provider
+   type: instance
+   group: vmware_base
+   namespace: root/cimv2
+
+[OMC_Card]
+   provider: SMBIOSProvider
+   location: omc_smbios_provider
+   type: instance
+   group: vmware_base
+   namespace: root/cimv2
+
+[OMC_ProcessorChip]
+   provider: SMBIOSProvider
+   location: omc_smbios_provider
+   type: instance
+   group: vmware_base
+   namespace: root/cimv2
+
+[OMC_CacheMemory]
+   provider: SMBIOSProvider
+   location: omc_smbios_provider
+   type: instance
+   group: vmware_base
+   namespace: root/cimv2
+
+[OMC_DeviceCapabilities]
+   provider: SMBIOSProvider
+   location: omc_smbios_provider
+   type: instance
+   group: vmware_base
+   namespace: root/cimv2
+
+[OMC_PhysicalConnector]
+   provider: SMBIOSProvider
+   location: omc_smbios_provider
+   type: instance
+   group: vmware_base
+   namespace: root/cimv2
+
+[OMC_Memory]
+   provider: SMBIOSProvider
+   location: omc_smbios_provider
+   type: instance
+   group: vmware_base
+   namespace: root/cimv2
+
+[OMC_PhysicalMemory]
+   provider: SMBIOSProvider
+   location: omc_smbios_provider
+   type: instance
+   group: vmware_base
+   namespace: root/cimv2
+
+[OMC_MemoryPhysicalPackage]
+   provider: SMBIOSProvider
+   location: omc_smbios_provider
+   type: instance
+   group: vmware_base
+   namespace: root/cimv2
+
+[OMC_MemorySlot]
+   provider: SMBIOSProvider
+   location: omc_smbios_provider
+   type: instance
+   group: vmware_base
+   namespace: root/cimv2
+
+[OMC_ProcessorSlot]
+   provider: SMBIOSProvider
+   location: omc_smbios_provider
+   type: instance
+   group: vmware_base
+   namespace: root/cimv2
+
+[OMC_ProcessorPhysicalPackage]
+   provider: SMBIOSProvider
+   location: omc_smbios_provider
+   type: instance
+   group: vmware_base
+   namespace: root/cimv2
+
+[OMC_Processor]
+   provider: SMBIOSProvider
+   location: omc_smbios_provider
+   type: instance
+   group: vmware_base
+   namespace: root/cimv2
+
+[OMC_ProcessorCore]
+   provider: SMBIOSProvider
+   location: omc_smbios_provider
+   type: instance
+   group: vmware_base
+   namespace: root/cimv2
+
+[OMC_HardwareThread]
+   provider: SMBIOSProvider
+   location: omc_smbios_provider
+   type: instance
+   group: vmware_base
+   namespace: root/cimv2
+
+[OMC_Slot]
+   provider: SMBIOSProvider
+   location: omc_smbios_provider
+   type: instance
+   group: vmware_base
+   namespace: root/cimv2
+
+[OMC_SMASHFirmwareIdentity]
+   provider: SMBIOSProvider
+   location: omc_smbios_provider
+   type: instance
+   group: vmware_base
+   namespace: root/cimv2
+
+[OMC_ProcessorCoreConcreteComponent]
+   provider: SMBIOSAssocProvider
+   location: omc_smbios_provider
+   type: association instance
+   group: vmware_base
+   namespace: root/cimv2
+
+[OMC_HardwareThreadConcreteComponent]
+   provider: SMBIOSChassisProvider
+   location: omc_smbios_provider
+   type: association instance
+   group: vmware_base
+   namespace: root/cimv2
+
+[OMC_MemoryPackageInConnector]
+   provider: SMBIOSAssocProvider
+   location: omc_smbios_provider
+   type: instance association
+   group: vmware_base
+   namespace: root/cimv2
+
+[OMC_MemoryContainer]
+   provider: SMBIOSAssocProvider
+   location: omc_smbios_provider
+   type: instance association
+   group: vmware_base
+   namespace: root/cimv2
+
+[OMC_ModularComputerSystem]
+   provider: SMBIOSProvider
+   location: omc_smbios_provider
+   type: instance
+   group: vmware_base
+   namespace: root/cimv2
+[OMC_RegisteredSystemMemoryProfile]
+   provider: RegisteredSystemMemoryProfile
+   slpservice: System Memory
+   location: omc_registered_systemmemory_profile
+   type: instance
+   group: vmware_base
+   namespace: root/interop
+
+[OMC_ElementConformsToSystemMemoryProfile]
+   provider: RegisteredSystemMemoryProfile
+   location: omc_registered_systemmemory_profile
+   type: association instance
+   group: vmware_aux
+   namespace: root/cimv2 root/interop
+
+[OMC_AssociatedMemory]
+   provider: AssociatedMemory
+   location: omc_registered_systemmemory_profile
+   type: association instance
+   group: vmware_base
+   namespace: root/cimv2
+
+[OMC_MemorySystemDevice]
+   provider: SystemMemoryProvider
+   location: omc_registered_systemmemory_profile
+   type: association instance
+   group: vmware_base
+   namespace: root/cimv2
+
+[OMC_MemoryRealizes]
+   provider: SystemMemoryProvider
+   location: omc_registered_systemmemory_profile
+   type: association instance
+   group: vmware_base
+   namespace: root/cimv2
+
+[OMC_RegisteredSensorProfile]
+   provider: RegisteredSensorProfile
+   slpservice: Sensors
+   location: omc_registered_sensor_profile
+   type: instance
+   group: vmware_base
+   namespace: root/interop
+
+[OMC_ElementConformsToSensorProfile]
+   provider: RegisteredSensorProfile
+   location: omc_registered_sensor_profile
+   type: association instance
+   group: vmware_aux
+   namespace: root/cimv2 root/interop
+
+[OMC_AssociatedSensor]
+   provider: AssociatedSensor
+   location: omc_registered_sensor_profile
+   type: association instance
+   group: vmware_aux
+   namespace: root/cimv2
+
+[OMC_RegisteredSoftwareInventoryProfile]
+   provider: RegisteredSoftwareInventoryProfile
+   slpservice: Software Inventory
+   location: omc_registered_swiv_profile
+   type: instance
+   group: vmware_base
+   namespace: root/interop
+
+[OMC_ElementConformsToSoftwareInventoryProfile]
+   provider: ElementConformsToSoftwareInventoryProfile
+   location: omc_element_conforms_to_swiv_profile
+   type: instance association
+   group: vmware_aux
+   namespace: root/cimv2 root/interop
+
+[OMC_InstalledSoftwareIdentity]
+   provider: InstalledSoftwareIdentity
+   location: omc_installed_swid_provider
+   type: instance association
+   group: vmware_base
+   namespace: root/cimv2

@@ -1,0 +1,29 @@
+/* **********************************************************
+ * Copyright 2014 VMware, Inc.  All rights reserved.
+ * VMware Confidential
+ * **********************************************************/
+
+/*
+ * iofilters.json --
+ *
+ *	Jumpstart plug-in to load required IO filter modules.
+ */
+
+
+{
+   "operations" :
+   {
+      "start" :
+      [
+         "system module load --module filtmod"
+      ]
+   }
+   ,
+   "metadata" :
+   {
+      "version"  : 1,
+      "requires" : ["vdfm"],
+      "provides" : ["iofilters"]
+   }
+}
+

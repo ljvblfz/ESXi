@@ -1,0 +1,21 @@
+<!-- SATA Controllers -->
+<div
+   ng-class="{
+      'stack-new': wizardOptions.data.satas[_index]._operation === 'add'
+   }"
+   ng-repeat="(_index, sata) in satas"
+   vui-stack-block="hardwareStackView.sataBlock[_index]"
+   id="sata-controller-{{_index}}">
+
+   <!-- Icon -->
+   <span style="margin-left: 10px;"
+      vui-sb-icon-class="icon-stackview-sata-wizard" vui-sb-label>{{sata.title}}</span>
+
+   <!-- content collapsed-->
+    <div vui-sb-content style="height: 30px;">
+      <span class="esx-icon-close vui-icon-info-inline esx-stack-valign-tall esx-close-right"
+         ng-click="removeSATAController(_index)"
+         ng-show="wizardOptions.data.general.state !== 'suspended'"></span>
+   </div>
+</div>
+

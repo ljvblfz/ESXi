@@ -1,0 +1,77 @@
+#!/bin/python
+
+from __future__ import print_function
+import sys
+import os
+from optparse import OptionParser
+import binascii
+import re
+
+# modules which could be used by standalone scripts should not tie themselves to environment.
+sys.path.append('/usr/lib/vmware/osfs')
+
+import common
+import osfsIpc
+
+usage = "usage: %prog [options] dirname"
+parser = OptionParser(usage)
+parser.description = "osfs-mkdir -- create a directory under OSFS"
+parser.add_option("-n", "--name", help='''Friendly name for the volume to be created.''')
+parser.add_option("-p", "--provider-name", help='''Provider name, for example "mock" or "file" or "vsan".''')
+parser.add_option("-c", "--container-id", help='''Container ID.  16 bytes in hex.''')
+parser.add_option("-P", "--policy", default=None,
+                  help='''Policy string in VSAN expression or spbm format. Default is ("hostFailuresToTolerate" i0)''')
+(options, args) = parser.parse_args()
+name = None
+if options.name is not None:
+  name = options.name
+elif len(args) > 0:
+  name = args[0]
+if name is None:
+   parser.error("Directory name must be specified!")
+name = os.path.normpath(name)
+provider = options.provider_name
+containerIdStr = options.container_id
+policy = options.policy
+if policy != None:
+   policyLength = len(options.policy)
+else:
+   policy = '(("hostFailuresToTolerate" i0))'
+   policyLength = len(policy)
+if (not (provider and containerIdStr)):
+   realpath = os.path.realpath(name)
+   dirname = os.path.dirname(realpath)
+   if ((re.match('^/vmfs/volumes/vsan', realpath)) or
+       (re.match('^/vmfs/volumes/file', realpath)) or
+       (re.match('^/vmfs/volumes/vvol', realpath))):
+      (provider, containerIdStr) = common.getPidCid(dirname)
+      name = os.path.basename(name)
+      if os.path.isdir(dirname) == False:
+         parser.error("Failed. Path %s doesn't exist" % dirname)
+      #print "Creating directory %s in container id %s backed by %s" % (name, containerIdStr, provider)
+   else:
+      try:
+         os.makedirs(realpath)
+         sys.exit(0)
+      except OSError as ose:
+         print("osfs-mkdir: can't create directory '%s': %s" % (realpath, os.strerror(ose.errno)))
+         sys.exit(ose.errno)
+
+result = osfsIpc.NSIpc(action      = osfsIpc.OSFSD_IPC_OP_CREATENS,
+                       entryName   = name,
+                       objectUuid  = '',
+                       providerID  = provider,
+                       containerID = binascii.unhexlify(containerIdStr),
+                       bufferSize = policyLength,
+                       buffer = policy)
+
+if result.error:
+   if result.error == 2: # VMK_EXISTS is translated to 2 in osfsIpc
+      print("Directory already exists (UUID %s)" % result.uuid)
+      sys.exit(2)
+   else:
+      print("Failed.  Search vmkernel log and osfsd log for opID '%s'." % result.opID)
+      sys.exit(3)
+
+print(result.uuid)
+sys.exit(0)

@@ -1,0 +1,753 @@
+# Format: (all decimal values)
+#   readingtype : sensortype || * : offset || * : assert(0||1) : health : opstatus
+#
+#   Entries are in priority order, first matching entry will apply
+#   (so put "*"s after specific matches if there's any ambiguity)
+
+# Generic events follow
+
+# Threshold
+#   Lower Non Crticial - going low
+1:*:0:0:5:2
+1:*:0:1:5:2
+#   Lower Non Critical
+1:*:1:0:5:2
+1:*:1:1:10:3
+#   Lower Crticial - going low
+1:*:2:0:5:2
+1:*:2:1:5:2
+#   Lower Critical
+1:*:3:0:5:2
+1:*:3:1:25:6
+#   Lower Non Recoverable - going low
+1:*:4:0:5:2
+1:*:4:1:5:2
+#   Lower Non Recoverable
+1:*:5:0:5:2
+1:*:5:1:30:7
+#   Upper Non Critical - going low
+1:*:6:0:5:2
+1:*:6:1:5:2
+#   Upper Non Critical
+1:*:7:0:5:2
+1:*:7:1:10:3
+#   Upper Crticial - going low
+1:*:8:0:5:2
+1:*:8:1:5:2
+#   Upper Crticial
+1:*:9:0:5:2
+1:*:9:1:25:6
+#   Upper Non Recoverable - going low
+1:*:10:0:5:2
+1:*:10:1:5:2
+#   Upper Non Recoverable
+1:*:11:0:5:2
+1:*:11:1:30:7
+
+# Discrete
+#   Transition to idle
+2:*:0:0::
+2:*:0:1::
+#   Transition to active
+2:*:1:0::
+2:*:1:1::
+#   Transition to busy
+2:*:2:0::
+2:*:2:1::
+
+# Digital discrete 
+#   Voltage deassert (healthy)
+3:2:0:0:5:2
+3:2:0:1:5:2
+#   Voltage assert (unhealthy)
+3:2:1:0:10:6
+3:2:1:1:10:6
+#   deassert
+3:*:0:0::
+3:*:0:1::
+#   assert
+3:*:1:0::
+3:*:1:1::
+
+# Digital discrete
+#   predictive failure deassert
+4:*:0:0:5:2
+4:*:0:1:5:2
+#   predictive failure assert
+4:*:1:0:5:2
+4:*:1:1:10:5
+
+# Digital discrete
+#   limit not exceeded
+5:*:0:0:5:2
+5:*:0:1:5:2
+#   Limit exceeded
+5:*:1:0:5:2
+5:*:1:1:10:3
+
+# Digital discrete
+#   Performance met
+6:*:0:0:5:2
+6:*:0:1:5:2
+#   Performance lags
+6:*:1:0:5:2
+6:*:1:1:10:3
+
+# Discrete
+#   OK
+7:*:0:0:5:2
+7:*:0:1:5:2
+#   Non-critical from OK
+7:*:1:0:5:2
+7:*:1:1:10:3
+#   Critical from less severe
+7:*:2:0:5:2
+7:*:2:1:25:6
+#   Non-recoverable from less severe
+7:*:3:0:5:2
+7:*:3:1:30:7
+#   Non-critical from more severe
+7:*:4:0:5:2
+7:*:4:1:10:3
+#   Critical from non-recoverable
+7:*:5:0:5:2
+7:*:5:1:25:6
+#   Non-recoverable
+7:*:6:0:5:2
+7:*:6:1:30:7
+#   Monitor
+7:*:7:0::
+7:*:7:1::
+#   Informational
+7:*:8:0::
+7:*:8:1::
+
+# Digital discrete
+#   Device removed/absent
+8:*:0:0::
+8:*:0:1::
+#   Device inserted/present 
+8:*:1:0::
+8:*:1:1::
+
+# Digital discrete
+#   Device disabled
+9:*:0:0::
+9:*:0:1::
+#   (current/power) Device enabled
+9:3:1:0::
+9:3:1:1:5:2
+#   (generic) Device enabled
+9:*:1:0::
+9:*:1:1::
+
+# Discrete
+#   Running
+10:*:0:0:5:2
+10:*:0:1:5:2
+#   In Test
+10:*:1:0:5:2
+10:*:1:1:5:11
+#   Powerr Off
+10:*:2:0:5:2
+10:*:2:1:5:9
+#   On Line
+10:*:3:0:5:2
+10:*:3:1:5:2
+#   Off Line
+10:*:4:0:5:2
+10:*:4:1:10:15
+#   Off Duty
+10:*:5:0:5:2
+10:*:5:1:10:15
+#   Degraded
+10:*:6:0:5:2
+10:*:6:1:10:3
+#   Power Save
+10:*:7:0:5:2
+10:*:7:1:5:18
+#   Install error
+10:*:8:0:5:2
+10:*:8:1:10:6
+
+# Discrete
+#   Fully redundant
+11:*:0:0:5:2
+11:*:0:1:5:2
+#   Redundancy lost
+11:*:1:0:5:2
+11:*:1:1:10:3
+#   Redundancy degraded
+11:*:2:0:5:2
+11:*:2:1:10:3
+#   Non-redundant. Sufficient resources from redundant
+11:*:3:0:5:2
+11:*:3:1:5:2
+#   Non-redundant. Sufficient resources from insufficient
+11:*:4:0:5:2
+11:*:4:1:5:2
+#   Non-redundant. Insufficient resources
+11:*:5:0:5:2
+11:*:5:1:10:3
+#   Redundancy degraded from fully redundant
+11:*:6:0:5:2
+11:*:6:1:10:3
+#   Redundancy degraded from non-redundant
+11:*:7:0:5:2
+11:*:7:1:10:3
+
+# Discrete
+#   D0 power state
+12:*:0:0::2
+12:*:0:1::2
+#   D1 power state
+12:*:1:0::18
+12:*:1:1::18
+#   D2 power state
+12:*:2:0::18
+12:*:2:1::18
+#   D3 power state
+12:*:3:0::10
+12:*:3:1::10
+
+#
+# Sensor specific events follow - event reading type: 0x6f == 111
+#
+
+# Temperature
+111:1:*:0::
+111:1:*:1::
+
+# Voltage
+111:2:*:0::
+111:2:*:1::
+
+# Current
+111:3:*:0::
+111:3:*:1::
+
+# Fan
+111:4:*:0::
+111:4:*:1::
+
+# Physical Security
+111:5:*:0:5:2
+111:5:*:1:10:6
+
+# Platform Security
+111:6:*:0:5:2
+111:6:*:1:10:6
+
+# Processor
+#  IERR
+111:7:0:0:5:2
+111:7:0:1:25:6
+#  Thermal Trip
+111:7:1:0:5:2
+111:7:1:1:25:6
+#  FRB1/BIST Failure
+111:7:2:0:5:2
+111:7:2:1:25:6
+#  FRB2/Hang in POST Failure
+111:7:3:0:5:2
+111:7:3:1:25:6
+#  FRB3/Processor Startup/Initialization Failure
+111:7:4:0:5:2
+111:7:4:1:25:6
+#  Configuration Error
+111:7:5:0:5:2
+111:7:5:1:25:6
+#  SM BIOS 'Uncorrectable CPU-complex Error'
+111:7:6:0:5:2
+111:7:6:1:30:7
+#  Processor Presence
+111:7:7:0::
+111:7:7:1::
+#  Processor Disabled
+111:7:8:0::2
+111:7:8:1::10
+#  Terminator Presence Detected
+111:7:9:0::
+111:7:9:1::
+#  Throttled
+111:7:10:0::
+111:7:10:1::
+
+# Power Supply
+#   Presence Detected 
+111:8:0:0::
+111:8:0:1::
+#   Power Supply Failure Detected
+111:8:1:0:5:2
+111:8:1:1:25:7
+#   Predictive Failure
+111:8:2:0:5:2
+111:8:2:1:10:5
+#   Power Supply input lost (AC/DC)
+111:8:3:0:5:2
+111:8:3:1:25:16
+#   Power Supply input out-of-range
+111:8:4:0:5:2
+111:8:4:1:30:7
+#   Power Supply input out-of-range, but Present
+111:8:5:0:5:2
+111:8:5:1:30:7
+#   Configuration error
+111:8:6:0:5:2
+111:8:6:1:20:6
+
+# Power Unit
+#   Power Off/Power Down
+111:9:0:0:5:2
+111:9:0:1:30:7
+#   Power Cycle
+111:9:1:0:5:2
+111:9:1:1:30:7
+#   240VA Power Down
+111:9:2:0:5:2
+111:9:2:1:30:7
+#   Interlock Power Down
+111:9:3:0:5:2
+111:9:3:1:30:7
+#   AC Lost
+111:9:4:0:5:2
+111:9:4:1:30:7
+#   Soft Power Control Failure
+111:9:5:0:5:2
+111:9:5:1:30:7
+#   Power Unit Failure Detected
+111:9:6:0:5:2
+111:9:6:1:30:7
+#   Predictive Failure
+111:9:7:0:5:2
+111:9:7:1:10:5
+
+# Cooling Device
+111:10:*:0::
+111:10:*:1::
+
+# Other Units Based Sensor
+111:11:*:0::
+111:11:*:1::
+
+# Memory
+#   Correctable ECC/Other Correctable Memory Error
+111:12:0:0:5:2
+111:12:0:1:10:3
+#   Uncorrectable ECC/Other Uncorrectable Memory Error
+111:12:1:0:5:2
+111:12:1:1:30:7
+#   Parity
+111:12:2:0:5:2
+111:12:2:1:30:7
+#   Memory Scrub Failed (stuck bit)
+111:12:3:0:5:2
+111:12:3:1:30:7
+#   Memory Device Disabled 
+111:12:4:0:5:2
+111:12:4:1::15
+#   Correctable ECC/Other Correctable Memory Error Logging Limit Reached
+111:12:5:0:5:2
+111:12:5:1:10:3
+#   Presence Detected
+111:12:6:0::
+111:12:6:1::
+#   Config error
+111:12:7:0:5:2
+111:12:7:1:30:7
+#   Spare
+111:12:8:0::
+111:12:8:1::
+#   Automatically Throttled
+111:12:9:0:5:2
+111:12:9:1:10:3
+#   Critical overtemp
+111:12:10:0:5:2
+111:12:10:1:25:6
+
+# Drive Slot (Bay)
+#   Drive Presence
+111:13:0:0::
+111:13:0:1::
+#   Drive Fault
+111:13:1:0:5:2
+111:13:1:1:20:6
+#   Predictive Failure
+111:13:2:0:5:2
+111:13:2:1:10:5
+#   Hot Spare
+111:13:3:0::
+111:13:3:1:5:2
+#   Consistency Check / Parity Check in progress
+111:13:4:0:5:2
+111:13:4:1:10:3
+#   In Critical Array
+111:13:5:0:5:2
+111:13:5:1:20:6
+#   In Failed Array
+111:13:6:0:5:2
+111:13:6:1:30:7
+#   Rebuild/Remap in progress
+111:13:7:0:5:2
+111:13:7:1:10:3
+#   Rebuild/Remap Aborted (was not completed normally)
+111:13:8:0:5:2
+111:13:8:1:10:3
+
+# Post Memory Resize
+111:14:*:0::
+111:14:*:1::
+
+# System Firmware Progress
+#   System Firmware Error (Post Error)
+111:15:0:0:5:2
+111:15:0:1:30:7
+#   System Firmware Hang
+111:15:1:0:5:2
+111:15:1:1:30:7
+#   System Firmware Progress
+111:15:2:0::
+111:15:2:1::
+
+# Event Logging Disabled
+#   Correctable Memory Error Logging Disabled
+111:16:0:0:5:2
+111:16:0:1:10:6
+#   Event 'Type' Logging Disabled
+111:16:1:0:5:2
+111:16:1:1:10:10
+#   Log Area Reset/Cleared
+111:16:2:0::
+111:16:2:1::
+#   All Event Logging Disabled
+111:16:3:0:5:2
+111:16:3:1:10:10
+#   SEL Full
+111:16:4:0:5:2
+111:16:4:1:10:10
+#   SEL Almost Full
+111:16:5:0:5:2
+111:16:5:1:10:3
+
+# Watchdog 1
+111:17:*:0::
+111:17:*:1::
+
+# System Event
+#   Undetermined System Hardware Failure
+111:18:2:0:5:2
+111:18:2:1:30:7
+
+# Critical Interrupt
+#   Front Panel NMI/Diagnostic Interrupt
+111:19:0:0:5:2
+111:19:0:1:30:7
+#   Bus Timeout
+111:19:1:0:5:2
+111:19:1:1:30:7
+#   I/O Channel Check NMI
+111:19:2:0:5:2
+111:19:2:1:30:7
+#   Software NMI
+111:19:3:0:5:2
+111:19:3:1:30:7
+#   PCI PERR
+111:19:4:0:5:2
+111:19:4:1:30:7
+#   PCI SERR
+111:19:5:0:5:2
+111:19:5:1:30:7
+#   EISA Fail Safe Timeout
+111:19:6:0:5:2
+111:19:6:1:30:7
+#   Bus Correctable Error
+111:19:7:0:5:2
+111:19:7:1:10:3
+#   Bus Uncorrectable Error
+111:19:8:0:5:2
+111:19:8:1:30:7
+#   Fatal NMI (port 61h, bit 7)
+111:19:9:0:5:2
+111:19:9:1:30:7
+#   Bus fatal error
+111:19:10:0:5:2
+111:19:10:1:30:7
+#   Bus degraded
+111:19:10:0:5:2
+111:19:10:1:10:3
+
+# Button
+111:20:*:0::
+111:20:*:1::
+
+# Module/Board
+111:21:*:0::
+111:21:*:1::
+
+# Microcontroller/Coprocessor
+111:22:*:0::
+111:22:*:1::
+
+# Add-in Card
+111:23:*:0::
+111:23:*:1::
+
+# Chassis
+111:24:*:0::
+111:24:*:1::
+
+# Chip Set
+#   Soft power control failure
+111:25:0:0:5:2
+111:25:0:1:25:6
+
+# Other FRU
+111:26:*:0::
+111:26:*:1::
+
+# Cable Interconnect
+#   Cable/Interconnect is connected
+111:27:0:0::12
+111:27:0:1::2
+#   Configuration Error - Incorrect cable connected / Incorrect interconnection
+111:27:1:0:5:2
+111:27:1:1:30:7
+
+# Terminator
+111:28:*:0::
+111:28:*:1::
+
+# System Boot Initiated
+111:29:*:0::
+111:29:*:1::
+
+# Boot Error
+#   No Bootable Media
+111:30:0:0:5:2
+111:30:0:1:30:7
+#   Non-bootable diskette left in drive
+111:30:1:0:5:2
+111:30:1:1:30:7
+#   PXE Server Not Found
+111:30:2:0:5:2
+111:30:2:1:30:7
+#   Invalid Boot Sector
+111:30:3:0:5:2
+111:30:3:1:30:7
+#   Timeout Waiting for user selection of boot source
+111:30:4:0:5:2
+111:30:4:1:30:7
+
+# OS Boot
+111:31:*:0::
+111:31:*:1::
+
+# OS Stop/shutdown
+#   Stop During OS Load/Initialization
+111:32:0:0::
+111:32:0:1::
+#   Run-time Stop
+111:32:1:0::
+111:32:1:1::
+#   OS Graceful Stop
+111:32:2:0::
+111:32:2:1::
+#   OS Graceful shutdown
+111:32:3:0::
+111:32:3:1::
+#   soft shutdown initiatied by PEF
+111:32:4:0::
+111:32:4:1::
+#   Agent not responding
+111:32:5:0::
+111:32:5:1::
+
+# Slot / Connector
+#   Fault Status Asserted
+111:33:0:0:5:2
+111:33:0:1:10:6
+#   Identify Status Asserted
+111:33:1:0::
+111:33:1:1::
+#   Slot/Connector Device installed/attached
+111:33:2:0::
+111:33:2:1::
+#   Slot/Connector Ready For Device Installation
+111:33:3:0::
+111:33:3:1::
+#   Slot/Connector Ready For Device Removal
+111:33:4:0::
+111:33:4:1::
+#   Slot Power Is Off
+111:33:5:0::
+111:33:5:1::10
+#   Slot/Connector Device Removal Request
+111:33:6:0::
+111:33:6:1::
+#   Interlock Asserted
+111:33:7:0::
+111:33:7:1::
+#   Slot Is Disabled
+111:33:8:0::
+111:33:8:1::
+#   Slot holds spare device
+111:33:9:0::
+111:33:9:1::15
+
+# System ACPI Power State
+#  S0/G0
+111:34:0:0::2
+111:34:0:1::2
+#  S1
+111:34:1:0::2
+111:34:1:1::15
+#  S2
+111:34:2:0::2
+111:34:2:1::15
+#  S3
+111:34:3:0::2
+111:34:3:1::15
+#  S4
+111:34:4:0::2
+111:34:4:1::15
+#  S5/G2
+111:34:5:0::2
+111:34:5:1::15
+#  S4/S5
+111:34:6:0::2
+111:34:6:1::15
+#  G3
+111:34:7:0::2
+111:34:7:1::10
+#  S1/S2/S3
+111:34:8:0::2
+111:34:8:1::15
+#  G1
+111:34:9:0::2
+111:34:9:1::15
+#  S5
+111:34:10:0::2
+111:34:10:1::15
+#  Legacy ON
+111:34:11:0::2
+111:34:11:1::2
+#  Legacy OFF
+111:34:12:0::2
+111:34:12:1::10
+#  Unknown
+111:34:13:0::0
+111:34:13:1::0
+
+# Watchdog 2
+#   Timer expired
+111:35:0:0:5:2
+111:35:0:1:20:6
+#   Hard reset
+111:35:1:0:5:2
+111:35:1:1:10:3
+#   Power down
+111:35:2:0:5:2
+111:35:2:1:10:3
+#   Power Cycle
+111:35:3:0:5:2
+111:35:3:1:10:3
+# offset 4-7 reserved
+#   Timer interrupt
+111:35:8:0:5:2
+111:35:8:1:10:3
+
+# Platform Alert
+111:36:*:0::
+111:36:*:1::
+
+# Entity Presense
+#   Present
+111:37:0:0::
+111:37:0:1::
+#   absent
+111:37:1:0::
+111:37:1:1::
+#   disabled
+111:37:2:0::
+111:37:2:1::
+
+# Monitor ASIC/IC
+111:38:*:0::
+111:38:*:1::
+
+# LAN
+#   LAN heartbeat lost
+111:39:0:0:5:2
+111:39:0:1:10:3
+#   LAN heartbeat
+111:39:1:0::
+111:39:1:1::
+
+# Management Subsystem Health
+#  Sensor access degraded or unavailable
+111:40:0:0:5:2
+111:40:0:1:10:6
+#  Controller access degraded or unavailable
+111:40:1:0:5:2
+111:40:1:1:10:6
+#  Management controller off-line
+111:40:2:0:5:2
+111:40:2:1:0:10
+#  Management controller unavailable
+111:40:3:0:5:2
+111:40:3:1:20:6
+#  Sensor Failure
+111:40:4:0:5:2
+111:40:4:1:20:6
+#  FRU Failure
+111:40:5:0:5:2
+111:40:5:1:20:6
+
+# Battery
+#   Battery low (predicitive failure)
+111:41:0:0:5:2
+111:41:0:1:10:5
+#   Battery failed
+111:41:1:0:5:2
+111:41:1:1:20:6
+#   Battery presence detected
+111:41:2:0::
+111:41:2:1::
+
+# session audit
+#   Session activated
+111:42:0:0::
+111:42:0:1::
+#   Session deactivated
+111:42:1:0::
+111:42:1:1::
+
+# Version Change
+111:43:*:0::
+111:43:*:1::
+
+# FRU state
+#   Not installed
+111:44:0:0::
+111:44:0:1::
+#   Inactive
+111:44:1:0::
+111:44:1:1::15
+#   activation requested
+111:44:2:0::
+111:44:2:1::8
+#   activation in progress
+111:44:3:0::
+111:44:3:1::8
+#   active
+111:44:4:0::
+111:44:4:1::2
+#   deactivation requested
+111:44:5:0::
+111:44:5:1::9
+#   deactivation in progress
+111:44:6:0::
+111:44:6:1::9
+#   lost communication
+111:44:7:0::
+111:44:7:1::13

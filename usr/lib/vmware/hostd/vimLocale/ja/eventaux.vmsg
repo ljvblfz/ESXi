@@ -1,0 +1,2523 @@
+# en_US resources
+signature="sIgNaTuRe"
+###
+###
+
+HostInventoryFullEvent.longDescription = "\
+    <EventLongDescription id="vim.event.HostInventoryFullEvent">\
+       <description>\
+          現在、vCenter Server Foundation ライセンス キーを使用してインベントリに追加できるのは 3 台のホストのみです。それを超える数のホストを追加するとエラーが発生し、このイベントがログに記録されます。\
+       </description>\
+       <cause>\
+            <description>vCenter Server に割り当てられているライセンス キーで許可される数よりも多くのホストを 追加しようとしています。</description>\
+            <action>より多くのホストを許可するライセンス キーか、ホスト数に制限のないライセンス キーを vCenter Server に 割り当ててください。</action>\
+       </cause>\
+    </EventLongDescription>\
+    "
+
+LicenseNonComplianceEvent.longDescription = "\
+    <EventLongDescription id="vim.event.LicenseNonComplianceEvent">\
+       <description>\
+          vCenter Server では、利用可能なライセンス数と利用中のエンティティ数が厳密に一致していませんが、上限を超えるライセンス数が使用されていないかどうか定期的に確認しています。 vCenter Server は上限を超えるライセンス数の使用を検出すると、このイベントをログに記録し、アラームを起動します。\
+       </description>\
+       <cause>\
+            <description>上限を超えるライセンス数の使用</description>\
+            <action>vSphere Client を使用してライセンス レポートを確認し、ライセンス キーを使用するエンティティの数を減らすか、キャパシティを増やすため新しいライセンス キーを追加してください</action>\
+       </cause>\
+    </EventLongDescription>\
+    "
+
+LicenseServerUnavailableEvent.longDescription = "\
+    <EventLongDescription id="vim.event.LicenseServerUnavailableEvent">\
+       <description>\
+          vCenter Server はライセンス サーバの状態を追跡し、ライセンス サーバが応答を停止した場合はこのイベントをログに記録します。\
+       </description>\
+       <cause>\
+            <description>ライセンス サーバは応答しておらず、vCenter Server で利用できません。</description>\
+            <action>ライセンス サーバが実行されていることを確認してください。 サーバが実行されている場合は、vCenter Server とライセンス サーバの間の接続を確認してください。</action>\
+       </cause>\
+    </EventLongDescription>\
+    "
+
+NoLicenseEvent.longDescription = "\
+    <EventLongDescription id="vim.event.NoLicenseEvent">\
+       <description>\
+          vCenter Server は、不明な原因により、ライセンス サーバから機能を利用するためのライセンスが取得できない場合に、このイベントをログに記録します。 \
+       </description>\
+       <cause>\
+            <description>不明な原因により機能を利用するためのライセンスを取得できません。</description>\
+            <action>ライセンス サーバに該当の機能を使用するためのライセンスがあることを確認してください。</action>\
+       </cause>\
+    </EventLongDescription>\
+    "
+
+
+InvalidEditionEvent.longDescription = "\
+    <EventLongDescription id="vim.event.InvalidEditionEvent">\
+       <description>\
+          vCenter Server はライセンス サーバから未定義の機能を取得しようとしました。\
+       </description>\
+       <cause>\
+            <description>vMotion、DRS、vSphere HA など、ライセンスが必要な機能の操作を行うと、該当する機能がライセンス サーバで定義されていない場合にこのイベントが発生することがあります。</description>\
+            <action>該当する機能のライセンスがライセンス サーバに存在していることを確認してください。</action>\
+       </cause>\
+    </EventLongDescription>\
+    "
+
+HostLicenseExpiredEvent.longDescription = "\
+    <EventLongDescription id="vim.event.HostLicenseExpiredEvent">\
+       <description>\
+          vCenter Server は、ライセンス サーバ上のホスト ライセンスの有効期限を追跡し、期限切れが近いホスト ライセンスがある場合はこのイベントを使用して通知を行います。\
+       </description>\
+       <cause>\
+            <description>ライセンス サーバ上のホスト ライセンスの有効期間がもうすぐ期限切れとなります。</description>\
+            <action>ライセンス サーバを更新して新しいバージョンのホスト ライセンスを取得してください。</action>\
+       </cause>\
+    </EventLongDescription>\
+    "
+
+VMotionLicenseExpiredEvent.longDescription = "\
+    <EventLongDescription id="vim.event.VMotionLicenseExpiredEvent">\
+       <description>\
+          vCenter Server は、ライセンス サーバ上の vMotion ライセンスの有効期限を追跡し、期限切れが近い vMotion ライセンスがある場合はこのイベントを使用して通知を行います。\
+       </description>\
+       <cause>\
+            <description>ライセンス サーバ上の vMotion ライセンスの有効期間がもうすぐ期限切れとなります。</description>\
+            <action>ライセンス サーバを更新して新しいバージョンの vMotion ライセンスを取得してください。</action>\
+       </cause>\
+    </EventLongDescription>\
+    "
+
+LicenseRestrictedEvent.longDescription = "\
+    <EventLongDescription id="vim.event.LicenseRestrictedEvent">\
+       <description>\
+          vCenter Server は、ライセンス ファイルの制限によりライセンス サーバからライセンスを チェックアウトできない場合に、このイベントをログに記録します。\
+       </description>\
+       <cause>\
+            <description>ライセンス サーバ上のライセンス ファイルに制限があるためチェックアウトできません。</description>\
+            <action>ライセンス ファイルを確認し、解除できる制限は解除してください。</action>\
+       </cause>\
+    </EventLongDescription>\
+    "
+
+VmFailedToPowerOffEvent.longDescription = "\
+   <EventLongDescription id="vim.event.VmFailedToPowerOffEvent">\
+      <description>仮想マシンのパワーオフに失敗しました。</description>\
+      <cause>\
+         <description>\
+            仮想マシンで同時に操作が行われている可能性があります。\
+         </description>\
+         <action>すべての操作を終了し、パワーオフ操作をやり直してください。</action>\
+      </cause>\
+      <cause>\
+         <description>仮想マシンが無効な状態です。 データストアにアクセスできないなどのさまざまな理由により、 仮想マシンは無効な状態になることがあります。 </description>\
+         <action>\
+            仮想マシンが無効な状態になった理由を特定し、問題を解決して、操作をやり直してください。\
+         </action>\
+      </cause>\
+   </EventLongDescription>\
+   "
+
+VmFailedToPowerOnEvent.longDescription = "\
+   <EventLongDescription id="vim.event.VmFailedToPowerOnEvent">\
+      <description>\
+         仮想マシンのパワーオフに失敗しました。\
+      </description>\
+      <cause>\
+         <description>\
+            仮想マシンがすでにパワーオン状態になっている、仮想マシン上で同時に操作が実行されているなどの理由により、仮想マシンのパワーオンに失敗することがあります。 </description>\
+         <action>\
+	  イベント メッセージで理由を確認し、パワーオンの失敗の原因を見つけて、問題を修正してください。\
+         </action>\
+      </cause>\
+   </EventLongDescription>\
+   "
+
+VmFailedToRebootGuestEvent.longDescription = "\
+   <EventLongDescription id="vim.event.VmFailedToRebootGuestEvent">\
+      <description>\
+         仮想マシン上のゲスト OS の再起動に失敗しました。\
+      </description>\
+      <cause>\
+         <description>\
+            仮想マシンがパワーオン状態になっていない、仮想マシン上で同時に操作が実行されているなどの理由により、ゲスト OS の再起動に失敗することがあります。\
+         </description>\
+	 <action>\
+	  イベント メッセージで理由を確認し、再起動の失敗の原因を見つけて、問題を修正してください。\
+         </action>\
+       </cause>\
+   </EventLongDescription>\
+   "
+
+VmFailedToResetEvent.longDescription = "\
+   <EventLongDescription id="vim.event.VmFailedToResetEvent">\
+      <description>仮想マシンのリセットに失敗しました。</description>\
+      <cause>\
+         <description>\
+		仮想マシンはユーザーへの質問またはプロンプトへの応答を待っている可能性があります。</description>\
+         <action>\
+            vSphere Client で仮想マシンの「サマリ」タブに移動し、ユーザーへの質問またはプロンプトに応答してください。\
+         </action>\
+      </cause>\
+      <cause>\
+         <description>この操作を実行可能なライセンスが存在しない可能性があります。</description>\
+         <action>\
+            必要なライセンスを取得して、リセット操作をやり直してください。\
+         </action>\
+      </cause>\
+      <cause>\
+         <description>\
+            仮想マシン上で同時に操作が行われている可能性があります。\
+         </description>\
+         <action>すべての操作を終了し、リセット操作をやり直してください。</action>\
+      </cause>\
+      <cause>\
+         <description>\
+            仮想マシンを実行しているホストがメンテナンス モードになっています。\
+         </description>\
+         <action>\
+           ホストのメンテナンス モードが終了するまで待機し、操作をやり直してください。\
+         </action>\
+      </cause>\
+      <cause>\
+         <description>仮想マシンが無効な状態です。 データストアにアクセスできないなどのさまざまな理由により、仮想マシンは無効な状態になることがあります。</description>\
+         <action>\
+            仮想マシンが無効な状態になった理由を特定し、問題を解決して、操作をやり直してください。\
+         </action>\
+      </cause>\
+   </EventLongDescription>\
+   "
+
+VmUpgradingEvent.longDescription = "\
+   <EventLongDescription id="vim.event.VmUpgradingEvent">\
+      <description>この仮想マシン上の仮想ハードウェアはアップグレード中です。</description>\
+      <cause>\
+         <description>ユーザーが開始したアクションにより、仮想マシン ハードウェアのアップグレードがトリガーされました。</description>\
+      </cause>\
+      <cause>\
+         <description>スケジュール設定タスクにより、仮想マシン ハードウェアのアップグレードが開始されました。</description>\
+      </cause>\
+   </EventLongDescription>\
+   "
+
+VmUuidAssignedEvent.longDescription = "\
+   <EventLongDescription id="vim.event.VmUuidAssignedEvent">\
+      <description>仮想マシンに新しい BIOS UUID が割り当てられました。</description>\
+      <cause>\
+         <description>仮想マシンを作成したユーザーは、作成時に BIOS UUID を指定しませんでした。 vCenter Server は、新しい UUID を生成して仮想マシンに割り当てました。\
+         </description>\
+      </cause>\
+   </EventLongDescription>\
+   "
+
+VmInstanceUuidAssignedEvent.longDescription = "\
+   <EventLongDescription id="vim.event.VmInstanceUuidAssignedEvent">\
+      <description>仮想マシンに、新しい vCenter Server 固有のインスタンス UUID が割り当てられました。\
+      </description>\
+      <cause>\
+         <description> \
+             仮想マシンを作成したユーザーは、作成時に vCenter Server 固有のインスタンス UUID を指定しませんでした。 vCenter Server は新しい UUID を生成して仮想マシンに割り当てました。\
+         </description>\
+      </cause>\
+   </EventLongDescription>\
+   "
+
+VmUuidChangedEvent.longDescription = "\
+   <EventLongDescription id="vim.event.VmUuidChangedEvent">\
+      <description>仮想マシンの BIOS UUID が変更されました。</description>\
+      <cause>\
+         <description>\
+            ユーザーが仮想マシンの BIOS UUID をホスト上で直接変更しました。\
+         </description>\
+      </cause>\
+   </EventLongDescription>\
+   "
+
+VmInstanceUuidChangedEvent.longDescription = "\
+   <EventLongDescription id="vim.event.VmInstanceUuidChangedEvent">\
+      <description>  \
+         仮想マシンの vCenter Server 固有のインスタンス UUID が変更されました。 \
+         </description> \
+      <cause>\
+         <description>\
+            ユーザー アクションにより、仮想マシンの vCenter Server 固有のインスタンス UUID が 変更されました。\
+         </description>\
+      </cause>\
+      <cause>\
+         <description>\
+            vCenter Server は競合を検出したため、仮想マシンのインスタンス UUID を 変更しました。\
+         </description>\
+      </cause>\
+   </EventLongDescription>\
+   "
+
+VmInstanceUuidConflictEvent.longDescription = "\
+   <EventLongDescription id="vim.event.VmInstanceUuidChangedEvent">\
+      <description> \
+         仮想マシンの vCenter Server 固有のインスタンス UUID と、別の仮想マシンのものとの間に 競合が発生しました。 \
+      </description>\
+      <cause>\
+         <description>\
+             vCenter Server を使用せずに手動で仮想マシン ファイルをコピーすると、仮想マシン インスタンス UUID に競合が生じる場合があります。 \
+         </description>\
+      </cause>\
+   </EventLongDescription>\
+   "
+
+VmRelocateFailedEvent.longDescription = "\
+   <EventLongDescription id="vim.event.VmRelocateFailedEvent">\
+      <description>\
+         別のホストまたはデータストアへの仮想マシンの再配置に失敗しました。\
+      </description>\
+      <cause>\
+         <description>\
+            ネットワークの停止やディスク容量の不足などのさまざまな理由により、仮想マシンの再配置に失敗する場合があります。\
+         </description>\
+         <action>\
+            このイベントに関連するタスクを検討し、障害の原因を評価して、状況に応じて対処してください。\
+         </action>\
+      </cause>\
+   </EventLongDescription>\
+   "
+
+VmUnsupportedStartingEvent.longDescription = "\
+   <EventLongDescription id="vim.event.VmUnsupportedStartingEvent">\
+      <description>\
+         サポートされていないゲスト OS を持つ仮想マシンをパワーオンしようとしています。\
+      </description>\
+      <cause>\
+         <description>\
+            ユーザー アクションにより仮想マシンのパワーオン操作が開始されましたが、この仮想マシンのゲスト OS はサポートされていません。\
+         </description>\
+      </cause>\
+   </EventLongDescription>\
+   "
+
+# VmRegisteredEvent: Basic event has enough details
+# VmRenamedEvent: Basic event has enough details
+# VmUuidConflictEvent: Not used anymore
+
+VmFailedToShutdownGuestEvent.longDescription = "\
+   <EventLongDescription id="vim.event.VmFailedToShutdownGuestEvent">\
+      <description>\
+         仮想マシンのゲスト OS のシャットダウンに失敗しました。\
+      </description>\
+      <cause>\
+         <description>\
+            VMware Tools が仮想マシンにインストールされていないと、ゲスト OS のシャットダウンに失敗する場合があります。\
+         </description>\
+         <action>VMware Tools をインストールしてください。</action>\
+      </cause>\
+      <cause>\
+         <description>\
+	    仮想マシンはユーザーへの質問またはプロンプトへの応答を待っている可能性があります。</description>\
+         <action>\
+            vSphere Client で仮想マシンの「サマリ」タブに移動し、質問またはプロンプトに応答してください。\
+                  </action>\
+      </cause>\
+      <cause>\
+         <description>\
+            仮想マシン上で同時に操作が実行されている可能性があります。\
+         </description>\
+         <action>すべての操作を終了し、シャットダウン操作をやり直してください。</action>\
+      </cause>\
+      <cause>\
+         <description>仮想マシンが無効な状態にあります。データストアにアクセスできないなどのさまざまな理由により、仮想マシンは無効な状態になることがあります。</description>\
+         <action>\
+            仮想マシンが無効な状態になった理由を特定し、問題を解決して、操作をやり直してください。\
+         </action>\
+      </cause>\
+   </EventLongDescription>\
+   "
+
+AlarmEmailFailedEvent.longDescription = "\
+    <EventLongDescription id="vim.event.AlarmEmailFailedEvent">\
+       <description>\
+          起動されたアラームの　E メール通知の送信中に、エラーが発生しました。\
+       </description>\
+       <cause>\
+            <description>トリガーされたアラームに関する　E メールの送信に失敗しました。</description>\
+            <action>E メール通知の送信に関する vCenter Server の SMTP 設定を確認してください。</action>\
+       </cause>\
+    </EventLongDescription>\
+    "
+    
+AlarmReconfiguredEvent.longDescription = "\
+    <EventLongDescription id="vim.event.AlarmReconfiguredEvent">\
+       <description>\
+          アラームが再設定されました。\
+       </description>\
+       <cause>\
+            <description>ユーザーがアラームを再設定しました。</description>\
+       </cause>\
+    </EventLongDescription>\
+    "
+        
+AlarmScriptFailedEvent.longDescription = "\
+    <EventLongDescription id="vim.event.AlarmScriptFailedEvent">\
+       <description>\
+          アラームがトリガされスクリプトの実行中にエラーが発生した後、このイベントがログに記録されます。\
+       </description>\
+       <cause>\
+            <description>スクリプトの実行中にエラーが発生しました。</description>\
+            <action>スクリプトまたはエラー状態を修正してください。</action>\
+       </cause>\
+    </EventLongDescription>\
+    "
+
+    
+AlarmSnmpFailedEvent.longDescription = "\
+    <EventLongDescription id="vim.event.AlarmSnmpFailedEvent">\
+       <description>\
+          アラームが起動され SNMP トラップの送信中にエラーが発生したときに、このイベントがログに記録されます。\
+       </description>\
+       <cause>\
+            <description>トリガーされたアラームの SNMP トラップを送信できませんでした。</description>\
+            <action>vCenter Server の SNMP 設定を確認します。 vCenter Server ネットワークで SNMP パケットを処理できるようになっていることを確認してください。</action>\
+       </cause>\
+    </EventLongDescription>\
+    "
+   
+   
+ScheduledTaskEmailFailedEvent.longDescription = "\
+    <EventLongDescription id="vim.event.ScheduledTaskEmailFailedEvent">\
+       <description>\
+          スケジュール設定タスクが実行中であることを通知する　E メールの送信中にエラーが発生しました。\
+       </description>\
+       <cause>\
+            <description>スケジュール設定タスクの　E メールの送信に失敗しました。</description>\
+            <action>E メールの送信に関する vCenter Server の SMTP 設定を確認してください。</action>\
+       </cause>\
+    </EventLongDescription>\
+    "
+
+ScheduledTaskFailedEvent.longDescription = "\
+    <EventLongDescription id="vim.event.ScheduledTaskFailedEvent">\
+       <description>\
+          スケジュール設定タスクの実行中にエラーが発生しました。\
+       </description>\
+       <cause>\
+            <description>スケジュール設定タスクの実行に失敗しました。</description>\
+            <action>エラー状態を修正してください。</action>\
+       </cause>\
+    </EventLongDescription>\
+    "
+
+
+DasAgentUnavailableEvent.longDescription = "\
+    <EventLongDescription id="vim.event.DasAgentUnavailableEvent">\
+       <description>\
+          vCenter Server はvSphere HA クラスタ内の正常なプライマリ ホストに接続できません。vSphere HA 保護は、クラスタで実行されている仮想マシンでは利用できない可能性があります。さらに、vCenter Server と正常なプライマリ ホストの間の通信が回復されるまで、クラスタ内のホストで vSphere HA を有効にしたり、再設定したりすることはできません。\
+       </description>\
+       <cause>\
+          <description>\
+             ネットワークが停止しており、インベントリですべてのホストが「応答なし」として表示されています。\
+          </description>\
+          <action>ネットワークをリストアしてください。</action>\
+       </cause>\
+       <cause>\
+          <description>クラスタ内のすべてのプライマリ ホストで障害が発生しました。</description>\
+          <action>\
+             障害が発生したプライマリ ホストをリストアできない場合は、クラスタの vSphere HA を無効にし、すべてのホストで vSphere HA の設定解除タスクが完了するまで待機し、クラスタの vSphere HA を再び有効にしてください。\
+          </action>\
+       </cause>\
+    </EventLongDescription>\
+    "
+
+DasDisabledEvent.longDescription = "\
+    <EventLongDescription id="vim.event.DasDisabledEvent">\
+       <description>\
+          ユーザー アクションによりこのホストで HA が無効になりました。 ホストが vCenter Server から切断されるか、メンテナンス モードまたはスタンバイ モードになると、HA は無効になります。 クラスタ内のほかのホスト上の仮想マシンは、ホストに障害が発生した場合にこのホストにフェイルオーバーされません。 また、ホストが切断された場合、ホストに障害が発生してもこのホスト上で実行しているすべての仮想マシンに障害は発生しません。 さらに、vSphere HA の仮想マシンとアプリケーションの監視による仮想マシンのリセットは試行されません。 \
+       </description>\
+    </EventLongDescription>\
+    "
+
+DasEnabledEvent.longDescription = "\
+    <EventLongDescription id="vim.event.DasEnabledEvent">\
+       <description>\
+          ユーザー アクションによりこのホストで vSphere HA が有効になりました。vSphere HA クラスタにホストが追加または移動されるか、クラスタで vSphere HA が有効になった場合、ホストで HA が有効になります。ホストがすでに vSphere HA クラスタ内にある場合は、ホストが vCenter Server に再接続されるか、ホストのメンテナンス モードまたはスタンバイ モードが終了したときに、ホストで vSphere HA が有効になります。vSphere HA は、vSphere HA が有効になった時点でホスト上で実行されているすべての仮想マシンを保護します。 \
+       </description>\
+    </EventLongDescription>\
+    "
+
+HostDasEnablingEvent.longDescription = "\
+     <EventLongDescription id="vim.event.HostDasEnablingEvent">\
+        <description>\
+           このホストでは vSphere HA が有効になっています。\
+        </description>\
+     </EventLongDescription>\
+     "
+
+InsufficientFailoverResourcesEvent.longDescription = "\
+     <EventLongDescription id="vim.event.InsufficientFailoverResourcesEvent">\
+        <description>\
+            クラスタには、vSphere HA アドミッション コントロールの設定に必要な未予約のキャパシティが不足しています。 HA はフェイルオーバーを実行することがありますが、可能な場合に限られます。\
+        </description>\
+        <cause>\
+            <description>\
+               「許容するホスト障害の数」のポリシーが設定され、少数の仮想マシンに他の仮想マシンよりもはるかに高い CPU またはメモリ予約がある場合、HA アドミッション コントロールは、ホストで障害が発生した場合に最適化されたリソースを十分に確保できるよう、過度に保守的になる場合があります。\
+            </description>\
+            <action>\
+                クラスタ内のすべての仮想マシンで、同様の CPU およびメモリ予約を使用します。これが可能でない場合は、フェイルオーバー用のクラスタ リソースの割合を予約するなど、異なる HA アドミッション コントロール ポリシーの使用を検討します。 または、詳細オプションでスロット サイズの上限を指定できます。 詳細については、vSphere の可用性ガイドを参照してください。\
+            </action>\
+        </cause>\
+        <cause>\
+           <description>\
+                HA エージェント エラーが発生したホストは、クラスタ内でフェイルオーバー キャパシティを提供するホストの候補ではなくなり、HA アドミッション コントロールはこれらのホストのリソースを考慮しなくなります。 多くのホストで HA エージェント エラーが発生した場合に、このイベントが生成されます。\
+           </description>\
+           <action>\
+                ホストのイベント ログを確認して、HA エージェント エラーの原因を特定します。 設定の問題を解決した後で、影響を受けたホストまたはクラスタ上で HA を再設定してください。\
+           </action>\
+        </cause>\
+     </EventLongDescription>\
+     "
+
+VmDasBeingResetEvent.longDescription = "\
+     <EventLongDescription id="vim.event.VmDasBeingResetEvent">\
+        <description>\
+           vSphere HA により仮想マシンがリセットされました。 vSpehre HA が設定された方法によっては、 VMware Tools またはアプリケーションのハートビート ステータスが赤に変わると、仮想マシンがリセットされる場合があります。\
+        </description>\
+        <cause>\
+           <description>\
+                VMware Tools のハートビートが赤に変わりました。 この状態は、オペレーティング システムがブルー スクリーンで失敗したか、応答しなくなった場合に発生することがあります。 また、 VMware Tools の障害またはシャットダウン時にも、この状態が発生する場合があります。\
+           </description>\
+           <action>\
+                仮想マシンが頻繁にリセットされる場合は、オペレーティング システムに解決していない問題がないかどうかを確認します。 ハートビートが途絶えてから vSphere HA でアクションが実行されるまでの待機時間が長くなるように、クラスタを設定することを検討してください。 指定する期間を長くすることで、一時的な問題によってリセットが起動されることを回避できます。 クラスタの編集ウィザードの「仮想マシンの監視」セクションで「監視感度」を下げることにより、この期間を長くすることができます。\
+           </action>\
+        </cause>\
+        <cause>\
+           <description>\
+                アプリケーションのハートビートが赤に変わりました。 この状態は、ハートビートを送信するように設定されているアプリケーションで障害が発生したか、応答がなくなった場合に発生することがあります。\
+           </description>\
+           <action>\
+                設定エラーが原因でアプリケーションがハートビートの送信を停止したのかどうかを確認し、問題を修正してください。\
+           </action>\
+        </cause>\
+     </EventLongDescription>\
+     "
+
+VmDasBeingResetWithScreenshotEvent.longDescription = "\
+     <EventLongDescription id="vim.event.VmDasBeingResetWithScreenshotEvent">\
+        <description>\
+           vSphere HA により仮想マシンがリセットされました。vSphere HA の設定方法によっては、VMware Tools またはアプリケーションのハートビート ステータスが赤に変わり、この状態が発生する場合があります。 イベントには、リセットされる前に作成されたゲスト コンソールのスクリーンショットの保存場所が含まれます。 この情報を使用して、ハートビート障害の原因を特定することができます。\
+        </description>\
+        <cause>\
+           <description>\
+                VMware Tools のハートビートが赤に変わりました。 この状態は、オペレーティング システムがブルー スクリーンで失敗したか、応答しなくなった場合に発生することがあります。 また、 VMware Tools の障害またはシャットダウン時にも、この状態が発生する場合があります。\
+           </description>\
+           <action>\
+                スクリーンショット イメージを確認して、ゲスト OS の障害が原因かどうかを判断します。 仮想マシンが頻繁にリセットされる場合は、オペレーティング システムに解決されていない問題がないかどうかを確認します。 ハートビートが途絶えてから vSphere HA でアクションが実行されるまでの待機時間が長くなるように、クラスタを設定することを検討してください。 指定する期間を長くすることで、一時的な問題によってリセットが起動されることを回避できます。 クラスタの編集ウィザードの「仮想マシンの監視」セクションで「監視感度」を下げることにより、この期間を長くすることができます。\
+           </action>\
+        </cause>\
+        <cause>\
+           <description>\
+                アプリケーションのハートビートが赤に変わりました。 この状態は、ハートビートを送信するように設定されているアプリケーションで障害が発生したか、応答がなくなった場合に発生することがあります。\
+           </description>\
+           <action>\
+                設定エラーが原因でアプリケーションがハートビートの送信を停止したのかどうかを確認し、問題を修正してください。\
+           </action>\
+        </cause>\
+     </EventLongDescription>\
+     "
+
+VmDasResetFailedEvent.longDescription = "\
+     <EventLongDescription id="vim.event.VmDasResetFailedEvent">\
+        <description>\
+            vSphere HA の設定方法によって異なりますが、VMware Tools またはゲスト アプリケーションからのハートビート障害が原因で、HA により仮想マシンのリセットが試行されました。 しかしリセット操作は失敗しました。\
+        </description>\
+        <cause>\
+            <description>\
+                リセット障害の最も一般的な原因は、リセットが開始されたときに仮想マシンで別のタスクが実行されている場合です。\
+            </description>\
+            <action>該当する仮想マシンにを確認し、必要に応じて仮想マシンを手動でリセットします。</action>\
+        </cause>\
+     </EventLongDescription>\
+     "
+
+VmFailoverFailed.longDescription = "\
+     <EventLongDescription id="vim.event.VmFailoverFailed">\
+        <description>\
+           vSphere HA はこの仮想マシンをフェイルオーバーしませんでした。イベントには、vSphere HA がフェイルオーバーを試みたときに発生した障害の詳細が含まれます。vSphere HA は、フェイルオーバーの試行数が上限に達するまで別のホストでフェイルオーバーを試みます。多くの場合、再試行は正常に行われます。\
+        </description>\
+        <cause>\
+           <description>\
+                vSphere HA が仮想マシンを再起動しようとしたときに問題が発生したため、フェイルオーバーに失敗しました。原因として、同じ仮想マシン上で別の操作が実行中である、または仮想マシンがパワーオンのままであるために、新しいホスト上で仮想マシンを登録または再設定できない、などが考えられます。また、仮想マシンの構成ファイルが破損している場合も、フェイルオーバー失敗の原因となることがあります。\
+           </description>\
+           <action>\
+                   試行を繰り返しても vSphere HA が仮想マシンのフェイルオーバーを実行できない場合は、このイベントが発生するたびにエラーを確認します。または、仮想マシンをパワーオンして、返されるエラーを確認します。\
+         </action> \
+           <action>\
+                   ファイルがロックされているというエラーがレポートされた場合は、vSphere HA Master Agent が管理ネットワークまたはハートビート データストアを使用して監視できないホスト上で仮想マシンがパワーオンされた可能性があります。または、仮想マシンがクラスタ外のホスト上のユーザーによってパワーオンされた可能性があります。いずれかのホストが停止していると判断された場合は、ネットワークまたはストレージに問題がないか確認してください。 \
+           </action> \
+           <action> \
+                   ただし、仮想マシンが無効な状態であるというエラーが報告された場合は、仮想マシンのファイルへのアクセスを禁止する操作が進行中である可能性があります。クローン作成など、完了までに長時間を要する操作が進行中でないかどうか確認してください。 \
+           </action>\
+        </cause>\
+     </EventLongDescription>\
+     "
+
+VmMaxRestartCountReached.longDescription = "\
+     <EventLongDescription id="vim.event.VmMaxRestartCountReached">\
+        <description>\
+           vSphere HA でのこの仮想マシンのフェイルオーバーの試行数が上限に達したため、仮想マシンを再起動できませんでした。フェイルオーバーの試行はこれ以上行われません。デフォルトでは、vSphere HA は仮想マシンのフェイルオーバーを 5 回試みます。 \
+        </description>\
+        <cause>\
+           <description>\
+フェイルオーバーの失敗の理由は、仮想マシンの構成ファイルが破損している、APD (All Path Down) 状態であるためクラスタ内のどのホストからも仮想マシンのデータストアにアクセスできないなど、さまざまです。さらに、vSphere HA Master Agent が管理ネットワークまたはハートビート データストアを使用して監視できないホスト上で仮想マシンがパワーオンされたか、またはクラスタ外のホスト上のユーザーによって仮想マシンがパワーオンされたなどの理由も考えられます。\
+           </description>\
+           <action> \
+                過去のフェイルオーバーが失敗した理由を確認するには、仮想マシンのログに記録されたイベントを検索して、フェイルオーバーの失敗時に vSphere HA が報告した発生イベントを見つけます。これらのイベントでは、フェイルオーバーが失敗した理由が記載されます。vSphere HA イベントは、「vSphere HA」という語句を検索することで特定できます。まだ問題が残っているかどうかを確認するには、仮想マシンを手動でパワーオンします。 パワーオンに失敗する場合は、返されたエラーを調べます。一方、パワーオンの保留が長時間続く場合は、APD (All Path Down) 状態になっていないか確認します。また、いずれかのホストが停止していると判断された場合、ネットワークまたはストレージの問題が原因となっていないかどうか確認します。 \
+            </action>\
+        </cause>\
+     </EventLongDescription>\
+     "
+
+VmPowerOffOnIsolationEvent.longDescription = "\
+     <EventLongDescription id="vim.event.VmPowerOffOnIsolationEvent">\
+        <description>\
+           この仮想マシンは、実行されていたホストが管理ネットワークから隔離されたため、vSphere HA によってパワーオフされました。\
+        </description>\
+     </EventLongDescription>\
+     "
+
+VmShutdownOnIsolationEvent.longDescription = "\
+     <EventLongDescription id="vim.event.VmShutdownOnIsolationEvent">\
+        <description>\
+           この仮想マシンは、実行されていたホストが管理ネットワークから隔離されたため、vSphere HA によりシャットダウンされました。\
+        </description>\
+     </EventLongDescription>\
+     "
+
+VmAutoRenameEvent.longDescription = "\
+    <EventLongDescription id="vim.event.VmAutoRenameEvent">\
+       <description>\
+          仮想マシンの名前は、別の仮想マシンと競合する可能性があるため変更されました\
+       </description>\
+       <cause>\
+            <description>インベントリに追加されたホストのデータストアのスキャン中に、仮想マシンが vCenter Server インベントリに追加された可能性があります。 このアクション中に、新しく追加された仮想マシン名とインベントリにすでに存在する仮想マシン名との競合が検出された可能性があります。 これを解決するために、vCenter Server は新しく追加された仮想マシンの名前を変更します。\
+            </description>\
+        </cause>\
+    </EventLongDescription>\
+    "
+
+VmBeingDeployedEvent.longDescription = "\
+     <EventLongDescription id="vim.event.VmBeingDeployedEvent">\
+        <description>\
+           仮想マシンがテンプレートから作成されています。\
+        </description>\
+        <cause>\
+             <description>\
+                ユーザー アクションにより、仮想マシンをこのテンプレートから作成するよう求められました。\
+             </description>\
+         </cause>\
+     </EventLongDescription>\
+     "
+
+VmBeingHotMigratedEvent.longDescription = "\
+  <EventLongDescription id="vim.event.VmBeingHotMigratedEvent">\
+     <description>\
+        パワーオン状態の仮想マシンが vMotion により移行されています。\
+     </description>\
+     <cause>\
+          <description> ユーザー アクションにより、パワーオン状態の仮想マシンが vMotion によって移行されている可能性があります。\
+          </description>\
+      </cause>\
+       <cause>\
+          <description> DRS の推奨により、パワーオン状態の仮想マシンが vMotion によって移行されている可能性があります。\
+          </description>\
+      </cause>\
+  </EventLongDescription>\
+  "
+
+DatastoreDiscoveredEvent.longDescription = "\
+  <EventLongDescription id="vim.event.DatastoreDiscoveredEvent">\
+     <description>\
+        ホスト上でデータストアが検出されました。\
+     </description>\
+     <cause>\
+        <description>\
+           このデータストアに対するアクセス権限を持つホストがデータセンターに追加されました。\
+        </description>\
+     </cause>\
+     <cause>\
+        <description>\
+           このデータストアの背後にあるストレージは、データセンター内のホストに対してマスク解除されました。\
+        </description>\
+     </cause>\
+     <cause>\
+        <description>\
+           ユーザー アクションまたはシステム アクションにより、このデータストアがホスト上で作成されました。\
+        </description>\
+     </cause>\
+     <cause>\
+        <description>\
+           ユーザー アクションまたはシステム アクションにより、このデータストアがホスト上で作成されました。この操作が行われる前、データストアはデータセンター内の少なくとも 1 台の他のホスト上で表示されていました。\
+        </description>\
+     </cause>\
+   </EventLongDescription>\
+   "
+
+DatastoreRenamedOnHostEvent.longDescription = "\
+   <EventLongDescription id="vim.event.DatastoreRenamedOnHostEvent">\
+      <description>\
+         vCenter Server により管理されているホスト上で、データストアの名前が変更されました。\
+      </description>\
+      <cause>\
+         <description>\
+            vCenter Server はホスト上でデータストアを検出し、そのデータストアが別の名前で vCenter Server インベントリにすでに存在しているため、そのデータストアの名前を変更しました。 または、同じデータセンター内の別のデータストアの名前と競合していたために、データストアの名前を変更した可能性があります。\
+         </description>\
+      </cause>\
+   </EventLongDescription>\
+  "
+
+VMFSDatastoreExtendedEvent.longDescription = "\
+   <EventLongDescription id="vim.event.VMFSDatastoreExtendedEvent">\
+      <description>\
+         既存の VMFS ボリュームが拡張され、キャパシティが増加しました。\
+      </description>\
+      <cause>\
+         <description>\
+            ユーザー アクションまたはシステム アクションにより、データストアが LUN 上のパーティションを使用して拡張され、キャパシティが増加しました。\
+         </description>\
+      </cause>\
+   </EventLongDescription>\
+   "
+
+VMFSDatastoreExpandedEvent.longDescription = "\
+   <EventLongDescription id="vim.event.VMFSDatastoreExpandedEvent">\
+      <description>\
+         VMFS ボリュームの既存のエクステントが増やされ、キャパシティが増加しました。\
+      </description>\
+      <cause>\
+         <description>\
+            ユーザー アクションまたはシステム アクションにより、既存の VMFS データストアのエクステントが増やされました。 エクステントは隣接して空き容量がある場合のみ拡張可能です。 そのため、このアクションによって LUN 上の隣接する容量が利用されました。\
+         </description>\
+      </cause>\
+   </EventLongDescription>\
+   "
+
+VmConfigMissingEvent.longDescription = "\
+   <EventLongDescription id="vim.event.VmConfigMissingEvent">\
+      <description>\
+         仮想マシンの 1 つまたは複数の構成ファイルが見つかりません。\
+      </description>\
+      <cause>\
+         <description>\
+            この仮想マシンが存在するデータストアにアクセスできない可能性があります。\
+         </description>\
+         <action>\
+             この仮想マシンが存在するデータストアの接続を確認してください。 データストアにバッキング LUN がある場合、一時的なディスク障害が発生していないかどうかを確認します。\
+         </action>\
+      </cause>\
+   </EventLongDescription>\
+   "
+
+VmDeployedEvent.longDescription = "\
+   <EventLongDescription id="vim.event.VmDeployedEvent">\
+      <description>\
+         指定されたテンプレートから仮想マシンが作成されました\
+      </description>\
+      <cause>\
+         <description>\
+            ユーザー アクションによりテンプレートから仮想マシンが作成されました\
+         </description>\
+      </cause>\
+      <cause>\
+         <description>\
+            スケジュール設定されたタスクによりテンプレートから仮想マシンが作成されました\
+         </description>\
+      </cause>\
+   </EventLongDescription>\
+   "
+
+VmMacChangedEvent.longDescription = "\
+   <EventLongDescription id="vim.event.VmMacChangedEvent">\
+      <description>\
+         仮想マシンの MAC アドレスが変更されました\
+      </description>\
+      <cause>\
+         <description>\
+            ユーザー アクションにより仮想マシンの MAC アドレスが変更されました\
+         </description>\
+      </cause>\
+      <cause>\
+         <description>\
+            MAC アドレスの競合が検出されたために、vCenter Server により仮想マシンの MAC アドレスが変更されました\
+         </description>\
+      </cause>\
+   </EventLongDescription>\
+   "
+
+VmMacConflictEvent.longDescription = "\
+   <EventLongDescription id="vim.event.VmMacConflictEvent">\
+      <description>\
+         仮想マシンの MAC アドレスが別の仮想マシンの MAC アドレスと競合しています\
+      </description>\
+      <cause>\
+         <description> 仮想マシンの MAC アドレスが別の仮想マシンの MAC アドレスと同じです。競合の原因となった仮想マシンの詳細については、イベント詳細を参照してください。\
+         </description>\
+      </cause>\
+   </EventLongDescription>\
+   "
+
+VmOrphanedEvent.longDescription = "\
+   <EventLongDescription id="vim.event.VmOrphanedEvent">\
+      <description>\
+         仮想マシンが、関連付けられたホストに存在しません\
+      </description>\
+      <cause>\
+         <description> 仮想マシンが検出されましたが、そのホストは vCenter Server から切断されていました。 \
+         </description>\
+      </cause>\
+   </EventLongDescription>\
+   "
+
+VmConnectedEvent.longDescription = "\
+   <EventLongDescription id="vim.event.VmConnectedEvent">\
+      <description>\
+         仮想マシンはインベントリ内で接続状態であり、vCenter Server は仮想マシンにアクセスできます\
+      </description>\
+      <cause>\
+         <description>\
+            仮想マシンの作成、登録、クローン作成、デプロイなどの操作を実行させるユーザー アクションまたはシステム アクションにより vCenter Server が仮想マシンにアクセスしました\
+         </description>\
+      </cause>\
+       <cause>\
+         <description>\
+            ホストの追加、再接続などの操作を実行させるユーザー アクションまたはシステム アクションにより vCenter Server が仮想マシンにアクセスしました\
+         </description>\
+      </cause>\
+      <cause>\
+         <description>\
+            仮想マシンのホストの状態が「応答なし」から「接続」に変化し、ホストが vCenter Server に仮想マシンへのアクセスを許可しました\
+         </description>\
+      </cause>\
+    </EventLongDescription>\
+    "
+   MigrationErrorEvent.longDescription = "\
+         <EventLongDescription id="vim.event.MigrationErrorEvent">\
+            <description>\
+               仮想マシンは互換性基準の一部を満たしていないため、移行できませんでした\
+            </description>\
+            <cause>\
+                 <description> 仮想マシンが互換性基準の一部を満たしていないために、仮想マシンをソース ホストから移行できませんでした\
+                 </description>\
+                  <action> \
+                      この問題の原因を特定するには、vSphere Client を使用して障害発生時のエラーを確認してください\
+                  </action>\
+             </cause>\
+         </EventLongDescription>\
+         "
+
+ MigrationHostErrorEvent.longDescription = "\
+         <EventLongDescription id="vim.event.MigrationHostErrorEvent">\
+            <description>\
+               仮想マシンはすべての互換性基準を満たしていないために移行できませんでした\
+            </description>\
+            <cause>\
+                 <description> 仮想マシンがすべての互換性基準を満たしていないために、仮想マシンをターゲット ホストまたはデータストアに移行できませんでした\
+                 </description>\
+                  <action> \
+                      この問題の原因を特定するには、vSphere Client を使用して障害発生時のエラーを確認してください\
+                  </action>\
+             </cause>\
+         </EventLongDescription>\
+         "
+
+VmBeingMigratedEvent.longDescription = "\
+     <EventLongDescription id="vim.event.VmBeingMigratedEvent">\
+        <description>\
+           仮想マシンを実行するホストを変更しています\
+        </description>\
+        <cause>\
+           <description>\
+                ユーザー アクションにより仮想マシンが別のホストに移行されました\
+           </description>\
+        </cause>\
+     </EventLongDescription>\
+     "
+
+VmMigratedEvent.longDescription = "\
+   <EventLongDescription id="vim.event.VmMigratedEvent">\
+      <description>\
+         仮想マシンのホストが正常に変更されました\
+      </description>\
+      <cause>\
+         <description>\
+            ユーザー アクションにより仮想マシンが別のホストに正常に移行されました\
+         </description>\
+      </cause>\
+   </EventLongDescription>\
+   "
+
+VmBeingRelocatedEvent.longDescription = "\
+     <EventLongDescription id="vim.event.VmBeingRelocatedEvent">\
+        <description>\
+           仮想マシンの実行場所とストレージのいずれかまたは両方が再配置されています\
+        </description>\
+        <cause>\
+           <description>\
+                ユーザー アクションにより仮想マシンの実行場所とストレージのいずれかまたは両方が変更された可能性があります\
+           </description>\
+        </cause>\
+     </EventLongDescription>\
+     "
+
+VmRelocatedEvent.longDescription = "\
+   <EventLongDescription id="vim.event.VmRelocatedEvent">\
+      <description>\
+         仮想マシンの実行場所とストレージのいずれかまたは両方が正常に再配置されました\
+      </description>\
+      <cause>\
+         <description>\
+            ユーザー アクションにより仮想マシンの実行場所とストレージのいずれかまたは両方が変更されました\
+         </description>\
+      </cause>\
+   </EventLongDescription>\
+   "
+
+VmCloneFailedEvent.longDescription = "\
+     <EventLongDescription id="vim.event.VmCloneFailedEvent">\
+        <description>\
+           仮想マシンのクローンを作成できませんでした\
+        </description>\
+        <cause>\
+           <description>\
+                エラーにより仮想マシンのクローンを作成できませんでした\
+           </description>\
+        </cause>\
+     </EventLongDescription>\
+     "
+
+MigrationHostWarningEvent.longDescription = "\
+         <EventLongDescription id="vim.event.MigrationHostWarningEvent">\
+            <description>\
+               仮想マシンを移行できますが、移行の完了後に一部の機能が失われる可能性があります\
+            </description>\
+            <cause>\
+                 <description> 仮想マシンはターゲット ホストまたはデータストアに正常に移行される可能性がありますが、仮想マシンが互換性基準の一部を満たしていないため、後でいくつかの機能が正常に動作しない場合があります。\
+                 </description>\
+                  <action> \
+                      この問題の原因を特定するには、vSphere Client を使用して障害発生時の警告を確認してください\
+                  </action>\
+             </cause>\
+         </EventLongDescription>\
+         "
+
+MigrationResourceErrorEvent.longDescription = "\
+         <EventLongDescription id="vim.event.MigrationResourceErrorEvent">\
+            <description>\
+               ターゲット リソース プールとの互換性がないために仮想マシンを移行できませんでした\
+            </description>\
+            <cause>\
+                 <description>ターゲット リソース プールとの互換性がないために仮想マシンをターゲット ホストまたはデータストアに移行できません\
+                 </description>\
+                  <action> \
+                      この問題の原因を特定するには、vSphere Client を使用して障害発生時のエラーを確認してください\
+                  </action>\
+             </cause>\
+         </EventLongDescription>\
+         "
+
+MigrationResourceWarningEvent.longDescription = "\
+         <EventLongDescription id="vim.event.MigrationResourceWarningEvent">\
+            <description>\
+               仮想マシンを移行できますが、移行の完了後に一部の機能が失われる可能性があります\
+            </description>\
+            <cause>\
+                 <description> 仮想マシンはターゲット リソース プールに移行される可能性がありますが、仮想マシンがすべての互換性基準を満たしていないため、後で一部の機能が正常に動作しない場合があります。\
+                 </description>\
+                  <action> \
+                      この問題の原因を特定するには、vSphere Client を使用して障害発生時の警告を確認してください\
+                  </action>\
+             </cause>\
+         </EventLongDescription>\
+         "
+
+VmDeployFailedEvent.longDescription = "\
+    <EventLongDescription id="vim.event.VmDeployFailedEvent">\
+        <description>\
+           イベント メッセージに記述されている問題が原因で、仮想マシンをデプロイできませんでした\
+        </description>\
+        <cause>\
+           <description>\
+                仮想マシンをデプロイできませんでした。 原因としては、ディスク容量の不足、ホストまたは仮想マシンがネットワーク接続の問題、ホストが切断されていることなどが考えられます。\
+           </description>\
+          <action>\
+	    イベント メッセージで理由を確認して、障害の原因を特定し、問題を修正してください。\
+         </action>\
+	</cause>\
+     </EventLongDescription>\
+     "
+
+VmDiskFailedEvent.longDescription = "\
+    <EventLongDescription id="vim.event.VmDiskFailedEvent">\
+        <description>\
+           イベント メッセージに示されている問題が原因で、仮想マシンの仮想ディスクを作成できませんでした\
+        </description>\
+        <cause>\
+           <description>\
+                仮想マシンの仮想ディスクが作成されませんでした。 原因としては、ディスクにアクセスできない、ディスク容量の不足、操作を実行する権限が付与されていないことが考えられます。\
+           </description>\
+           <action>\
+                イベント メッセージで理由を確認して、障害の原因を特定してください。 ディスクにアクセスできること、十分なディスク容量があること、および操作を実行する権限があることを確認してください。\
+           </action>\
+        </cause>\
+     </EventLongDescription>\
+     "
+
+VmFailedMigrateEvent.longDescription = "\
+    <EventLongDescription id="vim.event.VmFailedMigrateEvent">\
+        <description>\
+           イベント メッセージに記述されている問題が原因で、仮想マシンを移行できませんでした\
+        </description>\
+        <cause> \
+            <description> \
+                仮想マシンが移行されませんでした。 原因としては、vMotion の IP アドレスが設定されていない、ソース ホストおよびターゲット ホストにアクセスできないことなどが考えられます。\
+            </description> \
+            <action>\
+                イベント メッセージで理由を確認して、障害の原因を特定してください。 ソース ホストとターゲット ホストで vMotion の IP アドレスが設定されていること、ホストにアクセスできることなどを確認してください。\
+           </action> \
+        </cause> \
+     </EventLongDescription>\
+     "
+
+VmFailedRelayoutOnVmfs2DatastoreEvent.longDescription = "\
+    <EventLongDescription id="vim.event.VmFailedRelayoutOnVmfs2DatastoreEvent">\
+        <description>\
+           VMFS2 データストア上の仮想マシンを移行できませんでした\
+        </description>\
+        <cause>\
+           <description>\
+                仮想マシンが VMFS2 データストア上にディスクを持っていることが原因で、仮想マシンの移行に失敗しました。 VMFS2 データストアは、 ESX 3.0 以降のホストに対しては読み取り専用です。\
+         </description>\
+           <action> \
+                データストアを VMFS2 から VMFS3 にアップグレードしてください\
+           </action> \
+        </cause>\
+     </EventLongDescription>\
+     "
+
+VmFailedRelayoutEvent.longDescription = "\
+    <EventLongDescription id="vim.event.VmFailedRelayoutEvent">\
+        <description>\
+           仮想マシンを展開できませんでした\
+        </description>\
+        <cause>\
+           <description>\
+                イベント メッセージに記述されている問題が原因で、ディスクに仮想マシンを展開できませんでした。 原因としては、ディスクにアクセスできないことなど、いくつか考えられます。\
+           </description>\
+        <action>\
+	    イベント メッセージで理由を確認して、障害の原因を特定し、問題を修正してください。\
+         </action>\
+	</cause>\
+     </EventLongDescription>\
+     "
+
+VmAcquiredMksTicketEvent.longDescription = "\
+    <EventLongDescription id="vim.event.VmAcquiredMksTicketEvent">\
+        <description>\
+           仮想マシンのマウス、キーボード、スクリーン (MKS) チケットを正常に取得できました\
+        </description>\
+        <cause>\
+           <description>\
+                仮想マシンのリモート コンソールに接続するために使用されるマウス、キーボード、スクリーン (MKS) チケットが正常に取得されました。\
+           </description>\
+        </cause>\
+     </EventLongDescription>\
+     "
+
+VmWwnAssignedEvent.longDescription = "\
+   <EventLongDescription id="vim.event.VmWwnAssignedEvent">\
+      <description>\
+         仮想マシンに WWN (World Wide Name) が割り当てられました\
+      </description>\
+      <cause>\
+         <description>仮想マシンが RDM (Raw デバイス マッピング) によって作成されたかRDM ディスクにアクセスするように再設定されたために、この仮想マシンに WWN が割り当てられました\
+         </description>\
+      </cause>\
+   </EventLongDescription>\
+   "
+
+VmWwnChangedEvent.longDescription = "\
+   <EventLongDescription id="vim.event.VmWwnChangedEvent">\
+      <description>\
+         仮想マシンに割り当てられた WWN (World Wide Name) が変更されました\
+      </description>\
+      <cause>\
+         <description>別の仮想マシンに同じ WWN が割り当てられ、競合が発生したことが原因と考えられます。仮想マシンに新しい WWN が割り当てられました\
+         </description>\
+      </cause>\
+   </EventLongDescription>\
+   "
+
+VmWwnConflictEvent.longDescription = "\
+   <EventLongDescription id="vim.event.VmWwnConflictEvent">\
+      <description>\
+         仮想マシンに割り当てられた WWN (World Wide Name) が競合しています\
+      </description>\
+      <cause>\
+         <description>この仮想マシンに割り当てられた WWN は別の仮想マシンの WWN と同一でした\
+       </description>\
+      <action>\
+	    イベント詳細を参照して競合の詳細を確認して、問題を修正してください。\
+         </action>\</cause>\
+   </EventLongDescription>\
+   "
+
+VmReloadFromPathFailedEvent.longDescription = "\
+   <EventLongDescription id="vim.event.VmReloadFromPathFailedEvent">\
+      <description>\
+         新しいデータストア パスから仮想マシンを再ロードできませんでした \
+      </description>\
+      <cause>\
+         <description>ターゲットのデータストア パスがアクセスできないか無効でした\
+         </description>\
+         <action>有効なターゲットのデータストア パスを使用してください\
+         </action> \
+      </cause>\
+      <cause>\
+         <description>仮想マシンが無効な状態です \
+         </description>\
+         <action>仮想マシンの電源状態を確認してください。 仮想マシンがパワーオン状態の場合はパワーオフしてください。\
+         </action>\
+      </cause>\
+      <cause>\
+         <description>仮想マシンの Fault Tolerance が有効になっています。\
+         </description>\
+         <action>仮想マシンの Fault Tolerance を無効にして、操作をやり直してください\
+         </action>\
+      </cause>\
+   </EventLongDescription>\
+   "
+
+CustomizationLinuxIdentityFailed.longDescription = "\
+   <EventLongDescription id="vim.event.CustomizationLinuxIdentityFailed">\
+      <description>\
+         カスタム スクリプトは、ゲスト OS の Linux ディストリビューションをサポートしません。 サポート対象の Linux ディストリビューションのリストについては、VMware vSphere の互換性マトリックスを参照してください。\
+      </description>\
+      <cause>\
+         <description>\
+            ターゲットのゲスト OS では、Linux ディストリビューションのカスタマイズはサポートされていません。\
+         </description>\
+         <action>\
+            特定の Linux ディストリビューションのサポート状況については、VMware にお問い合わせください。 特定の Linux ディストリビューションが新しいリリースですでにサポートされている場合は、アップグレードを検討してください。\
+</action>\
+      </cause>\
+   </EventLongDescription>\
+   "
+
+CustomizationNetworkSetupFailed.longDescription = "\
+   <EventLongDescription id="vim.event.CustomizationNetworkSetupFailed">\
+      <description>\
+         カスタム スクリプトは、対応する　Linux の構成ファイルまたは Windows レジストリでパラメータを設定できませんでした\
+      </description>\
+      <cause>\
+         <description>\
+            カスタム仕様に無効なホスト名またはドメイン名が含まれています\
+         </description>\
+         <action>\
+            詳細については、このイベントのゲストOS のログ ファイルを確認してください\
+         </action>\
+         <action>\
+            ターゲットのゲスト OS の有効なホスト名を指定してください。 ホスト名は、RFC 952、1035、1123、および 2181 におけるホスト名およびドメイン名の定義に準拠している必要があります。\
+         </action>\
+      </cause>\
+      <cause>\
+         <description>\
+            カスタム パッケージで指定された MAC アドレスを持つ NIC を検出できませんでした\
+         </description>\
+         <action>\
+            詳細については、このイベントのゲスト OS のログ ファイルを確認してください\
+         </action>\
+         <action>\
+            カスタム パッケージを作成してからデプロイするまでの間に仮想 NIC の MAC アドレスが変更されていないか確認してください。 デプロイは、カスタマイズのスケジュール設定され、仮想マシンが初めて起動するときに実行されます。\
+         </action>\
+      </cause>\
+      <cause>\
+         <description>\
+            カスタム コードには、特定の構成ファイルの読み取り/書き込み権限が必要です。 この権限が、 Linux の　root アカウントまたは Windows ゲスト OS で VMware Tools によって使用されるアカウントに付与されていません。\
+         </description>\
+         <action>\
+            詳細については、このイベントのゲスト OS のログ ファイルを確認してください\
+         </action>\
+         <action>\
+            読み取り/書き込み権限を、Linux の root アカウントまたは Windows ゲスト OS で VMware Tools によって使用されるアカウントとカスタム コードが変更するレジストリ キーに付与してください。\
+         </action>\
+      </cause>\
+   </EventLongDescription>\
+   "
+
+CustomizationSysprepFailed.longDescription = "\
+   <EventLongDescription id="vim.event.CustomizationSysprepFailed">\
+      <description>\
+         選択されたターゲットのゲスト OS に対応するフォルダに、ゲスト OS の実際のバージョンとは異なる Sysprep ファイルがあります\
+      </description>\
+      <cause>\
+         <description>\
+            ターゲットのゲスト OS (Windows XP など) に対応するフォルダに、異なるゲスト OS (Windows 2003 など) の　 Sysprep ファイルが保存されています\
+         </description>\
+         <action>\
+            vCenter Server を実行するマシンで、ターゲットのゲスト OS に対応するフォルダに正しい Sysprep ファイルを保存してください。\
+         </action>\
+      </cause>\
+      <cause>\
+         <description>\
+            ゲスト OS に対応するフォルダに、異なるサービス パック用の　Sysprep ファイルが格納されています。たとえば、ゲスト OS は Windows XP SP2 ですが　Sysprep ファイルは Windows XP SP1 用です。\
+         </description>\
+         <action>\
+            vCenter Server を実行するマシンで、ターゲットのゲスト OS に対応するフォルダに正しい Sysprep ファイルを保存してください。\
+         </action>\
+      </cause>\
+   </EventLongDescription>\
+   "
+
+CustomizationUnknownFailure.longDescription = "\
+   <EventLongDescription id="vim.event.CustomizationUnknownFailure">\
+      <description>\
+         カスタム コンポーネントはゲスト OS で必要なパラメータを設定できませんでした\
+      </description>\
+      <cause>\
+         <description>\
+            Windows 上でカスタム コードを実行するユーザー アカウントが、カスタム コードによって使用されるレジストリ キーの読み取り/書き込み権限を持っていません。 カスタム コードは、通常、「Local System」アカウントで実行されますが、VMware Tools を実行可能なアカウントを選択することで、ユーザー アカウントを変更することができます。\
+         </description>\
+         <action>\
+            詳細については、このイベントのゲスト OS のログ ファイルを確認してください\
+         </action>\
+         <action>\
+            ｃ\
+         </action>\
+      </cause>\
+      <cause>\
+         <description>\
+           Windows 上でカスタム コードを実行するユーザー アカウントが、カスタム コードによって使用されるファイルおよびフォルダの読み取り/書き込み権限を持っていません。 カスタム コードは、通常、「Local System」アカウントで実行されますが、VMware Tools を実行可能なアカウントを選択することで、ユーザー アカウントを変更することができます。\
+         </description>\
+         <action>\
+            詳細については、このイベントのゲスト OS のログ ファイルを確認してください\
+         </action>\
+         <action>\
+            VMware Tools を実行するユーザー アカウントを決定し、そのアカウントにカスタム コードによって使用されるファイルおよびフォルダの読み取り/書き込み権限を付与していることを確認してください\
+         </action>\
+      </cause>\
+      <cause>\
+         <description>\
+            Linux 上で無効なタイム ゾーンまたはサポートされていないタイム ゾーンがカスタム スクリプトに渡されたために、タイム ゾーンの設定に失敗しました\
+         </description>\
+         <action>\
+            詳細については、このイベントのゲスト OS のログ ファイルを確認してください\
+         </action>\
+         <action>\
+            カスタム仕様でサポートされているタイム ゾーンが渡されているか確認してください。\
+         </action>\
+      </cause>\
+      <cause>\
+         <description>\
+            Linux 上のゲスト OS の root アカウントが、カスタム スクリプトが変更する構成ファイル (etchosts) の読み取り/書き込み権限を持っていません\
+         </description>\
+         <action>\
+            構成ファイルの読み取り/書き込み権限をゲスト OS の root アカウントに付与してください\
+         </action>\
+      </cause>\
+      <cause>\
+         <description>\
+            open-vm-tools が使用されている場合、Linux でゲストのカスタマイズを有効にするには、deployPkg プラグインをインストールする必要があります。\
+         </description>\
+         <action>\
+            kb.vmware.com/kb/2075048 に従って open-vm-tools deployPkg プラグインをインストールします。\
+         </action>\
+      </cause>\
+      <cause>\
+         <description>\
+            ターゲットのゲスト OS のカスタマイズはサポートされていません\
+         </description>\
+         <action>\
+            特定の Linux ディストリビューションのサポートについては、VMware にお問い合わせください。特定の Linux ディストリビューションが新しいリリースですでにサポートされている場合は、アップグレードを検討してください。\
+         </action>\
+      </cause>\
+   </EventLongDescription>\
+   "
+#
+# FT Related Events
+#
+
+VmFailedStartingSecondaryEvent.longDescription = "\
+    <EventLongDescription id="vim.event.VmFailedStartingSecondaryEvent">\
+       <description>\
+          エラーにより vCenter Server がセカンダリ仮想マシンを起動できませんでした\
+       </description>\
+       <cause>\
+            <description>\
+              リモート ホストはセカンダリ仮想マシンと互換性がありません。 この場合、たとえばホストが仮想マシンのネットワークまたはデータストアにアクセスできなくなる可能性があります。\
+            </description>\
+            <action>クラスタに含まれるホストが Fault Tolerance と互換性があることを確認してください</action>\
+        </cause>\
+        <cause>\
+            <description>リモート ホストにログインできませんでした。 ホストが新たにインベントリに追加された場合または再起動した場合は、SSL サムプリントがホストに伝達されるまでに時間がかかることがあります。\
+            </description>\
+            <action>問題が解決しない場合は、ホストを切断して再接続してください。</action>\
+        </cause>\
+        <cause>\
+            <description>リモート ホスト上でセカンダリ仮想マシンを登録できませんでした</description>\
+            <action>Fault Tolerance 仮想マシンが存在するデータストアにリモート ホストがアクセスできるかを確認してください</action>\
+        </cause>\
+        <cause>\
+            <description>セカンダリ仮想マシンの起動中にエラーが発生しました</description>\
+            <action>移行エラーの原因を特定します。 可能な場合、vCenter Server はセカンダリ仮想マシンの再起動を試みます。</action>\
+        </cause>\
+    </EventLongDescription>\
+    "
+
+VmFailedUpdatingSecondaryConfig.longDescription = "\
+    <EventLongDescription id="vim.event.VmFailedUpdatingSecondaryConfig">\
+       <description>\
+          フェイルオーバー後に、新しいプライマリ仮想マシンがセカンダリ仮想マシンの設定を更新できませんでした\
+       </description>\
+       <cause>\
+            <description> </description>\
+            <action></action>\
+        </cause>\
+    </EventLongDescription>\
+    "
+
+VmFaultToleranceStateChangedEvent.longDescription = "\
+    <EventLongDescription id="vim.event.VmFaultToleranceStateChangedEvent">\
+       <description>\
+          仮想マシンの Fault Tolerance の状態が変わりました\
+       </description>\
+       <cause>\
+            <description> </description>\
+            <action></action>\
+        </cause>\
+    </EventLongDescription>\
+    "
+
+VmFaultToleranceTurnedOffEvent.longDescription = "\
+    <EventLongDescription id="vim.event.VmFaultToleranceTurnedOffEvent">\
+       <description>\
+          すべてのセカンダリ仮想マシンが削除され、この仮想マシンに対する　Fault Tolerance 保護がオフになりました\
+       </description>\
+       <cause>\
+            <description> </description>\
+            <action></action>\
+        </cause>\
+    </EventLongDescription>\
+    "
+
+
+VmFaultToleranceVmTerminatedEvent.longDescription = "\
+    <EventLongDescription id="vim.event.VmFaultToleranceVmTerminatedEvent">\
+       <description>\
+          プライマリ仮想マシンまたはセカンダリ仮想マシンが無効になりました\
+       </description>\
+       <cause>\
+            <description> セカンダリ仮想マシンの操作がプライマリ仮想マシンの操作と同期しなくなったために、セカンダリ仮想マシンが無効になりました</description>\
+            <action>vSphere HA はセカンダリ仮想マシンの再起動を試みます</action>\
+        </cause>\
+       <cause>\
+            <description> ハードウェア障害またはネットワーク障害によりプライマリ仮想マシンがセカンダリ仮想マシンとの接続を失ったために、セカンダリ仮想マシンが無効になりました</description>\
+            <action>vSphere HA はセカンダリ仮想マシンの再起動を試みます</action>\
+        </cause>\
+       <cause>\
+            <description>物理ホストでの部分的なハードウェア障害のために、Fault Tolerance 対応仮想 マシンが無効になりました</description>\
+            <action>vSphere HA はセカンダリ仮想マシンの再起動を試みます</action>\
+        </cause>\
+       <cause>\
+            <description> ユーザーが Fault Tolerance 対応仮想マシンを停止させました</description>\
+            <action>稼動している Fault Tolerance 対応仮想マシンがプライマリ仮想マシンとして操作を引き継ぎます。 VMware HA はセカンダリ仮想マシンの再起動を試みます。</action>\
+        </cause>\
+    </EventLongDescription>\
+    "
+
+
+VmMaxFTRestartCountReached.longDescription = "\
+    <EventLongDescription id="vim.event.VmMaxFTRestartCountReached">\
+       <description>\
+          システムがセカンダリ仮想マシンを再起動しようとしたところ、再起動回数の上限に達しました\
+       </description>\
+       <cause>\
+            <description>システムが、 Fault Tolerance を再確立しようとしたところ、許可されたセカンダリ仮想マシンの再起動試行回数を超えました</description>\
+            <action>再起動が失敗する原因を確認して修正してください。 その後、Fault Tolerance 保護を無効にして再度有効にしてください。</action>\
+        </cause>\
+    </EventLongDescription>\
+    "
+
+VmNoCompatibleHostForSecondaryEvent.longDescription = "\
+    <EventLongDescription id="vim.event.VmNoCompatibleHostForSecondaryEvent">\
+       <description>\
+          セカンダリ仮想マシンを配置する際、互換性のあるホストを検出できませんでした\
+       </description>\
+       <cause>\
+            <description>セカンダリ仮想マシンを配置可能なホストがありませんでした</description>\
+            <action>互換性の問題を解消して、操作をやり直してください</action>\
+        </cause>\
+    </EventLongDescription>\
+    "
+
+VmSecondaryDisabledBySystemEvent.longDescription = "\
+    <EventLongDescription id="vim.event.VmSecondaryDisabledBySystemEvent">\
+       <description>\
+          vCenter Server は、セカンダリ仮想マシンをパワーオンできなかったため、無効にしました\
+       </description>\
+       <cause>\
+            <description>vCenter Server がセカンダリ仮想マシンをパワーオンできませんでした </description>\
+            <action>イベント メッセージを参照して理由を確認し、問題を修正してから、Fault Tolerance 保護を再度有効にしてセカンダリ仮想マシンをパワーオンしてください。</action>\
+        </cause>\
+    </EventLongDescription>\
+    "
+
+
+VmTimedoutStartingSecondaryEvent.longDescription = "\
+    <EventLongDescription id="vim.event.VmTimedoutStartingSecondaryEvent">\
+       <description> セカンダリ仮想マシンの起動がタイムアウトになりました\
+       </description>\
+       <cause>\
+            <description>ユーザーが Fault Tolerance をオンまたは有効にしようとしたため、セカンダリ仮想マシンが起動を開始しました。 起動操作がタイムアウトになったため、vCenter Server はFault Tolerance を無効にします。 </description>\
+            <action>問題を修正して、Fault Tolerance 保護を再度有効にしてください</action>\
+        </cause>\
+       <cause>\
+            <description>障害の発生に対応してセカンダリ仮想マシンが起動を開始しましたが、タイムアウトになりました</description>\
+            <action> vSphere HA はセカンダリ仮想マシンのパワーオンを試みます</action>\
+        </cause>\
+    </EventLongDescription>\
+    "
+
+CanceledHostOperationEvent.longDescription = "\
+	<EventLongDescription id="vim.event.CanceledHostOperationEvent">\
+		<description>\
+			ホストで実行された操作がキャンセルされました\
+		</description>\
+		<cause>\
+			<description>\
+		キャンセルの原因については、この直前のイベントの詳細情報を確認します。\
+			</description>\
+		</cause>\
+	</EventLongDescription>\
+    "
+
+ChangeOwnerOfFileFailedEvent.longDescription = "\
+	<EventLongDescription id="vim.event.ChangeOwnerOfFileFailedEvent">\
+		<description>\
+			ファイルまたはフォルダの所有者を変更できませんでした\
+		</description>\
+	</EventLongDescription>\
+    "
+
+HostAddFailedEvent.longDescription = "\
+	<EventLongDescription id="vim.event.HostAddFailedEvent">\
+		<description>\
+			ホストを追加できませんでした\
+		</description>\
+	</EventLongDescription>\
+    "
+
+HostAdminDisableEvent.longDescription = "\
+	<EventLongDescription id="vim.event.HostAdminDisableEvent">\
+		<description>\
+			vCenter Server の操作に使用するアカウントのみが管理者権限を持つように、ホストの権限が変更されました\
+		</description>\
+		<cause>\
+			<description>\
+				ホストがロックダウン モードになったため、vCenter Server がホストへの他のすべての管理者アクセスを削除しました。 ホストは、vCenter Server によってのみ管理されます。また、 vCenter Server のみが他のアカウントの管理者アクセスを再度有効にできます。\
+			</description>\
+		</cause>\
+	</EventLongDescription>\
+    "
+
+HostAdminEnableEvent.longDescription = "\
+	<EventLongDescription id="vim.event.HostAdminEnableEvent">\
+		<description>\
+			ロックダウン モードによって権限が無効になったホスト ユーザー アカウントの管理者権限を vCenter Server が再度有効にしました\
+		</description>\
+		<cause>\
+			<description>\
+				ホストがロックダウン モードになったときに、管理者権限を失ったホスト ユーザー アカウントの管理者アクセスを vCenter Server が再度有効にしました\
+			</description>\
+		</cause>\
+	</EventLongDescription>\
+    "
+
+HostCnxFailedAccountFailedEvent.longDescription = "\
+	<EventLongDescription id="vim.event.HostCnxFailedAccountFailedEvent">\
+		<description>\
+			管理アカウントを設定できなかったため、ホストに接続できませんでした\
+		</description>\
+		<cause>\
+			<description>\
+			vCenter Server がホスト管理に使用するアカウントを設定できませんでした\
+			</description>\
+		</cause>\
+	</EventLongDescription>\
+    "
+
+HostCnxFailedAlreadyManagedEvent.longDescription = "\
+	<EventLongDescription id="vim.event.HostCnxFailedAlreadyManagedEvent">\
+		<description>\
+			\
+			別の vCenter Server インスタンスによってすでに管理されているために、ホストに接続できませんでした\
+		</description>\
+		<cause>\
+			<description>\
+				ホストはすでに別の vCenter Server インスタンスによって管理されています\
+			</description>\
+			<action>\
+				他の vCenter Server インスタンスのインベントリからホストを削除してください\
+			</action>\
+			<action>\
+				ホストを現在の vCenter Server インスタンスに強制的に追加してください\
+			</action>\
+		</cause>\
+	</EventLongDescription>\
+    "
+
+HostCnxFailedBadCcagentEvent.longDescription = "\
+	<EventLongDescription id="vim.event.HostCnxFailedBadCcagentEvent">\
+		<description>\
+			ホスト エージェントが応答しなかったためにホストに接続できませんでした\
+		</description>\
+		<cause>\
+			<description>\
+				ホスト エージェントからの応答が受信されませんでした\
+			</description>\
+			<action>\
+				ESX/ESXi ホストでホスト エージェントを再起動してください\
+			</action>\
+		</cause>\
+	</EventLongDescription>\
+    "
+
+HostCnxFailedBadUsernameEvent.longDescription = "\
+	<EventLongDescription id="vim.event.HostCnxFailedBadUsernameEvent">\
+		<description>\
+			ユーザー名とパスワードの組み合わせが無効なため、ホストに接続できませんでした\
+		</description>\
+		<cause>\
+			<description>\
+				ユーザー名とパスワードの組み合わせが無効です\
+			</description>\
+			<action>\
+				正しいユーザー名とパスワードを使用してください\
+			</action>\
+		</cause>\
+	</EventLongDescription>\
+    "
+
+HostCnxFailedBadVersionEvent.longDescription = "\
+	<EventLongDescription id="vim.event.HostCnxFailedBadVersionEvent">\
+		<description>\
+			互換性のないバージョンの vSphere Client のためにホストに接続できませんでした\
+		</description>\
+		<cause>\
+			<description>\
+			vSphere Client のバージョンが ESX/ESXi ホストと互換性がないために、接続の試みが失敗しました\
+			</description>\
+			<action>\
+			互換性のあるバージョンの vSphere Client をダウンロードして使用することによってホストに接続してください\
+			</action>\
+		</cause>\
+	</EventLongDescription>\
+    "
+
+HostCnxFailedCcagentUpgradeEvent.longDescription = "\
+	<EventLongDescription id="vim.event.HostCnxFailedCcagentUpgradeEvent">\
+		<description>\
+			ホスト エージェントをアップグレードまたはインストール中のために、ホストに接続できませんでした\
+		</description>\
+		<cause>\
+			<description>\
+				ホストでホスト エージェントがアップグレードまたはインストール中です\
+			</description>\
+			<action>\
+				ホスト エージェントのアップグレードまたはインストールが完了するまで待機してください\
+			</action>\
+		</cause>\
+	</EventLongDescription>\
+    "
+
+HostCnxFailedEvent.longDescription = "\
+	<EventLongDescription id="vim.event.HostCnxFailedEvent">\
+		<description>\
+			不明な条件があるため、ホストに接続できませんでした\
+		</description>\
+		<cause>\
+			<description>\
+				障害の原因は不明です\
+			</description>\
+		</cause>\
+	</EventLongDescription>\
+    "
+
+HostCnxFailedNetworkErrorEvent.longDescription = "\
+	<EventLongDescription id="vim.event.HostCnxFailedNetworkErrorEvent">\
+		<description>\
+			ネットワーク エラーのためにホストに接続できませんでした\
+		</description>\
+		<cause>\
+			<description>\
+				ホストへの接続中にネットワーク エラーが発生しました\
+			</description>\
+			<action>\
+				ホスト ネットワークが正しく構成されていることを確認してください\
+			</action>\
+		</cause>\
+	</EventLongDescription>\
+    "
+
+HostCnxFailedNoAccessEvent.longDescription = "\
+	<EventLongDescription id="vim.event.HostCnxFailedNoAccessEvent">\
+		<description>\
+			アカウントに適切な権限がないためにホストに接続できませんでした\
+		</description>\
+		<cause>\
+			<description>\
+				ホストへの接続に使用されたアカウントはホストへのアクセス権を持っていません\
+			</description>\
+			<action>\
+				ホストに接続するための権限を持つアカウントを使用してください\
+			</action>\
+		</cause>\
+	</EventLongDescription>\
+    "
+
+HostCnxFailedNoConnectionEvent.longDescription = "\
+	<EventLongDescription id="vim.event.HostCnxFailedNoConnectionEvent">\
+		<description>\
+			ホストがネットワークに存在しないためにホストに接続できませんでした\
+		</description>\
+		<cause>\
+			<description>\
+				接続を試みたホストがネットワークに存在しません\
+			</description>\
+			<action>\
+				ホスト ネットワークが正しく構成されていることと、ホストが vCenter Server と同じネットワークに接続されていることを確認してください\
+			</action>\
+		</cause>\
+	</EventLongDescription>\
+    "
+
+HostCnxFailedNoLicenseEvent.longDescription = "\
+	<EventLongDescription id="vim.event.HostCnxFailedNoLicenseEvent">\
+		<description>\
+			ライセンスの問題のためにホストに接続できませんでした\
+		</description>\
+		<cause>\
+			<description>\
+				ホストを vCenter Server のインベントリに追加するための十分なライセンスがありません。 このイベントは、必要なライセンスがないにも拘わらず、ホストを追加すると発生します。\
+			</description>\
+			<action>\
+				必要なライセンスを vCenter Server に追加して、ホストを再度追加してください\
+			</action>\
+		</cause>\
+	</EventLongDescription>\
+    "
+
+HostCnxFailedNotFoundEvent.longDescription = "\
+	<EventLongDescription id="vim.event.HostCnxFailedNotFoundEvent">\
+		<description>\
+			vCenter Server がホスト名を解決できなかったためにホストに接続できませんでした\
+		</description>\
+		<cause>\
+			<description>\
+				ホスト名を解決できません\
+			</description>\
+			<action>\
+				ホストに正しい名前が指定されていることを確認してください\
+			</action>\
+			<action>\
+				既知の適切な (解決可能な) ホスト名を使用するようにホストを構成してください\
+			</action>\
+			<action>\
+				ホスト名を DNS サーバに追加してください\
+			</action>\
+		</cause>\
+	</EventLongDescription>\
+    "
+
+HostCnxFailedTimeoutEvent.longDescription = "\
+	<EventLongDescription id="vim.event.HostCnxFailedTimeoutEvent">\
+		<description>\
+			接続がタイムアウトになったためにホストに接続できませんでした\
+		</description>\
+		<cause>\
+			<description>\
+				ホストへの接続中にタイムアウトが発生しました\
+			</description>\
+		</cause>\
+	</EventLongDescription>\
+    "
+
+HostConnectionLostEvent.longDescription = "\
+	<EventLongDescription id="vim.event.HostConnectionLostEvent">\
+		<description>\
+			ホストへの接続が失われました\
+		</description>\
+		<cause>\
+			<description>\
+				ホストが応答できる状態ではありません\
+			</description>\
+		</cause>\
+	</EventLongDescription>\
+    "
+
+HostReconnectionFailedEvent.longDescription = "\
+	<EventLongDescription id="vim.event.HostReconnectionFailedEvent">\
+		<description>\
+			ホストへの接続を再確立できませんでした\
+		</description>\
+		<cause>\
+			<description>\
+				ホストが応答できる状態ではありません\
+			</description>\
+		</cause>\
+	</EventLongDescription>\
+    "
+
+TimedOutHostOperationEvent.longDescription = "\
+	<EventLongDescription id="vim.event.TimedOutHostOperationEvent">\
+		<description>\
+			ホストで実行された操作がタイムアウトになりました\
+		</description>\
+		<cause>\
+			<description>\
+			タイムアウトの原因については、直前のイベントの詳細情報を確認します\
+			</description>\
+		</cause>\
+	</EventLongDescription>\
+    "
+
+AccountCreatedEvent.longDescription = "\
+	<EventLongDescription id="vim.event.AccountCreatedEvent">\
+		<description>\
+			ホスト上でアカウントが作成されました\
+		</description>\
+	</EventLongDescription>\
+    "
+
+AccountRemovedEvent.longDescription = "\
+	<EventLongDescription id="vim.event.AccountRemovedEvent">\
+		<description>\
+			ホストからアカウントが削除されました\
+		</description>\
+	</EventLongDescription>\
+    "
+
+AccountUpdatedEvent.longDescription = "\
+	<EventLongDescription id="vim.event.AccountUpdatedEvent">\
+		<description>\
+			ホスト上でアカウントが更新されました\
+		</description>\
+	</EventLongDescription>\
+    "
+
+AdminPasswordNotChangedEvent.longDescription = "\
+	<EventLongDescription id="vim.event.AdminPasswordNotChangedEvent">\
+		<description>\
+			ホストの管理者アカウントのデフォルト パスワードが変更されていません\
+		</description>\
+		<cause>\
+			<description>\
+			ユーザーがホストの管理者アカウントのパスワードを変更していないため、デフォルト パスワードが有効になっています\
+			</description>\
+			<action>\
+				ホストの管理者アカウントのパスワードを変更してください\
+			</action>\
+		</cause>\
+	</EventLongDescription>\
+    "
+
+BadUsernameSessionEvent.longDescription = "\
+	<EventLongDescription id="vim.event.BadUsernameSessionEvent">\
+		<description>\
+			ユーザーが、不明または無効なユーザー名でログインを試みました\
+		</description>\
+		<cause>\
+            <description>\
+			システムが認識していないユーザー名です\
+			</description>\
+            <action>\
+			システムのユーザー ディレクトリに含まれるユーザー名を使用してください\
+			</action>\
+            <action>\
+			Linux の場合は、ユーザー ディレクトリが正しく設定されていることを確認してください\
+			</action>\
+            <action>\
+			Active Directory を使用している場合は、ドメイン コントローラの稼動状態を確認してください\
+			</action>\
+        </cause>\
+        <cause>\
+            <description>\
+			ユーザーが無効なパスワードを入力しました\
+			</description>\
+            <action>\
+			正しいパスワードを入力してください\
+			</action>\
+        </cause>\
+	</EventLongDescription>\
+    "
+
+ErrorUpgradeEvent.longDescription = "\
+	<EventLongDescription id="vim.event.ErrorUpgradeEvent">\
+		<description>\
+			エージェントのアップグレード中にエラーが発生しました\
+		</description>\
+	</EventLongDescription>\
+    "
+
+GeneralHostErrorEvent.longDescription = "\
+	<EventLongDescription id="vim.event.GeneralHostErrorEvent">\
+		<description>\
+			ホストでエラーが発生しました\
+		</description>\
+		<cause>\
+            <description>\
+			ホストにおけるネットワーク関連の障害により、エージェントはハートビートを送信できません\
+			</description>\
+        </cause>\
+        <cause>\
+            <description>\
+			エージェントがホストの構成ファイルを更新できませんでした\
+			</description>\
+        </cause>\
+        <cause>\
+            <description>\
+			エージェントが構成ファイルをホストのディスクに保存できませんでした\
+			</description>\
+        </cause>\
+        <cause>\
+            <description>\
+			プロビジョニング モジュールをロードできませんでした。 このため、ホストでのすべてのプロビジョニング操作が失敗します。\
+			</description>\
+        </cause>\
+	</EventLongDescription>\
+    "
+
+GeneralHostInfoEvent.longDescription = "\
+	<EventLongDescription id="vim.event.GeneralHostInfoEvent">\
+		<description>\
+			ホストで一般的な情報イベントが発生しました\
+		</description>\
+	</EventLongDescription>\
+    "
+
+GeneralHostWarningEvent.longDescription = "\
+	<EventLongDescription id="vim.event.GeneralHostWarningEvent">\
+		<description>\
+			ホストで一般的な警告イベントが発生しました\
+		</description>\
+		<cause>\
+            <description>\
+			エージェントがホストから仮想マシン作成オプションを取得できなかったために、仮想マシンを作成できない可能性があります\
+			</description>\
+        </cause>\
+	</EventLongDescription>\
+    "
+
+GeneralUserEvent.longDescription = "\
+	<EventLongDescription id="vim.event.GeneralUserEvent">\
+		<description>\
+			ホストで一般的なユーザー イベントが発生しました\
+		</description>\
+		<cause>\
+            <description>\
+			ユーザーがホストでアクションを開始しました\
+			</description>\
+        </cause>\
+	</EventLongDescription>\
+    "
+
+GeneralVmErrorEvent.longDescription = "\
+	<EventLongDescription id="vim.event.GeneralVmErrorEvent">\
+		<description>\
+			仮想マシンでエラーが発生しました\
+		</description>\
+	</EventLongDescription>\
+    "
+
+GeneralVmInfoEvent.longDescription = "\
+	<EventLongDescription id="vim.event.GeneralVmInfoEvent">\
+		<description>\
+			仮想マシンで一般的な情報イベントが発生しました\
+		</description>\
+	</EventLongDescription>\
+    "
+
+GeneralVmWarningEvent.longDescription = "\
+	<EventLongDescription id="vim.event.GeneralVmWarningEvent">\
+		<description>\
+			仮想マシンで一般的な警告イベントが発生しました\
+		</description>\
+	</EventLongDescription>\
+    "
+
+HostSyncFailedEvent.longDescription = "\
+	<EventLongDescription id="vim.event.HostSyncFailedEvent">\
+		<description>\
+			ホストの vCenter Server Agent と同期できませんでした\
+		</description>\
+		<cause>\
+            <description>\
+				イベントには、この障害の原因に関する詳細情報が含まれています\
+			</description>\
+        </cause>\
+	</EventLongDescription>\
+    "
+
+HostUpgradeFailedEvent.longDescription = "\
+	<EventLongDescription id="vim.event.HostUpgradeFailedEvent">\
+		<description>\
+			インストールまたはアップグレードの問題のためにホストに接続できませんでした\
+		</description>\
+	</EventLongDescription>\
+    "
+
+NoAccessUserEvent.longDescription = "\
+	<EventLongDescription id="vim.event.NoAccessUserEvent">\
+		<description>\
+			アクセス権限が適切でないため、ユーザーがログインできませんでした\
+		</description>\
+		<cause>\
+            <description>\
+			ユーザー アカウントに適切なアクセス権限が付与されていません\
+			</description>\
+			<action>\
+			必要なアクセス権限が付与されたユーザー アカウントでログインするか、適切なアクセス権限を現在のユーザーに付与してください\
+			</action>\
+        </cause>\
+	</EventLongDescription>\
+    "
+
+SessionTerminatedEvent.longDescription = "\
+	<EventLongDescription id="vim.event.SessionTerminatedEvent">\
+		<description>\
+			セッションが終了しました\
+		</description>\
+	</EventLongDescription>\
+    "
+
+TaskTimeoutEvent.longDescription = "\
+	<EventLongDescription id="vim.event.TaskTimeoutEvent">\
+		<description>\
+			はタイムアウトしたために、タスクがクリーン アップされました\
+		</description>\
+	</EventLongDescription>\
+    "
+
+UserUpgradeEvent.longDescription = "\
+	<EventLongDescription id="vim.event.UserUpgradeEvent">\
+		<description>\
+			アップグレードによって、一般的なユーザー イベントが発生しました\
+		</description>\
+	</EventLongDescription>\
+    "
+
+VcAgentUninstalledEvent.longDescription = "\
+	<EventLongDescription id="vim.event.VcAgentUninstalledEvent">\
+		<description>\
+			vCenter Server Agent がホストからアンインストールされました\
+		</description>\
+	</EventLongDescription>\
+    "
+
+VcAgentUninstallFailedEvent.longDescription = "\
+	<EventLongDescription id="vim.event.VcAgentUninstallFailedEvent">\
+		<description>\
+			ホストの vCenter Server Agent のアンインストールに失敗しました\
+		</description>\
+		<cause>\
+            <description>\
+				イベントには、この障害の原因に関する詳細情報が含まれています\
+			</description>\
+        </cause>\
+	</EventLongDescription>\
+    "
+
+VcAgentUpgradedEvent.longDescription = "\
+	<EventLongDescription id="vim.event.VcAgentUpgradedEvent">\
+		<description>\
+			ホストで vCenter Server Agent がアップグレードされました\
+		</description>\
+	</EventLongDescription>\
+    "
+
+VcAgentUpgradeFailedEvent.longDescription = "\
+	<EventLongDescription id="vim.event.VcAgentUpgradeFailedEvent">\
+		<description>\
+			ホスト上の vCenter Server Agent のアップグレードに失敗しました\
+		</description>\
+		<cause>\
+            <description>\
+				イベントには、この障害が発生した原因に関する詳細が含まれています\
+			</description>\
+        </cause>\
+	</EventLongDescription>\
+    "
+
+VimAccountPasswordChangedEvent.longDescription = "\
+	<EventLongDescription id="vim.event.VimAccountPasswordChangedEvent">\
+		<description>\
+			ホストの Vim アカウント ユーザーのパスワードが変更されました。 このアカウントは、vCenter Server によって作成され、ホストを管理するために使用されます。\
+		</description>\
+		<cause>\
+            <description>\
+			vCenter Server は、ホストの管理に使用する Vim アカウントのパスワードを定期的に変更します\
+			</description>\
+        </cause>\
+	</EventLongDescription>\
+    "
+
+VmMessageErrorEvent.longDescription = "\
+	<EventLongDescription id="vim.event.VmMessageErrorEvent">\
+		<description>\
+			監視記録が示されたエラー メッセージが仮想マシンによって報告されました\
+		</description>\
+		<cause>\
+            <description>\
+				イベントには、このエラーの原因に関する詳細情報が含まれています\
+			</description>\
+        </cause>\
+	</EventLongDescription>\
+    "
+
+VmMessageEvent.longDescription = "\
+	<EventLongDescription id="vim.event.VmMessageEvent">\
+		<description>\
+			監視記録が示された情報メッセージが仮想マシンによって報告されました\
+		</description>\
+		<cause>\
+            <description>\
+				イベントには、仮想マシンからのメッセージに関する詳細が含まれています\
+			</description>\
+        </cause>\
+	</EventLongDescription>\
+    "
+
+VmMessageWarningEvent.longDescription = "\
+	<EventLongDescription id="vim.event.VmMessageWarningEvent">\
+		<description>\
+			監視記録が示された警告メッセージが仮想マシンによって報告されました\
+		</description>\
+		<cause>\
+            <description>\
+				イベントには、この警告が発行された原因に関する詳細が含まれています\
+			</description>\
+        </cause>\
+	</EventLongDescription>\
+    "
+
+DvsHostWentOutOfSyncEvent.longDescription = "\
+    <EventLongDescription id="vim.event.DvsHostWentOutOfSyncEvent">\
+       <description> ホスト上の vSphere Distributed Switch の設定が vCenter Server の設定と異なっています\
+       </description>\
+       <cause>\
+         <description> アップデートが送信されたときにホストが vCenter Server に接続されていませんでした </description>\
+       </cause>\
+       <cause>\
+         <description> 以前に、vCenter Server が vSphere Distributed Switch の設定をホストにプッシュできませんでした</description>\
+       </cause>\
+    </EventLongDescription>\
+    "
+
+GhostDvsProxySwitchDetectedEvent.longDescription = "\
+    <EventLongDescription id="vim.event.GhostDvsProxySwitchDetectedEvent">\
+       <description> \
+          vCenter Server は、どの vSphere Distributed Switch とも一致しないvSphere Distributed Switch プロキシ スイッチをホスト上で検出しました\
+       </description>\
+       <cause>\
+            <description> \
+               ホストが vCenter Server から切断されている間に、ホスト上の vSphere Distributed Switch プロキシ スイッチに対応する vSphere Distributed Switch が削除されました\
+            </description>\
+        </cause>\
+       <cause>\
+            <description> \
+               ホストは、ホストのプロキシ スイッチが対応する vSphere Distributed Switch のメンバーではありません\
+            </description>\
+        </cause>\
+    </EventLongDescription>\
+    "
+
+IncorrectHostInformationEvent.longDescription = "\
+    <EventLongDescription id="vim.event.IncorrectHostInformationEvent">\
+       <description> 正しいライセンス セットの取得に必要な情報がホストから提供されませんでした </description>\
+       <cause>\
+            <description> ホストの cpuCores、cpuPackages、または hostType 情報が無効です </description>\
+        </cause>\
+       <cause>\
+            <description> ホストが切断状態で追加されたためにホスト情報を使用できません </description>\
+        </cause>\
+    </EventLongDescription>\
+    "
+
+HostWwnConflictEvent.longDescription = "\
+    <EventLongDescription id="vim.event.HostWwnConflictEvent">\
+       <description> \
+          このホストの WWN (World Wide Name) が別のホストまたは仮想マシンの WWN と競合しています\
+       </description>\
+       <cause>\
+            <description> このホストの WWN が別のホストの WWN と競合しています </description>\
+       </cause>\
+       <cause>\
+            <description> このホストの WWN が別の仮想マシンの WWN と競合しています</description>\
+       </cause>\
+    </EventLongDescription>\
+    "
+
+HostIpChangedEvent.longDescription = "\
+    <EventLongDescription id="vim.event.HostIpChangedEvent">\
+       <description> \
+          ホストの IP アドレスが変更されました\
+       </description>\
+       <cause>\
+            <description> ホストの IP アドレスが vCenter Server によって変更されました </description>\
+       </cause>\
+       <cause>\
+            <description> ホストの IP アドレスがホストによって変更されました </description>\
+       </cause>\
+    </EventLongDescription>\
+    "
+
+DrsExitStandbyModeFailedEvent.longDescription = "\
+    <EventLongDescription id="vim.event.DrsExitStandbyModeFailedEvent">\
+       <description>\
+          DPM はスタンバイ モードのホストをパワーオンできませんでした。 DPM は、IPMI、iLO、または Wake-on-LAN プロトコルを使用してホストのパワーオンを試みましたが、ホストはパワーオンされませんでした。\
+       </description>\
+       <cause>\
+            <description>DPM はホストの BMC と通信できませんでした</description>\
+            <action>vCenter Server に入力されている IPMI/iLO 認証情報を確認してください</action>\
+            <action>BMC で LAN アクセスが有効になっていることを確認してください</action>\
+        </cause>\
+        <cause>\
+            <description>ホストの vMotion NIC は Wake-on-LAN をサポートしていません</description>\
+            <action>Wake-on-LAN をサポートしている vMotion NIC を選択してください</action>\
+        </cause>\
+    </EventLongDescription>\
+    "
+
+ClusterOvercommittedEvent.longDescription = "\
+    <EventLongDescription id="vim.event.ClusterOvercommittedEvent">\
+       <description>\
+          クラスタ内のすべてのホストの累積 CPU リソースと累積メモリ リソースのいずれかまたは両方が、クラスタ内のすべての仮想マシンのリソース予約を満たすために適切ではありません\
+       </description>\
+       <cause>\
+            <description>ユーザーが vCenter Server をバイパスして仮想マシンのパワーオンを試みました。 ホストに直接接続された vSphere Client を使用してパワーオンを試みました。</description>\
+            <action>DRS クラスタでは、vCenter Server をバイパスして仮想マシンをパワーオンしないでください</action>\
+        </cause>\
+        <cause>\
+            <description>ホストがメンテナンス モード、スタンバイ モード、または切断モードになりました</description>\
+            <action>すべてのホストをメンテナンス モード、スタンバイ モード、または切断モード以外のモードに設定してください</action>\
+        </cause>\
+    </EventLongDescription>\
+    "
+
+ResourceViolatedEvent.longDescription = "\
+    <EventLongDescription id="vim.event.ResourceViolatedEvent">\
+       <description>\
+          リソース プール内のすべての仮想マシンの累積 CPU リソースと累積メモリ リソースのいずれかまたは両方の使用量が、リソース プールの設定値を超えました\
+       </description>\
+       <cause>\
+            <description>ユーザーが vCenter Server をバイパスして、リソース プール間の仮想マシンの移動を試みました。ホストに直接接続された vSphere Client を使用して移動を試みました。\
+		</description>\
+            <action>DRS クラスタでは、vCenter Server をバイパスした仮想マシンの移動やパワーオンはしないでください</action>\
+        </cause>\
+    </EventLongDescription>\
+    "
+
+HostComplianceCheckedEvent.longDescription = "\
+   <EventLongDescription id="vim.event.HostComplianceCheckedEvent">\
+      <description>\
+         ホスト プロファイルにホストが準拠しているか検証されました\
+      </description>\
+      <cause>\
+         <description>\
+            ホスト プロファイルにホストが準拠しているか、ユーザーが検証を開始しました\
+          </description>\
+      </cause>\
+      <cause>\
+         <description>\
+            スケジュール設定されたタスクによって、ホスト プロファイルにホストが準拠しているかの検証が開始されました\
+         </description>\
+      </cause>\
+    </EventLongDescription>\
+    "
+
+ClusterComplianceCheckedEvent.longDescription = "\
+   <EventLongDescription id="vim.event.ClusterComplianceCheckedEvent">\
+      <description>\
+         クラスタ プロファイルにクラスタが準拠しているか検証されました\
+      </description>\
+      <cause>\
+         <description>\
+            クラスタ プロファイルにクラスタが準拠しているか、ユーザーが検証を開始しました\
+         </description>\
+      </cause>\
+      <cause>\
+         <description>\
+            スケジュール設定されたタスクによって、クラスタ プロファイルにクラスタが準拠しているかの検証が開始されました\
+         </description>\
+      </cause>\
+    </EventLongDescription>\
+    "
+
+HostNonCompliantEvent.longDescription = "\
+   <EventLongDescription id="vim.event.HostNonCompliantEvent">\
+      <description>\
+         ホストがホスト プロファイルに準拠していません\
+       </description>\
+       <cause>\
+          <description>\
+             ホストは適用されたプロファイルに準拠していません\
+          </description>\
+       <action>\
+          vSphere Client でホストの「サマリ」タブを参照して、なぜ準拠していないのか原因を特定してください\
+       </action>\
+       </cause>\
+</EventLongDescription>\
+   "
+
+ClusterReconfiguredEvent.longDescription = "\
+    <EventLongDescription id="vim.event.ClusterReconfiguredEvent">\
+       <description>\
+          クラスタの設定が変更されました。 これには、クラスタの DRS、DPM、EVC、および vSphere HA 設定に関する情報が含まれています。 すべての DRS ルールもクラスタ設定に保存されています。 クラスタの設定を編集すると、クラスタ内の各ホストで DRS が起動されたり vSphere HA が有効または無効になる場合があります。\
+       </description>\
+    </EventLongDescription>\
+    "
+
+ClusterStatusChangedEvent.longDescription = "\
+    <EventLongDescription id="vim.event.ClusterStatusChangedEvent">\
+       <description>\
+          クラスタのステータスが変更されました。 このステータスは、クラスタ全体を含むルート リソース プールのステータスです。 以前に検出されていた設定の問題が解消されると、クラスタのステータスが変更する可能性があります。 緑色のステータスは、すべてが正常であることを示します。 黄色は、ルート リソース プールに子リソース プールの予約を満たすための十分なリソースがないことを示します。 赤色は、リソース プール内に親ノードの設定値を超える予約を設定した子ノードがあることを示します。\
+       </description>\
+       <cause>\
+            <description>クラスタのステータスが黄色に変更されました</description>\
+            <action>リソース (ホスト) を追加するか、ルート直下のリソース プールの予約を削減して、適切な量のリソースを確保します</action>\
+        </cause>\
+        <cause>\
+            <description>クラスタのステータスが赤色に変更されました</description>\
+            <action>子仮想マシンを格納できるように、赤色のリソース プールのリソース設定を変更してください。 変更できない場合は、仮想マシンの予約を削減してください。 予約の削減もできない場合は、一部の仮想マシンをパワーオフしてください。</action>\
+        </cause>\
+    </EventLongDescription>\
+    "
+
+DrsInvocationFailedEvent.longDescription = "\
+    <EventLongDescription id="vim.event.DrsInvocationFailedEvent">\
+       <description>\
+          DRS の起動が正常に完了しませんでした。 原因はさまざまですが、一時的な問題の可能性もあります。\
+       </description>\
+       <cause>\
+            <description>DRS の起動中にエラーが発生しました</description>\
+            <action>DRS を無効にして再度有効にしてください</action>\
+        </cause>\
+    </EventLongDescription>\
+    "
+
+DrsResourceConfigureFailedEvent.longDescription = "\
+    <EventLongDescription id="vim.event.DrsResourceConfigureFailedEvent">\
+       <description>\
+          DRS リソース設定をクラスタ内のホストに正常に適用できませんでした。 通常、この状態は一時的なものです。\
+       </description>\
+       <cause>\
+            <description>DRS リソース設定をホストに適用できませんでした。</description>\
+            <action>DRS は、クラスタ値をホストにマッピングするリソース設定を生成します。 今回は値をホストに正常に適用できませんでした。 通常、これは DRS からホストへの同期の遅延による一時的なエラーです。この状態が解消されない場合は、vpxa のデバッグ ログを有効にして、VMware サポートにお問い合わせください。 </action>\
+        </cause>\
+    </EventLongDescription>\
+    "
+
+DrsVmMigratedEvent.longDescription = "\
+    <EventLongDescription id="vim.event.DrsVmMigratedEvent">\
+       <description>\
+          仮想マシンが DRS の推奨に基づいて移行されました。 この推奨は、クラスタでより優れたロード バランシングを実現するため、またはスタンバイ モードやメンテナンス モードに移行中のクラスタ内のホストを退避させるために生成された可能性があります。\
+       </description>\
+       <cause>\
+            <description>DRS が仮想マシンの移行を推奨しました</description>\
+        </cause>\
+    </EventLongDescription>\
+    "
+
+DrsVmPoweredOnEvent.longDescription = "\
+    <EventLongDescription id="vim.event.DrsVmPoweredOnEvent">\
+       <description>\
+          仮想マシンがユーザーによってパワーオンされ、DRS が現在のクラスタの負荷配分と仮想マシンのリソース要件の組み合わせに基づいて仮想マシンのホストを選択しました \
+       </description>\
+       <cause>\
+            <description>DRS が、パワーオンされた仮想マシンのホストを選択しました</description>\
+        </cause>\
+    </EventLongDescription>\
+    "
+
+HostOvercommittedEvent.longDescription = "\
+    <EventLongDescription id="vim.event.HostOvercommittedEvent">\
+       <description>\
+          CPU およびメモリのキャパシティのいずれかまたは両方が、リソース設定を満たすために十分ではありません。 ホストは独自のアドミッション コントロールを持つため、これは決して発生してはならない状態です。\
+       </description>\
+       <cause>\
+            <description>リソース設定に対して十分なリソースがホストにありません</description>\
+            <action>この状態が発生した場合は、VMware サポートにお問い合わせください </action>\
+	</cause>\
+    </EventLongDescription>\
+    "
+
+HostStatusChangedEvent.longDescription = "\
+    <EventLongDescription id="vim.event.HostStatusChangedEvent">\
+       <description>\
+          ホストのステータスが変更されました。 これは、ホスト全体を含むルート リソース プールのステータスです。 ホスト ステータスの変更は、以前に検出されていた設定の問題が解消されると発生することがあります。 緑色のホスト ステータスは、すべてが正常であることを示します。 黄色は、ルート リソース プールに子リソース プールの予約を満たすための十分なリソースがないことを示します。 赤色は、リソース プール内に親ノードの設定値を超える予約を設定した子ノードがあることを示します。\
+       </description>\
+       <cause>\
+            <description>ホストのステータスが黄色に変更されました</description>\
+            <action>ート直下のリソース プールの予約を削減して、適切な量のリソースを確保します</action>\
+        </cause>\
+        <cause>\
+            <description>ホストのステータスが赤色に変更されました</description>\
+            <action>子仮想マシンを格納できるように、赤色のリソース プールのリソース設定を変更してください。 変更できない場合は、仮想マシンの予約を削減してください。 予約の削減もできない場合は、一部の仮想マシンを パワーオフしてください。</action>\
+        </cause>\
+    </EventLongDescription>\
+    "
+
+NoMaintenanceModeDrsRecommendationForVM.longDescription = "\
+    <EventLongDescription id="vim.event.NoMaintenanceModeDrsRecommendationForVM">\
+       <description>          DRS は、メンテナンス モードに切り替わるホスト上の仮想マシンに対する vMotion 推奨を生成できませんでした。 これは通常、DRS クラスタに仮想マシンと互換性のある他のホストが存在しない場合に発生します。 ユーザーがこの仮想マシンを手動で移行またはパワーオフしない限り、ホストはメンテナンス モードに切り替わりません。\
+       </description>\
+       <cause>\
+            <description>DRS は、パワーオンになっている仮想マシンを退避させることができませんでした</description>\
+            <action>仮想マシンをクラスタ内の別のホストに手動で移行してください</action>\
+            <action>仮想マシンのパワーオフ</action>\
+            <action>メンテナンス モードのすべてのホストを、それ以外のモードに設定してください</action>\
+            <action>ホストをメンテナンス モードに切り替えるタスクをキャンセルしてください </action>\
+        </cause>\
+    </EventLongDescription>\
+    "
+
+NotEnoughResourcesToStartVmEvent.longDescription = "\
+    <EventLongDescription id="vim.event.NotEnoughResourcesToStartVmEvent">\
+       <description>\
+          このイベントは、マスター エージェントが互換性のあるホストに仮想マシンをフェイルオーバーできなかった場合に、vSphere HA によって発行されます。この状態は次にあげる 1 つまたは複数の状況が原因で発生します。この状況になると、vSphere HA はイベント サマリに原因をレポートしますが、その他に原因がある可能性もあります。これは、vSphere HA アドミッション コントロールが無効になっている場合、またはプロビジョニングしたホスト数よりも障害が発生したホスト数が多い場合です。仮想マシンを配置できない場合、vSphere HA はクラスタのステータスが変更された時点で配置を再試行します。また、vSphere DRS が有効な場合は、DRS が起動してクラスタを最適化するか、ホストをスタンバイ モードから復帰させる作業が試行されます。\
+       </description>\
+       <cause>\
+            <description>\
+            仮想マシンには CPU、メモリ、vFlash キャッシュ、または仮想 NIC 用のバンド幅予約がありますが、その予約に対応するだけの十分なリソースを持つ互換性のあるホストがありません。\
+            </description>\
+            <action>仮想マシンのリソース予約を削減してください</action>\
+            <action>クラスタにホストを追加してください</action>\
+            <action>障害が発生したホストをすべてオンラインに復帰させるか、ネットワーク パーティションが存在する場合はそれを解決してください</action>\
+            <action>DRS が手動モードの場合は、保留中の推奨を検索して承認し、vSphere HA のフェイルオーバーを続行できるようにしてください</action>\
+        </cause>\
+        <cause>\
+            <description>\
+	         クラスタで vSAN が有効になっており、クラスタにストレージを提供するホストにアクセスできないため、vSphere HA で仮想マシンをパワーオンできません。これは、vSAN データストアに 1 つ以上のファイルがある仮想マシンで発生します。\
+            </description>\
+            <action>障害が発生したホストをすべてオンラインに復帰させるか、ストレージを vSAN クラスタに提供するホストに関係するネットワーク パーティションが存在する場合はそれを解決してください</action>\
+        </cause>\
+        <cause>\
+            <description>クラスタ内の互換性のあるいずれのホストも、仮想マシンに関連付けられている 1 つ以上のデータストアにアクセスできません。</description>\
+            <action>仮想マシン データストアをマウントしていて応答していないホストをオンラインに復帰させます</action>\
+            <action>APD (All Path Down）問題、または PDL (Permanent Device Loss) の問題を解決します。</action>\
+        </cause>\
+        <cause>\
+            <description>vSphere HA は仮想マシン間の非アフィニティ ルールを適用していますが、そのルールを満たすことができません。 </description>\
+            <action>クラスタにホストを追加します</action>\
+            <action>応答しないホストをすべてオンラインに復帰させるか、ネットワーク パーティションが存在する場合はそれを解決してください</action>\
+            <action>配置を制限している非アフィニティ ルールをすべて削除します</action>\
+        </cause>\
+        <cause>\
+            <description>各ホストで実行できる仮想マシンの数が制限されたため、制限を超過せずに仮想マシンをパワーオンできるホストがありません。</description>\
+            <action>limitVmsPerESXHost HA 詳細オプションを設定した場合は、この上限を増やすことができます。</action>\
+            <action>応答しないホストをすべてオンラインに復帰させるか、クラスタに新規ホストを追加します</action>\
+        </cause>\
+    </EventLongDescription>\
+    "
+
+ResourcePoolReconfiguredEvent.longDescription = "\
+    <EventLongDescription id="vim.event.ResourcePoolReconfiguredEvent">\
+       <description>\
+          リソース プールの設定が変更されました。 リソース プールの設定には、リソース プールのリソース予約とその子リソース プールのリソース予約に関する情報が含まれます。\
+       </description>\
+    </EventLongDescription>\
+    "
+
+DasHostIsolatedEvent.longDescription = "\
+    <EventLongDescription id="vim.event.DasHostIsolatedEvent">\
+       <description>\
+          vSphere HA によって、ホストがネットワークから隔離されていることが検出されました。 ホストがこの状態になると、vSphere HA はホスト隔離時の対応としてホスト上で実行中の仮想マシンにパワーオフまたはシャットダウンを適用し、パワーオンのままになっている仮想マシンの監視を継続します。ホストがこの状態にある間は、障害の発生後に仮想マシンを再起動するという vSphere HA の機能は動作しません。ホスト上のエージェントが、マスター エージェントが仮想マシンの処理を行うと判断した場合、vSphere HA は仮想マシンのパワーオフまたはシャットダウンのみを行います。 \
+       </description>\
+       <cause>\
+            <description> \
+                次の両方の条件が満たされる場合、ホストはネットワーク隔離されています。(1)隔離アドレスが設定されていて、ホストがこれらのアドレスに ping できない。(2)ホスト上の vSphere HA エージェントが、別のクラスタ ホスト上で実行しているすべてのエージェントにアクセスできない。 \
+            </description>\
+            <action>\
+                 ホストによる隔離アドレスへの ping、およびほかのホストとの通信ができるよう、ネットワークの問題を解決してください。 vSphere HA によって使用される管理ネットワークに冗長性があることを確認してください。 冗長性が確保されている場合、vSphere HA は複数のパスを介して通信できるため、ホストが隔離される可能性が低減されます。 \
+            </action>\
+       </cause>\
+    </EventLongDescription>\
+    "
+
+HostMissingNetworksEvent.longDescription = "\
+    <EventLongDescription id="vim.event.HostMissingNetworksEvent">\
+       <description>\
+      vSphere HA クラスタに追加されるホストの管理ネットワーク数は、クラスタ内の既存のホストの管理ネットワーク数を下回っています。 ホストに vSphere HA が設定される際、クラスタ内の既存のホストでは、vSphere HA がハートビートやその他の通信に使用するネットワークがあるかどうか確認されます。参加するホストは、同じ数の管理ネットワークを持つことと、共通のサブネットを持つことが期待されます。これにより、ハートビートの送受信ペアの作成が容易になります。追加されるメンバーとクラスタの既存メンバーの間に共通サブネットが検出されない(IP アドレス/サブネット マスクを使用) 場合、このイベントが生成され、設定タスクが失敗します。イベント詳細では、参加するメンバーには設定されていない既存メンバーのサブネットがレポートされます。\
+       </description>\
+       <cause>\
+            <description>\
+                ホストは、既存のクラスタ メンバーと互換性のあるネットワークを持っていません\
+            </description>\
+            <action>\
+                ホストのネットワーク設定を変更して、クラスタ内の既存ホストと同じサブネットで vSphere HA トラフィックを有効にします。vSphere HA は　 ESX のサービス コンソール ポート グループを使用し、ESXi ホストでは、「管理トラフィック」チェックボックスが選択されているポート グループを使用します。 ホストのネットワーク設定を変更したら、このホストの vSphere HA を再設定してください。\
+            </action>\
+            <action>\
+                詳細オプションを使用して、vSphere HA クラスタ通信のデフォルト ポート グループの選択をオーバーライドしてください。 詳細オプションの das.allowNetwork[X] を使用して、このオプションで指定されたポート グループを使用するように vSphere HA に指示します。使用する各ポート グループ名については、das.allowNetwork[X] 詳細オプションを 1 つ指定してください。 vSphere HA 設定は、指定された名前と一致するポート グループに基づいて追加するホストを特定します。また、設定タスクは、指定された名前に一致するポート グループを持つ既存メンバーを確認します。一致するポート グループ名の数は、各ホストで同じにする必要があります。 詳細オプションを設定したら、このクラスタの vSphere HA を再度有効にしてください。\
+            </action>\
+       </cause>\
+    </EventLongDescription>\
+    "
+
+HostExtraNetworksEvent.longDescription = "\
+    <EventLongDescription id="vim.event.HostExtraNetworksEvent">\
+       <description>\
+       vSphere HA クラスタに追加されるホストの管理ネットワーク数は、クラスタ内の既存のホストの管理ネットワーク数を超えています。 ホストに vSphere HA が設定される際、クラスタ内の既存のホストでは、vSphere HA がハートビートやその他の通信に使用するネットワークがあるかどうか確認されます。参加するホストは、同じ数の管理ネットワークを持つことと、共通のサブネットを持つことが期待されます。これにより、ハートビートの送受信ペアの作成が容易になります。追加されるメンバーとクラスタの既存メンバーの間に共通サブネットが検出されない(IP アドレス/サブネット マスクを使用) 場合、このイベントが生成され、設定タスクが失敗します。イベント詳細では、参加するメンバーには設定されていない既存メンバーのサブネットがレポートされます。 \
+       </description>\
+       <cause>\
+            <description>\
+                ホストは、既存クラスタ メンバーよりも多くのネットワークを持っています\
+            </description>\
+            <action>\
+                クラスタ内の既存ホストと同じサブネットでの vSphere HA トラフィックを有効にするように ホストのネットワーク設定を変更してください。vSphere HA は、ESX のサービス コンソール ポート グループを 使用し、ESXi ホストでは、「Management Traffic」チェックボックスが選択されている ポート グループを使用します。\
+            </action>\
+            <action>\
+                ーライドしてください。 詳細オプションの das.allowNetwork[X] を使用して、このオプションで指定されたポート グループを使用するように vSphere HA に指示します。使用する各ポート グループ名については、das.allowNetwork[X] 詳細オプションを 1 つ指定してください。 vSphere HA 設定は、指定された名前と一致するポート グループに基づいて追加するホストを特定します。また、設定タスクは、指定された名前に一致するポート グループを持つ既存メンバーを確認します。一致するポート グループ名の数は、各ホストで同じにする必要があります。 詳細オプションを設定したら、このクラスタの vSphere HA を再度有効にしてください。\
+            </action>\
+       </cause>\
+    </EventLongDescription>\
+    "
+
+HostNoHAEnabledPortGroupsEvent.longDescription = "\
+    <EventLongDescription id="vim.event.HostNoHAEnabledPortGroupsEvent">\
+       <description>\
+       vSphere HA は、ホストがエージェント間の通信用に使用する管理ネットワークが存在しないことを確認しました。\
+       </description>\
+       <cause>\
+            <description>\
+                ホストには、使用可能な vSphere HA 管理ネットワークがありません\
+            </description>\
+            <action>\
+                vSphere HA クラスタにホストを追加する際にこのイベントが確認された場合は、1 つまたは複数のポート グループで vSphere HA トラフィックを有効にするよう ホストのネットワーク設定を変更します。デフォルトでは、vSphere HA は ESX のサービス コンソール ポート グループを使用し、ESXi ホストでは「管理トラフィック」チェックボックスが選択されているポート グループを使用します。vSphere HA がホストで設定済みの場合、ホストのネットワーク設定によって管理ネットワーク設定が変更され無効になっている可能性があります。設定を再確認して、管理ネットワーク用に設定されたポート グループがホストに存在しており、ESXi ではポート グループの「管理トラフィック」オプションが有効になっていることを確認してください。問題をすべて修正した後で、ホストの vSphere HA を再設定します。\
+            </action>\
+       </cause>\
+    </EventLongDescription>\
+    "
+
+HostNoAvailableNetworksEvent.longDescription = "\
+    <EventLongDescription id="vim.event.HostNoAvailableNetworksEvent">\
+       <description>\
+       vSphere HA クラスタに追加されるホストには、vSphere HA クラスタの通信に使用する管理ネットワークが存在しません。詳細オプションの das.allowNetwork[X] が設定されていますが、ホストには、詳細オプションで指定された名前に一致するポート グループが存在しません\
+       </description>\
+       <cause>\
+            <description>\
+                ホストには、詳細オプションで指定された名前に一致する、vSphere HA が使用するポート グループが存在しません\
+            </description>\
+            <action>\
+                vSphere HA がデフォルトの管理ポート グループを選択できるように、詳細オプションの das.allowNetwork[X] を削除してください\
+            </action>\
+            <action>\
+                詳細オプションで指定されているポート グループ名を、このホストの vSphere HA で使用する名前に変更してください\
+            </action>\
+            <action>\
+                さらに、このホストのポート グループ名と一致する das.allowNetwork[X] 詳細オプションを指定してください。\
+            </action>\
+       </cause>\
+    </EventLongDescription>\
+    "
+
+HostIsolationIpPingFailedEvent.longDescription = "\
+    <EventLongDescription id="vim.event.HostIsolationIpPingFailedEvent">\
+       <description>\
+        vSphere HA は、1 つ以上の隔離 IP アドレスに ping できませんでした。これらのアドレスに ping できないと、HA はホストがネットワーク隔離されていると誤って判断する可能性があります。ホストが設定された隔離アドレスに ping できず、そのホスト上の vSphere HA エージェントが他のクラスタ ホスト上で実行しているどのエージェントにもアクセスできない場合、そのホストは隔離されていると判断されます。 \
+       </description>\
+       <cause>\
+            <description>隔離アドレスに ping できませんでした</description>\
+            <action>このアドレスに ping するには、失敗の原因を修正してください</action>\
+            <action>\
+                詳細オプションを使用して、ホストがネットワーク上で隔離されているかどうかを判断するには、vSphere HA で使用されるアドレスを変更します。デフォルトでは、隔離アドレスは管理ネットワークのデフォルト ゲートウェイです。デフォルトの設定は詳細オプションを使用して変更できます。また、ホストがネットワーク上で隔離されてことを判断するための追加のアドレスも指定できます。vSphere HA が隔離アドレスにデフォルト ゲートウェイを使用しないようにするには、das.useDefaultIsolationAddress 詳細オプションを「false」に設定します。指定する各隔離アドレスには、das.isolationAddress[X] 詳細オプションを指定します。新しい値は、各ホストの vSphere HA が再設定されるときに反映されます。\
+            </action>\
+       </cause>\
+    </EventLongDescription>\
+    "
+
+HostNoRedundantManagementNetworkEvent.longDescription = "\
+    <EventLongDescription id="vim.event.HostNoRedundantManagementNetworkEvent">\
+       <description>\
+       vSphere HA により、vSphere HA 管理トラフィックのパスが 1 つしかないことが確認され、これにより単一点障害が発生しました。  ベスト プラクティスでは、vSphere HA がハートビートやクラスタ通信するため、複数のパスが必要です。  単一のパスしか持たないホストは、ネットワーク障害が発生したあと、停止している、ネットワークが分割された、または隔離されたと判断される可能性が高くなります。 停止と判断された場合は、あとで実際にホストに障害が発生した場合でも vSphere HA は対応しませんが、隔離されていると判断された場合は、vSphere HA は隔離時の対応を適用するため、そのホスト上で実行している仮想マシンのアップタイムに影響します。\
+       </description>\
+       <cause>\
+            <description>vSphere HA 通信に使用できるポート グループが 1 つしかありません。</description>\
+            <action>ESX ホスト上に別のサービス コンソールのポート グループを設定してください。</action>\
+            <action>\
+               「管理トラフィック」チェック ボックスをオンにして、ESXi ホスト上に別のポート グループを設定します。\
+            </action>\
+            <action>\
+                管理ポート グループ上で NIC チーミングを使用すると、パス エラーが発生した場合に ESX または ESXi によって複数の物理 NIC から管理トラフィックの経路が選択されます。\
+            </action>\
+            <action>\
+                vSphere HA 通信で冗長性なしのリスクを受け入れる場合は、 das.ignoreRedundantNetWarning 詳細オプションを「True」に設定することにより、設定上の問題を解消することができます。\
+            </action>\
+       </cause>\
+    </EventLongDescription>\
+    "
+
+HostIpToShortNameFailedEvent.longDescription = "\
+    <EventLongDescription id="vim.event.HostIpToShortNameFailedEvent">\
+       <description>\
+          短縮名からホストの IP アドレスを解決できませんでした。\
+       </description>\
+       <cause>\
+            <description>ホストまたは DNS レコードが誤って構成されています。</description>\
+            <action>ホストのネットワーク構成を確認してください。</action>\
+            <action>DNS 設定を確認してください。</action>\
+        </cause>\
+    </EventLongDescription>\
+    "
+
+HostGetShortNameFailedEvent.longDescription = "\
+    <EventLongDescription id="vim.event.HostGetShortNameFailedEvent">\
+       <description>\
+          ホスト上で hostname -s コマンドの実行に失敗しました。 \
+       </description>\
+       <cause>\
+            <description>ホストのネットワークが誤って構成されています。</description>\
+            <action>ホストのネットワーク構成を確認してください。</action>\
+        </cause>\
+    </EventLongDescription>\
+    "
+
+HostPrimaryAgentNotShortNameEvent.longDescription = "\
+    <EventLongDescription id="vim.event.HostPrimaryAgentNotShortNameEvent">\
+       <description>\
+          プライマリ エージェントが短縮名で指定されていません。\
+       </description>\
+       <cause>\
+            <description>ホストのネットワークが誤って構成されています。</description>\
+            <action>ホストのネットワーク構成を確認してください。</action>\
+        </cause>\
+    </EventLongDescription>\
+    "
+
+HostShortNameInconsistentEvent.longDescription = "\
+    <EventLongDescription id="vim.event.HostShortNameInconsistentEvent">\
+       <description>\
+          ホストの名前解決で、ホスト名として異なる名前が返されました。\
+       </description>\
+       <cause>\
+            <description>ホストのネットワークが誤って構成されています。</description>\
+            <action>ホストのネットワーク構成を確認してください。</action>\
+            <action>DNS 設定を確認してください。</action>\
+        </cause>\
+    </EventLongDescription>\
+    "
+
+HostShortNameToIpFailedEvent.longDescription = "\
+    <EventLongDescription id="vim.event.HostShortNameToIpFailedEvent">\
+       <description>\
+          ホストの短縮名から IP アドレスを解決できません。\
+       </description>\
+       <cause>\
+            <description>ホストのネットワークが誤って構成されています。</description>\
+            <action>ホストのネットワーク構成を確認してください。</action>\
+            <action>DNS 設定を確認してください。</action>\
+        </cause>\
+    </EventLongDescription>\
+    "

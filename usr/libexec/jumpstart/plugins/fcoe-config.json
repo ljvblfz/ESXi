@@ -1,0 +1,26 @@
+/***********************************************************
+ * Copyright 2011 VMware, Inc.  All rights reserved.
+ * VMware Confidential
+ ***********************************************************/
+
+{
+   "operations" :
+   {
+
+      "start" :
+      [
+        "boot networking restore --fcoe"
+      ],
+      "apply_host_profile" :
+      [
+         "boot hostprofile apply --earlybootinit -p fcoe.fcoeProfiles.FCoEProfile"
+      ]
+   }
+   ,
+   "metadata" :
+   {
+      "version"  : 2,
+      "requires" : ["fcoe", "storage drivers", "networking"],
+      "provides" : ["fcoe configuration"]
+   }
+}

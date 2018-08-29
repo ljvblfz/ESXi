@@ -1,0 +1,49 @@
+[HKEY_THIS_MACHINE\Services]
+
+[HKEY_THIS_MACHINE\Services\lwio]
+"Description" = {
+    default = "Likewise IO Manager"
+    doc = ""
+}
+"Path" = {
+    default = "/usr/lib/vmware/likewise/lib/lw-svcm/lwio.so"
+    doc = ""
+}
+"Arguments" = {
+    default = ""
+    doc = ""
+}
+"Environment" = {
+    default = ""
+    doc = ""
+}
+"Dependencies" = {
+    default = "lwreg"
+    doc = ""
+}
+"Type" = {
+    default = dword:00000002
+    doc = ""
+}
+"Autostart" = {
+    default = dword:00000001
+    doc = ""
+}
+
+[HKEY_THIS_MACHINE\Services\lwio\Parameters]
+"SignMessagesIfSupported" = {
+    default = dword:00000000
+    doc = ""
+}
+
+[HKEY_THIS_MACHINE\Services\lwio\Parameters\Drivers]
+"Load" = {
+    default = "rdr,srv,pvfs,dfs,npfs"
+    doc = ""
+}
+
+[HKEY_THIS_MACHINE\Services\lwio\Parameters\Drivers\iotest]
+"Path" = {
+    default = "/usr/lib/vmware/likewise/lib/libiotest.sys.so"
+    doc = ""
+}

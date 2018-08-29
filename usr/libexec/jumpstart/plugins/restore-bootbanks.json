@@ -1,0 +1,22 @@
+/***********************************************************
+ * Copyright 2010-2011 VMware, Inc.  All rights reserved.
+ * VMware Confidential
+ ***********************************************************/
+
+{
+   "operations" :
+   {
+      "start" :
+      [
+         "boot system restore --bootbanks"
+      ]
+   }
+   ,
+   "metadata" :
+   {
+      "version"  : 1,
+      "requires" : ["storage", "vcfs", "vfat"],
+      "provides" : ["bootbanks"]
+   }
+}
+

@@ -1,0 +1,47 @@
+#!/bin/env python
+
+import socket
+import sys
+import csv
+from optparse import OptionParser
+from datetime import datetime
+
+# The flags are modelled on those of tail(1), but instead of allowing
+# any number of trailing lines, it's either the entire queue or none.
+
+parser = OptionParser(conflict_handler="resolve")
+parser.add_option("-f", "--follow", dest="follow",
+                  default=False, action="store_true",
+                  help="print new trace records as they are produced")
+parser.add_option("-0", "--no-history", dest="history",
+                  default=True, action="store_false",
+                  help="skip previously existing trace records")
+parser.add_option("-h", "--human-readable", dest="humanize",
+                  default=False, action="store_true",
+                  help="output timestamps in human-readable format")
+
+(options, args) = parser.parse_args()
+
+sock = socket.socket(socket.AF_UNIX, socket.SOCK_STREAM, 0)
+sock.connect("/var/run/vmware/vobd-trace.sock")
+file = sock.makefile("r")
+csvIn = csv.reader(file)
+csvOut = csv.writer(sys.stdout)
+
+# The point at which we connected is marked by an empty row.  We stop
+# there if not following, and discard everything before it if we don't
+# want the history, and in any case it is not printed.  (Note that
+# this is not the same as a blank line in the input text, because that
+# could also be due to a parameter containing "\n\n".)
+
+current = False
+for line in csvIn:
+   if line == []:
+      if not options.follow:
+         break
+      current = True
+      continue
+   if current or options.history:
+      if options.humanize:
+         line[0] = datetime.utcfromtimestamp(float(line[0])).strftime("%Y-%m-%dT%H:%M:%S.%fZ")
+      csvOut.writerow(line)

@@ -1,0 +1,137 @@
+<?xml version="1.0"?>
+<plugin xmlns="http://www.vmware.com/Products/ESX/5.0/esxcli/">
+   <version>1.0.0</version>
+
+   <namespaces>
+      <!-- esxcli system account -->
+      <namespace path="system.account">
+         <description>Manage user accounts.</description>
+      </namespace>
+   </namespaces>
+
+
+   <commands>
+
+      <!-- esxcli system account add -->
+      <command path="system.account.add">
+         <description>Create a new local user account.</description>
+         <input-spec>
+            <context-supported>user</context-supported>
+            <parameter name="id" shortname="i"
+                       type="string" required="true">
+               <description>User ID, e.g. "administrator".</description>
+            </parameter>
+            <parameter name="description" shortname="d"
+                       type="string" required="false">
+               <description>User description, e.g. full name.</description>
+            </parameter>
+            <parameter name="password" shortname="p"
+                       type="string" required="false" secret="true">
+               <description>User password.</description>
+            </parameter>
+            <parameter name="password-confirmation" shortname="c"
+                       type="string" required="false" secret="true">
+               <description>Password confirmation. Required if password is specified.</description>
+            </parameter>
+         </input-spec>
+         <output-spec>
+            <bool />
+         </output-spec>
+
+         <format-parameters>
+            <formatter/>
+         </format-parameters>
+
+         <execute>/usr/lib/vmware/auth/bin/userOps.py set --create --id='$val{id}' --stdin</execute>
+         <stdin>
+$if{description,--description=$val{description}}
+$if{password,--password=$val{password}}
+$if{password-confirmation,--password-confirmation=$val{password-confirmation}}
+         </stdin>
+      </command>
+
+      <!-- esxcli system account set -->
+      <command path="system.account.set">
+         <description>Modify an existing local user account.</description>
+         <input-spec>
+            <context-supported>user</context-supported>
+            <parameter name="id" shortname="i"
+                       type="string" required="true">
+               <description>User ID, e.g. "administrator".</description>
+            </parameter>
+            <parameter name="description" shortname="d"
+                       type="string" required="false">
+               <description>User description, e.g. full name.</description>
+            </parameter>
+            <parameter name="password" shortname="p"
+                       type="string" required="false" secret="true">
+               <description>User password.</description>
+            </parameter>
+            <parameter name="password-confirmation" shortname="c"
+                       type="string" required="false" secret="true">
+               <description>Password confirmation. Required if password is specified.</description>
+            </parameter>
+         </input-spec>
+         <output-spec>
+            <bool />
+         </output-spec>
+
+         <format-parameters>
+            <formatter/>
+         </format-parameters>
+
+         <execute>/usr/lib/vmware/auth/bin/userOps.py set --id='$val{id}' --stdin</execute>
+         <stdin>
+$if{description,--description=$val{description}}
+$if{password,--password=$val{password}}
+$if{password-confirmation,--password-confirmation=$val{password-confirmation}}
+         </stdin>
+      </command>
+
+      <!-- esxcli system account list -->
+      <command path="system.account.list">
+         <description>List local user accounts.</description>
+         <input-spec>
+            <context-supported>user</context-supported>
+         </input-spec>
+         <output-spec>
+            <list type="structure">
+               <structure typeName="UserInfo">
+                  <field name="User ID"><string /></field>
+                  <field name="Description"><string /></field>
+               </structure>
+            </list>
+         </output-spec>
+
+         <format-parameters>
+            <formatter>table</formatter>
+            <format-parameter name="fields:UserInfo">User ID,Description</format-parameter>
+         </format-parameters>
+
+         <execute>/usr/lib/vmware/auth/bin/userOps.py list</execute>
+      </command>
+
+      <!-- esxcli system account remove -->
+      <command path="system.account.remove">
+         <description>Remove an existing local user account.</description>
+         <input-spec>
+            <context-supported>user</context-supported>
+            <parameter name="id" shortname="i" type="string" required="true">
+               <description>ID of user to be removed.</description>
+            </parameter>
+         </input-spec>
+         <output-spec>
+            <bool />
+         </output-spec>
+
+         <format-parameters>
+            <formatter/>
+         </format-parameters>
+
+         <execute>/usr/lib/vmware/auth/bin/userOps.py remove --id='$val{id}'</execute>
+      </command>
+
+   </commands>
+
+</plugin>
+

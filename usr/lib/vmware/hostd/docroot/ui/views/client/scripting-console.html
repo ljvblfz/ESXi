@@ -1,0 +1,22 @@
+<div ng-controller="ClientScriptingConsoleController"
+   class="content-padding">
+   <div vui-action-bar="actionBar"
+        style="margin-bottom: 10px;"></div>
+
+   <style type="text/css">
+      .CodeMirror {
+         width: 100% !important;
+         height: 100% !important;
+      }
+   </style>
+
+   <div style="max-width: 930px; float: left; height: 250px; width: 345px; margin-right: 20px; border: 1px solid #ccc; margin-bottom: 15px;"
+      id="scriptWindow"
+      ui-codemirror="scriptCodemirrorOptions"
+      ng-model="script"></div>
+
+   <div style="max-width: 930px; float: left; height: 250px; width: 410px; border: 1px solid #ccc;"
+      id="logWindow"
+      ui-codemirror="logCodemirrorOptions"
+      ng-model="log"></div>
+</div>

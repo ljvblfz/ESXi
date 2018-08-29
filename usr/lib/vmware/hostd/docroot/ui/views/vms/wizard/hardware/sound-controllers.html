@@ -1,0 +1,29 @@
+<!-- Sound Controller -->
+<div
+   ng-class="{
+      'stack-new': wizardOptions.data.sound._operation === 'add',
+      'stack-warning': sound.Invalid
+   }"
+   ng-if="sound"
+   vui-stack-block="hardwareStackView.soundBlock">
+
+   <!-- Icon -->
+   <span style="margin-left: 10px;"
+      vui-sb-icon-class="icon-stackview-sound-wizard"
+      vui-sb-label>
+         {{'vm.wizard.hardware.virtualhardware.sound.title' | translate}}</span>
+
+   <!-- content collapsed-->
+   <div vui-sb-content>
+      <label class="label-508"
+         title="{{'vm.wizard.hardware.virtualhardware.sound.type' | translate}}">
+         <div class="inline stack-dropdown"
+            vui-dropdown="sound.Type"></div>
+      </label>
+      <span class="esx-icon-close vui-icon-info-inline esx-stack-valign-tall esx-close-right"
+         ng-click="removeSoundController()"
+         ng-show="wizardOptions.data.general.state !== 'suspended'"></span>
+   </div>
+
+</div>
+

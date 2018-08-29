@@ -1,0 +1,86 @@
+#!/bin/sh
+# chkconfig: on 17 83
+
+# variables
+export PATH=/bin:/sbin
+
+SWAPOBJD=/usr/lib/vmware/swapobj/bin/swapobjd
+SWAPOBJD_TAG=swapobjd
+SWAPOBJD_RP="host/vim/vmvisor/swapobjd"
+SWAPOBJD_MEM_SZ=16
+SWAPOBJD_PARAM=""
+CONFIGRP="/usr/lib/vmware/rp/bin/configRP"
+
+start() {
+   ulimit -c unlimited
+   # Limit swapobjd stack size to 128KB
+   ulimit -s 128
+   if [ -z "$(pidof -xs "${SWAPOBJD}")" ] ; then
+      $CONFIGRP setRPMemMaxSize ${SWAPOBJD_RP} ${SWAPOBJD_MEM_SZ}
+      if [ $? -ne 0 ]; then
+	  echo "Failed to set swapobjd memory reservation"
+	  exit 1
+      fi
+
+      /sbin/watchdog.sh ++memreliable,group=${SWAPOBJD_RP} -d -s "${SWAPOBJD_TAG}" "${SWAPOBJD}" "${SWAPOBJD_PARAM}" >/dev/null 2>&1
+      echo "swapobjd started"
+   else
+      echo "swapobjd already running"
+   fi
+}
+
+stop() {
+   if [ -n "$(pidof -xs "${SWAPOBJD}")" ] ; then
+      # This only stops the watchdog process.
+      /sbin/watchdog.sh -k "${SWAPOBJD_TAG}"
+
+      SWAPOBJD_PID="$(pidof -s "${SWAPOBJD}")"
+      if [ -n "${SWAPOBJD_PID}" ]; then 
+          kill -9 ${SWAPOBJD_PID}
+          echo "Waiting for process to terminate..."
+          while kill -0 ${SWAPOBJD_PID} > /dev/null 2>&1; do
+              sleep 0;
+          done
+      fi
+
+      $CONFIGRP setRPMemMaxSize ${SWAPOBJD_RP} 0
+      if [ $? -ne 0 ]; then
+	      echo "Failed to clear swapobjd memory reservation"
+	      exit 1
+      fi
+
+      echo "swapobjd stopped"
+   else
+      echo "swapobjd is not running"
+   fi
+}
+
+#
+# main
+#
+case "${1}" in
+   "start")
+      start
+   ;;
+   "stop")
+      stop
+   ;;
+   "status")
+      if [ -n "$(pidof -xs "${SWAPOBJD}")" ] ; then
+         echo "swapobjd is running"
+         exit 0
+      else
+         echo "swapobjd is not running"
+         exit 3
+      fi
+   ;;
+   "restart")
+      stop
+      start
+   ;;
+   *)
+      echo "Usage: $(basename ${0}) {start|stop|status|restart}"
+      exit 1
+   ;;
+esac
+

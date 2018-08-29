@@ -1,0 +1,27 @@
+/***********************************************************
+ * Copyright 2012 VMware, Inc.  All rights reserved.
+ * VMware Confidential
+ ***********************************************************/
+
+{
+   "operations" :
+   {
+      "start" :
+      [
+         "softwareinternal profile setacceptance"
+      ],
+      "apply_host_profile" :
+      [
+         "softwareinternal profile setacceptance",
+         "boot hostprofile apply --earlybootinit -p acceptanceLevel.acceptanceLevel.HostAcceptanceLevelProfile"
+      ]
+   }
+   ,
+   "metadata" :
+   {
+      "version"  : 1,
+      "requires" : ["system configuration", "scratch"],
+      "provides" : ["acceptance level"]
+   }
+}
+

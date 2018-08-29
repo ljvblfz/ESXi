@@ -1,0 +1,13 @@
+<div ng-right-click="menu($event)">
+   <div ng-show="!loaded && percentLoaded === 0" class="loading"></div>
+
+   <div ng-show="!loaded && percentLoaded > 0 && percentLoaded < 100" class="loading-progress">
+      <div vui-progress-bar="{
+         width: '200px',
+         height: '20px',
+         percent: percentLoaded,
+         showLabel: true}"></div>
+   </div>
+
+   <div ng-show="loaded" id="{{vmGrid.id}}" ng-if="vmGrid !== null" vui-datagrid="vmGrid"></div>
+</div>

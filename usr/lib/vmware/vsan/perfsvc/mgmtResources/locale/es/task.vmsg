@@ -1,0 +1,44 @@
+# Task for disk management
+com.vmware.vsan.diskmgmt.tasks.initializediskmappings.label               = "Crear grupo de discos en vSAN"
+com.vmware.vsan.diskmgmt.tasks.initializediskmappings.summary             = "Crear grupo de discos en vSAN"
+
+# Tasks for stretched cluster
+com.vmware.vsan.stretchedcluster.tasks.addwitnesshost.label               = "Agregar host testigo"
+com.vmware.vsan.stretchedcluster.tasks.addwitnesshost.summary             = "Agregar host testigo a un clúster ampliado"
+com.vmware.vsan.stretchedcluster.tasks.replacewitnesshost.label           = "Reemplazar host testigo"
+com.vmware.vsan.stretchedcluster.tasks.replacewitnesshost.summary         = "Reemplazar host testigo para un clúster ampliado"
+com.vmware.vsan.stretchedcluster.tasks.removewitnesshost.label            = "Quitar host testigo"
+com.vmware.vsan.stretchedcluster.tasks.removewitnesshost.summary          = "Quitar host testigo de un clúster ampliado"
+com.vmware.vsan.stretchedcluster.tasks.convert2stretchedcluster.label     = "Convertir a un clúster ampliado"
+com.vmware.vsan.stretchedcluster.tasks.convert2stretchedcluster.summary   = "Convertir la configuración dada a un clúster ampliado"
+com.vmware.vsan.stretchedcluster.tasks.setpreferredfaultdomain.label      = "Configurar dominio de errores preferido"
+com.vmware.vsan.stretchedcluster.tasks.setpreferredfaultdomain.summary    = "Configurar dominio de errores preferido para un clúster ampliado"
+
+# Task for disk format conversion
+com.vmware.vsan.diskconvertion.tasks.conversion.label                     = "Convertir formato de disco para vSAN"
+com.vmware.vsan.diskconvertion.tasks.conversion.summary                   = "Convertir formato de disco para vSAN"
+
+# Task for cluster management
+com.vmware.vsan.clustermgmt.tasks.reconfigurecluster.label                = "Reconfigurar clúster de vSAN"
+com.vmware.vsan.clustermgmt.tasks.reconfigurecluster.summary              = "Reconfigurar clúster de vSAN"
+com.vmware.vsan.clustermgmt.tasks.rekey.label                             = "Volver a generar claves nuevas para el clúster de vSAN cifrado"
+com.vmware.vsan.clustermgmt.tasks.rekey.summary                           = "Volver a generar claves nuevas para el clúster de vSAN cifrado"
+com.vmware.vsan.clustermgmt.tasks.precheck.label                          = "Comprobación previa de operación de vSAN"
+com.vmware.vsan.clustermgmt.tasks.precheck.summary                        = "Comprobación previa de operación de vSAN"
+
+# Task for new async VsanSystem
+com.vmware.vsan.vsansystem.tasks.update.label                             = "Actualizar configuración de vSAN"
+com.vmware.vsan.vsansystem.tasks.update.summary                           = "Actualiza la configuración de vSAN para este host"
+
+com.vmware.vsan.diskconvertion.tasks.precheck.label                       = "Realizar comprobación previa de conversión de formato de disco"
+com.vmware.vsan.diskconvertion.tasks.precheck.summary                     = "Realizar comprobación previa de conversión de formato de disco para detectar posibles problemas"
+
+com.vmware.vsan.diskmgmt.tasks.objectscan.label                           = "Examinar objetos de vSAN"
+com.vmware.vsan.diskmgmt.tasks.objectscan.summary                         = "Examinar objetos de vSAN para detectar problemas"
+
+# Task for VsanPrecheckerSystem
+com.vmware.vsan.prechecker.tasks.complianceresourcecheck.label            = "Realizar tarea de comprobación de cumplimiento de recursos"
+com.vmware.vsan.prechecker.tasks.complianceresourcecheck.summary          = "Realizar tarea de comprobación de cumplimiento de recursos"
+
+com.vmware.vsan.prechecker.tasks.queryCompliance.label                    = "Obtener detalles de cumplimiento WhatIf"
+com.vmware.vsan.prechecker.tasks.queryCompliance.summary                  = "Obtener detalles de cumplimiento WhatIf"

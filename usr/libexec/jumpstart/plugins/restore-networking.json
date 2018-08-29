@@ -1,0 +1,37 @@
+/***********************************************************
+ * Copyright 2010-2013 VMware, Inc.  All rights reserved.
+ * VMware Confidential
+ ***********************************************************/
+
+{
+   "operations" :
+   {
+      "start" :
+      [
+         "boot networking restore --pnics",
+         "boot networking dvs cache upgrade",
+         "boot networking restore --netstackinstances",
+         "boot networking restore --vswitches",
+         "boot networking restore --vmknics",
+         "boot networking restore --routes",
+         "boot networking restore --management-interface",
+      ],
+      "apply_host_profile" :
+      [
+         "boot networking restore --pnics",
+         "boot networking restore --vswitches",
+         "boot hostprofile apply --earlybootinit -p NetworkProfile"
+         /* In the event of (some) failures, a default networking
+          * configuration will be setup
+          */
+      ]
+   }
+   ,
+   "metadata" :
+   {
+      "version"  : 2,
+      "requires" : ["storage drivers", "networking support", "public vds", "public dvfilter", "advanced configuration", "lacp daemon", "vxlan", "vmkcrypto"],
+      "provides" : ["network configuration"]
+   }
+}
+

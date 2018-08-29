@@ -1,0 +1,64 @@
+<div class="vui-stack-view">
+   <div class="stack-view-table">
+
+      <div vui-stack-block="nameBlock"
+         ng-class="{'stack-remove': portgroupExists}">
+
+         <span vui-sb-label>
+            {{'network.portgroup.settings.name.title' |translate}}
+         </span>
+
+         <div vui-sb-content>
+            <input type="text"
+               ng-pattern="SANITIZE_INPUT_REGEX"
+               focus-me="'select'"
+               ng-model="data.name"
+               maxlength="31"
+               ng-disabled="edit"
+               title="{{'network.portgroup.settings.name.title' |translate}}"/>
+         </div>
+      </div>
+
+      <div vui-stack-block="vlanBlock">
+         <span vui-sb-label>
+            {{'network.portgroup.settings.vlanId' |translate}}
+         </span>
+
+         <div vui-sb-content>
+            <input
+               type="number"
+               ng-model="data.vlanId"
+               min="0"
+               ng-model-options="{
+                  'updateOn': 'default blur'
+               }"
+               max="4095"
+               style="width: 60px; padding: 0 0 0 5px;"
+               title="{{'network.portgroup.settings.vlanId' |translate}}"/>
+         </div>
+      </div>
+
+      <div vui-stack-block="vswitchBlock">
+         <span vui-sb-label>
+            {{'network.portgroup.settings.vSwitch.label' | translate}}
+         </span>
+
+         <div vui-sb-content>
+            <label style="padding-left: 0px;"
+               title="{{'network.portgroup.settings.vSwitch.label' | translate}}">
+               <div class="stack-dropdown inline"
+                  focus-me="true"
+                  vui-dropdown="vswitch"></div>
+            </label>
+         </div>
+      </div>
+
+      <div ng-include="'templates/network/security.html'"></div>
+
+      <div ng-if="edit" ng-include="'templates/network/nic-teaming.html'"></div>
+
+      <div ng-if="edit" ng-include="'templates/network/traffic-shaping.html'"></div>
+
+   </div>
+
+</div>

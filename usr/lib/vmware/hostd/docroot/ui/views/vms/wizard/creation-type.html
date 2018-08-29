@@ -1,0 +1,14 @@
+<div ng-controller="VMWizardCreationTypeController" class="content-padding vm-wizard">
+   <div ng-if="loading" ng-include src="'views/loading-dialog.html'"></div>
+
+   <div ng-if="!loading" class="row">
+      <div class="col-sm-6">
+         <label title="{{'vm.wizard.creationType.select'|translate}}" class="label-508" style="width: 100%;">
+            <div esx-listbox data="creationTypeOptions" class="esx-listbox"></div>
+         </label>
+      </div>
+      <div class="col-sm-6">
+         <p ng-bind-html="creationTypeDescription | linebreak"></p>
+      </div>
+   </div>
+</div>

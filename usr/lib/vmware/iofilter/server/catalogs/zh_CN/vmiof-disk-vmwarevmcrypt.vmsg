@@ -1,0 +1,7 @@
+# en language catalog for the 'vmwarevmcrypt' iofilter
+
+iofilters.disk.vmwarevmcrypt.capability.AllowCleartextFilters.label =  在加密前允许 I/O 筛选器
+iofilters.disk.vmwarevmcrypt.capability.AllowCleartextFilters.summary = 允许在加密筛选器前使用其他 I/O 筛选器。这些筛选器将在明文数据加密之前看到这些数据。
+
+iofilters.disk.vmwarevmcrypt.name.label = VMware 虚拟机加密
+iofilters.disk.vmwarevmcrypt.name.summary = VMware 加密 I/O 筛选器。

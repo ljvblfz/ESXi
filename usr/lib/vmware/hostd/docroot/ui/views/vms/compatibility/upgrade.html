@@ -1,0 +1,18 @@
+<div ng-controller="VMCompatibilityUpgradeController"
+     class="content-padding shutdown-dialog">
+   <div ng-if="loading" ng-include src="'views/loading-dialog.html'"></div>
+   <div ng-show="!loading">
+      <div class="row">
+         <div class="col-sm-2">
+            <img src="images/vm/upgradeCompatibility256.png" style="float: left; margin-left: 10px; width: 80px;"/>
+         </div>
+         <div class="col-sm-10">
+            <p ng-bind-html="'vm.compatibility.upgrade.configure.header'|translate:vm|linebreak"></p>
+            <label title="{{'vm.compatibility.upgrade.configure.label'|translate}}">
+               <div class="label-508" vui-dropdown="CompatibilityOptions"></div>
+            </label>
+            <p ng-bind-html="CompatibilityOptionsDesc"></p>
+         </div>
+      </div>
+   </div>
+</div>

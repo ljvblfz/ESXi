@@ -1,0 +1,278 @@
+#
+# This catalog is for long descriptions for Events. Long descriptions are
+# shown in the UI when the user asks to see more details about the event,
+# and can contain causes and potential user actions for recovery.
+#
+# See vim/lib/vimLocale/en/eventaux.vmsg for examples.
+#
+
+#
+signature="sIgNaTuRe"
+#
+# event long descriptions go here..
+
+com.vmware.vc.ft.VmAffectedByDasDisabledEvent.longDescription = "\
+   <EventLongDescription id="com.vmware.vc.ft.VmAffectedByDasDisabledEvent">\
+      <description>\
+         When vSphere HA is disabled in a cluster, you cannot restart a Primary VM or its Secondary VM \
+         after a failure. This event is issued when vSphere HA is disabled and a Fault Tolerant virtual machine \
+         is powered on. The event alerts you of the risk to the Fault Tolerant virtual machine that results \
+	 from disabling vSphere HA. \
+      </description>\
+      <cause>\
+           <description>vSphere HA was disabled when a Fault Tolerant virtual machine was powered on</description>\
+           <action>Re-enable vSphere HA</action>\
+      </cause>\
+   </EventLongDescription>\
+   "
+
+com.vmware.vc.HA.DasHostCompleteDatastoreFailureEvent.longDescription = "\
+   <EventLongDescription id="com.vmware.vc.HA.DasHostCompleteDatastoreFailureEvent">\
+      <description>\
+        A host in a Component Protection-enabled cluster has lost connectivity to \
+        all shared datastores\
+     </description>\
+      <cause>\
+           <description>Connectivity to all shared datastores has been lost</description>\
+           <action>Reconnect at least one shared datastore</action>\
+      </cause>\
+   </EventLongDescription>\
+   "
+
+com.vmware.vc.HA.DasHostCompleteNetworkFailureEvent.longDescription = "\
+   <EventLongDescription id="com.vmware.vc.HA.DasHostCompleteNetworkFailureEvent">\
+      <description>\
+        A host in a Component Protection enabled cluster has lost connectivity to \
+        all virtual machine networks\
+     </description>\
+      <cause>\
+           <description>Connectivity to all virtual machine networks has been lost</description>\
+           <action>Reconnect at least one virtual machine network</action>\
+      </cause>\
+   </EventLongDescription>\
+   "
+
+com.vmware.vc.HA.CreateConfigVvolFailedEvent.longDescription = "\
+   <EventLongDescription id="com.vmware.vc.HA.CreateConfigVvolFailedEvent">\
+      <description>\
+        vSphere HA failed to create a config vvol on the datastore \
+     </description>\
+      <cause>\
+           <description>A possible VP, host, network, or lack of resources \
+           prevented vSphere HA from creating a config vvol</description>\
+           <action>Look for errors in the environment, then re-enable vSphere HA</action>\
+      </cause>\
+   </EventLongDescription>\
+   "
+
+com.vmware.vc.HA.CreateConfigVvolSucceededEvent.longDescription = "\
+   <EventLongDescription id="com.vmware.vc.HA.CreateConfigVvolSucceededEvent">\
+      <description>\
+        vSphere HA successfully created a config vvol on the datastore. If there was a failed config vvol datastore configuration issue, it is being cleared \
+     </description>\
+      <cause>\
+           <description> There were no errors during creation of the config vvol \
+           on the datastore</description>\
+      </cause>\
+   </EventLongDescription>\
+   "
+
+vim.event.LicenseDowngradedEvent.longDescription = "\
+    <EventLongDescription id="vim.event.LicenseDowngradedEvent">\
+       <description>\
+          The installed license reduces the set of available features.\
+          Some of the features, previously available, will not be accessible with the new license.\
+       </description>\
+       <cause>\
+            <description>The license has been replaced.</description>\
+            <action>Revert to the license previously installed if it is not already expired.</action>\
+            <action>Contact VMware in order to obtain new license with the required features.</action>\
+        </cause>\
+    </EventLongDescription>\
+    "
+
+vim.event.SystemSwapInaccessible.longDescription = "\
+    <EventLongDescription id="vim.event.SystemSwapInaccessible">\
+       <description>\
+          The system swap has been configured and used on this system, but the datastore used for this is no longer available.\
+          This may result in reduced performance and possible crashes of some user worlds that have a memory swapped to the system swap file.\
+          Another problem observed is that the datastore cannot be properly removed from the inventory of the host, because of the references kept to it.\
+       </description>\
+       <cause>\
+            <description>The underlying LUN is in "All Paths Down" status, physically removed, or there are errors in the communication with this device.</description>\
+            <action>Reconfigure the System swap configuration or change the swapfile location of the host system</action>\
+        </cause>\
+    </EventLongDescription>\
+    "
+
+ad.event.JoinDomainFailedEvent.longDescription = "\
+   <EventLongDescription id="ad.event.JoinDomainFailedEvent">\
+      <description>\
+         Join domain failed\
+      </description>\
+   </EventLongDescription>\
+   "
+
+ad.event.JoinDomainEvent.longDescription = "\
+   <EventLongDescription id="ad.event.JoinDomainEvent">\
+      <description>\
+         Join domain succeeded\
+      </description>\
+   </EventLongDescription>\
+   "
+
+ad.event.LeaveDomainFailedEvent.longDescription = "\
+   <EventLongDescription id="ad.event.LeaveDomainFailedEvent">\
+      <description>\
+         Leave domain failed\
+      </description>\
+   </EventLongDescription>\
+   "
+
+ad.event.LeaveDomainEvent.longDescription = "\
+   <EventLongDescription id="ad.event.LeaveDomainEvent">\
+      <description>\
+         Leave domain succeeded\
+      </description>\
+   </EventLongDescription>\
+   "
+
+ad.event.ImportCertFailedEvent.longDescription = "\
+   <EventLongDescription id="ad.event.ImportCertFailedEvent">\
+      <description>\
+         Import certificate failed\
+      </description>\
+   </EventLongDescription>\
+   "
+
+ad.event.ImportCertEvent.longDescription = "\
+   <EventLongDescription id="ad.event.ImportCertEvent">\
+      <description>\
+         Import certificate succeeded\
+      </description>\
+   </EventLongDescription>\
+   "
+
+com.vmware.vc.vmam.VmAppHealthMonitoringStateChangedEvent.longDescription = "\
+   <EventLongDescription id="com.vmware.vc.vmam.VmAppHealthMonitoringStateChangedEvent">\
+      <description>\
+        Application monitoring state changes indicate a change in the health of the \
+        application being monitored or in the application-monitoring process. \
+        A transition from gray to green occurs when application heartbeat is being \
+        enabled from within the guest. \
+        A transition to red occurs after vSphere HA didn't receive any heartbeats within 30 seconds. \
+        A transition from red to green occurs if heartbeats begin again before vSphere HA can react. \
+        A transition to gray occurs after application heartbeating is disabled from \
+        within the guest. \
+      </description>\
+      <cause>\
+        <description>\
+          Either the user initiated action from inside the guest or vSphere HA did not receive \
+          application heartbeats from the application-monitoring agent within a 30-second interval. \
+        </description>\
+        <action>\
+          If the state transitions to red, investigate why the application-monitoring agent stopped \
+          heartbeating. Missing heartbeats may be a result of the application failing or a problem \
+          with the application-monitoring agent. Frequent state transitions to or from gray may indicate \
+          a problem with the application-monitoring agent. If they occur, investigate whether the \
+          enabling/disabling of monitoring is expected.\
+        </action>\
+      </cause>\
+   </EventLongDescription>\
+   "
+
+com.vmware.vc.vmam.VmDasAppHeartbeatFailedEvent.longDescription = "\
+   <EventLongDescription id="com.vmware.vc.vmam.VmDasAppHeartbeatFailedEvent">\
+      <description>\
+        vSphere HA has detected a heartbeat failure from the application-monitoring agent inside the guest. \
+        If application monitoring is enabled in vSphere the virtual machine will be reset.\
+      </description>\
+      <cause>\
+        <description>\
+          vSphere HA did not receive application heartbeats from the application-monitoring agent within \
+          a 30-second interval. \
+        </description>\
+        <action>\
+          Investigate why the application-monitoring agent stopped heartbeating. Missing heartbeats may be a \
+          result of the application failing or a problem with the application-monitoring agent.\
+        </action>\
+      </cause>\
+   </EventLongDescription>\
+   "
+
+com.vmware.vc.vmam.VmAppHealthStateChangedEvent.longDescription = "\
+   <EventLongDescription id="com.vmware.vc.vmam.VmAppHealthStateChangedEvent">\
+      <description>\
+        Application state changes indicate that an in-guest application has posted \
+        one of the two allowed values - appStateOk or appStateNeedReset. The former \
+        indicates that the monitored application is fine, the latter causes an \
+        immediate reset if Application Monitoring is enabled for this virtual machine.\
+      </description>\
+      <cause>\
+        <description>\
+          This is an in-guest initated action. \
+        </description>\
+        <action>\
+          If vSphere HA and Application Monitoring are enabled for this virtual machine, it is reset if \
+          the state is appStateNeedReset. If the virtual machine is being migrated using vMotion the reset will be delayed \
+          until the virtual machine has reached its destination. Also, the reset will be delayed until the datastore connectivity issues are resolved. \
+        </action>\
+      </cause>\
+   </EventLongDescription>\
+   "
+
+com.vmware.vc.host.problem.VStorageObjectInfraNamespacePolicyEmptyEvent.longDescription = "\
+   <EventLongDescription id="com.vmware.vc.host.problem.VStorageObjectInfraNamespacePolicyEmptyEvent">\
+      <description>\
+        Improved virtual disk infrastructure namespaces are created with empty storage policy. \
+        Please consider updating infrastructure namespace storage policy to avoid potential data loss.\
+      </description>\
+      <cause>\
+        <description>\
+          This is caused by creating improved virtual disk infrastructure namespaces with empty storage policy.\
+        </description>\
+        <action>\
+          Update infrastructure namespaces storage policy.\
+        </action>\
+      </cause>\
+   </EventLongDescription>\
+   "
+
+com.vmware.vc.host.problem.vFlashResource.inaccessible.longDescription = "\
+   <EventLongDescription id="com.vmware.vc.host.problem.vFlashResource.inaccessible">\
+      <description>\
+        Inaccessible host virtual flash resource indicates that its backing VFFS volume is inaccessible. \
+        Due to inaccessible host virtual flash resource, virtual machines with vSphere Flash Read Cache configured cannot be \
+        powered on or might experience unpredicted behavior if powered on.\
+      </description>\
+      <cause>\
+        <description>\
+          This might be caused by an unmounted VFFS volume or an APD/PDL on the VFFS volume. \
+        </description>\
+        <action>\
+          Check the backing VFFS volume connection status. For example, mount the unmounted volume or \
+          resolve the APD/PDL issues. The host virtual flash resource is accessible as long as the \
+          backing VFFS volume is accessible. \
+        </action>\
+      </cause>\
+   </EventLongDescription>\
+   "
+
+com.vmware.vc.host.vFlash.modulesLoadedEvent = "\
+   <EventLongDescription id="com.vmware.vc.host.vFlash.modulesLoadedEvent">\
+      <description>\
+         The list of virtual flash modules loaded on the server has been refreshed. \
+         Any newly loaded or reloaded module can be used in virtual Flash Read Cache configurations.\
+      </description>\
+   </EventLongDescription>\
+   "
+
+com.vmware.vc.host.vFlash.defaultModuleChangedEvent.longDescription = "\
+   <EventLongDescription id="com.vmware.vc.host.vFlash.defaultModuleChangedEvent">\
+      <description>\
+         The default virtual flash module has been changed. \
+         Any new virtual Flash Read Cache configuration uses the new default virtual flash module if undefined in configuration. \
+         All existing configurations will remain unchanged.\
+      </description>\
+   </EventLongDescription>\
+   "

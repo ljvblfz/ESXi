@@ -1,0 +1,27 @@
+<ul class="dropdown-menu"
+   style="display: block; max-height: 200px; overflow-x: hidden; overflow-y: scroll; -webkit-overflow-scrolling: touch;"
+   role="menu" aria-labelledby="search-field">
+   <li role="presentation" ng-show="data.done && data.total === 0">
+      {{'directives.search.noResults' | translate}}
+   </li>
+   <li role="presentation" ng-show="!data.done && data.total === 0" style="text-align: center;">
+      <img  src="images/tiny_loader_transparent_bg.gif" alt="{{'root.loading'|translate}}"/>
+   </li>
+   <li role="presentation" ng-show="data.done && data.entities.length > 0" ng-repeat-start="e in data.entities">
+      <div class="row no-margin">
+         <div class="col-sm-4 no-padding">
+            <span class="{{e.icon}}"></span><span>{{e.title}}</span>
+         </div>
+         <div class="col-sm-8 no-padding">
+            <div class="row no-margin">
+               <div class="col-sm-12 no-padding" ng-repeat="d in e.data">
+                  <a tabindex="-1" ng-href="{{d.link}}">
+                     <em class="{{d.iconClass}}"></em><span>{{d.name}}</span>
+                  </a>
+               </div>
+            </div>
+         </div>
+      </div>
+   </li>
+   <li role="presentation" class="divider" ng-repeat-end ng-show="!$last"></li>
+</ul>

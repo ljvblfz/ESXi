@@ -1,0 +1,14 @@
+<div ng-if="tabs.vmknics.loaded || networkingTabs.tabs[getSelectedTab()].state === tabs.vmknics.state"
+     ng-controller="NetworkingVMKNICListController" class="esx-tab-content">
+
+   <div ng-show="!loaded" class="loading"></div>
+
+   <div ng-show="loaded" id="{{vmknicGrid.id}}" vui-datagrid="vmknicGrid"></div>
+
+   <hr ng-show="currentVMKNIC" class="ng-cloak" ng-cloak/>
+
+   <div ng-controller="NetworkingVMKNICController" ng-cloak ng-if="currentVMKNIC">
+      <div ng-include src="'views/networking/vmknic/summary.html'"></div>
+   </div>
+
+</div>

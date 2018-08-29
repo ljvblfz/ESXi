@@ -1,0 +1,32 @@
+/***********************************************************
+ * Copyright 2010-2011,2014-2015 VMware, Inc.  All rights reserved.
+ * VMware Confidential
+ ***********************************************************/
+
+{
+   "operations" :
+   {
+      "start" :
+      [
+         "storage core plugin registration add -m vaai_filter -N Filter -P VAAI_FILTER",
+
+         "storage core plugin registration add -m vmw_vaaip_cx -N VAAI -P VMW_VAAIP_CX -d vmw_vaaip_emc,vmw_satp_lib_cx",
+         "storage core plugin registration add -m vmw_vaaip_eql -N VAAI -P VMW_VAAIP_EQL",
+         "storage core plugin registration add -m vmw_vaaip_hds -N VAAI -P VMW_VAAIP_HDS",
+         "storage core plugin registration add -m vmw_vaaip_lhn -N VAAI -P VMW_VAAIP_LHN",
+         "storage core plugin registration add -m vmw_vaaip_netapp -N VAAI -P VMW_VAAIP_NETAPP",
+         "storage core plugin registration add -m vmw_vaaip_symm -N VAAI -P VMW_VAAIP_SYMM -d vmw_vaaip_emc",
+         "storage core plugin registration add -m vmw_vaaip_mask -N VAAI -P VMW_VAAIP_MASK",
+         "storage core plugin registration add -m vmw_vaaip_t10 -N VAAI -P VMW_VAAIP_T10",
+         "storage core plugin registration add -m vmw_vaaip_emc -N VAAI -P None"
+      ]
+   }
+   ,
+   "metadata" :
+   {
+      "version"  : 1,
+      "requires" : ["storage early configuration device settings"],
+      "provides" : ["PSA VAAI filter registration", "PSA VAAI plugin registration"]
+   }
+}
+

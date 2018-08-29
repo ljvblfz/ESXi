@@ -1,0 +1,134 @@
+#!/bin/sh
+# chkconfig: on 18 82
+
+export PATH=/bin:/sbin
+RHTTPPROXY_UPGRADE_CONFIG=/usr/lib/vmware/rhttpproxy/bin/upgrade-config.py
+RHTTPPROXY_TAG=rhttpproxy
+RHTTPPROXY_LOGDIR=/var/log/vmware
+RHTTPPROXY_SRV_NAME="VMware HTTP reverse proxy"
+RHTTPPROXY_KILL_SIGNAL=15
+ISRUNNING="${RHTTPPROXY_SRV_NAME} is running."
+ISNOTRUNNING="${RHTTPPROXY_SRV_NAME} is not running."
+RHTTPPROXY_PID="$(pidof -s $RHTTPPROXY_TAG)"
+
+start() {
+    # Upgrade config if needed
+    ${RHTTPPROXY_UPGRADE_CONFIG}
+    # As a highly-threaded app, rhttpproxy performs better with per-thread arenas
+    export MALLOC_PER_THREAD=1
+    export MALLOC_ARENA_MAX=4
+    export VMACORE_SSL_DISABLED_PROTOCOLS=`esxcfg-advcfg -q -g /UserVars/ESXiVPsDisabledProtocols`
+    ulimit -c unlimited
+    /sbin/watchdog.sh ++memreliable,group=hostd -d -s $RHTTPPROXY_TAG rhttpproxy ++min=0,swapscope=system -r /etc/vmware/rhttpproxy/config.xml
+    if [ $? -eq 0 ]; then
+        echo "$RHTTPPROXY_SRV_NAME started."
+    fi
+}
+
+stop() {
+    if [ -n "${RHTTPPROXY_PID}" ]; then
+       vmkbacktrace ${RHTTPPROXY_PID} ${RHTTPPROXY_LOGDIR} rhttpproxy%
+    fi
+    /sbin/watchdog.sh -k $RHTTPPROXY_TAG
+    kill "-${RHTTPPROXY_KILL_SIGNAL}" $RHTTPPROXY_PID && echo "$RHTTPPROXY_SRV_NAME stopped."
+}
+
+ssl_reset() {
+   # We cannot use pkill with the daemon TAG as match pattern here as that
+   # could produce false matches. Revert to pidof + kill.
+   if [ -z "${RHTTPPROXY_PID}" ] ; then
+      echo "${ISNOTRUNNING}"
+      exit 3
+   fi
+
+   kill -HUP ${RHTTPPROXY_PID}
+
+   if [ 0 -ne ${?} ] ; then
+      echo "Unexpected error while trying to signal ${RHTTPPROXY_SRV_NAME}."
+      exit 1
+   fi
+
+   echo "${RHTTPPROXY_SRV_NAME} signalled."
+}
+
+pcap_reset() {
+   # We cannot use pkill with the daemon TAG as match pattern here as that
+   # could produce false matches. Revert to pidof + kill.
+   if [ -z "${RHTTPPROXY_PID}" ] ; then
+      echo "${ISNOTRUNNING}"
+      exit 3
+   fi
+
+   /bin/python -c "
+import http.client
+import socket
+import sys
+
+class HttpConnection(http.client.HTTPConnection):
+   def connect(self, uds):
+      self.sock = socket.socket(socket.AF_UNIX, socket.SOCK_STREAM)
+      self.sock.connect(uds)
+
+conn = HttpConnection('localhost')
+conn.connect('/var/run/vmware/proxy-cfg')
+conn.request('PUT', '/pcap/config')
+response = conn.getresponse()
+sys.exit(0 if response.status == 200 else 1)
+"
+   if [ 0 -ne ${?} ] ; then
+      echo "Unexpected error while trying to signal ${RHTTPPROXY_SRV_NAME}."
+      exit 1
+   fi
+
+   echo "${RHTTPPROXY_SRV_NAME} signalled."
+}
+
+usage() {
+   echo "Usage: $0 {start|stop|restart|status|ssl_reset|pcap_reset}"
+}
+
+if [ $# -ne 1 ]; then
+   usage
+   exit 1
+fi
+
+case $1 in
+   "start")
+      if [ -z "${RHTTPPROXY_PID}" ] ; then
+         start
+      else
+         echo "${ISRUNNING}"
+      fi
+      ;;
+   "stop")
+      if [ -n "${RHTTPPROXY_PID}" ] ; then
+         stop
+      else
+         echo "${ISNOTRUNNING}"
+      fi
+     ;;
+   "restart")
+      stop
+      start
+      ;;
+   "status")
+      if [ -n "${RHTTPPROXY_PID}" ] ; then
+         echo "${ISRUNNING}"
+         exit 0
+      else
+         echo "${ISNOTRUNNING}"
+         exit 3
+      fi
+      ;;
+   "ssl_reset")
+      ssl_reset
+      ;;
+   "pcap_reset")
+      pcap_reset
+      ;;
+   *)
+      usage
+      exit 1
+      ;;
+esac
+

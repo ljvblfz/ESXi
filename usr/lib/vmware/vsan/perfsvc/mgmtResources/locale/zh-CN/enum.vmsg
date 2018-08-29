@@ -1,0 +1,16 @@
+# vSAN features
+com.vmware.vim.license.Feature.vit.label                              = "iSCS "
+com.vmware.vim.license.Feature.vit.summary                            = "iSCSI"
+com.vmware.vim.license.Feature.allflash.label                         = "全闪存"
+com.vmware.vim.license.Feature.allflash.summary                       = "全闪存"
+com.vmware.vim.license.Feature.stretchedcluster.label                 = "延伸群集"
+com.vmware.vim.license.Feature.stretchedcluster.summary               = "延伸群集"
+com.vmware.vim.license.Feature.erasurecoding.label                    = "RAID5/RAID6 支持"
+com.vmware.vim.license.Feature.erasurecoding.summary                  = "RAID5/RAID6 支持"
+com.vmware.vim.license.Feature.iopslimit.label                        = "设置每个 VM/VMDK 的最大 IOPS"
+com.vmware.vim.license.Feature.iopslimit.summary                      = "设置每个 VM/VMDK 的最大 IOPS"
+com.vmware.vim.license.Feature.storageefficiency.label                = "通过去重和压缩实现存储节省"
+com.vmware.vim.license.Feature.storageefficiency.summary              = "通过去重和压缩实现存储节省"
+com.vmware.vim.license.Feature.encryption.label                       = "vSAN 加密"
+com.vmware.vim.license.Feature.encryption.summary                     = "vSAN 加密"
+

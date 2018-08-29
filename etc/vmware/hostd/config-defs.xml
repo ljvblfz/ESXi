@@ -1,0 +1,48 @@
+<ConfigRoot>
+  <_length>2</_length>
+  <_type>vim.option.OptionDef[]</_type>
+  <e id="0">
+    <_type>vim.option.OptionDef</_type>
+    <dynamicType></dynamicType>
+    <dynamicProperty>
+      <_length>0</_length>
+      <_type>vmodl.DynamicProperty[]</_type>
+    </dynamicProperty>
+    <label>security.host.ruissl</label>
+    <summary>Require SSL to be used when communicating with the host over port 902.</summary>
+    <key>security.host.ruissl</key>
+    <optionType>
+      <_type>vim.option.BoolOption</_type>
+      <dynamicType></dynamicType>
+      <dynamicProperty>
+        <_length>0</_length>
+        <_type>vmodl.DynamicProperty[]</_type>
+      </dynamicProperty>
+      <valueIsReadonly>false</valueIsReadonly>
+      <supported>true</supported>
+      <defaultValue>true</defaultValue>
+    </optionType>
+  </e>
+  <e id="1">
+    <_type>vim.option.OptionDef</_type>
+    <dynamicType></dynamicType>
+    <dynamicProperty>
+      <_length>0</_length>
+      <_type>vmodl.DynamicProperty[]</_type>
+    </dynamicProperty>
+    <label>vGPU.consolidation</label>
+    <summary>Assignment policy to place shared passthru graphics VMs on same physical GPU until full.</summary>
+    <key>vGPU.consolidation</key>
+    <optionType>
+      <_type>vim.option.BoolOption</_type>
+      <dynamicType></dynamicType>
+      <dynamicProperty>
+        <_length>0</_length>
+        <_type>vmodl.DynamicProperty[]</_type>
+      </dynamicProperty>
+      <valueIsReadonly>false</valueIsReadonly>
+      <supported>true</supported>
+      <defaultValue>false</defaultValue>
+    </optionType>
+  </e>
+</ConfigRoot>

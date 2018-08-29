@@ -1,0 +1,880 @@
+<div ng-controller="VMWizardHardwareVMOptionsController"
+   ng-if="activeTab.id === 'vmOptions' || !activeTab || optionsTab.loaded"
+   class="content-padding">
+
+   <div class="vui-stack-view">
+      <div class="stack-view-table basic">
+
+         <div ng-show="wizardOptions.data.Type === 'edit'" vui-stack-block="vmOptionsStackView.generalBlock">
+            <!-- Icon -->
+            <span vui-sb-label>
+               {{'vm.wizard.hardware.vmoptions.general.title' |translate}}
+            </span>
+
+            <!-- content collapsed-->
+            <div vui-sb-content>
+               <form class="form-inline">
+                  <div class="form-group">
+                     <label for="vmName">
+                        {{'vm.wizard.hardware.vmoptions.general.vmname' |translate}}
+                     </label>
+
+                     <input
+                        type="text"
+                        class="form-control"
+                        id="vmName"
+                        ng-model="wizardOptions.data.general.vmName"
+                        ng-class="{
+                           'stack-warning': wizardOptions.data.general.vmNameInvalid
+                        }"/>
+                  </div>
+               </form>
+            </div>
+
+            <!-- content expanded -->
+            <div vui-sb-content-expanded></div>
+
+            <!-- children -->
+            <div vui-stack-block>
+               <!-- Label -->
+               <span vui-sb-label>
+                  {{'vm.wizard.hardware.vmoptions.general.vmname' | translate}}
+               </span>
+
+               <!-- content -->
+               <div vui-sb-content>
+                  <input
+                     type="text"
+                     id="vmName2"
+                     ng-model="wizardOptions.data.general.vmName"
+                     title="{{'vm.wizard.hardware.vmoptions.general.vmname' | translate}}"
+                     ng-class="{
+                        'stack-warning': wizardOptions.data.general.vmNameInvalid
+                     }"/>
+               </div>
+            </div>
+
+            <div vui-stack-block>
+               <!-- Label -->
+               <span vui-sb-label>
+                  {{'vm.wizard.hardware.vmoptions.general.vmconfigfile' | translate}}
+               </span>
+
+               <!-- content -->
+               <div vui-sb-content>
+                  <input
+                     type="text"
+                     title="{{'vm.wizard.hardware.vmoptions.general.vmconfigfile' | translate}}"
+                     id="vmConfigFile"
+                     ng-model="wizardOptions.data.general.ConfigFile"
+                     readonly/>
+               </div>
+            </div>
+
+            <div vui-stack-block>
+               <!-- Label -->
+               <span vui-sb-label>
+                  {{'vm.wizard.hardware.vmoptions.general.vmworkinglocation' | translate}}
+               </span>
+
+               <!-- content -->
+               <div vui-sb-content>
+                  <input
+                     type="text"
+                     id="vmWorkingLocation"
+                     title="{{'vm.wizard.hardware.vmoptions.general.vmworkinglocation' | translate}}"
+                     ng-model="wizardOptions.data.general.WorkingLocation"
+                     readonly/>
+               </div>
+            </div>
+
+            <div vui-stack-block>
+               <!-- Label -->
+               <span vui-sb-label>
+                  {{'vm.wizard.hardware.vmoptions.general.guestOS' | translate}}
+               </span>
+
+               <!-- content -->
+               <div vui-sb-content>
+                  <label
+                     class="label-508 full-width"
+                     title="{{'vm.wizard.hardware.vmoptions.general.guestOS' | translate}}">
+                     <div vui-dropdown="wizardOptions.data.general.OSFamilyOptions"></div>
+                  </label>
+               </div>
+            </div>
+
+            <div vui-stack-block>
+               <!-- Label -->
+               <span vui-sb-label>
+                  {{'vm.wizard.hardware.vmoptions.general.guestOSVersion' | translate}}
+               </span>
+
+               <!-- content -->
+               <div vui-sb-content>
+                  <label
+                     class="label-508 full-width"
+                     title="{{'vm.wizard.hardware.vmoptions.general.guestOSVersion' | translate}}">
+                     <div vui-dropdown="wizardOptions.data.general.OSVersionOptions"></div>
+                  </label>
+               </div>
+            </div>
+         </div>
+
+         <div vui-stack-block="vmOptionsStackView.vmRemoteBlock">
+            <!-- Icon -->
+            <span vui-sb-label>{{'vm.wizard.hardware.vmoptions.general.remoteConsole' |
+                        translate}}</span>
+
+            <!-- content collapsed-->
+            <div vui-sb-content>
+               <label ng-class="{'label-disabled': wizardOptions.data.general.state === 'poweredOn'}" title="{{'vm.wizard.hardware.vmoptions.general.remoteConsole' |
+                        translate}}">
+                  <input type="checkbox"
+                         ng-model="wizardOptions.data.vm.GuestOSLock"
+                         ng-disabled="wizardOptions.data.general.state === 'poweredOn'"/>
+                  {{'vm.wizard.hardware.vmoptions.general.guestOSLock.desc' |
+                  translate}}
+               </label>
+            </div>
+
+            <!-- content expanded -->
+            <div vui-sb-content-expanded>
+            </div>
+
+            <!-- children -->
+            <div vui-stack-block>
+               <!-- Label -->
+               <span
+                  vui-sb-label>{{'vm.wizard.hardware.vmoptions.general.guestOSLock.label' |
+                  translate}}</span>
+
+               <!-- content -->
+               <div vui-sb-content>
+                  <label ng-class="{'label-disabled': !wizardOptions.data.ConfigOptions.capabilities.guestAutoLockSupported || wizardOptions.data.general.state === 'poweredOn'}" title="{{'vm.wizard.hardware.vmoptions.general.guestOSLock.label' |
+                  translate}}">
+                     <input type="checkbox"
+                         ng-model="wizardOptions.data.vm.GuestOSLock"
+                         ng-disabled="!wizardOptions.data.ConfigOptions.capabilities.guestAutoLockSupported || wizardOptions.data.general.state === 'poweredOn'"/>
+                         {{'vm.wizard.hardware.vmoptions.general.guestOSLock.desc' | translate}}
+                  </label>
+               </div>
+            </div>
+
+            <div vui-stack-block ng-class="{
+               'stack-warning' : wizardOptions.data.vm.MaximumNumberSessionsInvalid
+            }">
+               <!-- Label -->
+               <span vui-sb-label>{{'vm.wizard.hardware.vmoptions.general.maxNumSessions.label' |
+                  translate}}</span>
+
+               <!-- content -->
+               <div vui-sb-content>
+                  <div class="row no-margin">
+                     <div class="col-sm-12 no-padding">
+                        <label ng-class="{'label-disabled': wizardOptions.data.general.state === 'poweredOn'}" title="{{'vm.wizard.hardware.vmoptions.general.maxNumSessions.desc' | translate}}">
+                           <input type="checkbox"
+                                  ng-disabled="wizardOptions.data.general.state === 'poweredOn'"
+                                  ng-model="wizardOptions.data.vm.MaximumNumberSessions"/> {{'vm.wizard.hardware.vmoptions.general.maxNumSessions.desc' |
+                           translate}}</span>
+                        </label>
+                     </div>
+                  </div>
+
+                  <div class="row no-margin">
+                     <div class="col-sm-12 no-padding">
+                        <input
+                           type="number"
+                           title="{{'vm.wizard.hardware.vmoptions.general.maxNumSessions.label' | translate}}"
+                           class="stack-input"
+                           min="0"
+                           max="40"
+                           ng-class="{
+                              'stack-warning' : wizardOptions.data.vm.MaximumNumberSessionsInvalid
+                           }"
+                           ng-model="wizardOptions.data.vm.MaximumNumberSessionsValue"
+                           ng-model-options="{
+                              updateOn: 'default blur',
+                              debounce: {
+                                 'blur': 0
+                              }
+                           }"
+                           ng-disabled="!wizardOptions.data.vm.MaximumNumberSessions || wizardOptions.data.general.state === 'poweredOn'"/>
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </div>
+
+         <div vui-stack-block="vmOptionsStackView.vmToolskBlock">
+            <!-- Icon -->
+            <span
+               vui-sb-label>{{'vm.wizard.hardware.vmoptions.general.vmwareTools.label' |
+                           translate}}</span>
+
+            <!-- content collapsed-->
+            <div vui-sb-content>
+               <span>{{'vm.wizard.hardware.vmoptions.general.vmwareTools.desc' |
+                           translate}}</span>
+            </div>
+
+            <!-- content expanded -->
+            <div vui-sb-content-expanded></div>
+
+            <!-- children -->
+            <div vui-stack-block>
+               <!-- Label -->
+               <span
+                  vui-sb-label>{{'vm.wizard.hardware.vmoptions.general.powerOperations.label' |
+                           translate}}</span>
+
+               <!-- content -->
+               <div vui-sb-content>
+                  <div class="row stack-row-spacer">
+                     <div class="col-sm-1 no-padding">
+                        <span class="icon-power-off label-icon"></span>
+                     </div>
+                     <div class="col-sm-11 no-padding">
+                        <label class="label-508 full-width" title="{{'vm.wizard.hardware.vmoptions.general.powerOperations.stop' |
+                           translate}}">
+                        <div vui-dropdown="vm.PowerOperationStop"></div></label>
+                     </div>
+                  </div>
+
+                  <div class="row stack-row-spacer">
+                     <div class="col-sm-1 no-padding">
+                        <span class="icon-suspend label-icon"></span>
+                     </div>
+                     <div class="col-sm-11 no-padding">
+                        <label class="label-508 full-width" title="{{'vm.wizard.hardware.vmoptions.general.powerOperations.pause' |
+                           translate}}">
+                        <div vui-dropdown="vm.PowerOperationPause"></div></label>
+                     </div>
+                  </div>
+
+                  <div class="row stack-row-spacer">
+                     <div class="col-sm-1 no-padding">
+                        <span class="icon-power-on label-icon-label"></span>
+                     </div>
+                     <div class="col-sm-11 no-padding">
+                        <span>{{'vm.wizard.hardware.vmoptions.general.powerOperations.desc' |
+                           translate}}</span>
+                     </div>
+                  </div>
+
+                  <div class="row no-margin">
+                     <div class="col-sm-1 no-padding">
+                        <span class="esx-icon-vm-restart label-icon"></span>
+                     </div>
+                     <div class="col-sm-11 no-padding">
+                        <label class="label-508 full-width" title="{{'vm.wizard.hardware.vmoptions.general.powerOperations.restart' |
+                           translate}}">
+                        <div vui-dropdown="vm.PowerOperationRestart"></div></label>
+                     </div>
+                  </div>
+               </div>
+            </div>
+
+            <div vui-stack-block>
+               <!-- Label -->
+               <span
+                  vui-sb-label>{{'vm.wizard.hardware.vmoptions.general.vmwareToolsScript.label' |
+                           translate}}</span>
+
+               <!-- content -->
+               <div vui-sb-content>
+                  <div class="checkbox">
+                     <label ng-class="{'label-disabled': wizardOptions.data.general.state !== 'poweredOff'}" class="stack-checkbox-spacer">
+                        <input type="checkbox" ng-disabled="wizardOptions.data.general.state !== 'poweredOff'" ng-model="wizardOptions.data.vm.AfterPoweringOn"/> {{'vm.wizard.hardware.vmoptions.general.vmwareToolsScript.afterPoweringOn' |
+                        translate}}
+                     </label>
+                     <label ng-class="{'label-disabled': wizardOptions.data.general.state !== 'poweredOff'}" class="stack-checkbox-spacer">
+                        <input type="checkbox" ng-disabled="wizardOptions.data.general.state !== 'poweredOff'" ng-model="wizardOptions.data.vm.AfterResuming"/> {{'vm.wizard.hardware.vmoptions.general.vmwareToolsScript.afterResuming' |
+                        translate}}
+                     </label>
+                     <label ng-class="{'label-disabled': wizardOptions.data.general.state !== 'poweredOff'}" class="stack-checkbox-spacer">
+                        <input type="checkbox" ng-disabled="wizardOptions.data.general.state !== 'poweredOff'" ng-model="wizardOptions.data.vm.BeforeSuspending"/> {{'vm.wizard.hardware.vmoptions.general.vmwareToolsScript.beforeSuspending' |
+                        translate}}
+                     </label>
+                     <label ng-class="{'label-disabled': wizardOptions.data.general.state !== 'poweredOff'}" >
+                        <input type="checkbox" ng-disabled="wizardOptions.data.general.state !== 'poweredOff'" ng-model="wizardOptions.data.vm.BeforeShuttingDown"/> {{'vm.wizard.hardware.vmoptions.general.vmwareToolsScript.beforeShuttingDown' |
+                        translate}}
+                     </label>
+                  </div>
+               </div>
+            </div>
+
+            <div vui-stack-block>
+               <!-- Label -->
+               <span
+                  vui-sb-label>{{'vm.wizard.hardware.vmoptions.general.toolsUpgrades.label' |
+                           translate}}</span>
+
+               <!-- content -->
+               <div vui-sb-content>
+                  <label title="{{'vm.wizard.hardware.vmoptions.general.toolsUpgrades.label' |
+                           translate}}">
+                     <input type="checkbox"
+                            ng-model="wizardOptions.data.vm.ToolsUpgrades"/>
+                     {{'vm.wizard.hardware.vmoptions.general.toolsUpgrades.desc' |
+                     translate}}
+                  </label>
+               </div>
+            </div>
+
+            <div vui-stack-block>
+               <!-- Label -->
+               <span
+                  vui-sb-label>{{'vm.wizard.hardware.vmoptions.general.time.label' |
+                           translate}}</span>
+               <!-- content -->
+               <div vui-sb-content>
+                  <label ng-class="{'label-disabled': wizardOptions.data.general.state === 'poweredOn'}" title="{{'vm.wizard.hardware.vmoptions.general.time.label' |
+                           translate}}">
+                     <input type="checkbox"
+                            ng-model="wizardOptions.data.vm.Time"/>
+                     {{'vm.wizard.hardware.vmoptions.general.time.desc' |
+                     translate}}
+                  </label>
+               </div>
+            </div>
+         </div>
+
+         <div vui-stack-block="vmOptionsStackView.powerManagementBlock">
+            <!-- Icon -->
+            <span
+               vui-sb-label>{{'vm.wizard.hardware.vmoptions.general.powerManagement.label' |
+                        translate}}</span>
+            <!-- content collapsed-->
+            <div vui-sb-content>
+               <span>{{'vm.wizard.hardware.vmoptions.general.powerManagement.desc' |
+                        translate}}</span>
+            </div>
+
+            <!-- content expanded -->
+            <div vui-sb-content-expanded></div>
+
+            <!-- children -->
+            <div vui-stack-block>
+               <!-- Label -->
+               <span
+                  vui-sb-label>{{'vm.wizard.hardware.vmoptions.general.powerManagement.standbyResponse.label' |
+                        translate}}</span>
+
+               <!-- content -->
+               <div vui-sb-content>
+                  <form class="form-horizontal">
+                     <div class="form-group">
+                        <span>
+                           {{'vm.wizard.hardware.vmoptions.general.powerManagement.standbyResponse.desc' | translate}}</span>
+
+                        <div class="inline radio">
+                           <label
+                              ng-class="{
+                                 'label-disabled': wizardOptions.data.general.state !== 'poweredOff'
+                              }">
+                              <input type="radio"
+                                 ng-value="'checkpoint'"
+                                 ng-disabled="wizardOptions.data.general.state !== 'poweredOff'"
+                                 ng-model="wizardOptions.data.vm.StandbyResponse"/>
+                                 {{'vm.wizard.hardware.vmoptions.general.powerManagement.standbyResponse.suspend' | translate}}
+                           </label>
+
+                           <label
+                              ng-class="{
+                                 'label-disabled': wizardOptions.data.general.state !== 'poweredOff'
+                              }">
+                              <input type="radio"
+                                 ng-value="'powerOnSuspend'"
+                                 ng-disabled="wizardOptions.data.general.state !== 'poweredOff'"
+                                 ng-model="wizardOptions.data.vm.StandbyResponse"/>
+                                 {{'vm.wizard.hardware.vmoptions.general.powerManagement.standbyResponse.standby' | translate}}
+                           </label>
+                        </div>
+                     </div>
+                  </form>
+               </div>
+            </div>
+
+            <div vui-stack-block>
+               <!-- Label -->
+               <span vui-sb-label>
+                  {{'vm.wizard.hardware.vmoptions.general.powerManagement.wakeOnLan.label' | translate}}</span>
+
+               <!-- content -->
+               <div vui-sb-content>
+                  <div class="form-group">
+                     <label>
+                        {{'vm.wizard.hardware.vmoptions.general.powerManagement.wakeOnLan.desc' | translate}}
+                     </label>
+
+                     <div
+                        ng-class="{
+                           'label-disabled': wizardOptions.data.vm.StandbyResponse === 'checkpoint'
+                        }"
+                        ng-repeat="adapter in wizardOptions.data.networks track by $index">
+                        <input
+                           id="wakeOnLan-{{$index}}"
+                           type="checkbox"
+                           ng-value="true"
+                           ng-model="adapter.wakeOnLan"
+                           ng-disabled="wizardOptions.data.vm.StandbyResponse === 'checkpoint'"/>
+                           <label for="wakeOnLan-{{$index}}">
+                              {{adapter.title}} ({{adapter.NetworkName}})
+                           </label>
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </div>
+
+         <div vui-stack-block="vmOptionsStackView.bootOptionsBlock">
+            <!-- Icon -->
+            <span vui-sb-label>{{'vm.wizard.hardware.vmoptions.general.bootOptions.label' |
+                        translate}}</span>
+
+            <!-- content collapsed-->
+            <div vui-sb-content>
+               <span>{{'vm.wizard.hardware.vmoptions.general.bootOptions.desc' |
+                        translate}}</span>
+            </div>
+
+            <!-- content expanded -->
+            <div vui-sb-content-expanded></div>
+
+            <!-- children -->
+            <div vui-stack-block>
+               <!-- Label -->
+               <span
+                  vui-sb-label>{{'vm.wizard.hardware.vmoptions.general.bootOptions.firmware.label' |
+                        translate}}</span>
+
+               <!-- content -->
+               <div vui-sb-content>
+                  <div class="form-group">
+                     <span>{{'vm.wizard.hardware.vmoptions.general.bootOptions.firmware.desc' |
+                        translate}}</span>
+                     <div>
+                        <label class="label-508 full-width" title="{{'vm.wizard.hardware.vmoptions.general.bootOptions.firmware.desc' |
+                           translate}}"><div vui-dropdown="vm.Firmware"></div></label>
+                     </div>
+                  </div>
+               </div>
+            </div>
+
+            <div vui-stack-block ng-show="canSecureBoot">
+               <!-- Label -->
+               <span
+                  vui-sb-label>{{'vm.wizard.hardware.vmoptions.general.bootOptions.enableUEFISecureBoot.label' |
+                        translate}}</span>
+
+               <!-- content -->
+               <div vui-sb-content>
+                  <div class="form-group">
+                     <label>
+                        <input type="checkbox"
+                           ng-disabled="wizardOptions.data.vm.vbsEnabled"
+                           ng-model="wizardOptions.data.vm.SecureBoot"/> {{'vm.wizard.hardware.vmoptions.general.bootOptions.enableUEFISecureBoot.desc' | translate}}
+                     </label>
+                  </div>
+               </div>
+            </div>
+
+            <div vui-stack-block>
+               <!-- Label -->
+               <span
+                  vui-sb-label>{{'vm.wizard.hardware.vmoptions.general.bootOptions.bootDelay.label' |
+                        translate}}</span>
+
+               <!-- content -->
+               <div vui-sb-content>
+                  <div class="row no-margin">
+                     <div class="col-sm-12 no-padding">
+                        <label ng-class="{'label-disabled': !wizardOptions.data.ConfigOptions.capabilities.bootOptionsSupported}" for="bootDelayMS">{{'vm.wizard.hardware.vmoptions.general.bootOptions.bootDelay.desc' |
+                           translate}}</label>
+                     </div>
+                     <div class="row no-margin">
+                        <div class="col-sm-12 no-padding">
+                           <input id="bootDelayMS" type="number" class="stack-input inline" min="0" ng-model="wizardOptions.data.vm.BootDelay"
+                                  ng-disabled="!wizardOptions.data.ConfigOptions.capabilities.bootOptionsSupported"/>
+                           <span>{{'vm.wizard.hardware.vmoptions.general.bootOptions.bootDelay.ms' |
+                           translate}}</span>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+            </div>
+
+            <div vui-stack-block>
+               <!-- Label -->
+               <span vui-sb-label>{{'vm.wizard.hardware.vmoptions.general.bootOptions.forceBiosSetup.label' |
+                           translate}}</span>
+               <!-- content -->
+               <div vui-sb-content>
+                  <label ng-class="{'label-disabled': !wizardOptions.data.ConfigOptions.capabilities.bootOptionsSupported}">
+                     <input type="checkbox" ng-model="wizardOptions.data.vm.ForceBiosSetup"
+                            ng-disabled="!wizardOptions.data.ConfigOptions.capabilities.bootOptionsSupported"/> {{'vm.wizard.hardware.vmoptions.general.bootOptions.forceBiosSetup.desc' | translate}}
+                  </label>
+               </div>
+            </div>
+
+            <div vui-stack-block>
+               <!-- Label -->
+               <span vui-sb-label>{{'vm.wizard.hardware.vmoptions.general.bootOptions.failedBootRecovery.label' | translate}}</span>
+
+               <!-- content -->
+               <div vui-sb-content>
+                  <div class="row no-margin">
+                     <div class="col-sm-12 no-padding">
+                        <label ng-class="{'label-disabled': !wizardOptions.data.ConfigOptions.capabilities.bootRetryOptionsSupported}">
+                           <input type="checkbox" ng-model="wizardOptions.data.vm.FailedBootRecovery"
+                                  ng-disabled="!wizardOptions.data.ConfigOptions.capabilities.bootRetryOptionsSupported"/> {{'vm.wizard.hardware.vmoptions.general.bootOptions.failedBootRecovery.desc' | translate}}
+                        </label>
+                     </div>
+                  </div>
+
+                  <div class="row no-margin">
+                     <div class="col-sm-12 no-padding">
+                        <input type="number" title="{{'vm.wizard.hardware.vmoptions.general.bootOptions.failedBootRecovery.sec' | translate}}"
+                               class="stack-input inline" min="0" ng-model="wizardOptions.data.vm.FailedBootRecoveryValue"
+                               ng-disabled="!wizardOptions.data.ConfigOptions.capabilities.bootOptionsSupported || !wizardOptions.data.vm.FailedBootRecovery"/>
+                        <span>{{'vm.wizard.hardware.vmoptions.general.bootOptions.failedBootRecovery.sec' | translate}}</span>
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </div>
+
+         <div vui-stack-block="vmOptionsStackView.advancedBlock">
+            <!-- Icon -->
+            <span vui-sb-label>{{'vm.wizard.hardware.vmoptions.general.advanced.label' | translate}}</span>
+
+            <!-- content collapsed-->
+            <div vui-sb-content>
+               <span>{{'vm.wizard.hardware.vmoptions.general.advanced.settings.desc' | translate}}</span>
+            </div>
+
+            <!-- content expanded -->
+            <div vui-sb-content-expanded></div>
+
+            <!-- children -->
+            <div vui-stack-block>
+               <!-- Label -->
+               <span vui-sb-label>{{'vm.wizard.hardware.vmoptions.general.advanced.settings.label' | translate}}</span>
+               <!-- content -->
+               <div vui-sb-content>
+                  <div>
+                     <label
+                        ng-class="{
+                           'label-disabled': wizardOptions.data.general.state !== 'poweredOff'
+                        }"
+                        for="enableAccelerationCheckbox"
+                        class="stack-checkbox-spacer">
+                        <input
+                           id="enableAccelerationCheckbox"
+                           type="checkbox"
+                           ng-disabled="wizardOptions.data.general.state !== 'poweredOff'"
+                           ng-model="wizardOptions.data.vm.DisableAcceleration"/>
+
+                        {{'vm.wizard.hardware.vmoptions.general.advanced.settings.acceleration' | translate}}
+                     </label>
+                  </div>
+                  <div>
+                     <label
+                        ng-class="{
+                           'label-disabled': wizardOptions.data.general.state !== 'poweredOff'
+                        }"
+                        for="enableLoggingCheckbox"
+                        class="stack-checkbox-spacer">
+                        <input
+                           id="enableLoggingCheckbox"
+                           type="checkbox"
+                           ng-disabled="wizardOptions.data.general.state !== 'poweredOff'"
+                           ng-model="wizardOptions.data.vm.EnableLogging" />
+
+                        {{'vm.wizard.hardware.vmoptions.general.advanced.settings.logging' | translate}}
+                     </label>
+                  </div>
+               </div>
+            </div>
+
+            <div vui-stack-block>
+               <!-- Label -->
+               <span vui-sb-label>{{'vm.wizard.hardware.vmoptions.general.advanced.debuggingStats.label' | translate}}</span>
+               <!-- content -->
+               <div vui-sb-content>
+                  <div vui-dropdown="vm.DebuggingStatistics"></div>
+               </div>
+            </div>
+
+            <div vui-stack-block>
+               <!-- Label -->
+               <span vui-sb-label>{{'vm.wizard.hardware.vmoptions.general.advanced.swapFileLocation.label' | translate}}</span>
+               <!-- content -->
+               <div vui-sb-content>
+                  <div class="inline radio">
+                     <label
+                        ng-class="{
+                           'label-disabled': wizardOptions.data.general.state !== 'poweredOff'
+                        }">
+                        <input type="radio"
+                           ng-value="'inherit'"
+                           ng-model="wizardOptions.data.vm.SwapFileLocation"
+                           ng-disabled="wizardOptions.data.general.state !== 'poweredOff'"/>
+                        {{'vm.wizard.hardware.vmoptions.general.advanced.swapFileLocation.default.label' | translate}}
+                        <p>{{'vm.wizard.hardware.vmoptions.general.advanced.swapFileLocation.default.desc' | translate}}</p>
+                     </label>
+
+                     <label
+                        ng-class="{
+                           'label-disabled': wizardOptions.data.general.state !== 'poweredOff'
+                        }">
+                        <input type="radio"
+                           ng-value="'vmDirectory'"
+                           ng-model="wizardOptions.data.vm.SwapFileLocation"
+                           ng-disabled="wizardOptions.data.general.state !== 'poweredOff'"/>
+                           {{'vm.wizard.hardware.vmoptions.general.advanced.swapFileLocation.vmDirectory.label' | translate}}
+                           <p>{{'vm.wizard.hardware.vmoptions.general.advanced.swapFileLocation.vmDirectory.desc' | translate}}</p>
+                     </label>
+
+                     <label
+                        ng-class="{
+                           'label-disabled': wizardOptions.data.general.state !== 'poweredOff'
+                        }">
+                        <input type="radio"
+                           ng-value="'hostLocal'"
+                           ng-model="wizardOptions.data.vm.SwapFileLocation"
+                           ng-disabled="wizardOptions.data.general.state !== 'poweredOff'"/>
+                        {{'vm.wizard.hardware.vmoptions.general.advanced.swapFileLocation.datastore.label' | translate}}
+                        <p>{{'vm.wizard.hardware.vmoptions.general.advanced.swapFileLocation.datastore.desc' | translate}}</p>
+                     </label>
+                  </div>
+               </div>
+            </div>
+
+            <div vui-stack-block>
+               <!-- Label -->
+               <span vui-sb-label>{{'vm.wizard.hardware.vmoptions.general.advanced.configParams.label' | translate}}</span>
+               <!-- content -->
+               <div vui-sb-content style="margin-bottom: 0;">
+                  <button style="width:100%;" ng-click="openConfigurationParametersDialog()">{{'vm.wizard.hardware.vmoptions.general.advanced.configParams.ok' | translate}}
+                  </button>
+               </div>
+            </div>
+
+            <div vui-stack-block>
+               <!-- Label -->
+               <span vui-sb-label>{{'vm.wizard.hardware.vmoptions.general.advanced.latencySensitivity.label' | translate}}</span>
+               <!-- content -->
+               <div vui-sb-content>
+                  <label class="label-508 full-width" title="{{'vm.wizard.hardware.vmoptions.general.advanced.latencySensitivity.label' | translate}}">
+                  <div vui-dropdown="vm.LatencySensitivity"></div></label>
+               </div>
+            </div>
+
+         </div>
+
+         <div vui-stack-block="vmOptionsStackView.fiberChannelBlock">
+            <!-- Icon -->
+            <span vui-sb-label>{{'vm.wizard.hardware.vmoptions.general.fiberChannel.label' | translate}}</span>
+
+            <!-- content collapsed-->
+            <div vui-sb-content>
+               <span>{{'vm.wizard.hardware.vmoptions.general.fiberChannel.desc' | translate}}</span>
+            </div>
+
+            <!-- content expanded -->
+            <div vui-sb-content-expanded></div>
+
+            <!-- children -->
+            <div vui-stack-block>
+               <!-- Label -->
+               <span vui-sb-label>
+                  {{'vm.wizard.hardware.vmoptions.general.fiberChannel.wwns.label'
+                     | translate}}
+               </span>
+
+               <!-- content -->
+               <div vui-sb-content>
+                  <div class="row stack-row-spacer">
+                     <div class="col-sm-12 no-padding">
+                        <span>
+                           {{'vm.wizard.hardware.vmoptions.general.fiberChannel.wwns.desc'
+                              | translate}}
+                        </span>
+                     </div>
+                  </div>
+
+                  <div class="row stack-row-spacer">
+                     <div class="col-sm-12 no-padding">
+                        <label
+                           ng-class="{
+                              'label-disabled': (!wizardOptions.data.ConfigOptions.capabilities.vmNpivWwnSupported ||
+                                 !wizardOptions.data.ConfigOptions.capabilities.vmNpivWwnDisableSupported) ||
+                                 wizardOptions.data.general.state !== 'poweredOff'
+                           }">
+                           <input
+                              type="checkbox"
+                              ng-model="wizardOptions.data.vm.DisableNPIV"
+                              ng-disabled="(!wizardOptions.data.ConfigOptions.capabilities.vmNpivWwnSupported ||
+                              !wizardOptions.data.ConfigOptions.capabilities.vmNpivWwnDisableSupported) ||
+                              wizardOptions.data.general.state !== 'poweredOff'"/>
+                              {{'vm.wizard.hardware.vmoptions.general.fiberChannel.wwns.disable' | translate}}
+                        </label>
+                     </div>
+                  </div>
+
+                  <div class="inline radio">
+                     <label
+                        ng-class="{
+                        'label-disabled': !wizardOptions.data.ConfigOptions.capabilities.vmNpivWwnSupported ||
+                           (wizardOptions.data.general.state !== 'poweredOff')
+                           }"
+                           title="{{'vm.wizard.hardware.vmoptions.general.fiberChannel.wwns.noWWNs.unchanged' | translate}}">
+
+                        <input
+                           type="radio"
+                           ng-value="true"
+                           ng-model="wizardOptions.data.vm.WWNsUnchanged"
+                           ng-disabled="!wizardOptions.data.ConfigOptions.capabilities.vmNpivWwnSupported ||
+                           (wizardOptions.data.general.state !== 'poweredOff')"/>
+                        {{'vm.wizard.hardware.vmoptions.general.fiberChannel.wwns.noWWNs.unchanged' | translate}}
+                     </label>
+
+                     <label
+                        ng-class="{
+                           'label-disabled': (!wizardOptions.data.ConfigOptions.capabilities.vmNpivWwnSupported ||
+                           !wizardOptions.data.ConfigOptions.capabilities.vmNpivWwnUpdateSupported) ||
+                           (wizardOptions.data.general.state !== 'poweredOff')
+                        }"
+                        title="{{'vm.wizard.hardware.vmoptions.general.fiberChannel.wwns.noWWNs.generate.label' | translate}}">
+
+                        <input
+                           type="radio"
+                           ng-value="false"
+                           ng-model="wizardOptions.data.vm.WWNsUnchanged"
+                           ng-disabled="(!wizardOptions.data.ConfigOptions.capabilities.vmNpivWwnSupported ||
+                           !wizardOptions.data.ConfigOptions.capabilities.vmNpivWwnUpdateSupported) ||
+                           (wizardOptions.data.general.state !== 'poweredOff')"/>
+                        {{'vm.wizard.hardware.vmoptions.general.fiberChannel.wwns.noWWNs.generate.label' | translate}}
+                     </label>
+                  </div>
+
+                  <div class="row no-margin">
+                     <div class="col-sm-4 col-sm-offset-1 no-padding">
+                        <label
+                           for="numSupportedWwnNodesMin"
+                           ng-class="{
+                              'label-disabled': wizardOptions.data.vm.WWNsUnchanged ||
+                              (wizardOptions.data.general.state !== 'poweredOff')
+                           }">
+                           {{'vm.wizard.hardware.vmoptions.general.fiberChannel.wwns.noWWNs.generate.WWNNs' | translate}}
+                        </label>
+                     </div>
+
+                     <div class="col-sm-7 no-padding">
+                        <input
+                           id="numSupportedWwnNodesMin"
+                           type="number"
+                           class="stack-input inline"
+                           min="{{wizardOptions.data.ConfigOptions.hardwareOptions.numSupportedWwnNodes.min}}"
+                           max="{{wizardOptions.data.ConfigOptions.hardwareOptions.numSupportedWwnNodes.max}}"
+                           ng-model="wizardOptions.data.vm.NumberWWNNs"
+                           ng-disabled="wizardOptions.data.vm.WWNsUnchanged ||
+                              (wizardOptions.data.general.state !== 'poweredOff')"/>
+                     </div>
+                  </div>
+
+                  <div class="row no-margin">
+                     <div class="col-sm-4 col-sm-offset-1 no-padding">
+                        <label
+                           for="numSupportedWwnPortsMin"
+                           ng-class="{
+                              'label-disabled': wizardOptions.data.vm.WWNsUnchanged ||
+                              (wizardOptions.data.general.state !== 'poweredOff')
+                           }">
+                           {{'vm.wizard.hardware.vmoptions.general.fiberChannel.wwns.noWWNs.generate.WWPNs' | translate}}
+                        </label>
+                     </div>
+
+                     <div class="col-sm-7 no-padding">
+                        <input
+                           id="numSupportedWwnPortsMin"
+                           type="number"
+                           class="stack-input inline"
+                           min="{{wizardOptions.data.ConfigOptions.hardwareOptions.numSupportedWwnPorts.min}}"
+                           max="{{wizardOptions.data.ConfigOptions.hardwareOptions.numSupportedWwnPorts.max}}"
+                           ng-model="wizardOptions.data.vm.NumberWWPNs"
+                           ng-disabled="wizardOptions.data.vm.WWNsUnchanged ||
+                              (wizardOptions.data.general.state !== 'poweredOff')"/>
+                     </div>
+                  </div>
+
+                  <div class="form-group">
+                     <label
+                        for="WWNAssignments"
+                        ng-class="{
+                           'label-disabled': (!wizardOptions.data.ConfigOptions.capabilities.vmNpivWwnSupported ||
+                              !wizardOptions.data.ConfigOptions.capabilities.vmNpivWwnUpdateSupported) ||
+                              (wizardOptions.data.general.state !== 'poweredOff')
+                        }">
+                        {{'vm.wizard.hardware.vmoptions.general.fiberChannel.wwns.assignments' | translate}}
+                     </label>
+
+                     <textarea
+                        id="WWNAssignments"
+                        class="form-control"
+                        rows="5"
+                        ng-model="WWNAssignments"
+                        ng-disabled="true"></textarea>
+
+                     <label
+                        for="WWPAssignments"
+                        style="margin-top: 5px;"
+                        ng-class="{
+                           'label-disabled': (!wizardOptions.data.ConfigOptions.capabilities.vmNpivWwnSupported ||
+                              !wizardOptions.data.ConfigOptions.capabilities.vmNpivWwnUpdateSupported) ||
+                              (wizardOptions.data.general.state !== 'poweredOff')
+                        }">
+                        {{'vm.wizard.hardware.vmoptions.general.fiberChannel.wwps.assignments' | translate}}
+                     </label>
+
+                     <textarea
+                        id="WWPAssignments"
+                        class="form-control"
+                        rows="5"
+                        ng-model="WWPAssignments"
+                        ng-disabled="true"></textarea>
+                  </div>
+               </div>
+            </div>
+         </div>
+         <div vui-stack-block ng-show="wizardOptions.data.general.VMHardwareVersion >= 14 && wizardOptions.data.vm.vbsSupported">
+               <!-- Label -->
+               <span vui-sb-label>{{'vm.wizard.hardware.vmoptions.vbs.label' | translate}}</span>
+
+               <!-- content -->
+               <div vui-sb-content>
+                  <div>
+                     <label>
+                        <input type="checkbox"
+                           ng-model="wizardOptions.data.vm.vbsEnabled"/>
+                        {{'vm.wizard.hardware.vmoptions.vbs.desc' | translate}}
+                     </label>
+                     <span
+                        class="vui-icon-info vui-icon-info-inline"
+                        vui-sign-post="vbsSignPostOptions"></span>
+                     <div ng-if="!wizardOptions.initialConfig.vm.vbsEnabled && wizardOptions.data.vm.vbsEnabled"
+                        style="color: red;">
+                         {{'vm.wizard.hardware.vmoptions.vbs.requires' | translate}}
+                     </div>
+                     <div ng-if="wizardOptions.initialConfig.vm.vbsEnabled && !wizardOptions.data.vm.vbsEnabled"
+                        style="color: red;">
+                        {{'vm.wizard.hardware.vmoptions.vbs.disabled' | translate}}
+                     </div>
+                  </div>
+               </div>
+            </div>
+      </div>
+   </div>
+</div>

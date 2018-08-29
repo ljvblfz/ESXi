@@ -1,0 +1,58 @@
+<div ng-controller="VMDeployFromOVFWizardOptionsController">
+   <div ng-if="loading" ng-include src="'views/loading-dialog.html'"></div>
+
+   <div ng-if="!loading" class="vui-stack-view">
+      <div class="stack-view-table">
+         <div ng-if="networks.length > 0" class="stack-view-row">
+            <div class="stack-view-cell">
+               <span>{{'vm.wizard.deploy.options.networkMappings' | translate}}</span>
+            </div>
+            <div class="stack-view-cell">
+               <div ng-repeat="network in networks">
+                  <div style="float: left;
+                     line-height: 28px;
+                     margin-right: 10px;">{{network.networkName}}</div>
+                  <div vui-dropdown="network"></div>
+               </div>
+            </div>
+         </div>
+
+         <div ng-if="deploymentOption !== null" class="stack-view-row">
+            <div class="stack-view-cell">
+               <span>{{'vm.wizard.deploy.options.deploymentOption' | translate}}</span>
+            </div>
+            <div class="stack-view-cell">
+               <div vui-dropdown="deploymentOption"></div>
+               <p ng-bind="wizardOptions.data.profiles[deploymentOption.selectedValue].description"
+                  style="margin: 5px 10px 0px 2px;"></p>
+            </div>
+         </div>
+         <div class="stack-view-row">
+            <div class="stack-view-cell">
+               <span>{{'vm.wizard.deploy.options.diskProvisioning' | translate}}</span>
+            </div>
+            <div class="stack-view-cell">
+               <label>
+                  <input type="radio" name="diskType" ng-value="'thin'"
+                     ng-model="wizardOptions.data.diskType"/> {{'vm.wizard.deploy.options.thin' | translate}}
+               </label>
+               <label>
+                  <input type="radio" name="diskType" ng-value="'thick'"
+                     ng-model="wizardOptions.data.diskType"/> {{'vm.wizard.deploy.options.thick' | translate}}
+               </label>
+            </div>
+         </div>
+         <div class="stack-view-row">
+            <div class="stack-view-cell">
+               <span>{{'vm.wizard.deploy.options.powerOnAutomatically' | translate}}</span>
+            </div>
+            <div class="stack-view-cell">
+               <label>
+                  <input type="checkbox"
+                     ng-model="wizardOptions.data.powerOnAutomatically"/> 
+               </label>
+            </div>
+         </div>
+      </div>
+   </div>
+</div>

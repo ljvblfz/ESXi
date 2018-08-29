@@ -1,0 +1,92 @@
+#!/bin/sh
+
+ulimit -s 512
+
+DisableChkconfigModules() {
+   local initenv=$1
+   local disabledsvcdir="/var/lib/initenvs/$initenv/chkconfig/disabled"
+   local fn service
+   if [ -n "$initenv" ] && [ -d "$disabledsvcdir" ] ; then
+      for fn in "$disabledsvcdir"/* ; do
+         service=$(basename "$fn")
+         [ "$service" != "*" ] || break
+         log "Disabling $service ..."
+         /bin/chkconfig "$service" off >/dev/null 2>&1
+      done
+   fi
+}
+
+file='/bin/generate-feature-cfg'
+if [ -f ${file} ] ; then
+   sh ${file}
+fi
+
+cmdline=$(/bin/bootOption -roC)
+
+# If we find a boot option of "runweasel" or "ks=..." then mode=installer.
+if (echo $cmdline | grep -Eq '\<(runweasel|ks=\S+)\>' &&
+    [ -x /bin/install ]); then
+   mode=installer
+fi
+
+if echo "${cmdline}" | grep -q -e '\<jumpstart.verbose\>' ; then
+   verbose='--verbose'
+fi
+
+if echo "${cmdline}" | grep -q -e '\<jumpstart.interactive\>' ; then
+   interactive='--interactive'
+fi
+
+if echo "${cmdline}" | grep -q -e '\<jumpstart.randomize\>' ; then
+   randomize=$(echo "${cmdline}" | grep -Eo "jumpstart.randomize(=[0-9]+)?" | grep -Eo "randomize(=[0-9]+)?")
+   randomize="--${randomize}"
+fi
+
+if echo "${cmdline}" | grep -q -e '\<jumpstart.parallel\>' ; then
+   parallel='--parallel'
+fi
+
+if echo "${cmdline}" | grep -q -e '\<jumpstart.interactive-mode-requires\>' ; then
+   interactive_mode_requires=$(echo "${cmdline}" | sed -e 's,.*jumpstart\.interactive-mode-requires=\([^ ]\+\).*,\1,')
+fi
+
+if echo "${cmdline}" | grep -q -e '\<jumpstart.trace\>' ; then
+   trace='--trace'
+fi
+
+if echo "${cmdline}" | grep -q -e '\<jumpstart.disable=.*\>' ; then
+   disabled_plugins=$(echo "${cmdline}" | sed -e 's,.*jumpstart\.disable=\([^ ]\+\).*,\1,')
+fi
+
+if echo "${cmdline}" | grep -q -e '\<jumpstart.run-once=.*\>' ; then
+   run_once=$(echo "${cmdline}" | sed -e 's,.*jumpstart\.run-once=\([^ ]*\).*,\1,')
+fi
+
+if echo "${cmdline}" | grep -q -e '\<jumpstart.plugin-flags=.*\>' ; then
+   plugin_flags=$(echo "${cmdline}" | sed -e 's,.*jumpstart\.plugin-flags=\([^ ]\+\).*,\1,')
+fi
+
+if [ -n "${mode}" ] && [ -d "/var/lib/initenvs/${mode}/jumpstart/disabled" ]
+then
+   local module plugin
+
+   for module in "/var/lib/initenvs/${mode}/jumpstart/disabled"/* ; do
+      plugin=$(basename "${module}")
+      [ "${plugin}" == "*" ] && break
+      disabled_plugins=${disabled_plugins:+${disabled_plugins},}${plugin}
+   done
+fi
+
+(/bin/jumpstart --init                                                               \
+                     ${trace:-}                                                     \
+                     ${verbose:-}                                                   \
+                     ${interactive:-}                                               \
+                     "${plugin_flags:+--plugin-flags=}${plugin_flags}"               \
+                     ${parallel:-}                                               \
+                     ${randomize:-}                                               \
+                     "${run_once:+--run-once=}${run_once}"               \
+                     "${disabled_plugins:+--disable-plugins=}${disabled_plugins}"   \
+                     "${interactive_mode_requires:+--interactive-mode-requires=}${interactive_mode_requires}" \
+                     < /dev/console 2>&1) | tee /var/log/jumpstart-stdout.log > /dev/console
+
+DisableChkconfigModules ${mode}

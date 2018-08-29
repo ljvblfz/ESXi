@@ -1,0 +1,65 @@
+#!/bin/sh
+# chkconfig: on 18 82
+
+# variables
+export PATH=/bin:/sbin
+
+NFCD=/usr/lib/vmware/bin/nfcd
+NFCD_TAG=nfcd
+NFCD_GROUP="nfcd"
+NFCD_SCHED_PARAM="++group=${NFCD_GROUP}"
+
+start() {
+   if [ -z "$(pidof -xs "${NFCD}")" ] ; then
+      /sbin/watchdog.sh -d -s "${NFCD_TAG}" "${NFCD}" "${NFCD_SCHED_PARAM}" >/dev/null 2>&1
+      echo "nfcd started"
+   else
+      echo "nfcd already running"
+   fi
+}
+
+stop() {
+   if [ -n "$(pidof -xs "${NFCD}")" ] ; then
+      # This only stops the watchdog process.
+      /sbin/watchdog.sh -k "${NFCD_TAG}"
+
+      pkill -TERM "${NFCD_TAG}"
+      echo "nfcd stopped"
+   else
+      echo "nfcd is not running"
+   fi
+}
+
+#
+# main
+#
+case "${1}" in
+   "start")
+      start
+   ;;
+   "stop")
+      stop
+   ;;
+   "status")
+      if [ -n "$(pidof -xs "${NFCD}")" ] ; then
+         echo "nfcd is running"
+         exit 0
+      else
+         echo "nfcd is not running."
+         exit 3
+      fi
+   ;;
+   "restart")
+      stop
+
+      while [ -n "$(pidof -xs "${NFCD}")" ] ; do
+         sleep 0.02 # 20ms
+      done
+
+      start
+   ;;
+   *)
+      echo "Usage:$(basename ${0}) {start|stop|status|restart}"
+      exit 1
+   ;;
+esac

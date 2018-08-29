@@ -1,0 +1,138 @@
+<div
+   ng-controller="StorageAdapterConfigureISCSIController">
+
+   <div ng-if="!loaded"
+      style="position: absolute;
+         top: 31px; left: 0; bottom: 41px; right: 0;
+         z-index: 11;
+         background-position: 50% 50%;
+         background-repeat: no-repeat;
+         background-image: url('images/tiny_loader_transparent_bg.gif');
+         text-align: center;">
+   </div>
+
+   <div ng-if="saving" style="position: absolute; top: 31px; left: 0; bottom: 41px; right: 0;
+      background-color: #ffffff; z-index: 10; opacity: 0.7;">
+   </div>
+
+   <div ng-if="saving"
+      style="position: absolute;
+         top: 31px; left: 0; bottom: 41px; right: 0;
+         z-index: 11;
+         background-image: url(images/panel_loader_transparent.gif);
+         background-position: 50% 50%;
+         background-repeat: no-repeat;">
+   </div>
+
+   <div ng-show="loaded">
+      <div class="vui-stack-view">
+         <div class="stack-view-table">
+            <div vui-stack-block="enabledBlock" ng-if="!data.hardware">
+               <span vui-sb-label>{{'storage.adapter.iscsi.iscsiEnabled' | translate}}</span>
+               <div vui-sb-content>
+                  <label>
+                     <input style="margin-right: 3px;" type="radio"
+                        name="optionsRadios"
+                        ng-model="data.enabled" ng-value="false"/> {{'storage.adapter.iscsi.disabled' | translate}}
+                  </label>
+                  <label style="margin-left: 10px;">
+                     <input style="margin-right: 3px;" type="radio"
+                        name="optionsRadios"
+                        ng-model="data.enabled" ng-value="true"/> {{'storage.adapter.iscsi.enabled' | translate}}
+                  </label>
+               </div>
+            </div>
+
+            <div vui-stack-block="nameAliasBlock"
+                  ng-if="device !== null && data.enabled">
+               <span vui-sb-label>{{'storage.adapter.iscsi.nameAndAlias' | translate}}</span>
+               <div vui-sb-content>
+                  {{iscsiName}} {{data.iscsiAlias ? '(' + data.iscsiAlias + ')' : ''}}
+               </div>
+
+               <div vui-sb-content-expanded>
+                  {{iscsiName}}
+               </div>
+
+               <!-- children -->
+               <div vui-stack-block="aliasBlock">
+                  <span vui-sb-label>{{'storage.adapter.iscsi.alias' | translate}}</span>
+                  <div vui-sb-content>
+                     <label>
+                        <input
+                           style="width: 500px; max-width: none;"
+                           ng-model="data.iscsiAlias"
+                           type="text" ng-pattern="SANITIZE_INPUT_REGEX"/>
+                     </label>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div>
+
+      <div ng-if="waiting" style="height: 100px;
+         background-image: url('images/tiny_loader_transparent_bg.gif');
+         background-position: 50% 50%;
+         background-repeat: no-repeat;
+         text-align: center;">
+         <div style="padding-top: 80px;">{{'storage.adapter.iscsi.loading' | translate}}</div>
+      </div>
+
+      <div class="vui-stack-view" ng-if="data.enabled && !waiting && device !== null">
+         <div class="stack-view-table" style="border-top: 0px;">
+            <div ng-include="'views/storage/adapter/configure-iscsi-auth.html'"></div>
+         </div>
+      </div>
+
+      <esx-portlet-content
+         data="advancedBlock.data"
+         no-top-border="true"
+         item-scope="scope"
+         ng-if="device !== null && data.enabled"></esx-portlet-content>
+
+      <div class="vui-stack-view" ng-if="data.enabled && !waiting &&
+                  device !== null">
+         <div class="stack-view-table" style="border-top: 0px;">
+
+            <div vui-stack-block="portsBlock">
+               <span vui-sb-label>{{'storage.adapter.iscsi.networkPortBindings' | translate}}</span>
+               <div vui-sb-content>
+                  <div ng-if="boundPortsGrid !== null"
+                     id="{{boundPortsGrid.id}}"
+                     vui-datagrid="boundPortsGrid"></div>
+               </div>
+            </div>
+
+            <div vui-stack-block="staticTargetsBlock">
+               <span vui-sb-label>{{'storage.adapter.iscsi.staticTargets' | translate}}</span>
+               <div vui-sb-content>
+                  <div ng-if="staticTargetsGrid !== null"
+                     id="{{staticTargetsGrid.id}}"
+                     vui-datagrid="staticTargetsGrid"></div>
+               </div>
+            </div>
+
+            <div vui-stack-block="dynamicTargetsBlock">
+               <span vui-sb-label>{{'storage.adapter.iscsi.dynamicTargets' | translate}}</span>
+               <div vui-sb-content>
+                  <div ng-if="dynamicTargetsGrid !== null"
+                     id="{{dynamicTargetsGrid.id}}"
+                     vui-datagrid="dynamicTargetsGrid"></div>
+               </div>
+            </div>
+
+         </div>
+      </div>
+
+      <div ng-if="warnReboot" style="text-align: center; padding-top: 25px;">
+         <img src="images/warning48.png"/><br />
+         <p ng-bind-html="'storage.adapter.iscsi.warnReboot' | translate | linebreak" style="margin: 0;"></p>
+      </div>
+
+      <div ng-if="warnNoDevice" style="text-align: center; padding-top: 25px;">
+         <img src="images/error48.png"/><br />
+         <p ng-bind-html="'storage.adapter.iscsi.warnNoDevice' | translate | linebreak" style="margin: 0;"></p>
+      </div>
+
+   </div>
+</div>

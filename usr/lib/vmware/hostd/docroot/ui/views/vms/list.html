@@ -1,0 +1,15 @@
+<div class="esx-main-content"
+   ng-right-click="menu($event)">
+
+   <esx-vm-list
+      show-action-bar="true"
+      link-vms="true"
+      grid-id="'vmList'"
+      current-vm="currentVM"
+      selected-vms="selectedVMs"
+      loaded="loaded"></esx-vm-list>
+
+   <hr ng-if="currentVM && loaded" class="ng-cloak" ng-cloak/>
+
+   <div ui-view="banner" ng-cloak ng-if="currentVM && loaded"></div>
+</div>

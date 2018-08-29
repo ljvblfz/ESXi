@@ -1,0 +1,18 @@
+<div ng-controller="NetworkingVMKNICSelectController"
+   style="padding: 10px;">
+
+   <div ng-if="!loaded" style="height: 100px;
+      background-image: url('images/tiny_loader_transparent_bg.gif');
+      background-position: 50% 50%;
+      background-repeat: no-repeat;
+      text-align: center;">
+      <div style="padding-top: 80px;">{{'network.vmknic.select.loading' | translate}}</div>
+   </div>
+
+   <div ng-if="loaded">
+      <div ng-if="vmknicGrid !== null"
+         id="{{vmknicGrid.id}}"
+         vui-datagrid="vmknicGrid"></div>
+   </div>
+
+</div>

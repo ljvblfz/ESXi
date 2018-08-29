@@ -1,0 +1,22 @@
+#%PAM-1.0
+
+# For the user 'vpxuser' we bypass system-auth-generic and only attempt to
+# authenticate against a local account.
+
+auth       required     /lib/security/$ISA/pam_env.so
+auth       substack     system-auth-tally
+auth       required     /lib/security/$ISA/pam_access.so
+auth       [default=ignore success=1] /lib/security/$ISA/pam_succeed_if.so user != vpxuser quiet
+auth       [success=done new_authtok_reqd=done default=die] /lib/security/$ISA/pam_unix.so try_first_pass likeauth nullok
+auth       include      system-auth-generic
+
+account    substack     system-auth-tally
+account    [default=ignore success=1] /lib/security/$ISA/pam_succeed_if.so user != vpxuser quiet
+account    [success=done new_authtok_reqd=done default=die] /lib/security/$ISA/pam_unix.so
+account    include      system-auth-generic
+
+session    [default=ignore success=1] /lib/security/$ISA/pam_succeed_if.so user != vpxuser quiet
+session    [success=done new_authtok_reqd=done default=die] /lib/security/$ISA/pam_unix.so
+session    include      system-auth-generic
+
+password   include      passwd

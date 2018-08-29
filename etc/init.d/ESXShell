@@ -1,0 +1,168 @@
+#!/bin/sh
+#
+# Copyright 2009-2011 VMware, Inc.  All rights reserved.
+#
+# ESXShell:
+#   Enable/Disable the display of the ESXShell login
+#
+# chkconfig: off 10 90
+# description: ESX shell login
+#
+
+
+PATH=/sbin:/usr/sbin:/bin:/usr/bin
+export PATH
+
+ESXShell_MAGIC_FILE="/var/run/vmware/show-esx-shell-login"
+ADDVOB="/usr/lib/vmware/vob/bin/addvob"
+
+# if login has children, then that represents a running session, so we
+# don't kill it.  if login doesn't have children, then that represents
+# the process sitting at the prompt waiting for a password, so we do
+# kill it.  This echos out the PID to kill, or 0 to do nothing.
+#
+# XXX : debug terminal might have login running too?
+Should_Kill_Login() {
+        
+        # just get one
+        local pid=$(ps -c | grep '/bin/[l]ogin' | awk '{print $1}' | head -1)
+
+        if [ -z "${pid}" ]; then
+            echo 0
+            return
+        fi
+
+        local children=$(vsish -e ls "/userworld/cartel/${pid}/child")
+
+        # if the vsish call failed then login must have stopped
+        # running; hence we can assume inetd will be restarting the
+        # techsupport script, so we have nothing to do.
+        if [ $? -ne 0 ]; then
+            echo 0
+            return
+        fi
+   
+        if [ -z "${children}" ]; then
+            echo ${pid}
+            return
+        else
+            echo 0
+            return
+        fi
+}
+
+#
+# Log action
+#
+ESXShell_log() {
+   echo "$1"
+   logger -t ESXShell "$1"
+}
+
+Restart_ESXShell_Script() {
+   # if /bin/getty (initial username prompt) or /bin/login (password
+   # prompt, subsequent logins) is running, we are sitting at the
+   # login prompt.  killing these will cause the techsupport.sh
+   # wrapper to exit and be restarted by inittab, where it will see
+   # any changes.
+   pkill getty
+
+   # ... only kill login if it has no children
+   local login_pid=$(Should_Kill_Login)
+   if [ ${login_pid} -ne 0 ]; then
+       kill ${login_pid}
+   fi
+
+   # Now cover the case of enabling a currently disabled shell.
+   # techsupport.sh will igore SIGHUP before starting getty; so in
+   # that case this is a no-op.  But if shell is disabled
+   # techsupport.sh is waiting for this sighup to trigger an exit;
+   # hence it will restart from inittab and pick up the new
+   # status. techsupport.sh should always be running...
+   if [ -n "$(pidof -xs techsupport.sh)" ]; then
+      kill -HUP $(pidof -xs techsupport.sh)
+   fi
+
+   # note that if we are logged in, then nothing happens until you log
+   # out and inittab restarts techsupport.sh.  This is a feature (to
+   # avoid killing whatever you're doing) -- not a bug!
+   return 0
+}
+
+#
+# Show ESXShell
+#
+ESXShell_login_show() {
+   ESXShell_log "ESXi shell login enabled"
+   ${ADDVOB} 'vob.user.shell.enabled'
+
+   touch "${ESXShell_MAGIC_FILE}"
+   Restart_ESXShell_Script
+
+   # setup a callback to stop us after the specified time.  Note that
+   # DCUI will unconditionally call both "start" and "enable" -- since
+   # having a timeout implies we do not want the service started at
+   # boot we do the inverse (i.e. stop and disable) here in the
+   # timeout handler.
+   local timeout=$(esxcfg-advcfg -q -g /UserVars/ESXiShellTimeOut)
+   if [ "${timeout:-1}" != "0" ]; then
+       /sbin/doat ESXShell.stop "${timeout}" "vim-cmd -U dcui hostsvc/stop_esx_shell" >/dev/null 2>&1 &
+       /sbin/doat ESXShell.disable "${timeout}" "vim-cmd -U dcui hostsvc/disable_esx_shell" >/dev/null 2>&1 &
+   fi
+
+   return 0
+}
+
+#
+# Hide ESXShell
+#
+ESXShell_login_hide() {
+   ESXShell_log "ESXi shell login disabled"
+   ${ADDVOB} 'vob.user.shell.disabled'
+
+   rm -f "${ESXShell_MAGIC_FILE}"
+
+   Restart_ESXShell_Script
+
+   # if the timeout is still waiting to fire, then kill it off now.
+   # Note that hostd/dcui will be handling the disable of the service
+   # in this case.
+   /sbin/doat kill ESXShell.stop
+   /sbin/doat kill ESXShell.disable
+
+   return 0
+}
+
+#
+# Process comand line options
+#
+case "${1}" in
+   start)
+      ESXShell_login_show
+   ;;
+
+   stop)
+      ESXShell_login_hide
+   ;;
+
+   status)
+      if [ -f "${ESXShell_MAGIC_FILE}" ] ; then
+         echo "ESX shell login is enabled"
+         exit 0
+      else
+         echo "ESX shell login is disabled"
+         exit 3
+      fi
+   ;;
+
+   restart)
+      ESXShell_login_hide
+      ESXShell_login_show
+   ;;
+
+   *)
+      echo "Usage: $(basename "$0") {start|stop|status|restart}"
+      exit 1
+   ;;
+esac
+

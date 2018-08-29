@@ -1,0 +1,4 @@
+#!/bin/sh
+
+ESXCFG_SYSLOG_PY=`dirname $0`/esxcfg-syslog.pyc
+exec /bin/python $ESXCFG_SYSLOG_PY "$@"

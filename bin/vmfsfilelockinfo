@@ -1,0 +1,449 @@
+#!/usr/bin/python3
+
+"""
+A script to find out the locking information about a file on
+VMFS datastore.
+
+Script involves getting host name and MAC address mapping by
+    ---- using VMFS-6 Heartbeat information if datastore is VMFS-6
+    ---- looking into VMware HA configuration if enabled
+    ---- talking back to Virtual Center Server using Property Collectors
+"""
+
+import sys
+import os
+import subprocess
+import atexit
+import argparse
+import ssl
+import timeit
+
+from pyVmomi import vim, SoapStubAdapter, vmodl
+from pyVim import arguments
+from pyVim.connect import Connect, Disconnect
+from getpass import getpass
+
+from xml.dom import minidom
+
+SCRIPT_NAME = os.path.basename(__file__)
+SCRIPT_VERSION = "2.0"
+
+START = timeit.default_timer()
+
+lockingModes = {
+    0: "Free",
+    1: "Exclusive",
+    2: "Read-Only",
+    3: "Multi-writer"
+}
+
+
+def CollectHostProperties(si, viewRef, objType,
+                          pathSet=None, includeMors=False):
+    """
+    Collect properties for managed objects from a view ref
+    Check the vSphere API documentation for example on retrieving
+    object properties using PropertyCollector
+
+    Args:
+        si          (ServiceInstance): ServiceInstance connection
+        viewRef  (pyVmomi.vim.view.*): Starting point of inventory navigation
+        objType       (pyVmomi.vim.*): Type of managed object
+        pathSet                (list): List of properties to retrieve
+        includeMors            (bool): If True include the managed objects
+                                       refs in the result
+    Returns:
+        A list of properties for the managed objects
+    """
+    propertyCollector = si.content.propertyCollector
+    """
+    Create object specification to define the starting point of
+    inventory navigation
+    """
+    objSpec = vmodl.query.PropertyCollector.ObjectSpec()
+    objSpec.obj = viewRef
+    objSpec.skip = True
+
+    # Create a traversal specification to identify the path for collection
+    traversalSpec = vmodl.query.PropertyCollector.TraversalSpec()
+    traversalSpec.name = 'traverseEntities'
+    traversalSpec.path = 'view'
+    traversalSpec.skip = False
+    traversalSpec.type = viewRef.__class__
+    objSpec.selectSet = [traversalSpec]
+
+    # Identify the properties to the retrieved
+    propertySpec = vmodl.query.PropertyCollector.PropertySpec()
+    propertySpec.type = objType
+
+    if not pathSet:
+        propertySpec.all = True
+
+    propertySpec.pathSet = pathSet
+
+    # Add the object and property specification to the
+    # property filter specification
+    filterSpec = vmodl.query.PropertyCollector.FilterSpec()
+    filterSpec.objectSet = [objSpec]
+    filterSpec.propSet = [propertySpec]
+
+    # Retrieve properties
+    props = propertyCollector.RetrieveContents([filterSpec])
+
+    data = []
+    for obj in props:
+        properties = {}
+        for prop in obj.propSet:
+            properties[prop.name] = prop.val
+
+        if includeMors:
+            properties['obj'] = obj.obj
+
+        data.append(properties)
+    return data
+
+
+def GetContainerView(si, objType, container=None):
+    """
+    Get a vSphere Container View reference to all objects of type 'objType'
+    It is up to the caller to take care of destroying the View when no longer
+    needed.
+    Args:
+        objType (list): A list of managed object types
+    Returns:
+        A container view ref to the discovered managed objects
+    """
+    if not container:
+        container = si.content.rootFolder
+        viewRef = si.content.viewManager.CreateContainerView(
+            container=container,
+            type=objType,
+            recursive=True
+        )
+    return viewRef
+
+
+def endit():
+    """
+    time :  how long it took for this script to run.
+    :return:
+    """
+    end = timeit.default_timer()
+    total = end - START
+    print("Total time taken : {0} seconds.".format(total))
+
+
+def GetLockModeAndOwnersList(output):
+    """
+    Parse the output of 'vmkfstools -D' into 'lockMode' and
+    list of 'owners'
+    """
+    owners = list()
+    lockMode = int(output[output.find("mode") + 5])
+    if lockMode == 0:
+        return lockMode, owners
+    elif lockMode == 1:
+        owners.append(output[output.find("owner"):].split()[1])
+        return lockMode, owners
+    elif lockMode == 2 or lockMode == 3:
+        for line in output.split('\n'):
+            if ("RO Owner" in line) or ("MW Owner" in line):
+                owners.append(line.split()[-1])
+        return lockMode, owners
+    return None, None
+
+
+def ConvertToMACAddress(macAddress):
+    """
+        Format the MAC address from the Owner field in 'vmkfstools -D'
+        output to standard MAC address format
+    """
+    n = 2
+    formattedMacAddress = ""
+    for i in range(0, len(macAddress), n):
+        formattedMacAddress = formattedMacAddress + macAddress[i:i + n] + ":"
+    formattedMacAddress = formattedMacAddress[:-1]
+    return formattedMacAddress
+
+
+def GetLockingInfo(absFilePath):
+    """
+    Captures 'vmkfstools -D' output for the file
+    """
+    status, output = subprocess.getstatusoutput("vmkfstools -D " + "\"" \
+                                                + absFilePath + "\"")
+
+    if status:
+        print("Failed to get the lock owners for", absFilePath)
+        print("Reason :", output)
+        sys.exit(0)
+    return output
+
+
+def FindHostNameUsingFDM(fdmBinartPath, lockOwnerMACAddress):
+    lockingHostNames = []
+    status, output = subprocess.getstatusoutput(fdmBinartPath + " hostlist")
+    if status:
+        print("Failed to get host list from Fault Domain Manager")
+    else:
+        try:
+            xmlStartIndex = output.index('<')
+            root = minidom.parseString(output[xmlStartIndex:])
+            lockOwnerLookupLeft = len(lockOwnerMACAddress)
+            hosts = root.getElementsByTagName('host')
+            print("-" * 70)
+            print("Found {0} ESX hosts using Fault Domain Manager.".format(len(hosts)))
+            print("-" * 70)
+
+            for host in hosts:
+                hostName = host.getElementsByTagName('hostName')[0].childNodes[0].data
+                print("Searching on Host {0}".format(hostName))
+                for macAddress in host.getElementsByTagName('mac'):
+                    mac = macAddress.childNodes[0].data
+                    if mac in lockOwnerMACAddress:
+                        print("    MAC Address : {0}".format(mac))
+                        lockingHostNames.append(hostName)
+                        lockOwnerLookupLeft -= 1
+                        break
+                if lockOwnerLookupLeft == 0:
+                    break
+        except:
+            print("Failed to parse XML information from Fault Domain Manager")
+    return lockingHostNames
+
+
+def CheckFirewallRule():
+    """
+    check if httpClient Rule is enabled otherwise we will fail to
+    connect to Virtual Center Server
+    """
+    cmd = "esxcli network firewall ruleset list"
+    status, output = subprocess.getstatusoutput(cmd)
+    if status:
+        print("Failed to check firewall rule information")
+        print("Reason :", output)
+        sys.exit(0)
+    for line in output.split('\n'):
+        rule, value = line.split()
+        if rule == "httpClient":
+            if value == "true":
+                return True
+            else:
+                return False
+    return False
+
+
+def ConnectToVC(vcHostName, vcAdminUser, shaThumbPrint, insecureReq):
+    """
+    Connects to Given Virtual Center Server with given Admin user
+    """
+    if insecureReq:
+        sslContext = ssl.SSLContext(ssl.PROTOCOL_TLSv1)  # Only for gangstars
+        sslContext.verify_mode = ssl.CERT_NONE
+    else:
+        sslContext = ssl._create_default_https_context()
+
+    try:
+        print("Connecting to", vcHostName, "with user", vcAdminUser)
+        si = Connect(host=vcHostName, port=443, user=vcAdminUser,
+                     pwd=getpass(), thumbprint=shaThumbPrint,
+                     sslContext=sslContext)
+        atexit.register(Disconnect, si)
+    except Exception as error:
+        print("Could not connect to host : {0}".format(error))
+        sys.exit(0)
+    return si
+
+
+def PrintLockInfo(lockingHostNames,
+                  lockOwnerMACAddress,
+                  lockMode,
+                  exitIfNotFound):
+    if not lockingHostNames or lockingHostNames[0] is None:
+        if exitIfNotFound:
+            print("\nCount not find the host name having mac address",
+                  lockOwnerMACAddress)
+            sys.exit(0)
+    else:
+        print("\n")
+        for name in lockingHostNames:
+            print("Host owning the lock on file is", name + ", lockMode :",
+                  lockingModes[lockMode])
+        if len(lockingHostNames) != len(lockOwnerMACAddress):
+            print("Could not find information about some lock owners")
+        else:
+            sys.exit(0)
+
+
+def GetVMFSVersion(filePath):
+    """
+    Gets VMFS version of datastore containing the file
+    """
+    datastorePath = '/'.join(filePath.split('/')[:4])
+    cmd = "vmkfstools -Ph " + datastorePath
+    status, output = subprocess.getstatusoutput(cmd)
+    if status:
+        print("Failed to check VMFS version information")
+        print("Reason :", output)
+        return
+    vmfsVersionInfo = output.split()[0]
+    if 'VMFS' in vmfsVersionInfo:
+        return int(vmfsVersionInfo[5:].split('.')[0])
+
+
+def FindHostIPUsingVMFSHB(filePath, lockOwnerMACAddress):
+    datastorePath = '/'.join(filePath.split('/')[:4])
+    cmd = "vmkfstools --activehosts " + datastorePath
+    status, output = subprocess.getstatusoutput(cmd)
+    if status:
+        print("Failed to check VMFS version information")
+        print("Reason :", output)
+        return
+    lockOwnerLookupLeft = len(lockOwnerMACAddress)
+    lockingHostNames = []
+    for line in output.splitlines()[2:]:
+        macInfo, ipInfo = line.split(',')
+        if macInfo.split()[-1] in lockOwnerMACAddress:
+            lockingHostNames.append(ipInfo.split()[-1])
+            lockOwnerLookupLeft -= 1
+        if lockOwnerLookupLeft == 0:
+            break
+    return lockingHostNames
+
+
+def main():
+    FDM_BINARY_PATH = "/opt/vmware/fdm/fdm/prettyPrint.sh"
+
+    parser = argparse.ArgumentParser(
+        description='VMFS file lock owner information',
+        epilog="And that's all we have for now !!!")
+
+    parser.add_argument('-p', '--filepath', action='store',
+                        dest="filePath", metavar="filepath", required=True,
+                        help="Path to the file on VMFS datastore")
+    parser.add_argument('-v', '--vchostname', action='store',
+                        dest="vcHostName", metavar="vcserverip",
+                        help="Name/IP address of the Virtual Center Server")
+    parser.add_argument('-u', '--vcadminuser', action='store',
+                        dest="vcAdminUser", metavar="username",
+                        help="Admin user name of the Virtual Center Server")
+    parser.add_argument('-t', '--thumbrint', action='store',
+                        dest="shaThumbprint", metavar="SHA thumbprint",
+                        help="SHA-1 thumbprint required for Connecting to \
+                              Virtual Center Server")
+    parser.add_argument('-i', '--insecure',
+                        required=False,
+                        action='store_true',
+                        default=False,
+                        help='Make insecure request while connecting')
+
+    args = parser.parse_args()
+
+    try:
+        absFilePath = os.path.abspath(args.filePath)
+        if not os.path.exists(absFilePath):
+            print("Could not find file", args.filePath, "or", absFilePath)
+            sys.exit(0)
+    except Exception as error:
+        print("Could not find file", args.filePath, ":", error)
+        sys.exit(0)
+
+    atexit.register(endit)
+
+    fileName = "\"" + os.path.basename(absFilePath) + "\""
+
+    print("Looking for lock owners on", fileName)
+    lockingInfo = GetLockingInfo(absFilePath)
+    lockMode, owners = GetLockModeAndOwnersList(lockingInfo)
+    lockOwnerMACAddress = list()
+
+    if lockMode is None:
+        print("Failed to find the locking mode for", fileName)
+        sys.exit(0)
+
+    if lockMode == 0:
+        print(fileName, "is not locked by any ESX host and is Free")
+        sys.exit(0)
+    elif lockMode == 1 or lockMode == 2 or lockMode == 3:
+        for owner in owners:
+            lockOwnerMACAddress.append(
+                ConvertToMACAddress(owner.split('-')[3]))
+        print(fileName, "is locked in", lockingModes[lockMode],
+              "mode by host having mac address", lockOwnerMACAddress)
+    else:
+        print("Invalid Lock mode ", lockMode,
+              "Don't know what to do. Quitting...")
+
+    lockingHostNames = list()
+
+    # Check if datastore is vmfs-6
+    vmfsVersion = GetVMFSVersion(absFilePath)
+    if vmfsVersion is not None and vmfsVersion >= 6:
+        print("Trying to use information from VMFS Heartbeat")
+        lockingHostNames = FindHostIPUsingVMFSHB(absFilePath,
+                                                 lockOwnerMACAddress)
+        PrintLockInfo(lockingHostNames, lockOwnerMACAddress, lockMode, False)
+
+    # Try to fetch info from Fault Domain Manager if configured
+    if os.path.exists(FDM_BINARY_PATH):
+        print("Trying to make use of Fault Domain Manager")
+        lockingHostNames = FindHostNameUsingFDM(FDM_BINARY_PATH,
+                                                lockOwnerMACAddress)
+        PrintLockInfo(lockingHostNames, lockOwnerMACAddress, lockMode, False)
+        print("Could not get information from Fault domain manager")
+
+    # Check if the firewall rule is enabled to connect to VC
+    firewallEnabled = CheckFirewallRule()
+
+    if not firewallEnabled:
+        print("Please configure ESXi firewall to connect to Virtual Center")
+        sys.exit(0)
+
+    if args.vcHostName is None:
+        args.vcHostName = input("Please provide Host Name or IP address " +
+                                "for Virtual Center Server : ").strip()
+
+    if args.vcAdminUser is None:
+        user = input("Admin user for Virtual Center " +
+                     args.vcHostName +
+                     " [default : administrator@vsphere.local] : ")
+        if user is "":
+            args.vcAdminUser = "administrator@vsphere.local"
+        else:
+            args.vcAdminUser = user.strip()
+
+    si = ConnectToVC(args.vcHostName, args.vcAdminUser,
+                     args.shaThumbprint, args.insecure)
+    hostProperties = ["name", "config.network.pnic"]
+    view = GetContainerView(si, objType=[vim.HostSystem])
+    hostsData = CollectHostProperties(si, viewRef=view,
+                                      objType=vim.HostSystem,
+                                      pathSet=hostProperties,
+                                      includeMors=True)
+    lockOwnerLookupLeft = len(lockOwnerMACAddress)
+
+    print("-" * 70)
+    print("Found {0} ESX hosts from Virtual Center Server.".format(
+          len(hostsData)))
+    print("-" * 70)
+    for host in hostsData:
+        hostName = host["name"]
+        print("Searching on Host {}".format(hostName))
+        try:
+            for nic in host["config.network.pnic"]:
+                if nic.mac in lockOwnerMACAddress:
+                    print("    MAC Address : {0}".format(nic.mac))
+                    lockingHostNames.append(hostName)
+                    lockOwnerLookupLeft -= 1
+                    break
+            if lockOwnerLookupLeft == 0:
+                break
+        except Exception as e:
+            print("Skipping host {}: {}".format(hostName, e))
+    PrintLockInfo(lockingHostNames, lockOwnerMACAddress, lockMode, True)
+
+
+# Start program
+if __name__ == "__main__":
+    print(SCRIPT_NAME + " Version " + SCRIPT_VERSION)
+    main()

@@ -1,0 +1,24 @@
+/***********************************************************
+ * Copyright 2016 VMware, Inc.  All rights reserved.
+ * VMware Confidential
+ ***********************************************************/
+
+{
+   "operations" :
+   {
+      "start" :
+      [
+      ],
+      "apply_host_profile" :
+      [
+         "boot hostprofile apply --earlybootinit -p hostsFile.hostsFile.EtcHostsProfile"
+      ]
+   }
+   ,
+   "metadata" :
+   {
+      "version"  : 2,
+      "requires" : ["network configuration"],
+      "provides" : ["etc hosts"]
+   }
+}

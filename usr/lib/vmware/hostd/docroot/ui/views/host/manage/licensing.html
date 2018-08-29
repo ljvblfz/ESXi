@@ -1,0 +1,57 @@
+<div ng-if="tabs.licensing.loaded || hostManageSystemTabs.tabs[getSelectedTab()].state === tabs.licensing.state"
+   ng-controller="HostManageLicensingController"
+   class="esx-tertiary-tab-content"
+   style="padding-top: 10px;">
+
+   <div ng-show="!loaded" class="loading"></div>
+
+   <div ng-if="loaded"
+      vui-action-bar="actionBarOptions"
+      style="padding-top: 5px; padding-bottom: 15px;"></div>
+
+   <div ng-if="loaded && currentLicense" class="row header-area no-margin key-information">
+      <div class="col-sm-12 col-lg-12 info-block no-padding">
+         <div class="col-sm-1 col-lg-2 no-padding">
+            <img src="images/host/license96.png"
+               style="margin: 5px 0 0 25px; width: 75px;"
+               alt="{{currentLicense.name}}"/>
+         </div>
+         <div class="key-information col-sm-10 col-lg-10">
+            <div class="row">
+               <div class="col-sm-12 title no-padding">
+                  <span class="object-title" ng-bind="currentLicense.name"></span>
+               </div>
+            </div>
+            <form class="form-horizontal">
+               <div class="form-group">
+                  <span
+                     class="col-sm-3 col-lg-3 control-label esx-label no-padding">
+                     {{'host.manage.system.licensing.key'|translate}}:</span>
+                  <div class="col-sm-9 col-lg-9 no-padding">
+                     <p class="form-control-static">{{currentLicense.licenseKey}}</p>
+                  </div>
+               </div>
+               <div class="form-group">
+                  <span
+                     class="col-sm-3 col-lg-3 control-label esx-label no-padding">
+                     {{'host.manage.system.licensing.expiration'|translate}}:</span>
+                  <div class="col-sm-9 col-lg-9 no-padding">
+                     <p class="form-control-static">{{currentLicense.expirationDate}}</p>
+                  </div>
+               </div>
+               <div class="form-group">
+                  <span
+                     class="col-sm-3 col-lg-3 control-label esx-label no-padding">
+                     {{'host.manage.system.licensing.features'|translate}}:</span>
+                  <div class="col-sm-9 col-lg-9 no-padding">
+                     <ul style="list-style: none; margin: 0 0 0 8px;">
+                        <li ng-repeat="feature in currentLicense.features"
+                           style="line-height: inherit; margin-bottom: 5px;">{{feature.value}}</li>
+                     </ul>
+                  </div>
+               </div>
+            </form>
+         </div>
+      </div>
+   </div>
+</div>

@@ -1,0 +1,28 @@
+/***********************************************************
+ * Copyright 2015 VMware, Inc.  All rights reserved.
+ * VMware Confidential
+ ***********************************************************/
+
+/*
+ * Do nothing but provide 'vsan early'; the VSAN VIB will provide 'vsan early'
+ * with a functional jumpstart script (see vsan-early.json).
+ *
+ * This is done to allow restore-advanced-configuration to require 'vsan early'
+ * and still fulfill it's requirements when the VSAN VIB is not installed.
+ *
+ */
+{
+   "operations" :
+   {
+      "start" : [],
+      "apply_host_profile" : []
+   }
+   ,
+   "metadata" :
+   {
+      "version"  : 2,
+      "requires" : [],
+      "provides" : ["vsan early"]
+   }
+}
+

@@ -1,0 +1,86 @@
+#!/bin/sh
+# chkconfig: off 17 83
+
+# variables
+export PATH=/bin:/sbin
+
+OSFSD=/usr/lib/vmware/osfs/bin/osfsd
+OSFSD_TAG=osfsd
+OSFSD_SCHED_PARAM="++group=host/vim/vmvisor/osfsd"
+OSFSD_MEM_RES="host/vim/vmvisor/osfsd 101"
+OSFSD_PARAM=""
+
+
+start() {
+   if [ -z "$(pidof -xs "${OSFSD}")" ] ; then
+
+      /usr/lib/vmware/rp/bin/configRP increaseRPMemMaxSize ${OSFSD_MEM_RES}
+      if [ $? -ne 0 ]; then
+	  echo "Failed to set memory reservation for osfsd"
+	  exit 1
+      fi
+
+      /sbin/watchdog.sh ${OSFSD_SCHED_PARAM} -d -s "${OSFSD_TAG}" "${OSFSD}" "${OSFSD_PARAM}" >/dev/null 2>&1
+      echo "osfsd started"
+   else
+      echo "osfsd already running"
+      exit 0
+   fi
+}
+
+stop() {
+   if [ -n "$(pidof -xs "${OSFSD}")" ] ; then
+      # This only stops the watchdog process.
+      /sbin/watchdog.sh -k "${OSFSD_TAG}"
+
+      OSFSD_PID="$(pidof -s "${OSFSD}")"
+      if [ -n "${OSFSD_PID}" ]; then 
+          kill -9 ${OSFSD_PID}
+          echo "Waiting for process to terminate..."
+          while kill -0 ${OSFSD_PID} > /dev/null 2>&1; do
+              sleep 0;
+          done
+      fi
+
+      /usr/lib/vmware/rp/bin/configRP decreaseRPMemMaxSizeWithRetry ${OSFSD_MEM_RES} 2
+
+      if [ $? -ne 0 ]; then
+         echo "Failed to clear memory reservation for osfsd"
+         exit 1
+      fi
+
+      echo "osfsd stopped"
+   else
+      echo "osfsd is not running"
+   fi
+}
+
+#
+# main
+#
+case "${1}" in
+   "start")
+      start
+   ;;
+   "stop")
+      stop
+   ;;
+   "status")
+      if [ -n "$(pidof -xs "${OSFSD}")" ] ; then
+         echo "osfsd is running"
+         exit 0
+      else
+         echo "osfsd is not running"
+         exit 3
+      fi
+   ;;
+   "restart")
+      stop
+      start
+   ;;
+   *)
+      echo "Usage: $(basename ${0}) {start|stop|status|restart}"
+      exit 1
+   ;;
+esac
+

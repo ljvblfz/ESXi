@@ -1,0 +1,28 @@
+<!-- USB devices -->
+<div
+   vui-stack-block="hardwareStackView.usbDevicesBlock[_index]"
+   ng-repeat="(_index, usbDevice) in usbDevices"
+   ng-class="{
+      'stack-new': wizardOptions.data.usbDevices[_index]._operation === 'add' &&
+         wizardOptions.data.Type === 'edit',
+      'stack-warning': usbDeviceInvalid
+
+   }">
+
+   <!-- Icon -->
+   <span style="margin-left: 10px;"
+      vui-sb-label
+      vui-sb-icon-class="icon-stackview-usb-device-wizard">{{usbDevice.title}}</span>
+
+   <!-- content collapsed-->
+   <div vui-sb-content>
+      <label class="label-508" title="{{usbDevice.title}}">
+         <div class="inline stack-dropdown"
+            vui-dropdown="usbDevice.Device"></div>
+      </label>
+      <span class="esx-icon-close vui-icon-info-inline esx-stack-valign-tall esx-close-right"
+          ng-show="wizardOptions.data.general.state !== 'suspended'"
+          ng-click="removeUSBDevice(_index)"></span>
+   </div>
+</div>
+

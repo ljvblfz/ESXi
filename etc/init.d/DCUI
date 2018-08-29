@@ -1,0 +1,101 @@
+#!/bin/sh
+#
+# Copyright 2009 VMware, Inc.  All rights reserved.
+#
+# DCUI:
+#   Enable/Disable the display of the DCUI login
+#
+# chkconfig: 345 10 90
+# description: Enables / disables login from DCUI (enabled by default)
+#
+#
+
+export PATH=/bin:/sbin
+
+DCUI_MAGIC_FILE="/var/run/vmware/show-dcui-login"
+ADDVOB="/usr/lib/vmware/vob/bin/addvob"
+
+#
+# Log action
+#
+DCUI_log() {
+   echo "$1"
+   logger DCUI "$1"
+}
+
+#
+# Allow dcui logins
+#
+EnableDCUILogin() {
+   DCUI_log "Enabling DCUI login: runlevel = ${runlevel}"
+
+   touch "${DCUI_MAGIC_FILE}"
+   pkill -USR1 dcui
+
+   ${ADDVOB} 'vob.user.dcui.enabled'
+
+   return 0
+}
+
+#
+# Dissallow dcui logins
+#
+DisableDCUILogin() {
+   DCUI_log "Disabling DCUI logins"
+
+   rm -f "${DCUI_MAGIC_FILE}"
+   pkill -USR1 dcui
+
+   ${ADDVOB} 'vob.user.dcui.disabled'
+
+   return 0
+}
+
+#
+# Respawn dcui
+#
+RespawnDCUI() {
+   DCUI_log "Respawning DCUI"
+
+   pkill -USR2 dcui
+
+   return 0
+}
+
+#
+# Process comand line options
+#
+case "${1}" in
+   start)
+      EnableDCUILogin
+   ;;
+
+   stop)
+      DisableDCUILogin
+   ;;
+
+   status)
+      if [ -f "${DCUI_MAGIC_FILE}" ] ; then
+         echo "DCUI login is enabled"
+         exit 0
+      else
+         echo "DCUI login is disabled"
+         exit 3
+      fi
+   ;;
+
+   restart)
+      DisableDCUILogin
+      EnableDCUILogin
+   ;;
+
+   respawn)
+      RespawnDCUI
+   ;;
+
+   *)
+      echo "Usage: $(basename "$0") {start|stop|status|restart}"
+      exit 1
+   ;;
+esac
+

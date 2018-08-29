@@ -1,0 +1,59 @@
+<div ng-controller="HostManageTimeConfigurationDialogController" class="content-padding time-config-dialog">
+   <p>{{'host.manage.system.timeAndDate.dialog.header'|translate}}</p>
+   <div class="radio">
+      <label>
+         <input type="radio" name="optionsRadios" id="optionsRadios1" ng-model="manually" ng-value="true"/>
+         {{'host.manage.system.timeAndDate.dialog.manual'|translate}}
+      </label>
+      <div class="row row-spacer-top no-margin">
+         <div class="col-sm-4">
+            <div class="input-group date" style="padding-left: 3px;" id="ntpManualDateTime">
+               <input ng-disabled="!manually" type="text" class="form-control" title="{{'host.manage.system.timeAndDate.dialog.manual'|translate}}"/>
+               <span ng-disabled="!manually" class="input-group-addon esx-input-group-addon">
+                  <span class="esx-icon-calendar" ng-click="openDateTimePicker();"></span>
+               </span>
+            </div>
+         </div>
+      </div>
+   </div>
+   <div class="radio">
+      <label>
+         <input type="radio" name="optionsRadios" id="optionsRadios2" ng-model="manually" ng-value="false"/>
+         {{'host.manage.system.timeAndDate.dialog.ntp'|translate}}
+      </label>
+      <div class="row-spacer-top time-config-dialog-stack vui-stack-view">
+         <!-- Model stack block -->
+         <div class="stack-view-table">
+            <div class="stack-view-row">
+               <div class="stack-view-cell">
+                  <span>{{'host.manage.system.timeAndDate.dialog.ntpPolicy'|translate}}</span>
+               </div>
+               <div class="stack-view-cell form-group">
+                  <div class="row row-spacer">
+                     <div class="col-sm-12">
+                        <label style="padding-left: 0px;" title="{{'host.manage.system.timeAndDate.dialog.ntpPolicy'|translate}}"><div vui-dropdown="ntpPolicyOptions"></div></label>
+                     </div>
+                  </div>
+               </div>
+            </div>
+            <div class="stack-view-row">
+               <div class="stack-view-cell">
+                  <span>{{'host.manage.system.timeAndDate.dialog.ntpServers'|translate}}</span>
+               </div>
+               <div class="stack-view-cell">
+                  <div class="row row-spacer">
+                     <div class="col-sm-12">
+                        <textarea ng-disabled="manually" class="form-control" rows="2" ng-model="ntpServers" title="{{'host.manage.system.timeAndDate.dialog.ntpServers'|translate}}"></textarea>
+                     </div>
+                  </div>
+                  <div class="row">
+                     <div class="col-sm-12">
+                        <span>{{'host.manage.system.timeAndDate.dialog.ntpServersLabel'|translate}}</span>
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div>
+   </div>
+</div>

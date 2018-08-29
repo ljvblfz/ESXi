@@ -1,0 +1,59 @@
+<div ng-controller="VMWizardStorageController" class="content-padding vm-wizard">
+   <div ng-if="loading" ng-include src="'views/loading-dialog.html'"></div>
+
+   <div ng-show="!loading">
+      <div ng-hide="extracting || errorMessage">
+         <div class="row">
+            <div class="col-sm-12 row-spacer">
+               <div class="vui-secondary-tabs">
+                  <div class="btn-group">
+                     <button class="btn btn-default"
+                        ng-click="wizardOptions.data.storageType = 'standard'"
+                        ng-class="{active: wizardOptions.data.storageType === 'standard'}">
+                        {{'vm.wizard.storage.tabs.standard' | translate}}
+                        </button>
+                     <button class="btn btn-default"
+                        ng-click="wizardOptions.data.storageType = 'pmem'"
+                        ng-class="{
+                           active: wizardOptions.data.storageType === 'pmem',
+                           disabled: wizardOptions.data.pmemDatastore === null ||
+                              wizardOptions.data.general.VMHardwareVersion < 14}">
+                        {{'vm.wizard.storage.tabs.pmem' | translate}}
+                     </button>
+                  </div>
+               </div>
+            </div>
+            <div class="col-sm-12 row-spacer" style="height: 60px;">
+               <div style="margin: 10px;">
+                  <span ng-if="wizardOptions.data.storageType === 'standard'">
+                     {{'vm.wizard.storage.desc' | translate}}
+                  </span>
+                  <div ng-if="wizardOptions.data.storageType === 'pmem'">
+                     <p>{{'vm.wizard.storage.pmemDesc.warning' | translate}}</p>
+                     <p>
+                        <strong>
+                           {{'vm.wizard.storage.pmemDesc.action' | translate}}
+                        </strong>
+                     </p>
+                  </div>
+               </div>
+            </div>
+            <div class="col-sm-12 wizard-datastore-fixed-height">
+               <div vui-datagrid="vmStorage" id="vmStorageGrid"></div>
+            </div>
+         </div>
+      </div>
+
+      <div ng-show="extracting" style="text-align: center;">
+         <img  src="images/tiny_loader_transparent_bg.gif" alt="{{'root.loading'|translate}}" style="margin: 180px 0 0 0;"/><br />
+         <span ng-bind="loadingMessage"></span>
+      </div>
+
+      <div ng-show="errorMessage !== ''" class="row no-margin row-spacer">
+         <div class="col-sm-12 no-padding" style="padding: 20px;">
+            <img src="images/error48.png" alt="{{'notification.type.error'|translate}}" style="float: left;" />
+            <p style="margin-left: 70px;">{{errorMessage}}</p>
+         </div>
+      </div>
+   </div>
+</div>

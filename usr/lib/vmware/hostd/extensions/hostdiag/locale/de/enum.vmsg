@@ -1,0 +1,153 @@
+# en_US resources
+signature="sIgNaTuRe"
+
+# vSphere Replication enums
+hbr.primary.ReasonForDeltaAbort.fileTransfer.label                = "Dateiübermittlung fehlgeschlagen"
+hbr.primary.ReasonForDeltaAbort.fileTransfer.summary              = "Die Konfigurationsdateien konnten nicht übermittelt werden."
+hbr.primary.ReasonForDeltaAbort.filter.label                      = "Filter fehlgeschlagen"
+hbr.primary.ReasonForDeltaAbort.filter.summary                    = "Der VR-Filtervorgang ist fehlgeschlagen."
+hbr.primary.ReasonForDeltaAbort.quiesceApps.label                 = "Stilllegen der Anwendung fehlgeschlagen"
+hbr.primary.ReasonForDeltaAbort.quiesceApps.summary               = "Das Stilllegen der Anwendung ist im Gastbetriebssystem fehlgeschlagen."
+hbr.primary.ReasonForDeltaAbort.quiesceFS.label                   = "Stilllegen des Dateisystems fehlgeschlagen"
+hbr.primary.ReasonForDeltaAbort.quiesceFS.summary                 = "Das Stilllegen des Dateisystems ist im Gastbetriebssystem fehlgeschlagen."
+hbr.primary.ReasonForDeltaAbort.paused.label                      = "Angehalten durch Benutzer"
+hbr.primary.ReasonForDeltaAbort.paused.summary                    = "Der Benutzer hat die Replizierung angehalten."
+hbr.primary.ReasonForDeltaAbort.offline.label                     = "Virtuelle Maschine ausgeschaltet"
+hbr.primary.ReasonForDeltaAbort.offline.summary                   = "Die virtuelle Maschine wird ausgeschaltet."
+hbr.primary.ReasonForDeltaAbort.diskNeedsSync.label               = "Festplatte muss synchronisiert werden"
+hbr.primary.ReasonForDeltaAbort.diskNeedsSync.summary             = "Die Festplatte muss vollständig neu synchronisiert werden."
+hbr.primary.ReasonForDeltaAbort.userAbort.label                   = "Abbruch durch Benutzer"
+hbr.primary.ReasonForDeltaAbort.userAbort.summary                 = "Der Benutzer hat die Replizierung abgebrochen."
+hbr.primary.ReasonForDeltaAbort.quiesceUncommitted.label          = "Unvollständige Stilllegung"
+hbr.primary.ReasonForDeltaAbort.quiesceUncommitted.summary        = "Der Stilllegungsvorgang konnte nicht abgeschlossen werden."
+hbr.primary.ReasonForDeltaAbort.configurationChanged.label        = "Konfiguration geändert"
+hbr.primary.ReasonForDeltaAbort.configurationChanged.summary      = "Während der Replizierung wurde die Konfiguration der virtuellen Maschine geändert."
+hbr.primary.ReasonForDeltaAbort.serverAborted.label               = "Server abgebrochen."
+hbr.primary.ReasonForDeltaAbort.serverAborted.summary             = "Instanz wurde vom VR-Server abgebrochen."
+hbr.primary.ReasonForDeltaAbort.diskSetMismatch.label             = "Nicht übereinstimmender Festplattensatz"
+hbr.primary.ReasonForDeltaAbort.diskSetMismatch.summary           = "Der Satz der Festplatten, die auf dem VR-Server konfiguriert sind, stimmt nicht mit den replizierten Festplatten überein."
+#
+hbr.primary.ReasonForNoServerConnection.noNetwork.label           = "Netzwerk"
+hbr.primary.ReasonForNoServerConnection.noNetwork.summary         = "Kein Netzwerk."
+hbr.primary.ReasonForNoServerConnection.notResponding.label       = "Keine Antwort"
+hbr.primary.ReasonForNoServerConnection.notResponding.summary     = "VR-Server antwortet nicht."
+hbr.primary.ReasonForNoServerConnection.protocolMismatch.label    = "Protokolle stimmen nicht überein"
+hbr.primary.ReasonForNoServerConnection.protocolMismatch.summary  = "Inkompatible VR-Serverversion."
+hbr.primary.ReasonForNoServerConnection.noMemory.label            = "Kein Arbeitsspeicher"
+hbr.primary.ReasonForNoServerConnection.noMemory.summary          = "Kein Arbeitsspeicher für Kernelmodul"
+hbr.primary.ReasonForNoServerConnection.diskSizeMismatch.label    = "Nicht übereinstimmende Festplattengrößen"
+hbr.primary.ReasonForNoServerConnection.diskSizeMismatch.summary  = "Die Größe der Festplatten der primären virtuellen Maschine und des VR-Servers stimmt nicht überein"
+hbr.primary.ReasonForNoServerConnection.unknown.label             = "Unbekannt"
+hbr.primary.ReasonForNoServerConnection.unknown.summary           = "Unbekannt."
+#
+hbr.primary.ReasonForNoServerProgress.noGroupOnServer.label       = "VM nicht konfiguriert auf Server"
+hbr.primary.ReasonForNoServerProgress.noGroupOnServer.summary     = "Diese VM ist nicht auf dem VR-Server konfiguriert."
+hbr.primary.ReasonForNoServerProgress.diskSetMismatch.label       = "Nicht übereinstimmender Festplattensatz"
+hbr.primary.ReasonForNoServerProgress.diskSetMismatch.summary     = "Der Satz der replizierten Festplatten und der Satz der konfigurierten Festplatten auf dem Server stimmen nicht überein."
+hbr.primary.ReasonForNoServerProgress.unknown.label               = "Unbekannt"
+hbr.primary.ReasonForNoServerProgress.unknown.summary             = "Unbekannt."
+#
+hbr.primary.ReasonForPausedReplication.diskAdded.label            = "Festplatte zur VM hinzugefügt"
+hbr.primary.ReasonForPausedReplication.diskAdded.summary          = "Eine Festplatte wurde der virtuellen Maschine hinzugefügt."
+#
+hbr.primary.ReasonForAppQuiesceFailure.diskUUIDNotEnabled.label   = "Festplatten-UUID ist nicht aktiviert"
+hbr.primary.ReasonForAppQuiesceFailure.diskUUIDNotEnabled.summary = "In der Konfiguration der virtuellen Maschinen ist die Festplatten-UUID nicht aktiviert."
+hbr.primary.ReasonForAppQuiesceFailure.hasIDEDisks.label          = "Die virtuelle Maschine verfügt über IDE- oder SATA-Festplatten"
+hbr.primary.ReasonForAppQuiesceFailure.hasIDEDisks.summary        = "Die Anwendungsstilllegung wird für virtuelle Maschinen mit IDE- oder SATA-Festplatten nicht unterstützt."
+hbr.primary.ReasonForAppQuiesceFailure.hasIndependentDisks.label  = "Die virtuelle Maschine verfügt über unabhängige Festplatten"
+hbr.primary.ReasonForAppQuiesceFailure.hasIndependentDisks.summary = "Die Anwendungsstilllegung wird für virtuelle Maschinen mit unabhängigen Festplatten nicht unterstützt."
+hbr.primary.ReasonForAppQuiesceFailure.notEnoughFreeSlots.label   = "Nicht genügend freie SCSI-Slots"
+hbr.primary.ReasonForAppQuiesceFailure.notEnoughFreeSlots.summary = "Die virtuelle Maschine verfügt nicht über genügend freie SCSI-Slots zum Durchführen der Anwendungsstilllegung."
+hbr.primary.ReasonForAppQuiesceFailure.guestConfigIssue.label     = "Nicht unterstützte Gastkonfiguration wie beispielsweise dynamische Festplatten"
+hbr.primary.ReasonForAppQuiesceFailure.guestConfigIssue.summary   = "Die Anwendungsstilllegung wird für einige Gastkonfigurationen (z. B. dynamische Festplatten) nicht unterstützt."
+# vSphere replication enums end here
+
+# guest operation enums
+com.vmware.vc.guestOp.ValidateCredentialsInGuest.label = "Anmeldedaten validieren"
+com.vmware.vc.guestOp.ValidateCredentialsInGuest.summary = "Benutzeranmeldedaten im Gastbetriebssystem validieren>"
+#
+com.vmware.vc.guestOp.AcquireCredentialsInGuest.label = "Anmeldedaten abrufen "
+com.vmware.vc.guestOp.AcquireCredentialsInGuest.summary = "Benutzeranmeldedaten im Gastbetriebssystem abrufen>"
+#
+com.vmware.vc.guestOp.ReleaseCredentialsInGuest.label = "Anmeldedaten freigeben "
+com.vmware.vc.guestOp.ReleaseCredentialsInGuest.summary = "Benutzeranmeldedaten im Gastbetriebssystem freigeben>"
+#
+com.vmware.vc.guestOp.StartProgramInGuest.label = "Programm starten"
+com.vmware.vc.guestOp.StartProgramInGuest.summary = "Startet ein Programm im Gastbetriebssystem."
+#
+com.vmware.vc.guestOp.ListProcessesInGuest.label = "Prozesse auflisten"
+com.vmware.vc.guestOp.ListProcessesInGuest.summary = "Listet die Prozesse des Gastbetriebssystems auf."
+#
+com.vmware.vc.guestOp.TerminateProcessInGuest.label = "Prozess beenden"
+com.vmware.vc.guestOp.TerminateProcessInGuest.summary = "Beendet einen Prozess des Gastbetriebssystems."
+#
+com.vmware.vc.guestOp.ReadEnvironmentVariableInGuest.label = "Umgebungsvariablen lesen"
+com.vmware.vc.guestOp.ReadEnvironmentVariableInGuest.summary = "Liest die Umgebungsvariablen des Gastbetriebssystems."
+#
+com.vmware.vc.guestOp.MakeDirectoryInGuest.label = "Verzeichnis erstellen"
+com.vmware.vc.guestOp.MakeDirectoryInGuest.summary = "Erstellt ein Verzeichnis im Gastbetriebssystem."
+#
+com.vmware.vc.guestOp.DeleteFileInGuest.label = "Datei löschen"
+com.vmware.vc.guestOp.DeleteFileInGuest.summary = "Löscht eine Datei im Gastbetriebssystem."
+#
+com.vmware.vc.guestOp.DeleteDirectoryInGuest.label = "Verzeichnis löschen"
+com.vmware.vc.guestOp.DeleteDirectoryInGuest.summary = "Löscht ein Verzeichnis im Gastbetriebssystem."
+#
+com.vmware.vc.guestOp.MoveDirectoryInGuest.label = "Verzeichnis verschieben"
+com.vmware.vc.guestOp.MoveDirectoryInGuest.summary = "Verschiebt ein Verzeichnis im Gastbetriebssystem."
+#
+com.vmware.vc.guestOp.MoveFileInGuest.label = "Datei verschieben"
+com.vmware.vc.guestOp.MoveFileInGuest.summary = "Verschiebt eine Datei im Gastbetriebssystem."
+#
+com.vmware.vc.guestOp.CreateTemporaryFileInGuest.label = "Temporäre Datei erstellen"
+com.vmware.vc.guestOp.CreateTemporaryFileInGuest.summary = "Erstellt eine temporäre Datei im Gastbetriebssystem."
+#
+com.vmware.vc.guestOp.CreateTemporaryDirectoryInGuest.label = "Temporäres Verzeichnis erstellen"
+com.vmware.vc.guestOp.CreateTemporaryDirectoryInGuest.summary = "Erstellt ein temporäres Verzeichnis im Gastbetriebssystem."
+#
+com.vmware.vc.guestOp.ListFilesInGuest.label = "Dateien auflisten"
+com.vmware.vc.guestOp.ListFilesInGuest.summary = "Listet Dateien des Gastbetriebssystems auf."
+#
+com.vmware.vc.guestOp.ChangeFileAttributesInGuest.label = "Dateiattribute ändern"
+com.vmware.vc.guestOp.ChangeFileAttributesInGuest.summary = "Ändert die Attribute einer Datei im Gastbetriebssystem."
+#
+com.vmware.vc.guestOp.InitiateFileTransferFromGuest.label = "Dateiübermittlung vom Gastbetriebssystem initiieren"
+com.vmware.vc.guestOp.InitiateFileTransferFromGuest.summary = "Initiiert eine Dateiübermittlung vom Gastbetriebssystem aus."
+#
+com.vmware.vc.guestOp.InitiateFileTransferToGuest.label = "Dateiübermittlung an das Gastbetriebssystem initiieren"
+com.vmware.vc.guestOp.InitiateFileTransferToGuest.summary = "Initiiert eine Dateiübermittlung an das Gastbetriebssystem."
+#
+com.vmware.vc.guestOp.AddAlias.label = "Alias hinzufügen"
+com.vmware.vc.guestOp.AddAlias.summary = "Fügt einen Authentifizierungsalias zum Gastbetriebssystem hinzu."
+#
+com.vmware.vc.guestOp.RemoveAlias.label = "Alias entfernen"
+com.vmware.vc.guestOp.RemoveAlias.summary = "Entfernt einen Authentifizierungsalias aus dem Gastbetriebssystem."
+#
+com.vmware.vc.guestOp.RemoveAliasByCert.label = "Alias anhand Zertifikat entfernen"
+com.vmware.vc.guestOp.RemoveAliasByCert.summary = "Entfernt alle Authentifizierungsaliase mit einem Zertifikat aus dem Gastbetriebssystem."
+#
+com.vmware.vc.guestOp.ListGuestAliases.label = "Aliase auflisten"
+com.vmware.vc.guestOp.ListGuestAliases.summary = "Listet die Authentifizierungsaliase des Gastbetriebssystems auf."
+#
+com.vmware.vc.guestOp.ListGuestMappedAliases.label = "Zugeordnete Aliase auflisten"
+com.vmware.vc.guestOp.ListGuestMappedAliases.summary = "Listet die im Gastbetriebssystem zugeordneten Authentifizierungsaliase auf."
+#
+com.vmware.vc.guestOp.CreateRegistryKey.label = "Windows-Registrierungsschlüssel erstellen"
+com.vmware.vc.guestOp.CreateRegistryKey.summary = "Erstellt einen Windows-Registrierungsschlüssel im Gastbetriebssystem."
+#
+com.vmware.vc.guestOp.ListRegistryKeys.label = "Windows-Registrierungsschlüssel auflisten"
+com.vmware.vc.guestOp.ListRegistryKeys.summary = "Listet Windows-Registrierungsschlüssel im Gastbetriebssystem auf."
+#
+com.vmware.vc.guestOp.DeleteRegistryKey.label = "Windows-Registrierungsschlüssel löschen"
+com.vmware.vc.guestOp.DeleteRegistryKey.summary = "Löscht einen Windows-Registrierungsschlüssel im Gastbetriebssystem."
+#
+com.vmware.vc.guestOp.SetRegistryValue.label = "Windows-Registrierungswert festlegen"
+com.vmware.vc.guestOp.SetRegistryValue.summary = "Legt einen Windows-Registrierungswert im Gastbetriebssystem fest."
+#
+com.vmware.vc.guestOp.ListRegistryValues.label = "Windows-Registrierungswerte auflisten"
+com.vmware.vc.guestOp.ListRegistryValues.summary = "Listet Windows-Registrierungswerte im Gastbetriebssystem auf."
+#
+com.vmware.vc.guestOp.DeleteRegistryValue.label = "Windows-Registrierungswert löschen"
+com.vmware.vc.guestOp.DeleteRegistryValue.summary = "Löscht einen Windows-Registrierungswert im Gastbetriebssystem."
+#
+# guest operation enums end here

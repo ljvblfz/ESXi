@@ -1,0 +1,143 @@
+#!/bin/env python
+
+# Copyright 2016 VMware, Inc.
+# All rights reserved. -- VMware Confidential
+
+import esxclipy
+import sys
+import os
+from optparse import OptionParser
+
+def numToHuman(num):
+    for x in ['B', 'K', 'M', 'G', 'T', 'P']:
+        if num < 1024.0:
+            return "%3.1f%s" % (num, x)
+        num /= 1024.0
+
+def usage(e):
+    print("usage: df [-hmklu] [<args>]")
+    sys.exit(e)
+
+def main(argv=None):
+
+    if argv is None:
+        argv = sys.argv
+
+    parser = OptionParser(version="2", add_help_option=False)
+    parser.add_option('-h', dest='human', action="store_true", default=False,
+                      help="Human readable")
+    parser.add_option('-m', dest='megabyte', action="store_true", default=False,
+                      help="Megabytes")
+    parser.add_option('-k', dest='kilobyte', action="store_true", default=False,
+                      help="Kilobytes")
+    parser.add_option('-l', dest='local', action="store_true", default=False,
+                      help="Only show local volumes")
+    parser.add_option('-u', dest='uuid', action="store_true", default=False,
+                      help="Show UUID instead of volume name")
+    parser.add_option('--help', dest='help', action="help", default=False)
+
+    (options, args) = parser.parse_args()
+
+    if len([_f for _f in (options.human, options.megabyte, options.kilobyte) if _f]) > 1:
+        parser.error("Specify only one of -h, -m, -k")
+
+    clipy = esxclipy.EsxcliPy()
+
+    if options.human:
+        sizeStr = "Size"
+    elif options.kilobyte:
+        sizeStr = "1k-blocks"
+    elif options.megabyte:
+        sizeStr = "1M-blocks"
+    else:
+        sizeStr = "Bytes"
+
+    maxSizeW = len(sizeStr)
+    maxUsedW = len("Used")
+    maxAvailW = len("Available")
+    maxFsW = len("Filesystem")
+
+    status, output = clipy.Execute(['storage', 'filesystem', 'list'])
+
+    if status != 0:
+        print("Error when running esxcli, return status was: %d" % status)
+        print(output)
+        sys.exit(status)
+    else:
+        try:
+            o = eval(output)
+        except:
+            print("Output of esxcli failed to parse:")
+            print(output)
+            sys.exit(1)
+
+    argsSet = bool(args)
+    for i in o:
+        if options.local and i["Type"] is "NFS":
+            i["Show"] = False
+            continue
+
+        try:
+            i["Percentage"] = "%3.0f%%" % (100.0 - float(i["Free"])/float(i["Size"])*100.0)
+        except ZeroDivisionError:
+            # shouldn't happen, but has :)
+            i["Percentage"] = "%3.0f%%" % (float(0))
+
+        i["Used"] = i["Size"] - i["Free"]
+        # Unlabelled VFATs have neither names nor symlinks, so use the UUID mount point.
+        mntdir = i["Volume Name"]
+        if options.uuid or mntdir is "":
+            mntdir = i["UUID"]
+        i["Mounted on"] = "/vmfs/volumes/" + mntdir
+        if options.human:
+            i["Size"] = numToHuman(i["Size"])
+            i["Used"] = numToHuman(i["Used"])
+            i["Free"] = numToHuman(i["Free"])
+        if options.kilobyte or options.megabyte:
+            div = 1024 if options.kilobyte else (1024*1024)
+            i["Size"] //= div
+            i["Used"] //= div
+            i["Free"] //= div
+
+        i["Show"] = True
+        if argsSet:
+            i["Show"] = False
+            for arg in args:
+                try:
+                    ast = os.stat(arg)
+                    mst = os.stat(i["Mounted on"])
+                except IOError as e:
+                    print("Unable to statvfs(%s): %s" % (arg, e.errno))
+                    args.remove(arg)
+                    arg = None
+                    continue
+                if ast.st_dev == mst.st_dev:
+                    i["Show"] = True
+                    args.remove(arg)
+                    break
+
+        maxFsW = max(maxFsW, len((i["Type"])))
+        maxSizeW = max(maxSizeW, len(str(i["Size"])))
+        maxUsedW = max(maxUsedW, len(str(i["Used"])))
+        maxAvailW = max(maxAvailW, len(str(i["Free"])))
+
+    print("%*s %*s %*s %*s %s %s" % (maxFsW, "Filesystem",
+                                     maxSizeW, sizeStr,
+                                     maxUsedW, "Used",
+                                     maxAvailW, "Available",
+                                     'Use%', 'Mounted on'))
+
+
+    for i in o:
+        if i["Show"]:
+            print("%-*s %*s %*s %*s %s %s" % (maxFsW, i["Type"],
+                                              maxSizeW, i["Size"],
+                                              maxUsedW, i["Used"],
+                                              maxAvailW, i["Free"],
+                                              i["Percentage"], i["Mounted on"]))
+
+if __name__ == '__main__':
+    try:
+        sys.exit(main(sys.argv))
+    except KeyboardInterrupt:
+        pass

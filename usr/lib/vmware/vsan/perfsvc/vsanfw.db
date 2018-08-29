@@ -1,0 +1,29 @@
+{
+   "PowerEdge R720": {
+       "iDRAC": {"version": "2.40.40.40","url":"https://downloads.dell.com/FOLDER03884232M/1/iDRAC-with-Lifecycle-Controller_Firmware_WH24V_WN64_2.40.40.40_A00.EXE", "sha1": "dbebebf8f5090d83b377d54837e86fe9be006ffc"},
+       "BIOS":  {"version": "2.5.4", "url":"https://downloads.dell.com/FOLDER03539875M/2/BIOS_CR1RR_WN64_2.5.4.EXE", "sha1": "6b92ed7ab8853ec55c9d0e325880a0de0268b404"},
+       "PERC H710 Mini": {"version":"21.3.4", "url": "https://downloads.dell.com/FOLDER04010202M/1/SAS-RAID_Firmware_VJ56N_WN64_21.3.4-0001_A08.EXE", "sha1":"599a101a0930d60eae47154ec0eed36010bbebfd"},
+       "Broadcom NetXtreme II 1 Gb Ethernet BCM57800": {"version":"08.07.25", "url":"https://downloads.dell.com/FOLDER03659331M/4/Network_Firmware_WR5R5_WN64_08.07.25_A00-00_01.EXE", "sha1":"7d3dc4b05da4530c3593f448f5fa7c6a0f27c300"},
+       "Broadcom NetXtreme II 10 Gb Ethernet BCM57800":{"version":"08.07.25", "url":"https://downloads.dell.com/FOLDER03659331M/4/Network_Firmware_WR5R5_WN64_08.07.25_A00-00_01.EXE", "sha1":"7d3dc4b05da4530c3593f448f5fa7c6a0f27c300"}
+   },
+   "PowerEdge R730": {
+       "iDRAC": {"version":"2.40.40.40", "url":"https://downloads.dell.com/FOLDER03884128M/2/iDRAC-with-Lifecycle-Controller_Firmware_2091K_WN64_2.40.40.40_A00.EXE", "sha1":"cf70927274f5dc5674621e232e4f3ac31d8e7d55"},
+       "BIOS":  {"version": "2.4.3", "url":"https://downloads.dell.com/FOLDER04142427M/1/BIOS_6YDCM_WN64_2.4.3.EXE", "sha1": "c6a8c499e7d4b268b0ee69f72a7cad2e746771d9"},
+       "PERC H730 Mini": {"version":"25.5.0.0018","url":"https://downloads.dell.com/FOLDER03944869M/5/SAS-RAID_Firmware_2H45F_WN64_25.5.0.0018_A08.EXE","sha1":"f1e68eb88092eff264f7c573170399118682eeb0"},
+       "Intel(R) Gigabit 4P X540/I350 rND": {"version":"17.5.10","url":"https://downloads.dell.com/FOLDER03657710M/2/Network_Firmware_V6TPJ_WN64_17.5.10_A00.EXE","sha1":"2e6846c3a18599f85b6a89043ab0cf70adf0cbe6"},
+       "Intel(R) Ethernet 10G 4P X540/I350 rNDC": {"version":"17.5.10", "url":"https://downloads.dell.com/FOLDER03657710M/2/Network_Firmware_V6TPJ_WN64_17.5.10_A00.EXE","sha1":"2e6846c3a18599f85b6a89043ab0cf70adf0cbe6"},
+       "SEAGATE ST91000640SS": {"version":"AS0C", "url":"https://downloads.dell.com/FOLDER03932482M/1/SAS-Drive_Firmware_8HF77_WN64_AS0C_A00.EXE","sha1":"d9127d94dd039a6d488cd96fc3a7eca5729752d3"},
+       "TOSHIBA AL13SEB300": {"version": "DE0C", "url": "https://downloads.dell.com/FOLDER02902731M/2/SAS-Drive_Firmware_MCM30_LN_DE11_A00.BIN","sha1": "0bc702339281036cd3200a57895394c15393a435"},
+       "BP13G+EXP 0:1": {"version":"3.31", "url": "https://downloads.dell.com/FOLDER03750179M/2/Firmware_0CKTJ_WN64_3.31_A00-00_01.EXE","sha1": "1fd5c5b5038aed4e3dca2bf098ddf1649475ca26"},
+       "HUC101812CSS204": {"version":"FJ23", "url": "https://downloads.dell.com/FOLDER03723222M/2/SAS-Drive_Firmware_HY2HP_WN64_FJ23_A00.EXE", "sha1": "fe125aaf6ec568c346260cb02618ce1126760499"}
+   },
+   "PowerEdge R730xd": {
+       "iDRAC": {"version":"2.40.40.40", "url":"https://downloads.dell.com/FOLDER03884128M/2/iDRAC-with-Lifecycle-Controller_Firmware_2091K_WN64_2.40.40.40_A00.EXE", "sha1":"cf70927274f5dc5674621e232e4f3ac31d8e7d55"},
+       "PERC H730 Mini": {"version":"25.5.0.0018","url":"https://downloads.dell.com/FOLDER03944869M/5/SAS-RAID_Firmware_2H45F_WN64_25.5.0.0018_A08.EXE","sha1":"f1e68eb88092eff264f7c573170399118682eeb0"},
+       "Intel(R) Gigabit 4P X540/I350 rND": {"version":"17.5.10","url":"https://downloads.dell.com/FOLDER03657710M/2/Network_Firmware_V6TPJ_WN64_17.5.10_A00.EXE","sha1":"2e6846c3a18599f85b6a89043ab0cf70adf0cbe6"},
+       "Intel(R) Ethernet 10G 4P X540/I350 rNDC": {"version":"17.5.10", "url":"https://downloads.dell.com/FOLDER03657710M/2/Network_Firmware_V6TPJ_WN64_17.5.10_A00.EXE","sha1":"2e6846c3a18599f85b6a89043ab0cf70adf0cbe6"},
+       "SEAGATE ST91000640SS": {"version":"AS0C", "url":"https://downloads.dell.com/FOLDER03932482M/1/SAS-Drive_Firmware_8HF77_WN64_AS0C_A00.EXE","sha1":"d9127d94dd039a6d488cd96fc3a7eca5729752d3"},
+       "TOSHIBA AL13SEB300": {"version": "DE0C", "url": "https://downloads.dell.com/FOLDER02902731M/2/SAS-Drive_Firmware_MCM30_LN_DE11_A00.BIN","sha1": "0bc702339281036cd3200a57895394c15393a435"},
+       "BP13G+EXP 0:1": {"version":"3.31", "url": "https://downloads.dell.com/FOLDER03750179M/2/Firmware_0CKTJ_WN64_3.31_A00-00_01.EXE","sha1": "1fd5c5b5038aed4e3dca2bf098ddf1649475ca26"}
+   }
+}

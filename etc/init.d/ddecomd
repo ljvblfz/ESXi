@@ -1,0 +1,83 @@
+#!/bin/sh
+# chkconfig: off 17 83
+
+# variables
+export PATH=/bin:/sbin
+
+DDECOMD=/usr/lib/vmware/vsan/bin/ddecomd
+DDECOMD_TAG=ddecomd
+DDECOMD_RES_POOL=host/vim/vmvisor/$DDECOMD_TAG
+DDECOMD_SCHED_PARAM="++group=$DDECOMD_RES_POOL"
+DDECOMD_MEM_RES="$DDECOMD_TAG 12" # 4 + 8: 4 is the original budget, 8 is for watchdog (PR 1712436)
+DDECOMD_PARAM=""
+
+start() {
+   if [ -z "$(pidof -xs "${DDECOMD}")" ] ; then
+      /usr/lib/vmware/vsan/bin/configVsanRP reserveMemory ${DDECOMD_MEM_RES}
+
+      if [ $? -ne 0 ]; then
+         echo "Failed to set memory reservation for ddecomd"
+         exit 1
+      fi
+
+      /sbin/watchdog.sh "${DDECOMD_SCHED_PARAM}" -d -s "${DDECOMD_TAG}" "${DDECOMD}" "${DDECOMD_PARAM}" >/dev/null 2>&1
+      echo "$DDECOMD_TAG started"
+   else
+      echo "$DDECOMD_TAG already running"
+   fi
+}
+
+stop() {
+   if [ -n "$(pidof -xs "${DDECOMD}")" ] ; then
+      # This only stops the watchdog process.
+      /sbin/watchdog.sh -k "${DDECOMD_TAG}"
+
+      DDECOMD_PID="$(pidof -s "${DDECOMD}")"
+      if [ -n "${DDECOMD_PID}" ]; then
+          kill -15 ${DDECOMD_PID}
+          echo "Waiting for process to terminate..."
+          while kill -0 ${DDECOM_PID} > /dev/null 2>&1; do
+              sleep 0;
+          done
+      fi
+
+
+      echo "$DDECOMD_TAG stopped"
+   else
+      echo "$DDECOMD_TAG is not running"
+   fi
+
+   # if start fails, stop should clean up after itself whether the process
+   # exists or not. This way, we will not leak the reservations.
+   /usr/lib/vmware/vsan/bin/configVsanRP clearMemory ${DDECOMD_TAG}
+}
+
+#
+# main
+#
+case "${1}" in
+   "start")
+      start
+   ;;
+   "stop")
+      stop
+   ;;
+   "status")
+      if [ -n "$(pidof -xs "${DDECOMD}")" ] ; then
+         echo "ddecomd is running"
+         exit 0
+      else
+         echo "ddecomd is not running"
+         exit 3
+      fi
+   ;;
+   "restart")
+      stop
+      start
+   ;;
+   *)
+      echo "Usage: $(basename ${0}) {start|stop|status|restart}"
+      exit 1
+   ;;
+esac
+

@@ -1,0 +1,125 @@
+#!/bin/sh
+# Copyright 2007  VMware, Inc. All rights reserved. 
+# Script to manipulate ARP redirection and Jumbo Frames on iSCSI HBAs
+
+usage()
+{
+   echo "Usage: $0 [-l] [-a allow|deny] [-j enable|disable] [-h] <vmkernel SCSI adapter name>"
+   echo "  -l: list current configuration (overrides setting options)"
+   echo "  -a: allow or deny ARP redirection on adapter"
+   echo "  -j: enable or disable jumbo frame support"
+   echo "      (enabled: MTU = 9000, disabled: MTU = 1500)"
+   echo "  -h: print this message"
+}
+
+iscsitool=/usr/sbin/vmkiscsi-tool
+listopts=
+arpopt=
+jumboopt=
+jumbo_flag=
+arp_flag=
+reboot=
+
+checkreboot()
+{
+   # Reset or reboot return values both translate to reboot
+   grep "Reset" /tmp/hwiscsi.$$ > /dev/null 2>&1 &&  reboot=1
+   grep "Reboot" /tmp/hwiscsi.$$ > /dev/null 2>&1 &&  reboot=1
+   # Some error other than reboot/reset needed
+   [ $reboot ] || {
+       echo "$1 failed."
+       exit 1
+   }
+}
+
+main()
+{
+   trap 'rm -f /tmp/hwiscsi.$$' 0
+   # Validate args
+   while getopts "la:j:h?" arg
+   do
+      case $arg in
+      l) listopts=1 ;;
+      a) arpopt=1; arp_flag=$OPTARG ;;
+      j) jumboopt=1; jumbo_flag=$OPTARG ;;
+      h) usage && exit 1 ;;
+      ?) usage && exit 1 ;;
+      *) usage && exit 1 ;;
+      esac
+   done
+   shift `expr $OPTIND - 1`
+
+   [ "$#" -ne 1 ] && {
+      echo "Incorrect number of arguments."
+      usage
+      exit 1
+   }
+
+   [ -x $iscsitool ] || {
+      echo "$iscsitool doesn't exist or is not executable."
+      exit 1
+   }
+
+   case $1 in
+      vmhba*) 
+         vmhba=$1 
+      ;;
+      *) echo "'$1' not a valid vmkernel adapter name."
+         usage 
+         exit 1
+      ;;
+   esac
+
+   [ $listopts ] && {
+      $iscsitool -c $vmhba
+      exit 0
+   }
+
+   [ $arpopt ] && {
+      case $arp_flag in
+         allow)
+	    $iscsitool -c -a arp -j $vmhba > /tmp/hwiscsi.$$ 2>&1 || {
+               checkreboot "Allowing ARP redirection"
+            }
+            [ $reboot ] || cat /tmp/hwiscsi.$$
+	    ;;
+         deny)
+	    $iscsitool -c -r arp -j $vmhba > /tmp/hwiscsi.$$ 2>&1 || {
+               checkreboot "Denying ARP redirection"
+            }
+            [ $reboot ] || cat /tmp/hwiscsi.$$
+	    ;;
+         *)
+            echo "Invalid ARP redirection flag: $arp_flag"
+	    usage
+	    exit 1
+	    ;;
+      esac
+   }
+
+   [ $jumboopt ] && {
+      case $jumbo_flag in
+         enable)
+	    $iscsitool -M -a 9000 -j $vmhba > /tmp/hwiscsi.$$ 2>&1 || {
+               checkreboot "Enabling jumbo frames"
+            }
+            [ $reboot ] || cat /tmp/hwiscsi.$$
+	    ;;
+         disable)
+	    $iscsitool -M -a 1500 -j $vmhba > /tmp/hwiscsi.$$ 2>&1 || {
+               checkreboot "Disabling jumbo frames"
+            }
+            [ $reboot ] || cat /tmp/hwiscsi.$$
+	    ;;
+         *)
+            echo "Invalid jumbo frame flag: $jumbo_flag"
+	    usage
+	    exit 1
+	    ;;
+      esac
+   }
+
+   [ $reboot ] && echo "ESX reboot required for changes to take effect."
+}
+
+main $*

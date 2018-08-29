@@ -1,0 +1,24 @@
+/***********************************************************
+ * Copyright 2010-2011,2015 VMware, Inc.  All rights reserved.
+ * VMware Confidential
+ ***********************************************************/
+
+{
+   "operations" :
+   {
+      "start" :
+      [
+         "storage core plugin registration add -m nmp -N MP -P NMP",
+         "storage core plugin registration add -m hpp -N MP -P HPP",
+         "storage core plugin registration add -m mask_path_plugin -N MP -P MASK_PATH"
+      ]
+   }
+   ,
+   "metadata" :
+   {
+      "version"  : 1,
+      "requires" : [],
+      "provides" : ["PSA MP Plugin registration", "VMW NMP MPP registration","VMW MASK_PATH MPP registration"]
+   }
+}
+

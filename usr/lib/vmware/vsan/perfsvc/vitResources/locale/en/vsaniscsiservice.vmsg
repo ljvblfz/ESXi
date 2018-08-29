@@ -1,0 +1,95 @@
+# VSAN iSCSI target service related
+# msgId = 001
+com.vmware.vsan.iscsi.common.comma = ,
+com.vmware.vsan.iscsi.common.colon = :
+com.vmware.vsan.iscsi.common.ok = OK
+com.vmware.vsan.iscsi.common.yes = Yes
+com.vmware.vsan.iscsi.common.no = No
+com.vmware.vsan.iscsi.msg.installVibFailed = Unknown error using EAM to install VIBs on cluster
+com.vmware.vsan.iscsi.msg.createHomeObjectFailed = Failed to create home object on cluster
+com.vmware.vsan.iscsi.msg.settingsFailed = Failed to set vSAN iSCSI target service on cluster
+com.vmware.vsan.iscsi.host.issues.notConnected = Host is not connected
+com.vmware.vsan.iscsi.host.issues.notVITInstall = Host is not installed vSAN iSCSI target service
+com.vmware.vsan.iscsi.host.issues.notVITServiceFound = vSAN iSCSI target service is not found on the host. Please check whether the host is with version 6.5 or later.
+com.vmware.vsan.iscsi.cluster.issues.hostNotConnected = At least one of the hosts is not connected
+com.vmware.vsan.iscsi.cluster.issues.HostNotVITInstall = At least one of the hosts is not installed vSAN iSCSI target service
+
+# For service process status
+com.vmware.vsan.iscsi.service.process.running = Running
+com.vmware.vsan.iscsi.service.process.stopped = Stopped
+com.vmware.vsan.iscsi.service.process.unknown = Unknown
+com.vmware.vsan.iscsi.service.process.hostDisconnected = Host is disconnected
+
+# For service pre-check failed.
+com.vmware.vsan.iscsi.service.enabled.failed = Cannot enable service, vSAN iSCSI target service is provided in ESXi Host version 6.1, make sure all hosts in the cluster have the right version and no connection issue.
+
+# For service installation health test
+com.vmware.vsan.iscsi.health.test.installStatus = Service installation status
+com.vmware.vsan.iscsi.health.test.installStatus.desc.short = Checks if all the hosts in the vSAN cluster have the vSAN iSCSI target service installed and if the service version in VC and each host is the same.
+com.vmware.vsan.iscsi.health.test.installStatus.desc.long = vSAN iSCSI target service is provided in ESXi Host version 6.1. If it is found that vSAN iSCSI target service is not installed in some of the hosts, it means hosts' version is not right. If vSAN iSCSI target service status is unknown in some of the hosts, it means them have other issue, e.g connection issue.
+com.vmware.vsan.iscsi.health.test.installStatus.table.label = Service installation
+com.vmware.vsan.iscsi.health.test.installStatus.table.column.host = Host
+com.vmware.vsan.iscsi.health.test.installStatus.table.column.installationStatus = Installation Status
+com.vmware.vsan.iscsi.health.test.installStatus.table.column.versionESX = Version in ESX
+com.vmware.vsan.iscsi.health.test.installStatus.table.column.versionVC = Version in VC
+com.vmware.vsan.iscsi.health.test.installStatus.table.column.error = Error
+
+# For service runtime health test
+com.vmware.vsan.iscsi.health.test.runningStatus = Service runtime status
+com.vmware.vsan.iscsi.health.test.runningStatus.desc.short = Checks the status of the vSAN iSCSI target service.
+com.vmware.vsan.iscsi.health.test.runningStatus.desc.long = Checks whether the service is enabled on all hosts in the cluster. If the service is not enabled on a host, run the following command: 'esxcli vsan iscsi status set --enabled=true'. Or you can use the Edit action (Manage > Settings > General > vSAN iSCSI Target Service) to enable the iSCSI target service. This check also verifies the health of the following processes: ‘vtid’ is used to provide the service, and ‘vitsafehd’ is used to hold opens for VMDKs. If ‘vtid’ process is not running, use the following command to start the process: '/etc/init.d/vitd start'. If ‘vitsafehd’ process is not running, use the following command to start the process: '/etc/init.d/vitd io_restart'.
+com.vmware.vsan.iscsi.health.test.runningStatus.table.label = Service runtime status
+com.vmware.vsan.iscsi.health.test.runningStatus.table.column.host = Host
+com.vmware.vsan.iscsi.health.test.runningStatus.table.column.processesStatus = Process Health
+com.vmware.vsan.iscsi.health.test.runningStatus.table.column.enabledStatus = Enabled
+com.vmware.vsan.iscsi.health.test.runningStatus.table.column.error = Error
+
+# For home object health test
+com.vmware.vsan.iscsi.health.test.groupName = vSAN iSCSI target service
+com.vmware.vsan.iscsi.health.test.homeObject = Home object
+com.vmware.vsan.iscsi.health.test.homeObject.storageOutOfDate = Out of date
+com.vmware.vsan.iscsi.health.test.homeObject.storageCompliant = Compliant
+com.vmware.vsan.iscsi.health.test.homeObject.storageNonCompliant = Non-Compliant
+com.vmware.vsan.iscsi.health.test.homeObject.storageNotApplicable = Not Applicable
+com.vmware.vsan.iscsi.health.test.homeObject.storageUnknown = Unknown
+com.vmware.vsan.iscsi.health.test.homeObject.desc.short = Checks the health of the vSAN iSCSI target service home object.
+com.vmware.vsan.iscsi.health.test.homeObject.desc.long = Home object stores metadata used by the vSAN iSCSI target service. This check verifies the following items: The home object has been created and can be located in the system. The home object is healthy and is compliant with the storage policy. The home object is unique. If multiple home objects exist, some of the hosts in the cluster might access a different home object. The metadata file in the home object is present and can be parsed, and that all metadata is properly stored.
+com.vmware.vsan.iscsi.health.test.homeObject.table.label = Home object information
+com.vmware.vsan.iscsi.health.test.homeObject.table.column.check = Check
+com.vmware.vsan.iscsi.health.test.homeObject.table.column.result = Result
+com.vmware.vsan.iscsi.health.test.homeObject.table.column.status = Status
+com.vmware.vsan.iscsi.health.test.homeObject.table.exist = Home Object Exists
+com.vmware.vsan.iscsi.health.test.homeObject.table.healthStatus = Health Status
+com.vmware.vsan.iscsi.health.test.homeObject.table.storageStatus = Storage Policy Compliance
+com.vmware.vsan.iscsi.health.test.homeObject.table.entryStatus = Home Object Is Unique
+com.vmware.vsan.iscsi.health.test.homeObject.table.metadataStatus = Metadata File Status
+com.vmware.vsan.iscsi.health.test.homeObject.table.noEntry = No entry now
+com.vmware.vsan.iscsi.health.test.homeObject.table.isUnique = Is unique
+com.vmware.vsan.iscsi.health.test.homeObject.table.isMultiple = Is multiple
+com.vmware.vsan.iscsi.health.test.homeObject.table.metadataPresentParse = Is present and can be parsed
+com.vmware.vsan.iscsi.health.test.homeObject.table.metadataNotPresentParse = Is not present or cannot be parsed. Ensure that service runtime status check is green before checking this item.
+
+com.vmware.vsan.iscsi.health.test.homeObject.status.notFound = Not found
+
+com.vmware.vsan.iscsi.health.test.cluster.iscsiEamInstall.host.untracked = Is untracked
+com.vmware.vsan.iscsi.health.test.cluster.iscsiEamInstall.host.removed = (no longer in cluster)
+
+com.vmware.vsan.iscsi.health.test.serviceNetwork = Network configuration
+com.vmware.vsan.iscsi.health.test.serviceNetwork.desc.short = Checks the network configuration of the vSAN iSCSI target service.
+com.vmware.vsan.iscsi.health.test.serviceNetwork.desc.long = All network interfaces used by vSAN iSCSI target service (including the default interface) must be configured on all hosts in the cluster. All network interfaces that have the same name form a distributed portal. If one or more hosts does not have a network interface, the vSAN iSCSI target service cannot operate correctly.
+com.vmware.vsan.iscsi.health.test.serviceNetwork.defaultnic = Get default network interface
+com.vmware.vsan.iscsi.health.test.serviceNetwork.defaultnic.notFound = Cannot find default network interface
+com.vmware.vsan.iscsi.health.test.serviceNetwork.defaultnic.error = Failed to fetch the default network interface, check if vSAN iSCSI target service is running on all hosts
+com.vmware.vsan.iscsi.health.test.serviceNetwork.nicsUsedByTargets = Get network interfaces used by targets
+com.vmware.vsan.iscsi.health.test.serviceNetwork.nicsUsedByTargets.notFound = Cannot find network interfaces used by targets
+com.vmware.vsan.iscsi.health.test.serviceNetwork.table.service.label = Service network configuration
+com.vmware.vsan.iscsi.health.test.serviceNetwork.table.service.column.check = Check
+com.vmware.vsan.iscsi.health.test.serviceNetwork.table.service.column.status = Status
+com.vmware.vsan.iscsi.health.test.serviceNetwork.table.service.column.vmknics = Network Interfaces
+com.vmware.vsan.iscsi.health.test.serviceNetwork.table.service.column.error = Error
+
+com.vmware.vsan.iscsi.health.test.serviceNetwork.table.label = Host network configuration
+com.vmware.vsan.iscsi.health.test.serviceNetwork.table.column.host = Host
+com.vmware.vsan.iscsi.health.test.serviceNetwork.table.column.status = Status
+com.vmware.vsan.iscsi.health.test.serviceNetwork.table.column.error = Error
+com.vmware.vsan.iscsi.health.test.serviceNetwork.table.column.vmknicsMissed = Network Interfaces Not Found

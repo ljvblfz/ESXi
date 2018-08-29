@@ -1,0 +1,288 @@
+#
+# This catalog is for long descriptions for Events. Long descriptions are
+# shown in the UI when the user asks to see more details about the event,
+# and can contain causes and potential user actions for recovery.
+#
+# See vim/lib/vimLocale/en/eventaux.vmsg for examples.
+#
+
+#
+signature="sIgNaTuRe"
+#
+# event long descriptions go here..
+
+com.vmware.vc.ft.VmAffectedByDasDisabledEvent.longDescription = "\
+   <EventLongDescription id="com.vmware.vc.ft.VmAffectedByDasDisabledEvent">\
+      <description>\
+         如果在叢集中停用 vSphere HA，則在發生故障後\
+         您將無法重新啟動主要虛擬機器或其次要虛擬機器。\
+         停用 vSphere HA 並開啟容錯虛擬機器的電源後，會發生此事件。 \
+  此事件警示您因停用 vSphere HA 而導致容錯虛擬機器存在風險。\
+      </description>\
+      <cause>\
+           <description>已在開啟容錯虛擬機器的電源時停用 vSphere HA</description>\
+           <action>重新啟用 vSphere HA</action>\
+      </cause>\
+   </EventLongDescription>\
+
+   "
+
+com.vmware.vc.HA.DasHostCompleteDatastoreFailureEvent.longDescription = "\
+   <EventLongDescription id="com.vmware.vc.HA.DasHostCompleteDatastoreFailureEvent">\
+      <description>\
+        已啟用元件保護之叢集中的某台主機已中斷與所有共用資料存放區的連線\
+     </description>\
+      <cause>\
+           <description>已中斷與所有共用資料存放區的連線</description>\
+           <action>至少重新連線一個共用資料存放區</action>\
+      </cause>\
+   </EventLongDescription>\
+
+   "
+
+com.vmware.vc.HA.DasHostCompleteNetworkFailureEvent.longDescription = "\
+   <EventLongDescription id="com.vmware.vc.HA.DasHostCompleteNetworkFailureEvent">\
+      <description>\
+        已啟用元件保護之叢集中的某台主機已中斷與所有虛擬機器網路的連線\
+     </description>\
+      <cause>\
+           <description>已中斷與所有虛擬機器網路的連線</description>\
+           <action>至少重新連線一個虛擬機器網路</action>\
+      </cause>\
+   </EventLongDescription>\
+
+   "
+
+com.vmware.vc.HA.CreateConfigVvolFailedEvent.longDescription = "\
+   <EventLongDescription id="com.vmware.vc.HA.CreateConfigVvolFailedEvent">\
+      <description>\
+        vSphere HA 無法在資料存放區上建立組態 vvol \
+     </description>\
+      <cause>\
+           <description>可能因 VP、主機、網路或資源不足而導致 vSphere HA 無法建立組態 vvol</description>\
+           <action>查看環境中是否存在錯誤，然後重新啟用 vSphere HA</action>\
+      </cause>\
+   </EventLongDescription>\
+
+   "
+
+com.vmware.vc.HA.CreateConfigVvolSucceededEvent.longDescription = "\
+   <EventLongDescription id="com.vmware.vc.HA.CreateConfigVvolSucceededEvent">\
+      <description>\
+        vSphere HA 已在資料存放區上成功建立組態 vvol。如果曾經發生無法在資料存放區上設定組態 vvol 的問題，將清除該問題 \
+     </description>\
+      <cause>\
+           <description> 在資料存放區上建立組態 vvol 時未發生錯誤</description>\
+      </cause>\
+   </EventLongDescription>\
+
+   "
+
+vim.event.LicenseDowngradedEvent.longDescription = "\
+    <EventLongDescription id="vim.event.LicenseDowngradedEvent">\
+       <description>\
+          安裝的授權會減少可用功能集。使用新授權將無法存取先前可用的部分功能。\
+       </description>\
+       <cause>\
+            <description>該授權已更換。</description>\
+            <action>若尚未到期，還原為先前安裝的授權。</action>\
+            <action>請連絡 VMware，以取得具有所需功能的新授權。</action>\
+        </cause>\
+    </EventLongDescription>\
+
+    "
+
+vim.event.SystemSwapInaccessible.longDescription = "\
+    <EventLongDescription id="vim.event.SystemSwapInaccessible">\
+       <description>\
+          已在此系統上設定並使用系統交換，但用於此系統交換的資料存放區不再可用。\
+          可能會使已將記憶體交換到系統分頁檔的某些使用者環境遇到效能降低和當機情況。\
+          發現的另一個問題是，由於資料存放區存在保留的參考項目，因此無法將其從主機的詳細目錄中適當移除。\
+       </description>\
+       <cause>\
+            <description>基礎 LUN 處於「所有路徑失效」狀態、已實際移除，或者與此裝置的通訊發生錯誤。</description>\
+            <action>重新設定系統交換組態或變更主機系統的分頁檔位置</action>\
+        </cause>\
+    </EventLongDescription>\
+
+    "
+
+ad.event.JoinDomainFailedEvent.longDescription = "\
+   <EventLongDescription id="ad.event.JoinDomainFailedEvent">\
+      <description>\
+         加入網域失敗\
+      </description>\
+   </EventLongDescription>\
+
+   "
+
+ad.event.JoinDomainEvent.longDescription = "\
+   <EventLongDescription id="ad.event.JoinDomainEvent">\
+      <description>\
+         已成功加入網域\
+      </description>\
+   </EventLongDescription>\
+
+   "
+
+ad.event.LeaveDomainFailedEvent.longDescription = "\
+   <EventLongDescription id="ad.event.LeaveDomainFailedEvent">\
+      <description>\
+         離開網域失敗\
+      </description>\
+   </EventLongDescription>\
+
+   "
+
+ad.event.LeaveDomainEvent.longDescription = "\
+   <EventLongDescription id="ad.event.LeaveDomainEvent">\
+      <description>\
+         已成功離開網域\
+      </description>\
+   </EventLongDescription>\
+
+   "
+
+ad.event.ImportCertFailedEvent.longDescription = "\
+   <EventLongDescription id="ad.event.ImportCertFailedEvent">\
+      <description>\
+         匯入憑證失敗\
+      </description>\
+   </EventLongDescription>\
+
+   "
+
+ad.event.ImportCertEvent.longDescription = "\
+   <EventLongDescription id="ad.event.ImportCertEvent">\
+      <description>\
+         已成功匯入憑證\
+      </description>\
+   </EventLongDescription>\
+
+   "
+
+com.vmware.vc.vmam.VmAppHealthMonitoringStateChangedEvent.longDescription = "\
+   <EventLongDescription id="com.vmware.vc.vmam.VmAppHealthMonitoringStateChangedEvent">\
+      <description>\
+        應用程式監控狀態變更表示受監控之應用程式的健全狀況變更或應用程式監控程序\
+        變更。\
+        從客體內啟用應用程式活動訊號後，狀態顏色會由灰變綠。\
+        如果 vSphere HA 未在 30 秒內收到任何活動訊號，則會變紅。\
+        如果活動訊號在 vSphere HA 回應之前重新開始，則會由紅變綠。\
+        從客體內停用應用程式活動訊號後，狀態顏色會變灰。\
+      </description>\
+      <cause>\
+        <description>\
+          無論使用者是從客體內還是從 vSphere HA 啟動動作，皆未在 30 秒的時間間隔內收\
+          到來自應用程式監控代理程式的任何應用程式活動訊號。\
+        </description>\
+        <action>\
+          如果狀態顏色變紅，請檢查應用程式監控代理程式為何停止產生活動訊號。\
+          活動訊號遺失可能是由於應用程式發生故障或應用程式監控代理程式出現問題所致。\
+          如果狀態顏色在灰色與其他顏色之間頻繁變換，則可能表示應用程式監控代理程式出現問題。\
+          發生此情況時，請檢查是否應啟用/停用監控。\
+        </action>\
+      </cause>\
+   </EventLongDescription>\
+
+   "
+
+com.vmware.vc.vmam.VmDasAppHeartbeatFailedEvent.longDescription = "\
+   <EventLongDescription id="com.vmware.vc.vmam.VmDasAppHeartbeatFailedEvent">\
+      <description>\
+        vSphere HA 偵測到客體內的應用程式監控代理程式出現活動訊號失敗問題。\
+        如果 vSphere 已啟用應用程式監控，則將重設虛擬機器。\
+      </description>\
+      <cause>\
+        <description>\
+          vSphere HA 未在 30 秒的時間間隔內收到來自應用程式監控代理程式的任何應用程式\
+          活動訊號。 \
+        </description>\
+        <action>\
+          檢查應用程式監控代理程式為何停止產生活動訊號。活動訊號遺失可能是由於應用程式發生故障\
+          或應用程式監控代理程式出現問題所致。\
+        </action>\
+      </cause>\
+   </EventLongDescription>\
+
+   "
+
+com.vmware.vc.vmam.VmAppHealthStateChangedEvent.longDescription = "\
+   <EventLongDescription id="com.vmware.vc.vmam.VmAppHealthStateChangedEvent">\
+      <description>\
+        應用程式狀態變更表示客體內的某個應用程式張貼了兩個允許值之一: appStateOk\
+        或 appStateNeedReset。前者表示受監控的應用程式狀況良好，後者則會導致已啟\
+        用應用程式監控的此虛擬機器立即進行重設。\
+      </description>\
+      <cause>\
+        <description>\
+          這是在客體內啟動的動作。 \
+        </description>\
+        <action>\
+          如果此虛擬機器已啟用 vSphere HA 和應用程式監控，則在狀態為 appStateNeedReset\
+          時會重設該虛擬機器。如果正在使用 vMotion 移轉該虛擬機器，則重設作業將延遲到虛擬機器到達目的地後\
+          才執行。此外，重設作業還會延遲到資料存放區連線問題得到解決後才執行。 \
+        </action>\
+      </cause>\
+   </EventLongDescription>\
+
+   "
+
+com.vmware.vc.host.problem.VStorageObjectInfraNamespacePolicyEmptyEvent.longDescription = "\
+   <EventLongDescription id="com.vmware.vc.host.problem.VStorageObjectInfraNamespacePolicyEmptyEvent">\
+      <description>\
+        使用空白儲存區原則建立改進的虛擬磁碟基礎結構命名空間。\
+        請考慮更新基礎結構命名空間儲存區原則以避免潛在的資料遺失。\
+      </description>\
+      <cause>\
+        <description>\
+          這是由使用空白儲存區原則建立改進的虛擬磁碟基礎結構命名空間所致。\
+        </description>\
+        <action>\
+          更新基礎結構命名空間儲存區原則。\
+        </action>\
+      </cause>\
+   </EventLongDescription>\
+
+   "
+
+com.vmware.vc.host.problem.vFlashResource.inaccessible.longDescription = "\
+   <EventLongDescription id="com.vmware.vc.host.problem.vFlashResource.inaccessible">\
+      <description>\
+        主機虛擬 Flash 資源無法存取表示其支援 VFFS 磁碟區無法存取。\
+        由於主機虛擬 Flash 資源無法存取，已設定 vSphere Flash Read Cache 的虛擬機器將無法開啟電源，\
+        或在開啟電源後可能會出現無法預測的行為。\
+      </description>\
+      <cause>\
+        <description>\
+          這可能是由於 VFFS 磁碟區已卸載或 VFFS 磁碟區上存在 APD/PDL 所致。 \
+        </description>\
+        <action>\
+          檢查支援 VFFS 磁碟區的連線狀態。例如，掛接已卸載的磁碟區或解決 APD/PDL 問題。只要 \
+          支援 VFFS 磁碟區可供存取，主機虛擬 Flash 資源便可供存取。 \
+        </action>\
+      </cause>\
+   </EventLongDescription>\
+
+   "
+
+com.vmware.vc.host.vFlash.modulesLoadedEvent = "\
+   <EventLongDescription id="com.vmware.vc.host.vFlash.modulesLoadedEvent">\
+      <description>\
+         已重新整理伺服器上載入的虛擬 Flash 模組清單。\
+         任何新載入的或重新載入的模組均可用於虛擬 Flash Read Cache 組態中。\
+      </description>\
+   </EventLongDescription>\
+
+   "
+
+com.vmware.vc.host.vFlash.defaultModuleChangedEvent.longDescription = "\
+   <EventLongDescription id="com.vmware.vc.host.vFlash.defaultModuleChangedEvent">\
+      <description>\
+         已變更預設的虛擬 Flash 模組。\
+         如果未在組態中定義，則任何新的虛擬 Flash Read Cache 組態都將使用新的預設虛擬 Flash 模組。\
+         現有的所有組態皆保持不變。\
+      </description>\
+   </EventLongDescription>\
+
+   "

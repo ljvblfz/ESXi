@@ -1,0 +1,358 @@
+#!/bin/sh
+# chkconfig: off 17 83
+
+# variables
+export PATH=/bin:/sbin
+
+EPD=/usr/lib/vmware/vsan/bin/epd
+EPD_TAG=epd
+EPD_RP="host/vim/vmvisor/$EPD_TAG"
+EPD_MEM_RES="${EPD_TAG} 168" # 160 + 8: 160 is the original budget, 8 is for watchdog (PR1712436)
+EPD_PARAM=""
+
+EPD_PERSISTENT_VOLUME=${EPD_PERSISTENT_VOLUME-}
+EPD_FORCE_RAMDISK=${EPD_FORCE_RAMDISK-0}
+EPD_RAMDISK_NAME=${EPD_RAMDISK_NAME-epd}
+EPD_RAMDISK_MOUNT=${EPD_RAMDISK_MOUNT-/epd}
+EPD_RAMDISK_SIZE=${EPD_RAMDISK_SIZE-50}
+
+
+syslog() {
+   echo "INIT: $@"
+   logger -p daemon.info -t $EPD_TAG -- INIT: $@
+}
+
+
+ExecCmd() {
+   syslog "CMD: $@"
+   $@
+   STATUS=$?
+   syslog "CMD status: $STATUS"
+
+   return $STATUS
+}
+
+
+#
+# Tests whether the provided path is backed by persistent storage.
+#
+TestPersistent() {
+   readlink -f "$1" | grep '^/vmfs/volumes' >/dev/null 2>&1
+}
+
+
+###########################################################################
+#
+# ConfigRamdisk --
+#
+#       Search for an existing EPD ramdisk or create a new one.
+#
+###########################################################################
+
+ConfigRamdisk() {
+   local vol
+
+   vol=$(localcli system visorfs ramdisk list | \
+         grep "^$EPD_RAMDISK_NAME\\>" | head -n1 | awk '{print $NF}')
+
+   if [ -n "$vol" ]; then
+      syslog "Using existing EPD ramdisk at $vol."
+      EPD_RAMDISK_MOUNT=$vol
+      return 0
+   fi
+
+   syslog "No pre-existing $EPD_RAMDISK_NAME ramdisk found."
+
+   mkdir -p $EPD_RAMDISK_MOUNT
+   if [ $? -ne 0 ]; then
+      syslog "Failed to mkdir: $EPD_RAMDISK_MOUNT"
+      return 5
+   fi
+
+   localcli --plugin-dir /usr/lib/vmware/esxcli/int systemInternal visorfs \
+             ramdisk add --coredump --name "$EPD_RAMDISK_NAME"             \
+             --min-size 0 --max-size $EPD_RAMDISK_SIZE                     \
+             --permissions 0755 --target $EPD_RAMDISK_MOUNT
+
+   if [ $? -ne 0 ]; then
+      syslog "Failed to create ramdisk"
+      return 5
+   else
+      syslog "Successfully created ramdisk"
+      return 0
+   fi
+}
+
+
+###########################################################################
+#
+# FindPersistentStorage --
+#
+#       Searches for a suitable persistent storage location to back up
+#       EPD DB on shutdown and to restore from on startup.
+#
+###########################################################################
+
+FindPersistentStorage() {
+   if [ -n "$EPD_PERSISTENT_VOLUME" ]; then
+      return 0
+   fi
+
+   TestPersistent "/locker"
+   if [ $? -eq 0 ]; then
+      EPD_PERSISTENT_VOLUME="/locker"
+      syslog "Using /locker as persistent storage"
+      return 0
+   else
+      syslog "No persistent storage found to backup the DB into."
+      return 5
+   fi
+}
+
+
+###########################################################################
+#
+# RestoreRamdiskDBFromPersistentStorage --
+#
+#       If we have a persistent volume then restore the DB from it.
+#
+###########################################################################
+
+RestoreRamdiskDBFromPersistentStorage() {
+   if [ ! -n "$EPD_PERSISTENT_VOLUME" ]; then
+      syslog "EPD_PERSISTENT_VOLUME is not set"
+      return 4
+   fi
+
+   TestPersistent $EPD_PERSISTENT_VOLUME
+   if [ $? -ne 0 ]; then
+      syslog "EPD persistent volume $EPD_PERSISTENT_VOLUME"
+      syslog "not persistent, not restoring from non-persistent volume"
+      return 0
+   fi
+
+   ls $EPD_RAMDISK_MOUNT/* > /dev/null 2>&1
+   if [ $? -eq 0 ]; then
+      syslog "EPD ramdisk is not empty, not restoring from persistent volume"
+      if [ -d "$EPD_PERSISTENT_VOLUME/epd" ]; then
+         syslog "Possibly stale EPD DB remains on $EPD_PERSISTENT_VOLUME; all will be overwritten on next shutdown"
+      fi
+      return 0
+   fi
+
+   if [ -d "$EPD_PERSISTENT_VOLUME/epd" ]; then
+      syslog "Restoring EPD DB from $EPD_PERSISTENT_VOLUME/epd"
+      ExecCmd cp -p $EPD_PERSISTENT_VOLUME/epd/epd-store.db $EPD_RAMDISK_MOUNT
+   fi
+   return 0
+}
+
+
+###########################################################################
+#
+# SaveRamdiskDBToPersistentStorage --
+#
+#       If we have a ramdisk then back-up the EPD DB to persistent
+#       storage (locker).
+#
+###########################################################################
+
+SaveRamdiskDBToPersistentStorage() {
+   if [ ! -n "$EPD_PERSISTENT_VOLUME" ]; then
+      syslog "No EPD_PERSISTENT_VOLUME"
+      return
+   fi
+
+   TestPersistent $EPD_PERSISTENT_VOLUME
+   if [ $? -ne 0 ]; then
+      syslog "EPD_PERSISTENT_VOLUME $EPD_PERSISTENT_VOLUME is not persistent"
+      return
+   fi
+
+   syslog "Saving EPD DB to $EPD_PERSISTENT_VOLUME/epd"
+
+   ExecCmd mkdir $EPD_PERSISTENT_VOLUME/epd-new
+
+   ExecCmd cp -p $EPD_RAMDISK_MOUNT/* $EPD_PERSISTENT_VOLUME/epd-new/
+   if [ $? -ne 0 ]; then
+      syslog "Failed to copy epd db. Preserving current db."
+      ExecCmd mkdir rm -rf $EPD_PERSISTENT_VOLUME/epd-new
+   else
+      ExecCmd mv $EPD_PERSISTENT_VOLUME/epd-new $EPD_PERSISTENT_VOLUME/epd
+      ExecCmd rm -f $EPD_RAMDISK_MOUNT/*
+   fi
+}
+
+
+###########################################################################
+#
+# WaitForScratch --
+#
+#       Cf PR 1334021. It's possible that when vsan is started /scratch
+#       isn't yet accessible. Wait for it to be mounted so we can determine
+#       whether it's backed by persistent storage or not.
+#
+###########################################################################
+
+WaitForScratch() {
+   count=0
+
+   # wait for up to an hour.
+   while [ ! -d "/scratch" -a $count -lt 120 ]; do
+      count=$((count + 1))
+      syslog "/scratch is not yet mounted (attempt #$count)."
+      sleep 30
+   done
+
+   if [ ! -d "/scratch" ]; then
+      syslog "/scratch not mounted after $count retries"
+      exit 5
+   fi
+}
+
+
+###########################################################################
+#
+# start --
+#
+#   - if /scratch is persistent then use it for the db file
+#   - if /scratch is non-persistent:
+#        . look for an existing EPD ram disk
+#        . if it does not exist: create+mount one
+#        . then copy db file from the locker to the ramdisk (if one exists)
+#
+###########################################################################
+
+start() {
+   if [ ! -z "$(pidof -xs "${EPD}")" ] ; then
+      syslog "epd already running"
+      exit 0
+   fi
+
+   WaitForScratch
+
+   TestPersistent "/scratch"
+   if [ $? -ne 0 -o $EPD_FORCE_RAMDISK -ne 0 ]; then
+      syslog "EPD uses a ramdisk for the db file"
+      FindPersistentStorage
+      if [ $? -ne 0 ]; then
+         exit 5;
+      fi
+      ConfigRamdisk
+      if [ $? -ne 0 ]; then
+         exit 5;
+      fi
+      RestoreRamdiskDBFromPersistentStorage
+      if [ $? -ne 0 ]; then
+         exit 5;
+      fi
+      EPD_DB_FILE_PATH=$EPD_RAMDISK_MOUNT/epd-store.db
+   else
+      syslog "EPD uses local storage for the db file"
+      EPD_DB_FILE_PATH=/scratch/epd-store.db
+   fi
+
+   syslog "Using db file: $EPD_DB_FILE_PATH"
+
+   /usr/lib/vmware/vsan/bin/configVsanRP reserveMemory ${EPD_MEM_RES}
+
+   if [ $? -ne 0 ]; then
+       syslog "Failed to set EPD memory reservation."
+       exit 1
+   fi
+
+   /sbin/watchdog.sh ++memreliable,group=${EPD_RP} -d -s "${EPD_TAG}" "${EPD}" "${EPD_PARAM}" >/dev/null 2>&1
+
+   echo "epd started"
+}
+
+
+###########################################################################
+#
+# stop --
+#
+#   - if /scratch is persistent, nothing special.
+#   - if /scratch is non-persistent:
+#        . look for an existing ram disk as one should exists,
+#        . copy the db file from the ram disk into the locker.
+#
+###########################################################################
+
+stop() {
+   if [ -n "$(pidof -xs "${EPD}")" ]; then
+      # This only stops the watchdog process.
+      /sbin/watchdog.sh -k "${EPD_TAG}"
+
+      EPD_PID="$(pidof -s "${EPD}")"
+      if [ -n "${EPD_PID}" ]; then
+          kill -15 ${EPD_PID}
+          syslog "Waiting for process to terminate..."
+          while kill -0 ${EPD_PID} > /dev/null 2>&1; do
+              sleep 0;
+          done
+      fi
+
+      TestPersistent "/scratch"
+      if [ $? -ne 0 -o $EPD_FORCE_RAMDISK -ne 0 ]; then
+         syslog "EPD uses a ramdisk for the db file"
+         FindPersistentStorage
+         if [ $? -ne 0 ]; then
+             exit 5
+         fi
+         ConfigRamdisk
+         if [ $? -ne 0 ]; then
+             exit 5
+         fi
+         EPD_DB_FILE_PATH=${EPD_RAMDISK_MOUNT}/epd-store.db
+         SaveRamdiskDBToPersistentStorage
+      else
+         syslog "EPD uses local storage for the db file"
+      fi
+
+      echo "epd stopped"
+   else
+      echo "epd is not running"
+   fi
+
+   # if start fails, stop should clean up after itself whether the process
+   # exists or not. This way, we will not leak the reservations.
+   /usr/lib/vmware/vsan/bin/configVsanRP clearMemory ${EPD_TAG}
+
+   if [ $? -ne 0 ]; then
+      syslog "Failed to clear epd memory reservation."
+      # don't fail the command - stop can now be called idempotently.
+   fi
+}
+
+
+#####################################################################
+#
+# main
+#
+#####################################################################
+case "${1}" in
+   "start")
+      start
+   ;;
+   "stop")
+      stop
+   ;;
+   "status")
+      if [ -n "$(pidof -xs "${EPD}")" ] ; then
+         echo "epd is running"
+         exit 0
+      else
+         echo "epd is not running"
+         exit 3
+      fi
+   ;;
+   "restart")
+      stop
+      start
+   ;;
+   *)
+      echo "Usage: $(basename ${0}) {start|stop|status|restart}"
+      exit 1
+   ;;
+esac
+

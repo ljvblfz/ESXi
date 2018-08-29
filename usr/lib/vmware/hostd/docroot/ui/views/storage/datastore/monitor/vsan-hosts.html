@@ -1,0 +1,7 @@
+<div ng-controller="VsanHostsController" class="esx-tab-content" vm-loaded="loaded">
+   <div class="action-bar" vui-action-bar="actionBar"></div>
+   <div class="not-enabled" ng-show="!isVsanEnabled">
+      <span>Virtual SAN is not enabled</span>
+   </div>
+   <div vui-datagrid="hostGridOptions" id="hostsGrid" ng-show="isVsanEnabled"></div>
+</div>

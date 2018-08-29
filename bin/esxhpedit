@@ -1,0 +1,7 @@
+#!/usr/bin/python
+# **********************************************************
+# Copyright 2010-2015 VMware, Inc.  All rights reserved. -- VMware Confidential
+# **********************************************************
+import hostprofiles
+from tests.tools import hpedit
+hpedit.main()

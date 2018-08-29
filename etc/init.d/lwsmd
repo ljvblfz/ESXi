@@ -1,0 +1,97 @@
+#! /bin/sh
+# ex: set tabstop=4 expandtab shiftwidth=4:
+#
+# Copyright (c) Likewise Corporation 2006
+# Author: Gerald Carter <jerry@likewise.com>
+#
+#LWI_STARTUP_TYPE_REDHAT###
+#LWI_STARTUP_TYPE_REDHAT# chkconfig: 35 17 9
+#LWI_STARTUP_TYPE_REDHAT# description: Start and Stop Likewise Service Manager
+#LWI_STARTUP_TYPE_REDHAT###
+#LWI_STARTUP_TYPE_REDHAT#
+#LWI_STARTUP_TYPE_SUSE### BEGIN INIT INFO
+#LWI_STARTUP_TYPE_SUSE# Provides: lwsmd
+#LWI_STARTUP_TYPE_SUSE# Required-Start:
+#LWI_STARTUP_TYPE_SUSE# Required-Stop:
+#LWI_STARTUP_TYPE_SUSE# Default-Start: 3 5
+#LWI_STARTUP_TYPE_SUSE# Default-Stop: 0 1 2 6
+#LWI_STARTUP_TYPE_SUSE# Description: Start and Stop Likewise Service Manager
+#LWI_STARTUP_TYPE_SUSE### END INIT INFO
+###
+# chkconfig: - 35 90
+# description: Start and Stop Likewise Service Manager
+###
+
+PLATFORM=""
+if [ "`uname -s`" = "VMkernel" ]; then
+    PLATFORM="ESXI"
+fi
+
+PROG_DESC="Likewise Service Manager"
+PROG_BIN=/usr/lib/vmware/likewise/sbin/lwsmd
+PROG_ARGS="--start-as-daemon --syslog"
+PIDFILE=/var/run/lwsmd.pid
+SCRIPTNAME="lwsmd"
+
+if [ "$PLATFORM" = "ESXI" ]; then
+   PROG_SCHED_PARAM="++group=likewise"
+   # using watchdog, no need for --start-as-daemon
+   PROG_ARGS="--syslog"
+   PROG_ERR=/var/lib/likewise/lwsmd/lwsmd.err
+   STARTHOOK="fix_locale"
+   POSTSTARTHOOK="start_lsass"
+   POSTSTOPHOOK="refresh_hostd"
+fi
+
+fix_locale()
+{
+    export LC_ALL="en_US.utf8"
+    export LC_CTYPE="en_US.utf8"
+}
+
+start_lsass()
+{
+    # Fix /etc/krb5.conf to make sure it supports AES and permits weak crypto
+    /usr/lib/vmware/likewise/bin/domainjoin-cli configure krb5-update
+    sleep 1
+    echo -n " [Setting SMBv2 enabled to true] "
+    /usr/lib/vmware/likewise/bin/lwregshell set_value '[HKEY_THIS_MACHINE\Services\lwio\Parameters\Drivers\rdr]' SMB2Enabled 1
+    echo -n " [starting lsass service] "
+    /usr/lib/vmware/likewise/bin/lwsm start lsass
+    sleep 1
+    /usr/lib/vmware/likewise/bin/lw-lsa get-status 2>&1 > /dev/null
+    if [ $? -ne 0 ]; then
+        failure=1
+        if [ `/usr/lib/vmware/likewise/bin/lwsm list | grep lsass | awk '{print $2}'` != "running" ]; then
+            echo -n " [retrying start of lsass service] "
+            /usr/lib/vmware/likewise/bin/lwsm start lsass
+        fi
+        i=1
+        while [ $failure -ne 0 -a $i -le 8 ]; do
+            sleep $i
+            i=$(($i*2))
+            /usr/lib/vmware/likewise/bin/lw-lsa get-status 2>&1 > /dev/null
+            failure=$?
+        done
+        if [ $failure -ne 0 ]; then
+            echo -n " [lsass service startup failure] "
+            return 1
+        else
+            refresh_hostd
+        fi
+    else
+        refresh_hostd
+    fi
+}
+
+refresh_hostd()
+{
+    # Hostd's ServiceSystem is already locked for the invocation of the current init script
+    # so another call into ServiceSystem.refresh() will block forever on the same lock.
+    # This will result in hostd killing the current init script after a time out of 30 seconds.
+    # To avoid this we need to run the refresh command asynchronously in a separate session
+    # and as a background process.
+    setsid /bin/vim-cmd hostsvc/refresh_services &
+}
+
+. /usr/lib/vmware/likewise/bin/init-base.sh

@@ -1,0 +1,56 @@
+<div
+   ng-if="tabs.logs.loaded || hostMonitorTabs.tabs[hostMonitorTabs.selectedTabIndex].state === tabs.logs.state"
+   ng-controller="HostMonitorLogsController"
+   style="overflow: hidden;"
+   class="esx-tab-content">
+
+   <div ng-show="!loaded" class="loading"></div>
+
+   <div ng-show="loaded" id="logFileGrid" vui-datagrid="logFileGrid"></div>
+
+   <style type="text/css">
+      .CodeMirror {
+         width: 100% !important;
+         height: 100% !important;
+      }
+      .cm-highlightSearch {
+         background: yellow;
+      }
+   </style>
+
+   <div ng-style="{'height': logWindowHeight + 'px'}" style="position: relative;">
+      <div ng-show="loaded && currentLog !== null"
+         id="logWindow"
+         style="height: 100%; margin-top: 10px;"
+         ui-codemirror="codemirrorOptions"
+         ng-model="logData"></div>
+
+      <div
+         class="search"
+         ng-if="currentLog !== null"
+         style="z-index: 6; position: absolute; top: 1px; right: 17px;">
+
+         <label for="search-field-log">
+            <span style="top: 7px;" class="vui-icon-search-input"></span>
+            <div ng-style="{
+               'display': logSearch.query !== '' ? 'block' : 'none'
+            }" ng-click="logSearch.query = ''" class="clear"></div>
+         </label>
+
+         <input
+            type="search"
+            class="search-field"
+            id="search-field-log"
+            placeholder="{{'search.placeholder' | translate}}"
+            aria-label="{{'search.placeholder' | translate}}"
+            ng-model="logSearch.query"
+            style="margin-top: -14px;"/>
+      </div>
+
+      <div ng-show="loaded && currentLog === null"
+         style="height: 100%; font-weight: bold; text-align: center; font-size: 20px; color: #AAA;"
+         ng-style="{'padding-top': (logWindowHeight / 2) + 'px'}">
+         {{'host.monitor.logs.noLogSelected'|translate}}
+      </div>
+   </div>
+</div>

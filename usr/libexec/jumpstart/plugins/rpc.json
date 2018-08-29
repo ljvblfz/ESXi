@@ -1,0 +1,22 @@
+/***********************************************************
+ * Copyright 2011-2013 VMware, Inc.  All rights reserved.
+ * VMware Confidential
+ ***********************************************************/
+
+{
+   "operations" :
+   {
+      "start" :
+      [
+         "system module load --module sunrpc"
+      ]
+   }
+   ,
+   "metadata" :
+   {
+      "version"  : 1,
+      "requires" : ["system configuration", "networking", "network auto-configuration", "gss"],
+      "provides" : ["rpc"]
+   }
+}
+

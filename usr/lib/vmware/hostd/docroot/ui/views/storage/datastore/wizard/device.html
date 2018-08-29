@@ -1,0 +1,40 @@
+<div ng-controller="StorageDatastoreWizardDeviceController"
+   class="content-padding vm-wizard">
+
+   <div ng-if="loading" ng-include src="'views/loading-dialog.html'"></div>
+
+   <div ng-show="!loading">
+
+      <div ng-if="wizardOptions.data.creationType !== 'extendVmfs' &&
+         wizardOptions.data.creationType !== 'expandVmfs' &&
+         !wizardOptions.data.devicePreselected &&
+         !wizardOptions.data.hasNamePage"
+         class="row" style="margin-top: 10px;">
+         <div class="col-sm-6">
+            <div class="form-group">
+               <label for="datastoreName"
+                  class="control-label esx-label">
+                  {{'vm.wizard.basics.name.placeholder' | translate}}</label>
+
+               <input id="datastoreName"
+                  type="text"
+                  ng-pattern="SANITIZE_INPUT_REGEX"
+                  focus-me="true"
+                  class="form-control row-spacer"
+                  aria-label="{{'vm.wizard.basics.name.placeholder' | translate}}"
+                  ng-model="wizardOptions.data.name"/>
+            </div>
+         </div>
+      </div>
+
+      <div class="row">
+         <div class="col-sm-12 row-spacer">
+            <span>{{'storage.datastore.create.device.desc' | translate}}</span>
+         </div>
+         <div class="col-sm-12">
+            <div vui-datagrid="deviceGrid" id="{{deviceGrid.id}}"></div>
+         </div>
+      </div>
+
+   </div>
+</div>

@@ -1,0 +1,7 @@
+<div
+  ng-controller="StorageDeviceBrowserController"
+   class="content-padding">
+   <div ng-if="!loaded" class="loading"></div>
+   <div ng-if="message">{{message}}</div>
+   <div ng-show="loaded" id="{{deviceGrid.id}}" vui-datagrid="deviceGrid"></div>
+</div>

@@ -1,0 +1,90 @@
+<!-- PCI devices -->
+<div vui-stack-block="hardwareStackView.pciBlock[_index]"
+     ng-repeat="(_index, pciDevice) in pciDevices"
+     ng-class="{'stack-new': (wizardOptions.data.pciDevices[_index]._operation === 'add')}">
+
+   <!-- Icon -->
+   <span vui-sb-label vui-sb-icon-class="esx-icon-host-pci-device">{{pciDevice.title}}</span>
+
+   <!-- content collapsed-->
+   <div vui-sb-content>
+      <label class="label-508" title="{{pciDevice.title}}">
+      <div class="inline stack-dropdown"
+         vui-dropdown="pciDevice.Device"></div></label>
+      <span class="esx-icon-close vui-icon-info-inline esx-stack-valign-tall esx-close-right"
+         ng-class="{
+            'close-disabled': wizardOptions.data.general.state !== 'poweredOff'
+         }"
+         ng-click="removePCIDevice(_index)"></span>
+   </div>
+
+   <!-- content expanded -->
+   <div vui-sb-content-expanded>
+      <label class="label-508" title="{{pci.title}}">
+         <div class="inline stack-dropdown"
+            vui-dropdown="pciDevice.Device"></div>
+      </label>
+
+      <span class="esx-icon-close vui-icon-info-inline esx-stack-valign-tall esx-close-right"
+            ng-show="wizardOptions.data.general.state !== 'suspended'"
+            ng-click="removePCIDevice(_index)"></span>
+   </div>
+
+   <!-- children -->
+   <div vui-stack-block>
+      <!-- Label -->
+      <span vui-sb-label>
+         {{'vm.wizard.hardware.virtualhardware.pci.physical.label' | translate}}
+      </span>
+
+      <!-- content -->
+      <div vui-sb-content>
+         <span vui-sb-label>
+            {{wizardOptions.data.pciDevices[_index].description}}
+         </span>
+      </div>
+   </div>
+
+   <div vui-stack-block>
+      <!-- Label -->
+      <span vui-sb-label>Warning</span>
+
+      <!-- content -->
+      <div vui-sb-content>
+         <div class="row">
+            <div class="col-sm-1">
+               <span class="vui-icon-warning vui-icon-info-inline"></span>
+            </div>
+            <div class="col-sm-11 no-padding" style="padding-left: 5px; padding-right: 15px;">
+               <span vui-sb-label>
+                  {{'vm.wizard.hardware.virtualhardware.pci.physical.warning' | translate}}
+               </span>
+            </div>
+         </div>
+         <div class="row row-spacer-top">
+            <div class="col-sm-12">
+               <button style="float: right;" ng-click="pciReserveAllMemory()">
+                  {{'vm.wizard.hardware.virtualhardware.pci.physical.button' | translate}}
+               </button>
+            </div>
+         </div>
+      </div>
+   </div>
+
+   <div vui-stack-block>
+      <!-- Label -->
+      <span vui-sb-label>Note</span>
+
+      <!-- content -->
+      <div vui-sb-content>
+         <div class="row">
+            <div class="col-sm-1">
+               <span class="vui-icon-warning vui-icon-info-inline"></span>
+            </div>
+            <div class="col-sm-11 no-padding" style="padding-left: 5px; padding-right: 15px;">
+               <span vui-sb-label>{{'vm.wizard.hardware.virtualhardware.pci.physical.note' | translate}}</span>
+            </div>
+         </div>
+      </div>
+   </div>
+</div>

@@ -1,0 +1,81 @@
+<div ng-controller="HostManageSwapEditController">
+
+   <div ng-if="!loaded"
+      style="height: 100px; background-image: url('images/tiny_loader_transparent_bg.gif');
+         background-position: 50% 50%; background-repeat: no-repeat; text-align: center;">
+      <div style="padding-top: 80px;">{{'network.portgroup.add.loading' |translate}}</div>
+   </div>
+
+   <div ng-if="loaded" class="vui-stack-view">
+      <div class="stack-view-table">
+
+         <div class="stack-view-row">
+            <div class="stack-view-cell">
+               <span>{{'host.manage.system.swap.enabled' | translate}}</span>
+            </div>
+            <div class="stack-view-cell">
+               <label>
+                  <input type="radio"
+                     ng-model="data.enabled"
+                     ng-value="true"/> {{'host.manage.system.swap.true' | translate}}
+               </label>
+               <label>
+                  <input type="radio" ng-model="data.enabled"
+                     ng-value="false"/> {{'host.manage.system.swap.false' | translate}}
+               </label>
+            </div>
+         </div>
+
+         <div ng-style="{'opacity': data.enabled ? 1.0 : 0.7}" class="stack-view-row">
+            <div class="stack-view-cell">
+               <span>{{'host.manage.system.swap.datastore' | translate}}</span>
+            </div>
+            <div class="stack-view-cell">
+               <div vui-dropdown="datastore"></div>
+            </div>
+         </div>
+
+         <div ng-style="{'opacity': data.enabled ? 1.0 : 0.7}" class="stack-view-row">
+            <div class="stack-view-cell">
+               <span>{{'host.manage.system.swap.localSwapEnabled' | translate}}</span>
+            </div>
+            <div class="stack-view-cell">
+               <label>
+                  <input type="radio"
+                     ng-disabled="!data.enabled"
+                     ng-model="data.localSwap"
+                     ng-value="true"/> {{'host.manage.system.swap.true' | translate}}
+               </label>
+               <label>
+                  <input type="radio"
+                     ng-disabled="!data.enabled"
+                     ng-model="data.localSwap"
+                     ng-value="false"/> {{'host.manage.system.swap.false' | translate}}
+               </label>
+            </div>
+         </div>
+
+         <div ng-style="{'opacity': data.enabled ? 1.0 : 0.7}" class="stack-view-row">
+            <div class="stack-view-cell">
+               <span>{{'host.manage.system.swap.hostCacheEnabled' | translate}}</span>
+            </div>
+            <div class="stack-view-cell">
+               <label>
+                  <input type="radio"
+                     ng-disabled="!data.enabled"
+                     ng-model="data.hostCache"
+                     ng-value="true"/> {{'host.manage.system.swap.true' | translate}}
+               </label>
+               <label>
+                  <input type="radio"
+                     ng-disabled="!data.enabled"
+                     ng-model="data.hostCache"
+                     ng-value="false"/> {{'host.manage.system.swap.false' | translate}}
+               </label>
+            </div>
+         </div>
+
+      </div>
+   </div>
+
+</div>

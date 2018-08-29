@@ -1,0 +1,224 @@
+[IODM_VvolProtocolEndpoint]
+   provider: IODM_VvolProtocolEndpoint
+   location: iodmprovider
+   type: instance
+   group: iodm_group
+   namespace: root/cimv2
+
+[IODM_VvolProtocolEndpointStats]
+   provider: IODM_VvolProtocolEndpointStats
+   location: iodmprovider
+   type: instance
+   group: iodm_group
+   namespace: root/cimv2
+
+[IODM_VvolStatsForProtocolEndpoint]
+   provider: IODM_VvolStatsForProtocolEndpoint
+   location: iodmprovider
+   type: instance association
+   group: iodm_group
+   namespace: root/cimv2
+
+[IODM_VvolDevice]
+   provider: IODM_VvolDevice
+   location: iodmprovider
+   type: instance
+   group: iodm_group
+   namespace: root/cimv2
+
+[IODM_VvolDeviceStats]
+   provider: IODM_VvolDeviceStats
+   location: iodmprovider
+   type: instance
+   group: iodm_group
+   namespace: root/cimv2
+
+[IODM_VvolStatsForDevice]
+   provider: IODM_VvolStatsForDevice
+   location: iodmprovider
+   type: instance association
+   group: iodm_group
+   namespace: root/cimv2
+
+[IODM_VvolContainer]
+   provider: IODM_VvolContainer
+   location: iodmprovider
+   type: instance
+   group: iodm_group
+   namespace: root/cimv2
+
+[IODM_VvolContainerStats]
+   provider: IODM_VvolContainerStats
+   location: iodmprovider
+   type: instance
+   group: iodm_group
+   namespace: root/cimv2
+
+[IODM_VvolStatsForContainer]
+   provider: IODM_VvolStatsForContainer
+   location: iodmprovider
+   type: instance association
+   group: iodm_group
+   namespace: root/cimv2
+
+[IODM_VvolDevicesOnProtocolEndpoint]
+   provider: IODM_VvolDevicesOnProtocolEndpoint
+   location: iodmprovider
+   type: instance association
+   group: iodm_group
+   namespace: root/cimv2
+
+[IODM_VvolDevicesOnContainer]
+   provider: IODM_VvolDevicesOnContainer
+   location: iodmprovider
+   type: instance association
+   group: iodm_group
+   namespace: root/cimv2
+
+[IODM_VvolProtocolEndpointsOfContainer]
+   provider: IODM_VvolProtocolEndpointsOfContainer
+   location: iodmprovider
+   type: instance association
+   group: iodm_group
+   namespace: root/cimv2
+
+[IODM_FCAdapter]
+   provider: IODM_FCAdapter
+   location: iodmprovider
+   type: instance
+   group: iodm_group
+   namespace: root/cimv2
+
+[IODM_FCAdapterStats]
+   provider: IODM_FCAdapterStats
+   location: iodmprovider
+   type: instance
+   group: iodm_group
+   namespace: root/cimv2
+
+[IODM_FCoEAdapter]
+   provider: IODM_FCoEAdapter
+   location: iodmprovider
+   type: instance
+   group: iodm_group
+   namespace: root/cimv2
+
+[IODM_FCoEAdapterStats]
+   provider: IODM_FCoEAdapterStats
+   location: iodmprovider
+   type: instance
+   group: iodm_group
+   namespace: root/cimv2
+
+[IODM_SCSIDevice]
+   provider: IODM_SCSIDevice
+   location: iodmprovider
+   type: instance
+   group: iodm_group
+   namespace: root/cimv2
+
+[IODM_SCSILocalDevice]
+   provider: IODM_SCSILocalDevice
+   location: iodmprovider
+   type: instance
+   group: iodm_group
+   namespace: root/cimv2
+
+[IODM_SCSIDeviceStats]
+   provider: IODM_SCSIDeviceStats
+   location: iodmprovider
+   type: instance
+   group: iodm_group
+   namespace: root/cimv2
+
+[IODM_SCSILocalDeviceSMART]
+   provider: IODM_SCSILocalDeviceSMART
+   location: iodmprovider
+   type: instance
+   group: iodm_group
+   namespace: root/cimv2
+
+[IODM_SCSIPath]
+   provider: IODM_SCSIPath
+   location: iodmprovider
+   type: instance
+   group: iodm_group
+   namespace: root/cimv2
+
+[IODM_SCSIPathStats]
+   provider: IODM_SCSIPathStats
+   location: iodmprovider
+   type: instance
+   group: iodm_group
+   namespace: root/cimv2
+
+[IODM_FCAdapterStatisticalData]
+   provider: IODM_FCAdapterStatisticalData
+   location: iodmprovider
+   type: instance association
+   group: iodm_group
+   namespace: root/cimv2
+
+[IODM_FCoEAdapterStatisticalData]
+   provider: IODM_FCoEAdapterStatisticalData
+   location: iodmprovider
+   type: instance association
+   group: iodm_group
+   namespace: root/cimv2
+
+[IODM_SCSIDeviceStatisticalData]
+   provider: IODM_SCSIDeviceStatisticalData
+   location: iodmprovider
+   type: instance association
+   group: iodm_group
+   namespace: root/cimv2
+
+[IODM_SCSILocalDeviceSMARTData]
+   provider: IODM_SCSILocalDeviceSMARTData
+   location: iodmprovider
+   type: instance association
+   group: iodm_group
+   namespace: root/cimv2
+
+[IODM_SCSIPathsOfDevice]
+   provider: IODM_SCSIPathsOfDevice
+   location: iodmprovider
+   type: instance association
+   group: iodm_group
+   namespace: root/cimv2
+
+[IODM_SCSIPathStatisticalData]
+   provider: IODM_SCSIPathStatisticalData
+   location: iodmprovider
+   type: instance association
+   group: iodm_group
+   namespace: root/cimv2
+
+[IODM_Datastore]
+   provider: IODM_Datastore
+   location: iodmprovider
+   type: instance
+   group: iodm_group
+   namespace: root/cimv2
+
+[IODM_ExtentsOfDatastore]
+   provider: IODM_ExtentsOfDatastore
+   location: iodmprovider
+   type: instance association
+   group: iodm_group
+   namespace: root/cimv2
+
+[IODM_AdapterIndication]
+  provider: IODM_AdapterIndication
+  location: iodmprovider
+  type: indication
+  group: iodm_group
+  namespace: root/cimv2
+
+[IODM_Service]
+   provider: IODM_Service
+   location: iodmprovider
+   type: instance method
+   group: iodm_group
+   namespace: root/cimv2
+

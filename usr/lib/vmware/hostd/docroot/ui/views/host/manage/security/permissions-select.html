@@ -1,0 +1,36 @@
+<div class="permissions-select" style="position: relative;">
+   <div ng-if="!showPrivs" style="height: 100px;
+         background-image: url('images/tiny_loader_transparent_bg.gif');
+         background-position: 50% 50%;
+         background-repeat: no-repeat;
+         text-align: center;">
+      <div style="padding-top: 80px;">{{'storage.adapter.iscsi.loading' | translate}}</div>
+   </div>
+
+   <ul ng-if="showPrivs" class="permissions-nav">
+      <li ng-click="updatePath(allPrivileges)">
+         <a ng-if="currentPath.length > 0" class="nav-segment">Root</a>
+         <span ng-if="currentPath.length === 0" class="nav-segment">Root</span>
+      </li>
+
+      <li ng-repeat="segment in currentPath track by $index"
+            ng-click="updatePath({ path: currentPath.slice(0,$index+1) })">
+         <a ng-if="$index + 1 !== currentPath.length" class="nav-segment">{{segment}}</a>
+         <span ng-if="$index + 1 === currentPath.length" class="nav-segment">{{segment}}</span>
+      </li>
+   </ul>
+
+   <div class="permissions-list" ng-if="showPrivs">
+      <ul>
+         <li ng-repeat="priv in currentPrivileges"
+               ng-if="priv.label.length > 0">
+            <esxui-checkbox
+                  ng-disabled="disabled"
+                  status="priv.status"
+                  ng-click="togglePrivilege(priv.path); $event.stopPropagation()"></esxui-checkbox>
+            <a ng-if="priv.children.length > 0" ng-click="updatePath(priv)">{{priv.label}}</a>
+            <span ng-if="priv.children.length === 0">{{priv.label}}</span>
+         </li>
+      </ul>
+   </div>
+</div>

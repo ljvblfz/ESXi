@@ -1,0 +1,70 @@
+<?xml version="1.0"?>
+<plugin xmlns="http://www.vmware.com/Products/ESX/5.0/esxcli/">
+   <version>1.0.0</version>
+
+   <namespaces>
+      <!-- esxcli storage pmem -->
+      <namespace path="storage.pmem">
+         <description>PMem commands.</description>
+      </namespace>
+      <!-- esxcli storage pmem gpt -->
+      <namespace path="storage.pmem.gpt">
+         <description>PMem GPT commands.</description>
+      </namespace>
+   </namespaces>
+
+   <commands>
+      <command path="storage.pmem.autoconfigure">
+         <description>
+            Format the PMem Namespaces with VMware's RegionStore.
+         </description>
+         <input-spec>
+         </input-spec>
+         <output-spec>
+            <bool />
+         </output-spec>
+
+         <format-parameters>
+            <formatter/>
+         </format-parameters>
+         <execute>/usr/lib/vmware/mkfsPmem/autoconfigurePMem.py create</execute>
+      </command>
+
+      <command path="storage.pmem.destroy">
+         <description>
+            Remove all the VMware's partitions from the PMem Namespaces.
+         </description>
+         <input-spec>
+         </input-spec>
+         <output-spec>
+            <bool />
+         </output-spec>
+
+         <format-parameters>
+            <formatter/>
+         </format-parameters>
+         <execute>/usr/lib/vmware/mkfsPmem/autoconfigurePMem.py destroy</execute>
+      </command>
+
+      <command path="storage.pmem.gpt.remove">
+         <description>
+            Remove GPT partition from the Namespace.
+         </description>
+         <input-spec>
+            <context-supported>user</context-supported>
+            <parameter name="uuid" shortname="u"
+                       type="string" required="true">
+               <description>Namespace UUID.</description>
+            </parameter>
+         </input-spec>
+         <output-spec>
+            <bool />
+         </output-spec>
+
+         <format-parameters>
+            <formatter/>
+         </format-parameters>
+         <execute>/usr/lib/vmware/mkfsPmem/autoconfigurePMem.py deleteGpt --uuid='$val{uuid}'</execute>
+      </command>
+   </commands>
+</plugin>

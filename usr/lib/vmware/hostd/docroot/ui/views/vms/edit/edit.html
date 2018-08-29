@@ -1,0 +1,30 @@
+<div ng-controller="VMEditController" class="content-padding vm-wizard">
+
+   <div ng-if="loading.hardware && !loading.error"
+      style="height: 400px;
+         background-image: url('images/tiny_loader_transparent_bg.gif');
+         background-position: 50% 50%;
+         background-repeat: no-repeat;
+         text-align: center;">
+      <div style="padding-top: 230px;">
+         {{'general.loading.label' | translate}}</div>
+   </div>
+
+   <div ng-if="loading.error"
+      style="height: 400px;
+         background-image: url('images/error48.png');
+         background-position: 50% 50%; background-repeat: no-repeat;
+         background-size: 16px;
+         text-align: center;">
+      <div style="padding-top: 230px;">
+         {{'general.loading.error' | translate}}</div>
+   </div>
+
+   <div ng-if="!loading.vm" ng-show="!loading.hardware" style="height: 100%;">
+      <div class="row no-margin row-spacer" style="height: 100%;">
+         <div class="col-sm-12 no-padding" style="height: 100%;">
+            <div vui-tabs="hardwareTabOptions"></div>
+         </div>
+      </div>
+   </div>
+</div>

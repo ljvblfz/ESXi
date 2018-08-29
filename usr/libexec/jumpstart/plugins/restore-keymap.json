@@ -1,0 +1,22 @@
+/***********************************************************
+ * Copyright 2011,2015 VMware, Inc.  All rights reserved.
+ * VMware Confidential
+ ***********************************************************/
+
+{
+   "operations" :
+   {
+      "start" :
+      [
+         "system settings keyboard layout set --no-persist"
+      ]
+   }
+   ,
+   "metadata" :
+   {
+      "version"  : 1,
+      "requires" : ["random", "system configuration"],
+      "provides" : ["keymap"]
+   }
+}
+

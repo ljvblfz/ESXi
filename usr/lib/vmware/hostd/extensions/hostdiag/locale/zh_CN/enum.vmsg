@@ -1,0 +1,153 @@
+# en_US resources
+signature="sIgNaTuRe"
+
+# vSphere Replication enums
+hbr.primary.ReasonForDeltaAbort.fileTransfer.label                = "文件传输失败"
+hbr.primary.ReasonForDeltaAbort.fileTransfer.summary              = "无法传输配置文件。"
+hbr.primary.ReasonForDeltaAbort.filter.label                      = "筛选失败"
+hbr.primary.ReasonForDeltaAbort.filter.summary                    = "VR 筛选操作失败。"
+hbr.primary.ReasonForDeltaAbort.quiesceApps.label                 = "应用程序静默失败"
+hbr.primary.ReasonForDeltaAbort.quiesceApps.summary               = "在客户机中应用程序静默失败。"
+hbr.primary.ReasonForDeltaAbort.quiesceFS.label                   = "文件系统静默失败"
+hbr.primary.ReasonForDeltaAbort.quiesceFS.summary                 = "在客户机中文件系统静默失败。"
+hbr.primary.ReasonForDeltaAbort.paused.label                      = "用户已暂停"
+hbr.primary.ReasonForDeltaAbort.paused.summary                    = "用户已暂停复制。"
+hbr.primary.ReasonForDeltaAbort.offline.label                     = "已关闭虚拟机电源"
+hbr.primary.ReasonForDeltaAbort.offline.summary                   = "虚拟机正在关闭电源。"
+hbr.primary.ReasonForDeltaAbort.diskNeedsSync.label               = "磁盘需要同步"
+hbr.primary.ReasonForDeltaAbort.diskNeedsSync.summary             = "磁盘需要完全重新同步。"
+hbr.primary.ReasonForDeltaAbort.userAbort.label                   = "用户中止"
+hbr.primary.ReasonForDeltaAbort.userAbort.summary                 = "用户已中止复制。"
+hbr.primary.ReasonForDeltaAbort.quiesceUncommitted.label          = "静默未完成"
+hbr.primary.ReasonForDeltaAbort.quiesceUncommitted.summary        = "无法完成静默操作。"
+hbr.primary.ReasonForDeltaAbort.configurationChanged.label        = "配置已更改"
+hbr.primary.ReasonForDeltaAbort.configurationChanged.summary      = "虚拟机配置在复制过程中已更改。"
+hbr.primary.ReasonForDeltaAbort.serverAborted.label               = "服务器已中止。"
+hbr.primary.ReasonForDeltaAbort.serverAborted.summary             = "VR 服务器已中止实例。"
+hbr.primary.ReasonForDeltaAbort.diskSetMismatch.label             = "磁盘集不匹配"
+hbr.primary.ReasonForDeltaAbort.diskSetMismatch.summary           = "VR 服务器上配置的磁盘集与复制的磁盘不匹配。"
+#
+hbr.primary.ReasonForNoServerConnection.noNetwork.label           = "网络"
+hbr.primary.ReasonForNoServerConnection.noNetwork.summary         = "无网络。"
+hbr.primary.ReasonForNoServerConnection.notResponding.label       = "未响应"
+hbr.primary.ReasonForNoServerConnection.notResponding.summary     = "VR 服务器未响应。"
+hbr.primary.ReasonForNoServerConnection.protocolMismatch.label    = "协议不匹配"
+hbr.primary.ReasonForNoServerConnection.protocolMismatch.summary  = "VR 服务器版本不兼容。"
+hbr.primary.ReasonForNoServerConnection.noMemory.label            = "无内存"
+hbr.primary.ReasonForNoServerConnection.noMemory.summary          = "无可用于内核模块的内存"
+hbr.primary.ReasonForNoServerConnection.diskSizeMismatch.label    = "磁盘大小不匹配"
+hbr.primary.ReasonForNoServerConnection.diskSizeMismatch.summary  = "主虚拟机与 VR 服务器之间的磁盘大小不匹配"
+hbr.primary.ReasonForNoServerConnection.unknown.label             = "未知"
+hbr.primary.ReasonForNoServerConnection.unknown.summary           = "未知。"
+#
+hbr.primary.ReasonForNoServerProgress.noGroupOnServer.label       = "未在服务器上配置虚拟机"
+hbr.primary.ReasonForNoServerProgress.noGroupOnServer.summary     = "未在 VR 服务器上配置该虚拟机。"
+hbr.primary.ReasonForNoServerProgress.diskSetMismatch.label       = "磁盘集不匹配"
+hbr.primary.ReasonForNoServerProgress.diskSetMismatch.summary     = "复制的磁盘集与服务器上配置的磁盘集不匹配。"
+hbr.primary.ReasonForNoServerProgress.unknown.label               = "未知"
+hbr.primary.ReasonForNoServerProgress.unknown.summary             = "未知。"
+#
+hbr.primary.ReasonForPausedReplication.diskAdded.label            = "磁盘已添加到虚拟机"
+hbr.primary.ReasonForPausedReplication.diskAdded.summary          = "磁盘已添加到虚拟机。"
+#
+hbr.primary.ReasonForAppQuiesceFailure.diskUUIDNotEnabled.label   = "磁盘 UUID 未启用"
+hbr.primary.ReasonForAppQuiesceFailure.diskUUIDNotEnabled.summary = "虚拟机配置未启用磁盘 UUID。"
+hbr.primary.ReasonForAppQuiesceFailure.hasIDEDisks.label          = "虚拟机具有 IDE 或 SATA 磁盘"
+hbr.primary.ReasonForAppQuiesceFailure.hasIDEDisks.summary        = "具有 IDE 或 SATA 磁盘的虚拟机不支持应用程序静默。"
+hbr.primary.ReasonForAppQuiesceFailure.hasIndependentDisks.label  = "虚拟机具有独立磁盘"
+hbr.primary.ReasonForAppQuiesceFailure.hasIndependentDisks.summary = "具有独立磁盘的虚拟机不支持应用程序静默。"
+hbr.primary.ReasonForAppQuiesceFailure.notEnoughFreeSlots.label   = "没有足够的可用 SCSI 插槽"
+hbr.primary.ReasonForAppQuiesceFailure.notEnoughFreeSlots.summary = "虚拟机没有足够的可用 SCSI 插槽来执行应用程序静默。"
+hbr.primary.ReasonForAppQuiesceFailure.guestConfigIssue.label     = "客户机配置 (如动态磁盘) 不受支持"
+hbr.primary.ReasonForAppQuiesceFailure.guestConfigIssue.summary   = "某些客户机配置 (如动态磁盘) 中不支持应用程序静默。"
+# vSphere replication enums end here
+
+# guest operation enums
+com.vmware.vc.guestOp.ValidateCredentialsInGuest.label = "验证凭据"
+com.vmware.vc.guestOp.ValidateCredentialsInGuest.summary = "在客户机操作系统中验证用户凭据>"
+#
+com.vmware.vc.guestOp.AcquireCredentialsInGuest.label = "获取凭据 "
+com.vmware.vc.guestOp.AcquireCredentialsInGuest.summary = "在客户机操作系统中获取用户凭据>"
+#
+com.vmware.vc.guestOp.ReleaseCredentialsInGuest.label = "发布凭据 "
+com.vmware.vc.guestOp.ReleaseCredentialsInGuest.summary = "在客户机操作系统中发布用户凭据>"
+#
+com.vmware.vc.guestOp.StartProgramInGuest.label = "启动程序"
+com.vmware.vc.guestOp.StartProgramInGuest.summary = "在客户机操作系统中启动程序。"
+#
+com.vmware.vc.guestOp.ListProcessesInGuest.label = "列出进程"
+com.vmware.vc.guestOp.ListProcessesInGuest.summary = "在客户机操作系统中列出进程。"
+#
+com.vmware.vc.guestOp.TerminateProcessInGuest.label = "终止进程"
+com.vmware.vc.guestOp.TerminateProcessInGuest.summary = "在客户机操作系统中终止进程。"
+#
+com.vmware.vc.guestOp.ReadEnvironmentVariableInGuest.label = "读取环境变量。"
+com.vmware.vc.guestOp.ReadEnvironmentVariableInGuest.summary = "在客户机操作系统中读取环境变量。"
+#
+com.vmware.vc.guestOp.MakeDirectoryInGuest.label = "创建目录"
+com.vmware.vc.guestOp.MakeDirectoryInGuest.summary = "在客户机操作系统中创建目录。"
+#
+com.vmware.vc.guestOp.DeleteFileInGuest.label = "删除文件"
+com.vmware.vc.guestOp.DeleteFileInGuest.summary = "在客户机操作系统中删除文件。"
+#
+com.vmware.vc.guestOp.DeleteDirectoryInGuest.label = "删除目录"
+com.vmware.vc.guestOp.DeleteDirectoryInGuest.summary = "在客户机操作系统中删除目录。"
+#
+com.vmware.vc.guestOp.MoveDirectoryInGuest.label = "移动目录"
+com.vmware.vc.guestOp.MoveDirectoryInGuest.summary = "在客户机操作系统中移动目录。"
+#
+com.vmware.vc.guestOp.MoveFileInGuest.label = "移动文件"
+com.vmware.vc.guestOp.MoveFileInGuest.summary = "在客户机操作系统中移动文件。"
+#
+com.vmware.vc.guestOp.CreateTemporaryFileInGuest.label = "创建临时文件"
+com.vmware.vc.guestOp.CreateTemporaryFileInGuest.summary = "在客户机操作系统中创建临时文件。"
+#
+com.vmware.vc.guestOp.CreateTemporaryDirectoryInGuest.label = "创建临时目录"
+com.vmware.vc.guestOp.CreateTemporaryDirectoryInGuest.summary = "在客户机操作系统中创建临时目录。"
+#
+com.vmware.vc.guestOp.ListFilesInGuest.label = "列出文件"
+com.vmware.vc.guestOp.ListFilesInGuest.summary = "在客户机操作系统中列出文件。"
+#
+com.vmware.vc.guestOp.ChangeFileAttributesInGuest.label = "更改文件属性"
+com.vmware.vc.guestOp.ChangeFileAttributesInGuest.summary = "在客户机操作系统中更改文件的属性。"
+#
+com.vmware.vc.guestOp.InitiateFileTransferFromGuest.label = "初始化来自客户机的文件传输"
+com.vmware.vc.guestOp.InitiateFileTransferFromGuest.summary = "初始化来自客户机操作系统的文件传输。"
+#
+com.vmware.vc.guestOp.InitiateFileTransferToGuest.label = "启动向客户机传输文件"
+com.vmware.vc.guestOp.InitiateFileTransferToGuest.summary = "启动向客户机操作系统传输文件。"
+#
+com.vmware.vc.guestOp.AddAlias.label = "添加别名"
+com.vmware.vc.guestOp.AddAlias.summary = "向客户机操作系统添加身份验证别名。"
+#
+com.vmware.vc.guestOp.RemoveAlias.label = "移除别名"
+com.vmware.vc.guestOp.RemoveAlias.summary = "从客户机操作系统中移除身份验证别名。"
+#
+com.vmware.vc.guestOp.RemoveAliasByCert.label = "按证书移除别名"
+com.vmware.vc.guestOp.RemoveAliasByCert.summary = "从客户机操作系统中移除与某个证书关联的所有身份验证别名。"
+#
+com.vmware.vc.guestOp.ListGuestAliases.label = "列出别名"
+com.vmware.vc.guestOp.ListGuestAliases.summary = "列出客户机操作系统中的身份验证别名。"
+#
+com.vmware.vc.guestOp.ListGuestMappedAliases.label = "列出映射的别名"
+com.vmware.vc.guestOp.ListGuestMappedAliases.summary = "列出客户机操作系统中映射的身份验证别名。"
+#
+com.vmware.vc.guestOp.CreateRegistryKey.label = "创建 Windows 注册表项"
+com.vmware.vc.guestOp.CreateRegistryKey.summary = "在客户机操作系统中创建 Windows 注册表项。"
+#
+com.vmware.vc.guestOp.ListRegistryKeys.label = "列出 Windows 注册表项"
+com.vmware.vc.guestOp.ListRegistryKeys.summary = "列出客户机操作系统中的 Windows 注册表项。"
+#
+com.vmware.vc.guestOp.DeleteRegistryKey.label = "删除 Windows 注册表项"
+com.vmware.vc.guestOp.DeleteRegistryKey.summary = "从客户机操作系统中删除 Windows 注册表项。"
+#
+com.vmware.vc.guestOp.SetRegistryValue.label = "设置 Windows 注册表值"
+com.vmware.vc.guestOp.SetRegistryValue.summary = "在客户机操作系统中设置 Windows 注册表值。"
+#
+com.vmware.vc.guestOp.ListRegistryValues.label = "列出 Windows 注册表值"
+com.vmware.vc.guestOp.ListRegistryValues.summary = "列出客户机操作系统中的 Windows 注册表值。"
+#
+com.vmware.vc.guestOp.DeleteRegistryValue.label = "删除 Windows 注册表值"
+com.vmware.vc.guestOp.DeleteRegistryValue.summary = "从客户机操作系统中删除 Windows 注册表值。"
+#
+# guest operation enums end here

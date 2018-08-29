@@ -1,0 +1,33 @@
+/***********************************************************
+ * Copyright 2010-2011,2015 VMware, Inc.  All rights reserved.
+ * VMware Confidential
+ ***********************************************************/
+
+{
+   "operations" :
+   {
+      "start" :
+      [
+         "boot storage restore --paths"
+      ],
+      "apply_host_profile" :
+      [
+         /* Stateless late application of NMP device configuration */
+         "boot hostprofile apply --earlybootinit -p nmp.nmpProfile.NmpDeviceProfile",
+
+         /* Stateless late application of NMP device specific PSP config */
+         "boot hostprofile apply --earlybootinit -p nmp.nmpProfile.PathSelectionPolicyProfile",
+
+         /* Stateless late application of PSA device configuration */
+         "boot hostprofile apply --earlybootinit -p psa.psaProfile.PsaDeviceConfigurationProfile"
+      ]
+   }
+   ,
+   "metadata" :
+   {
+      "version"  : 2,
+      "requires" : ["storage drivers", "storage paths", "software iSCSI", "fcoe configuration"],
+      "provides" : ["storage"]
+   }
+}
+

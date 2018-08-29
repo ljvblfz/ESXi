@@ -1,0 +1,21 @@
+<div
+   ng-controller="VMWizardHardwareController"
+   class="content-padding vm-wizard">
+
+   <div
+      ng-if="loading.hardware"
+      ng-include src="'views/loading-dialog.html'"></div>
+
+   <div
+      ng-show="!loading.hardware" style="height: 100%;">
+
+      <div class="row no-margin" style="height: 100%;">
+         <div class="col-sm-12 no-padding wizard-stack-fixed-height"
+            style="height: 100%;">
+            <div vui-tabs="hardwareTabOptions"></div>
+         </div>
+      </div>
+
+   </div>
+
+</div>

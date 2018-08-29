@@ -1,0 +1,6 @@
+#min hour day mon dow command
+1    1    *   *   *   /sbin/tmpwatch.py
+1    *    *   *   *   /sbin/auto-backup.sh
+0    *    *   *   *   /usr/lib/vmware/vmksummary/log-heartbeat.py
+*/5  *    *   *   *   /bin/hostd-probe.sh ++group=host/vim/vmvisor/hostd-probe/stats/sh
+00   1    *   *   *   localcli storage core device purge

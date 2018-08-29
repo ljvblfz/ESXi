@@ -1,0 +1,348 @@
+<!-- Hard drives -->
+<div
+   ng-class="{
+      'stack-new': wizardOptions.data.hds[_index]._operation === 'add' &&
+         wizardOptions.data.Type === 'edit',
+      'stack-warning': hd.HDInvalid || hd.SharesValueInvalid || hd.VirtualFlashReadCacheInvalid,
+      'stack-remove': wizardOptions.data.hds[_index]._operation === 'remove'
+   }"
+   ng-repeat="(_index, hd) in hds"
+   ng-if="hd.visible"
+   vui-stack-block="hardwareStackView.hardDiskBlock[_index]"
+   id="harddrive-{{_index}}">
+
+   <!-- Icon -->
+   <span vui-sb-icon-class="icon-stackview-disk" vui-sb-label>{{hd.title}}
+      <span class="vui-icon-warning vui-icon-info-inline"
+         ng-show="wizardOptions.data.general.isManagedByVC"
+         vui-sign-post="isManagedByVCPostOptions"></span>
+   </span>
+
+   <!-- content collapsed-->
+   <div vui-sb-content>
+      <label class="label-508"
+         ng-class="{
+            'label-disabled': !hd.canChangeSize()
+         }"
+         title="{{'vm.wizard.hardware.virtualhardware.hd.size' | translate}}">
+         <input class="inline stack-input"
+            min="0"
+            ng-class="{
+               'invalid': hd.HDInvalid
+            }"
+            ng-disabled="!hd.canChangeSize()"
+            ng-model-options="{
+               updateOn: 'blur'
+            }"
+            ng-model="hd.HD"
+            type="text"/>
+      </label>
+
+      <label class="label-508"
+         title="{{'vm.wizard.hardware.virtualhardware.hd.unit' | translate}}">
+         <div class="inline stack-spacer stack-dropdown"
+            vui-dropdown="hd.HDUnit"></div>
+      </label>
+
+      <label
+         ng-class="{
+            'label-disabled': !hd.canRemove()
+         }"
+         ng-show="wizardOptions.data.hds[_index]._operation === 'remove'">
+         <input
+            ng-model="wizardOptions.data.hds[_index]._destroy"
+            type="checkbox"/>
+         {{'vm.wizard.hardware.virtualhardware.hd.delete' | translate}}
+      </label>
+
+      <span class="esx-icon-close vui-icon-info-inline esx-stack-valign-tall esx-close-right"
+         ng-click="removeHD(_index)"
+         ng-show="
+            hd.canRemove() &&
+            wizardOptions.data.hds[_index]._operation !== 'remove'"></span>
+
+      <span class="esx-icon-undo vui-icon-info-inline esx-stack-valign-tall esx-close-right"
+          ng-click="undoRemoveHD(_index)"
+          ng-show="wizardOptions.data.hds[_index]._operation === 'remove'"></span>
+   </div>
+
+   <!-- content expanded -->
+   <div vui-sb-content-expanded>
+      <label
+         class="label-508"
+         ng-class="{
+            'label-disabled': !hd.canChangeSize()
+         }"
+         title="{{'vm.wizard.hardware.virtualhardware.hd.size' | translate}}">
+         <input
+            class="inline stack-input"
+            min="0"
+            ng-class="{
+               'invalid': hd.HDInvalid
+            }"
+            ng-disabled="!hd.canChangeSize()"
+            ng-model-options="{
+               updateOn: 'blur'
+            }"
+            ng-model="hd.HD"
+            type="text"/>
+      </label>
+
+      <label
+         class="label-508"
+         title="{{'vm.wizard.hardware.virtualhardware.hd.unit' | translate}}">
+         <div class="inline stack-spacer stack-dropdown"
+            vui-dropdown="hd.HDUnit"></div>
+      </label>
+
+      <label
+         ng-class="{
+            'label-disabled': wizardOptions.data.general.state === 'suspended'
+         }"
+         ng-show="wizardOptions.data.hds[_index]._operation === 'remove'">
+         <input
+            class="esx-stack-valign-tall"
+            ng-model="wizardOptions.data.hds[_index]._destroy" type="checkbox"/>
+         {{'vm.wizard.hardware.virtualhardware.hd.delete' | translate}}
+      </label>
+
+      <span class="esx-icon-close vui-icon-info-inline esx-stack-valign-tall esx-close-right"
+         ng-click="removeHD(_index)"
+         ng-show="
+            hd.canRemove() &&
+            wizardOptions.data.hds[_index]._operation !== 'remove'"></span>
+      <span class="esx-icon-undo vui-icon-info-inline esx-stack-valign-tall esx-close-right"
+         ng-click="undoRemoveHD(_index)"
+         ng-show="wizardOptions.data.hds[_index]._operation === 'remove'"></span>
+   </div>
+
+   <!-- children -->
+   <div vui-stack-block ng-show="!hd.isRawDevice()">
+      <!-- Label -->
+      <span vui-sb-label>{{'vm.wizard.hardware.virtualhardware.hd.maximumsize' | translate}}</span>
+      <!-- content -->
+      <div vui-sb-content>
+         <span>{{wizardOptions.data.hds[_index].MaximumSizeName}}</span>
+      </div>
+   </div>
+
+    <div vui-stack-block ng-show="hd.isRawDevice()">
+       <!-- Label -->
+       <span vui-sb-label>
+          {{'vm.wizard.hardware.virtualhardware.hd.device' | translate}}
+       </span>
+
+       <!-- content -->
+       <div vui-sb-content>
+          <label class="label-508" title="{{wizardOptions.data.hds[_index].RawDeviceDiskPath}">
+             {{wizardOptions.data.hds[_index].RawDeviceDiskPath}}
+          </label>
+       </div>
+    </div>
+
+   <div ng-show="hd._state === 'new' && !hd.isRawDevice()" vui-stack-block>
+      <!-- Label -->
+      <span vui-sb-label>{{'vm.wizard.hardware.virtualhardware.hd.location' | translate}}</span>
+      <!-- content -->
+      <div vui-sb-content>
+         <input
+            title="{{'vm.wizard.hardware.virtualhardware.hd.location' | translate}}"
+            class="inline stack-input"
+            style="width: 100%;"
+            ng-model-options="{
+               updateOn: 'blur'
+            }"
+            ng-disabled="hd.isPMemBacked()"
+            ng-model="wizardOptions.data.hds[_index].LocationName"
+            type="text"/>
+
+         <button class="stack-spacer" ng-click="openLocationDialog(_index)"
+               ng-disabled="hd.isPMemBacked()">
+            {{'vm.wizard.hardware.virtualhardware.hd.browse' | translate}}
+         </button>
+      </div>
+   </div>
+
+   <div ng-show="hds[_index]._state === 'new' &&
+      !hd.isRawDevice() &&
+      !hd.isPMemBacked()" vui-stack-block>
+      <!-- Label -->
+      <span vui-sb-label>{{'vm.wizard.hardware.virtualhardware.hd.diskProvisioning' | translate}}</span>
+
+      <!-- content -->
+      <div vui-sb-content>
+         <div class="inline radio">
+
+            <label
+               title="{{'vm.wizard.hardware.virtualhardware.hd.thin' | translate}}">
+               <input
+                  ng-model="wizardOptions.data.hds[_index].DiskProvisioning"
+                  ng-value="'thin'"
+                  ng-disabled="wizardOptions.data.hds[_index].DiskSharing === 'sharingMultiWriter'"
+                  type="radio"/>{{'vm.wizard.hardware.virtualhardware.hd.thin' | translate}}
+            </label>
+
+            <label
+               title="{{'vm.wizard.hardware.virtualhardware.hd.thick' | translate}}">
+               <input
+                  ng-model="wizardOptions.data.hds[_index].DiskProvisioning"
+                  ng-value="'lazy'"
+                  ng-disabled="wizardOptions.data.hds[_index].DiskSharing === 'sharingMultiWriter' ||
+                     wizardOptions.data.datastoreType === 'NFS'"
+                  type="radio"/>{{'vm.wizard.hardware.virtualhardware.hd.thick' | translate}}
+            </label>
+
+            <label
+               title="{{'vm.wizard.hardware.virtualhardware.hd.eager' | translate}}">
+               <input
+                  ng-model="wizardOptions.data.hds[_index].DiskProvisioning"
+                  ng-value="'eager'"
+                  ng-disabled="wizardOptions.data.datastoreType === 'NFS'"
+                  type="radio"/>{{'vm.wizard.hardware.virtualhardware.hd.eager' | translate}}
+            </label>
+
+         </div>
+      </div>
+   </div>
+
+   <div ng-show="hds[_index]._state !== 'new' && !hd.isRawDevice()" vui-stack-block>
+      <!-- Label -->
+      <span vui-sb-label>{{'vm.wizard.hardware.virtualhardware.hd.type' | translate}}</span>
+
+      <!-- content -->
+      <div vui-sb-content>
+         {{wizardOptions.data.hds[_index].DiskProvisioningName}}
+      </div>
+   </div>
+
+   <div ng-show="hds[_index]._state !== 'new'" vui-stack-block>
+      <!-- Label -->
+      <span vui-sb-label>{{'vm.wizard.hardware.virtualhardware.hd.diskFile'
+         | translate}}</span>
+      <!-- content -->
+      <div vui-sb-content>
+         {{wizardOptions.data.hds[_index].OutputFile}}
+      </div>
+   </div>
+
+   <div vui-stack-block ng-show="!hd.isRawDevice()">
+      <!-- Label -->
+      <span vui-sb-label>{{'vm.wizard.hardware.virtualhardware.hd.shares.label'
+         | translate}}</span>
+      <!-- content -->
+      <div vui-sb-content>
+         <label class="label-508" title="{{'vm.wizard.hardware.virtualhardware.hd.shares.type' | translate}}">
+            <div class="stack-dropdown inline" vui-dropdown="hd.SharesType"></div>
+         </label>
+         <label class="label-508" title="{{'vm.wizard.hardware.virtualhardware.hd.shares.value' | translate}}">
+            <div class="stack-dropdown inline stack-spacer" ng-class="{invalid: hd.SharesValueInvalid}" vui-combo-box="hd.SharesValue"></div>
+         </label>
+      </div>
+   </div>
+
+   <div vui-stack-block ng-show="!hd.isRawDevice()">
+      <!-- Label -->
+      <span vui-sb-label>{{'vm.wizard.hardware.virtualhardware.hd.limitIOP'
+         | translate}}</span>
+      <!-- content -->
+      <div vui-sb-content>
+         <label class="label-508" title="{{'vm.wizard.hardware.virtualhardware.hd.limitIOP' | translate}}">
+            <div class="stack-dropdown inline"
+                 ng-class="{
+                  'invalid': hd.LimitInvalid
+                 }"
+                 vui-combo-box="hd.LimitedIOPs"></div>
+         </label>
+      </div>
+   </div>
+
+   <div vui-stack-block>
+      <!-- Label -->
+      <span vui-sb-label>{{'vm.wizard.hardware.virtualhardware.hd.virtualDeviceNode.label'
+         | translate}}</span>
+
+      <!-- content -->
+      <div vui-sb-content>
+         <label class="label-508" title="{{'vm.wizard.hardware.virtualhardware.hd.virtualDeviceNode.label' | translate}}">
+            <div class="stack-dropdown inline" vui-dropdown="hd.VirtualDeviceNodeController"></div>
+         </label>
+         <label class="label-508" title="{{'vm.wizard.hardware.virtualhardware.hd.virtualDeviceNode.unit' | translate}}">
+            <div class="stack-dropdown inline stack-spacer" vui-dropdown="hd.VirtualDeviceNodeLocation"></div>
+         </label>
+      </div>
+   </div>
+
+   <div vui-stack-block>
+      <!-- Label -->
+      <span vui-sb-label>{{'vm.wizard.hardware.virtualhardware.hd.diskMode.label'
+         | translate}}</span>
+
+      <!-- content -->
+      <div vui-sb-content>
+         <label class="label-508" title="{{'vm.wizard.hardware.virtualhardware.hd.diskMode.label'
+         | translate}}">
+            <div class="stack-dropdown inline" vui-dropdown="hd.DiskMode"></div>
+         </label>
+      </div>
+    </div>
+
+    <div vui-stack-block ng-show="hd.isRawDevice()">
+       <!-- Label -->
+       <span vui-sb-label>{{'vm.wizard.hardware.virtualhardware.hd.diskCompatibility.label' | translate}}</span>
+
+       <!-- content -->
+       <div vui-sb-content>
+          <label class="label-508" title="{{'vm.wizard.hardware.virtualhardware.hd.diskCompatibility.label' | translate}}">
+             <div class="stack-dropdown inline" vui-dropdown="hd.DiskCompatibility"></div>
+          </label>
+       </div>
+    </div>
+
+    <div vui-stack-block ng-show="hd.canShare()">
+       <!-- Label -->
+       <span vui-sb-label>{{'vm.wizard.hardware.virtualhardware.hd.diskSharing.label' | translate}}</span>
+
+       <!-- content -->
+       <div vui-sb-content>
+          <div class="row no-margin">
+             <label class="label-508"
+                   title="{{'vm.wizard.hardware.virtualhardware.hd.diskSharing.label' | translate}}">
+                <div class="stack-dropdown inline" vui-dropdown="hd.DiskSharing"></div>
+             </label>
+          </div>
+
+          <div class="row row-spacer-top no-margin"
+                ng-show="wizardOptions.data.hds[_index].DiskProvisioning !== 'eager'">
+             <span class="vui-icon-info vui-icon-info-inline" style="margin-bottom: 1px;">
+             </span>
+             <div style="display: inline-block; margin-left: 5px;">
+                {{'vm.wizard.hardware.virtualhardware.hd.diskSharing.info' | translate}}
+             </div>
+          </div>
+       </div>
+    </div>
+</div>
+
+<div ng-if="showMoreHDs" vui-stack-block>
+   <span vui-sb-label></span>
+
+   <div vui-sb-content>
+      <div style="margin-bottom: 3px;">
+         {{'vm.wizard.hardware.virtualhardware.hd.showMore.showNext' | translate}}
+         <input class="stack-input inline"
+            ng-model="showNumDisks" type="number" style="width: 75px; margin: 0 5px;"/>
+         {{'vm.wizard.hardware.virtualhardware.hd.showMore.hardDisks' | translate}}
+         <button ng-click="showNextHDs(showNumDisks)">
+         {{'vm.wizard.hardware.virtualhardware.hd.showMore.go' | translate}}
+         </button>
+      </div>
+
+      <div>
+         {{'vm.wizard.hardware.virtualhardware.hd.showMore.show' | translate}}
+         <div class="inline" vui-dropdown="disksDropdown" style="margin: 0 5px;"></div>
+         <button ng-click="showDiskAtIndex(disksDropdown.selectedValue)">
+            {{'vm.wizard.hardware.virtualhardware.hd.showMore.go' | translate}}
+         </button>
+      </div>
+   </div>
+</div>

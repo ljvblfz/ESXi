@@ -1,0 +1,120 @@
+#!/bin/sh
+# chkconfig: on 18 82
+
+export PATH=/bin:/sbin
+HOSTD_TAG=hostd
+HOSTD_LOGDIR=/var/log
+HOSTD_KILL_SIGNAL=TERM
+HOSTD_SSL_SIGNAL=USR2
+ISRUNNING="${HOSTD_TAG} is running."
+ISNOTRUNNING="${HOSTD_TAG} is not running."
+HOSTD_PID="$(pidof -s $HOSTD_TAG)"
+
+HOSTD_CREATE_STATSSTORE=/usr/lib/vmware/hostd/bin/create-statsstore.py
+HOSTD_UPGRADE_CONFIG=/usr/lib/vmware/hostd/bin/upgrade-config.py
+HOSTD_UPGRADE_CONFIGRULES=/usr/lib/vmware/hostd/bin/upgrade-configrules.sh
+HOSTD_PATCH_CONFIGRULES=/usr/lib/vmware/hostd/bin/patch-configrules.py
+HOSTD_UPGRADE_ENDPOINTS_CONF=/usr/lib/vmware/hostd/bin/upgrade-endpoints.conf.sh
+HOSTD_UPGRADE_AUTH_TALLY=/usr/lib/vmware/hostd/bin/upgrade-system-auth-tally.sh
+HOSTD_UPGRADE_NTP_CONF=/usr/lib/vmware/hostd/bin/upgrade-ntp.conf.sh
+
+start() {
+   # Reset tally counters
+   pam_tally2 -r > /dev/null
+
+   # Upgrade config if needed
+   ${HOSTD_UPGRADE_CONFIG}
+   ${HOSTD_UPGRADE_CONFIGRULES}
+   ${HOSTD_CREATE_STATSSTORE}
+   ${HOSTD_PATCH_CONFIGRULES}
+   ${HOSTD_UPGRADE_ENDPOINTS_CONF}
+   ${HOSTD_UPGRADE_AUTH_TALLY}
+   # As we are not sure which init script is called first - hostd or ntpd,
+   # the upgrade is called from both scripts.
+   ${HOSTD_UPGRADE_NTP_CONF}
+
+   # As a highly-threaded app, hostd performs better with per-thread arenas
+   export MALLOC_ARENA_MAX=20
+   export VMACORE_SSL_DISABLED_PROTOCOLS=`esxcfg-advcfg -q -g /UserVars/ESXiVPsDisabledProtocols`
+   export VMWARE_VMX_FULLPATH=/bin/vmx
+   export VMWARE_VMX_DEBUG_FULLPATH=/bin/vmx-debug
+
+   ulimit -c unlimited
+   /sbin/watchdog.sh ++memreliable,group=hostd -d -s $HOSTD_TAG -e "LD_PRELOAD=/lib64/libMallocArenaFix.so" hostd ++min=0,swapscope=system /etc/vmware/hostd/config.xml
+   if [ $? -eq 0 ]; then
+      echo "$HOSTD_TAG started."
+   fi
+}
+
+stop() {
+   if [ -n "${HOSTD_PID}" ]; then
+      vmkbacktrace ${HOSTD_PID} ${HOSTD_LOGDIR} hostd-live%
+   fi
+   /sbin/watchdog.sh -k $HOSTD_TAG
+   kill -${HOSTD_KILL_SIGNAL} $HOSTD_PID && echo "$HOSTD_TAG stopped."
+}
+
+ssl_reset() {
+   # We cannot use pkill with the daemon TAG as match pattern here as that
+   # could produce false matches. Revert to pidof + kill.
+   if [ -z "${HOSTD_PID}" ] ; then
+      echo "${ISNOTRUNNING}"
+      exit 3
+   fi
+
+   kill -${HOSTD_SSL_SIGNAL} $HOSTD_PID
+
+   if [ 0 -ne ${?} ] ; then
+      echo "Unexpected error while trying to signal $HOSTD_TAG."
+      exit 1
+   fi
+
+   echo "$HOSTD_TAG signalled."
+}
+
+usage() {
+   echo "Usage: $0 {start|stop|restart|status|ssl_reset}"
+}
+
+if [ $# -ne 1 ]; then
+   usage
+   exit 1
+fi
+
+case $1 in
+   "start")
+      if [ -z "${HOSTD_PID}" ] ; then
+         start
+      else
+         echo "${ISRUNNING}"
+      fi
+      ;;
+   "stop")
+      if [ -n "${HOSTD_PID}" ] ; then
+         stop
+      else
+         echo "${ISNOTRUNNING}"
+      fi
+      ;;
+   "restart")
+      stop
+      start
+      ;;
+   "status")
+      if [ -n "${HOSTD_PID}" ] ; then
+         echo "${ISRUNNING}"
+         exit 0
+      else
+         echo "${ISNOTRUNNING}"
+         exit 3
+      fi
+      ;;
+   "ssl_reset")
+      ssl_reset
+      ;;
+   *)
+      usage
+      exit 1
+      ;;
+esac
+

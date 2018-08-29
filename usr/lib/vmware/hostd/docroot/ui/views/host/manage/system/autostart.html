@@ -1,0 +1,24 @@
+<div ng-if="hostManageSystemTabs.tabs[getSelectedTab()].state ===  'host.manage.system.autostart'"
+   ng-controller="HostManageAutostartController" class="esx-tertiary-tab-content">
+
+   <div ng-if="!loaded" class="loading"></div>
+
+   <div ng-if="loaded" vui-action-bar="actionBar" style="padding-top: 2px;"></div>
+
+   <div ng-if="loaded" vui-stack-view="stackView" style="margin-bottom: 15px;"></div>
+
+   <esx-vm-list
+      ng-if="loaded"
+      show-action-bar="true"
+      link-vms="false"
+      grid-id="'autostartVMList'"
+      columns="vmListColumns"
+      current-vm="data.currentVM"
+      autostart-max="data.autostartMax"
+      default-sort-order="vmListSortOrder"
+      selection-mode="vmListSelectionMode"
+      action-bar-options="vmListActionBarOptions"
+      selected-vms="selectedVMs"
+      loaded="loaded"></esx-vm-list>
+
+</div>

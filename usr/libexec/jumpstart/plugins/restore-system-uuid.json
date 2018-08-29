@@ -1,0 +1,22 @@
+/***********************************************************
+ * Copyright 2010-2011 VMware, Inc.  All rights reserved.
+ * VMware Confidential
+ ***********************************************************/
+
+{
+   "operations" :
+   {
+      "start" :
+      [
+         "boot system restore --uuid"
+      ]
+   }
+   ,
+   "metadata" :
+   {
+      "version"  : 1,
+      "requires" : ["networking drivers"],
+      "provides" : ["system uuid"]
+   }
+}
+

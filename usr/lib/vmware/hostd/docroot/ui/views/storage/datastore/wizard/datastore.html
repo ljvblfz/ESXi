@@ -1,0 +1,14 @@
+<div ng-controller="StorageDatastoreWizardDatastoreController"
+   class="content-padding vm-wizard">
+
+   <div ng-if="loading" ng-include src="'views/loading-dialog.html'"></div>
+
+   <div ng-show="!loading">
+
+      <div class="row">
+         <div class="col-sm-12 wizard-datastore-fixed-height">
+            <div vui-datagrid="datastoreGrid" id="{{datastoreGrid.id}}"></div>
+         </div>
+      </div>
+   </div>
+</div>

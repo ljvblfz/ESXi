@@ -1,0 +1,88 @@
+<div ng-controller="VMSnapshotManageController"
+     class="content-padding manage-snapshot-dialog">
+   <div ng-if="loading" ng-include src="'views/loading-dialog.html'"></div>
+   <div ng-show="!loading">
+      <div vui-action-bar="actionBarOptions"
+           style="position: absolute; top: 37px; left: 5px;"></div>
+      <div class="row no-margin content" style="overflow: hidden; border-bottom:none;">
+         <div class="col-sm-6">
+            <div vui-tree-view="treeViewOptions"></div>
+         </div>
+         <div class="col-sm-6">
+            <div class="row no-margin row-spacer-top" ng-if="screenGrabURL">
+               <div class="col-sm-12 no-padding">
+                  <div esx-vm-screen url="screenGrabURL" guest-logo="guestLogoImg" class="screenshot hcenter" readonly="true" style="height: auto"></div>
+               </div>
+            </div>
+            <div class="row no-margin row-spacer-top" ng-if="selectedSnapshot">
+               <div class="col-sm-12 no-padding">
+                  <div class="vui-stack-view">
+                     <div class="stack-view-table">
+                        <div vui-stack-block>
+                     <span
+                        vui-sb-label>{{'vm.snapshot.manage.name' |
+                        translate}}</span>
+
+                           <div vui-sb-content>
+                              <span
+                                 ng-if="status !== 'edit'">{{snapshot.name}}</span>
+                              <input ng-if="status === 'edit'" type="text"
+                                     ng-model="snapshot.newName"
+                                     ng-model-options="{ updateOn: 'blur' }"
+                                     maxlength="80"
+                                     class="inline"/>
+                           </div>
+                        </div>
+                        <div vui-stack-block>
+                     <span
+                        vui-sb-label>{{'vm.snapshot.manage.description' |
+                        translate}}</span>
+
+                           <div vui-sb-content style="min-height: 100px;">
+                        <span ng-if="status !== 'edit'">{{snapshot
+                           .description}}</span>
+                        <textarea ng-if="status === 'edit'" rows="10"
+                                  ng-model="snapshot.newDescription"
+                                  ng-model-options="{ updateOn: 'blur' }"></textarea>
+                           </div>
+                        </div>
+                        <div vui-stack-block ng-if="status !== 'edit'">
+                     <span
+                        vui-sb-label>{{'vm.snapshot.manage.created' |
+                        translate}}</span>
+
+                           <div vui-sb-content>
+                              <span>{{snapshot.created}}</span>
+                           </div>
+                        </div>
+                        <!--div vui-stack-block ng-if="status !== 'edit'">
+                           <span
+                              vui-sb-label>{{'vm.snapshot.manage.diskUsage' |
+                              translate}}</span>
+
+                           <div vui-sb-content>
+                              <span>{{snapshot.diskUsage}}</span>
+                           </div>
+                        </div-->
+                     </div>
+                  </div>
+               </div>
+            </div>
+            <div class="row no-margin row-spacer-top right"
+                 ng-if="status === 'edit'">
+               <div class="col-sm-12 no-padding">
+                  <button type="button" class="btn btn-default"
+                          ng-click="saveEdit()">{{'vm.snapshot.manage.save' |
+                     translate}}
+                  </button>
+                  <button type="button" class="btn btn-default"
+                          ng-click="cancelEdit()">{{'vm.snapshot.manage.cancel' |
+                     translate}}
+                  </button>
+               </div>
+            </div>
+
+         </div>
+      </div>
+   </div>
+</div>

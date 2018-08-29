@@ -1,0 +1,26 @@
+<div ng-controller="ClientUpdateNotifyController"
+     class="content-padding shutdown-dialog">
+
+   <div class="row">
+      <div class="col-sm-2">
+         <img src="images/update64.png"
+            alt="{{'notification.type.info'|translate}}"
+            style="float: left; margin-left: 25px; margin-top: 15px;"/>
+      </div>
+      <div class="col-sm-10" style="margin-top: 15px;">
+         <h4 ng-bind-html="'update.notify.dialog.content' | translate:details | linebreak"></h4>
+         <p>{{'update.notify.dialog.current' | translate:details}}</p>
+         <p>
+            <input type="checkbox" id="never" ng-model="never" style="margin-right: 5px;"/>
+            <label for="never" style="font-weight: normal;">{{'update.notify.dialog.never' | translate}}</label>
+         </p>
+      </div>
+   </div>
+
+   <div class="row changelog">
+      <div class="col-sm-12">
+         <h4>{{'update.notify.dialog.whatsNew' | translate}}</h4>
+         <p style="margin: 10px 0 0 10px;" ng-bind-html="details.description"></p>
+      </div>
+   </div>
+</div>

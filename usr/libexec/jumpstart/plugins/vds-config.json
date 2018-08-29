@@ -1,0 +1,22 @@
+/***********************************************************
+ * Copyright 2010 VMware, Inc.  All rights reserved.
+ * VMware Confidential
+ ***********************************************************/
+
+{
+   "operations" :
+   {
+      "start" :
+      [
+         /* This is stub for 3rd party vds to follow */
+      ]
+   }
+   ,
+   "metadata" :
+   {
+      "version"  : 1,
+      "requires" : ["public vds vmkapi v2_0_0_0"],
+      "provides" : ["public vds"]
+   }
+}
+

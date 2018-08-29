@@ -1,0 +1,14 @@
+<div ng-if="tabs.firewall.loaded || networkingTabs.tabs[getSelectedTab()].state === tabs.firewall.state"
+   ng-controller="NetworkingFirewallListController" class="esx-tab-content">
+
+   <div ng-show="!loaded" class="loading"></div>
+
+   <div ng-show="loaded" ng-if="firewallGrid !== null" vui-datagrid="firewallGrid" id="firewallGrid"></div>
+
+   <hr ng-show="currentFirewallRule" class="ng-cloak" ng-cloak/>
+
+   <div ng-controller="NetworkingFirewallRuleController" ng-cloak ng-if="currentFirewallRule !== null">
+      <div ng-include src="'views/networking/firewall/summary.html'"></div>
+   </div>
+
+</div>

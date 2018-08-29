@@ -1,0 +1,263 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+    <meta name="robots" content="noindex,nofollow"/>    
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <meta name="generator" content="0.10 (f6047b328bd2)"/>
+    <link rel="icon" href="/source/default/img/icon.png" type="image/png"/>    
+    <link rel="stylesheet" type="text/css" href="/source/default/style.css?v=f6047b328bd2"/>
+    <link rel="stylesheet" type="text/css" href="/source/default/print.css?v=f6047b328bd2" media="print" />
+    
+    <link rel="stylesheet" type="text/css" href="/source/default/jquery.tooltip.css?v=f6047b328bd2" />
+    <link rel="stylesheet" type="text/css" href="/source/default/jquery-ui-1.8.13/smoothness/jquery-ui-1.8.13.custom.css" />
+    
+    <link rel="alternate stylesheet" type="text/css" media="all" title="Paper White" href="/source/default/print.css?v=f6047b328bd2"/>
+    <link rel="search" href="/source/opensearch" type="application/opensearchdescription+xml" title="OpenGrok Search for current project(s)" />
+    <title>guestOsWindows.png</title>
+</head>
+
+<body style="overflow:hidden;">
+<script type="text/javascript" src="/source/jquery-1.4.2.min.js"></script>
+<script type="text/javascript">/* <![CDATA[ */
+function get_annotations() {
+    link="/source/xref/vsphere-client-modules-main.perforce-vc.1648/main/ngc-plugin/ui/vm-ui/swf/src/main/flex/assets/images/guestOsWindows.png?a=true";
+    hash="&h="+window.location.hash.substring(1,window.location.hash.length);
+    window.location=link+hash;
+}
+    $().ready(function() {
+     h="null";
+     if (!window.location.hash) {
+         if (h!=null && h!="null")  { window.location.hash=h; }
+             else { $('#content').focus(); }
+      }
+} );
+/* ]]> */</script>
+
+<div id="page">
+<div id="whole_header" >
+<form action="/source/search">
+    <div id="header">
+
+<a href="/source/"><span id="MastheadLogo"></span></a>
+<div class="logout">
+  <span id="logout">
+    Welcome, gestebe! | <a href="/source/logout.jsp">Logout</a>
+  </span>
+</div>
+
+        <div id="pagetitle"><b id="filename">Cross Reference: guestOsWindows.png</b></div>
+    </div>
+    <div id="Masthead"><tt><a href="/source/xref/">xref</a>: /<a href="/source/xref/vsphere-client-modules-main.perforce-vc.1648">vsphere-client-modules-main.perforce-vc.1648</a>/<a href="/source/xref/vsphere-client-modules-main.perforce-vc.1648/main">main</a>/<a href="/source/xref/vsphere-client-modules-main.perforce-vc.1648/main/ngc-plugin">ngc-plugin</a>/<a href="/source/xref/vsphere-client-modules-main.perforce-vc.1648/main/ngc-plugin/ui">ui</a>/<a href="/source/xref/vsphere-client-modules-main.perforce-vc.1648/main/ngc-plugin/ui/vm-ui">vm-ui</a>/<a href="/source/xref/vsphere-client-modules-main.perforce-vc.1648/main/ngc-plugin/ui/vm-ui/swf">swf</a>/<a href="/source/xref/vsphere-client-modules-main.perforce-vc.1648/main/ngc-plugin/ui/vm-ui/swf/src">src</a>/<a href="/source/xref/vsphere-client-modules-main.perforce-vc.1648/main/ngc-plugin/ui/vm-ui/swf/src/main">main</a>/<a href="/source/xref/vsphere-client-modules-main.perforce-vc.1648/main/ngc-plugin/ui/vm-ui/swf/src/main/flex">flex</a>/<a href="/source/xref/vsphere-client-modules-main.perforce-vc.1648/main/ngc-plugin/ui/vm-ui/swf/src/main/flex/assets">assets</a>/<a href="/source/xref/vsphere-client-modules-main.perforce-vc.1648/main/ngc-plugin/ui/vm-ui/swf/src/main/flex/assets/images">images</a>/<a href="/source/xref/vsphere-client-modules-main.perforce-vc.1648/main/ngc-plugin/ui/vm-ui/swf/src/main/flex/assets/images/guestOsWindows.png">guestOsWindows.png</a></tt></div>
+    <div id="bar"><a href="/source/" id="home">Home</a> |
+        <a id="history" href="/source/history/vsphere-client-modules-main.perforce-vc.1648/main/ngc-plugin/ui/vm-ui/swf/src/main/flex/assets/images/guestOsWindows.png">History</a> | <a href="#" onclick="javascript:get_annotations(); return false;">Annotate</a> | <a href="#" onclick="javascript:lntoggle();return false;" title="Show or hide line numbers (might be slower if file has more than 10 000 lines).">Line #</a> | <a href="#" onclick="javascript:lsttoggle();return false;" title="Show or hide symbol list.">Navigate</a> | <a id="download" href="/source/raw/vsphere-client-modules-main.perforce-vc.1648/main/ngc-plugin/ui/vm-ui/swf/src/main/flex/assets/images/guestOsWindows.png">Download</a> | <input id="search" name="q" class="q"/>
+        <input type="submit" value="Search" class="submit"/>
+        <input type="hidden" name="project" value="vsphere-client-modules-main.perforce-vc.1648"/><input type="checkbox" name="path" value="/vsphere-client-modules-main.perforce-vc.1648/main/ngc-plugin/ui/vm-ui/swf/src/main/flex/assets/images"/> only in <b>images</b>
+</div></form></div>
+        <div id="content">
+
+
+<script type="text/javascript">/* <![CDATA[ */
+function lntoggle() {
+   $("a").each(function() {
+      if (this.className == 'l' || this.className == 'hl') {
+         this.className=this.className+'-hide';
+         this.setAttribute("tmp", this.innerHTML);
+         this.innerHTML='';
+      }
+      else if (this.className == 'l-hide' || this.className == 'hl-hide') {
+          this.innerHTML=this.getAttribute("tmp");
+          this.className=this.className.substr(0,this.className.indexOf('-'));
+      }
+     }
+    );
+}
+
+function get_sym_list_contents()
+{
+    var contents = "";
+
+    //contents += "<input id=\"input_highlight\" name=\"input_highlight\" class=\"q\"/>";
+    //contents += "&nbsp;&nbsp;";
+    //contents += "<b><a href=\"#\" onclick=\"javascript:add_highlight();return false;\" title=\"Add highlight\">Highlight</a></b><br>";
+    contents += "<a href=\"#\" onclick=\"javascript:lsttoggle();\">[Close]</a><br>"
+
+    var symbol_classes = get_sym_list();
+    for (var i = 0; i < symbol_classes.length; i++) {
+        if (i > 0) {
+            contents += "<br/>";
+        }
+        var symbol_class = symbol_classes[i];
+        contents += "<b>" + symbol_class[0] + "</b><br/>";
+
+        var class_name = symbol_class[1];
+
+        var symbols = symbol_class[2];
+
+        for (var j = 0; j < symbols.length; j++) {
+            var symbol = symbols[j][0];
+            var line = symbols[j][1];
+            contents +=
+                "<a href=\"#" + line + "\" class=\"" + class_name + "\">" +
+                escape_html(symbol) + "</a><br/>";
+        }
+    }
+
+    return contents;
+}
+
+function escape_html(string) {
+    return string
+        .replace("&", "&amp;")
+        .replace("<", "&lt;")
+        .replace(">", "&gt;");
+}
+
+// Initial value
+document.sym_div_width = 240;
+document.sym_div_height_max = 480;
+document.sym_div_top = 100;
+document.sym_div_left_margin = 40;
+document.sym_div_height_margin = 40;
+
+function get_sym_div_left()
+{
+    document.sym_div_left = $(window).width() - (document.sym_div_width + document.sym_div_left_margin);
+    return document.sym_div_left;
+}
+
+function get_sym_div_height()
+{
+    document.sym_div_height = $(window).height() - document.sym_div_top - document.sym_div_height_margin;
+
+    if (document.sym_div_height > document.sym_div_height_max)
+        document.sym_div_height = document.sym_div_height_max;
+
+    return document.sym_div_height;
+}
+
+function get_sym_div_top()
+{
+    return document.sym_div_top;
+}
+
+function get_sym_div_width()
+{
+    return document.sym_div_width;
+}
+
+function lsttoggle()
+{
+    if (document.sym_div == null)
+    {
+        document.sym_div = document.createElement("div");
+        document.sym_div.id = "sym_div";
+
+        document.sym_div.className = "sym_list_style";
+        document.sym_div.style.margin = "0px auto";
+        document.sym_div.style.width = get_sym_div_width() + "px";
+        document.sym_div.style.height = get_sym_div_height() + "px";
+        document.sym_div.style.top = get_sym_div_top() + "px";
+        document.sym_div.style.left = get_sym_div_left() + "px";
+
+        document.sym_div.innerHTML = get_sym_list_contents();
+
+        document.body.appendChild(document.sym_div);
+        document.sym_div_shown = 1;
+    }
+    else
+    {
+        if (document.sym_div_shown == 1)
+        {
+            document.sym_div.className = "sym_list_style_hide";
+            document.sym_div_shown = 0;
+        }
+        else
+        {
+            document.sym_div.style.height = get_sym_div_height() + "px";
+            document.sym_div.style.width = get_sym_div_width() + "px";
+            document.sym_div.style.top = get_sym_div_top() + "px";
+            document.sym_div.style.left = get_sym_div_left() + "px";
+            document.sym_div.className = "sym_list_style";
+            document.sym_div_shown = 1;
+        }
+    }
+}
+
+$(window).resize(
+    function()
+    {
+        if (document.sym_div_shown == 1)
+        {
+            document.sym_div.style.left = get_sym_div_left() + "px";
+            document.sym_div.style.height = get_sym_div_height() + "px";
+        }
+    }
+);
+
+// Highlighting
+/*
+// This will replace link's href contents as well, be careful
+function HighlightKeywordsFullText(keywords)
+{
+    var el = $("body");
+
+    $(keywords).each(
+        function()
+        {
+            var pattern = new RegExp("("+this+")", ["gi"]);
+            var rs = "<span style='background-color:#FFFF00;font-weight: bold;'>$1</span>";
+            el.html(el.html().replace(pattern, rs)); 
+        }
+    );
+}
+//HighlightKeywordsFullText(["nfstcpsock"]);
+*/
+
+document.highlight_count = 0;
+// This only changes matching tag's style
+function HighlightKeyword(keyword)
+{
+    var high_colors=[
+        "#ffff66",
+        "#ffcccc",
+        "#ccccff",
+        "#99ff99",
+        "#cc66ff"];
+
+    var pattern = "a:contains('" + keyword + "')";
+    $(pattern).css({
+        'text-decoration' : 'underline',
+        'background-color' : high_colors[document.highlight_count % high_colors.length],
+        'font-weight' : 'bold'
+    });
+
+    document.highlight_count++;
+}
+
+//HighlightKeyword('timeval');
+
+function add_highlight()
+{
+    var tbox = document.getElementById('input_highlight');
+    HighlightKeyword(tbox.value);
+}
+
+/* ]]> */
+</script>
+
+<div id="src"><img src="/source/raw/vsphere-client-modules-main.perforce-vc.1648/main/ngc-plugin/ui/vm-ui/swf/src/main/flex/assets/images/guestOsWindows.png"/></div>
+
+<div id="Footer">
+    <p class="Center">
+        <a href="http://www.opensolaris.org/os/project/opengrok/"><img src="/source/default/img/servedby.png" alt="Served by OpenGrok" title="Served by OpenGrok"/></a>
+    </p>
+    <p class="Center">Indexes created Sun Feb 22 18:19:50 PST 2015
+    </p>
+</div>
+</div>
+</div>
+
+</body>
+</html>
+

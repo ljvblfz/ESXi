@@ -1,0 +1,44 @@
+<div ng-if="loaded">
+   <style type="text/css">
+      .CodeMirror {
+         height: 100%;
+         width: 100%;
+      }
+      .cm-highlightSearch {
+         background: yellow;
+      }
+   </style>
+
+   <div style="position: absolute; left: 6px; top: 6px; width: 200px;">
+      <div ng-if="logDropdown !== null" focus-me="true" vui-dropdown="logDropdown" style="float: left;"></div>
+   </div>
+
+   <div style="float: left; height: 29px; position: absolute; left: 212px; top: 6px; right: 6px; border-radius: 5px; background: white;">
+      <div vui-action-bar="actionBarOptions" style="float: left; margin: 4px 0 0 4px;"></div>
+
+      <div
+         class="search"
+         ng-if="currentLog !== null"
+         style="float: right; margin-right: 3px;">
+
+         <label for="search-field-log">
+            <span style="top: 7px;" class="vui-icon-search-input"></span>
+            <div ng-style="{
+               'display': logSearch.query !== '' ? 'block' : 'none'
+            }" ng-click="logSearch.query = ''" class="clear"></div>
+         </label>
+
+         <input
+            type="search"
+            class="search-field"
+            id="search-field-log"
+            placeholder="{{'search.placeholder' | translate}}"
+            aria-label="{{'search.placeholder' | translate}}"
+            ng-model="logSearch.query"
+            style="margin-top: -14px;"/>
+      </div>
+   </div>
+
+   <div style="position: absolute; top: 42px; left: 0; right: 0; bottom: 0;"
+      id="logWindow" ui-codemirror="codemirrorOptions" ng-model="logData"></div>
+</div>

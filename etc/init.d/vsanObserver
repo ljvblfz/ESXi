@@ -1,0 +1,98 @@
+#!/bin/sh
+#
+# Copyright 2015 VMware, Inc.  All rights reserved.
+#
+#   Enable/disable the VSAN observer service
+#
+# chkconfig: off 1 99
+# description: vsan observer
+#
+
+RUN_FREQUENCY=2
+observer_tag="vsanobserver"
+observer_rp="host/vim/vmvisor/$observer_tag"
+vsanObserverAgent="/usr/lib/vmware/vsan/bin/vsanObserver.sh"
+cronupdate="/var/spool/cron/crontabs/cron.update"
+crontab="/var/spool/cron/crontabs/root"
+vsanObserverTmp="/tmp/.vsanObserver"
+PATH=/sbin:/usr/sbin:/bin:/usr/bin
+export PATH
+
+syslog() {
+   echo "$@"
+   logger -p daemon.info -t $observer_tag "$@"
+}
+
+#
+# Check whether VSAN is enabled on the cluster or not
+#
+checkVsanEnabled() {
+   localcli vsan cluster get >/dev/null 2>/dev/null
+}
+
+case "$1" in
+   start)
+
+      checkVsanEnabled
+      if [ $? -ne 0 ]; then
+         syslog "VSAN Cluster not configured, not starting $observer_tag"
+         exit 1
+      fi
+
+      /usr/lib/vmware/vsan/bin/configVsanRP reserveMemory $observer_tag 50
+
+      if [ $? -ne 0 ]; then
+         echo "Failed to reserve memory for VSAN Observer"
+         exit 1
+      fi
+
+      # Run every RUN_FREQUENCY minutes
+      cronLine="*/$RUN_FREQUENCY * * * * $vsanObserverAgent ++group=$observer_rp"
+
+      if grep -q $vsanObserverAgent $crontab; then
+         # cron job already exists, just update/enable it
+         sed -i "s#.*$vsanObserverAgent.*#$cronLine#" $crontab
+      else
+         # add cron job
+         echo "$cronLine" >> $crontab
+      fi
+      # tell crond to update its table
+      touch $cronupdate
+      echo root > $cronupdate
+      true
+      ;;
+
+   stop)
+      # comment out the vsan observer agent line
+      sed -e "\:$vsanObserverAgent:s/^/# /" -i "${crontab}"
+      if [ -e "$vsanObserverTmp" ]; then
+          rm "$vsanObserverTmp"
+      fi
+      # tell crond to update its table
+      touch $cronupdate
+      echo root > $cronupdate
+      /usr/lib/vmware/vsan/bin/configVsanRP clearMemory $observer_tag
+      true
+      ;;
+
+   status)
+      if grep -qE "^[^#]*$vsanObserverAgent" $crontab; then
+         echo "vsan observer is enabled"
+         exit 0
+      else
+         echo "vsan observer is disabled"
+         exit 3
+      fi
+      ;;
+
+   restart)
+      "$0" stop
+      "$0" start
+      ;;
+
+   *)
+      echo "Usage: `basename "$0"` {start|stop|status|restart}"
+      exit 1
+esac
+
+exit 0

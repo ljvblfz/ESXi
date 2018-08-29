@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ioFilter>
+  <FilterName>vmwarevmcrypt</FilterName>
+  <FilterType>disk</FilterType>
+  <FilterClass>encryption</FilterClass>
+  <FilterVersion>1.0.0</FilterVersion>
+  <FilterCapabilities>
+    <Capability key="AllowCleartextFilters" type="string">
+      <allowedValues type="set">
+        <value>True</value>
+        <value>False</value>
+      </allowedValues>
+      <default>False</default>
+    </Capability>
+  </FilterCapabilities>
+</ioFilter>

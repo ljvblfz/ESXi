@@ -1,0 +1,11 @@
+<div ng-controller="VMUnregisterController" class="content-padding" style="padding: 20px;">
+   <div style="float: left; height: 100%;">
+      <img src="images/question48.png" alt="{{'notification.type.quesion'|translate}}" style="margin-right: 30px;"/>
+   </div>
+
+   {{'vm.unregister.content' | translate}}
+
+   <ul style="list-style: none; margin: 10px 10px 10px 90px;">
+      <li ng-repeat="vm in vms"><em class="esx-icon-vm"></em>{{vm.name}}</li>
+   </ul>
+</div>

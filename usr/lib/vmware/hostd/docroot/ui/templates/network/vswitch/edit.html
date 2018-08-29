@@ -1,0 +1,9 @@
+<div ng-controller="NetworkingVSwitchEditStandardController">
+   <div ng-if="!loaded" style="height: 100px; background-image: url('images/tiny_loader_transparent_bg.gif'); background-position: 50% 50%; background-repeat: no-repeat; text-align: center;">
+      <div style="padding-top: 80px;">{{'network.vswitch.edit.loading' | translate}}</div>
+   </div>
+
+   <div ng-if="loaded">
+      <div ng-include src="'templates/network/vswitch/settings-form.html'"></div>
+   </div>
+</div>

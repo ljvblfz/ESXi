@@ -1,0 +1,25 @@
+<div ng-if="hostManageSecurityTabs.tabs[getSelectedTab()].state ===  'host.manage.security.lockdown'"
+   ng-controller="HostManageSecurityLockdownController" class="esx-tertiary-tab-content">
+
+   <div ng-if="!loaded" class="loading"></div>
+
+   <div ng-if="loaded" vui-action-bar="actionBar" style="padding-top: 2px;"></div>
+
+   <div ng-if="loaded" class="vui-stack-view">
+      <div class="stack-view-table">
+         <div vui-stack-block="enabledStackBlock">
+            <span vui-sb-label>{{'host.manage.system.security.lockdown.stack.lockdownMode.label' | translate}}</span>
+            <div vui-sb-content>
+               {{'host.manage.system.security.lockdown.stack.lockdownMode.' + mode | translate}}</span>
+            </div>
+         </div>
+         <div vui-stack-block="usersStackBlock">
+            <span vui-sb-label>{{'host.manage.system.security.lockdown.stack.exceptionUsers.label' | translate}}</span>
+            <div vui-sb-content>
+               <div id="{{userGrid.id}}" vui-datagrid="userGrid"></div>
+            </div>
+         </div>
+      </div>
+   </div>
+
+</div>

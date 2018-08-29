@@ -1,0 +1,3 @@
+#!/bin/sh
+
+cat /dev/char/mem/dmesg

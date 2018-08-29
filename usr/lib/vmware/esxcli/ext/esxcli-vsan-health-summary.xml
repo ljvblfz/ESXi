@@ -1,0 +1,54 @@
+<?xml version="1.0"?>
+<plugin xmlns:esxcli="http://www.vmware.com/Products/ESX/5.0/esxcli/">
+   <version>1.0.0</version>
+   <namespaces>
+      <namespace path="vsan.health">
+         <description>Commands for vSAN Health</description>
+      </namespace>
+      <namespace path="vsan.health.cluster">
+         <description>Commands for vSAN Cluster Health</description>
+      </namespace>
+   </namespaces>
+   <commands>
+      <command path="vsan.health.cluster.list">
+         <description>List a cluster wide health check across all types of health checks</description>
+         <input-spec>
+            <parameter name="with-test-id" type="flag" required="false" shortname="w">
+               <description>Specify output list include testId (testId can be used to get the details of a test)</description>
+            </parameter>
+         </input-spec>
+         <output-spec>
+            <list type="structure">
+               <structure typeName="HealthSummary">
+                  <field name="Health Test Name">
+                     <string/>
+                  </field>
+                  <field name="Status">
+                     <string/>
+                  </field>
+               </structure>
+            </list>
+         </output-spec>
+         <format-parameters>
+            <formatter>table</formatter>
+            <format-parameter name="fields:HealthSummary">Health Test Name,Status</format-parameter>
+         </format-parameters>
+         <execute>python /usr/lib/vmware/vsan/esxcli/esxcli_vsan_health.pyc $if{with-test-id,--with-test-id}</execute>
+      </command>
+      <command path="vsan.health.cluster.get">
+         <description>Get a specific health check status and its details</description>
+         <input-spec>
+            <parameter name="test" type="string" required="true" shortname="t">
+               <description>Test full name prefix or short test id of the health check. The test full names are shown in health UI and can be listed with 'esxcli vsan health cluster list' (Note: use the TEST NAME, not GROUP NAME). If the prefix matchs more than one test, all the matched tests will be displayed. The short test ids can be seen with 'esxcli vsan health cluster list -w'.</description>
+            </parameter>
+         </input-spec>
+         <output-spec>
+            <string/>
+         </output-spec>
+         <format-parameters>
+            <formatter>simple</formatter>
+         </format-parameters>
+         <execute>python /usr/lib/vmware/vsan/esxcli/esxcli_vsan_health.pyc --get "$val{test}"</execute>
+      </command>
+   </commands>
+</plugin>

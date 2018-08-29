@@ -1,0 +1,22 @@
+/***********************************************************
+ * Copyright 2014 VMware, Inc.  All rights reserved.
+ * VMware Confidential
+ ***********************************************************/
+
+{
+   "operations" :
+   {
+      "start" :
+      [
+         "system module load --module balloonVMCI"
+      ]
+   }
+   ,
+   "metadata" :
+   {
+      "version"  : 1,
+      "requires" : ["vmci"],
+      "provides" : ["balloonVMCI"]
+   }
+}
+

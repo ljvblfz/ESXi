@@ -1,0 +1,39 @@
+<div ng-controller="StorageDeviceEditPartitionsController"
+   class="content-padding">
+
+   <div ng-if="loading" ng-include src="'views/loading-dialog.html'"></div>
+
+   <div ng-if="!loading">
+      <div vui-action-bar="actionBarOptions"></div>
+
+      <!-- before partition diagram -->
+      <div style="float: left; margin-top: 10px; margin-left: 20px;">
+         <h4>{{'storage.device.editPartitions.before' | translate}}</h4>
+         <div esx-partition-diagram
+            partition-spec="originalPartitionSpec"
+            show-gaps="true"
+            device-capacity="device.capacity.block"
+            allow-selection="false"
+            show-size="true"
+            show-number="true"
+            max-height="275"
+            style="width: 330px; margin-right: auto; margin-top: 20px;"></div>
+      </div>
+
+      <!-- after partition diagram -->
+      <div style="float: left; margin-top: 10px;">
+         <h4 style="text-align: right;">{{'storage.device.editPartitions.after' | translate}}</h4>
+         <div esx-partition-diagram
+            partition-spec="partitionSpec"
+            show-gaps="true"
+            device-capacity="device.capacity.block"
+            allow-selection="'!free'"
+            partition-click="selectPartition(partition)"
+            label-position="right"
+            show-size="true"
+            show-number="true"
+            max-height="275"
+            style="width: 330px; margin-left: auto; margin-right: auto; margin-top: 20px;"></div>
+      </div>
+   </div>
+</div>

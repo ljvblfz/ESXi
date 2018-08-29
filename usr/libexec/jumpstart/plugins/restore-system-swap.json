@@ -1,0 +1,26 @@
+/***********************************************************
+ * Copyright 2011-2013,2015 VMware, Inc.  All rights reserved.
+ * VMware Confidential
+ ***********************************************************/
+
+{
+   "operations" :
+   {
+      "start" :
+      [
+         "boot system restore --system-swap"
+      ],
+      "apply_host_profile" :
+      [
+         "boot hostprofile apply --earlybootinit -p systemSwap.systemSwapConfig.SystemSwapConfigProfile"
+      ]
+   }
+   ,
+   "metadata" :
+   {
+      "version"  : 2,
+      "requires" : ["system uuid", "host cache", "datastore"],
+      "provides" : ["system swap"]
+   }
+}
+

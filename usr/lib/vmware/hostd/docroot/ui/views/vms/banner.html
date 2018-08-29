@@ -1,0 +1,172 @@
+<div class="row header-area no-margin">
+
+   <!-- screen shot, basic summary -->
+   <div class="col-xs-9 col-sm-9 col-lg-7 info-block no-padding">
+      <div class="col-xs-5 col-sm-5 col-lg-4 no-padding" style="margin-right: 10px;">
+         <div esx-vm-screen
+            url="screenURL"
+            state="currentVM.state"
+            moid="currentVM.moid"
+            guest-logo="currentVM.guestLogo"
+            readonly="false"
+            style="padding-left: 5px;"></div>
+      </div>
+
+      <div class="key-information col-sm-6 col-lg-7">
+         <div class="row">
+            <div class="col-sm-12 title no-padding">
+               <span class="object-title" ng-bind="currentVM.name"></span>
+            </div>
+         </div>
+
+         <form class="form-horizontal">
+            <div class="form-group">
+               <span
+                  class="col-xs-3 col-sm-3 col-lg-3 control-label esx-label no-padding"
+                  title="{{'vm.banner.guestOS' | translate}}">
+                  {{'vm.banner.guestOS' | translate}}</span>
+               <div id="summary_banner_guestFullName" class="col-sm-9 col-lg-9 no-padding">
+                  <p class="form-control-static"
+                     title="{{currentVM.guestFullName}}">
+                     {{currentVM.guestFullName}}
+                     <span ng-show="vbsSupported">
+                        <span ng-show="currentVM.config.flags.vbsEnabled"
+                           title="{{'vm.banner.vbsEnabled'| translate}}">
+                           {{'vm.banner.vbsEnabled'| translate}}</span>
+                        <span ng-show="!currentVM.config.flags.vbsEnabled"
+                           title="{{'vm.banner.vbsNotEnabled'| translate}}">
+                           {{'vm.banner.vbsNotEnabled'| translate}}</span>
+                     </span>
+                  </p>
+               </div>
+            </div>
+
+            <div class="form-group">
+               <span
+                  class="col-xs-4 col-sm-4 col-lg-4 control-label esx-label no-padding"
+                  title="{{'vm.banner.compatibility' | translate}}">
+                  {{'vm.banner.compatibility' | translate}}</span>
+               <div class="col-sm-7 col-lg-8 no-padding">
+                  <p class="form-control-static"
+                     title="{{'vm.hardwareVersion.' + currentVM.hardwareVersion + '.label'|translate}}">
+                     {{'vm.hardwareVersion.' + currentVM.hardwareVersion + '.label'|translate}}
+                  </p>
+               </div>
+            </div>
+
+            <div class="form-group">
+               <span
+                  class="col-xs-4 col-sm-4 col-lg-4 control-label esx-label no-padding"
+                  title="{{'vm.banner.vmwaretools' | translate}}">
+                  {{'vm.banner.vmwaretools' | translate}}</span>
+               <div class="col-sm-7 col-lg-8 no-padding">
+                  <p class="form-control-static"
+                     title="{{'vm.tools.installed.' + currentVM.toolsInstalled | translate}}">
+                     {{'vm.tools.installed.' + currentVM.toolsInstalled | translate}}</p>
+               </div>
+            </div>
+
+            <div class="form-group">
+               <span
+                  class="col-xs-4 col-sm-4 col-lg-4 control-label esx-label no-padding"
+                  title="{{'vm.banner.cpus' | translate}}">
+                  {{'vm.banner.cpus' | translate}}</span>
+               <div class="col-sm-7 col-lg-8 no-padding">
+                  <p class="form-control-static"
+                     title="{{currentVM.cpus}}">
+                     {{currentVM.cpus}}</p>
+               </div>
+            </div>
+
+            <div class="form-group">
+               <span
+                  class="col-xs-4 col-sm-4 col-lg-4 control-label esx-label no-padding"
+                  title="{{'vm.banner.memory' | translate}}">
+                  {{'vm.banner.memory' | translate}}</span>
+               <div class="col-sm-7 col-lg-8 no-padding">
+                  <p class="form-control-static"
+                     title="{{currentVM.memory * 1024.0 * 1024.0 | formatMemory}}">
+                  {{currentVM.memory * 1024.0 * 1024.0 | formatMemory}}</p>
+               </div>
+            </div>
+
+            <div ng-if="currentVM.guest.hostName" class="form-group">
+               <span
+                  class="col-xs-4 col-sm-4 col-lg-4 control-label esx-label no-padding"
+                  title="{{'vm.banner.hostName' | translate}}">
+                  {{'vm.banner.hostName' | translate}}</span>
+               <div class="col-sm-7 col-lg-8 no-padding">
+                  <p class="form-control-static"
+                     title="{{currentVM.guest.hostName}}">
+                     <a href="http://{{currentVM.guest.hostName}}" target="_blank">{{currentVM.guest.hostName}}</a></p>
+               </div>
+            </div>
+         </form>
+      </div>
+   </div>
+
+   <!-- right hand side metrics, cpu memory -->
+   <div class="col-xs-3 col-sm-3 col-lg-5 metrics" style="padding-right: 0px;"
+      ng-style="{'margin-top': metricsUp ? '-35px' : '0'}">
+
+      <div class="col-sm-12 col-lg-12" style="padding-left: 0px; padding-right: 0px;">
+         <div style="float: right; text-align: right; width: 140px; margin-top: 10px;">
+            <img alt="{{'vm.banner.metrics.cpu' | translate}}"
+               src="images/vm/cpu24x.png"
+               style="float: right; margin: 0 0 0 10px;"/>
+            <span class="esx-basic-stat-label no-padding">
+               {{'vm.banner.metrics.cpu' | translate}}</span>
+            <p class="form-control-static esx-basic-stat-value">
+               {{currentVM.cpuUsageFormatted}}
+            </p>
+         </div>
+
+         <nvd3 class="tiny-chart hidden-md hidden-sm"
+            style="float: right; width: 280px;"
+            ng-if="tinyPerfLoaded"
+            config="tinyPerfConfig"
+            options="tinyCPUPerfOptions"
+            data="tinyCPUPerfData"></nvd3>
+      </div>
+
+      <div class="col-sm-12 col-lg-12" style="padding-left: 0px; padding-right: 0px;">
+         <div style="float: right; text-align: right; width: 140px; margin-top: 10px;">
+            <img alt="{{'vm.banner.metrics.memory' | translate}}"
+               src="images/vm/memory24x.png"
+               style="float: right; margin: -5px 0 10px 10px;" />
+            <span class="esx-basic-stat-label no-padding">
+               {{'vm.banner.metrics.memory' | translate}}</span>
+            <p class="form-control-static esx-basic-stat-value">
+               {{currentVM.memoryUsageFormatted}}
+            </p>
+         </div>
+
+         <nvd3 class="tiny-chart hidden-md hidden-sm"
+            style="float: right; width: 280px;"
+            ng-if="tinyPerfLoaded"
+            config="tinyPerfConfig"
+            options="tinyMemoryPerfOptions"
+            data="tinyMemoryPerfData"></nvd3>
+      </div>
+
+      <div class="col-sm-12 col-lg-12" style="padding-left: 0px; padding-right: 0px;">
+         <div style="float: right; text-align: right; width: 140px; margin-top: 10px;">
+            <img alt="{{'vm.banner.metrics.storage' | translate}}"
+               src="images/storage/datastore32.png"
+               style="float: right; margin: 0 0 0 10px; width: 24px;" />
+            <span class="esx-basic-stat-label no-padding">
+               {{'vm.banner.metrics.storage' | translate}}</span>
+            <p class="form-control-static esx-basic-stat-value">
+               {{currentVM.storageUsageFormatted || 'N/A'}}
+            </p>
+         </div>
+
+         <nvd3 class="tiny-chart hidden-md hidden-sm"
+            style="float: right; width: 280px;"
+            ng-if="tinyPerfLoaded"
+            config="tinyPerfConfig"
+            options="tinyStoragePerfOptions"
+            data="tinyStoragePerfData"></nvd3>
+      </div>
+   </div>
+</div>

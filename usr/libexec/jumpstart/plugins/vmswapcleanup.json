@@ -1,0 +1,21 @@
+/***********************************************************
+ * Copyright 2014 VMware, Inc.  All rights reserved.
+ * VMware Confidential
+ ***********************************************************/
+
+{
+   "operations" :
+   {
+      "start" :
+      [
+         "--plugin-dir /usr/lib/vmware/esxcli/int/ systemInternal vmswapcleanup cleanup"
+      ]
+   }
+   ,
+   "metadata" :
+   {
+      "version"   : 1,
+      "requires"  : ["storage", "networking", "disk fs", "system swap"],
+      "provides"  : []
+   }
+}

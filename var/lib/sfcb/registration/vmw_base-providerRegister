@@ -1,0 +1,264 @@
+[VMware_ESXComputerSystem]
+   provider: SystemProvider
+   location: vmwprovider
+   type: instance
+   group: vmware_base
+   vendor: VMware, Inc
+   namespace: vmware/esxv2
+
+[VMware_VMComputerSystem]
+   provider: VmProvider
+   location: vmwprovider
+   type: instance
+   group: vmware_base
+   vendor: VMware, Inc
+   namespace: vmware/esxv2
+
+[VMware_HostedDependency]
+   provider: VmAssocProvider
+   location: vmwprovider
+   type: instance association
+   group: vmware_base
+   vendor: VMware, Inc
+   namespace: vmware/esxv2
+
+[VMware_PowerManagementService]
+   provider: PowerMgmt
+   location: vmwprovider
+   type: instance method
+   group: vmware_base
+   vendor: VMware, Inc
+   namespace: root/cimv2
+
+[VMware_PowerManagementServiceCapabilities]
+   provider: PowerMgmt
+   location: vmwprovider
+   type: instance
+   group: vmware_base
+   vendor: VMware, Inc
+   namespace: root/cimv2
+
+[VMware_PowerManagementServiceRegisteredProfile]
+   provider: PowerMgmt
+   location: vmwprovider
+   slpservice: Power State Management
+   type: instance
+   group: vmware_base
+   vendor: VMware, Inc
+   namespace: root/interop
+[VMware_PowerManagementServiceHostedService]
+   provider: PowerMgmtAssoc
+   location: vmwprovider
+   type: instance association
+   group: vmware_base
+   vendor: VMware, Inc
+   namespace: root/cimv2
+
+[VMware_PowerManagementServiceElementCapabilities]
+   provider: PowerMgmtAssoc
+   location: vmwprovider
+   type: instance association
+   group: vmware_base
+   vendor: VMware, Inc
+   namespace: root/cimv2
+
+[VMware_PowerManagementServiceElementConformsToProfile]
+   provider: PowerMgmtAssoc
+   location: vmwprovider
+   type: instance association
+   group: vmware_base
+   vendor: VMware, Inc
+   namespace: root/interop root/cimv2
+
+[VMware_PowerManagementServiceReferencedProfile]
+   provider: PowerMgmtAssoc
+   location: vmwprovider
+   type: instance association
+   group: vmware_base
+   vendor: VMware, Inc
+   namespace: root/interop
+
+[VMware_EthernetPort]
+   provider: EthernetPortProvider
+   location: vmwprovider
+   type: instance
+   vendor: VMware, Inc
+   group: vmware_base
+   memsize: 80
+   namespace: root/cimv2
+
+[VMware_EPDriverSoftwareIdentity]
+   provider: EthernetPortProvider
+   location: vmwprovider
+   type: instance
+   vendor: VMware, Inc
+   group: vmware_base
+   namespace: root/cimv2
+
+[VMware_EPFirmwareSoftwareIdentity]
+   provider: EthernetPortProvider
+   location: vmwprovider
+   type: instance
+   vendor: VMware, Inc
+   group: vmware_base
+   namespace: root/cimv2
+
+[VMware_EPStatisticalInformation]
+   provider: EthernetPortProvider
+   location: vmwprovider
+   type: instance
+   vendor: VMware, Inc
+   group: vmware_base
+   namespace: root/cimv2
+
+[VMware_EPCoalesceSettingData]
+   provider: EthernetPortProvider
+   location: vmwprovider
+   type: instance
+   vendor: VMware, Inc
+   group: vmware_base
+   namespace: root/cimv2
+
+[VMware_EPPauseParamsSettingData]
+   provider: EthernetPortProvider
+   location: vmwprovider
+   type: instance
+   vendor: VMware, Inc
+   group: vmware_base
+   namespace: root/cimv2
+
+[VMware_EPRingCurrentSettingData]
+   provider: EthernetPortProvider
+   location: vmwprovider
+   type: instance
+   vendor: VMware, Inc
+   group: vmware_base
+   namespace: root/cimv2
+
+[VMware_EPRingPresetSettingData]
+   provider: EthernetPortProvider
+   location: vmwprovider
+   type: instance
+   vendor: VMware, Inc
+   group: vmware_base
+   namespace: root/cimv2
+
+[VMware_EPDriverElementSoftwareIdentity]
+   provider: EthernetPortProvider
+   location: vmwprovider
+   type: instance association
+   vendor: VMware, Inc
+   group: vmware_base
+   namespace: root/cimv2
+
+[VMware_EPFirmwareElementSoftwareIdentity]
+   provider: EthernetPortProvider
+   location: vmwprovider
+   type: instance association
+   vendor: VMware, Inc
+   group: vmware_base
+   namespace: root/cimv2
+
+[VMware_EPStatistics]
+   provider: EthernetPortProvider
+   location: vmwprovider
+   type: instance association
+   vendor: VMware, Inc
+   group: vmware_base
+   namespace: root/cimv2
+
+[VMware_EPCoalesceElementSettingData]
+   provider: EthernetPortProvider
+   location: vmwprovider
+   type: instance association
+   vendor: VMware, Inc
+   group: vmware_base
+   namespace: root/cimv2
+
+[VMware_EPPauseParamsElementSettingData]
+   provider: EthernetPortProvider
+   location: vmwprovider
+   type: instance association
+   vendor: VMware, Inc
+   group: vmware_base
+   namespace: root/cimv2
+
+[VMware_EPRingCurrentElementSettingData]
+   provider: EthernetPortProvider
+   location: vmwprovider
+   type: instance association
+   vendor: VMware, Inc
+   group: vmware_base
+   namespace: root/cimv2
+
+[VMware_EPRingPresetElementSettingData]
+   provider: EthernetPortProvider
+   location: vmwprovider
+   type: instance association
+   vendor: VMware, Inc
+   group: vmware_base
+   namespace: root/cimv2
+
+[VMware_KernelIPv4ProtocolEndpoint]
+   provider: KernelIPProtocolEndpointProvider
+   location: vmwprovider
+   type: instance
+   vendor: VMware, Inc
+   group: vmware_base
+   namespace: root/cimv2
+
+[VMware_KernelIPv6ProtocolEndpoint]
+   provider: KernelIPProtocolEndpointProvider
+   location: vmwprovider
+   type: instance
+   vendor: VMware, Inc
+   group: vmware_base
+   namespace: root/cimv2
+
+[VMware_CIMHeartbeat]
+   provider: VMware_CIMHeartbeat
+   location: vmwprovider
+   type: indication
+   vendor: VMware, Inc
+   group: vmware_base
+   namespace: root/cimv2
+
+[VMware_HypervisorSoftwareIdentity]
+   provider: HypervisorSoftwareIdentity
+   location: vmwprovider
+   type: instance
+   vendor: VMware, Inc
+   group: vmware_base
+   namespace: root/cimv2
+
+[VMware_InstalledSoftwareIdentity]
+   provider: VMwareInstalledSoftwareIdentity
+   location: vmwprovider
+   type: instance association
+   vendor: VMware, Inc
+   group: vmware_base
+   namespace: root/cimv2
+
+[VMware_KernelIPChangedIndication]
+   provider: VMware_KernelIPChangedIndication
+   location: vmwprovider
+   type: indication
+   vendor: VMware, Inc
+   group: vmware_base
+   namespace: root/cimv2
+
+[VMware_Processor]
+   provider: VMwareProcessorProvider
+   location: vmwprovider
+   type: instance
+   vendor: VMware, Inc
+   group: vmware_base
+   namespace: root/cimv2
+
+[VMware_ComponentSoftwareIdentity]
+   provider: SoftwareProvider
+   location: vmwprovider
+   type: instance
+   vendor: VMware, Inc
+   group: vmware_base
+   namespace: root/cimv2

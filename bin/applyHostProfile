@@ -1,0 +1,93 @@
+#!/bin/sh
+# **********************************************************
+# Copyright 2014-2015 VMware, Inc.  All rights reserved. -- VMware Confidential
+# **********************************************************
+
+HOST_PROFILE_LOG_TAG="applyHostProfile"
+
+vsi()
+{
+   /sbin/vsish -e $*
+}
+
+logNonDeletedProcesses()
+{
+   # Get the id of hostprofile RP.
+   # Only 1 result can be returned, but to be safe, select the first one
+   poolId=$(vsi set /sched/groupPathNameToID host vim tmp hostprofile | cut -d' ' -f1)
+   if [ "$poolId" != "" ]; then
+      for member in $(vsi ls /sched/groups/${poolId}/members/groups); do
+         # Get PID of process running in hostprofile RP
+         pid=$(vsi get /sched/groups/${member}/groupLeaderID)
+         if [ "$pid" == "" ]; then
+              continue
+         fi
+         # Get the verbose command which invoked the process and log it
+         notDeleted=$(ps -c | grep ${pid} | grep -v grep | sed 's/  */\ /g')
+         if [ "$notDeleted" != "" ]; then
+            logger -t $HOST_PROFILE_LOG_TAG "Process still running in" \
+                                       "host profile resource pool: $notDeleted"
+         fi
+      done
+   fi
+}
+
+rpError()
+{
+   # Put host in maintenance mode and save the resource pool error in the
+   # status manager.
+   /bin/esxcli system maintenanceMode set -e 1
+   sp=$(/usr/bin/python -c \
+       "from distutils.sysconfig import get_python_lib;print get_python_lib()")
+   $sp/hostprofiles/utilities/applyProfile/resourcePoolError "$1"
+}
+
+# Create a temporary resource pool for applyHostProfile.py
+if /sbin/localcli --plugin-dir=/usr/lib/vmware/esxcli/int sched group add \
+   --parent-path=host/vim/tmp --group-name=hostprofile; then
+
+   # Stateful install to disk requires additional 350MB of memory due to
+   # "xz" compression used in weasal/cache.py.
+   # MEM_LIMIT = (HostProfiles req 512MB) + (stateful install 350MB)
+   MEM_LIMIT=862
+   # Set the memory parameters: min=minLimit=max='MEM_LIMIT', unit=megabytes
+   if /sbin/localcli --plugin-dir=/usr/lib/vmware/esxcli/int sched group setmemconfig \
+      -g host/vim/tmp/hostprofile -i $MEM_LIMIT -l $MEM_LIMIT -m $MEM_LIMIT -u mb; then
+
+      # Invoke applyHostProfileWrapper with the newly created group
+      # All the arguments passed to a shell script can be accessed by using '$*'
+      /bin/sh ++group=host/vim/tmp/hostprofile -c "/sbin/applyHostProfileWrapper $*"
+
+      # Delete the temporary resource pool
+      SLEEP_TIME=20
+      MAX_RETRIES=6
+      n=0
+      until [ $n -ge $MAX_RETRIES ]
+      do
+         /sbin/localcli --plugin-dir=/usr/lib/vmware/esxcli/int sched group delete \
+         --group-path=host/vim/tmp/hostprofile  && break
+         let "n+=1"
+         if [ $n -lt $MAX_RETRIES ] ; then
+            logger -t $HOST_PROFILE_LOG_TAG "Failed to delete host profile resource" \
+                                       "pool. Retrying in ${SLEEP_TIME} seconds"
+            sleep $SLEEP_TIME
+         else
+            logger -t $HOST_PROFILE_LOG_TAG "Failed to delete host profile resource" \
+                                       "pool. Giving up." \
+                                       "Arguments passed to applyHostProfile: $*"
+            logNonDeletedProcesses
+            rpError "Failed to delete resource pool."
+         fi
+      done
+
+   else
+      logger -t $HOST_PROFILE_LOG_TAG "Failed to set size of host profile resource pool." \
+                                 "Arguments passed to applyHostProfile: $*"
+      rpError "Not enough memory available."
+   fi
+
+else
+   logger -t $HOST_PROFILE_LOG_TAG "Failed to create host profile resource pool." \
+                              "Arguments passed to applyHostProfile: $*"
+   rpError "Failed to allocate memory."
+fi

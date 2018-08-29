@@ -1,0 +1,139 @@
+<obj xmlns="urn:vim25" versionId="6.0"
+     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+     xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+     xsi:type="ArrayOfKeyAnyValue">
+  <KeyAnyValue xsi:type="KeyAnyValue">
+    <key>HostCapability/vFlashSupported</key>
+    <value xsi:type="xsd:boolean">false</value>
+  </KeyAnyValue>
+  <KeyAnyValue xsi:type="KeyAnyValue">
+    <key>HostCapability/checkpointFtSupported</key>
+    <value xsi:type="xsd:boolean">false</value>
+  </KeyAnyValue>
+  <KeyAnyValue xsi:type="KeyAnyValue">
+    <key>VirtualMachineCapability/settingDisplayTopologyModesSupported</key>
+    <value xsi:type="xsd:boolean">false</value>
+  </KeyAnyValue>
+  <KeyAnyValue xsi:type="KeyAnyValue">
+    <key>VirtualMachineCapability/vmfsNativeSnapshotSupported</key>
+    <value xsi:type="xsd:boolean">false</value>
+  </KeyAnyValue>
+  <KeyAnyValue xsi:type="KeyAnyValue">
+      <key>VirtualMachineCapability/messageBusSupported</key>
+      <value xsi:type="xsd:boolean">false</value>
+   </KeyAnyValue>
+  <KeyAnyValue xsi:type="KeyAnyValue">
+    <key>HostCapability/multipleNetworkStackInstanceSupported</key>
+    <value xsi:type="xsd:boolean">false</value>
+  </KeyAnyValue>
+  <KeyAnyValue xsi:type="KeyAnyValue">
+    <key>GuestOsDescriptor/numSupportedFloppyDevices</key>
+    <value xsi:type="xsd:int">2</value>
+  </KeyAnyValue>
+  <KeyAnyValue xsi:type="KeyAnyValue">
+    <key>GuestOsDescriptor/supportsPvscsiControllerForBoot</key>
+    <value xsi:type="xsd:boolean">true</value>
+  </KeyAnyValue>
+  <KeyAnyValue xsi:type="KeyAnyValue">
+    <key>GuestOsDescriptor/diskUuidEnabled</key>
+    <value xsi:type="xsd:boolean">false</value>
+  </KeyAnyValue>
+  <KeyAnyValue xsi:type="KeyAnyValue">
+    <key>GuestOsDescriptor/supportsHotPlugPCI</key>
+    <value xsi:type="xsd:boolean">true</value>
+  </KeyAnyValue>
+  <KeyAnyValue xsi:type="KeyAnyValue">
+    <key>HostCapability/vrNfcNicSelectionSupported</key>
+    <value xsi:type="xsd:boolean">false</value>
+  </KeyAnyValue>
+  <KeyAnyValue xsi:type="KeyAnyValue">
+    <key>HostCapability/smpFtSupported</key>
+    <value xsi:type="xsd:boolean">false</value>
+  </KeyAnyValue>
+  <KeyAnyValue xsi:type="KeyAnyValue">
+    <key>HostCapability/vmotionAcrossNetworkSupported</key>
+    <value xsi:type="xsd:boolean">false</value>
+  </KeyAnyValue>
+  <KeyAnyValue xsi:type="KeyAnyValue">
+    <key>HostInternalCapability/operationCleanupManagerSupported</key>
+    <value xsi:type="xsd:boolean">false</value>
+  </KeyAnyValue>
+  <KeyAnyValue xsi:type="KeyAnyValue">
+    <key>GuestOsDescriptor/recommendedCdromController</key>
+    <value xsi:type="xsd:string">vim.vm.device.VirtualIDEController</value>
+  </KeyAnyValue>
+  <KeyAnyValue xsi:type="KeyAnyValue">
+    <key>VirtualPCIControllerOption/numSATAControllers</key>
+    <value xsi:type="IntOption">
+      <valueIsReadonly>true</valueIsReadonly>
+      <min>0</min>
+      <max>0</max>
+      <defaultValue>0</defaultValue>
+    </value>
+  </KeyAnyValue>
+  <KeyAnyValue xsi:type="KeyAnyValue">
+    <key>DatastoreCapability/nativeSnapshotCopySupported</key>
+    <value xsi:type="xsd:boolean">false</value>
+  </KeyAnyValue>
+  <KeyAnyValue xsi:type="KeyAnyValue">
+    <key>VmfsDatastoreInfo/maxPhysicalRDMFileSize</key>
+    <value xsi:type="xsd:long">2199023255040</value>
+  </KeyAnyValue>
+  <KeyAnyValue xsi:type="KeyAnyValue">
+    <key>VmfsDatastoreInfo/maxVirtualRDMFileSize</key>
+    <value xsi:type="xsd:long">2199023255040</value>
+  </KeyAnyValue>
+  <KeyAnyValue xsi:type="KeyAnyValue">
+    <key>DatastoreInfo/maxMemoryFileSize</key>
+    <value xsi:type="xsd:long">70368744177664</value>
+  </KeyAnyValue>
+  <!-- The following properties are not used, but are included for completeness -->
+  <KeyAnyValue xsi:type="KeyAnyValue">
+    <key>StorageIORMInfo/reservationEnabled</key>
+    <value xsi:type="xsd:boolean">false</value>
+  </KeyAnyValue>
+  <KeyAnyValue xsi:type="KeyAnyValue">
+    <key>StorageIORMConfigOption/reservationEnabledOption</key>
+    <value xsi:type="BoolOption">
+      <valueIsReadonly>true</valueIsReadonly>
+      <supported>false</supported>
+      <defaultValue>false</defaultValue>
+    </value>
+  </KeyAnyValue>
+   <KeyAnyValue xsi:type="KeyAnyValue">
+      <key>VirtualMachineRuntimeInfo/quiescedForkParent</key>
+      <value xsi:type="xsd:boolean">false</value>
+   </KeyAnyValue>
+  <KeyAnyValue xsi:type="KeyAnyValue">
+    <key>NotEnoughResourcesToStartVmEvent/reason</key>
+    <value xsi:type="string">unknown</value>
+  </KeyAnyValue>
+  <KeyAnyValue xsi:type="KeyAnyValue">
+    <key>HostCapability/provisioningNicSelectionSupported</key>
+    <value xsi:type="xsd:boolean">false</value>
+  </KeyAnyValue>
+  <KeyAnyValue xsi:type="KeyAnyValue">
+    <key>VirtualMachineFileLayoutExSnapshotLayout/memoryKey</key>
+    <value xsi:type="xsd:int">-1</value>
+  </KeyAnyValue>
+  <KeyAnyValue xsi:type="KeyAnyValue">
+    <key>ClusterUsageSummary/statsGenNumber</key>
+    <value xsi:type="xsd:long">-1</value>
+  </KeyAnyValue>
+  <KeyAnyValue xsi:type="KeyAnyValue">
+    <key>ClusterUsageSummary/cpuEntitledMhz</key>
+    <value xsi:type="xsd:int">-1</value>
+  </KeyAnyValue>
+  <KeyAnyValue xsi:type="KeyAnyValue">
+    <key>ClusterUsageSummary/memEntitledMB</key>
+    <value xsi:type="xsd:int">-1</value>
+  </KeyAnyValue>
+  <KeyAnyValue xsi:type="KeyAnyValue">
+    <key>ClusterUsageSummary/poweredOffVmCount</key>
+    <value xsi:type="xsd:int">-1</value>
+  </KeyAnyValue>
+  <KeyAnyValue xsi:type="KeyAnyValue">
+    <key>ClusterUsageSummary/totalVmCount</key>
+    <value xsi:type="xsd:int">-1</value>
+  </KeyAnyValue>
+</obj>

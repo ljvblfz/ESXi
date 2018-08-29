@@ -1,0 +1,252 @@
+#!/usr/bin/python
+
+from __future__ import print_function
+
+from vmware import vsi
+import time
+import os
+import sys
+import traceback
+import subprocess
+import datetime
+
+PORT_CLIENT_ID_PNIC = 4
+
+# IEEE 802.1AB TLV types:
+LLDP_TYPE_CHASSIS_ID = 1
+LLDP_TYPE_SYSTEM_NAME = 5
+LLDP_TYPE_VENDOR_SPECIFIC = 127
+
+def Log(s):
+   sys.stderr.write("%s: %s\n" % (datetime.datetime.now().isoformat(), s))
+
+def GetLivePnics():
+   """
+   Returns a list of pnics that appear to be 'up'.
+   """
+   cmd = 'localcli --formatter=python network nic list'.split()
+   p = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
+   result = p.communicate()[0]
+   if p.returncode != 0:
+      raise Exception("Failed to execute: '%s'" % ' '.join(cmd))
+
+   pnics = eval(result, None, None)
+   return [p['Name'] for p in pnics if p['Link'] == 'Up']
+
+def EnableHiddenPortsets():
+   Log('Enabling hidden portsets in VSI')
+   vsi.set('/net/debug', ['showHiddenPortset', 'true'])
+
+def DisableHiddenPortsets():
+   Log('Disabling hidden portsets in VSI')
+   try:
+      vsi.set('/net/debug', ['showHiddenPortset', 'false'])
+   except Exception as e:
+      raise Exception('Failed to disable hidden portsets: %s' % e)
+
+def GetPnicPortPaths(pnics):
+   """
+   Walk the the /net/portsets VSI tree, looking for the ports corresponding to
+   the provided list of pnics.
+
+   Returns a mapping (pnic name -> VSI port path).
+   """
+   portPaths = {}
+
+   for ps in vsi.list('/net/portsets'):
+      portsPath = os.path.join('/net/portsets', ps, 'ports')
+      for p in vsi.list(portsPath):
+         portPath = os.path.join(portsPath, p)
+         try:
+            status = vsi.get(os.path.join(portPath, 'status'))
+         except Exception as e:
+            raise Exception('Failed to get status for %d on %s: %s'
+                            % (p, ps, e))
+
+         if status['clientType'] != PORT_CLIENT_ID_PNIC:
+            continue
+
+         if status['clientName'] not in pnics:
+            continue
+
+         pnic = status['clientName']
+         if pnic in portPaths:
+            continue
+
+         Log('Found %s in VSI: %s' % (pnic, portPath))
+         portPaths[pnic] = portPath
+
+   assert len(pnics) == len(portPaths)
+   return portPaths
+
+def EnableLLDP(portPaths):
+   for pnic, portPath in portPaths.items():
+      Log('Enabling LLDP on %s' % pnic)
+      try:
+         vsi.set(os.path.join(portPath, 'lldp/enable'), [1, 1])   # the second 1 stands for listen mode
+      except Exception as e:
+         raise Exception('Failed to enable LLDP on %s: %s' % (pnic, e))
+
+def DisableLLDP(portPaths):
+   for pnic, portPath in portPaths.items():
+      Log('Disabling LLDP on %s' % pnic)
+      try:
+         vsi.set(os.path.join(portPath, 'lldp/enable'), [0])
+      except Exception as e:
+         raise Exception('Failed to disable LLDP on %s: %s' % (pnic, e))
+
+class TimeoutException(Exception):
+   pass
+
+def WaitForLLDPInfo(portPaths, pollInterval=5, pollMax=9):
+   """
+   After enabling LLDP, wait for information to appear in VSI.
+
+   Returns a mapping (pnic name -> lldpInfo). See ParseLLDPCacheEntry() for
+   the lldpInfo mapping format.
+   """
+   iters = 0
+   lldpInfo = {}
+   while True:
+      for pnic, portPath in portPaths.items():
+         if pnic not in lldpInfo:
+            rcache = vsi.get(os.path.join(portPath, 'lldp/rcache'))
+            if rcache != '<empty>':
+               Log('Got LLDP info for %s' % pnic)
+               lldpInfo[pnic] = ParseLLDPCacheEntry(rcache)
+
+      if len(lldpInfo) == len(portPaths):
+         return lldpInfo
+
+      iters += 1
+      if iters > pollMax:
+         pnics = [p for p in portPaths.keys() if p not in lldpInfo]
+         Log('No LLDP info on %s after %u seconds'
+             % (pnics, pollInterval * pollMax))
+         return lldpInfo
+
+      time.sleep(pollInterval)
+
+def ParseLLDPCacheEntry(entry):
+   """
+   Parse an LLDP cache entry, containing TLVs formatted as follows, delimited
+   by hyphens. The orgUI and orgType fields are optional, and only included for
+   vendor-specific TLVs.
+
+      type: <int>
+      orgUI: <hex bytes>
+      orgType: <int>
+      dataLen: <int>
+      data:
+      <hex bytes>
+
+   This function returns a mapping (type -> content) for standard TLVs.
+   For vendor-specific TLVs, the mapping is (type -> (orgUI -> (orgType ->
+   [content]))).
+   """
+
+   tlv = {}
+   for item in entry.split('-'):
+      d = {}
+      k = None
+      v = []
+      for token in item.split():
+         if token[-1] == ':':
+            if k:
+               d[k] = v
+               v = []
+            k = token[:-1]
+         else:
+            v.append(token)
+      if k:
+         d[k] = v
+         v = []
+
+      # String conversion.
+      for k, v in d.items():
+         if v:
+            if v[0][0:2] == '0x':
+               d[k] = ''.join([chr(int(x, 16)) for x in v])
+            elif len(v) == 1:
+               d[k] = int(v[0])
+
+      # Master TLV dictionary.
+      t = d.get('type', None)
+      content = d.get('data', 'unknown')
+      if t:
+         if t != LLDP_TYPE_VENDOR_SPECIFIC:
+            # Core types
+            tlv[t] = content
+         else:
+            # Vendor-specific types
+            orgs = tlv.setdefault(t, {})
+            orgUI = d.get('orgUI', None)
+            if orgUI:
+               org = orgs.setdefault(orgUI, {})
+               orgType = d.get('orgType')
+               if orgType:
+                  org[orgType] = content
+               else:
+                  org.setdefault('unknown', []).append(content)
+            else:
+               orgs.setdefault('unknown', []).append(content)
+      else:
+         tlv.setdefault('unknown', []).append(content)
+
+   return tlv
+
+def GetLLDPNetworkMap():
+   """
+   Temporarily enables LLDP on live pnics long enough to gather LLDP
+   information from the upstream switch, and uses this information to identify
+   the set of pnics connected to each accessible network.
+
+   Returns a mapping (network id -> [ pnic names ]).
+   """
+
+   livePnics = GetLivePnics()
+   if not livePnics:
+      sys.exit(0)
+
+   try:
+      EnableHiddenPortsets()
+      portPaths = GetPnicPortPaths(livePnics)
+      try:
+         EnableLLDP(portPaths)
+         lldpInfo = WaitForLLDPInfo(portPaths)
+      finally:
+         DisableLLDP(portPaths)
+   finally:
+      DisableHiddenPortsets()
+
+   netMap = {}
+   for pnic, info in lldpInfo.items():
+      try:
+         # Prefer something human-readable.
+         key = info[LLDP_TYPE_SYSTEM_NAME]
+      except KeyError:
+         # Fall back on mandatory chassis id, which is binary.
+         key = info[LLDP_TYPE_CHASSIS_ID]
+         key = ''.join(['%02x' % ord(x) for x in key])
+
+      netMap.setdefault(key, []).append(pnic)
+
+   return netMap
+
+if __name__ == '__main__':
+   import json
+
+   if len(sys.argv) > 1:
+      print("Usage: %s" % sys.argv[0])
+      print("")
+      print("Identifies upstream network switches using LLDP.")
+      print("")
+      sys.exit(0)
+
+   # LLDP is unlikely to work on virtual, since the vswitch doesn't support it.
+   dmi = vsi.get('/hardware/bios/dmiInfo')
+   if dmi['productName'] == 'VMware Virtual Platform':
+      raise Exception('Not supported on virtual hardware')
+
+   netMap = GetLLDPNetworkMap()
+   print(json.dumps(netMap))

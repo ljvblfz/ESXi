@@ -1,0 +1,17 @@
+<div ng-controller="HostManageSecurityRolesRemoveController"
+   class="content-padding" style="margin: 10px;">
+
+   <div style="float: left; height: 100%;">
+      <img src="images/warning48.png" alt="{{'notification.type.warning'|translate}}" style="margin-right: 30px;"/>
+   </div>
+   <div style="float: right; position: absolute; margin-left: 85px; margin-right: 20px;">
+      <div style="margin-bottom: 1rem;">
+         <span ng-bind-html="'host.manage.system.security.roles.removeRole.content' | translate:data"></span>
+      </div>
+      <div>
+         <input type="checkbox" ng-model="data.failIfUsed"/>
+         {{ "host.manage.system.security.roles.removeRole.option" | translate }}
+      </div>
+   </div>
+
+</div>

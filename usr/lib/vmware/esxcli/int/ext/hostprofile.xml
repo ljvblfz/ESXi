@@ -1,0 +1,45 @@
+<?xml version="1.0"?>
+<esxcli:plugin xmlns:esxcli="http://www.vmware.com/Products/ESX/5.0/esxcli/">
+   <esxcli:version>1.0.0</esxcli:version>
+
+   <esxcli:namespaces>
+      <esxcli:namespace path="boot.hostprofile">
+         <esxcli:description>apply operations during early boot</esxcli:description>
+      </esxcli:namespace>
+   </esxcli:namespaces>
+
+   <esxcli:commands>
+      <esxcli:command path="boot.hostprofile.apply">
+         <esxcli:description>apply one or more host profiles during early boot</esxcli:description>
+         <esxcli:input-spec>
+            <esxcli:parameter name="hostprofiledoc" type="string" required="false" shortname="d">
+               <esxcli:description>path to hostprofile document</esxcli:description>
+            </esxcli:parameter>
+
+            <esxcli:parameter name="answerfile" type="string" required="false" shortname="a">
+               <esxcli:description>path to answerfile</esxcli:description>
+            </esxcli:parameter>
+
+            <esxcli:parameter name="profile" type="string" required="false" shortname="p">
+               <esxcli:description>name of the profile to apply (if omitted, all profiles are applied)</esxcli:description>
+            </esxcli:parameter>
+
+            <esxcli:parameter name="postbootinit" type="flag" required="false" shortname="P">
+               <esxcli:description>specifies that the command is being run during post-boot</esxcli:description>
+            </esxcli:parameter>
+
+            <esxcli:parameter name="earlybootinit" type="flag" required="false" shortname="E">
+               <esxcli:description>specifies that the command is being run during early-boot</esxcli:description>
+            </esxcli:parameter>
+         </esxcli:input-spec>
+         <esxcli:output-spec>
+            <esxcli:bool/>
+         </esxcli:output-spec>
+         <esxcli:format-parameters>
+            <formatter>simple</formatter>
+         </esxcli:format-parameters>
+         <esxcli:execute>/sbin/applyHostProfile --esxcli $if{hostprofiledoc, -d "$val{hostprofiledoc}"} $if{answerfile, -a "$val{answerfile}"} $if{profile, -p "$val{profile}"} $if{postbootinit, --postbootinit} $if{earlybootinit, --earlybootinit}</esxcli:execute>
+      </esxcli:command>
+   </esxcli:commands>
+</esxcli:plugin>
+

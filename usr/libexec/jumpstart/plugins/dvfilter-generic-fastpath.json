@@ -1,0 +1,21 @@
+/***********************************************************
+ * Copyright 2011-2012 VMware, Inc.  All rights reserved.
+ * VMware Confidential
+ ***********************************************************/
+
+{
+   "operations" :
+   {
+      "start" :
+      [
+         "system module load --module dvfilter-generic-fastpath",
+      ]
+   }
+   ,
+   "metadata" :
+   {
+      "version"  : 1,
+      "requires" : ["system configuration", "public dvfilter vmkapi v2_0_0_0"],
+      "provides" : ["public dvfilter", "dvfilter-generic-fastpath"]
+   }
+}

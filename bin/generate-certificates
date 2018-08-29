@@ -1,0 +1,354 @@
+#! /usr/bin/env python
+
+"""Helper module for generating SSL certificates.
+"""
+from __future__ import print_function
+
+import os
+import sys
+import time
+import codecs
+import atexit
+import socket
+import logging
+import tempfile
+import subprocess
+
+CA_CERT_CNF = """\
+[ req ]
+default_bits            = 2048
+distinguished_name      = req_distinguished_name
+
+encrypt_key             = no
+prompt                  = no
+
+string_mask             = nombstr
+x509_extensions         = x509
+
+[ req_distinguished_name ]
+O                       = %(CA_NAME)s
+
+[ x509 ]
+basicConstraints        = CA:true, pathlen:0
+keyUsage                = keyCertSign
+"""
+
+CERT_CNF = """\
+[ req ]
+default_bits            = 2048
+default_keyfile         = %(PRIVATE_KEY)s
+distinguished_name      = req_distinguished_name
+
+encrypt_key             = no
+prompt                  = no
+
+string_mask             = nombstr
+x509_extensions         = x509
+
+[ req_distinguished_name ]
+countryName             = US
+stateOrProvinceName     = California
+localityName            = Palo Alto
+0.organizationName      = VMware, Inc
+organizationalUnitName  = VMware ESX Server Default Certificate
+emailAddress            = ssl-certificates@vmware.com
+
+commonName              = %(HOSTNAME)s
+unstructuredName        = %(DATETIME)s,%(UNIQUE_IDENTIFIER)s
+
+[ x509 ]
+basicConstraints        = CA:false
+keyUsage                = digitalSignature,keyEncipherment,dataEncipherment
+extendedKeyUsage        = serverAuth,clientAuth
+subjectAltName          = DNS:%(HOSTNAME)s
+"""
+
+TEMP_FILES = []
+
+def cleanupFunc(filesToDelete):
+    for path in filesToDelete:
+        try:
+            os.unlink(path)
+        except OSError:
+            pass
+atexit.register(cleanupFunc, TEMP_FILES)
+
+def _ensureDirectory(path):
+    try:
+        os.makedirs(path)
+    except OSError:
+        pass
+
+def _ensureFilesAreWritable(*paths):
+    for path in paths:
+        try:
+            # Make the file writable to keep Windows happy
+            st = os.stat(path)
+            os.chmod(path, st.st_mode | 0o200)
+        except OSError:
+            pass
+
+def _chownFiles(environ, paths):
+    if 'SSL_USER' not in environ:
+        return
+
+    if not hasattr(os, 'chown'):
+        return
+
+    import pwd
+    entry = pwd.getpwnam(environ['SSL_USER'])
+    for path in paths:
+        try:
+            os.chown(path, entry.pw_uid, entry.pw_gid)
+        except OSError:
+            pass
+
+def setupEnviron(environ):
+    '''Updates the given dictionary with default values required by the
+    functions in this module.'''
+    environ.setdefault('HOSTNAME', socket.getfqdn())
+    if not environ['HOSTNAME']:
+        environ['HOSTNAME'] = 'localhost.localdomain'
+    environ.setdefault('UNIQUE_IDENTIFIER', "564d7761726520496e632e")
+    environ.setdefault('RANDFILE', '/dev/urandom')
+    environ.setdefault('OPENSSL', 'openssl')
+    environ.setdefault('SSL_DIRECTORY', '/etc/vmware/ssl')
+    environ.setdefault('CA_SSL_DIRECTORY', environ['SSL_DIRECTORY'])
+    environ.setdefault('CA_NAME', 'VMware Installer')
+    environ.setdefault('CA_KEY', 'ca.key')
+    environ.setdefault('CA_CERT', 'ca.crt')
+    environ.setdefault('CA_SERIAL', 'ca.srl')
+    environ.setdefault('PRIVATE_KEY', 'rui.key')
+    environ.setdefault('CERTIFICATE', 'rui.crt')
+    environ.setdefault('CA_STORE', 'castore.pem')
+    environ.setdefault('DATETIME', str(int(time.time())))
+    if sys.platform == 'win32':
+        environ.setdefault('REQ_LOG', 'NUL')
+    elif os.path.exists("/dev/null"):
+        environ.setdefault('REQ_LOG', '/dev/null')
+    else:
+        environ.setdefault('REQ_LOG',
+                           os.path.join(tempfile.gettempdir(), "cert.log"))
+
+def xsystem(cmd):
+    proc = subprocess.Popen(cmd,
+                            stderr=subprocess.PIPE,
+                            stdout=subprocess.PIPE,
+                            stdin=subprocess.PIPE)
+    stdout_val, stderr_val = proc.communicate()
+    rc = proc.returncode
+    if rc != 0:
+        sys.exit("error: '%s' exited with\nstatus: %d\nerror:\n%s\noutput:\n%s\n" %\
+                 (cmd, rc, stderr_val, stdout_val))
+
+def generateCaCert(environ, oneUseOnly=False):
+    localTempFiles = []
+    _ensureDirectory(environ['CA_SSL_DIRECTORY'])
+
+    keyPath = os.path.join(environ['CA_SSL_DIRECTORY'], environ['CA_KEY'])
+    certPath = os.path.join(environ['CA_SSL_DIRECTORY'], environ['CA_CERT'])
+    serialPath = os.path.join(environ['CA_SSL_DIRECTORY'], environ['CA_SERIAL'])
+    if oneUseOnly:
+        TEMP_FILES.extend([keyPath, certPath, serialPath])
+    _ensureFilesAreWritable(keyPath, certPath, serialPath)
+
+    if 'CA_CERT_CNF' not in environ:
+        fd, caCertPath = tempfile.mkstemp(prefix='cacert.cnf.')
+        caCertFile = os.fdopen(fd, 'w')
+        caCertFile.write(CA_CERT_CNF % environ)
+        caCertFile.close()
+        localTempFiles.append(caCertPath)
+        environ['CA_CERT_CNF'] = caCertPath
+
+    cmd = [ "%(OPENSSL)s" % environ,
+            "req",
+            "-new",
+            "-x509",
+            "-config",
+            "%(CA_CERT_CNF)s" % environ,
+            "-days",
+            "4200",
+            "-keyout",
+            "%(CA_SSL_DIRECTORY)s/%(CA_KEY)s" % environ,
+            "-out",
+            "%(CA_SSL_DIRECTORY)s/%(CA_CERT)s" % environ,
+            "-sha256",
+            ]
+
+    xsystem(cmd)
+
+    st = os.stat(certPath)
+    os.chmod(certPath, (st.st_mode | 0o444) & ~0o020)
+    st = os.stat(keyPath)
+    os.chmod(keyPath, st.st_mode & ~0o266)
+
+    # open a pipe for stdin as well as this fails otherwise when executed under
+    # JumpStart.
+    p = subprocess.Popen(["%(OPENSSL)s" % environ, 'rand', '6'],
+                         stdin=subprocess.PIPE, stdout=subprocess.PIPE)
+    out, _ = p.communicate()
+    if p.returncode != 0 or not out:
+        sys.exit('error: could not get random bytes from openssl')
+
+    with open(serialPath, 'wb') as serialFile:
+        serialFile.write(codecs.encode(out, 'hex'))
+        serialFile.write(b'\n')
+
+    _chownFiles(environ, [keyPath, certPath, serialPath])
+
+    cleanupFunc(localTempFiles)
+
+def installCaCert(environ):
+    _ensureDirectory(environ['SSL_DIRECTORY'])
+
+    cmd = [ "%(OPENSSL)s" % environ,
+            "x509",
+            "-in",
+            "%(CA_SSL_DIRECTORY)s/%(CA_CERT)s" % environ,
+            "-out",
+            "%(SSL_DIRECTORY)s/%(CA_STORE)s" % environ,
+            ]
+
+    xsystem(cmd)
+
+def generateCert(environ):
+    localTempFiles = []
+    _ensureDirectory(environ['SSL_DIRECTORY'])
+    keyPath = os.path.join(environ['SSL_DIRECTORY'], environ['PRIVATE_KEY'])
+    certPath = os.path.join(environ['SSL_DIRECTORY'], environ['CERTIFICATE'])
+
+    _ensureFilesAreWritable(keyPath, certPath)
+
+    if 'CERT_CNF' not in environ:
+        fd, certCnfPath = tempfile.mkstemp(prefix='cert.cnf.')
+        certFile = os.fdopen(fd, 'w')
+        certFile.write(CERT_CNF % environ)
+        certFile.close()
+        localTempFiles.append(certCnfPath)
+        environ['CERT_CNF'] = certCnfPath
+
+
+    cmd = [ "%(OPENSSL)s" % environ,
+            "req",
+            "-new",
+            "-config",
+            "%(CERT_CNF)s" % environ,
+            "-days",
+            "4200",
+            "-keyout",
+            "%(SSL_DIRECTORY)s/%(PRIVATE_KEY)s" % environ,
+            "-out",
+            "%(SSL_DIRECTORY)s/%(CERTIFICATE)s" % environ,
+            "-sha256",
+            ]
+
+    xsystem(cmd)
+
+    cmd = [ "%(OPENSSL)s" % environ,
+            "x509",
+            "-req",
+            "-in",
+            "%(SSL_DIRECTORY)s/%(CERTIFICATE)s" % environ,
+            "-CA",
+            "%(CA_SSL_DIRECTORY)s/%(CA_CERT)s" % environ,
+            "-CAkey",
+            "%(CA_SSL_DIRECTORY)s/%(CA_KEY)s" % environ,
+            "-extfile",
+            "%(CERT_CNF)s" % environ,
+            "-extensions",
+            "x509",
+            "-CAserial",
+            "%(CA_SSL_DIRECTORY)s/%(CA_SERIAL)s" % environ,
+            "-days",
+            "4200",
+            "-out",
+            "%(SSL_DIRECTORY)s/%(CERTIFICATE)s" % environ,
+            "-sha256",
+            ]
+
+    xsystem(cmd)
+
+    # Note: The key and cert in an ESX image are marked as sticky in the sys
+    # vgz file, so we need to modify the file modes and not erase them.
+    st = os.stat(certPath)
+    os.chmod(certPath, (st.st_mode | 0o444) & ~0o020)
+    st = os.stat(keyPath)
+    os.chmod(keyPath, st.st_mode & ~0o266)
+
+    _chownFiles(environ, [keyPath, certPath])
+
+    cleanupFunc(localTempFiles)
+
+def fingerprint(environ):
+    retval = None
+    cmd = [ "%(OPENSSL)s" % environ,
+            "x509",
+            "-in",
+             "%(SSL_DIRECTORY)s/%(CERTIFICATE)s" % environ,
+            "-noout",
+            "-fingerprint",
+            ]
+    fpProc = subprocess.Popen( cmd, stdout=subprocess.PIPE)
+    rawFP, _stderr = fpProc.communicate()
+    if b'=' in rawFP:
+        # The addhost module will need the thumbprint to connect to the host.
+        _sha1str, retval = rawFP.split(b'=', 1)
+        retval = retval.strip()
+
+    return retval
+
+def usage(args):
+    print("usage: %s [<op1> <op2> ...]" % args[0])
+    print('')
+    print("Helper for generating SSL certificates.  This tool takes the")
+    print("certificate parameters from the environment and performs the")
+    print("operations given on the command-line.")
+    print('')
+    print("Operations:")
+    print("  gen-ca-cert      Generate a CA certificate.")
+    print("  install-ca-cert  Install a CA certificate in system trust store.")
+    print("  gen-cert         Generate a certificate using the CA certificates")
+    print("                   in CA_SSL_DIRECTORY.")
+    print('')
+    print("Environment variables (and their default values):")
+    blankEnviron = {}
+    setupEnviron(blankEnviron)
+    for key in sorted(blankEnviron.keys()):
+        print("  %-20s = %s" % (key, blankEnviron[key]))
+    print('')
+    print("Example:")
+    print("  To generate a CA and a host certificated signed with that CA:")
+    print("    $ %s gen-ca-cert install-ca-cert gen-cert" % args[0])
+    print('')
+    print("  To generate a certificate that is signed with an existing CA in")
+    print("  a particular directory:")
+    print("    $ export CA_SSL_DIRECTORY=/etc/vmware/ssl")
+    print("    $ export SSL_DIRECTORY=/etc/vmware-app/ssl")
+    print("    $ %s gen-cert" % args[0])
+
+def main(args):
+    setupEnviron(os.environ)
+    caOneUseOnly = False
+
+    # Try to be backwards compatible with the old script.
+    if args[0].endswith('generate-certificates'):
+        args = [args[0], 'gen-ca-cert', 'install-ca-cert', 'gen-cert']
+        caOneUseOnly = True
+
+    if len(args) < 2:
+        usage(args)
+
+    for operation in args[1:]:
+        if operation.lower() == "gen-ca-cert":
+            generateCaCert(os.environ, caOneUseOnly)
+        elif operation.lower() == "install-ca-cert":
+            installCaCert(os.environ)
+        elif operation.lower() == "gen-cert":
+            generateCert(os.environ)
+        elif operation.lower() == "fingerprint":
+            print(fingerprint(os.environ))
+
+    return 0
+
+if __name__ == '__main__':
+    sys.exit(main(sys.argv))

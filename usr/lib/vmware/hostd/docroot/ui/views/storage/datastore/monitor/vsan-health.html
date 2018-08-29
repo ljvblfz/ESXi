@@ -1,0 +1,13 @@
+<div  ng-controller="VsanHealthChecksController" class="esx-tab-content" vm-loaded="loaded">
+   <div id="actionBar" class="action-bar" vui-action-bar="actionBar"></div>
+   <div class="not-enabled" ng-show="!isVsanEnabled">
+      <span>Virtual SAN is not enabled</span>
+   </div>
+   <hr id="separator" class="separator" ng-show="isVsanEnabled"/>
+   <div class="vsan-container" ng-show="isVsanEnabled">
+      <div ng-repeat="group in healthChecks"class="health-card {{group.groupHealth}}" group-id="{{group.groupId}}">
+         <vsan-health-card group="group"/>
+      </div>
+      <div class="clear"></div>
+   </div>
+</div>

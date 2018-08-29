@@ -1,0 +1,159 @@
+#!/bin/sh
+# chkconfig: off 1 99
+
+export PATH=/bin:/sbin
+
+CMMDS_TIMEMACHINE_TAG=cmmdsTimeMachine
+CMMDS_TIMEMACHINE_BIN=/usr/lib/vmware/vsan/bin/cmmdsTimeMachine.py
+CMMDS_TIMEMACHINE_RP=host/vim/vmvisor/$CMMDS_TIMEMACHINE_TAG
+CMMDS_TIMEMACHINE_MEMSIZE="${CMMDS_TIMEMACHINE_TAG} 30"
+
+CMMDS_TIMEMACHINE_INIT_SCRIPT="/etc/init.d/cmmdsTimeMachine"
+
+syslog() {
+   echo "$@"
+   logger -p daemon.info -t $CMMDS_TIMEMACHINE_TAG "$@"
+}
+
+
+increaseRP() {
+   /usr/lib/vmware/vsan/bin/configVsanRP reserveMemory ${CMMDS_TIMEMACHINE_MEMSIZE}
+   if [ $? -ne 0 ]; then
+      syslog "Failed to set $CMMDS_TIMEMACHINE_TAG memory reservation"
+      return 1
+   fi
+}
+
+decreaseRP() {
+   /usr/lib/vmware/vsan/bin/configVsanRP clearMemory ${CMMDS_TIMEMACHINE_TAG}
+   if [ $? -ne 0 ]; then
+      syslog "Failed to clear $CMMDS_TIMEMACHINE_TAG memory reservation"
+   fi
+}
+
+getpid() {
+   tag=$1
+   worldname=python
+   # ps userworld output format: "WID" "CID" "World Name" "Command"
+   ps -uc | awk -v TAG="$tag" -v WN="$worldname" \
+      '($1 ~ /^[0-9]/ && $3 == WN && (($5 == TAG) || $6 == TAG || $7 == TAG)) { print $1 }'
+}
+
+#
+# Check whether VSAN is enabled on the cluster or not
+#
+checkVsanEnabled() {
+   localcli vsan cluster get >/dev/null 2>/dev/null
+}
+
+start() {
+   local pid=$(getpid $CMMDS_TIMEMACHINE_BIN $CMMDS_TIMEMACHINE_TAG)
+   if [ -n "$pid" ]; then
+      echo "$CMMDS_TIMEMACHINE_TAG is already running"
+      exit 2
+   fi
+
+   checkVsanEnabled
+   if [ $? -ne 0 ]; then
+      syslog "VSAN Cluster not configured, not starting $CMMDS_TIMEMACHINE_TAG"
+      exit 3
+   fi
+
+   increaseRP
+   if [ $? -ne 0 ]; then
+      exit 1
+   fi
+
+   /sbin/watchdog.sh ++group=${CMMDS_TIMEMACHINE_RP} -d -s $CMMDS_TIMEMACHINE_TAG \
+      python $CMMDS_TIMEMACHINE_BIN -u `cmmds-tool whoami` $1 >/dev/null 2>&1
+   rc=$?
+   if [ $rc -ne 0 ]; then
+      syslog "Failed to start CMMDS Time Machine: $rc"
+      decreaseRP
+      exit 3
+   fi
+
+   echo "$CMMDS_TIMEMACHINE_TAG started"
+}
+
+stop() {
+   # Stop the watchdog first.
+   /sbin/watchdog.sh -k $CMMDS_TIMEMACHINE_TAG
+   for tag in $CMMDS_TIMEMACHINE_TAG
+   do
+      local pid=$(getpid $CMMDS_TIMEMACHINE_BIN)
+      if [ -n "$pid" ]; then
+         kill -15 $pid
+         while kill -0 $pid > /dev/null 2>&1; do
+            # Give a bit of time to unsubscribe from CMMDS
+            sleep 2;
+         done
+         echo "$tag stopped"
+      else
+         echo "$tag is not running"
+      fi
+   done
+   decreaseRP
+}
+
+status() {
+   ret=0
+   for tag in $CMMDS_TIMEMACHINE_TAG
+   do
+      local pid=$(getpid $CMMDS_TIMEMACHINE_BIN)
+      if [ -z "$pid" ] ; then
+         echo "$tag is not running"
+         checkVsanEnabled
+         if [ $? -eq 0 ]; then
+            ret=2
+         else
+            ret=3
+         fi
+      else
+         echo "$tag is running"
+      fi
+   done
+   exit $ret
+}
+
+# Similar to vsantraced
+checkConcurrentRestart()
+{
+   local pidCount=`sh -c "ps -uc | awk -v BIN=\\"$CMMDS_TIMEMACHINE_INIT_SCRIPT\\" '(\\$1 ~ /^[0-9]/ && \\$5 == BIN) { print \\$1 }' | wc -l"`
+   syslog "There are $pidCount $CMMDS_TIMEMACHINE_INIT_SCRIPT running ..."
+   if [ $pidCount -gt 1 ]; then
+      syslog "someone else is also starting cmmdsTimeMachine, skip this try"
+      # return this code to indicate there are conflict starting procedures,
+      # caller could decide to restart it after certain random delay.
+      exit 6 # 6 means detecting conflict starting
+   fi
+}
+
+#
+# main
+#
+case "${1}" in
+   "start")
+      shift
+      start "$@"
+   ;;
+   "stop")
+      stop
+   ;;
+   "status")
+      status
+   ;;
+   "restart")
+      checkConcurrentRestart
+      stop
+      shift
+      start "$@"
+   ;;
+   "flush")
+      flush
+   ;;
+   *)
+      echo "Usage: $(basename $0) {start [args]|stop|status|restart [args]}"
+      exit 1
+   ;;
+esac

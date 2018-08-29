@@ -1,0 +1,14 @@
+<div ng-if="tabs.datastores.loaded || storageTabs.tabs[getSelectedTab()].state === tabs.datastores.state"
+     ng-controller="StorageDatastoreListController" class="esx-tab-content">
+
+   <div ng-show="!loaded" class="loading"></div>
+
+   <div ng-show="loaded" id="{{datastoreGrid.id}}" vui-datagrid="datastoreGrid"></div>
+
+   <hr ng-show="currentDatastore !== null" class="ng-cloak" ng-cloak/>
+
+   <div ng-controller="StorageDatastoreController" ng-cloak ng-if="currentDatastore !== null">
+      <div ng-include src="'views/storage/datastore/summary.html'"></div>
+   </div>
+
+</div>

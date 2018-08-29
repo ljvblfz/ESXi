@@ -1,0 +1,96 @@
+<div
+   ng-if="tabs.performance.loaded ||
+      hostMonitorTabs.tabs[hostMonitorTabs.selectedTabIndex].state === tabs.performance.state"
+   ng-controller="HostMonitorPerformanceController"
+   class="esx-tab-content">
+
+   <div class="esx-chart">
+
+      <div style="height: 30px;" id="monitorTopBar">
+         <label
+            title="{{'host.monitor.performance.filter.type'|translate}}"
+            class="label-508">
+            <div vui-dropdown="chartDropdown"></div>
+         </label>
+
+         <label
+            title="{{'host.monitor.performance.filter.type'|translate}}"
+            style="padding-left: 0px; font-weight: normal; margin-right: 5px; float: left;">
+            <div vui-dropdown="colorDropdown"></div>
+         </label>
+
+         <label
+            title="{{'host.monitor.performance.filter.type'|translate}}"
+            style="padding-left: 0px; font-weight: normal; float: left;">
+            <div vui-dropdown="scaleDropdown"></div>
+         </label>
+
+         <a class="esx-icon-info"
+            style="float: left; margin-left: 10px; margin-right: 5px; margin-top: 4px; cursor: pointer;"
+            bootstrap-pop-over
+            tabindex="-1"
+            role="button"
+            data="{
+               message: translate('host.monitor.performance.dataAvailability.signpost.message'),
+               title: translate('host.monitor.performance.dataAvailability.signpost.title'),
+               iconClass: 'esx-icon-info'
+            }">
+         </a>
+
+         <div vui-action-bar="actionBarOptions"
+            style="float: left; margin: 1px 0 0 10px;"></div>
+      </div>
+
+      <div id="perfChart"
+         ng-style="{'height': chartContainerHeight + 'px'}">
+
+         <nvd3
+            ng-if="loaded && !noMatches"
+            config="config"
+            options="options"
+            data="data"></nvd3>
+
+         <div ng-show="!loaded || loader || cloak" style="
+               position: absolute;
+               width: 100%;
+               top: 0px;
+               background-color: white;
+               opacity: 0.5;"
+            ng-style="{'height': chartContainerHeight + 'px'}"></div>
+
+         <div ng-show="!loaded || loader" style="
+            position: absolute;
+            width: 100%;
+            top: 0px;
+            background: url(images/loader_table.gif) no-repeat center;"
+            ng-style="{'height': chartContainerHeight + 'px'}"></div>
+
+         <div style="margin: 0 auto 0 auto;
+               font-weight: bold; font-size: 1.5em;
+               color: #AAA; text-align: center;"
+               ng-style="{
+                  'height': chartContainerHeight + 'px',
+                  'padding-top': (chartContainerHeight / 2) + 'px'}"
+               ng-if="loaded && noMatches">
+            {{'host.monitor.performance.noMatches' | translate:seriesGrid}}
+         </div>
+      </div>
+
+      <div ng-show="loaded" style="margin-bottom: 8px; height: 5px;
+            background: url(images/splitterPixel.png);
+            background-repeat: no-repeat;
+            background-size: 100% 1px;
+            background-position: 2px;">
+         <img class="ui-resizable-handle"
+            style="cursor: ns-resize; left: 50%; margin-left: auto; margin-right: auto;"
+            src="images/horizontalSplitHandle.png"
+            id="horizontalSplit"/>
+      </div>
+
+      <div
+         ng-show="loaded"
+         id="seriesGrid"
+         vui-datagrid="seriesGrid"
+         style="margin-bottom: 20px;"></div>
+   </div>
+</div>

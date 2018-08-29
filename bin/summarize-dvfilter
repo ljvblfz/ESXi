@@ -1,0 +1,86 @@
+#!/usr/bin/env python
+# Traverse the DVFilter VSI nodes and print a summary of every agent and filter.
+import os
+import vmware.vsi
+
+serviceVM_capabilities = {
+   0x1 : 'csum',
+   0x2 : 'tso',
+   0x4 : 'vlan',
+   0x8 : 'need_faulter'
+}
+ 
+print("Fastpaths:")
+agentsPath = '/net/dvFilter/agents'
+for agentName in vmware.vsi.list(agentsPath):
+   agentNode = vmware.vsi.get(os.path.join(agentsPath, agentName, 'properties'))
+   print('agent: %s, refCount: %d, rev: 0x%x, apiRev: 0x%x, module: %s' % (
+         agentName,
+         agentNode['refCount'],
+         agentNode['fastPathRev'],
+         agentNode['apiRev'],
+         agentNode['module']))
+
+print("")
+print("ServiceVMs:")
+ 
+serviceVMsPath = '/net/dvFilter/slowpaths'
+for serviceVMID in vmware.vsi.list(serviceVMsPath):
+   serviceVMNode = vmware.vsi.get(os.path.join(serviceVMsPath, serviceVMID, 'properties'))
+   caps = [v for k,v in serviceVM_capabilities.items() if k & serviceVMNode['capabilities'] != 0]
+   print('serviceVM: %s, agent %s, refCount: %d, rev: 0x%x, apiRev: 0x%x, capabilities: %s' % (
+         serviceVMID,
+         serviceVMNode['agentName'],
+         serviceVMNode['refCount'],
+         serviceVMNode['slowPathRev'],
+         serviceVMNode['apiRev'],
+         ','.join(caps)))
+   if serviceVMNode['faulter'] != '':
+      print(" faulter: %s" % serviceVMNode['faulter'])
+
+print("")
+print("Filters:")
+
+worldIDsPath = '/net/dvFilter/filter/worldid'
+for worldID in vmware.vsi.list(worldIDsPath):
+   if worldID != "0":
+      worldName = vmware.vsi.get(os.path.join('/world', worldID, 'name'))
+   else:
+      worldName = "<no world>"
+      
+   if worldID in vmware.vsi.list('/vm'):
+      vcUuid = vmware.vsi.get(os.path.join('/vm', worldID, 'vmmGroupInfo'))['vcUuid']
+      print("world %s %s vcUuid:'%s'" % (worldID, worldName, vcUuid))
+   else:
+      print("world %s %s" % (worldID, worldName))
+   portIDsPath = os.path.join(worldIDsPath, worldID, 'portid')
+   for portID in vmware.vsi.list(portIDsPath):
+      try:
+         portNode = vmware.vsi.get(os.path.join('/net/openPorts', portID, 'type'))
+         portsetName = portNode['portsetName']
+         betterPortNode = vmware.vsi.get(os.path.join('/net/portsets', portsetName, 'ports', portID, 'status'))
+         clientName = betterPortNode['clientName']
+      except:
+         portsetName = "(disconnected)"
+         clientName = "(disconnected)"
+      print(" port %s %s" % (portID, clientName))
+      filterIndicesPath = os.path.join(portIDsPath, portID, 'filterIndex')
+      for filterIndexStr in vmware.vsi.list(filterIndicesPath):
+         filterIndex = int(filterIndexStr)
+         if filterIndex < 16:
+            print("  vNic slot %d" % filterIndex)
+         else:
+            print("  dvPort slot %d" % (filterIndex-16))
+         filterPath = os.path.join(filterIndicesPath, filterIndexStr, 'properties')
+         filterNode = vmware.vsi.get(filterPath)
+         print("   name: %s" % filterNode['name'])
+         print("   agentName: %s" % filterNode['agentName'])
+         print("   state: %s" % filterNode['state'])
+         print("   vmState: %s" % filterNode['vmState'])
+         print("   failurePolicy: %s" % filterNode['failurePolicy'])
+         if filterNode['slowPathID'] == 0:
+            print("   serviceVMID: none")
+         else:
+            print("   serviceVMID: %d" % filterNode['slowPathID'])
+         print("   filter source: %s" % filterNode['filterSource'])
+         #print("   refCount: %d" % filterNode['refCount'])

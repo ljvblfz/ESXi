@@ -1,0 +1,31 @@
+<div class="row chart">
+   <div class="col-sm-12 no-padding">
+      <div class="row no-margin">
+         <div class="col-sm-6 no-padding"><span class="left truncate" ng-bind="title"></span></div>
+         <div class="col-sm-6 no-padding">
+            <span class="right truncate">
+               {{'directives.progressChart.free' | translate}} {{data.free}}
+            </span>
+         </div>
+      </div>
+      <div class="row no-margin">
+         <div class="col-sm-12 no-padding">
+            <span class="no-margin">
+               <div vui-progress-bar="data"></div>
+            </span>
+         </div>
+      </div>
+      <div class="row no-margin" style="margin-top: 1px;">
+         <div class="col-sm-5 no-padding">
+            <span class="left truncate">
+               {{'directives.progressChart.used' | translate}} {{data.used}}
+            </span>
+         </div>
+         <div class="col-sm-7 no-padding">
+            <span class="right truncate">
+               {{'directives.progressChart.capacity' | translate}} {{data.capacity}}
+            </span>
+         </div>
+      </div>
+   </div>
+</div>

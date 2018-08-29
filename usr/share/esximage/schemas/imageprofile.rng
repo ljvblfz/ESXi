@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<grammar xmlns="http://relaxng.org/ns/structure/1.0" datatypeLibrary="http://www.w3.org/2001/XMLSchema-datatypes">
+  <!--
+    
+    Schema for Image Profile XML
+    
+  -->
+  <start>
+    <element name="imageprofile">
+      <element name="name">
+        <data type="string">
+          <param name="maxLength">80</param>
+        </data>
+      </element>
+      <element name="creator">
+        <data type="string">
+          <param name="maxLength">40</param>
+        </data>
+      </element>
+      <optional>
+        <element name="profileID">
+          <data type="string"/>
+        </element>
+      </optional>
+      <optional>
+        <element name="creationtime">
+          <data type="dateTime"/>
+        </element>
+      </optional>
+      <optional>
+        <element name="modifiedtime">
+          <data type="dateTime"/>
+        </element>
+      </optional>
+      <optional>
+        <element name="serialno">
+          <data type="nonNegativeInteger"/>
+        </element>
+      </optional>
+      <optional>
+        <element name="description">
+          <data type="string">
+            <param name="maxLength">2048</param>
+          </data>
+        </element>
+      </optional>
+      <element name="readonly">
+        <data type="boolean"/>
+      </element>
+      <element name="viblist">
+        <oneOrMore>
+          <element name="vib">
+            <element name="vib-id">
+              <data type="string"/>
+            </element>
+            <optional>
+              <element name="boot">
+                <data type="boolean"/>
+              </element>
+            </optional>
+          </element>
+        </oneOrMore>
+      </element>
+      <optional>
+        <element name="acceptancelevel">
+          <choice>
+            <value>certified</value>
+            <value>accepted</value>
+            <value>partner</value>
+            <value>community</value>
+          </choice>
+        </element>
+      </optional>
+    </element>
+  </start>
+</grammar>

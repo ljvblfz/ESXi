@@ -1,0 +1,28 @@
+/***********************************************************
+ * Copyright 2010-2011,2014-2015 VMware, Inc.  All rights reserved.
+ * VMware Confidential
+ ***********************************************************/
+
+{
+   "operations" :
+   {
+      "start" :
+      [
+         "boot storage restore --nfs-volumes",
+         "boot storage restore --nfs41-volumes"
+      ],
+      "apply_host_profile" :
+      [
+         "boot hostprofile apply --earlybootinit -p NasStorageProfile"
+      ]
+   }
+   ,
+   "metadata" :
+   {
+      "version"  : 2,
+      "requires" : ["storage", "nfs", "nfs41", "advanced configuration",
+                    "vcfs", "krb5-conf", "etc hosts"],
+      "provides" : ["datastore"]
+   }
+}
+

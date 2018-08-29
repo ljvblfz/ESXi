@@ -1,0 +1,35 @@
+/***********************************************************
+ * Copyright 2010-2011,2015 VMware, Inc.  All rights reserved.
+ * VMware Confidential
+ ***********************************************************/
+
+{
+   "operations" :
+   {
+      "start" :
+      [
+         "storage core plugin registration add -m vmw_satp_local -N SATP -P VMW_SATP_LOCAL",
+         "storage core plugin registration add -m vmw_satp_default_aa -N SATP -P VMW_SATP_DEFAULT_AA",
+         "storage core plugin registration add -m vmw_satp_default_ap -N SATP -P VMW_SATP_DEFAULT_AP",
+         "storage core plugin registration add -m vmw_satp_alua -N SATP -P VMW_SATP_ALUA",
+         "storage core plugin registration add -m vmw_satp_lib_cx -N SATP -P None",
+         "storage core plugin registration add -m vmw_satp_alua_cx -N SATP -P VMW_SATP_ALUA_CX -d vmw_satp_alua,vmw_satp_lib_cx",
+         "storage core plugin registration add -m vmw_satp_cx -N SATP -P VMW_SATP_CX -d vmw_satp_lib_cx",
+         "storage core plugin registration add -m vmw_satp_eql -N SATP -P VMW_SATP_EQL",
+         "storage core plugin registration add -m vmw_satp_eva -N SATP -P VMW_SATP_EVA",
+         "storage core plugin registration add -m vmw_satp_inv -N SATP -P VMW_SATP_INV -d vmw_satp_lib_cx",
+         "storage core plugin registration add -m vmw_satp_lsi -N SATP -P VMW_SATP_LSI",
+         "storage core plugin registration add -m vmw_satp_msa -N SATP -P VMW_SATP_MSA",
+         "storage core plugin registration add -m vmw_satp_svc -N SATP -P VMW_SATP_SVC",
+         "storage core plugin registration add -m vmw_satp_symm -N SATP -P VMW_SATP_SYMM"
+      ]
+   }
+   ,
+   "metadata" :
+   {
+      "version"  : 1,
+      "requires" : [],
+      "provides" : ["NMP SATP registration"]
+   }
+}
+

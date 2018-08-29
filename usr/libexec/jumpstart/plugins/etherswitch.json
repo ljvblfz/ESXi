@@ -1,0 +1,40 @@
+/***********************************************************
+ * Copyright 2012-2015 VMware, Inc.  All rights reserved.
+ * VMware Confidential
+ ***********************************************************/
+
+{
+   "operations" :
+   {
+      "start" :
+      [
+         "system module load --module vmkapi_v2_2_0_0_iscsiInc_shim",
+         "system module load --module vmkapi_v2_3_0_0_iscsiInc_shim",
+
+         /* etherswitch is needed for parking portset */
+         "system module load --module etherswitch",
+         "system module load --module portcfg",
+         "system module load --module vswitch",
+
+         /*
+          * netsched is needed since the uplink registration process is
+          * happening earlier not and the non-default stress option can trigger
+          * use one network scheduler
+          */
+         "system module load --module netsched_fifo",
+         "system module load --module netsched_hclk",
+         "system module load --module netioc",
+         "system module load --module lb_netqueue_bal",
+
+         "boot networking restore --parking-port-set",
+      ]
+   }
+   ,
+   "metadata" :
+   {
+      "version"  : 1,
+      "requires" : ["system configuration", "vmkdevmgr"],
+      "provides" : ["etherswitch"]
+   }
+}
+

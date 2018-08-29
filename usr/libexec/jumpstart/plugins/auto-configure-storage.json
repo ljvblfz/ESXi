@@ -1,0 +1,22 @@
+/***********************************************************
+ * Copyright 2010-2011,2015, 2017 VMware, Inc.  All rights reserved.
+ * VMware Confidential
+ ***********************************************************/
+
+{
+   "operations" :
+   {
+      "start" :
+      [
+         "boot storage autoconfigure"
+      ]
+   }
+   ,
+   "metadata" :
+   {
+      "version"  : 1,
+      "requires" : ["storage paths", "storage", "disk fs", "vcfs", "bootbanks"],
+      "provides" : ["datastore"]
+   }
+}
+

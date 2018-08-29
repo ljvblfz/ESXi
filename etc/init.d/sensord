@@ -1,0 +1,86 @@
+#!/bin/sh
+# chkconfig: on 18 82
+
+# variables
+export PATH=/bin:/sbin
+
+SENSORD=/usr/lib/vmware/bin/sensord
+SENSORD_TAG=sensord
+SENSORD_RP="host/vim/vmvisor/sensord"
+SENSORD_MEM_SZ=10
+SENSORD_ARGS="-l"
+CONFIGRP="/usr/lib/vmware/rp/bin/configRP"
+
+start() {
+   if [ -z "$(pidof -xs "${SENSORD}")" ] ; then
+      $CONFIGRP setRPMemMaxSize ${SENSORD_RP} ${SENSORD_MEM_SZ}
+      if [ $? -ne 0 ]; then
+         echo "Failed to set sensord memory reservation"
+         exit 1
+      fi
+      /sbin/watchdog.sh ++memreliable,group=${SENSORD_RP} -d -t 1000 -s "${SENSORD_TAG}" "${SENSORD}" "${SENSORD_ARGS}" >/dev/null 2>&1
+      echo "sensord started"
+   else
+      echo "sensord already running"
+   fi
+}
+
+stop() {
+   if [ -n "$(pidof -xs "${SENSORD}")" ] ; then
+      # This only stops the watchdog process.
+      /sbin/watchdog.sh -k "${SENSORD_TAG}"
+
+      SENSORD_PID="$(pidof -s "${SENSORD}")"
+      if [ -n "${SENSORD_PID}" ]; then
+         pkill -TERM "${SENSORD_TAG}"
+         echo "Waiting for process to terminate..."
+         while kill -0 ${SENSORD_PID} > /dev/null 2>&1; do
+            sleep 1;
+         done
+      fi
+
+      $CONFIGRP setRPMemMaxSize ${SENSORD_RP} 0
+      if [ $? -ne 0 ]; then
+         echo "Failed to clear sensord memory reservation"
+         exit 1
+      fi
+      echo "sensord stopped"
+   else
+      echo "sensord is not running"
+   fi
+}
+
+#
+# main
+#
+case "${1}" in
+   "start")
+      start
+   ;;
+   "stop")
+      stop
+   ;;
+   "status")
+      if [ -n "$(pidof -xs "${SENSORD}")" ] ; then
+         echo "sensord is running"
+         exit 0
+      else
+         echo "sensord is not running."
+         exit 3
+      fi
+   ;;
+   "restart")
+      stop
+
+      while [ -n "$(pidof -xs "${SENSORD}")" ] ; do
+         sleep 1
+      done
+
+      start
+   ;;
+   *)
+      echo "Usage:$(basename ${0}) {start|stop|status|restart}"
+      exit 1
+   ;;
+esac
+

@@ -1,0 +1,122 @@
+#!/bin/sh
+#
+# Copyright 2009,2017 VMware, Inc.  All rights reserved.
+#
+# SSH:
+#   Enable/Disable the shell over SSH
+#
+# chkconfig: off 10 90
+# description: ESX SSH access (disabled by default)
+#
+
+
+PATH=/sbin:/usr/sbin:/bin:/usr/bin
+export PATH
+
+PID_FILE="/var/run/inetd.pid"
+
+ADDVOB="/usr/lib/vmware/vob/bin/addvob"
+SSHD_UPGRADE_CONFIG="/usr/lib/vmware/openssh/bin/upgrade-config.py"
+
+INETD_CONF="/var/run/inetd.conf"
+
+#
+# Log action
+#
+SSH_log() {
+   echo "$1"
+   logger -t SSH "$1"
+}
+
+SSH_RestartInetd() {
+   if [ ! -f "${PID_FILE}" ]; then
+       esxcfg-init --alert "Unable to enable SSH; inetd not running"
+       exit 1
+   fi
+
+   kill -HUP $(cat "${PID_FILE}") ||
+      esxcfg-init --alert "Unable to enable SSH; unable to signal inetd"
+}
+
+#
+# Start SSH
+#
+SSH_Start() {
+   # Upgrade config if needed
+   ${SSHD_UPGRADE_CONFIG}
+
+   # Reset tally counters
+   pam_tally2 -r > /dev/null
+
+   sed -e 's/^#ssh/ssh/' -i "${INETD_CONF}"
+
+   SSH_RestartInetd
+
+   # setup a callback to stop us after the specified time.  Note we
+   # also *disable* the service here, to ensure it won't start again
+   # at boot if the user happened to enable the service too
+   timeout=$(esxcfg-advcfg -q -g /UserVars/ESXiShellTimeOut)
+   if [ "${timeout:-1}" != "0" ] ; then
+       /sbin/doat RemoteShell.disable $timeout "vim-cmd -U dcui hostsvc/disable_ssh" > /dev/null 2>&1 &
+       /sbin/doat RemoteShell.stop $timeout "vim-cmd -U dcui hostsvc/stop_ssh" > /dev/null 2>&1 &
+   fi
+}
+
+#
+# Stop SSH
+#
+SSH_Stop() {
+   sed -e 's/^ssh/#ssh/' -i "${INETD_CONF}"
+   SSH_RestartInetd
+   # if we are waiting for a timeout we can stop now, because we have
+   # shutdown.
+   /sbin/doat kill RemoteShell.disable
+   /sbin/doat kill RemoteShell.stop
+}
+
+#
+# Process comand line options
+#
+case "$1" in
+   start)
+      SSH_log "SSH login enabled"
+      ${ADDVOB} 'vob.user.ssh.enabled'
+      
+      if SSH_Start; then
+         true
+      else
+         false
+      fi
+      ;;
+
+   stop)
+      SSH_log "SSH login disabled"
+      ${ADDVOB} 'vob.user.ssh.disabled'
+
+      if SSH_Stop; then
+         true
+      else
+         false
+      fi
+      ;;
+
+   status)
+      if grep -q '#ssh' "${INETD_CONF}"; then
+         echo "SSH login is stopped"
+         exit 3
+      else
+         echo "SSH login is started"
+         exit 0
+      fi
+      ;;
+
+   restart)
+      "$0" stop
+      "$0" start
+      ;;
+
+   *)
+      echo "Usage: $(basename "$0") {start|stop|status|restart}"
+      exit 1
+esac
+

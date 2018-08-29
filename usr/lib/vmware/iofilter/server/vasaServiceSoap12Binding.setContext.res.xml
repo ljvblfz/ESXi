@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<SOAP-ENV:Envelope
+ xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/"
+ xmlns:SOAP-ENC="http://schemas.xmlsoap.org/soap/encoding/"
+ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+ xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+ xmlns:ns1="http://vasa.vim.vmware.com/xsd"
+ xmlns:placementPolicy="http://placement.policy.data.vasa.vim.vmware.com/xsd"
+ xmlns:fault="http://fault.vasa.vim.vmware.com/xsd"
+ xmlns:capability="http://capability.policy.data.vasa.vim.vmware.com/xsd"
+ xmlns:profile="http://profile.policy.data.vasa.vim.vmware.com/xsd"
+ xmlns:ns2="http://annotation.vasa.vim.vmware.com/xsd"
+ xmlns:policy="http://policy.data.vasa.vim.vmware.com/xsd"
+ xmlns:providerCapability="http://provider.capability.policy.data.vasa.vim.vmware.com/xsd"
+ xmlns:capabilityTypes="http://types.capability.policy.data.vasa.vim.vmware.com/xsd"
+ xmlns:data="http://data.vasa.vim.vmware.com/xsd"
+ xmlns:compliance="http://compliance.policy.data.vasa.vim.vmware.com/xsd"
+ xmlns:ns3="http://iofilters.vmware.com/xsd/"
+ xmlns:vasaServiceBinding11="http://com.vmware.vim.vasa/1.5/vasaServiceSoap11Binding"
+ xmlns:xsdvasa="http://com.vmware.vim.vasa/1.5/xsd"
+ xmlns:vasaServiceBinding12="http://com.vmware.vim.vasa/1.5/vasaServiceSoap12Binding">
+ <SOAP-ENV:Body>
+  <xsdvasa:setContextResponse>
+   <xsdvasa:return>
+    <data:defaultNamespace>IOFILTERS</data:defaultNamespace>
+    <data:defaultSessionTimeoutInSeconds>20</data:defaultSessionTimeoutInSeconds>
+    <data:name>IOFILTERS</data:name>
+    <data:sessionId>111</data:sessionId>
+    <data:supportedVendorModel>
+     <data:modelId>IOFILTERS</data:modelId>
+     <data:vendorId>VMware Inc</data:vendorId>
+    </data:supportedVendorModel>
+    <data:vasaApiVersion>1.5</data:vasaApiVersion>
+    <data:vasaProviderVersion>1.0</data:vasaProviderVersion>
+   </xsdvasa:return>
+  </xsdvasa:setContextResponse>
+ </SOAP-ENV:Body>
+</SOAP-ENV:Envelope>

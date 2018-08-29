@@ -1,0 +1,7 @@
+[VMware_KernelModuleService]
+   provider: KernelModuleService
+   location: kmoduleprovider
+   type: instance method
+   group: vmware_base
+   namespace: root/cimv2
+

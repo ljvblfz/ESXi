@@ -1,0 +1,7 @@
+# en language catalog for the 'vmwarevmcrypt' iofilter
+
+iofilters.disk.vmwarevmcrypt.capability.AllowCleartextFilters.label =  암호화 전 I/O 필터 허용
+iofilters.disk.vmwarevmcrypt.capability.AllowCleartextFilters.summary = 암호화 필터 전에 다른 I/O 필터의 사용을 허용합니다. 이러한 필터에서는 암호화되기 전의 일반 텍스트 데이터를 표시합니다.
+
+iofilters.disk.vmwarevmcrypt.name.label = VMware VM 암호화
+iofilters.disk.vmwarevmcrypt.name.summary = VMware 암호화 I/O 필터.

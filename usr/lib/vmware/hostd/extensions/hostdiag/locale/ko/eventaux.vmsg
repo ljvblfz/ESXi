@@ -1,0 +1,261 @@
+#
+# This catalog is for long descriptions for Events. Long descriptions are
+# shown in the UI when the user asks to see more details about the event,
+# and can contain causes and potential user actions for recovery.
+#
+# See vim/lib/vimLocale/en/eventaux.vmsg for examples.
+#
+
+#
+signature="sIgNaTuRe"
+#
+# event long descriptions go here..
+
+com.vmware.vc.ft.VmAffectedByDasDisabledEvent.longDescription = "\
+   <EventLongDescription id="com.vmware.vc.ft.VmAffectedByDasDisabledEvent">\
+      <description>\
+         vSphere HA가 클러스터에서 해제되어 있으면 장애 발생 후 기본 VM 또는 보조 VM을 다시 시작할 수 없습니다. 이 이벤트는 vSphere HA가 해제되어 있고 무장애 가상 시스템의 전원이 켜져 있을 때 발생합니다. 이 이벤트는 vSphere HA를 해제할 때 나타날 수 있는 무장애 가상 시스템의 위험에 대해 사용자에게 알립니다. \
+      </description>\
+      <cause>\
+           <description>무장애 가상 시스템의 전원이 켜져 있을 때 vSphere HA가 해제되었습니다.</description>\
+           <action>vSphere HA가 다시 사용되도록 설정하십시오.</action>\
+      </cause>\
+   </EventLongDescription>\
+
+   "
+
+com.vmware.vc.HA.DasHostCompleteDatastoreFailureEvent.longDescription = "\
+   <EventLongDescription id="com.vmware.vc.HA.DasHostCompleteDatastoreFailureEvent">\
+      <description>\
+        구성 요소 보호 기능을 사용하도록 설정된 클러스터에 있는 호스트가 모든 공유 데이터스토어에 대한 연결을 손실했습니다.\
+     </description>\
+      <cause>\
+           <description>모든 공유 데이터스토어에 대한 연결을 손실했습니다.</description>\
+           <action>하나 이상의 공유 데이터스토어를 다시 연결합니다.</action>\
+      </cause>\
+   </EventLongDescription>\
+
+   "
+
+com.vmware.vc.HA.DasHostCompleteNetworkFailureEvent.longDescription = "\
+   <EventLongDescription id="com.vmware.vc.HA.DasHostCompleteNetworkFailureEvent">\
+      <description>\
+        구성 요소 보호 기능을 사용하도록 설정된 클러스터에 있는 호스트가 모든 가상 시스템 네트워크에 대한 연결을 손실했습니다.\
+     </description>\
+      <cause>\
+           <description>모든 가상 시스템 네트워크에 대한 연결을 손실했습니다.</description>\
+           <action>하나 이상의 가상 시스템 네트워크를 다시 연결합니다.</action>\
+      </cause>\
+   </EventLongDescription>\
+
+   "
+
+com.vmware.vc.HA.CreateConfigVvolFailedEvent.longDescription = "\
+   <EventLongDescription id="com.vmware.vc.HA.CreateConfigVvolFailedEvent">\
+      <description>\
+        vSphere HA가 데이터스토어에서 구성 vvol을 생성하지 못했습니다. \
+     </description>\
+      <cause>\
+           <description>VP, 호스트, 네트워크 또는 부족한 리소스로 인해 vSphere HA가 구성 vvol을 생성하지 못했습니다.</description>\
+           <action>환경에서 오류를 찾아 해결한 후 vSphere HA를 다시 사용하도록 설정합니다.</action>\
+      </cause>\
+   </EventLongDescription>\
+
+   "
+
+com.vmware.vc.HA.CreateConfigVvolSucceededEvent.longDescription = "\
+   <EventLongDescription id="com.vmware.vc.HA.CreateConfigVvolSucceededEvent">\
+      <description>\
+        vSphere HA가 데이터스토어에서 구성 vvol을 생성했습니다. 구성 vvol을 생성하지 못해 데이터스토어 구성 문제가 발생하면 해당 구성 vvol이 지워집니다. \
+     </description>\
+      <cause>\
+           <description> 데이터스토어에서 구성 vvol을 생성하는 동안 오류가 발생하지 않았습니다.</description>\
+      </cause>\
+   </EventLongDescription>\
+
+   "
+
+vim.event.LicenseDowngradedEvent.longDescription = "\
+    <EventLongDescription id="vim.event.LicenseDowngradedEvent">\
+       <description>\
+          설치된 라이센스로 인해 사용 가능한 기능 집합이 줄었습니다. 새 라이센스로는 이전에 사용 가능했던 일부 기능에 액세스할 수 없습니다.\
+       </description>\
+       <cause>\
+            <description>라이센스가 교체되었습니다.</description>\
+            <action>아직 만료되지 않은 경우 이전에 설치한 라이센스로 되돌립니다.</action>\
+            <action>필요한 기능이 포함된 새 라이센스를 가져오려면 VMware에 문의하십시오.</action>\
+        </cause>\
+    </EventLongDescription>\
+
+    "
+
+vim.event.SystemSwapInaccessible.longDescription = "\
+    <EventLongDescription id="vim.event.SystemSwapInaccessible">\
+       <description>\
+          시스템에서 시스템 스왑이 구성되어 사용되었지만, 여기서 사용된 데이터스토어는 더 이상 사용할 수 없습니다. 이에 따라 성능이 저하되거나 시스템 스왑 파일로 스왑된 메모리를 사용하는 사용자 월드 중 일부가 충돌할 수 있습니다. 또한, 보관된 참조 정보로 인해 호스트의 인벤토리에서 데이터스토어가 제대로 제거되지 않는 문제가 발견되었습니다.\
+       </description>\
+       <cause>\
+            <description>기본 LUN이 "모든 경로 다운" 상태에 있거나, 물리적으로 제거되었거나, 이 디바이스와의 통신에 오류가 있습니다.</description>\
+            <action>시스템 스왑 구성 재구성 또는 호스트 시스템의 스왑 파일 위치 변경</action>\
+        </cause>\
+    </EventLongDescription>\
+
+    "
+
+ad.event.JoinDomainFailedEvent.longDescription = "\
+   <EventLongDescription id="ad.event.JoinDomainFailedEvent">\
+      <description>\
+         도메인에 가입하지 못했습니다.\
+      </description>\
+   </EventLongDescription>\
+
+   "
+
+ad.event.JoinDomainEvent.longDescription = "\
+   <EventLongDescription id="ad.event.JoinDomainEvent">\
+      <description>\
+         도메인에 가입했습니다.\
+      </description>\
+   </EventLongDescription>\
+
+   "
+
+ad.event.LeaveDomainFailedEvent.longDescription = "\
+   <EventLongDescription id="ad.event.LeaveDomainFailedEvent">\
+      <description>\
+         도메인에서 탈퇴하지 못했습니다.\
+      </description>\
+   </EventLongDescription>\
+
+   "
+
+ad.event.LeaveDomainEvent.longDescription = "\
+   <EventLongDescription id="ad.event.LeaveDomainEvent">\
+      <description>\
+         도메인에서 탈퇴했습니다.\
+      </description>\
+   </EventLongDescription>\
+
+   "
+
+ad.event.ImportCertFailedEvent.longDescription = "\
+   <EventLongDescription id="ad.event.ImportCertFailedEvent">\
+      <description>\
+         인증서를 가져오지 못했습니다.\
+      </description>\
+   </EventLongDescription>\
+
+   "
+
+ad.event.ImportCertEvent.longDescription = "\
+   <EventLongDescription id="ad.event.ImportCertEvent">\
+      <description>\
+         인증서를 가져왔습니다.\
+      </description>\
+   </EventLongDescription>\
+
+   "
+
+com.vmware.vc.vmam.VmAppHealthMonitoringStateChangedEvent.longDescription = "\
+   <EventLongDescription id="com.vmware.vc.vmam.VmAppHealthMonitoringStateChangedEvent">\
+      <description>\
+        애플리케이션 모니터링 상태의 변경은 모니터링되는 애플리케이션의 상태 또는 애플리케이션 모니터링 프로세스가 변경되었음을 나타냅니다. 애플리케이션 하트비트가 게스트 내에서 사용할 수 있게 설정되면 회색에서 녹색으로 전환됩니다. vSphere HA가 30초 이내에 하트비트를 수신하지 않으면 빨간색으로 전환됩니다. vSphere HA가 처리 작업을 수행하기 전에 하트비트가 다시 시작되면 빨간색에서 녹색으로 전환됩니다. 애플리케이션 하트비트가 게스트 내에서 사용할 수 없게 설정되면 회색으로 전환됩니다. \
+      </description>\
+      <cause>\
+        <description>\
+          vSphere HA 또는 게스트 안에서 사용자가 시작한 작업이 애플리케이션 모니터링 에이전트에서 30초 간격으로 애플리케이션 하트비트를 수신하지 않았습니다. \
+        </description>\
+        <action>\
+          상태가 빨간색으로 전환될 경우 애플리케이션 모니터링 에이전트가 하트비트를 중지한 이유를 조사하십시오. 애플리케이션에 장애가 발생했거나 애플리케이션 모니터링 에이전트에 문제가 있는 경우 하트비트가 누락될 수 있습니다. 상태가 회색으로 자주 전환되는 것은 애플리케이션 모니터링 에이전트에 문제가 있을 수 있음을 나타냅니다. 상태가 회색으로 자주 전환되는 경우 모니터링을 사용/사용 안 함으로 설정해야 되는지 조사하십시오.\
+        </action>\
+      </cause>\
+   </EventLongDescription>\
+
+   "
+
+com.vmware.vc.vmam.VmDasAppHeartbeatFailedEvent.longDescription = "\
+   <EventLongDescription id="com.vmware.vc.vmam.VmDasAppHeartbeatFailedEvent">\
+      <description>\
+        vSphere HA가 게스트 안의 애플리케이션 모니터링 에이전트에서 하트비트 장애를 감지했습니다. vSphere에서 애플리케이션 모니터링을 사용하도록 설정한 경우 가상 시스템은 재설정됩니다.\
+      </description>\
+      <cause>\
+        <description>\
+          vSphere HA가 애플리케이션 모니터링 에이전트에서 30초 내의 간격으로 애플리케이션 하트비트를 수신하지 않았습니다.\
+        </description>\
+        <action>\
+          애플리케이션 모니터링 에이전트에서 하트비트를 중지한 이유를 조사하십시오. 애플리케이션에 장애가 발생했거나 애플리케이션 모니터링 에이전트에 문제가 있는 경우 하트비트가 누락될 수 있습니다.\
+        </action>\
+      </cause>\
+   </EventLongDescription>\
+
+   "
+
+com.vmware.vc.vmam.VmAppHealthStateChangedEvent.longDescription = "\
+   <EventLongDescription id="com.vmware.vc.vmam.VmAppHealthStateChangedEvent">\
+      <description>\
+        애플리케이션 상태가 변경되었다는 것은 게스트 내 애플리케이션이 허용된 두 값(appStateOk 또는 appStateNeedReset) 중 하나를 게시했음을 나타냅니다. appStateOk는 모니터링되는 애플리케이션이 정상임을 나타내며, appStateNeedReset을 사용하면 이 가상 시스템에 대한 애플리케이션 모니터링이 사용하도록 설정된 경우 가상 시스템이 즉시 재설정됩니다.\
+      </description>\
+      <cause>\
+        <description>\
+          게스트 내에서 시작된 작업입니다. \
+        </description>\
+        <action>\
+          이 가상 시스템의 vSphere HA 및 애플리케이션 모니터링이 사용하도록 설정된 경우 상태가 appStateNeedReset이면 가상 시스템이 재설정됩니다. 가상 시스템이 vMotion을 사용하여 마이그레이션되는 경우에는 가상 시스템이 대상에 도달할 때까지 재설정이 지연됩니다. 또한 데이터스토어 연결 문제가 해결될 때까지 재설정이 지연됩니다. \
+        </action>\
+      </cause>\
+   </EventLongDescription>\
+
+   "
+
+com.vmware.vc.host.problem.VStorageObjectInfraNamespacePolicyEmptyEvent.longDescription = "\
+   <EventLongDescription id="com.vmware.vc.host.problem.VStorageObjectInfraNamespacePolicyEmptyEvent">\
+      <description>\
+        개선된 가상 디스크 인프라 네임스페이스가 빈 스토리지 정책을 사용하여 생성되었습니다. \
+        잠재적 데이터 손실을 방지하기 위해 인프라 네임스페이스 스토리지 정책을 업데이트하십시오.\
+      </description>\
+      <cause>\
+        <description>\
+          이 문제는 개선된 가상 디스크 인프라 네임스페이스를 빈 스토리지 정책을 사용하여 생성했기 때문에 발생합니다.\
+        </description>\
+        <action>\
+          인프라 네임스페이스 스토리지 정책을 업데이트하십시오.\
+        </action>\
+      </cause>\
+   </EventLongDescription>\
+
+   "
+
+com.vmware.vc.host.problem.vFlashResource.inaccessible.longDescription = "\
+   <EventLongDescription id="com.vmware.vc.host.problem.vFlashResource.inaccessible">\
+      <description>\
+        호스트 가상 플래시 리소스에 액세스할 수 없다는 것은 이 리소스의 백업 VFFS 볼륨에 액세스할 수 없음을 나타냅니다. 호스트 가상 플래시 리소스에 액세스할 수 없기 때문에 vSphere Flash Read Cache가 구성된 가상 시스템 전원을 켤 수 없거나, 전원이 켜지더라도 예기치 않게 작동할 수 있습니다.\
+      </description>\
+      <cause>\
+        <description>\
+          이 문제는 마운트 해제된 VFFS 볼륨이나 VFFS 볼륨의 APD/PDL로 인해 발생할 수 있습니다. \
+        </description>\
+        <action>\
+          백업 VFFS 볼륨 연결 상태를 확인하십시오. 예를 들어 마운트 해제된 볼륨을 마운트하거나 APD/PDL 문제를 해결합니다. 백업 VFFS 볼륨에 액세스할 수 있으면 호스트 가상 플래시 리소스에도 액세스할 수 있습니다. \
+        </action>\
+      </cause>\
+   </EventLongDescription>\
+
+   "
+
+com.vmware.vc.host.vFlash.modulesLoadedEvent = "\
+   <EventLongDescription id="com.vmware.vc.host.vFlash.modulesLoadedEvent">\
+      <description>\
+         서버에 로드된 가상 플래시 모듈 목록을 새로 고쳤습니다. 새로 로드되거나 다시 로드된 모든 모듈을 가상 Flash Read Cache 구성에서 사용할 수 있습니다.\
+      </description>\
+   </EventLongDescription>\
+
+   "
+
+com.vmware.vc.host.vFlash.defaultModuleChangedEvent.longDescription = "\
+   <EventLongDescription id="com.vmware.vc.host.vFlash.defaultModuleChangedEvent">\
+      <description>\
+         기본 가상 플래시 모듈이 변경되었습니다. 구성에 정의되어 있지 않으면 새 가상 Flash Read Cache 구성에서 모두 새 기본 가상 플래시 모듈을 사용합니다. 기존의 모든 구성은 변경되지 않은 상태로 유지됩니다.\
+      </description>\
+   </EventLongDescription>\
+
+   "

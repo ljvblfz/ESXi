@@ -1,0 +1,272 @@
+#!/usr/bin/python
+import errno, fcntl, os, optparse, select, sys
+import logging, logging.handlers, traceback
+import datetime
+
+from vmware.esx5update import Cmdline
+from vmware.esx5update import IFace
+
+from vmware.esximage import Errors
+from vmware.esximage import Configure
+
+from vmware.runcommand import runcommand, RunCommandError
+
+
+class FixedLogFileHandler(logging.FileHandler):
+    def format(self, record):
+       args = datetime.datetime.utcnow()
+       l = "%04d-%02d-%02dT%02d:%02d:%02d%s" % (args.year, args.month,
+           args.day, args.hour, args.minute, args.second, args.tzinfo or 'Z')
+       return "%s %s: %s" % (l, "esxupdate",
+                             logging.FileHandler.format(self, record))
+
+
+# Note: RESPONSE_VERSION duplicates the value of SCAN_RESPONSE_VER in Iface.py
+#  to make sure esxupdate has XML output for HA mode under some error conditions.
+RESPONSE_VERSION = '1.50'
+TIMEOUT = 30.0
+RETRY   = 5
+HA_MODE = '--HA' in sys.argv
+
+#
+# setup logging
+#
+LOGGING_LEVELS = {'debug': logging.DEBUG,
+          'info': logging.INFO,
+          'warning': logging.WARNING,
+          'error': logging.ERROR,
+          'critical': logging.CRITICAL}
+try:
+   handler = logging.handlers.SysLogHandler(address='/dev/log')
+except Exception as e1:
+   try:
+      sys.stderr.write("Filed to open syslog.\n"
+                       "Logging to /var/log/esxupdate.log\n")
+      handler = FixedLogFileHandler('/var/log/esxupdate.log')
+   except Exception as e2:
+      sys.stderr.write("%s\nLogging disable.\n" % e2)
+      # NullHandler is not unsupported in this version of Python,
+      # setup the capacity of 1MB for the buffer size.
+      handler = logging.handlers.MemoryHandler(1024 * 1024)
+
+formatter = 'esxupdate: %(process)d: %(name)s: %(levelname)s: %(message)s'
+handler.setFormatter(logging.Formatter(formatter))
+
+# override the original value, which adds \000 at the end of a msg
+# This shows up as ^@ in editor
+handler.log_format_string = '<%d>%s'
+
+rootlogger = logging.getLogger()
+for h in rootlogger.handlers:
+   rootlogger.removeHandler(h)
+rootlogger.addHandler(handler)
+#XXX set this back to logging.INFO closer to release.
+rootlogger.setLevel(logging.DEBUG)
+
+logger = logging.getLogger('esxupdate')
+
+user_commands = sorted(Cmdline.COMMANDS.keys())
+
+def readstdin(timeout = 3.0):
+   '''Read input from stdin, until:
+         * An EOF occurs (i.e. parent's pipe to stdin is closed).
+         * The timeout (in seconds) expires with no input being read.
+      Returns a string with the data read (or empty string if no data read).
+   '''
+   # Make stdin non-blocking to avoid hanging on read().
+   old_flags = None
+   try:
+      old_flags = fcntl.fcntl(sys.stdin, fcntl.F_GETFL)
+      flags = old_flags | os.O_NONBLOCK
+      fcntl.fcntl(sys.stdin, fcntl.F_SETFL, flags)
+   except Exception as e:
+      logger.warn('Unable to set stdin non-blocking: %s' % e)
+      return ''
+   data = ''
+   while True:
+      try:
+         ready = select.select([sys.stdin], [], [], timeout)[0]
+      except select.error as err:
+         errNum, msg = err
+         if errNum  == errno.EINTR:
+            # If interrupted by a signal, just continue.
+            continue
+         else:
+            logger.error('select error waiting for input on stdin: %s' % msg)
+            break
+      if ready:
+         newdata = sys.stdin.readline()
+         data += newdata
+      else:
+         logger.warn('Timeout waiting for input on stdin.')
+         break
+      if newdata in ('', '\n'):
+         break
+
+   # restore stdin file status. Otherwise, output from cmd line has
+   # Resource temporarily unavailable error
+   if old_flags is not None:
+      try:
+         fcntl.fcntl(sys.stdin, fcntl.F_SETFL, old_flags)
+      except Exception as e:
+         logger.warn('Unable to restore stdin file status: %s' % e)
+   return data
+
+class InvalidArgumentError(Errors.EsxupdateError):
+   description = 'Error in parsing command arguments'
+   errno = 99
+   attrs = ('msg',)
+
+class HAOptParser(optparse.OptionParser):
+   """Override the error handling method of optparse to raise exception
+   """
+   def error(self, msg):
+      usage = self.get_usage()
+      raise InvalidArgumentError('%s\n%s' % (usage, msg))
+
+def InitParser(parser):
+   parser.formatter.max_help_position = 30 # PR 381133
+   parser.set_usage("This program is not meant to be used directly.  Please use "
+                    "esxcli software instead.")
+
+   parser.add_option('-b', action='append', type='string',
+                     dest='viburls', metavar='VIB',
+                     help=optparse.SUPPRESS_HELP)
+   parser.add_option('-m', '--meta', action='append', type='string', dest='meta',
+                     help=optparse.SUPPRESS_HELP)
+   # NOTE: HA is the only supported mode
+   parser.add_option('--HA', action='store_true', dest='hamode',
+         help="HA mode only, required")
+   parser.add_option('--http_proxy', action='store', type='string',
+                     dest='proxyurl', metavar='Url:Port',
+                     help=optparse.SUPPRESS_HELP)
+   parser.add_option('--timeout', action='store', type='float',
+                     dest='timeout',
+                     help=optparse.SUPPRESS_HELP)
+   parser.set_defaults(timeout=TIMEOUT)
+   parser.add_option('--retry', action='store', type='int',
+                     dest='retry',
+                     help=optparse.SUPPRESS_HELP)
+   parser.set_defaults(retry=RETRY)
+   parser.add_option('--loglevel', action='store', type='string',
+                     dest='loglevel',
+                     help=optparse.SUPPRESS_HELP)
+
+   # provided for backward compatibility
+   parser.add_option('--cachesize', action='store', type='int',
+                     dest='cachesize', help=optparse.SUPPRESS_HELP)
+   parser.add_option('--cleancache', action='store_true', dest='cleancache',
+                     help=optparse.SUPPRESS_HELP)
+
+   # Hiden options
+   parser.add_option('--maintenancemode', action='store_true',
+                     help=optparse.SUPPRESS_HELP)
+
+   parser.add_option('--nosigcheck', action='store_true',
+                     help=optparse.SUPPRESS_HELP)
+
+def ConfigureEsximage():
+   "Configure esximage module. Network parameters are taken from esxcfg-advcfg."
+
+   # This is freakin slow.
+   def getUserIntVar(name):
+      try:
+         rc, out = runcommand(["/sbin/esxcfg-advcfg", "-q", "-g", "/UserVars/" + name])
+         return int(out)
+      except RunCommandError as e:
+         logger.warn("Error querying esxcfg-advcfg: %s" % e)
+      except ValueError as e:
+         logger.warn("Invalid value for option %s." % name)
+      return None
+
+   kwargs = {"certsdirs": ["/usr/share/certs"],
+             "schemadir": "/usr/share/esximage/schemas"}
+
+   for uservar, key in (("EsximageNetTimeout", "nettimeout"),
+                        ("EsximageNetRetries", "netretries"),
+                        ("EsximageNetRateLimit", "netratelimit")):
+      value = getUserIntVar(uservar)
+      if value is not None:
+         kwargs[key] = value
+
+   Configure(**kwargs)
+
+def main():
+   iface = IFace.GetIFace(HOSTD=HA_MODE)
+
+   ConfigureEsximage()
+
+   try:
+      if HA_MODE:
+         parser = HAOptParser()
+      else:
+         parser = optparse.OptionParser()
+
+      InitParser(parser)
+
+      argv = sys.argv[1:]
+      stdin_data = readstdin().strip()
+      argv.extend(line.strip() for line in stdin_data.splitlines())
+
+      (options, args) = parser.parse_args(argv)
+      if len(args) < 1:
+         parser.error('Command must be specified\n%s' % (parser.format_help()))
+      elif len(args) > 1:
+         parser.error('Only one command may be specified')
+
+      # update logging level
+      if options.loglevel is not None:
+         logopt = options.loglevel.strip().lower()
+         if logopt in LOGGING_LEVELS:
+            level = LOGGING_LEVELS[logopt]
+         else:
+            try:
+               level = abs(int(logopt))
+            except:
+               parser.error('Invalid log level (%s) specified for %s.' %
+                           (str(logopt), parser.get_option('--loglevel')))
+         rootlogger.setLevel(level)
+
+      command = args[0].strip()
+      if command not in Cmdline.COMMANDS:
+         parser.error('Command must be one of: %s' % ', '.join(user_commands))
+
+      cmdclass = Cmdline.COMMANDS[command]
+      cmd = cmdclass(command, iface, parser, options)
+      cmd.CheckArgs()
+      logger.info('---\nCommand: %s\nArgs: %s\nOptions: %s' % (
+         command, args, options))
+      cmd.Run()
+      logger.info('All done!')
+   except Exception as e:
+      if isinstance(e, EnvironmentError) and 'Errors' in globals():
+         #
+         # All uncaught EnvironmentErrors become FileIOErrors.
+         # Much more efficient this way than catching everywhere
+         # and re-raising it.
+         #
+         e = Errors.FileIOError(e.filename, 'I/O Error (%d) on file %s: %s'
+                              % (e.errno or '', e.filename or '', str(e)))
+
+      if 'Errors' in globals() and isinstance(e, Errors.EsxupdateError):
+         if not isinstance(e, Errors.NormalExit):
+            logger.error('An esxupdate error exception was caught:')
+            # Note: logger.exception will truncate long message, here use just
+            # log each line of the traceback.
+            for line in traceback.format_exc().splitlines():
+               logger.error(line)
+         if e.errno != 0:
+            iface.ShowException(e)
+         raise SystemExit(e.errno)
+      else:
+         logger.error('An unexpected exception was caught:')
+         for line in traceback.format_exc().splitlines():
+            logger.error(line)
+         iface.ShowException(e)
+         raise SystemExit(99)
+   finally:
+      iface.Flush()
+      logger.debug('<<<')
+
+if __name__ == "__main__":
+   sys.exit(main())

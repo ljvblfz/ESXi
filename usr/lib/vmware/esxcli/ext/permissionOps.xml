@@ -1,0 +1,99 @@
+<?xml version="1.0"?>
+<plugin xmlns="http://www.vmware.com/Products/ESX/5.0/esxcli/">
+   <version>1.0.0</version>
+
+   <namespaces>
+      <!-- esxcli system permission -->
+      <namespace path="system.permission">
+         <description>Manage permissions for accessing the ESXi host.</description>
+      </namespace>
+   </namespaces>
+
+
+   <commands>
+
+      <!-- esxcli system permission list -->
+      <command path="system.permission.list">
+         <description>List permissions defined on the host.</description>
+         <input-spec>
+            <context-supported>user</context-supported>
+         </input-spec>
+         <output-spec>
+            <list type="structure">
+               <structure typeName="Permission">
+                  <field name="Principal"><string /></field>
+                  <field name="Is Group"><bool /></field>
+                  <field name="Role"><string /></field>
+                  <field name="Role Description"><string /></field>
+               </structure>
+            </list>
+         </output-spec>
+
+         <format-parameters>
+            <formatter>table</formatter>
+            <format-parameter name="fields:Permission">Principal,Is Group,Role,Role Description</format-parameter>
+         </format-parameters>
+
+         <execute>/usr/lib/vmware/auth/bin/permissionOps.py list</execute>
+      </command>
+
+      <!-- esxcli system permission set -->
+      <command path="system.permission.set">
+         <description>Set permission for a user or group.</description>
+         <input-spec>
+            <context-supported>user</context-supported>
+            <parameter name="id" shortname="i" type="string" required="true">
+               <description>ID of user or group. Domain users or groups should be specified as "DOMAIN\user_name" or "DOMAIN\group_name".</description>
+            </parameter>
+            <parameter name="group" shortname="g" type="flag" required="false">
+               <description>Specifies that the supplied ID refers to a group. ESXi local groups are not supported.</description>
+            </parameter>
+            <parameter name="role" shortname="r" type="string" required="true">
+               <description>Name of role that specifies user access rights. %FULLENUM%</description>
+               <constraint type="stringenum">
+                  <enum>
+                     <enum-value value="Admin">Full access rights</enum-value>
+                     <enum-value value="ReadOnly">See details of objects, but not make changes</enum-value>
+                     <enum-value value="NoAccess">Used for restricting granted access. E.g. to deny access for some user whose group already has access.</enum-value>
+                  </enum>
+               </constraint>
+            </parameter>
+         </input-spec>
+         <output-spec>
+            <bool />
+         </output-spec>
+
+         <format-parameters>
+            <formatter/>
+         </format-parameters>
+
+         <execute>/usr/lib/vmware/auth/bin/permissionOps.py set --id='$val{id}' $if{group,--group} --role='$val{role}'</execute>
+      </command>
+
+      <!-- esxcli system permission unset -->
+      <command path="system.permission.unset">
+         <description>Remove permission for a user or group.</description>
+         <input-spec>
+            <context-supported>user</context-supported>
+            <parameter name="id" shortname="i" type="string" required="true">
+               <description>ID of user or group.</description>
+            </parameter>
+            <parameter name="group" shortname="g" type="flag" required="false">
+               <description>Specifies that the supplied ID refers to a group.</description>
+            </parameter>
+         </input-spec>
+         <output-spec>
+            <bool />
+         </output-spec>
+
+         <format-parameters>
+            <formatter/>
+         </format-parameters>
+
+         <execute>/usr/lib/vmware/auth/bin/permissionOps.py remove --id='$val{id}' $if{group,--group}</execute>
+      </command>
+
+   </commands>
+
+</plugin>
+

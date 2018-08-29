@@ -1,0 +1,233 @@
+/***********************************************************
+ * Copyright 2010-2017 VMware, Inc.  All rights reserved.
+ * VMware Confidential
+ ***********************************************************/
+
+{
+   "operations" :
+   {
+      "start" :
+      [
+         /*
+          * XXX The rules are currently built up by release, inserted and then
+          * deleted and reinserted.  The storage team will consolidate the list
+          * in a later changeset.  See bug 551829 for more details.
+          */
+
+         // First unconditionally load the default rules for ESX 4.0
+
+         // load default VMW_SATP_LSI rules
+         "storage nmp satp rule add --satp VMW_SATP_LSI --claim-option tpgs_off --vendor IBM --model \"^1742*\" --description \"FAStT 700/900\" --boot",
+         "storage nmp satp rule add --satp VMW_SATP_LSI --claim-option tpgs_off --vendor IBM --model \"^3542*\" --description \"FAStT 200\" --boot",
+         "storage nmp satp rule add --satp VMW_SATP_LSI --claim-option tpgs_off --vendor IBM --model \"^3552*\" --description \"FAStT 500\" --boot",
+         "storage nmp satp rule add --satp VMW_SATP_LSI --claim-option tpgs_off --vendor IBM --model \"^1722*\" --description \"FAStT 600/DS4300\" --boot",
+         "storage nmp satp rule add --satp VMW_SATP_LSI --claim-option tpgs_off --vendor IBM --model \"^1815*\" --description \"FAStT DS4800\" --boot",
+         "storage nmp satp rule add --satp VMW_SATP_LSI --claim-option tpgs_off --vendor IBM --model \"^1724*\" --description \"FAStT 100\" --boot",
+         "storage nmp satp rule add --satp VMW_SATP_LSI --claim-option tpgs_off --vendor IBM --model \"^1726-*\" --description \"DS3X00\" --boot",
+         "storage nmp satp rule add --satp VMW_SATP_LSI --claim-option tpgs_off --vendor IBM --model \"^1814*\" --description \"DS4000\" --boot",
+         "storage nmp satp rule add --satp VMW_SATP_LSI --claim-option tpgs_off --vendor IBM --model \"^1818*\" --description \"DS5100/DS5300\" --boot",
+
+         "storage nmp satp rule add --satp VMW_SATP_LSI --claim-option tpgs_off --model \"Universal Xport\" --description \"FAStT\" --boot",
+
+         "storage nmp satp rule add --satp VMW_SATP_LSI --claim-option tpgs_off --vendor DELL --model MD3000 --description \"Dell MD3000\" --boot",
+         "storage nmp satp rule add --satp VMW_SATP_LSI --claim-option tpgs_off --vendor DELL --model MD3000i --description \"Dell MD3000i\" --boot",
+
+         "storage nmp satp rule add --satp VMW_SATP_LSI --claim-option tpgs_off --vendor STK --model \"OPENstorage 9176\" --boot",
+         "storage nmp satp rule add --satp VMW_SATP_LSI --claim-option tpgs_off --vendor STK --model \"OPENstorage D173\" --boot",
+         "storage nmp satp rule add --satp VMW_SATP_LSI --claim-option tpgs_off --vendor STK --model \"OPENstorage D178\" --boot",
+         "storage nmp satp rule add --satp VMW_SATP_LSI --claim-option tpgs_off --vendor STK --model \"OPENstorage D210\" --boot",
+         "storage nmp satp rule add --satp VMW_SATP_LSI --claim-option tpgs_off --vendor STK --model \"OPENstorage D220\" --boot",
+         "storage nmp satp rule add --satp VMW_SATP_LSI --claim-option tpgs_off --vendor STK --model \"OPENstorage D240\" --boot",
+         "storage nmp satp rule add --satp VMW_SATP_LSI --claim-option tpgs_off --vendor STK --model \"OPENstorage D280\" --boot",
+         "storage nmp satp rule add --satp VMW_SATP_LSI --claim-option tpgs_off --vendor STK --model \"BladeCtlr BC82\" --boot",
+         "storage nmp satp rule add --satp VMW_SATP_LSI --claim-option tpgs_off --vendor STK --model \"BladeCtlr BC84\" --boot",
+         "storage nmp satp rule add --satp VMW_SATP_LSI --claim-option tpgs_off --vendor STK --model \"BladeCtlr BC88\" --boot",
+         "storage nmp satp rule add --satp VMW_SATP_LSI --claim-option tpgs_off --vendor STK --model \"BladeCtlr B210\" --boot",
+         "storage nmp satp rule add --satp VMW_SATP_LSI --claim-option tpgs_off --vendor STK --model \"BladeCtlr B220\" --boot",
+         "storage nmp satp rule add --satp VMW_SATP_LSI --claim-option tpgs_off --vendor STK --model \"BladeCtlr B240\" --boot",
+         "storage nmp satp rule add --satp VMW_SATP_LSI --claim-option tpgs_off --vendor STK --model \"BladeCtlr B280\" --boot",
+         "storage nmp satp rule add --satp VMW_SATP_LSI --claim-option tpgs_off --vendor STK --model \"INF-01-00\" --boot",
+         "storage nmp satp rule add --satp VMW_SATP_LSI --claim-option tpgs_off --vendor STK --model \"FLEXLINE 380\" --boot",
+
+         "storage nmp satp rule add --satp VMW_SATP_LSI --claim-option tpgs_off --vendor LSI --model \"OPENstorage 9176\" --boot",
+         "storage nmp satp rule add --satp VMW_SATP_LSI --claim-option tpgs_off --vendor LSI --model \"OPENstorage D173\" --boot",
+         "storage nmp satp rule add --satp VMW_SATP_LSI --claim-option tpgs_off --vendor LSI --model \"OPENstorage D178\" --boot",
+         "storage nmp satp rule add --satp VMW_SATP_LSI --claim-option tpgs_off --vendor LSI --model \"OPENstorage D210\" --boot",
+         "storage nmp satp rule add --satp VMW_SATP_LSI --claim-option tpgs_off --vendor LSI --model \"OPENstorage D220\" --boot",
+         "storage nmp satp rule add --satp VMW_SATP_LSI --claim-option tpgs_off --vendor LSI --model \"OPENstorage D240\" --boot",
+         "storage nmp satp rule add --satp VMW_SATP_LSI --claim-option tpgs_off --vendor LSI --model \"OPENstorage D280\" --boot",
+         "storage nmp satp rule add --satp VMW_SATP_LSI --claim-option tpgs_off --vendor LSI --model \"BladeCtlr BC82\" --boot",
+         "storage nmp satp rule add --satp VMW_SATP_LSI --claim-option tpgs_off --vendor LSI --model \"BladeCtlr BC84\" --boot",
+         "storage nmp satp rule add --satp VMW_SATP_LSI --claim-option tpgs_off --vendor LSI --model \"BladeCtlr BC88\" --boot",
+         "storage nmp satp rule add --satp VMW_SATP_LSI --claim-option tpgs_off --vendor LSI --model \"BladeCtlr B210\" --boot",
+         "storage nmp satp rule add --satp VMW_SATP_LSI --claim-option tpgs_off --vendor LSI --model \"BladeCtlr B220\" --boot",
+         "storage nmp satp rule add --satp VMW_SATP_LSI --claim-option tpgs_off --vendor LSI --model \"BladeCtlr B240\" --boot",
+         "storage nmp satp rule add --satp VMW_SATP_LSI --claim-option tpgs_off --vendor LSI --model \"BladeCtlr B280\" --boot",
+         "storage nmp satp rule add --satp VMW_SATP_LSI --claim-option tpgs_off --vendor LSI --model \"INF-01-00\" --boot",
+         "storage nmp satp rule add --satp VMW_SATP_LSI --claim-option tpgs_off --vendor LSI --model \"FLEXLINE 380\" --boot",
+
+         "storage nmp satp rule add --satp VMW_SATP_LSI --claim-option tpgs_off --vendor SUN --model CSM100_R_FC --boot",
+         "storage nmp satp rule add --satp VMW_SATP_LSI --claim-option tpgs_off --vendor SUN --model \"FLEXLINE 380\" --boot",
+         "storage nmp satp rule add --satp VMW_SATP_LSI --claim-option tpgs_off --vendor SUN --model CSM200_R --boot",
+         "storage nmp satp rule add --satp VMW_SATP_LSI --claim-option tpgs_off --vendor SUN --model LCSM100_F --boot",
+         "storage nmp satp rule add --satp VMW_SATP_LSI --claim-option tpgs_off --vendor SUN --model LCSM100_I --boot",
+         "storage nmp satp rule add --satp VMW_SATP_LSI --claim-option tpgs_off --vendor SUN --model LCSM100_S --boot",
+         "storage nmp satp rule add --satp VMW_SATP_LSI --claim-option tpgs_off --vendor SUN --model STK6580_6780 --description \"Sun StorageTek 6580/6780\" --boot",
+
+         "storage nmp satp rule add --satp VMW_SATP_LSI --claim-option tpgs_off --vendor ENGENIO --model INF-01-00 --boot",
+
+         "storage nmp satp set --satp VMW_SATP_LSI --default-psp VMW_PSP_MRU --boot",
+
+         // load default VMW_SATP_CX rules
+         "storage nmp satp rule add --satp VMW_SATP_CX --claim-option tpgs_off --vendor DGC --description \"All non-ALUA Clariion Arrays\" --boot",
+
+         "storage nmp satp set --satp VMW_SATP_CX --default-psp VMW_PSP_MRU --boot",
+
+         // load default VMW_SATP_SYMM rules
+         "storage nmp satp rule add --satp VMW_SATP_SYMM --vendor EMC --model SYMMETRIX --description \"EMC Symmetrix\" --boot",
+
+         "storage nmp satp set --satp VMW_SATP_SYMM --default-psp VMW_PSP_RR --boot",
+
+         // load default VMW_SATP_ALUA_CX rules
+         "storage nmp satp rule add --satp VMW_SATP_ALUA_CX --claim-option tpgs_on --vendor DGC --description \"CLARiiON array in ALUA mode\" --boot",
+
+         // load default VMW_SATP_EVA rules
+         "storage nmp satp rule add --satp VMW_SATP_EVA --claim-option tpgs_off --model HSV101 --description \"active/active EVA 3000 GL\" --boot",
+         "storage nmp satp rule add --satp VMW_SATP_EVA --claim-option tpgs_off --model HSV111 --description \"active/active EVA 5000 GL\" --boot",
+         "storage nmp satp rule add --satp VMW_SATP_EVA --claim-option tpgs_off --model HSV200 --description \"active/active EVA 4000/6000 XL\" --boot",
+         "storage nmp satp rule add --satp VMW_SATP_EVA --claim-option tpgs_off --model HSV210 --description \"active/active EVA 8000/8100 XL\" --boot",
+         "storage nmp satp rule add --satp VMW_SATP_EVA --claim-option tpgs_off --model HSVX740 --description \"active/active HP StorageWorks SVSP\" --boot",
+
+         "storage nmp satp set --satp VMW_SATP_EVA --default-psp VMW_PSP_FIXED --boot",
+
+         // load default VMW_SATP_INV rules
+         "storage nmp satp rule add --satp VMW_SATP_INV --vendor EMC --model Invista --boot",
+         "storage nmp satp rule add --satp VMW_SATP_INV --vendor EMC --model LUNZ --description \"Invista LUNZ\" --boot",
+
+         "storage nmp satp set --satp VMW_SATP_INV --default-psp VMW_PSP_FIXED --boot",
+
+         // load default VMW_SATP_EQL rules
+         "storage nmp satp rule add --satp VMW_SATP_EQL --vendor EQLOGIC --description \"All EqualLogic Arrays\" --boot",
+
+         "storage nmp satp set --satp VMW_SATP_EQL --default-psp VMW_PSP_FIXED --boot",
+
+         // load default VMW_SATP_MSA rules
+         "storage nmp satp rule add --satp VMW_SATP_MSA --model \"MSA1000 VOLUME\" --boot",
+
+         "storage nmp satp set --satp VMW_SATP_MSA --default-psp VMW_PSP_MRU --boot",
+
+         // load default VMW_SATP_DEFAULT_AA rules
+         "storage nmp satp rule add --satp VMW_SATP_DEFAULT_AA --vendor HITACHI --boot",
+
+         "storage nmp satp set --satp VMW_SATP_DEFAULT_AA --default-psp VMW_PSP_FIXED --boot",
+
+         // load default VMW_SATP_SVC rules
+         "storage nmp satp set --satp VMW_SATP_SVC --default-psp VMW_PSP_FIXED --boot",
+
+         // load default VMW_SATP_DEFAULT_AP rules
+         "storage nmp satp rule add --satp VMW_SATP_DEFAULT_AP --vendor DEC --model HSG80 --boot",
+         "storage nmp satp rule add --satp VMW_SATP_DEFAULT_AP --model HSV100 --description \"active/passive EVA 3000 GL\" --boot",
+         "storage nmp satp rule add --satp VMW_SATP_DEFAULT_AP --model HSV110 --description \"active/passive EVA 5000 GL\" --boot",
+         "storage nmp satp rule add --satp VMW_SATP_DEFAULT_AP --claim-option tpgs_off --model HSVX700 --description \"active/passive HP StorageWorks SVSP\" --boot",
+
+         "storage nmp satp set --satp VMW_SATP_DEFAULT_AP --default-psp VMW_PSP_MRU --boot",
+
+         // load default VMW_SATP_ALUA rules
+         "storage nmp satp rule add --satp VMW_SATP_ALUA --claim-option tpgs_on --description \"Any array with ALUA support\" --boot",
+
+         "storage nmp satp set --satp VMW_SATP_ALUA --default-psp VMW_PSP_MRU --boot",
+
+         "storage nmp satp rule add --satp VMW_SATP_ALUA --psp VMW_PSP_MRU --claim-option tpgs_on --vendor LSI --model INF-01-00 --description=\"NetApp E-Series arrays with ALUA support\" --option reset_on_attempted_reserve --boot",
+
+         // Unconditionally load the default rules for ESX 4.0 U2
+
+         // Remove existing VMW_SATP_EVA rules for now unsupported EVA3000/5000 and MSA1000/1500 arrays from HP
+         "storage nmp satp rule remove --satp VMW_SATP_DEFAULT_AP --model HSV100 --boot",
+         "storage nmp satp rule remove --satp VMW_SATP_DEFAULT_AP --model HSV110 --boot",
+
+         "storage nmp satp rule remove --satp VMW_SATP_EVA --model HSV101 --boot",
+         "storage nmp satp rule remove --satp VMW_SATP_EVA --model HSV111 --boot",
+
+         "storage nmp satp rule remove --satp VMW_SATP_MSA --model \"MSA1000 VOLUME\" --boot",
+
+         // load updated VMW_SATP_EVA rules to note their new status (no active/active versions supposed to be possible)
+         "storage nmp satp rule add --satp VMW_SATP_EVA --claim-option tpgs_off --model HSV101 --description \"active/active EVA 3000 GL [Legacy product, Not supported in this release]\" --boot",
+         "storage nmp satp rule add --satp VMW_SATP_EVA --claim-option tpgs_off --model HSV111 --description \"active/active EVA 5000 GL [Legacy product, Not supported in this release]\" --boot",
+
+         "storage nmp satp rule add --satp VMW_SATP_DEFAULT_AP --model HSV100 --description \"active/passive EVA 3000 GL [Legacy product, Not supported in this release]\" --boot",
+         "storage nmp satp rule add --satp VMW_SATP_DEFAULT_AP --model HSV110 --description \"active/passive EVA 5000 GL [Legacy product, Not supported in this release]\" --boot",
+
+         // Add rules for EVA models.  Without these, the controller LUN is not recognised as a management device
+         "storage nmp satp rule add --satp VMW_SATP_EVA --claim-option tpgs_off --model HSV300 --description \"active/active EVA 4400\" --boot",
+         "storage nmp satp rule add --satp VMW_SATP_EVA --claim-option tpgs_off --model HSV400 --description \"active/active EVA 6400\" --boot",
+         "storage nmp satp rule add --satp VMW_SATP_EVA --claim-option tpgs_off --model HSV450 --description \"active/active EVA 8400\" --boot",
+
+         "storage nmp satp rule add --satp VMW_SATP_MSA --model \"MSA1000 VOLUME\" --description \"MSA 1000/1500 [Legacy product, Not supported in this release]\" --boot",
+
+         "storage nmp satp set --satp VMW_SATP_MSA --default-psp VMW_PSP_MRU --boot",
+
+         // Add support for IBM DS35xx arrays
+         "storage nmp satp rule add --satp VMW_SATP_LSI --claim-option tpgs_off --vendor IBM --model \"^1746*\" --description \"IBM DS3512/DS3524\" --boot",
+
+         // Add support for Dell MD3200/MD3200i arrays
+         "storage nmp satp rule add --satp VMW_SATP_LSI --claim-option tpgs_off --vendor DELL --model MD32xx --description \"Dell MD3200\" --boot",
+         "storage nmp satp rule add --satp VMW_SATP_LSI --claim-option tpgs_off --vendor DELL --model MD32xxi --description \"Dell MD3200i\" --boot",
+
+         // Add support for SGI InfiniteStorage 4000, 4100, and 4600 storage arrays
+         "storage nmp satp rule add --satp VMW_SATP_LSI --claim-option tpgs_off --vendor SGI --model IS500 --description \"SGI InfiniteStorage 4000/4100\" --boot",
+         "storage nmp satp rule add --satp VMW_SATP_LSI --claim-option tpgs_off --vendor SGI --model IS600 --description \"SGI InfiniteStorage 4600\" --boot",
+
+
+         // Unconditionally load the default rules for ESX 4.1
+
+         // Set the new default PSP for SATP_ALUA_CX
+         "storage nmp satp set --satp VMW_SATP_ALUA_CX --default-psp VMW_PSP_RR --boot",
+
+         // DF800 & SA800 are true active/active so use round-robin by default
+         "storage nmp satp rule add --satp VMW_SATP_DEFAULT_AA --vendor HITACHI --claim-option \"inq_data[128]={0x44 0x46 0x30 0x30}\" --psp VMW_PSP_RR --boot",
+
+
+         // Unconditionally load the default rules for ESX 5.0
+
+         "storage nmp satp rule add --satp VMW_SATP_LSI --claim-option tpgs_off --vendor SUN --model SUN_6180 --description=\"Sun Storage 6180\" --boot",
+
+         // For NetApp arrays supporting ALUA set PSP as VMW_PSP_RR
+         "storage nmp satp rule add --satp VMW_SATP_ALUA --psp VMW_PSP_RR --claim-option tpgs_on --vendor NETAPP --description=\"NetApp arrays with ALUA support\" --option reset_on_attempted_reserve --boot",
+
+         // For IBM 2810XIV arrays supporting ALUA set SATP as VMW_SATP_ALUA and PSP as VMW_PSP_RR
+         "storage nmp satp rule add --satp VMW_SATP_ALUA --psp VMW_PSP_RR --claim-option tpgs_on --vendor IBM --model 2810XIV --description=\"IBM 2810XIV arrays with ALUA support\" --boot",
+
+         // For IBM 2810XIV arrays that do not support ALUA set SATP as VMW_SATP_DEFAULT_AA and PSP as VMW_PSP_RR
+         "storage nmp satp rule add --satp VMW_SATP_DEFAULT_AA --psp VMW_PSP_RR --claim-option tpgs_off --vendor IBM --model 2810XIV --description=\"IBM 2810XIV arrays without ALUA support\" --boot",
+
+	 // For IBM DS8000 array, VMW_PSP_RR is made as default PSP based on request from IBM
+         "storage nmp satp rule add --satp VMW_SATP_ALUA --psp VMW_PSP_RR --vendor IBM --model 2107900 --option reset_on_attempted_reserve --boot",
+
+         "storage nmp satp rule add --satp VMW_SATP_LSI --claim-option tpgs_off --vendor DELL --model MD36xxi --description=\"Dell MD3600i\" --boot",
+
+         "storage nmp satp rule add --satp VMW_SATP_LSI --claim-option tpgs_off --vendor DELL --model MD36xxf --description=\"Dell MD3600f\" --boot",
+
+         // Unconditionally load the default rules for 5.5
+
+         "storage nmp satp rule add --satp VMW_SATP_ALUA --psp VMW_PSP_RR --vendor IBM --model 2145 --boot",
+
+         // Unconditionally load the default rules for vSphere 2016
+
+         "storage nmp satp rule add --satp VMW_SATP_DEFAULT_AA --psp VMW_PSP_RR --psp-option=\"iops=1\" --vendor XtremIO --model XtremApp --boot",
+
+         // Based on request from Pure Storage, setting VMW_SATP_ALUA satp & VMW_PSP_RR psp with iops to 1 as default for PURE FlashArray Array Models
+         "storage nmp satp rule add --satp VMW_SATP_ALUA --psp VMW_PSP_RR --psp-option=\"iops=1\" --vendor PURE --model FlashArray --boot",
+
+         // Based on request from Huawei, setting VMW_SATP_ALUA satp, VMW_PSP_RR psp & Claim Options to tpgs_on as default for Huawei XSG1 Array Models
+         "storage nmp satp rule add --satp VMW_SATP_ALUA --psp VMW_PSP_RR --claim-option tpgs_on --vendor HUAWEI --model XSG1 --boot",
+      ]
+   }
+   ,
+   "metadata" :
+   {
+      "version"  : 1,
+      "requires" : ["path masks", "NMP"],
+      "provides" : ["PSA NMP pre-claim configuration", "NMP SATP claim rules", "NMP PSP claim rules", "storage i/o multipathing"]
+   }
+}
+

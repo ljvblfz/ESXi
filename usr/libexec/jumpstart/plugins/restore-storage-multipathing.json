@@ -1,0 +1,30 @@
+/***********************************************************
+ * Copyright 2010-2011 VMware, Inc.  All rights reserved.
+ * VMware Confidential
+ ***********************************************************/
+
+{
+   "operations" :
+   {
+      "start" :
+      [
+         /* Restore any user configured rules from esx.conf.              */
+         /* This also restores nmp device state from esx.conf.            */
+         /* Note: this works due to later calls to "boot storage restore" */
+         "storage internal nmp boot restore"
+      ],
+      "apply_host_profile" :
+      [
+         /* Stateless application of NMP SATP profiles only.  Note: can't */
+         /* restore other nmp state since devices are not yet discovered. */
+         "boot hostprofile apply --earlybootinit -p nmp.nmpProfile.StorageArrayTypePluginProfile"
+      ]
+   }
+   ,
+   "metadata" :
+   {
+      "version"  : 2,
+      "requires" : ["PSA NMP pre-claim configuration", "NMP SATP claim rules", "NMP PSP claim rules"],
+      "provides" : ["storage i/o multipathing"]
+   }
+}

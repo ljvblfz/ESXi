@@ -1,0 +1,169 @@
+<!-- CDROM drives -->
+<div
+   ng-class="{
+      'stack-new': wizardOptions.data.cdroms[_index]._operation === 'add' &&
+         wizardOptions.data.Type === 'edit',
+      'stack-warning': cdrom.OutputFileInvalid
+   }"
+   ng-repeat="(_index, cdrom) in cdroms"
+   vui-stack-block="hardwareStackView.cdromBlock[_index]"
+   id="cdrom-{{_index}}">
+
+   <span vui-sb-icon-class="icon-stackview-cdrom"
+      vui-sb-label>{{cdrom.title}}</span>
+
+   <div vui-sb-content>
+      <label class="label-508" title="{{cdrom.title}}">
+         <div class="inline stack-dropdown" vui-dropdown="cdrom.Type"></div>
+      </label>
+
+      <!-- Delete device icon: can only delete when off or on, and in
+           the powered on / edit existing case, non IDE CDROMs -->
+      <span class="esx-icon-close vui-icon-info-inline esx-stack-valign-tall esx-close-right"
+         ng-click="removeCdromDrive(_index)"
+         ng-hide="
+            wizardOptions.data.general.state === 'suspended' ||
+            (wizardOptions.data.general.state === 'poweredOn' &&
+             wizardOptions.data.cdroms[_index]._operation === 'edit' &&
+             (wizardOptions.data.cdroms[_index].VirtualDeviceNodeController === '0' ||
+              wizardOptions.data.cdroms[_index].VirtualDeviceNodeController === '1'))"></span>
+
+      <div class="inline checkbox"
+         ng-show="cdroms[_index].Type.selectedValue !== 'Unsupported'">
+         <label class="esx-stack-valign-tall"
+            title="{{'vm.wizard.hardware.virtualhardware.cdrom.connect' | translate}}">
+            <input
+               ng-disabled="
+                  wizardOptions.data.general.state === 'suspended' ||
+                  (wizardOptions.data.general.state === 'poweredOn' &&
+                   wizardOptions.data.cdroms[_index]._operation === 'edit' &&
+                   wizardOptions.data.cdroms[_index].VirtualDeviceNodeController < 2)"
+               ng-model="wizardOptions.data.cdroms[_index].Status"
+               type="checkbox"/>
+            {{'vm.wizard.hardware.virtualhardware.cdrom.connect' | translate}}
+         </label>
+      </div>
+   </div>
+
+   <div vui-sb-content-expanded>
+      <label class="label-508"
+         title="{{'vm.wizard.hardware.virtualhardware.cdrom.type' | translate}}">
+         <div class="inline stack-dropdown"
+            vui-dropdown="cdrom.Type"></div>
+      </label>
+
+      <!-- Delete device icon: can only delete when off or on, and in
+           the powered on / edit existing case, non IDE CDROMs -->
+      <span class="esx-icon-close vui-icon-info-inline esx-stack-valign-tall esx-close-right"
+         ng-click="removeCdromDrive(_index)"
+         ng-hide="wizardOptions.data.general.state === 'suspended' ||
+            (wizardOptions.data.general.state === 'poweredOn' &&
+             wizardOptions.data.cdroms[_index]._operation === 'edit' &&
+             (wizardOptions.data.cdroms[_index].VirtualDeviceNodeController === '0' ||
+              wizardOptions.data.cdroms[_index].VirtualDeviceNodeController === '1'))"></span>
+   </div>
+
+   <div vui-stack-block
+      ng-show="cdroms[_index].Type.selectedValue === 'Unsupported'">
+      <span vui-sb-label>
+         {{'vm.wizard.hardware.virtualhardware.cdrom.unsupportedLabel' | translate}}</span>
+      <div vui-sb-content
+         ng-bind-html="'vm.wizard.hardware.virtualhardware.cdrom.unsupported' | translate | linebreak">
+      </div>
+   </div>
+
+   <div vui-stack-block
+      ng-show="cdroms[_index].Type.selectedValue !== 'Unsupported'">
+
+      <span vui-sb-label>
+         {{'vm.wizard.hardware.virtualhardware.cdrom.status' | translate}}</span>
+
+      <div vui-sb-content>
+         <label title="{{'vm.wizard.hardware.virtualhardware.cdrom.connectAt' | translate}}">
+            <input
+               ng-disabled="
+               wizardOptions.data.general.state === 'suspended' ||
+               (wizardOptions.data.general.state === 'poweredOn' &&
+                wizardOptions.data.cdroms[_index]._operation === 'edit' &&
+                parseInt(wizardOptions.data.cdroms[_index].VirtualDeviceNodeController) < 2)"
+               ng-model="wizardOptions.data.cdroms[_index].Status" type="checkbox"/>
+            {{'vm.wizard.hardware.virtualhardware.cdrom.connectAt' | translate}}
+         </label>
+      </div>
+   </div>
+
+   <div vui-stack-block
+      ng-show="cdroms[_index].Type.selectedValue !== 'Unsupported'">
+
+      <!-- Label -->
+      <span vui-sb-label>{{'vm.wizard.hardware.virtualhardware.cdrom.media.label' | translate}}</span>
+
+      <!-- content -->
+      <div vui-sb-content>
+         <div class="row no-margin">
+
+            <!-- Browse for file -->
+            <div class="col-sm-12 no-padding"
+               ng-if="wizardOptions.data.cdroms[_index].Type === 'VirtualCdromIsoBackingInfo'">
+               <input class="inline"
+                  ng-class="{
+                     invalid: cdrom.OutputFileInvalid
+                  }"
+                  ng-disabled="
+                     (wizardOptions.data.general.state === 'suspended') ||
+                     (wizardOptions.data.general.state === 'poweredOn' &&
+                      wizardOptions.data.cdroms[_index]._operation === 'edit' &&
+                      parseInt(wizardOptions.data.cdroms[_index].VirtualDeviceNodeController) < 2)"
+                  ng-model-options="{
+                     updateOn: 'blur'
+                  }"
+                  ng-model="wizardOptions.data.cdroms[_index].OutputFile"
+                  title="{{'vm.wizard.hardware.virtualhardware.cdrom.media.label' | translate}}"
+                  type="text"/>
+               <button class="stack-spacer"
+                  ng-click="selectCdromFile(_index)"
+                  ng-disabled="
+                     (wizardOptions.data.general.state === 'suspended') ||
+                     (wizardOptions.data.general.state === 'poweredOn' &&
+                      wizardOptions.data.cdroms[_index]._operation === 'edit' &&
+                      parseInt(wizardOptions.data.cdroms[_index].VirtualDeviceNodeController) < 2)">
+                  {{'vm.wizard.hardware.virtualhardware.cdrom.browse' | translate}}
+               </button>
+            </div>
+
+            <!-- CD device dropdown -->
+            <div class="col-sm-12 no-padding"
+               ng-if="wizardOptions.data.cdroms[_index].Type === 'VirtualCdromAtapiBackingInfo'">
+               <label class="label-508"
+                  title="{{'vm.wizard.hardware.virtualhardware.cdrom.atapiDevice' | translate}}">
+                  <div class="inline stack-dropdown"
+                     vui-dropdown="cdrom.AtapiDevice"></div>
+               </label>
+            </div>
+
+         </div>
+      </div>
+   </div>
+
+   <div vui-stack-block
+      ng-show="cdroms[_index].Type.selectedValue !== 'Unsupported'">
+
+      <!-- Label -->
+      <span vui-sb-label>{{'vm.wizard.hardware.virtualhardware.cdrom.virtualDeviceNode.label' | translate}}</span>
+
+      <!-- content -->
+      <div vui-sb-content>
+         <label class="label-508"
+            title="{{'vm.wizard.hardware.virtualhardware.cdrom.virtualDeviceNode.controller' | translate}}">
+            <div class="inline stack-dropdown"
+               vui-dropdown="cdrom.VirtualDeviceNodeController"></div>
+         </label>
+         <label class="label-508"
+            title="{{'vm.wizard.hardware.virtualhardware.cdrom.virtualDeviceNode.location' | translate}}">
+            <div class="inline stack-dropdown"
+               vui-dropdown="cdrom.VirtualDeviceNodeLocation"></div>
+         </label>
+      </div>
+   </div>
+</div>
+

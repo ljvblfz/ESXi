@@ -1,0 +1,63 @@
+#!/bin/sh
+# chkconfig: on 20 20
+
+LACP=/usr/sbin/net-lacp
+LACP_TAG=net-lacp
+LACP_RP="lacpd"
+WATCHDOG_PARAMS="-u 1000 -q 100 -t 100"
+
+start() {
+   if [ -z "$(pidof -xs "${LACP}")" ] ; then
+      /sbin/watchdog.sh ++memreliable,group=${LACP_RP} -d -s "${LACP_TAG}" "${WATCHDOG_PARAMS}" "${LACP}" >/dev/null 2>&1
+      echo "LACP daemon started"
+   else
+      echo "LACP daemon is already running"
+   fi
+}
+
+stop() {
+   if [ -n "$(pidof -xs "${LACP}")" ] ; then
+      local TIMEOUT=5
+      /sbin/watchdog.sh -k "${LACP_TAG}"
+      pkill -HUP "${LACP_TAG}"
+      while [ $((TIMEOUT--)) -gt 0 ] && pidof -xs "${LACP}" >/dev/null ; do
+         sleep 1
+      done
+      if [ $((TIMEOUT == 0)) ] ; then
+         pkill -9 "${LACP_TAG}"
+      fi
+      if [ -n "$(pidof -xs "${LACP}")" ] ; then
+         sysalert "LACP daemon hasn't been stopped"
+         exit 1
+      fi
+   else
+      echo "LACP daemon is not running"
+   fi
+}
+
+case "${1}" in
+   "start")
+      start
+   ;;
+   "stop")
+      stop
+   ;;
+   "status")
+      if [ -n "$(pidof -xs "${LACP}")" ] ; then
+         echo "LACP daemon is running"
+         exit 0
+      else
+         echo "LACP daemon is not running"
+         exit 3
+      fi
+   ;;
+   "restart")
+      stop
+      start
+   ;;
+   *)
+      echo "Usage: $(basename ${0}) {start|stop|status|restart}"
+      exit 1
+   ;;
+esac
+

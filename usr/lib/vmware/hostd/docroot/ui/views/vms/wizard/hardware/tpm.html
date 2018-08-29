@@ -1,0 +1,22 @@
+<!-- vTPM -->
+<div ng-if="wizardOptions.data.vTPM && wizardOptions.data.vTPM._operation !== 'remove'"
+      vui-stack-block="hardwareStackView.tpmBlock">
+   <!-- Icon -->
+   <span style="margin-left: 10px;"
+      vui-sb-icon-class="esx-icon-host-in-lockdown-mode"
+      vui-sb-label>
+         {{'vm.wizard.hardware.virtualhardware.tpm.title' | translate}}</span>
+
+   <!-- content collapsed-->
+   <div vui-sb-content>
+      <span class="label-508"
+         title="{{'vm.wizard.hardware.virtualhardware.tpm.present' | translate}}">
+         {{'vm.wizard.hardware.virtualhardware.tpm.present' | translate}}
+      </span>
+      <span class="esx-icon-close vui-icon-info-inline esx-stack-valign esx-close-right"
+         ng-click="removeTPM()"
+         ng-show="wizardOptions.data.general.state === 'poweredOff'"></span>
+   </div>
+
+</div>
+

@@ -1,0 +1,67 @@
+#!/bin/sh
+# chkconfig: on 20 20
+
+SMARTD=/usr/sbin/smartd
+SMARTD_TAG=smartd
+SMARTD_RP="smartd"
+MAX_RETRIES=5
+
+smartd_start() {
+   if [ -z "$(pidof -xs "${SMARTD}")" ] ; then
+      /sbin/watchdog.sh ++memreliable,group=${SMARTD_RP} -d -s "${SMARTD_TAG}" -t "${MAX_RETRIES}" "${SMARTD}" >/dev/null 2>&1
+      echo "smartd started"
+   else
+      echo "smartd already running"
+   fi
+}
+
+smartd_stop() {
+   if [ -n "$(pidof -xs "${SMARTD}")" ] ; then
+      /sbin/watchdog.sh -k "${SMARTD_TAG}"
+      pkill -15 "${SMARTD_TAG}"
+      while [ -n "$(pidof -xs ${SMARTD})" ] ; do
+         pkill -15 "${SMARTD_TAG}"
+         sleep 1
+      done
+      echo "smartd stopped"
+   else
+      echo "smartd is not running"
+   fi
+}
+
+case "${1}" in
+   "start")
+      smartd_start
+   ;;
+
+   "stop")
+      smartd_stop
+   ;;
+
+   "status")
+      if [ -n "$(pidof -xs "${SMARTD}")" ] ; then
+         echo "smartd is running"
+         exit 0
+      else
+         echo "smartd is not running"
+         exit 3
+      fi
+   ;;
+
+   "restart")
+      smartd_stop
+
+      while [ -n "$(pidof -xs "${SMARTD}")" ] ; do
+         sleep 5
+         smartd_stop
+      done
+
+      smartd_start
+   ;;
+
+   *)
+      echo "Usage: $(basename ${0}) {start|stop|status|restart}"
+      exit 1
+   ;;
+esac
+

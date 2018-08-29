@@ -1,0 +1,57 @@
+<!-- SCSI Controllers -->
+<div
+   ng-class="{
+      'stack-new': wizardOptions.data.scsis[_index]._operation === 'add'
+   }"
+   ng-repeat="(_index, scsi) in scsis"
+   vui-stack-block="hardwareStackView.scsiBlock[_index]"
+   id="scsi-controller-{{_index}}">
+
+   <!-- Icon -->
+   <span
+      vui-sb-icon-class="icon-stackview-scsi"
+      vui-sb-label>{{scsi.title}}</span>
+
+   <!-- content collapsed-->
+   <div vui-sb-content>
+      <label class="label-508"
+         title="{{'vm.wizard.hardware.virtualhardware.scsi.type' | translate}}">
+         <div class="inline stack-dropdown"
+            vui-dropdown="scsi.Type"></div>
+      </label>
+
+      <span class="esx-icon-close vui-icon-info-inline esx-stack-valign-tall esx-close-right"
+         ng-click="removeSCSIController(_index)"
+         ng-show="wizardOptions.data.general.state !== 'suspended'"></span>
+   </div>
+
+   <!-- content expanded -->
+   <div vui-sb-content-expanded>
+      <label class="label-508"
+         title="{{'vm.wizard.hardware.virtualhardware.scsi.type' | translate}}">
+         <div class="inline stack-dropdown"
+            vui-dropdown="scsi.Type"></div>
+      </label>
+
+      <span class="esx-icon-close vui-icon-info-inline esx-stack-valign-tall esx-close-right"
+         ng-click="removeNVMEController(_index)"
+         ng-show="wizardOptions.data.general.state !== 'suspended'"></span>
+   </div>
+
+   <!-- children -->
+   <div vui-stack-block>
+      <!-- Label -->
+      <span vui-sb-label>
+         {{'vm.wizard.hardware.virtualhardware.scsi.busSharing.label' | translate}}
+      </span>
+
+      <!-- content -->
+      <div vui-sb-content>
+         <label class="label-508"
+            title="{{'vm.wizard.hardware.virtualhardware.scsi.busSharing.label' | translate}}">
+            <div class="inline stack-dropdown" vui-dropdown="scsi.BusSharing"></div>
+         </label>
+      </div>
+   </div>
+</div>
+

@@ -1,0 +1,16 @@
+# vSAN features
+com.vmware.vim.license.Feature.vit.label                              = "iSCS "
+com.vmware.vim.license.Feature.vit.summary                            = "iSCSI"
+com.vmware.vim.license.Feature.allflash.label                         = "Intégralement Flash"
+com.vmware.vim.license.Feature.allflash.summary                       = "Intégralement Flash"
+com.vmware.vim.license.Feature.stretchedcluster.label                 = "Cluster étendu"
+com.vmware.vim.license.Feature.stretchedcluster.summary               = "Cluster étendu"
+com.vmware.vim.license.Feature.erasurecoding.label                    = "Prise en charge RAID5/RAID6"
+com.vmware.vim.license.Feature.erasurecoding.summary                  = "Prise en charge RAID5/RAID6"
+com.vmware.vim.license.Feature.iopslimit.label                        = "Définir l'IOPS maximal par VM/VMDK"
+com.vmware.vim.license.Feature.iopslimit.summary                      = "Définir l'IOPS maximal par VM/VMDK"
+com.vmware.vim.license.Feature.storageefficiency.label                = "Économies de stockage par déduplication et compression"
+com.vmware.vim.license.Feature.storageefficiency.summary              = "Économies de stockage par déduplication et compression"
+com.vmware.vim.license.Feature.encryption.label                       = "Chiffrement vSAN"
+com.vmware.vim.license.Feature.encryption.summary                     = "Chiffrement vSAN"
+

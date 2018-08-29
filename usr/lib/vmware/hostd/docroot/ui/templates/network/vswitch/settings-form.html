@@ -1,0 +1,95 @@
+<div vui-action-bar="actionBarOptions" style="margin-bottom: 5px;"></div>
+
+<div class="vui-stack-view">
+   <div class="stack-view-table">
+
+      <div vui-stack-block="nameBlock" ng-show="!edit"
+            ng-class="{'stack-remove': nameInvalid}">
+         <span vui-sb-label>
+            {{'network.vswitch.settings.vSwitchName' | translate}}
+         </span>
+         <div vui-sb-content>
+            <input type="text"
+               ng-pattern="SANITIZE_INPUT_REGEX"
+               ng-disabled="edit"
+               ng-model="data.name"
+               focus-me="'select'"
+               maxlength="31"
+               style="width: 200px;"
+               title="{{'network.vswitch.settings.vSwitchName' | translate}}"/>
+         </div>
+      </div>
+
+      <div vui-stack-block="mtuBlock" ng-class="{'stack-warning' : data.mtuInvalid}">
+         <span vui-sb-label>
+            {{'network.vswitch.settings.mtu' | translate}}
+         </span>
+         <div vui-sb-content>
+            <input
+               type="number"
+               max="9000"
+               min="1280"
+               ng-model="data.mtu"
+               ng-model-options="{
+                  'updateOn': 'default blur'
+               }"
+               style="width: 60px; padding: 0 0 0 5px;"
+               title="{{'network.vswitch.settings.mtu' | translate}}"/>
+         </div>
+      </div>
+
+      <div ng-repeat="pnic in pnics track by $index">
+         <div vui-stack-block="uplinkBlocks[$index]"
+            ng-class="{'stack-new': pnic.added}">
+            <span vui-sb-label>
+               {{'network.vswitch.settings.uplink' | translate}} {{$index + 1}}
+            </span>
+            <div vui-sb-content>
+               <label style="padding-left: 0px; margin-bottom: 0;"
+                  title="{{'network.vswitch.settings.uplink' | translate}}">
+                  <div class="stack-dropdown inline" vui-dropdown="pnic"></div>
+               </label>
+               <span
+                  class="esx-icon-close esx-close-right vui-icon-info-inline esx-stack-valign-tall"
+                  ng-click="removePNIC($index);"></span>
+            </div>
+         </div>
+      </div>
+
+      <div vui-stack-block="discoveryBlock">
+         <span vui-sb-label>{{'network.vswitch.add.linkDiscovery'|translate}}</span>
+         <div vui-sb-content>
+            {{'network.vswitch.add.clickToExpand'|translate}}
+         </div>
+
+         <div vui-sb-content-expanded></div>
+
+         <!-- children -->
+         <div vui-stack-block>
+            <span vui-sb-label>
+               {{'network.vswitch.add.mode.label'|translate}}</span>
+
+            <div vui-sb-content>
+               <div vui-dropdown="discoveryMode"></div>
+            </div>
+         </div>
+
+         <div vui-stack-block>
+            <span vui-sb-label>
+               {{'network.vswitch.add.protocol.label'|translate}}</span>
+
+            <div vui-sb-content>
+               <div vui-dropdown="discoveryProtocol"></div>
+            </div>
+         </div>
+      </div>
+
+
+      <div ng-include="'templates/network/security.html'"></div>
+
+      <div ng-if="edit" ng-include="'templates/network/nic-teaming.html'"></div>
+
+      <div ng-if="edit" ng-include="'templates/network/traffic-shaping.html'"></div>
+
+   </div>
+</div>

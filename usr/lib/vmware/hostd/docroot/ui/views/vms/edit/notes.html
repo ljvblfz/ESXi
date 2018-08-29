@@ -1,0 +1,9 @@
+<div ng-controller="VMNotesController"
+     class="content-padding edit-note-dialog">
+   <div ng-if="loading" ng-include src="'views/loading-dialog.html'"></div>
+   <div ng-if="!loading">
+      <textarea focus-me="true" class="form-control" rows="10" focus-me="true"
+         style="max-width: none; position: absolute; top: 31px; bottom: 42px; left: 0; right: 0; border: none; resize: none;"
+         ng-model="vm.notes"></textarea>
+   </div>
+</div>

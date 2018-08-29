@@ -1,0 +1,11 @@
+<div ng-controller="HostManageHardwarePowerManagementChangeController" class="content-padding time-config-dialog">
+   <div class="radio" ng-repeat="(key, policy) in policies" style="margin-left: 20px;">
+      <label>
+         <input type="radio" name="powerManagementRadios" id="{{'policy'+policy.key}}" ng-model="data.currentPolicy" ng-value="policy.key"/>
+         <div class="row no-margin">
+            <div class="col-sm-12 no-padding row-spacer"><strong>{{policy.name}}</strong></div>
+            <div class="col-sm-12 no-padding row-spacer">{{policy.description}}</div>
+         </div>
+      </label>
+   </div>
+</div>

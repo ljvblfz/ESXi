@@ -1,0 +1,13 @@
+#!/bin/sh
+
+bootCmdline=$(/bin/bootOption -roC)
+
+# If we find a boot option of "runweasel" or "ks=..." then we start the
+# installer.  Otherwise, we start the DCUI.
+if (echo $bootCmdline | grep -Eq '\<(runweasel|ks=\S+)\>' &&
+    [ -x /bin/install ]); then
+   exec /bin/install
+else
+   # We didn't find "runweasel" or "ks=...", so launch the DCUI
+   exec /bin/dcui ++group=dcui 2
+fi

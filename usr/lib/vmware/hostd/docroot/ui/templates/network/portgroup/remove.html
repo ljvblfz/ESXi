@@ -1,0 +1,48 @@
+<div ng-controller="NetworkingPortgroupRemoveController">
+   <div ng-if="!loaded" style="height: 100px; background-image: url('images/tiny_loader_transparent_bg.gif'); background-position: 50% 50%; background-repeat: no-repeat; text-align: center;">
+      <div style="padding-top: 80px;">{{'network.portgroup.remove.loading' |translate}}</div>
+   </div>
+
+   <div ng-if="impossible" style="padding: 20px;">
+      <div style="float: left; height: 100%;">
+         <img src="images/error48.png" alt="{{'notification.type.error'|translate}}" style="margin-right: 30px;" />
+      </div>
+      <div style="float: left; width: 300px;">
+         {{'network.portgroup.remove.cantRemove'|translate}}
+
+         <ul style="list-style: none;">
+            <li ng-repeat="network in networksWithVMs">
+               <em class="esx-icon-networking"></em>{{network.name}}:
+               <ul>
+                  <li ng-repeat="vm in network.vm">
+                     <a href="#/host/vms/{{vm.moid}}"><em class="{{vm.iconClass}}"></em>{{vm.name}}</a>
+                  </li>
+               </ul>
+            </li>
+         </ul>
+
+         <ul style="list-style: none;">
+            <li ng-repeat="portgroup in portgroupsWithVMKNICs">
+               <em class="esx-icon-networking"></em>{{portgroup.spec.name}}:
+               <ul>
+                  <li ng-repeat="vmknic in portgroup.vmknics">
+                     <a href="#/host/networking/vmknics/{{vmknic.name}}"><em class="esx-icon-network-vmknic"></em>{{vmknic.name}}</a>
+                  </li>
+               </ul>
+            </li>
+         </ul>
+      </div>
+   </div>
+
+   <div ng-if="loaded && !impossible" style="padding: 20px;">
+      <div style="float: left; height: 100%;">
+         <img src="images/warning48.png" alt="{{'notification.type.quesion'|translate}}" style="margin-right: 30px;"/>
+      </div>
+      <div style="float: left;">
+         {{'network.portgroup.remove.confirmation'|translate}}<br /><br />
+
+         <em class="esx-icon-networking"></em>{{portgroup.spec.name}}
+         </ul>
+      </div>
+   </div>
+</div>

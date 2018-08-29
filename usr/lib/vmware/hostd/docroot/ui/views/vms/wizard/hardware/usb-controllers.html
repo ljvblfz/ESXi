@@ -1,0 +1,46 @@
+<!-- USB Controllers -->
+<div
+   ng-class="{
+      'stack-new': wizardOptions.data.usbs[_index]._operation === 'add' &&
+         wizardOptions.data.Type === 'edit',
+      'stack-warning': usb.USBInvalid
+   }"
+   ng-repeat="(_index, usb) in usbs"
+   vui-stack-block="hardwareStackView.usbBlock[_index]"
+   id="usb-controller-{{_index}}">
+
+   <!-- Icon -->
+   <span
+      style="margin-left: 10px;"
+      vui-sb-icon-class="icon-stackview-usb-wizard"
+      vui-sb-label>{{usb.title}}</span>
+
+   <!-- content collapsed-->
+   <div vui-sb-content>
+      <div class="row no-margin">
+         <label class="label-508 no-padding col-xs-12"
+               title="{{'vm.wizard.hardware.virtualhardware.usbController.settings' | translate}}">
+            <div class="inline stack-dropdown"
+               vui-dropdown="usb.Settings"></div>
+
+            <span class="esx-icon-close vui-icon-info-inline esx-stack-valign-tall esx-close-right"
+
+               ng-click="removeUSBController(_index)"></span>
+         </label>
+      </div>
+
+      <div class="row"
+            style="margin-top: 5px;"
+            ng-if="usb.warnUnsupported">
+         <div class="col-sm-1">
+            <span class="vui-icon-warning vui-icon-info-inline"></span>
+         </div>
+         <div class="col-sm-11 no-padding" style="padding-left: 5px; padding-right: 15px;">
+            <span vui-sb-label>
+               {{'vm.wizard.hardware.virtualhardware.usbController.warnUnsupported' | translate}}
+            </span>
+         </div>
+      </div>
+   </div>
+
+</div>

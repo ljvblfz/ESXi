@@ -1,0 +1,498 @@
+#!/usr/bin/env python
+
+from __future__ import print_function
+import os
+import ssl
+import sys
+import types
+import time
+from pyVmomi import Vim, VmomiSupport, Vmodl
+from pyVim.connect import Connect, Disconnect
+from pyVim.task import WaitForTask
+from pyVim.helpers import Log
+from pyVim import vm
+from pyVim import host
+from pyVim import invt
+from pyVim import folder
+from pyVim import connect
+from optparse import OptionParser, OptionGroup
+import atexit
+import getpass
+
+
+def Usage(p):
+    p.print_help()
+    sys.exit(1)
+
+
+def do_options():
+    p = OptionParser(usage="Run with --help for information on options",
+                     description="This program is used to change the build type of the VMX process and virtual machine monitor that run a virtual machine.  Changing to a debug build enables additional debugging and assertion checks.  Changing to a stats build enables statistics gathering and profiling of VMX and virtual machine monitor.")
+
+    g1 = OptionGroup(p,
+                     "Options for connecting\n"
+                     "  ----------------------")
+    g1.add_option('--server', dest='server', default=None,
+                  help="Hostname of the managing server.  In most cases, this is "
+                  "the name of the vCenter server machine that is managing the ESX host.  "
+                  "If the ESX host is not managed by vCenter, then specify the name of the "
+                  "ESX host (can be 'localhost' if running this script directly on an ESX "
+                  "machine that is not managed by vCenter). A vCenter server must be "
+                  "specified if the VM is running on an ESX 5.0 or earlier host. This "
+                  "option is required.")
+    g1.add_option('--username', dest='username', default='root',
+                  help="Username on the server (default is 'root')")
+    g1.add_option('--password', dest='password', default=None,
+                  help="Password for server (default is empty). WARNING: This is insecure! "
+                  "If a password must be supplied, use --password-file instead.")
+    g1.add_option('--password-file', dest='passwordFile', default=None,
+                  help="A file containing the password for the server.  Can be '-' to "
+                  "prompt for a password.")
+    g1.add_option('--no-check-certificate', dest='nosslcheck', default=False,
+                  action='store_true', help="Disable certificate verification "
+                  "if the server is a remote ESX host or a vCenter server.")
+    p.add_option_group(g1)
+
+    g2 = OptionGroup(p,
+                     "Options for identifying VM(s)\n"
+                     "  -----------------------------")
+    g2.add_option('--host', dest='host', default=None,
+                  help="Only include VM(s) on this ESXi host name.  Only "
+                  "useful when the --server argument specifies a vCenter "
+                  "machine name.")
+    g2.add_option('--vmfile', dest='vmfile', default=None,
+                  help="The VM's file name, usually ending in .vmx (e.g. the "
+                  "\'File\' column of \'vim-cmd vmsvc/getallvms\'). Either "
+                  "this or --vmname is required unless querying VMs for build "
+                  "type.")
+    g2.add_option('--vmname', dest='vmname', default=None,
+                  help="Name of the VM (e.g. the \'Name\' column of "
+                  "\'vim-cmd vmsvc/getallvms\'). Either this or --vmfile is "
+                  "required unless querying VMs for build type.")
+    g2.add_option('--datacenter', dest='datacenter', default=None,
+                  help="Datacenter")
+    g2.add_option('--folder', dest='folder', default=None, help="Folder")
+    g2.add_option('--pool', dest='pool', default=None,
+                  help="Limit VMs picked to those in a specific resource pool")
+    g2.add_option('--one', dest='many', default=False, action='store_false',
+                  help="Allow only a single VMX process to change build type at a time.  "
+                  "This is the default, intended to prevent accidentally suspending and "
+                  "resuming more VMs than intended.")
+    g2.add_option('--many', dest='many', default=False, action='store_true',
+                  help="Allow changing the build type of more than one VMX process.  "
+                  "Default is --one.")
+
+    p.add_option_group(g2)
+
+    g3 = OptionGroup(p,
+                     "Option to specify new vmx build type for those VM(s):\n"
+                     "  -----------------------------------------------------")
+    g3.add_option('--buildType', dest='buildType', default=None,
+                  choices=['release', 'debug', 'stats'],
+                  help="One of release, debug, or stats unless querying VMs "
+                  "for build type. If this option is not provided, the build "
+                  "type of the VM's VMX process is reported, but not changed.")
+    g3.add_option('--force', dest='force', default=False, action='store_true',
+                  help="By default, if the --buildType option matches the "
+                  "existing vmx build type for that VM, no changes are made.  "
+                  "Use --force to override, if desired.")
+    g3.add_option('--ssr', dest='ssr', default=False, action='store_true',
+                  help="If VM is running, force slow suspend/resume "
+                  "to make the build type change take effect.")
+    g3.add_option('--fsr', dest='fsr', default=False, action='store_true',
+                  help="If VM is running, force fast suspend/resume "
+                  "to make the build type change take effect.")
+    p.add_option_group(g3)
+
+    g4 = OptionGroup(p, "Help options")
+    g4.add_option('--verbose', dest='verbose', default=False, action='store_true')
+    p.add_option_group(g4)
+
+    (options, arguments) = p.parse_args()
+
+    if len(arguments) > 0:
+        p.error("Unknown argument \"" + arguments[0] + "\"")
+
+    if not options.server:
+        options.server = 'localhost'
+    if options.server in ('localhost', '127.0.0.1', '::1'):
+        options.nosslcheck = True
+
+    # Require a VM name unless the user is querying VMs.
+    if not options.vmfile and options.vmname is None and options.buildType:
+        p.error("must specify one of --vmfile or --vmname\n")
+
+    if options.ssr and options.fsr:
+        p.error("--ssr and --fsr are mutually exclusive")
+    return (options, arguments)
+
+
+def login(options):
+    server = options.server
+
+    myargs = {'host': server,
+              'version': 'vim.version.version9'
+    }
+
+    if options.username is not None:
+        myargs['user'] = options.username
+
+    if options.passwordFile:
+        if options.passwordFile == "-":
+            options.password = getpass.getpass()
+        else:
+            with open(options.passwordFile, "r") as f:
+                options.password = f.readline().rstrip(os.linesep)
+
+    if options.password is not None:
+        myargs['pwd'] = options.password
+
+    if options.nosslcheck:
+        myargs['sslContext'] = ssl._create_unverified_context()
+
+    try:
+        si = Connect(**myargs)
+        atexit.register(Disconnect, si)
+    except Exception as e:
+        print("Failed to connect to server \"" + server + "\": " + str(e))
+        sys.exit(5)
+
+
+def findvms(options):
+    vmname     = options.vmname
+    vmfile     = options.vmfile
+    datacenter = options.datacenter
+    folder     = options.folder
+    pool       = options.pool
+    host       = options.host
+    verbose    = options.verbose
+
+    # We take an approach of starting with all vms, then
+    # using information contained within each to filter some out.
+    #
+    # If it turns out that such information isn't available, then
+    # we have the option of being more thorough by walking the tree
+    # of all managed objects.  See viewList.py for an example.
+    #
+    # An example where that might be needed is if we want to filter
+    # by datacenter.
+
+    result = []
+
+    nfails = 0
+    while True:
+        try:
+            # Return type of findVms is a list of pairs: [vmobject, parent string]
+            vms = invt.findVms("", "")
+            break
+        #except (Vim.Fault.VimFault, VmomiSupport.ManagedObjectNotFound), e:
+        except Exception as e:
+            # findVms() should catch exceptions but currently doesn't (PR 601414)
+            print("invt.findVms failed, fault: " + str(e))
+            nfails = nfails + 1
+            if nfails == 5:
+                print("Giving up after 5 tries.  Try again when fewer vms are in flux")
+                sys.exit(1)
+            print("Will retry...")
+            time.sleep(3)
+
+    for vm1, parentstr in vms:
+        try:
+            if vmname is not None and vm1.name != vmname:
+                if verbose:
+                    print("skipping VM with non-matching name: " + vm1.name)
+                continue
+
+            if vmfile and vm1.config.files.vmPathName != vmfile:
+                if verbose:
+                    print("skipping VM with non-matching file: " +
+                          vm1.config.files.vmPathName)
+                continue
+
+            if host and vm1.runtime.host.name != host:
+                if verbose:
+                    print("skipping VM " + vm1.name +
+                          " on non-matching host: " +
+                          vm1.runtime.host.name)
+                continue
+
+            if pool is not None and vm1.resourcePool.name != pool:
+                if verbose:
+                    print("skipping VM " + vm1.name +
+                          " with non-matching pool: " +
+                          vm1.resourcePool.name)
+                continue
+        except Exception as e:
+            # vm1.name calls hostd; it throws an exception if the vm is in
+            # a transitional state.  Hence the try/except.  We keep it generic
+            # for now because so many exceptions can be thrown and I'm not even
+            # sure I know of the full set.  It includes at least
+            # Vim.Fault.VimFault, VmomiSupport.ManagedObjectNotFound, and
+            # vmodl.fault.ManagedObjectNotFound.
+            print("Skipping VM that threw a Vim exception (startup/teardown?): " + str(e))
+            continue
+
+        result.append(vm1)
+
+    return result
+
+
+#
+# do_suspend(vm)
+#
+#    Suspend a VM.
+#
+#    Retry up to 5 times (3 second delay each time) if an exception is thrown.
+#    This can happen if a competing vim operation overlaps with ours.
+#
+#    Returns True if successful.
+#
+
+def do_suspend(vm1, vmpathname):
+    nfails = 0
+    while True:
+        try:
+            task = vm1.Suspend()
+            WaitForTask(task)
+            break
+        except Vim.Fault.VimFault as e:
+            print("\nUnable to suspend VM \"" + vmpathname + "\": " + e.msg)
+            nfails = nfails + 1
+            if nfails == 5:
+                print("\nGiving up suspend after 5 tries")
+                return False
+
+            print("Retrying suspend after 3 seconds...")
+            sys.stdout.flush()
+            time.sleep(3)
+
+            # The exception may have been "another task is already in
+            # progress".  On the off-chance that the competing operation
+            # was also a suspend of this vm, it may have done the job
+            # for us.
+            if (vm1.runtime.powerState == Vim.VirtualMachine.PowerState.suspended):
+                print("VM successfully suspended, after pausing.")
+                return True
+
+    # Before returning success, verify the power state.
+    # If we didn't successfully power off, then a reconfigure (coming soon)
+    # will do an FSR when we intended to do a SSR.
+    postSuspendPowerState = vm1.runtime.powerState
+    if (postSuspendPowerState != Vim.VirtualMachine.PowerState.suspended):
+        print("Failed to suspend VM, powerstate after trying is: " +
+              postSuspendPowerState)
+        return False
+    return True
+
+
+#
+# do_reconfigure(vm)
+#
+#    Reconfigure vm for vmx.buildType={newBuildType}
+#    If the VM is powered on, this will do an FSR.
+#
+#    For an SSR, do_suspend(vm) is called first, which has fairly
+#    strong safeguards against letting this function get called
+#    with a powered-on vm.
+#
+#    Returns True if the reconfigure succeeded.
+#
+
+def do_reconfigure(vm1, newBuildType):
+    sys.stdout.flush()
+
+    # Start with a blank ConfigSpec, then add 1 item
+    configspec = Vim.Vm.ConfigSpec()
+    flags = Vim.Vm.FlagInfo()
+    flags.SetMonitorType(newBuildType)
+    configspec.SetFlags(flags)
+
+    nfails = 0
+    while True:
+        try:
+            task = vm1.Reconfigure(configspec)
+            WaitForTask(task)
+            return True
+        except Vim.Fault.VimFault as e:
+            # Sometimes the reconfigure fails with "another operation
+            # is already in progress".  This means a competing vim
+            # operation on this VM got in ahead of us.
+            # Just retry after a few second delay.  (Note that if the
+            # competing operation powered on the VM, it will cause
+            # the reconfigure to be a FSR.)
+
+            print("\nUnable to reconfigure VM: " + e.msg)
+            nfails = nfails + 1
+            if nfails == 5:
+                print("\nGiving up reconfigure after 5 tries")
+                return False
+
+            print("Retrying reconfigure after 3 seconds...")
+            sys.stdout.flush()
+            time.sleep(3)
+            continue
+        except Vmodl.fault.InvalidArgument as e:
+            # Probably a bad value supplied for FlagInfo
+            print("\nUnable to reconfigure VM: " + e.msg)
+            return False
+
+
+#
+# do_resume(vm):
+#
+#     Resume a vm.
+#
+#     Sometimes the resume fails with "Another task is already in
+#     progress".  So we retry, up to 5 times.  However, the retry sometimes
+#     gets a second exception: VM is already powered on (which means
+#     everything's fine and dandy).  So, before we retry the poweron each time,
+#     we check the power state to see if it was a 'belated' success.
+#
+#     Returns True if successful.
+#
+
+def do_resume(vm1):
+    nfails = 0
+    while True:
+        try:
+            if nfails > 0 and \
+                   (vm1.runtime.powerState == Vim.VirtualMachine.PowerState.poweredOn):
+                print("Resume completed OK (just belated).")
+                return True
+
+            task = vm1.PowerOn()
+            WaitForTask(task)
+            return True
+        except Vim.Fault.VimFault as e:
+            print("\nUnable to resume VM: " + e.msg)
+            nfails = nfails + 1
+            if nfails == 5:
+                print("\nGiving up resume after 5 tries")
+                return False
+
+            print("Retrying resume after 3 seconds...")
+            sys.stdout.flush()
+            time.sleep(3)
+
+
+def change_buildtype(vms, options):
+    # By default, we don't allow changing the build type of more than
+    # one VM in a single run of this script.  This prevents accidents
+    # like changing the build type of every VM that can be seen by VC server.
+    # (A large headache if --ssr is used and the VMs are large and already
+    # powered on.)
+
+    if len(vms) > 1 and not options.many:
+        print("The arguments supplied matched " + str(len(vms)) + " VMs.")
+        print("This script only allows a single VM build type change, to prevent")
+        print("accidentally reconfiguring too many VMs.")
+        print("Use the --many option if you want to allow a single run of this")
+        print("command to match more than one VM.")
+        sys.exit(1)
+
+    # Only the first VM needs to be queried for the poweredOnMonitorTypeChange
+    # flag. This alerts us that the host supports fast-suspend-resume for build
+    # type changes.
+    #
+    # ESX 5.0 and earlier - SSR by default, use options.fsr to override.
+    # ESX 5.1 and later - FSR by default, use options.ssr to override.
+
+    fsrSupported = vms[0].capability.poweredOnMonitorTypeChangeSupported
+    suspendVM = (not fsrSupported and not options.fsr) or options.ssr
+
+    for vm1 in vms:
+        vmpathname = vm1.config.files.vmPathName
+
+        # Skip the VM if we detect it's using record/replay or FT.
+        rrState = vm1.runtime.recordReplayState
+        ftState = vm1.runtime.faultToleranceState
+
+        if rrState != Vim.VirtualMachine.RecordReplayState.inactive or \
+           ftState != Vim.VirtualMachine.FaultToleranceState.notConfigured:
+            print("Record/replay must be inactive and Fault Tolerance " +
+                  "must not be enabled in order to change the build type " +
+                  "of VM \"" + vmpathname + "\"")
+            continue
+
+        oldBuildType = vm1.config.flags.monitorType
+        newBuildType = options.buildType
+
+        if oldBuildType == newBuildType and not options.force:
+            print("VM \"" + vmpathname + "\" already uses vmx build type " +
+                  newBuildType + " (not changed)")
+            continue
+
+        # Case 1: Powered on, using FSR -> just reconfigure (vmx does FSR)
+        # Case 2: Powered on, using SSR -> suspend, reconfigure, resume
+        # Case 3: Powered off (includes already-suspended) -> just reconfigure,
+        #         and keep powered off.
+        poweredon = (vm1.runtime.powerState ==
+                     Vim.VirtualMachine.PowerState.poweredOn)
+
+        # Suspend VM, if applicable
+        if poweredon and suspendVM:
+            print("Suspending VM...", end=' ')
+            sys.stdout.flush()
+
+            if not do_suspend(vm1, vmpathname):
+                print("Could not change build type to " + newBuildType +
+                      " because the vm suspend failed.")
+                sys.exit(5)
+
+            print("")
+
+        # Reconfigure
+        print("Reconfiguring VM \"" + vmpathname + "\" for vmx build type " +
+              newBuildType + "...", end=' ')
+        if not do_reconfigure(vm1, newBuildType):
+            print("\nCould not change build type to " + newBuildType +
+                  " because the reconfigure failed.")
+            if poweredon and suspendVM:
+                print("Had suspended the VM before the reconfigure; " +
+                      "will try to resume it now so it returns to its " +
+                      " original power state...")
+                vm1.PowerOn()
+                # Currently, we don't bother to check for success or failure
+                # in this case.  It's probably OK.
+            sys.exit(5)
+
+        # Resume VM, if applicable.
+        if poweredon and suspendVM:
+            print("\nResuming VM...", end=' ')
+            sys.stdout.flush()
+            if not do_resume(vm1):
+                print("\nUnable to resume the VM.  You may need to " +
+                      "power it back on manually.")
+                sys.exit(5)
+
+        print("done.")
+
+
+def query_buildtype(vms, options):
+    for vm1 in vms:
+        print("VM " + vm1.config.files.vmPathName +
+              " uses vmx build type: " + vm1.config.flags.monitorType)
+
+
+def change_or_query_buildtype(vms, options):
+    if options.buildType:
+        change_buildtype(vms, options)
+    else:
+        query_buildtype(vms, options)
+
+
+def main():
+    (options, arguments) = do_options()
+    login(options)
+    vms = findvms(options)
+    if len(vms) == 0:
+        print("Could not find any matching VMs; check parameters.")
+        print("Run with --help for more info.")
+        sys.exit(0)
+    change_or_query_buildtype(vms, options)
+    # no need to logout; we have an atexit for that
+
+
+# Start program
+if __name__ == "__main__":
+    main()

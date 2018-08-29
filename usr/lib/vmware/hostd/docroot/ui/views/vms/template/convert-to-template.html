@@ -1,0 +1,15 @@
+<div ng-controller="VMTemplateConvertController"
+     class="content-padding shutdown-dialog">
+   <div ng-if="loading" ng-include src="'views/loading-dialog.html'"></div>
+   <div ng-show="!loading">
+      <div class="row">
+         <div class="col-sm-2">
+            <img src="images/warning48.png" alt="{{'notification.type.warning'|translate}}" style="float: left; margin-left:
+            15px;"/>
+         </div>
+         <div class="col-sm-10">
+            <p ng-bind-html="'vm.template.convert.message'|translate:vm|linebreak"></p>
+         </div>
+      </div>
+   </div>
+</div>

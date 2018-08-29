@@ -1,0 +1,12 @@
+<div ng-if="tabs.packages.loaded || hostMonitorHardwareTabs.tabs[getSelectedTab()].state === tabs.packages.state"
+   ng-controller="HostManagePackagesController"
+   class="esx-tertiary-tab-content"
+   style="padding-top: 10px;">
+
+   <div ng-show="!loaded && !error" class="loading"></div>
+
+   <div ng-if="error" style="text-align: center;">{{error}}</div>
+
+   <div ng-show="loaded" id="{{packageGrid.id}}" vui-datagrid="packageGrid"></div>
+
+</div>

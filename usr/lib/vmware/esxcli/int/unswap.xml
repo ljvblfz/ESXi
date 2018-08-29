@@ -1,0 +1,42 @@
+<?xml version="1.0"?>
+<plugin xmlns="http://www.vmware.com/Products/ESX/5.0/esxcli/">
+   <version>1.0.0</version>
+   <commands>
+      <command path="vm.process.unswap">
+         <description>Requests unswapping of pages from Virtual Machine's regular swap file.</description>
+         <input-spec>
+            <parameter name="world-id" type="int" required="true" shortname="w">
+               <description>The World ID of the Virtual Machine to unswap. This can be obtained using 'vm process list' command</description>
+            </parameter>
+            <parameter name="size" type="int" required="false" shortname="s">
+               <description>Unswap amount for the Virtual Machine. Omitting this parameter will unswap entire regular swap file</description>
+            </parameter>
+            <parameter name="units" type="string" required="false" shortname="u">
+               <description>Measurement unit for unswap size. Valid values are: MB (Megabytes) and GB (Gigabytes). Default: MB</description>
+               <constraint type="stringenum">
+                  <enum>
+                     <enum-value value="mB">Megabytes</enum-value>
+                     <enum-value value="Mb">Megabytes</enum-value>
+                     <enum-value value="mb">Megabytes</enum-value>
+                     <enum-value value="MB">Megabytes</enum-value>
+                     <enum-value value="gB">Gigabytes</enum-value>
+                     <enum-value value="Gb">Gigabytes</enum-value>
+                     <enum-value value="gb">Gigabytes</enum-value>
+                     <enum-value value="GB">Gigabytes</enum-value>
+                  </enum>
+               </constraint>
+            </parameter>
+         </input-spec>
+         <output-spec>
+            <bool />
+         </output-spec>
+
+         <format-parameters>
+            <formatter/>
+         </format-parameters>
+         <execute>
+            python /usr/lib/vmware/esxcli/int/unswap.pyc --world-id $val{world-id} $if{size, --size $val{size}} $if{units, --unit $val{units}}
+         </execute>
+      </command>
+   </commands>
+</plugin>

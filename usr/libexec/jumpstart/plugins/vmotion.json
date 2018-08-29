@@ -1,0 +1,24 @@
+/***********************************************************
+ * Copyright 2010-2012,2015 VMware, Inc.  All rights reserved.
+ * VMware Confidential
+ ***********************************************************/
+
+{
+   "operations" :
+   {
+      "start" :
+      [
+         "system module load --module svmmirror",
+         "system module load --module cbt",
+         "system module load --module migrate"
+      ]
+   }
+   ,
+   "metadata" :
+   {
+      "version"  : 1,
+      "requires" : ["system configuration", "networking support", "auto config pmem"],
+      "provides" : ["vmotion"]
+   }
+}
+

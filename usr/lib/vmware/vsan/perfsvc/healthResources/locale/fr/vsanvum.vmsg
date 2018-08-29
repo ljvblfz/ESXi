@@ -1,0 +1,71 @@
+#
+# vSAN Build Recommendation messages
+#
+com.vmware.vsan.vum.enum.supported = Matériel pris en charge
+com.vmware.vsan.vum.enum.sameSupport = Prise en charge du matériel stable
+com.vmware.vsan.vum.enum.lessSupport = Prise en charge du matériel : pire
+com.vmware.vsan.vum.enum.incompleteSupport = Matériel partiellement pris en charge
+com.vmware.vsan.vum.enum.noSupport = Matériel non pris en charge
+com.vmware.vsan.vum.enum.vcNoSupport = vCenter non pris en charge
+com.vmware.vsan.vum.enum.incompatibleBuildType = Type de build incompatible
+com.vmware.vsan.vum.enum.missingBuild = Build manquante dans la base de données de de versions
+com.vmware.vsan.vum.enum.sameSupportNotOnHcl = La version existante et la version recommandée ne sont pas prises en charge par HCL
+com.vmware.vsan.vum.enum.invalidEsxUpgradePath = Chemin de mise à niveau non officiellement pris en charge
+
+com.vmware.vsan.vum.note.notRecommended = La ou les versions {evalRelease} ne sont pas recommandées, car elles prennent en charge moins de matériel que la version installée actuellement.
+com.vmware.vsan.vum.note.recommended = La version {evalRelease} est recommandée car, contrairement à la version {existingRelease}, l'ensemble du matériel est pris en charge.
+com.vmware.vsan.vum.note.vcNotSupported = La ou les versions {evalRelease} ne sont pas recommandées, car vCenter {vcVersion} ne prend pas en charge la mise à niveau de certains hôtes du cluster vers la version {evalRelease}.
+com.vmware.vsan.vum.note.notFullySupport = REMARQUE : selon la liste de contrôle HCL de vSAN, le matériel n'est pas (complètement) pris en charge par la version ({chosenRelease}) choisie. Elle a toutefois été retenue, car son niveau de prise en charge est au moins équivalent à la version installée.
+com.vmware.vsan.vum.note.fullySupport = La version choisie {chosenRelease} est totalement prise en charge par le matériel. Il s'agit de la version recommandée la plus récente de vSAN.
+com.vmware.vsan.vum.note.notSupported = Selon la liste de contrôle HCL de vSAN, le matériel n'est pris en charge ni par la dernière version ({chosenRelease}) ni par la version actuellement installée.
+com.vmware.vsan.vum.note.incompatibleBuildType = La version {chosenRelease} n'est pas recommandée, car le type de build source, {srcType}, est incompatible.
+com.vmware.vsan.vum.note.mixVersionInstalled = Différentes versions sont installées sur le cluster : {releases}
+com.vmware.vsan.vum.note.mixBldTypeInstalled = Différentes builds sont installées sur le cluster : {buildTypes}
+com.vmware.vsan.vum.note.upgradeToHclEnabledVersion = vSAN n'est pas en mesure d'évaluer la compatibilité HCL du matériel, car la version installée d'ESXi est antérieure à la version 6.0 U2. vSAN suggère de procéder à la mise à niveau vers la dernière version d'ESXi. Toutefois, les utilisateurs doivent s'assurer manuellement que la prise en charge du matériel est au minimum identique à celle de la version précédente.
+com.vmware.vsan.vum.note.driverManualUpgradeNeeded = Le pilote {driverName} du périphérique ({device}) prend en charge une nouvelle version HCL de vSAN ({version}) qui doit être mise à niveau manuellement.
+com.vmware.vsan.vum.note.noDriverUpgradeNeeded = Aucune mise à jour/à niveau de pilote n'est requise dans ce cas.
+com.vmware.vsan.vum.note.updateTime = Dernière mise à jour : {updateTime}.
+com.vmware.vsan.vum.note.invalidEsxUpgradePath = Le chemin de mise à niveau de {existingRelease} vers {evalRelease} n'est pas officiellement pris en charge.
+
+com.vmware.vsan.vum.patchName = Correctif recommandé par vSAN à appliquer en supplément de la version {chosenRelease}
+#
+# vSAN Build Recommendation health check
+#
+com.vmware.vsan.health.test.vum = Recommandation de la build vSAN
+
+com.vmware.vsan.health.test.vum.vumconfig =  Le moteur de recommandation de la build vSAN utilise le guide de compatibilité VMware et les métadonnées de version VMware pour effectuer des recommandations. Pour fonctionner, il doit également disposer du service VMware Update Manager, d'une connexion à Internet et d'informations d'authentification my.vmware.com valides. Ce contrôle de santé vérifie que les conditions de dépendances sont remplies et que le moteur de recommandation fonctionne correctement.
+com.vmware.vsan.health.test.vum.vumconfig.short = Vérifie que les conditions de dépendances du moteur de recommandation de la build sont remplies et qu'il fonctionne comme prévu.
+com.vmware.vsan.health.test.vum.vumconfig.testName = Santé du moteur de recommandation de la build vSAN
+
+com.vmware.vsan.health.test.vum.vumconfig.testResult.label = Problèmes
+com.vmware.vsan.health.test.vum.vumconfig.testResult.columnIssue = Informations sur les problèmes
+
+com.vmware.vsan.health.test.vum.internetDisconnected = Aucun accès à Internet n'est disponible. Restaurez la connexion à Internet pour que vSAN puisse effectuer les recommandations de build.
+com.vmware.vsan.health.test.vum.vumDisabled = VMware Update Manager (VUM) est désactivé ou n'est pas installé. Vérifiez que VUM est installé et fonctionne correctement.
+com.vmware.vsan.health.test.vum.vumNotResponsive = VMware Update Manager (VUM) ne répond plus. Vérifiez que le service VUM est disponible et fonctionne correctement.
+com.vmware.vsan.health.test.vum.metadataOutdated = Les métadonnées de la version de vSAN sont obsolètes. Vérifiez qu'une connexion à Internet est disponible et que vSAN peut accéder aux dernières métadonnées de version mises à disposition par VMware.
+com.vmware.vsan.health.test.vum.isoDepotCookieNotSet = Les informations d'authentification pour la connexion à my.vmware.com ne sont pas définies. Connectez-vous avec des informations d'authentification appropriées. Les lignes de base seront générées dans environ 1 minute, le cas échéant.
+com.vmware.vsan.health.test.vum.isoDepotAuthenticationFailed = Échec de l'authentification sur my.vmware.com. Réessayez de vous connecter avec des informations d'authentification appropriées. Les lignes de base seront générées dans environ 1 minute, le cas échéant.
+com.vmware.vsan.health.test.vum.createBaselineFailed = Échec inattendu de la création de ligne de base de VMware Update Manager (VUM). Pour plus d'informations, consultez les journaux de vSAN et de VUM.
+com.vmware.vsan.health.test.vum.isoDepotIsDown = Le site de téléchargement de fichiers ISO de VMware est hors service.
+
+com.vmware.vsan.health.test.vum.vumrecommendation = Recommandation de la build vSAN. Il s'agit de la build ESXi que vSAN recommande comme étant la plus appropriée, selon le matériel, la compatibilité énoncée dans le guide de compatibilité VMware et les versions mises à disposition par VMware.
+com.vmware.vsan.health.test.vum.vumrecommendation.short =  Recommandation de la build vSAN basée sur les versions disponibles et le guide de compatibilité VCG
+com.vmware.vsan.health.test.vum.vumrecommendation.testName = Recommandation de la build vSAN
+com.vmware.vsan.health.test.vum.vumrecommendation.testResult.label = Recommandation de la build vSAN
+com.vmware.vsan.health.test.vum.vumrecommendation.testResult.columnCluster = Cluster
+com.vmware.vsan.health.test.vum.vumrecommendation.testResult.columnRecommendation = Recommandation
+com.vmware.vsan.health.test.vum.vumrecommendation.recommendationAvailable = La version {release} est recommandée pour le cluster {cluster}.
+
+com.vmware.vsan.vum.error.incorrectCredential = Informations d'authentification incorrectes pour la connexion à my.vmware.com. Réessayez de vous connecter avec des informations d'authentification appropriées. Les lignes de base seront générées dans environ 1 minute, le cas échéant.
+com.vmware.vsan.vum.error.isoDepotIsDown = Le site de téléchargement de fichiers ISO de VMware est hors service. Réessayez ultérieurement.
+
+
+# FW checks
+com.vmware.vsan.health.test.fwupdate.fwrecommendation = Recommandation de microprogramme vSAN. Il s'agit d'une suggestion de microprogramme basée sur la version du logiciel actuellement présente sur l'hôte, sur la version du pilote du matériel et sur sa compatibilité selon le Guide de compatibilité VMware.
+com.vmware.vsan.health.test.fwupdate.fwrecommendation.short = Recommandation de microprogramme vSAN basée sur le VCG.
+com.vmware.vsan.health.test.fwupdate.fwrecommendation.testName = Recommandation de version de microprogramme vSAN
+com.vmware.vsan.health.test.fwupdate.fwrecommendation.testResult.label = Recommandation de version de microprogramme vSAN
+com.vmware.vsan.health.test.fwupdate.fwrecommendation.testResult.columnHost = Hôte
+com.vmware.vsan.health.test.fwupdate.fwrecommendation.testResult.columnRecommendation = Recommandation
+com.vmware.vsan.health.test.fwupdate.fwrecommendation.recommendationAvailable = L'hôte {host} nécessite une mise à jour du microprogramme : {recommendations}

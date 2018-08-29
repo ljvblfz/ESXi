@@ -1,0 +1,538 @@
+<?xml version="1.0"?>
+<plugin xmlns="http://www.vmware.com/Products/ESX/5.0/esxcli/">
+   <version>1.0.0</version>
+
+   <namespaces>
+      <namespace path="vsan.debug">
+         <description>Commands for vSAN debugging</description>
+      </namespace>
+      <namespace path="vsan.debug.object">
+         <description>Debug commands for vSAN objects</description>
+      </namespace>
+      <namespace path="vsan.debug.object.health">
+         <description>Debug commands for vSAN objects health</description>
+      </namespace>
+      <namespace path="vsan.debug.object.health.summary">
+         <description>Debug commands for vSAN objects health summary</description>
+      </namespace>
+      <namespace path="vsan.debug.disk">
+         <description>Debug commands for vSAN physical disks</description>
+      </namespace>
+      <namespace path="vsan.debug.disk.summary">
+         <description>Debug commands for vSAN physical disks summary</description>
+      </namespace>
+      <namespace path="vsan.debug.limit">
+         <description>Debug commands for vSAN limits</description>
+      </namespace>
+      <namespace path="vsan.debug.vmdk">
+         <description>Debug commands for vSAN VMDKs</description>
+      </namespace>
+      <namespace path="vsan.debug.controller">
+         <description>Debug commands for vSAN disk controllers</description>
+      </namespace>
+      <namespace path="vsan.debug.resync">
+         <description>Debug commands for vSAN resyncing objects</description>
+      </namespace>
+      <namespace path="vsan.debug.resync.summary">
+         <description>Debug commands for vSAN resyncing objects summary</description>
+      </namespace>
+      <namespace path="vsan.debug.evacuation">
+         <description>Debug commands for simulating host, disk or disk group evacuation in various modes and their impact on objects in vSAN cluster</description>
+      </namespace>
+      <namespace path="vsan.debug.mob">
+         <description>Debug commands for vSAN Managed Object Browser Service.</description>
+      </namespace>
+
+   </namespaces>
+
+   <commands>
+      <!-- vsan.debug.resync.summary.get -->
+      <command path="vsan.debug.resync.summary.get">
+         <description>Print summary information about vSAN resyncing objects (output may change between releases)</description>
+         <input-spec />
+         <output-spec>
+            <list type='structure'>
+               <structure typeName='ResyncSummary'>
+                  <field name='Total Number Of Resyncing Objects'>
+                     <int/>
+                  </field>
+                  <field name='Total Bytes Left To Resync'>
+                     <int/>
+                  </field>
+                  <field name='Total GB Left To Resync'>
+                     <string/>
+                  </field>
+               </structure>
+            </list>
+         </output-spec>
+         <format-parameters>
+            <formatter>simple</formatter>
+            <format-parameter name="fields:ResyncSummary">Total Number Of Resyncing Objects,Total Bytes Left To Resync,Total GB Left To Resync</format-parameter>
+         </format-parameters>
+         <execute>python /usr/lib/vmware/vsan/esxcli/esxcli_vsan_debug.pyc sync.summary</execute>
+      </command>
+
+      <!-- vsan.debug.resync.list -->
+      <command path="vsan.debug.resync.list">
+         <description>Print detailed information about vSAN resyncing objects (output may change between releases)</description>
+         <input-spec />
+         <output-spec>
+            <list type='structure'>
+               <structure typeName="ResyncList">
+                  <field name="Object">
+                     <string/>
+                  </field>
+                  <field name="Component">
+                     <string/>
+                  </field>
+                  <field name="Bytes Left To Resync">
+                     <int/>
+                  </field>
+                  <field name='GB Left To Resync'>
+                     <string/>
+                  </field>
+               </structure>
+            </list>
+         </output-spec>
+         <format-parameters>
+            <formatter>table</formatter>
+            <format-parameter name="fields:ResyncList">Object,Component,Bytes Left To Resync,GB Left To Resync</format-parameter>
+         </format-parameters>
+         <execute>python /usr/lib/vmware/vsan/esxcli/esxcli_vsan_debug.pyc sync.list</execute>
+      </command>
+
+      <!-- vsan.debug.object.list -->
+      <command path="vsan.debug.object.list">
+         <description>Print detailed information about vSAN objects in the cluster(output may change between releases)</description>
+         <input-spec>
+            <parameter name="uuid" type="string" required="false" shortname="u">
+               <description>Show only objects with the specified UUID.</description>
+            </parameter>
+            <parameter name="guuid" type="string" required="false" shortname="g">
+               <description>Show only objects with the specified group UUID.</description>
+            </parameter>
+         </input-spec>
+         <output-spec>
+            <list type="structure">
+               <structure typeName="ObjectInfo">
+                  <field name="Object UUID">
+                     <string />
+                  </field>
+                  <field name="Version">
+                     <int />
+                  </field>
+                  <field name="Health">
+                     <string />
+                  </field>
+                  <field name="Owner">
+                     <string />
+                  </field>
+                  <field name="Policy">
+                     <string/>
+                  </field>
+                  <field name="Configuration">
+                     <string />
+                  </field>
+                  <field name="Type">
+                     <string />
+                  </field>
+                  <field name="Path">
+                     <string/>
+                  </field>
+                  <field name="Group UUID">
+                     <string/>
+                  </field>
+                  <field name="Directory Name">
+                     <string/>
+                  </field>
+               </structure>
+            </list>
+         </output-spec>
+         <format-parameters>
+            <formatter>simple</formatter>
+            <format-parameter name="header:ObjectInfo">Object UUID: %Object UUID%</format-parameter>
+            <format-parameter name="fields:ObjectInfo">Version,Health,Owner,Policy,Configuration,Type,Path,Group UUID,Directory Name</format-parameter>
+         </format-parameters>
+         <execute>python /usr/lib/vmware/vsan/esxcli/esxcli_vsan_debug.pyc objects.info $if{uuid, --uuid $val{uuid}} $if{guuid, --guuid $val{guuid}}</execute>
+      </command>
+
+      <!-- vsan.debug.object.health.summary.get -->
+      <command path="vsan.debug.object.health.summary.get">
+         <description>Print health summary information about all vSAN objects in the cluster (output may change between releases)</description>
+         <input-spec />
+         <output-spec>
+            <list type='structure'>
+               <structure typeName='ObjectSummary'>
+                  <field name='Health Status'>
+                     <string/>
+                  </field>
+                  <field name='Number Of Objects'>
+                     <int/>
+                  </field>
+               </structure>
+            </list>
+         </output-spec>
+         <format-parameters>
+            <formatter>table</formatter>
+            <format-parameter name="fields:ObjectSummary">Health Status,Number Of Objects</format-parameter>
+         </format-parameters>
+         <execute>python /usr/lib/vmware/vsan/esxcli/esxcli_vsan_debug.pyc objects.summary</execute>
+      </command>
+
+      <!-- vsan.debug.disk.summary.get -->
+      <command path="vsan.debug.disk.summary.get">
+         <description>Print summary information about all vSAN disks on this host (output may change between releases)</description>
+         <input-spec />
+         <output-spec>
+            <structure typeName="DiskSummary">
+               <field name="Overall Health">
+                  <string/>
+               </field>
+               <field name="Component Metadata Health">
+                  <string/>
+               </field>
+               <field name="Memory Pools (heaps)">
+                  <string/>
+               </field>
+               <field name="Memory Pools (slabs)">
+                  <string/>
+               </field>
+            </structure>
+         </output-spec>
+         <format-parameters>
+            <formatter>simple</formatter>
+            <format-parameter name="fields:DiskSummary">Overall Health,Component Metadata Health,Memory Pools (heaps),Memory Pools (slabs)</format-parameter>
+         </format-parameters>
+         <execute>python /usr/lib/vmware/vsan/esxcli/esxcli_vsan_debug.pyc disks.summary</execute>
+      </command>
+
+      <!-- vsan.debug.disk.list -->
+      <command path="vsan.debug.disk.list">
+         <description>Print detailed information about all vSAN disks on this host (output may change between releases)</description>
+         <input-spec />
+         <output-spec>
+            <list type="structure">
+               <structure typeName="DiskInfo">
+                  <field name="UUID">
+                     <string/>
+                  </field>
+                  <field name="Name">
+                     <string/>
+                  </field>
+                  <field name="SSD">
+                     <string/>
+                  </field>
+                  <field name="Overall Health">
+                     <string/>
+                  </field>
+                  <field name="Congestion Health">
+                     <structure typeName='CongestionHealth'>
+                        <field name='State'>
+                           <string/>
+                        </field>
+                        <field name='Congestion Value'>
+                           <int/>
+                        </field>
+                        <field name='Congestion Area'>
+                           <string/>
+                        </field>
+                        <field name='All Congestion Fields'>
+                           <structure typeName='AllCongestionFields'>
+                              <field name='SSD'>
+                                 <int/>
+                              </field>
+                              <field name='Log'>
+                                 <int/>
+                              </field>
+                              <field name='IOPS'>
+                                 <int/>
+                              </field>
+                              <field name='Slab'>
+                                 <int/>
+                              </field>
+                              <field name='Memory'>
+                                 <int/>
+                              </field>
+                           </structure>
+                        </field>
+                     </structure>
+                  </field>
+                  <field name="In Cmmds">
+                     <bool/>
+                  </field>
+                  <field name="In Vsi">
+                     <bool/>
+                  </field>
+                  <field name="Metadata Health">
+                     <string/>
+                  </field>
+                  <field name="Operational Health">
+                     <string/>
+                  </field>
+                  <field name="Space Health">
+                     <list type='structure'>
+                        <structure typeName='SpaceHealth'>
+                           <field name='State'>
+                              <string/>
+                           </field>
+                           <field name="Capacity">
+                              <int/>
+                           </field>
+                           <field name="Used">
+                              <int/>
+                           </field>
+                           <field name="Reserved">
+                              <int/>
+                           </field>
+                        </structure>
+                     </list>
+                  </field>
+               </structure>
+            </list>
+         </output-spec>
+         <format-parameters>
+            <formatter>simple</formatter>
+            <format-parameter name="header:DiskInfo">UUID: %UUID%</format-parameter>
+            <format-parameter name="fields:DiskInfo">Name,SSD,Overall Health,Congestion Health,In Cmmds,In Vsi,Metadata Health,Operational Health,Space Health</format-parameter>
+            <format-parameter name="fields:SpaceHealth">State,Capacity,Used,Reserved</format-parameter>
+            <format-parameter name="fields:CongestionHealth">State,Congestion Value,Congestion Area,All Congestion Fields</format-parameter>
+            <format-parameter name="fields:AllCongestionFields">SSD,Log,IOPS,Slab,Memory</format-parameter>
+            <format-parameter name="units:SpaceHealth.Capacity">bytes</format-parameter>
+            <format-parameter name="units:SpaceHealth.Used">bytes</format-parameter>
+            <format-parameter name="units:SpaceHealth.Reserved">bytes</format-parameter>
+         </format-parameters>
+         <execute>python /usr/lib/vmware/vsan/esxcli/esxcli_vsan_debug.pyc disks.info</execute>
+      </command>
+
+      <!-- vsan.debug.limit.get -->
+      <command path="vsan.debug.limit.get">
+         <description>Print summary information about vSAN limits (output may change between releases)</description>
+         <input-spec />
+         <output-spec>
+            <list type="structure">
+               <structure typeName="LimitInfo">
+                  <field name="Component Limit Health">
+                     <string></string>
+                  </field>
+                  <field name="Max Components">
+                     <int/>
+                  </field>
+                  <field name="Free Components">
+                     <int/>
+                  </field>
+                  <field name="Disk Free Space Health">
+                     <string></string>
+                  </field>
+                  <field name="Lowest Free Disk Space">
+                     <int/>
+                  </field>
+                  <field name="Used Disk Space">
+                     <int/>
+                  </field>
+                  <field name="Used Disk Space (GB)">
+                     <string></string>
+                  </field>
+                  <field name="Total Disk Space">
+                     <int/>
+                  </field>
+                  <field name="Total Disk Space (GB)">
+                     <string></string>
+                  </field>
+                  <field name="Read Cache Free Reservation Health">
+                     <string></string>
+                  </field>
+                  <field name="Reserved Read Cache Size">
+                     <int/>
+                  </field>
+                  <field name="Reserved Read Cache Size (GB)">
+                     <string></string>
+                  </field>
+                  <field name="Total Read Cache Size">
+                     <int/>
+                  </field>
+                  <field name="Total Read Cache Size (GB)">
+                     <string></string>
+                  </field>
+               </structure>
+            </list>
+         </output-spec>
+         <format-parameters>
+            <formatter>simple</formatter>
+            <format-parameter name="fields:LimitInfo">Component Limit Health,Max Components,Free Components,Disk Free Space Health,Lowest Free Disk Space,Used Disk Space,Used Disk Space (GB),Total Disk Space,Total Disk Space (GB),Read Cache Free Reservation Health,Reserved Read Cache Size,Reserved Read Cache Size (GB),Total Read Cache Size,Total Read Cache Size (GB)</format-parameter>
+            <format-parameter name="units:LimitInfo.Lowest Free Disk Space">%</format-parameter>
+            <format-parameter name="units:LimitInfo.Used Disk Space">bytes</format-parameter>
+            <format-parameter name="units:LimitInfo.Total Disk Space">bytes</format-parameter>
+            <format-parameter name="units:LimitInfo.Reserved Read Cache Size">bytes</format-parameter>
+            <format-parameter name="units:LimitInfo.Total Read Cache Size">bytes</format-parameter>
+         </format-parameters>
+         <execute>python /usr/lib/vmware/vsan/esxcli/esxcli_vsan_debug.pyc limits.info</execute>
+      </command>
+
+      <!-- vsan.debug.vmdk.list -->
+      <command path="vsan.debug.vmdk.list">
+         <description>Print summary information about VMDKs on local vSAN datastore (output may change between releases)</description>
+         <input-spec />
+         <output-spec>
+            <list type="structure">
+               <structure typeName="VmdkInfo">
+                  <field name="Object">
+                     <string/>
+                  </field>
+                  <field name="Health">
+                     <string/>
+                  </field>
+                  <field name="Type">
+                     <string/>
+                  </field>
+                  <field name="Path">
+                     <string/>
+                  </field>
+                  <field name="Directory Name">
+                     <string/>
+                  </field>
+              </structure>
+           </list>
+         </output-spec>
+         <format-parameters>
+            <formatter>simple</formatter>
+            <format-parameter name="header:VmdkInfo">Object: %Object%</format-parameter>
+            <format-parameter name="fields:VmdkInfo">Health,Type,Path,Directory Name</format-parameter>
+         </format-parameters>
+         <execute>python /usr/lib/vmware/vsan/esxcli/esxcli_vsan_debug.pyc vmdk.info</execute>
+      </command>
+
+      <!-- vsan.debug.controller.list -->
+      <command path="vsan.debug.controller.list">
+         <description>Print detailed information about all vSAN disk controllers (output may change between releases)</description>
+         <input-spec>
+            <parameter name="used-by-vsan" type="bool" required="false" shortname="v">
+               <description>Filter the controllers used by vSAN or not</description>
+            </parameter>
+         </input-spec>
+         <output-spec>
+            <list type="structure">
+               <structure typeName="ControllerInfo">
+                  <field name="Device Name">
+                     <string/>
+                  </field>
+                  <field name="Device Display Name">
+                     <string/>
+                  </field>
+                  <field name="Used By VSAN">
+                     <bool/>
+                  </field>
+                  <field name="PCI ID">
+                     <string/>
+                  </field>
+                  <field name="Driver Name">
+                     <string/>
+                  </field>
+                  <field name="Driver Version">
+                     <string/>
+                  </field>
+                  <field name="Max Supported Queue Depth">
+                     <int/>
+                  </field>
+               </structure>
+            </list>
+         </output-spec>
+         <format-parameters>
+            <formatter>simple</formatter>
+            <format-parameter name="header:ControllerInfo">Device Name: %Device Name%</format-parameter>
+            <format-parameter name="fields:ControllerInfo">Device Display Name,Used By VSAN,PCI ID,Driver Name,Driver Version,Max Supported Queue Depth</format-parameter>
+         </format-parameters>
+         <execute>python /usr/lib/vmware/vsan/esxcli/esxcli_vsan_debug.pyc controllers.info $if{used-by-vsan, --used-by-vsan $val{used-by-vsan}}</execute>
+      </command>
+
+      <!-- vsan.debug.evacuation.precheck-->
+      <command path="vsan.debug.evacuation.precheck">
+         <description>Examine what it takes if an entity (disk group or host) is evacuated in various modes (Action). The result is accurate when all hosts in the vSAN cluster are of the same version and have the same disk format.</description>
+         <input-spec>
+            <parameter name="entity" type="string" required="true" shortname="e">
+               <description>The name or uuid of the disk or disk group or host node. For name, it accepts 'localhost' or a hostname in vSAN cluster, or a device name in a diskgroup such as 'mpx.vmhba1:C0:T1:L0'.</description>
+            </parameter>
+            <parameter name="action" type="string" required="false" shortname="a">
+               <description>Action filter. Only show a specific type of actions from %FULLENUM%.</description>
+               <constraint type="stringenum">
+                  <enum>
+                     <enum-value value="ensureAccess">Ensure Accessibility</enum-value>
+                     <enum-value value="noAction">No Action</enum-value>
+                     <enum-value value="evacAllData">Evacuate All Data</enum-value>
+                  </enum>
+               </constraint>
+            </parameter>
+            <parameter name="verbose" type="flag" required="false" shortname="v">
+               <description>Show full list of inaccessible and non-compliant (redundancy reduced) objects.</description>
+            </parameter>
+         </input-spec>
+         <output-spec>
+            <list type="structure">
+               <structure typeName="EvacPrecheckDetail">
+                  <field name="Action">
+                     <string/>
+                  </field>
+                  <field name="Entity">
+                     <string/>
+                  </field>
+                  <field name="Evacuation Outcome">
+                     <string/>
+                  </field>
+                  <field name="Data to Move">
+                     <string/>
+                  </field>
+                  <field name="Number Of Objects That Would Become Inaccessible">
+                     <int/>
+                  </field>
+                  <field name="Objects That Would Become Inaccessible">
+                     <list type="string"/>
+                  </field>
+                  <field name="Number Of Objects That Would Have Redundancy Reduced">
+                     <int/>
+                  </field>
+                  <field name="Objects That Would Have Redundancy Reduced">
+                     <list type="string"/>
+                  </field>
+                  <field name="Additional Space Needed for Evacuation">
+                     <string/>
+                  </field>
+               </structure>
+            </list>
+         </output-spec>
+         <format-parameters>
+            <formatter>simple</formatter>
+            <format-parameter name="header:EvacPrecheckDetail">Action: %Action%</format-parameter>
+            <format-parameter name="fields:EvacPrecheckDetail">Evacuation Outcome,Entity,Data to Move,Number Of Objects That Would Become Inaccessible,Objects That Would Become Inaccessible,Number Of Objects That Would Have Redundancy Reduced,Objects That Would Have Redundancy Reduced,Additional Space Needed for Evacuation</format-parameter>
+         </format-parameters>
+         <execute>python /usr/lib/vmware/vsan/esxcli/esxcli_vsan_debug.pyc whatif.evac --entity $val{entity} $if{verbose, --verbose} $if{action, --action $val{action}}</execute>
+      </command>
+
+      <!-- vsan.debug.mob.start -->
+      <command path="vsan.debug.mob.start">
+         <description>Start vSAN Managed Object Browser Service.</description>
+         <input-spec>
+         </input-spec>
+         <output-spec>
+            <string/>
+         </output-spec>
+         <format-parameters>
+            <formatter>simple</formatter>
+         </format-parameters>
+         <execute>python /usr/lib/vmware/vsan/perfsvc/VsanMgmtCli.pyc mob --start</execute>
+      </command>
+
+      <!-- vsan.debug.mob.stop -->
+      <command path="vsan.debug.mob.stop">
+         <description>Stop vSAN Managed Object Browser Service.</description>
+         <input-spec>
+         </input-spec>
+         <output-spec>
+            <string/>
+         </output-spec>
+         <format-parameters>
+            <formatter>simple</formatter>
+         </format-parameters>
+         <execute>python /usr/lib/vmware/vsan/perfsvc/VsanMgmtCli.pyc mob --stop</execute>
+      </command>
+
+   </commands>
+</plugin>

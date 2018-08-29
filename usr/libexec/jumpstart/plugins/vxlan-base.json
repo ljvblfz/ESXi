@@ -1,0 +1,29 @@
+/***********************************************************
+ * Copyright 2013,2015 VMware, Inc.  All rights reserved.
+ * VMware Confidential
+ ***********************************************************/
+
+/*
+ * Do nothing but provide 'vxlan'; the VIB will provide 'vxlan' with a functional
+ * jumpstart script (see vxlan.json).
+ *
+ * This is done to allow restore-networking to require 'vxlan' and still fulfill
+ * it's requirements when the vxlan VIB is not installed. When VXLAN is configured
+ * the modules should be loaded before networking is restored, and jumpstart
+ * doesn't allow for expressing a dependency on running before some other plugin,
+ * just which plugins must be run before it.
+ *
+ */
+{
+   "operations" :
+   {
+      "start" : []
+   }
+   ,
+   "metadata" :
+   {
+      "version"  : 1,
+      "requires" : [],
+      "provides" : ["vxlan"]
+   }
+}

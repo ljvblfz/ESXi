@@ -1,0 +1,11 @@
+<div ng-controller="HostManageSecurityLockdownChangeController" class="content-padding time-config-dialog">
+   <div class="radio" ng-repeat="mode in data.modes" style="margin-left: 20px;">
+      <label>
+         <input type="radio" name="lockdownRadios" id="{{mode}}" ng-model="data.mode" ng-value="mode"/>
+         <div class="row no-margin">
+            <div class="col-sm-12 no-padding row-spacer"><strong>{{'host.manage.system.security.lockdown.' + mode + '.name' | translate}}</strong></div>
+            <div class="col-sm-12 no-padding row-spacer">{{'host.manage.system.security.lockdown.' + mode + '.description' | translate}}</div>
+         </div>
+      </label>
+   </div>
+</div>

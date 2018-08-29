@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<grammar xmlns="http://relaxng.org/ns/structure/1.0" datatypeLibrary="http://www.w3.org/2001/XMLSchema-datatypes">
+  <!--
+    Schema for VIB Descriptor Template
+    
+    RELAX NG Compact Schema
+    http://www.relaxng.org/
+    
+  -->
+  <include href="vib20-common.rng"/>
+  <define name="DescriptorVersion">
+    <value>5.0</value>
+  </define>
+  <start>
+    <choice>
+      <ref name="vib_meta_descriptor"/>
+      <ref name="vib_meta_depot"/>
+      <ref name="vib_meta_db"/>
+    </choice>
+  </start>
+  <define name="vib_meta_descriptor">
+    <element name="vib">
+      <attribute name="version">
+        <ref name="DescriptorVersion"/>
+      </attribute>
+      <interleave>
+        <ref name="VIB_META_COMMON"/>
+        <optional>
+          <ref name="BOOTBANK_VIB_ALL"/>
+        </optional>
+      </interleave>
+    </element>
+  </define>
+  <define name="vib_meta_depot">
+    <element name="vib">
+      <attribute name="version">
+        <ref name="DescriptorVersion"/>
+      </attribute>
+      <interleave>
+        <ref name="VIB_META_COMMON"/>
+        <ref name="VIB_META_DEPOT_ONLY"/>
+        <optional>
+          <ref name="BOOTBANK_VIB_ALL"/>
+        </optional>
+      </interleave>
+    </element>
+  </define>
+  <define name="vib_meta_db">
+    <element name="vib">
+      <attribute name="version">
+        <ref name="DescriptorVersion"/>
+      </attribute>
+      <interleave>
+        <ref name="VIB_META_COMMON"/>
+        <ref name="BOOTBANK_VIB_ALL"/>
+        <ref name="VIB_META_DB_ONLY"/>
+      </interleave>
+    </element>
+  </define>
+  <define name="BOOTBANK_VIB_ALL">
+    <interleave>
+      <ref name="BOOTBANK_VIB_ONLY"/>
+      <optional>
+        <element name="file-list">
+          <zeroOrMore>
+            <element name="file">
+              <data type="string">
+                <param name="maxLength">99</param>
+              </data>
+            </element>
+          </zeroOrMore>
+        </element>
+      </optional>
+      <element name="payloads">
+        <oneOrMore>
+          <element name="payload">
+            <attribute name="name">
+              <data type="string">
+                <param name="pattern">[0-9A-Za-z_\-\.]*</param>
+                <param name="maxLength">15</param>
+              </data>
+            </attribute>
+            <attribute name="type">
+              <choice>
+                <value>vgz</value>
+                <value>tgz</value>
+                <value>boot</value>
+                <value>upgrade</value>
+                <value>bootloader</value>
+                <value>bootisobios</value>
+                <value>bootisoefi</value>
+              </choice>
+            </attribute>
+            <optional>
+              <attribute name="boot-order">
+                <data type="nonNegativeInteger"/>
+              </attribute>
+            </optional>
+            <optional>
+              <attribute name="vfat-name">
+                <data type="string">
+                  <param name="pattern">\S{1,8}\.\S{0,3}</param>
+                </data>
+              </attribute>
+            </optional>
+            <attribute name="size">
+              <data type="nonNegativeInteger"/>
+            </attribute>
+            <optional>
+              <ref name="Checksum"/>
+            </optional>
+          </element>
+        </oneOrMore>
+      </element>
+    </interleave>
+  </define>
+  <!--
+    
+    Depot metadata only attributes
+    
+  -->
+  <define name="VIB_META_DEPOT_ONLY">
+    <interleave>
+      <element name="relative-path">
+        <data type="string"/>
+      </element>
+      <element name="packed-size">
+        <data type="int"/>
+      </element>
+      <optional>
+        <ref name="Checksum"/>
+      </optional>
+    </interleave>
+  </define>
+  <!--
+    
+    Local database only attributes
+    
+  -->
+  <define name="VIB_META_DB_ONLY">
+    <element name="install-date">
+      <data type="float"/>
+    </element>
+  </define>
+</grammar>

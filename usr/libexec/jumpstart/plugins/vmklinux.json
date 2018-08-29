@@ -1,0 +1,21 @@
+/***********************************************************
+ * Copyright 2010-2017 VMware, Inc.  All rights reserved. -- VMware Confidential
+ ***********************************************************/
+
+{
+   "_comment" : "Empty plugin to provide legacy dependencies for tag 'vmklinux'",
+   "operations" :
+   {
+      "start" :
+      [
+      ]
+   }
+   ,
+   "metadata" :
+   {
+      "version"  : 1,
+      "requires" : ["system configuration", "vmkernel vmkapi compatibility", "dma", "iodm"],
+      "provides" : ["vmklinux"]
+   }
+}
+

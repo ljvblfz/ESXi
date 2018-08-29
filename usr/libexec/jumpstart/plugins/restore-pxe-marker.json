@@ -1,0 +1,22 @@
+/***********************************************************
+ * Copyright 2010,2012,2015 VMware, Inc.  All rights reserved.
+ * VMware Confidential
+ ***********************************************************/
+
+{
+   "operations" :
+   {
+      "start" :
+      [
+         "boot system restore --pxe-boot-marker"
+      ]
+   }
+   ,
+   "metadata" :
+   {
+      "version"  : 1,
+      "requires" : ["system configuration"],
+      "provides" : ["pxe-marker"]
+   }
+}
+

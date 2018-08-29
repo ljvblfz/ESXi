@@ -1,0 +1,6 @@
+#!/bin/sh ++group=logging
+
+PYTHON_BIN=/bin/python
+VMSYSLOGD_PY=`dirname $0`/vmsyslogd.pyc
+
+exec $PYTHON_BIN $VMSYSLOGD_PY "$@"

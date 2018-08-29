@@ -1,0 +1,26 @@
+#
+# This file is mechanically generated.  Any changes you make
+# manually will be lost at the next build.
+#
+# Please edit <driver>_devices.py file for permanent changes.
+#
+# Vendors, devices and subsystems.
+#
+# Syntax (initial indentation must be done with TAB characters):
+#
+# vendor  vendor_name
+#       device  device_name                            <-- single TAB
+#               subvendor subdevice  subsystem_name    <-- two TABs
+
+10df  Emulex Corporation
+	e100  Emulex LPev12000 8Gb PCIe IOV Fibre Channel Adapter
+	e131  Emulex LPVe12002 PCIe Shared I/O Fibre Channel Adapter
+	e180  Emulex LPev12000 8Gb PCIe IOV Fibre Channel Adapter
+	e200  Emulex LightPulse LPe16000 PCIe Fibre Channel Adapter
+	e260  Emulex OneConnect OCe15100 FCoE Adapter
+	e268  Emulex OneConnect OCe15100 FCoE Adapter
+	e300  Emulex LightPulse LPe32000 PCIe Fibre Channel Adapter
+	f015  Emulex LPe1250 8Gb PCIe Fibre Channel Adapter
+	f100  Emulex LPe12000 8Gb PCIe Fibre Channel Adapter
+	f180  Emulex LPSe12002-ML1 8Gb PCIe EmulexSecure Fibre Channel Adapter
+	fc40  Emulex LPe12000-S 8Gb Fibre Channel Adapter

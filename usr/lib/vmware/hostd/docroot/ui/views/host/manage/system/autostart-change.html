@@ -1,0 +1,90 @@
+<div ng-controller="HostManageAutostartChangeController" class="content-padding">
+   <div class="vui-stack-view">
+      <div class="stack-view-table">
+
+       <div vui-stack-block="enabledBlock">
+          <span vui-sb-label>
+             {{'host.manage.system.autostart.change.enabled.label'|translate}}</span>
+
+          <div vui-sb-content>
+             <label style="margin-bottom: 0; margin-right: 5px;">
+                <input
+                   type="radio"
+                   ng-model="data.enabled"
+                   ng-value="true"/> {{'host.manage.system.autostart.change.enabled.yes'|translate}}
+             </label>
+
+             <label style="margin-bottom: 0; margin-right: 5px;">
+                <input
+                   type="radio"
+                   ng-model="data.enabled"
+                   ng-value="false"/> {{'host.manage.system.autostart.change.enabled.no'|translate}}
+             </label>
+          </div>
+       </div>
+
+       <div vui-stack-block="startDelayBlock">
+          <span vui-sb-label>
+             {{'host.manage.system.autostart.change.startDelay.label'|translate}}</span>
+
+          <div vui-sb-content>
+            <input
+               class="inline"
+               style="width: 60px;"
+               min="0"
+               ng-disabled="!data.enabled"
+               type="number"
+               ng-model="data.startDelay"/> {{'host.manage.system.autostart.change.startDelay.seconds' | translate}}
+          </div>
+       </div>
+
+       <div vui-stack-block="stopDelayBlock">
+          <span vui-sb-label>
+             {{'host.manage.system.autostart.change.stopDelay.label'|translate}}</span>
+
+          <div vui-sb-content>
+            <input
+               class="inline"
+               style="width: 60px;"
+               min="0"
+               ng-disabled="!data.enabled"
+               type="number"
+               ng-model="data.stopDelay"/> {{'host.manage.system.autostart.change.stopDelay.seconds' | translate}}
+          </div>
+       </div>
+
+       <div vui-stack-block="stopActionBlock">
+          <span vui-sb-label>
+             {{'host.manage.system.autostart.change.stopAction.label'|translate}}</span>
+
+          <div vui-sb-content style="height: 29px;">
+             <div ng-if="stopAction" vui-dropdown="stopAction"></div>
+          </div>
+       </div>
+
+       <div vui-stack-block="hbBlock">
+          <span vui-sb-label>
+             {{'host.manage.system.autostart.change.waitForHeartbeat.label'|translate}}</span>
+
+          <div vui-sb-content>
+             <label style="margin-bottom: 0; margin-right: 5px;">
+                <input
+                   type="radio"
+                   ng-disabled="!data.enabled"
+                   ng-model="data.waitForHeartbeat"
+                   ng-value="true"/> {{'host.manage.system.autostart.change.waitForHeartbeat.yes'|translate}}
+             </label>
+
+             <label style="margin-bottom: 0; margin-right: 5px;">
+                <input
+                   type="radio"
+                   ng-disabled="!data.enabled"
+                   ng-model="data.waitForHeartbeat"
+                   ng-value="false"/> {{'host.manage.system.autostart.change.waitForHeartbeat.no'|translate}}
+             </label>
+          </div>
+       </div>
+
+     </div>
+   </div>
+</div>

@@ -1,0 +1,210 @@
+#!/bin/sh
+#
+# Copyright 2011-2016 VMware, Inc.  All rights reserved.
+#
+# snmpd:
+#    SNMPv1/v2c/v3 Management daemon
+#
+# chkconfig: on 98 78
+# description: SNMPv1/v2c/v3 daemon
+#
+
+
+SNMPD="/sbin/snmpd"
+SNMPD_TAG="snmpd"
+SECPOLICYTOOLS="/sbin/secpolicytools"
+SNMPD_SECURITY_DOM_NAME="superDom"
+SNMPD_OPTS=""
+SNMPD_RP="snmpd"
+WATCHDOG_PARAMS="-d -s snmpd -u 60 -q 5 -t 10"
+SNMPD_SCHED_PARAM="min=0"
+SNMPD_KILL_SIGNAL="TERM"
+SNMPD_STACK_SIZE=128
+RESTART_FILE=/var/run/.snmpd-started
+TRAP_TRANSFER_PATH=/var/spool/snmp
+TRAP_RAMDISK_NAME="snmptraps"
+RP_PGM=/usr/lib/vmware/rp/bin/configRP
+# key must match configRP entry, allocate max 22 MB
+SNMP_MEM_RES="host/vim/vmvisor/snmpd 22"
+export PATH=/sbin:/usr/sbin:/bin:/usr/bin
+RESTART_FLAG=/var/tmp/restart-snmpd-agent
+
+#
+# Sanity check
+#
+[ -x "${SNMPD}" ] || exit 0
+
+if [ ! -x ${RP_PGM} ]; then
+   logger -s -p daemon.err "${SNMPD_TAG} No executable for ${RP_PGM}, resource pool not configured."
+   RP_PGM="echo"
+fi
+
+# track calling process, is it a terminal or program
+TTY=$(python -c "import os; import sys;  print(os.isatty(sys.stdin.fileno()))")
+ENABLED=$(localcli --formatter=json system snmp get | python -c "import json;import sys;cfg=json.load(sys.stdin); print(cfg['enable'])")
+
+#
+# Start snmpd
+#
+snmpd_start()
+{
+   logger -p daemon.info "Starting ${SNMPD_TAG}"
+
+   if [ -n "$(pidof -s ${SNMPD_TAG})" ] ; then
+      logger -s -p daemon.info "${SNMPD_TAG} already running."
+      return 0
+   fi
+
+   # Upgrade config if needed
+   /usr/lib/vmware/snmp/bin/upgrade-snmp.py
+   if [ $? != 0 ]; then
+      logger -s -p daemon.err "${SNMPD_TAG}, Invalid configuration detected, see upgrade-snmp entries in system logs."
+      return 1
+   fi
+
+   if [ ${ENABLED} == 'False' ]; then
+       if [ -f ${RESTART_FLAG} ]; then
+          logger -s -p daemon.info "${SNMPD_TAG}, administrative restart detected, enabling agent."
+          rm ${RESTART_FLAG} || logger -s -p daemon.crit "${SNMPD_TAG}, unable to delete flag ${RESTART_FLAG} err=$!."
+          # reset config file to enabled
+          esxcli system snmp set -e true > /dev/null 2>&1
+          # start agent
+          /etc/init.d/snmpd start
+          return $?
+       else
+          logger -s -p daemon.info "${SNMPD_TAG} has not been enabled."
+          return 1
+       fi
+   fi
+   logger -s -p daemon.info "${SNMPD_TAG} setting up resource reservations."
+   ${RP_PGM} setRPMemMaxSize ${SNMP_MEM_RES} || logger -s -p daemon.err "${SNMPD_TAG} Resource pool request failed $!"
+   logger -s -p daemon.info "${SNMPD_TAG} opening firewall port(s) for notifications."
+   if [ ! -f ${RESTART_FILE} ]; then
+       /sbin/localcli --plugin-dir /usr/lib/vmware/esxcli/int systemInternal snmp set -f 2>&1 > /tmp/err.$$
+       if [ $? != 0 ]; then
+           logger -s -p daemon.err "${SNMPD_TAG} failed to open firewall port(s) for notifications: $(cat /tmp/err.$$)"
+       fi
+       rm /tmp/err.$$ 2>&1 > /dev/null
+   fi
+   if [ ! -d ${TRAP_TRANSFER_PATH} ]; then
+      mkdir ${TRAP_TRANSFER_PATH}
+      if [ $? -ne 0 ]; then
+         logger -s -p daemon.err "${SNMPD_TAG} create ${TRAP_TRANSFER_PATH} failed err=$!"
+         exit 1
+      fi
+   fi
+   configureStatsDir
+   SNMPD_SECURITY_DOM=$("${SECPOLICYTOOLS}" -D "${SNMPD_SECURITY_DOM_NAME}")
+   SNMPD_SECURITY_DOM_PARAM="securitydom=${SNMPD_SECURITY_DOM}"
+   SNMPD_UW_PARAM="++${SNMPD_SCHED_PARAM},${SNMPD_SECURITY_DOM_PARAM}"
+   logger -s -p daemon.info "${SNMPD_TAG} watchdog for snmpd started."
+   /sbin/watchdog.sh ++memreliable,group=${SNMPD_RP} ${WATCHDOG_PARAMS} "${SNMPD}" ${SNMPD_UW_PARAM} ${SNMPD_OPTS} >/dev/null 2>&1
+}
+
+#
+# Stop snmpd
+#
+snmpd_stop()
+{
+   logger -p daemon.info "Stopping ${SNMPD_TAG} by administrative request"
+
+   if [ -z "$(pidof -s ${SNMPD_TAG})" ] ; then
+      logger -s -p daemon.info "${SNMPD_TAG} is not running."
+      return 0
+   fi
+
+   # PR 1069471 need internal cli to shut down agent and components w/o turning off config
+   if [ ${TTY} == "True" -a ${ENABLED} == 'True' ] ; then
+      logger -s -p daemon.info "${SNMPD_TAG} Running from interactive shell, running command: esxcli system snmp set -e false."
+      touch ${RESTART_FLAG} || logger -s -p daemon.err "Touch ${RESTART_FLAG} Failed, snmpd is disabled, reconfigure agent using esxcli. err=$!"
+      esxcli system snmp set -e false > /dev/null 2>&1
+      return $?
+   else
+      logger -s -p daemon.info "${SNMPD_TAG} Terminating snmpd process and removing ramdisk."
+      /sbin/watchdog.sh -k "${SNMPD_TAG}" > /dev/null 2>&1
+      pkill -9 "${SNMPD_TAG}" > /dev/null 2>&1
+      localcli system visorfs ramdisk remove --target "${TRAP_TRANSFER_PATH}"
+      rm -rf "${TRAP_TRANSFER_PATH}" 2>&1
+      ${RP_PGM} decreaseRPMemMaxSizeWithRetry ${SNMP_MEM_RES} 2
+      return 0
+   fi
+}
+
+configureStatsDir()
+{
+   # Create a RAM disk for spooling of snmp traps if one does not exist already
+   # and exit script on failure
+   # default max size 1 MB and allow configuration to be retrieved from env var
+   local trapsMB=${SNMP_TRAP_MB:-1}
+
+   if [ ! -d ${TRAP_TRANSFER_PATH} ] || [ -L ${TRAP_TRANSFER_PATH} ]; then
+      if [ -e ${TRAP_TRANSFER_PATH} ]; then
+         local bakfile="$(mktemp  -p /var/spool -t snmp.XXXXXXXX)"
+         logger -p daemon.err "Illegal object \"$(ls -l ${TRAP_TRANSFER_PATH})\" occupies the system directory. Backing up this object to ${bakfile}."
+         mv -f "${TRAP_TRANSFER_PATH}" "${bakfile}"
+      fi
+      mkdir -p "${TRAP_TRANSFER_PATH}"
+      if [ $? != 0 ]; then
+         logger -p daemon.err "${SNMPD_TAG} mkdir ${TRAP_TRANSFER_PATH} failed $!"
+         exit 1
+      fi
+   fi
+   # Check if the RAM disk is existed
+   local mntp=$(localcli system visorfs ramdisk list | grep "${TRAP_RAMDISK_NAME}" | grep "${TRAP_TRANSFER_PATH}")
+   if [ -z "${mntp}" ]; then
+      # Mount a RAM disk with min=0, max=$trapsMB
+      localcli system visorfs ramdisk add --name "${TRAP_RAMDISK_NAME}" \
+         --min-size 0 --max-size "${trapsMB}" --permissions 0755 --target "${TRAP_TRANSFER_PATH}" > /tmp/$$.err
+      if [ $? != 0 ]; then
+         logger -p daemon.err "${SNMPD_TAG} failed to Mounted ${TRAP_TRANSFER_PATH} ramdisk size ${trapsMB} MiB, $! $(cat /tmp/$$.err)"
+         exit 1
+      else
+         logger -p daemon.info "${SNMPD_TAG} Mounted ${TRAP_TRANSFER_PATH} ramdisk size ${trapsMB}"
+         rm /tmp/$$.err > /dev/null 2>&1
+      fi
+   fi
+}
+
+#
+# Process comand line options
+#
+case "$1" in
+   start)
+      snmpd_start
+   ;;
+
+   stop)
+      snmpd_stop
+   ;;
+
+   status)
+      if [ -n "$(pidof -s ${SNMPD_TAG})" ]; then
+         echo "${SNMPD_TAG} is running"
+         exit 0
+      else
+         echo "${SNMPD_TAG} is not running"
+         exit 3
+      fi
+   ;;
+
+   restart)
+      if [ ${ENABLED} == 'False' ]; then
+         logger -s -p daemon.info "${SNMPD_TAG}: Administrative restart requested but agent was not enabled, nothing done."
+         exit 0
+      fi
+      snmpd_stop
+      while [ -n "$(pidof -s ${SNMPD_TAG})" ]; do
+         sleep 1
+      done
+      if [ ${TTY} == "True" -a ${ENABLED} == 'True' ] ; then
+          esxcli system snmp set -e true > /dev/null 2>&1
+      fi
+      snmpd_start
+   ;;
+
+   *)
+      echo "Usage: $(basename "$0") {start|stop|status|restart}"
+      exit 1
+   ;;
+esac
+

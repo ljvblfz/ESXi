@@ -1,0 +1,95 @@
+# VSAN iSCSI target service related
+# msgId = 001
+com.vmware.vsan.iscsi.common.comma = ,
+com.vmware.vsan.iscsi.common.colon = :
+com.vmware.vsan.iscsi.common.ok = OK
+com.vmware.vsan.iscsi.common.yes = Ja
+com.vmware.vsan.iscsi.common.no = Nein
+com.vmware.vsan.iscsi.msg.installVibFailed = Unbekannter Fehler beim Verwenden von EAM zum Installieren von VIBs auf Cluster
+com.vmware.vsan.iscsi.msg.createHomeObjectFailed = Home-Objekt konnte nicht auf Cluster erstellt werden
+com.vmware.vsan.iscsi.msg.settingsFailed = vSAN-iSCSI-Zieldienst konnte nicht auf Cluster festgelegt werden
+com.vmware.vsan.iscsi.host.issues.notConnected = Host ist nicht verbunden
+com.vmware.vsan.iscsi.host.issues.notVITInstall = vSAN-iSCSI-Zieldienst ist nicht auf dem Host installiert
+com.vmware.vsan.iscsi.host.issues.notVITServiceFound = vSAN-iSCSI-Zieldienst wurde nicht auf dem Host gefunden. Überprüfen Sie, ob der Host Version 6.5 oder höher aufweist.
+com.vmware.vsan.iscsi.cluster.issues.hostNotConnected = Mindestens ein Host ist nicht verbunden.
+com.vmware.vsan.iscsi.cluster.issues.HostNotVITInstall = Auf mindestens einem Host ist kein vSAN-iSCSI-Zieldienst installiert
+
+# For service process status
+com.vmware.vsan.iscsi.service.process.running = Wird ausgeführt
+com.vmware.vsan.iscsi.service.process.stopped = Angehalten
+com.vmware.vsan.iscsi.service.process.unknown = Unbekannt
+com.vmware.vsan.iscsi.service.process.hostDisconnected = Host ist getrennt
+
+# For service pre-check failed.
+com.vmware.vsan.iscsi.service.enabled.failed = Dienst kann nicht aktiviert werden. vSAN-iSCSI-Zieldienst wird in ESXi-Host Version 6.1 bereitgestellt. Stellen Sie sicher, dass alle Hosts im Cluster die richtige Version aufweisen und dass kein Verbindungsproblem vorliegt.
+
+# For service installation health test
+com.vmware.vsan.iscsi.health.test.installStatus = Dienstinstallationsstatus
+com.vmware.vsan.iscsi.health.test.installStatus.desc.short = Überprüft, ob auf allen Hosts im vSAN-Cluster der vSAN-iSCSI-Zieldienst installiert ist und ob die Dienstversion in VC und jedem Hosts identisch ist.
+com.vmware.vsan.iscsi.health.test.installStatus.desc.long = vSAN-iSCSI-Zieldienst wird in ESXi Host-Version 6.1 bereitgestellt. Wird festgestellt, dass der vSAN-iSCSI-Zieldienst auf einigen Hosts nicht installiert ist, bedeutet dies, dass die Version der Hosts nicht korrekt ist. Wenn der Status des vSAN-iSCSI-Zieldiensts auf einigen der Hosts unbekannt ist, bedeutet dies, dass ein anderes Problem vorliegt (beispielsweise ein Verbindungsproblem).
+com.vmware.vsan.iscsi.health.test.installStatus.table.label = Dienstinstallation
+com.vmware.vsan.iscsi.health.test.installStatus.table.column.host = Host
+com.vmware.vsan.iscsi.health.test.installStatus.table.column.installationStatus = Installationsstatus
+com.vmware.vsan.iscsi.health.test.installStatus.table.column.versionESX = Version in ESX
+com.vmware.vsan.iscsi.health.test.installStatus.table.column.versionVC = Version in VC
+com.vmware.vsan.iscsi.health.test.installStatus.table.column.error = Fehler
+
+# For service runtime health test
+com.vmware.vsan.iscsi.health.test.runningStatus = Laufzeitstatus des Diensts
+com.vmware.vsan.iscsi.health.test.runningStatus.desc.short = Überprüft den Status des vSAN-iSCSI-Zieldiensts.
+com.vmware.vsan.iscsi.health.test.runningStatus.desc.long = Überprüft, ob der Dienst auf allen Hosts im Cluster aktiviert ist. Wenn der Dienst auf einem Host nicht aktiviert ist, führen Sie den folgenden Befehl aus: 'esxcli vsan iscsi status set --enabled=true'. Wahlweise können Sie den iSCSI-Zieldienst mit der Aktion 'Bearbeiten' (Verwalten > Einstellungen > Allgemein > vSAN-iSCSI-Zieldienst) aktivieren. Mit dieser Aktion wird auch die Integrität der folgenden Vorgänge überprüft: 'vitd' wird zur Bereitstellung des Diensts und 'vitsafehd' zur Bereitstellung von Öffnungen für VMDKs verwendet. Wenn der 'vitd'-Vorgang nicht ausgeführt wird, verwenden Sie den folgenden Befehl, um den Vorgang zu starten: '/etc/init.d/vitd start'. Wenn der 'vitsafehd'-Vorgang nicht ausgeführt wird, verwenden Sie den folgenden Befehl, um den Vorgang zu starten: '/etc/init.d/vitd io_restart'.
+com.vmware.vsan.iscsi.health.test.runningStatus.table.label = Laufzeitstatus des Diensts
+com.vmware.vsan.iscsi.health.test.runningStatus.table.column.host = Host
+com.vmware.vsan.iscsi.health.test.runningStatus.table.column.processesStatus = Vorgangsintegrität
+com.vmware.vsan.iscsi.health.test.runningStatus.table.column.enabledStatus = Aktiviert
+com.vmware.vsan.iscsi.health.test.runningStatus.table.column.error = Fehler
+
+# For home object health test
+com.vmware.vsan.iscsi.health.test.groupName = vSAN-iSCSI-Zieldienst
+com.vmware.vsan.iscsi.health.test.homeObject = Home-Objekt
+com.vmware.vsan.iscsi.health.test.homeObject.storageOutOfDate = Veraltet
+com.vmware.vsan.iscsi.health.test.homeObject.storageCompliant = Konform
+com.vmware.vsan.iscsi.health.test.homeObject.storageNonCompliant = Nicht übereinstimmend
+com.vmware.vsan.iscsi.health.test.homeObject.storageNotApplicable = Nicht zutreffend
+com.vmware.vsan.iscsi.health.test.homeObject.storageUnknown = Unbekannt
+com.vmware.vsan.iscsi.health.test.homeObject.desc.short = Überprüft die Integrität des Home-Objekts des vSAN-iSCSI-Zieldiensts.
+com.vmware.vsan.iscsi.health.test.homeObject.desc.long = Das Home-Objekt speichert die vom vSAN-iSCSI-Zieldienst verwendeten Metadaten. Hierbei wird Folgendes sichergestellt: Das Home-Objekt wurde erstellt und kann im System gefunden werden. Die Integrität des Home-Objekts ist gewährleistet und es entspricht der Speicherrichtlinie. Das Home-Objekt ist eindeutig. Wenn mehrere Home-Objekte vorhanden sind, greifen einige Hosts im Cluster möglicherweise auf ein anderes Home-Objekt zu. Die Metadatendatei im Home-Objekt ist vorhanden und kann analysiert werden und alle Metadaten wurden ordnungsgemäß gespeichert.
+com.vmware.vsan.iscsi.health.test.homeObject.table.label = Home-Objekt-Informationen
+com.vmware.vsan.iscsi.health.test.homeObject.table.column.check = Überprüfen
+com.vmware.vsan.iscsi.health.test.homeObject.table.column.result = Ergebnis
+com.vmware.vsan.iscsi.health.test.homeObject.table.column.status = Status
+com.vmware.vsan.iscsi.health.test.homeObject.table.exist = Home-Objekt vorhanden
+com.vmware.vsan.iscsi.health.test.homeObject.table.healthStatus = Integritätsstatus
+com.vmware.vsan.iscsi.health.test.homeObject.table.storageStatus = Speicherrichtlinienübereinstimmung
+com.vmware.vsan.iscsi.health.test.homeObject.table.entryStatus = Home-Objekt ist eindeutig
+com.vmware.vsan.iscsi.health.test.homeObject.table.metadataStatus = Status der Metadatendatei
+com.vmware.vsan.iscsi.health.test.homeObject.table.noEntry = Kein Eintrag jetzt
+com.vmware.vsan.iscsi.health.test.homeObject.table.isUnique = Ist eindeutig
+com.vmware.vsan.iscsi.health.test.homeObject.table.isMultiple = Ist mehrfach
+com.vmware.vsan.iscsi.health.test.homeObject.table.metadataPresentParse = Ist vorhanden und kann analysiert werden
+com.vmware.vsan.iscsi.health.test.homeObject.table.metadataNotPresentParse = Ist nicht vorhanden oder kann nicht analysiert werden. Stellen Sie vor der Überprüfung dieses Elements sicher, dass der Laufzeitstatus des Diensts grün markiert ist.
+
+com.vmware.vsan.iscsi.health.test.homeObject.status.notFound = Nicht gefunden
+
+com.vmware.vsan.iscsi.health.test.cluster.iscsiEamInstall.host.untracked = Wird nicht mehr aufgezeichnet
+com.vmware.vsan.iscsi.health.test.cluster.iscsiEamInstall.host.removed = (nicht mehr im Cluster)
+
+com.vmware.vsan.iscsi.health.test.serviceNetwork = Netzwerkkonfiguration
+com.vmware.vsan.iscsi.health.test.serviceNetwork.desc.short = Überprüft die Netzwerkkonfiguration des vSAN-iSCSI-Zieldiensts.
+com.vmware.vsan.iscsi.health.test.serviceNetwork.desc.long = Alle vom vSAN-iSCSI-Zieldienst verwendeten Netzwerkschnittstellen (einschließlich der Standardschnittstelle) müssen auf allen Hosts im Cluster konfiguriert sein. Alle Netzwerkschnittstellen mit demselben Namen bilden ein verteiltes Portal. Wenn mindestens ein Host nicht über eine Netzwerkschnittstelle verfügt, kann der vSAN-iSCSI-Zieldienst nicht ordnungsgemäß funktionieren.
+com.vmware.vsan.iscsi.health.test.serviceNetwork.defaultnic = Standardnetzwerkschnittstelle abrufen
+com.vmware.vsan.iscsi.health.test.serviceNetwork.defaultnic.notFound = Standardnetzwerkschnittstelle kann nicht gefunden werden
+com.vmware.vsan.iscsi.health.test.serviceNetwork.defaultnic.error = Abrufen der Standard-Netzwerkschnittstelle fehlgeschlagen. Prüfen Sie, ob der vSAN iSCSI-Zieldienst auf allen Hosts ausgeführt wird
+com.vmware.vsan.iscsi.health.test.serviceNetwork.nicsUsedByTargets = Von Zielen verwendete Netzwerkschnittstellen abrufen
+com.vmware.vsan.iscsi.health.test.serviceNetwork.nicsUsedByTargets.notFound = Von Zielen verwendete Netzwerkschnittstellen können nicht gefunden werden
+com.vmware.vsan.iscsi.health.test.serviceNetwork.table.service.label = Dienstnetzwerkkonfiguration
+com.vmware.vsan.iscsi.health.test.serviceNetwork.table.service.column.check = Überprüfen
+com.vmware.vsan.iscsi.health.test.serviceNetwork.table.service.column.status = Status
+com.vmware.vsan.iscsi.health.test.serviceNetwork.table.service.column.vmknics = Netzwerkschnittstellen
+com.vmware.vsan.iscsi.health.test.serviceNetwork.table.service.column.error = Fehler
+
+com.vmware.vsan.iscsi.health.test.serviceNetwork.table.label = Hostnetzwerkkonfiguration
+com.vmware.vsan.iscsi.health.test.serviceNetwork.table.column.host = Host
+com.vmware.vsan.iscsi.health.test.serviceNetwork.table.column.status = Status
+com.vmware.vsan.iscsi.health.test.serviceNetwork.table.column.error = Fehler
+com.vmware.vsan.iscsi.health.test.serviceNetwork.table.column.vmknicsMissed = Netzwerkschnittstellen wurden nicht gefunden

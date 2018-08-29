@@ -1,0 +1,22 @@
+/***********************************************************
+ * Copyright 2010,2015 VMware, Inc.  All rights reserved.
+ * VMware Confidential
+ ***********************************************************/
+
+{
+   "operations" :
+   {
+      "start" :
+      [
+         /* nothing to do at the moment */
+      ]
+   }
+   ,
+   "metadata" :
+   {
+      "version"  : 1,
+      "requires" : ["vds support"],
+      "provides" : ["public vds vmkapi v2_0_0_0"]
+   }
+}
+

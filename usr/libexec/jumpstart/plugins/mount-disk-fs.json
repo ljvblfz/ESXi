@@ -1,0 +1,23 @@
+/***********************************************************
+ * Copyright 2011,2014 VMware, Inc.  All rights reserved.
+ * VMware Confidential
+ ***********************************************************/
+
+{
+   "operations" :
+   {
+      "start" :
+      [
+         "storage filesystem rescan",
+         "storage filesystem automount",
+         "boot storage restore --explicit-mounts"
+      ]
+   }
+   ,
+   "metadata" :
+   {
+      "version"  : 1,
+      "requires" : ["storage early configuration device settings", "filesystem"],
+      "provides" : ["disk fs"]
+   }
+}

@@ -1,0 +1,194 @@
+<?xml version="1.0"?>
+<plugin xmlns="http://www.vmware.com/Products/ESX/5.0/esxcli/">
+   <version>1.0.0</version>
+   <namespaces>
+      <namespace path="network.diag">
+         <description>Operations pertaining to network diagnostics</description>
+      </namespace>
+   </namespaces>
+   <commands>
+      <command path="network.diag.ping">
+         <description>Send ICMP echo requests to network hosts.</description>
+         <input-spec>
+            <parameter name="ipv6" type="flag" required="false">
+               <description>Ping with ICMPv6 echo requests.</description>
+            </parameter>
+            <parameter name="ipv4" type="flag" required="false">
+               <description>Ping with ICMPv4 echo requests.</description>
+            </parameter>
+            <parameter name="interface" type="string" required="false" shortname="I">
+               <description>Specify the outgoing interface.</description>
+               <constraint type="regex">
+                  <regex>vmk[0-9]+</regex>
+               </constraint>
+            </parameter>
+            <parameter name="netstack" type="string" required="false">
+               <description>Specify the TCP/IP netstack which the interface resides on</description>
+<!--
+               <constraint type="regex">
+                  <regex>[a-zA-Z]</regex>
+               </constraint>
+-->
+            </parameter>
+            <parameter name="nexthop" type="string" required="false" shortname="N">
+               <description>Override the system's default route selection, in dotted quad notation. (IPv4 only. Requires interface option)</description>
+               <constraint type="regex">
+                  <regex>(gateway|([0-9]{1,3}\.){3}[0-9]{1,3})</regex>
+               </constraint>
+            </parameter>
+            <parameter name="count" type="int" required="false" shortname="c">
+               <description>Specify the number of packets to send.</description>
+            </parameter>
+            <parameter name="debug" type="flag" required="false" shortname="D">
+               <description>VMKPing debug mode.</description>
+            </parameter>
+            <parameter name="df" type="flag" required="false" shortname="d">
+               <description>Set DF bit on IPv4 packets.</description>
+            </parameter>
+            <parameter name="interval" type="string" required="false" shortname="i">
+               <description>Set the interval for sending packets in seconds.</description>
+               <constraint type="regex">
+                  <regex>[0-9]*(\.[0-9]+)?</regex>
+               </constraint>
+            </parameter>
+            <parameter name="size" type="int" required="false" shortname="s">
+               <description>Set the payload size of the packets to send.</description>
+            </parameter>
+            <parameter name="host" type="string" required="false" shortname="H">
+               <description>Specify the host to send packets to. This parameter is required when not executing ping in debug mode (-D)</description>
+               <constraint type="regex">
+                  <regex>[a-zA-Z0-9\-\._:%]+</regex>
+               </constraint>
+            </parameter>
+            <parameter name="ttl" type="int" required="false" shortname="t">
+               <description>Set IPv4 Time To Live or IPv6 Hop Limit</description>
+            </parameter>
+            <parameter name="wait" type="string" required="false" shortname="W">
+               <description>Set the timeout to wait if no responses are received in seconds.</description>
+               <constraint type="regex">
+                  <regex>[0-9]*(\.[0-9]+)?</regex>
+               </constraint>
+            </parameter>
+         </input-spec>
+         <output-spec>
+            <list type="structure">
+               <structure typeName="VMKPing">
+                  <field name="Trace">
+                     <list type="structure">
+                        <structure typeName="VMKPingTrace">
+                           <field name="Received Bytes">
+                              <int/>
+                           </field>
+                           <field name="Host">
+                              <string/>
+                           </field>
+                           <field name="ICMP Seq">
+                              <int/>
+                           </field>
+                           <field name="TTL">
+                              <int/>
+                           </field>
+                           <field name="Round-trip Time MS">
+                              <int/>
+                           </field>
+                           <field name="Round-trip Time">
+                              <int/>
+                           </field>
+                           <field name="Dup">
+                              <bool/>
+                           </field>
+                           <field name="Detail">
+                              <string/>
+                           </field>
+                        </structure>
+                     </list>
+                  </field>
+                  <field name="Summary">
+                     <structure typeName="VMKPingSummary">
+                        <field name="Host Addr">
+                           <string/>
+                        </field>
+                        <field name="Transmitted">
+                           <int/>
+                        </field>
+                        <!--
+                           field "Recieved" is replaced by field "Received"
+                           due to the spelling error. Please use the new field
+                           when develop tool which is based on the esxcli
+                           output.
+                        -->
+                        <field name="Recieved">
+                           <int/>
+                        </field>
+                        <field name="Received">
+                           <int/>
+                        </field>
+                        <field name="Duplicated">
+                           <int/>
+                        </field>
+                        <field name="Packet Lost">
+                           <int/>
+                        </field>
+                        <field name="Round-trip Min MS">
+                           <int/>
+                        </field>
+                        <field name="Round-trip Min">
+                           <int/>
+                        </field>
+                        <field name="Round-trip Avg MS">
+                           <int/>
+                        </field>
+                        <field name="Round-trip Avg">
+                           <int/>
+                        </field>
+                        <field name="Round-trip Max MS">
+                           <int/>
+                        </field>
+                        <field name="Round-trip Max">
+                           <int/>
+                        </field>
+                     </structure>
+                  </field>
+               </structure>
+            </list>
+         </output-spec>
+         <has-updates value="false"/>
+         <format-parameters>
+            <formatter>simple</formatter>
+            <format-parameter name="fields:VMKPing">Trace,Summary</format-parameter>
+            <format-parameter name="fields:VMKPingTrace">Received Bytes,Host,ICMP Seq,TTL,Round-trip Time,Dup,Detail</format-parameter>
+            <format-parameter name="fields:VMKPingSummary">Host Addr,Transmitted,Received,Duplicated,Packet Lost,Round-trip Min,Round-trip Avg,Round-trip Max</format-parameter>
+            <format-parameter name="units:VMKPingTrace.Round-trip Time">us</format-parameter>
+            <format-parameter name="units:VMKPingSummary.Round-trip Min">us</format-parameter>
+            <format-parameter name="units:VMKPingSummary.Round-trip Avg">us</format-parameter>
+            <format-parameter name="units:VMKPingSummary.Round-trip Max">us</format-parameter>
+         </format-parameters>
+         <!--
+            The evaluation of the nexthop option:
+
+            The subshell first creates a list of possible nexthop IP addresses,
+            stacked in the following order:
+               - the global default gateway, as returned by esxcfg-route
+               - all default gateways received by DHCP since vmknic creation,
+                 with newest at the bottom
+               - the <nexthop> string passed in to esxcli
+            this list is then passed to egrep, which parses out the IP address
+            from each line. Finally we take the last entry remaining in the list
+            and pass it to vmkping.
+
+            Due to this order, we get the following logic:
+               - If <nexthop> is an IP address, we use this as our nexthop. If
+                 it is not (i.e. it is "gateway") then egrep discards it and we
+                 move on.
+               - If the DHCP server has given us a default gateway for this
+                 interface, use the most recent one. If none are found, move on.
+               - If we got here, we don't have a default gateway to use, so just
+                 pass in whatever esx is already using as the global default
+                 gateway.
+         -->
+         <execute>
+            /bin/ping $if{netstack,++netstack=$val{netstack}} $if{ipv6,-6}$if{ipv4,-4} $if{interface,-I $val{interface}} $if{count,-c $val{count}} $if{debug,-D} $if{df, -d} $if{interval,-i $val{interval}} $if{size,-s $val{size}} $if{nexthop,-N $val{nexthop}} $if{wait,-W $val{wait}} $if{ttl,-t $val{ttl}} -X $if{host,$val{host}}
+         </execute>
+     </command>
+   </commands>
+</plugin>

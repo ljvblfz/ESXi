@@ -1,0 +1,30 @@
+# Supported platforms list for LoadESX
+#
+# This file lists the set of supported platforms for loadESX.
+#
+# Unauthorized modifications to this file are not supported.
+#
+# A valid entry should start at a new line and specify two things
+# separated by a ":" =>  Vendor Name:Product Name
+#
+# Please note that this list is case sensitive.
+#
+
+# Dell
+Dell Inc.:PowerEdge R630
+Dell Inc.:PowerEdge R640
+Dell Inc.:PowerEdge R730
+Dell Inc.:PowerEdge R730xd
+Dell Inc.:PowerEdge R740
+Dell Inc.:PowerEdge R740xd
+
+# HP
+HP:ProLiant DL360 Gen9
+HPE:ProLiant DL360 Gen9
+HPE:ProLiant DL360 Gen10
+HP:ProLiant DL380 Gen9
+HPE:ProLiant DL380 Gen9
+HPE:ProLiant DL380 Gen10
+
+# Nested
+VMware, Inc.:VMware Virtual Platform

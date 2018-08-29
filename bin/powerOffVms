@@ -1,0 +1,133 @@
+#!/usr/bin/python
+"""
+Copyright 2014 VMware, Inc.  All rights reserved. -- VMware Confidential
+"""
+from __future__ import division
+from argparse import ArgumentParser
+from math import ceil
+from sys import exit
+from syslog import syslog
+from time import time
+from pyVim.connect import SmartConnect
+from pyVim.folder import GetVmAll
+from pyVmomi import Vim as vim
+from pyVmomi import Vmodl as vmodl
+
+ObjectSpec = vmodl.Query.PropertyCollector.ObjectSpec
+PropertySpec = vmodl.Query.PropertyCollector.PropertySpec
+FilterSpec = vmodl.Query.PropertyCollector.FilterSpec
+WaitOptions = vmodl.Query.PropertyCollector.WaitOptions
+
+
+def WaitForVMsToShutDown(vms, pc, version):
+    # Give guests 120 secs to shutdown
+    GUEST_SHUTDOWN_TIME = 120
+    # Currently hostd allows 60 VM operations at a time
+    PARALLEL_VM_OPS = 60
+    waitTime = int(ceil(len(vms) / PARALLEL_VM_OPS)) * GUEST_SHUTDOWN_TIME
+
+    start = time()
+    deadline = start + waitTime
+    waitOptions = WaitOptions(maxWaitSeconds=waitTime)
+    while vms:
+        updateSet = pc.WaitForUpdatesEx(version, waitOptions)
+        for update in updateSet.filterSet:
+            for objUpdate in update.objectSet:
+                for change in objUpdate.changeSet:
+                    if change.name != 'runtime.powerState':
+                        continue
+                    if change.val == vim.VirtualMachine.PowerState.poweredOff:
+                        vms.discard(objUpdate.obj)
+
+        now = time()
+        if now >= deadline:
+            syslog('Shutting down virtual machines timed out')
+            return False
+
+        version = updateSet.version
+        waitOptions.maxWaitSeconds = int(ceil(deadline - now))
+
+    return True
+
+
+def ShutDownVMs(vms, pc, version):
+    try:
+        tasks = []
+
+        # Do a pass issuing a shut down request
+        for vm in vms:
+            name = vm.name
+            syslog('Shutting down virtual machine: ' + name)
+            try:
+                vm.ShutdownGuest()
+            except vim.fault.ToolsUnavailable, e:
+                # Tools not availble, power off the virtual machine
+                syslog('VMware Tools is not running on virtual machine '
+                       '"%s", powering off' % name)
+                vm.PowerOff()
+
+        WaitForVMsToShutDown(vms, pc, version)
+
+    except Exception, e:
+        syslog('Shutting down virtual machines failed, terminating')
+
+    if vms:
+        TerminateVMs(vms)
+    else:
+        syslog('Shutting down virtual machines succeeded')
+
+
+def TerminateVMs(vms):
+    for vm in vms:
+        try:
+            name = vm.name
+            syslog('Terminating virtual machine "%s"' % name)
+            vm.Terminate()
+        except Exception, e:
+            syslog('Failed terminating virtual machine "%s"' % name)
+
+
+def GetPoweredOnVMs(pc):
+    objectSet = [ObjectSpec(obj=vm, skip=False, selectSet=[])
+                 for vm in GetVmAll()]
+    propSpec = PropertySpec(type=vim.VirtualMachine, all=False,
+                            pathSet=['runtime.powerState'])
+    filterSpec = FilterSpec(propSet=[propSpec], objectSet=objectSet)
+    filter = pc.CreateFilter(filterSpec, False)
+
+    vms = set()
+    updateSet = pc.WaitForUpdates()
+    for update in updateSet.filterSet:
+        for objUpdate in update.objectSet:
+            for change in objUpdate.changeSet:
+                if change.name != 'runtime.powerState':
+                    continue
+                if change.val == vim.VirtualMachine.PowerState.poweredOn:
+                    vms.add(objUpdate.obj)
+
+    return vms, updateSet.version
+
+
+def Main():
+    parser = ArgumentParser()
+    parser.add_argument('--terminate', action='store_true',
+                        help='Forcefully terminate running virtual machines')
+    args = parser.parse_args()
+    try:
+        si = SmartConnect()
+        pc = si.content.propertyCollector
+        vms, version = GetPoweredOnVMs(pc)
+        if not vms:
+            return
+
+        if args.terminate:
+            TerminateVMs(vms)
+        else:
+            ShutDownVMs(vms, pc, version)
+    except Exception, e:
+        syslog('powerOffVms failed with error: %s' % str(e))
+        exit(1)
+
+
+if __name__ == '__main__':
+    Main()

@@ -1,0 +1,188 @@
+#!/usr/bin/env python
+
+########################################################################
+# Copyright (C) 2012 VMWare, Inc.
+# All Rights Reserved
+########################################################################
+
+from argparse import ArgumentParser
+import sys
+import os
+import errno
+from time import sleep
+import vmware.vsi as vsi
+import syslog
+import logging
+
+################################################################################
+# runInRP
+#   Script to run a userworld application within its own resource pool.
+#
+#   The script creates a resource pool for the given application with the
+#   following default resource constraints:
+#   min=0 and max=1024 as memory resource constraint and
+#   min=0 and max=unlimited and cpuShares=500 as cpu resource constraint.
+#
+#   After the application has died, we delete the created resource
+#   pool again.  We give options to print statistics from the resource pool.
+#
+################################################################################
+
+#
+#---------------------------------------------------------------------------
+#
+# main --
+#
+#      Create a resource pool for the application to launch.
+#      Once the application had died, we destroy the resource pool.
+#
+# Results:
+#      None.
+#
+# Side effects:
+#      Creates a resource pool for the application and starts the
+#      application in it.
+#
+#---------------------------------------------------------------------------
+#
+
+def main(argv=None):
+   # Initialize the parser
+   usage = "%(prog)s [options] {application} [application parameters]"
+
+   description = "%(prog)s runs the specified application in a separate resource pool"
+
+   parser = ArgumentParser(usage=usage, description=description)
+   parser.add_argument("--min", action="store", type=int, dest="min",
+                       default=0, help="memory reservation in MiB")
+   parser.add_argument("--max", action="store", type=int, dest="max",
+                       default=1024, help="size of resource pool in MiB")
+   parser.add_argument("--debug", action="store_true", dest="debug",
+                       help="Enable debugging")
+
+   # We use parse_known_args here as opposed to parse_args to effectively stop
+   # parsing arguments once an unknown one is encountered. The unknown ones are
+   # assumed to belong to the command we invoke.
+   (options, args) = parser.parse_known_args()
+
+   if options.debug == True:
+       logLevel = logging.DEBUG
+   else:
+       logLevel = logging.ERROR
+   logging.basicConfig(level=logLevel)
+   syslog.openlog("runInRP")
+
+   # We expect at least one argument - the application to launch.
+   if len(args) < 1:
+       parser.error("Incorrect number of arguments")
+
+   # Get the terminal resource group id
+   try:
+       terminalGroupID = vsi.set('/sched/groupPathNameToID', ['host', 'vim', 'vimuser',
+                                                              'terminal'])
+   except:
+       logging.critical("Could not find terminal resource pool")
+       sys.exit(1)
+
+   # Get application name
+   app = args[0]
+
+   # Create a unique group name by adding the pid of the script
+   rp = "rp-%s.%u" % (os.path.basename(app), os.getpid())
+
+   # Create the application's resource pool
+   try:
+       appGroupID = vsi.set('/sched/groups/%u/groupCreate' % terminalGroupID, [rp])
+       str = "Created resource pool %s/%u for application %s" % (rp, appGroupID, app)
+       syslog.syslog(str)
+       logging.debug(str)
+   except:
+       logging.crtical("Could not create %s resource pool." % rp)
+       sys.exit(1)
+
+   # The fork operation might fail, likely due to memory constraints
+   try:
+       pid = os.fork()
+   except OSError:
+       vsi.set('/sched/groups/%u/delete' % appGroupID, [])
+       syslog.syslog("Deleted resource pool %s/%u." % (rp, appGroupID))
+       logging.critical("Could not fork process")
+       sys.exit(1)
+
+   if pid == 0:
+       # To run the application in its own resource pool, we need to
+       # insert the resource pool information as the second argument.
+       # Since we cannot control at which position the resource pool
+       # information is placed for scripts,
+       # e.g. due to #!/bin/python scriptName
+       # we need to launch the application or the script through env.
+       env = "env"
+       args.insert(0, env)
+       rpGroup = "++group=host/vim/vimuser/terminal/%s" % (rp)
+       args.insert(1, rpGroup)
+
+       logging.debug("child %d" % os.getpid())
+
+       # Set the resource pool limits
+       try:
+           vsi.set('/sched/groups/%u/cpuAllocationInPct' % appGroupID,
+                   ['shares=500', 'max=unlimited', 'min=0'])
+       except:
+           # The parent will take care of cleaning up the resource group
+           logging.critical("Could not set cpu allocation limits for %s resource group." % rp)
+           sys.exit(1)
+
+       try:
+           vsi.set('/sched/groups/%u/memAllocationInMB' % appGroupID,
+                   ['minLimit=unlimited', 'shares=1000',
+                    'max=%u' % options.max, 'min=%u' % options.min])
+       except:
+           # The parent will take care of cleaning up the resource group
+           logging.critical("Could not set memory allocation limits for %s resource group." % rp)
+           sys.exit(1)
+
+       syslog.syslog("Set resource pool %u constraints to min=%u and max=%u." %
+                     (appGroupID, options.min, options.max))
+
+       # Launch the application
+       try:
+           logging.debug("exec %s %s", env, args)
+           os.execvp(env, args)
+       except OSError:
+           # The parent will take care of cleaning up the resource group
+           logging.critical("Failed to launch applition %s" % app)
+           sys.exit(1)
+
+   else:
+       while True:
+           try:
+               (childPid, childExit, childRusage) = os.wait4(pid, 0)
+               break
+           except OSError as e :
+               if e.errno != errno.EINTR:
+                   logging.critical("wait failed : %s" % e)
+                   break
+
+       # Delete the created resource group.
+       while True:
+           try:
+               vsi.set('/sched/groups/%u/delete' % appGroupID, [])
+               syslog.syslog("Deleted resource pool %s/%u." % (rp, appGroupID))
+               break
+           except:
+               #
+               # We failed to delete the resource group, sleep for a second to
+               # give the system time to tear down the resource group.
+               #
+               logging.debug("unable to delete rp; sleep")
+               sleep(1)
+
+       # exit code is shifted by 8 bit according to documentation
+       return childExit >> 8
+
+
+if __name__ == '__main__':
+    try:
+        sys.exit(main(sys.argv))
+    except KeyboardInterrupt:
+        pass

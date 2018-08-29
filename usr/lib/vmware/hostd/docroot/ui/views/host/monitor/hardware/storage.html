@@ -1,0 +1,50 @@
+<div ng-if="tabs.storage.loaded || hostMonitorHardwareTabs.tabs[getSelectedTab()].state === tabs.storage.state"
+     ng-controller="HostMonitorHardwareStorageController" class="esx-tertiary-tab-content">
+
+   <div ng-show="!loaded && !error" class="loading"></div>
+
+   <div ng-if="error" style="text-align: center;">{{error}}</div>
+
+   <div class="notification-area" ng-if="notifications.length > 0">
+      <div esx-notification
+            ng-repeat="notification in notifications"
+            type="{{notification.type}}">
+         <span ng-bind-html="notification.text"></span>
+      </div>
+   </div>
+
+   <div ng-show="loaded" id="{{storageHealthGrid.id}}" vui-datagrid="storageHealthGrid"></div>
+
+   <hr ng-if="currentEntry !== null" style="margin-top: 20px; margin-bottom: 20px;"/>
+
+   <div ng-if="currentEntry !== null" class="row header-area no-margin key-information" style="margin-top: 20px;">
+      <div class="col-sm-12 col-lg-12 info-block no-padding">
+         <div class="col-sm-1 col-lg-1 no-padding identifying-graphic">
+            <img ng-src="images/metric32.png" alt="{{'host.hardware.storage.alt'|translate}}"/>
+         </div>
+         <div class="key-information col-sm-10 col-lg-10">
+            <div class="row" style="margin-bottom: 6px;">
+               <div class="col-sm-12 title no-padding">
+                  <span class="object-title" ng-bind="currentEntry.name"></span>
+               </div>
+            </div>
+            <div class="row" style="margin-bottom: 6px;">
+               <span class="col-sm-2 col-lg-2 control-label esx-label no-padding">{{'host.monitor.hardware.storage.statusTitle' | translate}}</span>
+               <div class="col-sm-10 col-lg-10 no-padding">
+                  <p class="form-control-static">{{'host.monitor.hardware.storage.status.' + currentEntry.status.key | translate}}</p>
+               </div>
+            </div>
+            <div class="row" ng-if="currentEntry.operationalInfo" style="margin-bottom: 6px;">
+               <span class="col-sm-2 col-lg-2 control-label esx-label no-padding">{{'host.monitor.hardware.storage.operationalInfo' | translate}}</span>
+               <div class="col-sm-10 col-lg-10 no-padding">
+                  <p class="form-control-static">
+                     <ul>
+                        <li ng-repeat="infoEntry in currentEntry.operationalInfo">{{infoEntry.property}} : {{infoEntry.value}}</li>
+                     </ul>
+                  </p>
+               </div>
+            </div>
+         </div>
+      </div>
+   </div>
+</div>

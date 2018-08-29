@@ -1,0 +1,153 @@
+# en_US resources
+signature="sIgNaTuRe"
+
+# vSphere Replication enums
+hbr.primary.ReasonForDeltaAbort.fileTransfer.label                = "檔案傳輸失敗"
+hbr.primary.ReasonForDeltaAbort.fileTransfer.summary              = "無法傳輸組態檔。"
+hbr.primary.ReasonForDeltaAbort.filter.label                      = "篩選失敗"
+hbr.primary.ReasonForDeltaAbort.filter.summary                    = "VR 篩選作業失敗。"
+hbr.primary.ReasonForDeltaAbort.quiesceApps.label                 = "應用程式靜止失敗"
+hbr.primary.ReasonForDeltaAbort.quiesceApps.summary               = "客體中的應用程式靜止失敗。"
+hbr.primary.ReasonForDeltaAbort.quiesceFS.label                   = "檔案系統靜止失敗"
+hbr.primary.ReasonForDeltaAbort.quiesceFS.summary                 = "客體中的檔案系統靜止失敗。"
+hbr.primary.ReasonForDeltaAbort.paused.label                      = "使用者已暫停"
+hbr.primary.ReasonForDeltaAbort.paused.summary                    = "使用者已暫停複寫。"
+hbr.primary.ReasonForDeltaAbort.offline.label                     = "已關閉虛擬機器的電源"
+hbr.primary.ReasonForDeltaAbort.offline.summary                   = "正在關閉虛擬機器的電源。"
+hbr.primary.ReasonForDeltaAbort.diskNeedsSync.label               = "磁碟需要同步"
+hbr.primary.ReasonForDeltaAbort.diskNeedsSync.summary             = "磁碟需要完整重新同步。"
+hbr.primary.ReasonForDeltaAbort.userAbort.label                   = "使用者中止"
+hbr.primary.ReasonForDeltaAbort.userAbort.summary                 = "使用者已中止複寫。"
+hbr.primary.ReasonForDeltaAbort.quiesceUncommitted.label          = "靜止未完成"
+hbr.primary.ReasonForDeltaAbort.quiesceUncommitted.summary        = "無法完成靜止作業。"
+hbr.primary.ReasonForDeltaAbort.configurationChanged.label        = "組態已變更"
+hbr.primary.ReasonForDeltaAbort.configurationChanged.summary      = "複寫期間虛擬機器組態已變更。"
+hbr.primary.ReasonForDeltaAbort.serverAborted.label               = "伺服器已中止。"
+hbr.primary.ReasonForDeltaAbort.serverAborted.summary             = "VR 伺服器已中止執行個體。"
+hbr.primary.ReasonForDeltaAbort.diskSetMismatch.label             = "磁碟組不符"
+hbr.primary.ReasonForDeltaAbort.diskSetMismatch.summary           = "VR 伺服器上已設定的磁碟組與複寫的磁碟不相符。"
+#
+hbr.primary.ReasonForNoServerConnection.noNetwork.label           = "網路"
+hbr.primary.ReasonForNoServerConnection.noNetwork.summary         = "沒有網路。"
+hbr.primary.ReasonForNoServerConnection.notResponding.label       = "沒有回應"
+hbr.primary.ReasonForNoServerConnection.notResponding.summary     = "VR 伺服器沒有回應。"
+hbr.primary.ReasonForNoServerConnection.protocolMismatch.label    = "通訊協定不符"
+hbr.primary.ReasonForNoServerConnection.protocolMismatch.summary  = "VR 伺服器版本不相容。"
+hbr.primary.ReasonForNoServerConnection.noMemory.label            = "沒有記憶體"
+hbr.primary.ReasonForNoServerConnection.noMemory.summary          = "沒有用於核心模組的記憶體"
+hbr.primary.ReasonForNoServerConnection.diskSizeMismatch.label    = "磁碟大小不符"
+hbr.primary.ReasonForNoServerConnection.diskSizeMismatch.summary  = "主要虛擬機器與 VR 伺服器之間的磁碟大小不符"
+hbr.primary.ReasonForNoServerConnection.unknown.label             = "未知"
+hbr.primary.ReasonForNoServerConnection.unknown.summary           = "未知。"
+#
+hbr.primary.ReasonForNoServerProgress.noGroupOnServer.label       = "未在伺服器上虛擬機器"
+hbr.primary.ReasonForNoServerProgress.noGroupOnServer.summary     = "未在 VR 伺服器上設定此虛擬機器。"
+hbr.primary.ReasonForNoServerProgress.diskSetMismatch.label       = "磁碟組不符"
+hbr.primary.ReasonForNoServerProgress.diskSetMismatch.summary     = "複寫的磁碟組與伺服器上已設定的磁碟組不符。"
+hbr.primary.ReasonForNoServerProgress.unknown.label               = "未知"
+hbr.primary.ReasonForNoServerProgress.unknown.summary             = "未知。"
+#
+hbr.primary.ReasonForPausedReplication.diskAdded.label            = "已將磁碟新增至虛擬機器"
+hbr.primary.ReasonForPausedReplication.diskAdded.summary          = "已將磁碟新增至虛擬機器。"
+#
+hbr.primary.ReasonForAppQuiesceFailure.diskUUIDNotEnabled.label   = "未啟用磁碟 UUID"
+hbr.primary.ReasonForAppQuiesceFailure.diskUUIDNotEnabled.summary = "虛擬機器組態未啟用磁碟 UUID。"
+hbr.primary.ReasonForAppQuiesceFailure.hasIDEDisks.label          = "虛擬機器具有 IDE 或 SATA 磁碟"
+hbr.primary.ReasonForAppQuiesceFailure.hasIDEDisks.summary        = "具有 IDE 或 SATA 磁碟的虛擬機器不支援應用程式靜止。"
+hbr.primary.ReasonForAppQuiesceFailure.hasIndependentDisks.label  = "虛擬機器具有獨立磁碟"
+hbr.primary.ReasonForAppQuiesceFailure.hasIndependentDisks.summary = "具有獨立磁碟的虛擬機器不支援應用程式靜止。"
+hbr.primary.ReasonForAppQuiesceFailure.notEnoughFreeSlots.label   = "可用的 SCSI 插槽不足"
+hbr.primary.ReasonForAppQuiesceFailure.notEnoughFreeSlots.summary = "虛擬機器沒有足夠的可用 SCSI 插槽來執行應用程式靜止。"
+hbr.primary.ReasonForAppQuiesceFailure.guestConfigIssue.label     = "不支援的客體組態 (如動態磁碟)"
+hbr.primary.ReasonForAppQuiesceFailure.guestConfigIssue.summary   = "部分客體組態 (如動態磁碟) 不支援應用程式靜止。"
+# vSphere replication enums end here
+
+# guest operation enums
+com.vmware.vc.guestOp.ValidateCredentialsInGuest.label = "驗證認證"
+com.vmware.vc.guestOp.ValidateCredentialsInGuest.summary = "驗證客體作業系統中的使用者認證>"
+#
+com.vmware.vc.guestOp.AcquireCredentialsInGuest.label = "取得認證 "
+com.vmware.vc.guestOp.AcquireCredentialsInGuest.summary = "取得客體作業系統中的使用者認證>"
+#
+com.vmware.vc.guestOp.ReleaseCredentialsInGuest.label = "釋放認證 "
+com.vmware.vc.guestOp.ReleaseCredentialsInGuest.summary = "釋放客體作業系統中的使用者認證>"
+#
+com.vmware.vc.guestOp.StartProgramInGuest.label = "啟動程式"
+com.vmware.vc.guestOp.StartProgramInGuest.summary = "啟動客體作業系統中的程式。"
+#
+com.vmware.vc.guestOp.ListProcessesInGuest.label = "列出程序"
+com.vmware.vc.guestOp.ListProcessesInGuest.summary = "列出客體作業系統中的程序。"
+#
+com.vmware.vc.guestOp.TerminateProcessInGuest.label = "終止程序"
+com.vmware.vc.guestOp.TerminateProcessInGuest.summary = "終止客體作業系統中的程序。"
+#
+com.vmware.vc.guestOp.ReadEnvironmentVariableInGuest.label = "讀取環境變數。"
+com.vmware.vc.guestOp.ReadEnvironmentVariableInGuest.summary = "讀取客體作業系統中的環境變數。"
+#
+com.vmware.vc.guestOp.MakeDirectoryInGuest.label = "建立目錄"
+com.vmware.vc.guestOp.MakeDirectoryInGuest.summary = "在客體作業系統中建立目錄。"
+#
+com.vmware.vc.guestOp.DeleteFileInGuest.label = "刪除檔案"
+com.vmware.vc.guestOp.DeleteFileInGuest.summary = "刪除客體作業系統中的檔案。"
+#
+com.vmware.vc.guestOp.DeleteDirectoryInGuest.label = "刪除目錄"
+com.vmware.vc.guestOp.DeleteDirectoryInGuest.summary = "刪除客體作業系統中的目錄。"
+#
+com.vmware.vc.guestOp.MoveDirectoryInGuest.label = "移動目錄"
+com.vmware.vc.guestOp.MoveDirectoryInGuest.summary = "移動客體作業系統中的目錄。"
+#
+com.vmware.vc.guestOp.MoveFileInGuest.label = "移動檔案"
+com.vmware.vc.guestOp.MoveFileInGuest.summary = "移動客體作業系統中的檔案。"
+#
+com.vmware.vc.guestOp.CreateTemporaryFileInGuest.label = "建立暫存檔"
+com.vmware.vc.guestOp.CreateTemporaryFileInGuest.summary = "在客體作業系統中建立暫存檔。"
+#
+com.vmware.vc.guestOp.CreateTemporaryDirectoryInGuest.label = "建立暫存目錄"
+com.vmware.vc.guestOp.CreateTemporaryDirectoryInGuest.summary = "在客體作業系統中建立暫存目錄。"
+#
+com.vmware.vc.guestOp.ListFilesInGuest.label = "列出檔案"
+com.vmware.vc.guestOp.ListFilesInGuest.summary = "列出客體作業系統中的檔案。"
+#
+com.vmware.vc.guestOp.ChangeFileAttributesInGuest.label = "變更檔案屬性"
+com.vmware.vc.guestOp.ChangeFileAttributesInGuest.summary = "變更客體作業系統中檔案的屬性。"
+#
+com.vmware.vc.guestOp.InitiateFileTransferFromGuest.label = "啟動從客體傳輸檔案的作業"
+com.vmware.vc.guestOp.InitiateFileTransferFromGuest.summary = "啟動從客體作業系統傳輸檔案的作業。"
+#
+com.vmware.vc.guestOp.InitiateFileTransferToGuest.label = "啟動向客體傳輸檔案的作業"
+com.vmware.vc.guestOp.InitiateFileTransferToGuest.summary = "啟動向客體作業系統傳輸檔案的作業。"
+#
+com.vmware.vc.guestOp.AddAlias.label = "新增別名"
+com.vmware.vc.guestOp.AddAlias.summary = "將驗證別名新增至客體作業系統。"
+#
+com.vmware.vc.guestOp.RemoveAlias.label = "移除別名"
+com.vmware.vc.guestOp.RemoveAlias.summary = "從客體作業系統中移除驗證別名。"
+#
+com.vmware.vc.guestOp.RemoveAliasByCert.label = "依憑證移除別名"
+com.vmware.vc.guestOp.RemoveAliasByCert.summary = "從客體作業系統中移除與憑證相關聯的所有驗證別名。"
+#
+com.vmware.vc.guestOp.ListGuestAliases.label = "列出別名"
+com.vmware.vc.guestOp.ListGuestAliases.summary = "列出客體作業系統中的驗證別名。"
+#
+com.vmware.vc.guestOp.ListGuestMappedAliases.label = "列出已對應的別名"
+com.vmware.vc.guestOp.ListGuestMappedAliases.summary = "列出客體作業系統中已對應的驗證別名。"
+#
+com.vmware.vc.guestOp.CreateRegistryKey.label = "建立 Windows 登錄機碼"
+com.vmware.vc.guestOp.CreateRegistryKey.summary = "在客體作業系統中建立 Windows 登錄機碼。"
+#
+com.vmware.vc.guestOp.ListRegistryKeys.label = "列出 Windows 登錄機碼"
+com.vmware.vc.guestOp.ListRegistryKeys.summary = "列出客體作業系統中的 Windows 登錄機碼。"
+#
+com.vmware.vc.guestOp.DeleteRegistryKey.label = "刪除 Windows 登錄機碼"
+com.vmware.vc.guestOp.DeleteRegistryKey.summary = "刪除客體作業系統中的 Windows 登錄機碼。"
+#
+com.vmware.vc.guestOp.SetRegistryValue.label = "設定 Windows 登錄值"
+com.vmware.vc.guestOp.SetRegistryValue.summary = "在客體作業系統中設定 Windows 登錄值。"
+#
+com.vmware.vc.guestOp.ListRegistryValues.label = "列出 Windows 登錄值"
+com.vmware.vc.guestOp.ListRegistryValues.summary = "列出客體作業系統中的 Windows 登錄值。"
+#
+com.vmware.vc.guestOp.DeleteRegistryValue.label = "刪除 Windows 登錄值"
+com.vmware.vc.guestOp.DeleteRegistryValue.summary = "刪除客體作業系統中的 Windows 登錄值。"
+#
+# guest operation enums end here

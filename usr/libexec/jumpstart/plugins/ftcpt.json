@@ -1,0 +1,22 @@
+/***********************************************************
+ * Copyright 2011 VMware, Inc.  All rights reserved.
+ * VMware Confidential
+ ***********************************************************/
+
+{
+   "operations" :
+   {
+      "start" :
+      [
+         "system module load --module ftcpt"
+      ]
+   }
+   ,
+   "metadata" :
+   {
+      "version"  : 1,
+      "requires" : ["networking support"],
+      "provides" : ["ftcpt"]
+   }
+}
+

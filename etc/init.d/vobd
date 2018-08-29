@@ -1,0 +1,59 @@
+#!/bin/sh
+# chkconfig: on 30 82
+
+# variables
+export PATH=/bin:/sbin
+
+VOBD=/usr/lib/vmware/vob/bin/vobd
+VOBD_TAG=vobd
+
+start() {
+   if [ -z "$(pidof -xs "${VOBD}")" ] ; then
+      /sbin/watchdog.sh ++memreliable,group=${VOBD_TAG} -d -s "${VOBD_TAG}" "${VOBD}" >/dev/null 2>&1
+      echo "vobd started"
+   else
+      echo "vobd already running"
+   fi
+}
+
+stop() {
+   if [ -n "$(pidof -xs "${VOBD}")" ] ; then
+      # This only stops the watchdog process.
+      /sbin/watchdog.sh -k "${VOBD_TAG}"
+
+      pkill -9 "${VOBD_TAG}"
+      echo "vobd stopped"
+   else
+      echo "vobd is not running"
+   fi
+}
+
+#
+# main
+#
+case "${1}" in
+   "start")
+      start
+   ;;
+   "stop")
+      stop
+   ;;
+   "status")
+      if [ -n "$(pidof -xs "${VOBD}")" ] ; then
+         echo "vobd is running"
+         exit 0
+      else
+         echo "vobd is not running"
+         exit 3
+      fi
+   ;;
+   "restart")
+      stop
+      start
+   ;;
+   *)
+      echo "Usage: $(basename $0) {start|stop|status|restart}"
+      exit 1
+   ;;
+esac
+

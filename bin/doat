@@ -1,0 +1,111 @@
+#!/bin/sh
+#
+# Copyright 2009 VMware, Inc.  All rights reserved.
+#
+# doat:
+#   Wait for a period of time before executing something
+#
+
+RUNFILE_DIR="/var/run"
+
+currentTimestamp() {
+    date "+%s"
+}
+
+log() {
+    logger -t "doat" $*
+}
+
+if [ "${1}" = "kill" ]; then
+    if [ $# -ne 2 ]; then
+	echo "usage: kill component"
+    fi
+    killing=1
+    component=$2
+else
+    if [ $# -lt 3 ]; then
+	echo "usage: [kill component] | [component seconds command...]"
+	echo 
+	echo "  doat will wait for a specified amount of time before"
+	echo "  executing a command.  If the component is already waiting,"
+	echo "  the existing timeout will simply be extended."
+	echo 
+	echo "  component  : a unique component name"
+	echo "  seconds    : time to wait in seconds"
+	echo "  command... : command to execute when wait time is over"
+	exit 1
+    fi
+    component=$1
+    shift;
+    seconds=$1
+    shift;
+fi
+
+runFile="${RUNFILE_DIR}/doat.$component.run"
+pidFile="${RUNFILE_DIR}/doat.$component.pid"
+
+# kill any currently running waiters for this component.  Note that we
+# choose to send SIGKILL here because background jobs block SIGINT and
+# SIGQUIT.
+#
+# XXX : sleep is not a built-in in the ESXi shell, so it gets left
+# behind when we kill the doat process.  Rather than having to worry
+# about putting things into different session groups, etc, we just
+# ignore the problem and let the sleep expire naturally.
+if [ $killing ]; then
+    if [ -f "${pidFile}" ]; then
+	kill -KILL $(cat "${pidFile}") 2> /dev/null
+    fi
+    rm -f "${runFile}" "${pidFile}"
+    log "Stopped wait on component $component"
+    exit 0
+fi
+
+startTime=$(currentTimestamp)
+endTime=$(expr $(currentTimestamp) \+ ${seconds})
+
+# if the pid files exist but the process doesn't appear to be running,
+# then assume something went wrong and clear them out
+ if [ -f "${pidFile}" ]; then
+    if [ $(kill -0 $(cat "${pidFile}") 2> /dev/null; echo $?) != 0 ]; then
+	log "Cleaning out old pid files"
+	rm -f "${runFile}" "${pidFile}"
+    fi
+fi
+
+# is this component already waiting?  If we would expire before the
+# existing wait anyway, just give up.
+if [ -f "${runFile}" ]; then
+    oldEndTime=$(cat "${runFile}")
+    if [ $endTime -lt $oldEndTime ]; then
+	exit 0
+    fi
+	
+    # otherwise, write a new endtime into the runfile.
+    echo $endTime > "${runFile}".new
+    mv "${runFile}".new "${runFile}"
+    log "Extended $component for " $(expr $endTime - $(currentTimestamp))
+    exit 0
+fi
+
+echo $endTime > "${runFile}"
+log "Wait for $component ${seconds}s"
+
+echo $$ > ${RUNFILE_DIR}/doat.$component.pid
+
+# wait until the time is greater than the current end time in the
+# runfile for this component before execing the command; extendending
+# the wait if necessary.
+while true
+do
+    waitTill=$(cat "${runFile}")
+    if [ $waitTill -gt $(currentTimestamp) ]; then
+	sleepTime=$(expr $waitTill - $(currentTimestamp))
+	sleep $sleepTime
+	continue
+    fi
+
+    log "$component timed out after " $(expr $(currentTimestamp) - $startTime)
+    rm -f "${runFile}" ${pidFile}
+    exec ${*}
+done

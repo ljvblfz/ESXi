@@ -1,0 +1,233 @@
+<?xml version="1.0"?> 
+<plugin xmlns="http://www.vmware.com/Products/ESX/5.0/esxcli/">
+   <version>1.0.0</version>
+
+   <namespaces>
+      <!-- esxcli.system.syslog -->
+      <namespace path="system.syslog">
+         <description>Operations relating to system logging</description>
+      </namespace>
+      <!-- esxcli.system.syslog.config -->
+      <namespace path="system.syslog.config">
+         <description>Operations relating to system logging configuration</description>
+      </namespace>
+      <!-- esxcli.system.syslog.config.logger -->
+      <namespace path="system.syslog.config.logger">
+         <description>Operations for sub-loggers</description>
+      </namespace>
+   </namespaces>
+
+   <commands>
+      <!-- esxcli.system.syslog.reload -->
+      <command path="system.syslog.reload">
+         <description>Reload the log daemon to apply any new configuration options</description>
+         <input-spec />
+         <output-spec>
+            <bool />
+         </output-spec>
+         <format-parameters>
+         <formatter />
+         </format-parameters>
+         <execute>/usr/lib/vmware/vmsyslog/bin/esxcfg-syslog --plugin=esxcli --reload</execute>
+      </command>
+
+      <!-- esxcli system syslog mark -->
+      <command path="system.syslog.mark">
+         <description>Mark all logs with the specified string</description>
+         <input-spec>
+            <parameter name="message" type="string" required="true" shortname="s">
+               <description>The message to place in the logs</description>
+            </parameter>
+         </input-spec>
+         <output-spec>
+            <bool />
+         </output-spec>
+         <format-parameters>
+         <formatter />
+         </format-parameters>
+         <execute>/usr/lib/vmware/vmsyslog/bin/esxcfg-syslog --plugin=esxcli --mark='$val{message}'</execute>
+      </command>
+
+      <!-- esxcli.system.syslog.config.* follows -->
+
+      <!-- esxcli.system.syslog.config.get -->
+      <command path="system.syslog.config.get">
+         <description>Show the current global configuration values</description>
+         <input-spec />
+         <output-spec>
+            <structure typeName="SyslogConfiguration">
+               <field name="Local Log Output">
+                  <string />
+               </field>
+               <field name="Remote Host">
+                  <string />
+               </field>
+               <field name="Log To Unique Subdirectory">
+                  <bool />
+               </field>
+               <field name="Local Logging Default Rotations">
+                  <int />
+               </field>
+               <field name="Local Logging Default Rotation Size">
+                  <int />
+               </field>
+               <field name="Local Log Output Is Persistent">
+                  <bool />
+               </field>
+               <field name="Local Log Output Is Configured">
+                  <bool />
+               </field>
+               <field name="Enforce SSL Certificates">
+                  <bool />
+               </field>
+               <field name="Default Network Retry Timeout">
+                  <int />
+               </field>
+               <field name="Message Queue Drop Mark">
+                  <int />
+               </field>
+               <field name="Dropped Log File Rotations">
+                  <int />
+               </field>
+               <field name="Dropped Log File Rotation Size">
+                  <int />
+               </field>
+            </structure>
+         </output-spec>
+         <format-parameters>
+         <formatter>simple</formatter>
+         </format-parameters>
+         <execute>/usr/lib/vmware/vmsyslog/bin/esxcfg-syslog --plugin=esxcli --list=global</execute>
+      </command>
+
+      <!-- esxcli.system.syslog.config.logger.list -->
+      <command path="system.syslog.config.logger.list">
+         <description>Show the currently configured sub-loggers</description>
+         <input-spec />
+         <output-spec>
+              <list type="structure">
+                <structure typeName="LoggerConfiguration">
+                  <field name="ID">
+                    <string />
+                  </field>
+                  <field name="Description">
+                    <string />
+                  </field>
+                  <field name="Rotation Size">
+                    <int />
+                  </field>
+                  <field name="Rotations">
+                    <int />
+                  </field>
+                  <field name="Destination">
+                    <string />
+                  </field>
+                </structure>
+              </list>
+         </output-spec>
+         <format-parameters>
+           <formatter>simple</formatter>
+         </format-parameters>
+         <execute>/usr/lib/vmware/vmsyslog/bin/esxcfg-syslog --plugin=esxcli --list=loggers</execute>
+      </command>
+
+
+      <!-- esxcli.system.syslog.config.logger.set -->
+      <command path="system.syslog.config.logger.set">
+        <description>Set configuration options for a specific sub-logger</description>
+        <input-spec>
+          <parameter name="id" type="string" required="true">
+            <description>The id of the logger to configure</description>
+          </parameter>
+          <parameter name="size" type="int" required="false">
+            <description>Set size of logs before rotation for a specific logger, in KiB (requires --id)</description>
+          </parameter>
+          <parameter name="rotate" type="int" required="false">
+            <description>Number of rotated logs to keep for a specific logger (requires --id)</description>
+          </parameter>
+          <parameter name="reset" type="string" required="false">
+            <description>Reset values to default</description>
+            <constraint type="stringenum">
+              <enum>
+                <enum-value value="rotate">default-rotate</enum-value>
+                <enum-value value="size">default-size</enum-value>
+              </enum>
+            </constraint>
+          </parameter>
+        </input-spec>
+        <output-spec>
+          <bool />
+        </output-spec>
+        <format-parameters>
+          <formatter />
+        </format-parameters>
+        <execute>
+          /usr/lib/vmware/vmsyslog/bin/esxcfg-syslog --plugin=esxcli --id='$val{id}' $if{size,--size='$val{size}'} $if{rotate,--rotate='$val{rotate}'} $if{reset,--reset='$val{reset}'}  
+        </execute>
+      </command>
+
+      <!-- esxcli.system.syslog.set -->
+      <command path="system.syslog.config.set">
+         <description>Set global log configuration options</description>
+         <input-spec>
+            <parameter name="logdir" type="string" required="false">
+               <description>The directory to output local logs to</description>
+            </parameter>
+            <parameter name="loghost" type="string" required="false">
+               <description>The remote host(s) to send logs to</description>
+            </parameter>
+            <parameter name="default-size" type="int" required="false">
+               <description>Default size of local logs before rotation, in KiB</description>
+            </parameter>
+            <parameter name="default-rotate" type="int" required="false">
+               <description>Default number of rotated local logs to keep</description>
+            </parameter>
+            <parameter name="logdir-unique" type="bool" required="false">
+               <description>Place logs in a unique subdirectory of logdir, based on hostname</description>
+            </parameter>
+            <parameter name="check-ssl-certs" type="bool" required="false">
+               <description>Verify remote SSL certificates against the local CA Store</description>
+            </parameter>
+            <parameter name="default-timeout" type="int" required="false">
+               <description>Default network retry timeout in seconds if a remote server fails to respond</description>
+            </parameter>
+            <parameter name="queue-drop-mark" type="int" required="false">
+               <description>Message queue capacity after which messages are dropped</description>
+            </parameter>
+            <parameter name="drop-log-rotate" type="int" required="false">
+               <description>Number of rotated dropped log files to keep</description>
+            </parameter>
+            <parameter name="drop-log-size" type="int" required="false">
+               <description>Size of dropped log file before rotation, in KiB</description>
+            </parameter>
+            <parameter name="reset" type="string" required="false">
+               <description>Reset values to default</description>
+               <constraint type="stringenum">
+                  <enum>
+                     <enum-value value="logdir">logdir</enum-value>
+                     <enum-value value="logdir-unique">logdir-unique</enum-value>
+                     <enum-value value="loghost">loghost</enum-value>
+                     <enum-value value="default-rotate">default-rotate</enum-value>
+                     <enum-value value="default-size">default-size</enum-value>
+                     <enum-value value="check-ssl-certs">check-ssl-certs</enum-value>
+                     <enum-value value="default-timeout">default-timeout</enum-value>
+                     <enum-value value="queue-drop-mark">queue-drop-mark</enum-value>
+                     <enum-value value="drop-log-rotate">drop-log-rotate</enum-value>
+                     <enum-value value="drop-log-size">drop-log-size</enum-value>
+                  </enum>
+               </constraint>
+            </parameter>
+         </input-spec>
+         <output-spec>
+            <bool />
+         </output-spec>
+         <format-parameters>
+         <formatter />
+         </format-parameters>
+         <execute>
+            /usr/lib/vmware/vmsyslog/bin/esxcfg-syslog --plugin=esxcli $if{logdir,--logdir='$val{logdir}'} $if{loghost,--loghost='$val{loghost}'} $if{default-size,--default-size='$val{default-size}'} $if{default-rotate,--default-rotate='$val{default-rotate}'} $if{logdir-unique,--logdir-unique='$val{logdir-unique}'} $if{reset,--reset='$val{reset}'} $if{check-ssl-certs,--check-ssl-certs='$val{check-ssl-certs}'} $if{default-timeout,--default-timeout='$val{default-timeout}'} $if{queue-drop-mark,--queue-drop-mark='$val{queue-drop-mark}'} $if{drop-log-size,--drop-log-size='$val{drop-log-size}'} $if{drop-log-rotate,--drop-log-rotate='$val{drop-log-rotate}'}
+
+         </execute>
+      </command>
+   </commands>
+</plugin>

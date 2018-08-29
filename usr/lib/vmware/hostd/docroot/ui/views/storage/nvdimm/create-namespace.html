@@ -1,0 +1,41 @@
+<div ng-controller="StorageNvdimmCreateNamespaceController" class="content-padding">
+
+   <div class="vui-stack-view">
+      <div class="stack-view-table">
+
+         <div vui-stack-block="friendlyName">
+            <span vui-sb-label>
+               {{'storage.nvdimm.namespaces.create.dialog.friendlyName'|translate}}
+            </span>
+            <div vui-sb-content>
+               <input type="text" ng-pattern="SANITIZE_INPUT_REGEX"
+                  focus-me="true"
+                  ng-model="data.friendlyName"
+                  title="{{'storage.nvdimm.namespaces.create.dialog.friendlyName' | translate}}"/>
+            </div>
+         </div>
+
+         <div vui-stack-block="locationIDPersistent">
+            <span vui-sb-label>
+               {{'storage.nvdimm.namespaces.create.dialog.locationID'|translate}}
+            </span>
+            <div vui-sb-content>
+               <div vui-dropdown="locationDropdown"></div>
+            </div>
+         </div>
+
+         <div vui-stack-block="blockCountPersistent">
+            <span vui-sb-label>
+               {{'storage.nvdimm.namespaces.create.dialog.size'|translate}}
+            </span>
+            <div vui-sb-content>
+               <input type="number" ng-pattern="SANITIZE_INPUT_REGEX"
+                  ng-model="data.blockCount"
+                  title="{{'storage.nvdimm.namespaces.create.dialog.blockCount' | translate}}"/>
+            </div>
+         </div>
+
+      </div>
+   </div>
+
+</div>

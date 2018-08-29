@@ -1,0 +1,4 @@
+<div ng-if="tabs.security.loaded || hostManageTabs.tabs[hostManageTabs.selectedTabIndex].state === tabs.security.state"
+   ng-controller="HostManageSecurityController" vui-tabs="hostManageSecurityTabs" class="esx-tertiary-tabs">
+   {{hostManageSecurityTabs | json:4}}
+</div>

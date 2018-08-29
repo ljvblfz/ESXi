@@ -1,0 +1,92 @@
+<div ng-controller="VMAutostartChangeController" class="content-padding">
+   <div ng-if="loading && !error"
+      style="height: 200px;
+         background-image: url('images/tiny_loader_transparent_bg.gif');
+         background-position: 50% 50%;
+         background-repeat: no-repeat;
+         text-align: center;">
+      <div style="padding-top: 230px;">
+         {{'general.loading.label' | translate}}</div>
+   </div>
+
+   <div ng-if="error"
+      style="height: 200px;
+         background-image: url('images/error48.png');
+         background-position: 50% 50%; background-repeat: no-repeat;
+         background-size: 16px;
+         text-align: center;">
+      <div style="padding-top: 230px;">
+         {{'general.loading.error' | translate}}</div>
+   </div>
+
+   <div ng-if="!loading && !error" class="vui-stack-view">
+      <div class="stack-view-table">
+
+       <div vui-stack-block="startDelayBlock">
+          <span vui-sb-label>
+             {{'vm.autostart.change.startDelay.label'|translate}}</span>
+
+          <div vui-sb-content>
+            <input
+               class="inline"
+               style="width: 60px;"
+               min="0"
+               type="number"
+               ng-model="data.startDelay"/> {{'vm.autostart.change.startDelay.seconds' | translate}}
+          </div>
+       </div>
+
+       <div vui-stack-block="stopDelayBlock">
+          <span vui-sb-label>
+             {{'vm.autostart.change.stopDelay.label'|translate}}</span>
+
+          <div vui-sb-content>
+            <input
+               class="inline"
+               style="width: 60px;"
+               min="0"
+               type="number"
+               ng-model="data.stopDelay"/> {{'vm.autostart.change.stopDelay.seconds' | translate}}
+          </div>
+       </div>
+
+       <div vui-stack-block="stopActionBlock">
+          <span vui-sb-label>
+             {{'vm.autostart.change.stopAction.label'|translate}}</span>
+
+          <div vui-sb-content style="height: 29px;">
+             <div ng-if="stopAction" vui-dropdown="stopAction"></div>
+          </div>
+       </div>
+
+       <div vui-stack-block="hbBlock">
+          <span vui-sb-label>
+             {{'vm.autostart.change.waitForHeartbeat.label'|translate}}</span>
+
+          <div vui-sb-content>
+             <label style="margin-bottom: 0; margin-right: 5px;">
+                <input
+                   type="radio"
+                   ng-model="data.waitForHeartbeat.value"
+                   ng-value="'yes'"/> {{'vm.autostart.change.waitForHeartbeat.yes'|translate}}
+             </label>
+
+             <label style="margin-bottom: 0; margin-right: 5px;">
+                <input
+                   type="radio"
+                   ng-model="data.waitForHeartbeat.value"
+                   ng-value="'no'"/> {{'vm.autostart.change.waitForHeartbeat.no'|translate}}
+             </label>
+
+             <label style="margin-bottom: 0; margin-right: 5px;">
+                <input
+                   type="radio"
+                   ng-model="data.waitForHeartbeat.value"
+                   ng-value="'systemDefault'"/> {{'vm.autostart.change.waitForHeartbeat.systemDefault'|translate}}
+             </label>
+          </div>
+       </div>
+
+     </div>
+   </div>
+</div>

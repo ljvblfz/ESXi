@@ -1,0 +1,31 @@
+/***********************************************************
+ * Copyright 2010-2011,2016 VMware, Inc.  All rights reserved.
+ * VMware Confidential
+ ***********************************************************/
+
+{
+   "operations" :
+   {
+      "start" :
+      [
+         /* auto configure vswitch */
+         "boot networking autoconfigure",
+
+         /* generate ssl cert and ssh keys */
+         "boot networking security --generate-ssl-certs --generate-ssh-keys"
+      ],
+      "apply_host_profile" :
+      [
+         /* Skip auto-config when in stateless boot */
+         "boot networking security --generate-ssl-certs --generate-ssh-keys"
+      ]
+   }
+   ,
+   "metadata" :
+   {
+      "version"  : 2,
+      "requires" : ["networking", "random", "random seed", "horde"],
+      "provides" : ["network auto-configuration"]
+   }
+}
+

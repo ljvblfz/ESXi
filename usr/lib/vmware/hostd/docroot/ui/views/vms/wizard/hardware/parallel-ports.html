@@ -1,0 +1,83 @@
+<!-- Parallel ports -->
+<div
+   ng-class="{
+      'stack-new': wizardOptions.data.parallels[_index]._operation === 'add',
+      'stack-warning': parallel.OutputFileInvalid
+   }"
+   ng-repeat="(_index, parallel) in parallels"
+   vui-stack-block="hardwareStackView.parallelBlock[_index]"
+   id="parallel-port-{{_index}}">
+
+   <!-- Icon -->
+   <span vui-sb-icon-class="icon-stackview-parallel-port"
+      vui-sb-label>{{parallel.title}}</span>
+
+   <!-- content collapsed-->
+   <div vui-sb-content>
+      <div class="inline stack-dropdown"
+         vui-dropdown="parallel.Type"></div>
+      <div class="inline checkbox">
+         <label
+            class="esx-stack-valign-tall"
+            ng-class="{
+               'label-disabled': wizardOptions.data.general.state === 'suspended'
+            }"
+            title="{{'vm.wizard.hardware.virtualhardware.parallelPort.connect' | translate}}">
+            <input
+               ng-disabled="wizardOptions.data.general.state === 'suspended'"
+               ng-model="wizardOptions.data.parallels[_index].Status"
+               type="checkbox"/>{{'vm.wizard.hardware.virtualhardware.parallelPort.connect' | translate}}
+         </label>
+      </div>
+      <span class="esx-icon-close vui-icon-info-inline esx-stack-valign-tall esx-close-right"
+         ng-click="removeParallelPort(_index)"
+         ng-show="wizardOptions.data.general.state !== 'suspended'"></span>
+   </div>
+
+   <!-- content expanded -->
+   <div vui-sb-content-expanded>
+      <label class="label-508" title="{{parallel.title}}">
+         <div class="inline stack-dropdown"
+            vui-dropdown="parallel.Type"></div>
+      </label>
+      <span class="esx-icon-close vui-icon-info-inline esx-stack-valign-tall esx-close-right"
+         ng-click="removeParallelPort(_index)"
+         ng-show="wizardOptions.data.general.state !== 'suspended'"></span>
+   </div>
+
+   <!-- children -->
+   <div vui-stack-block>
+      <!-- Label -->
+      <span vui-sb-label>{{'vm.wizard.hardware.virtualhardware.parallelPort.status' | translate}}</span>
+      <!-- content -->
+      <div vui-sb-content>
+         <label title="{{'vm.wizard.hardware.virtualhardware.parallelPort.connectAt' | translate}}">
+            <input ng-model="wizardOptions.data.parallels[_index].Status" type="checkbox"/>
+            {{'vm.wizard.hardware.virtualhardware.parallelPort.connectAt' | translate}}</label>
+      </div>
+   </div>
+
+   <div vui-stack-block>
+      <!-- Label -->
+      <span vui-sb-label>{{'vm.wizard.hardware.virtualhardware.parallelPort.connection' | translate}}</span>
+      <!-- content -->
+      <div vui-sb-content>
+         <input
+            class="inline"
+            ng-class="{
+               'invalid': parallel.OutputFileInvalid
+            }"
+            ng-model-options="{
+               updateOn: 'blur'
+            }"
+            ng-model="wizardOptions.data.parallels[_index].OutputFile"
+            title="{{'vm.wizard.hardware.virtualhardware.parallelPort.connection' | translate}}"
+            type="text"/>
+         <button class="stack-spacer"
+            ng-click="selectParallelPortFile(_index)">
+            {{'vm.wizard.hardware.virtualhardware.parallelPort.browse' | translate}}
+         </button>
+      </div>
+   </div>
+</div>
+

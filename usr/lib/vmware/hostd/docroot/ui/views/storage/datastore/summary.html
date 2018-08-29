@@ -1,0 +1,86 @@
+<div ng-class="{'esx-main-content': !nested}">
+
+   <div ng-show="!loaded" class="loading"></div>
+
+   <div ng-show="loaded" class="row header-area no-margin">
+      <div class="col-sm-9 info-block no-padding">
+         <div class="row" style="margin-bottom: 10px;">
+            <div ng-if="!nested" vui-action-bar="actionBarOptions" class="col-sm-12 col-lg-12" style="margin-bottom: 20px;"></div>
+         </div>
+         <div class="identifying-graphic col-sm-4 col-lg-3">
+            <img alt="{{'storage.datastore.summary.alt'|translate}}" style="margin-top: -5px;" src="images/datastore/obj-ds.png"/>
+         </div>
+         <div class="key-information col-sm-8 col-lg-9">
+            <div class="row">
+               <div class="col-sm-12 title no-padding">
+                  <span class="object-title" ng-bind="currentDatastore.name"></span>
+               </div>
+            </div>
+            <form class="form-horizontal">
+               <div class="form-group">
+                  <span
+                     class="col-sm-3 col-lg-3 control-label esx-label no-padding">{{'storage.datastore.summary.type' | translate}}</span>
+                  <div class="col-sm-7 col-lg-7 no-padding">
+                     <p class="form-control-static">{{currentDatastore.type}}</p>
+                  </div>
+               </div>
+               <div class="form-group">
+                  <span
+                     class="col-sm-3 col-lg-3 control-label esx-label no-padding">{{'storage.datastore.summary.location' | translate}}</span>
+                  <div class="col-sm-7 col-lg-7 no-padding">
+                     <p class="form-control-static">{{currentDatastore.url}}</p>
+                  </div>
+               </div>
+               <div class="form-group" ng-if="currentDatastore.info.vmfs">
+                  <span
+                     class="col-sm-3 col-lg-3 control-label esx-label no-padding">{{'storage.datastore.summary.uuid' | translate}}</span>
+                  <div class="col-sm-7 col-lg-7 no-padding">
+                     <p class="form-control-static">{{currentDatastore.info.vmfs.uuid}}</p>
+                  </div>
+               </div>
+               <div class="form-group">
+                  <span
+                     class="col-sm-3 col-lg-3 control-label esx-label no-padding">{{'storage.datastore.summary.hosts' | translate}}</span>
+                  <div class="col-sm-7 col-lg-7 no-padding">
+                     <p class="form-control-static">{{currentDatastore.numHosts}}</p>
+                  </div>
+               </div>
+               <div class="form-group">
+                  <span
+                     class="col-sm-3 col-lg-3 control-label esx-label no-padding">{{'storage.datastore.summary.virtualMachines' | translate}}</span>
+                  <div class="col-sm-7 col-lg-7 no-padding">
+                     <p class="form-control-static">{{currentDatastore.numVMs}}</p>
+                  </div>
+               </div>
+            </form>
+         </div>
+      </div>
+
+      <div class="col-sm-3 col-lg-3 metrics">
+         <div class="storage" esx-progress-chart
+            title="{{'storage.datastore.summary.metrics.storage' | translate}}"
+            data="chart">
+         </div>
+      </div>
+
+   </div>
+
+   <div ng-if="!nested" ng-show="loaded" class="portlet-area container-fluid no-margin no-padding">
+      <div class="row">
+         <div ng-if="currentDatastore.type.indexOf('VMFS') !== -1" class="col-lg-6 col-sm-12">
+            <div class="vui-portlet no-margin"
+               ng-class="{'collapsed': vmfsPortlet.collapsed}">
+               <div class="portlet-titlebar" ng-click="vmfsPortlet.toggle()">
+                  <span class="icon" ng-class="{
+                     'vui-icon-caret-dark-gray-right': vmfsPortlet.collapsed,
+                     'vui-icon-caret-dark-gray-down': !vmfsPortlet.collapsed}"></span>
+                  <span class="titlebar-text" title="VMFS details">{{'storage.datastore.summary.portlets.vmfs.title' | translate}}</span>
+               </div>
+               <div class="portlet-content">
+                  <div esx-portlet-content data="vmfsPortlet.data"></div>
+               </div>
+            </div>
+         </div>
+      </div>
+   </div>
+</div>

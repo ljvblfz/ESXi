@@ -1,0 +1,9 @@
+GITHASH:0
+CHANGE:6076825
+BRANCH:onprem
+UID:201
+VMTREE:/build/mts/release/bora-8169922/bora
+VMBLD:release
+BUILDTAG:gobuild
+BUILDNUMBER:8169922
+STAGEPATH:build/esx/release

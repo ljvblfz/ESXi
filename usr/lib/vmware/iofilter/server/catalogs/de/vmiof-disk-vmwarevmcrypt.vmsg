@@ -1,0 +1,7 @@
+# en language catalog for the 'vmwarevmcrypt' iofilter
+
+iofilters.disk.vmwarevmcrypt.capability.AllowCleartextFilters.label =  E/A-Filter vor Verschlüsselung zulassen
+iofilters.disk.vmwarevmcrypt.capability.AllowCleartextFilters.summary = Lassen Sie die Verwendung von anderen E/A-Filtern vor dem Verschlüsselungsfilter zu. Mit diesen Filtern können Klartextdaten vor der Verschlüsselung angezeigt werden.
+
+iofilters.disk.vmwarevmcrypt.name.label = VMware-VM-Verschlüsselung
+iofilters.disk.vmwarevmcrypt.name.summary = E/A-Filter für die VMware-Verschlüsselung.

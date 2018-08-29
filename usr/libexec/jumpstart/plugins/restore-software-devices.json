@@ -1,0 +1,27 @@
+/***********************************************************
+ * Copyright 2017 VMware, Inc.  All rights reserved.
+ * VMware Confidential
+ ***********************************************************/
+
+{
+   "operations" :
+   {
+      "start" :
+      [
+         /* Call internal CLI to restore persisted configuration. */
+         "deviceInternal software restore"
+      ],
+      "apply_host_profile" :
+      [
+         "boot hostprofile apply --earlybootinit -p softwareDevice.softwareDevice.SoftwareDeviceProfile",
+      ]
+   }
+   ,
+   "metadata" :
+   {
+      "version" :  2,
+      "requires" : ["system configuration", "hardware configuration"],
+      "provides" : ["software devices"]
+   }
+}
+

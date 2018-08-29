@@ -1,0 +1,14 @@
+<div ng-if="tabs.vswitches.loaded || networkingTabs.tabs[getSelectedTab()].state === tabs.vswitches.state"
+     ng-controller="NetworkingVSwitchListController" class="esx-tab-content">
+
+   <div ng-show="!loaded" class="loading"></div>
+
+   <div ng-show="loaded" id="{{vswitchGrid.id}}" vui-datagrid="vswitchGrid"></div>
+
+   <hr ng-show="currentVSwitch" class="ng-cloak" ng-cloak/>
+
+   <div ng-controller="NetworkingVSwitchController" ng-cloak ng-if="currentVSwitch">
+      <div ng-include src="'views/networking/vswitch/summary.html'"></div>
+   </div>
+
+</div>

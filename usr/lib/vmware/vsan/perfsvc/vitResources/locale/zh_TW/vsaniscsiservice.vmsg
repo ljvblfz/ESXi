@@ -1,0 +1,95 @@
+# VSAN iSCSI target service related
+# msgId = 001
+com.vmware.vsan.iscsi.common.comma = ,
+com.vmware.vsan.iscsi.common.colon = :
+com.vmware.vsan.iscsi.common.ok = 確定
+com.vmware.vsan.iscsi.common.yes = 是
+com.vmware.vsan.iscsi.common.no = 否
+com.vmware.vsan.iscsi.msg.installVibFailed = 使用 EAM 在叢集上安裝 VIB 時發生不明錯誤
+com.vmware.vsan.iscsi.msg.createHomeObjectFailed = 無法在叢集上建立常用物件
+com.vmware.vsan.iscsi.msg.settingsFailed = 無法在叢集上設定 vSAN iSCSI 目標服務
+com.vmware.vsan.iscsi.host.issues.notConnected = 主機未連線
+com.vmware.vsan.iscsi.host.issues.notVITInstall = 主機未安裝 vSAN iSCSI 目標服務
+com.vmware.vsan.iscsi.host.issues.notVITServiceFound = 在主機上找不到 vSAN iSCSI 目標服務，請檢查主機是否為 6.5 或更新版本。
+com.vmware.vsan.iscsi.cluster.issues.hostNotConnected = 至少有一台主機未連線
+com.vmware.vsan.iscsi.cluster.issues.HostNotVITInstall = 至少有一台主機未安裝 vSAN iSCSI 目標服務
+
+# For service process status
+com.vmware.vsan.iscsi.service.process.running = 執行中
+com.vmware.vsan.iscsi.service.process.stopped = 已停止
+com.vmware.vsan.iscsi.service.process.unknown = 不明
+com.vmware.vsan.iscsi.service.process.hostDisconnected = 主機已中斷連線
+
+# For service pre-check failed.
+com.vmware.vsan.iscsi.service.enabled.failed = 無法啟用服務，vSAN iSCSI 目標服務於 ESXi 主機版本 6.1 中提供，請確保叢集中的所有主機具有正確版本且沒有連線問題。
+
+# For service installation health test
+com.vmware.vsan.iscsi.health.test.installStatus = 服務安裝狀態
+com.vmware.vsan.iscsi.health.test.installStatus.desc.short = 檢查 vSAN 叢集中的所有主機是否均已安裝 vSAN iSCSI 目標服務，以及 VC 和每台主機中的服務版本是否相同。
+com.vmware.vsan.iscsi.health.test.installStatus.desc.long = vSAN iSCSI 目標服務於 ESXi 主機版本 6.1 中提供。如果發現某些主機未安裝 vSAN iSCSI 目標服務，表示主機版本不正確。如果 vSAN iSCSI 目標服務狀態在某些主機中為不明，表示這些主機存在其他問題，例如連線問題。
+com.vmware.vsan.iscsi.health.test.installStatus.table.label = 服務安裝
+com.vmware.vsan.iscsi.health.test.installStatus.table.column.host = 主機
+com.vmware.vsan.iscsi.health.test.installStatus.table.column.installationStatus = 安裝狀態
+com.vmware.vsan.iscsi.health.test.installStatus.table.column.versionESX = ESX 版本
+com.vmware.vsan.iscsi.health.test.installStatus.table.column.versionVC = VC 版本
+com.vmware.vsan.iscsi.health.test.installStatus.table.column.error = 錯誤
+
+# For service runtime health test
+com.vmware.vsan.iscsi.health.test.runningStatus = 服務執行階段狀態
+com.vmware.vsan.iscsi.health.test.runningStatus.desc.short = 檢查 vSAN iSCSI 目標服務的狀態。
+com.vmware.vsan.iscsi.health.test.runningStatus.desc.long = 檢查是否已在叢集中的所有主機上啟用此服務。如果某台主機上未啟用此服務，請執行下列命令:「esxcli vsan iscsi status set --enabled=true」。您也可以使用 [編輯] 動作 ([管理] > [設定] > [一般] > [vSAN iSCSI 目標服務]) 啟用 iSCSI 目標服務。此檢查還會確認下列程序的健全狀況:「vitd」用於提供服務；「vitsafehd」用於對 VMDK 保持開啟狀態。如果「vitd」程序未執行，請使用下列命令啟動該程序:「/etc/init.d/vitd start」。如果「vitsafehd」程序未執行，請使用下列命令啟動該程序:「/etc/init.d/vitd io_restart」。
+com.vmware.vsan.iscsi.health.test.runningStatus.table.label = 服務執行階段狀態
+com.vmware.vsan.iscsi.health.test.runningStatus.table.column.host = 主機
+com.vmware.vsan.iscsi.health.test.runningStatus.table.column.processesStatus = 程序健全狀況
+com.vmware.vsan.iscsi.health.test.runningStatus.table.column.enabledStatus = 已啟用
+com.vmware.vsan.iscsi.health.test.runningStatus.table.column.error = 錯誤
+
+# For home object health test
+com.vmware.vsan.iscsi.health.test.groupName = vSAN iSCSI 目標服務
+com.vmware.vsan.iscsi.health.test.homeObject = 常用物件
+com.vmware.vsan.iscsi.health.test.homeObject.storageOutOfDate = 過時
+com.vmware.vsan.iscsi.health.test.homeObject.storageCompliant = 符合標準
+com.vmware.vsan.iscsi.health.test.homeObject.storageNonCompliant = 不符合標準
+com.vmware.vsan.iscsi.health.test.homeObject.storageNotApplicable = 不適用
+com.vmware.vsan.iscsi.health.test.homeObject.storageUnknown = 不明
+com.vmware.vsan.iscsi.health.test.homeObject.desc.short = 檢查 vSAN iSCSI 目標服務常用物件的健全狀況。
+com.vmware.vsan.iscsi.health.test.homeObject.desc.long = 常用物件可儲存 vSAN iSCSI 目標服務所使用的中繼資料。此檢查會確認下列項目: 常用物件已建立並且可置於系統中。常用物件狀況良好且符合儲存區原則。常用物件是唯一的。如果存在多個常用物件，叢集中的某些主機可能會存取其他常用物件。常用物件的中繼資料檔案已存在且可剖析，並且所有中繼資料皆已正確儲存。
+com.vmware.vsan.iscsi.health.test.homeObject.table.label = 常用物件資訊
+com.vmware.vsan.iscsi.health.test.homeObject.table.column.check = 檢查
+com.vmware.vsan.iscsi.health.test.homeObject.table.column.result = 結果
+com.vmware.vsan.iscsi.health.test.homeObject.table.column.status = 狀態
+com.vmware.vsan.iscsi.health.test.homeObject.table.exist = 常用物件存在
+com.vmware.vsan.iscsi.health.test.homeObject.table.healthStatus = 健全狀況狀態
+com.vmware.vsan.iscsi.health.test.homeObject.table.storageStatus = 儲存區原則符合性
+com.vmware.vsan.iscsi.health.test.homeObject.table.entryStatus = 常用物件是唯一的
+com.vmware.vsan.iscsi.health.test.homeObject.table.metadataStatus = 中繼資料檔案狀態
+com.vmware.vsan.iscsi.health.test.homeObject.table.noEntry = 目前沒有項目
+com.vmware.vsan.iscsi.health.test.homeObject.table.isUnique = 是唯一的
+com.vmware.vsan.iscsi.health.test.homeObject.table.isMultiple = 有多個
+com.vmware.vsan.iscsi.health.test.homeObject.table.metadataPresentParse = 存在且可剖析
+com.vmware.vsan.iscsi.health.test.homeObject.table.metadataNotPresentParse = 不存在或無法剖析。請先確保服務執行階段狀態檢查呈現綠色，然後再檢查此項目。
+
+com.vmware.vsan.iscsi.health.test.homeObject.status.notFound = 找不到
+
+com.vmware.vsan.iscsi.health.test.cluster.iscsiEamInstall.host.untracked = 已取消追蹤
+com.vmware.vsan.iscsi.health.test.cluster.iscsiEamInstall.host.removed = (不再位於叢集中)
+
+com.vmware.vsan.iscsi.health.test.serviceNetwork = 網路組態
+com.vmware.vsan.iscsi.health.test.serviceNetwork.desc.short = 檢查 vSAN iSCSI 目標服務的網路組態。
+com.vmware.vsan.iscsi.health.test.serviceNetwork.desc.long = 叢集中的所有主機上都必須設定 vSAN iSCSI 目標服務所使用的所有網路介面 (包括預設介面)。具有相同名稱的所有網路介面組成了分散式入口網站。如果一或多台主機沒有網路介面，則 vSAN iSCSI 目標服務無法正常運作。
+com.vmware.vsan.iscsi.health.test.serviceNetwork.defaultnic = 取得預設網路介面
+com.vmware.vsan.iscsi.health.test.serviceNetwork.defaultnic.notFound = 找不到預設網路介面
+com.vmware.vsan.iscsi.health.test.serviceNetwork.defaultnic.error = 無法擷取預設網路介面，請檢查 vSAN iSCSI 目標服務是否正在所有主機上執行
+com.vmware.vsan.iscsi.health.test.serviceNetwork.nicsUsedByTargets = 取得目標所使用的網路介面
+com.vmware.vsan.iscsi.health.test.serviceNetwork.nicsUsedByTargets.notFound = 找不到目標所使用的網路介面
+com.vmware.vsan.iscsi.health.test.serviceNetwork.table.service.label = 服務網路組態
+com.vmware.vsan.iscsi.health.test.serviceNetwork.table.service.column.check = 檢查
+com.vmware.vsan.iscsi.health.test.serviceNetwork.table.service.column.status = 狀態
+com.vmware.vsan.iscsi.health.test.serviceNetwork.table.service.column.vmknics = 網路介面
+com.vmware.vsan.iscsi.health.test.serviceNetwork.table.service.column.error = 錯誤
+
+com.vmware.vsan.iscsi.health.test.serviceNetwork.table.label = 主機網路組態
+com.vmware.vsan.iscsi.health.test.serviceNetwork.table.column.host = 主機
+com.vmware.vsan.iscsi.health.test.serviceNetwork.table.column.status = 狀態
+com.vmware.vsan.iscsi.health.test.serviceNetwork.table.column.error = 錯誤
+com.vmware.vsan.iscsi.health.test.serviceNetwork.table.column.vmknicsMissed = 找不到網路介面

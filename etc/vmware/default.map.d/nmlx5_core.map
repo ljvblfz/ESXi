@@ -1,0 +1,10 @@
+regtype=native,bus=pci,id=15b31013..............,driver=nmlx5_core
+regtype=native,bus=pci,id=15b31014..............,driver=nmlx5_core
+regtype=native,bus=pci,id=15b31015..............,driver=nmlx5_core
+regtype=native,bus=pci,id=15b31016..............,driver=nmlx5_core
+regtype=native,bus=pci,id=15b31017..............,driver=nmlx5_core
+regtype=native,bus=pci,id=15b31018..............,driver=nmlx5_core
+regtype=native,bus=pci,id=15b31019..............,driver=nmlx5_core
+regtype=native,bus=pci,id=15b3101a..............,driver=nmlx5_core
+regtype=native,bus=pci,id=15b3101b..............,driver=nmlx5_core
+regtype=native,bus=pci,id=15b3101c..............,driver=nmlx5_core

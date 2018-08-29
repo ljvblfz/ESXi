@@ -1,0 +1,23 @@
+<div
+   ng-controller="VMWizardRegisterSelectVMController"
+   class="content-padding vm-wizard">
+
+   <div style="width: 100%; text-align: center;">
+      <button
+         style="margin-left: auto;
+            margin-right: auto;"
+         ng-click="select();">
+         {{'vm.wizard.register.select' | translate}}</button>
+   </div>
+
+   <div
+      ng-if="loading"
+      ng-include
+      src="'views/loading-dialog.html'"></div>
+
+   <div
+      ng-show="!loading"
+      vui-datagrid="toRegister"
+      id="toRegister"
+      style="padding-top: 15px;"></div>
+</div>

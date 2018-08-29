@@ -1,0 +1,356 @@
+#!/bin/sh
+#
+# Copyright 2007-2017 VMware, Inc.  All rights reserved.
+#
+# sfcbd:
+#    Watchdog for the  Small Footprint CIM Broker daemon
+#
+# chkconfig: on 97 79
+# description: Small Footprint CIM Broker (SFCB) daemon
+#
+
+export PATH=/bin:/usr/bin
+if [ -t 0 ]; then
+   LOGERR="-s"
+fi
+INDCFG="/bin/indcfg"
+# singleton control file
+SFCBD_INIT_LOCK=/var/run/sfcbd-init.lock
+# this script's exit variable
+RC=0
+# program to run to fetch process (cartel) ids.
+PSCMD='/bin/ps -Cc'
+PREAMBLE="import json;import sys;cfg=json.load(sys.stdin)"
+#Below command will block when the inodes are exhausted
+ESXCFG_ADVCFG="/usr/bin/esxcfg-advcfg"
+SFCBD="/bin/sfcbd"
+#Core componenents
+SFCB_PM="sfcb-ProviderMa"
+SFCB_HTTP="sfcb-HTTP-Daemo"
+SFCB_HTTPS="sfcb-HTTPS-Daem"
+SFCBD_TAG="sfcbd"
+ISRUNNING="${SFCBD_TAG} is running."
+ISNOTRUNNING="${SFCBD_TAG} is not running."
+SFCBD_PID="$(pidof -s $SFCBD_TAG)"
+# control output from check_components()
+DISPLAY_STATUS=""
+SFCBD_CFG="/etc/sfcb/sfcb.cfg"
+SFCBD_SCHED_PARAM="group=sfcb"
+SECPOLICYTOOLS="/bin/secpolicytools"
+SFCB_SECURITY_DOM_NAME="pluginFrameworkDom"
+PLUGINS_RP=$(vsish -e set /sched/groupPathNameToID host vim vmvisor plugins | cut -d' ' -f 1)
+SFCBD_REG_DEFAULT=/tmp/.cimrp-groups
+# this file signals sfcbd to restart
+SFCB_RESTART_REQ="/var/run/sfcbRestartRequested"
+RP_PGM=/usr/lib/vmware/rp/bin/configRP
+# these keys must match configRP entries: provide for sfcbd itself and for http processors
+SFCB_MEM_RES="host/vim/vmvisor/sfcb=61"
+SFCB_AUX_MEM_RES="host/vim/vmvisor/sfcb_aux=91"
+
+usage() {
+   echo "Usage: $0 {start|stop|restart|status|test|ssl_reset}"
+}
+
+sfcbd_log() {
+   logger -t sfcbd-init -p daemon.info ${LOGERR} "$1"
+}
+
+sfcbd_log_err() {
+   logger -t sfcbd-init -p daemon.err ${LOGERR} "$1"
+}
+
+get_option() {
+   echo $("${ESXCFG_ADVCFG}" -qg /UserVars/${1})
+}
+
+
+wait_for_start() {
+    WAITFOR=20
+    TIMEOUT=${WAITFOR}
+    sfcbd_log "Waiting for sfcb to start up."
+    while [ ${TIMEOUT} -gt 0 -a "$(pidof -xs sfcbd)" == "" ]; do
+         sleep 1
+         TIMEOUT=$((${TIMEOUT} - 1))
+    done
+    if [ "${TIMEOUT}" -eq 0 ]; then
+       sfcbd_log "sfcbd still not started after waiting ${WAITFOR} seconds."
+       RC=1
+    else
+       sfcbd_log "Program started normally."
+       RC=0
+    fi
+}
+
+hangup() {
+    kill_app
+    sfcb_restart_init
+    start_app
+}
+
+cleanup() {
+   sfcbd_log "pid $$ cleaning up"
+   kill_app
+   exit 0
+}
+
+report_status() {
+  if [ "$(pidof sfcbd)" != "" ] ; then
+     echo "sfcbd is running"
+     return 0
+  else
+     echo "sfcbd is not running"
+     return 3
+  fi
+}
+
+HHRCPROVIDER_POLLING_INTERVAL="CIMvmw_hhrcwrapperProviderPollingInterval"
+HHRCPROVIDER_POLLING_INTERVAL_MIN=1
+HHRCPROVIDER_POLLING_INTERVAL_DEFAULT=20
+HHRCPROVIDER_POLLING_INTERVAL_MAX=3600
+HHRCPROVIDER_POLLING_INTERVAL_DESCRIPTION='Set the hhrc CIM provider polling interval'
+hhrc_sampleinterval_option() {
+   ${ESXCFG_ADVCFG} -V ${HHRCPROVIDER_POLLING_INTERVAL} >/dev/null 2>&1
+   if [ "$?" != "0"  ]; then
+      ${ESXCFG_ADVCFG} -T int -A "${HHRCPROVIDER_POLLING_INTERVAL}" \
+          -N ${HHRCPROVIDER_POLLING_INTERVAL_MIN} -M ${HHRCPROVIDER_POLLING_INTERVAL_MAX} \
+          -E "${HHRCPROVIDER_POLLING_INTERVAL_DESCRIPTION}" \
+          -F ${HHRCPROVIDER_POLLING_INTERVAL_DEFAULT} >/dev/null 2>&1
+   fi
+}
+
+cache_sys_type() {
+  vendor=$(vsish -e cat /hardware/bios/dmiInfo | awk -F : '/Vendor Name:/ {print $2}')
+  model=$(vsish -e cat /hardware/bios/dmiInfo | awk -F : '/Product Name:/ {print $2}')
+  echo "vendor: $vendor" > /var/tmp/sfcb_cache.txt
+  echo "model: $model" >> /var/tmp/sfcb_cache.txt
+}
+
+sfcbd_start() {
+   SFCBD_RC=0
+   if [ -z "$(pidof -xs ${SFCBD})" ] ; then
+      OEM_IPMI_RETRIES="$(get_option 'CIMOemIpmiRetries' 2>/dev/null)"
+      if [ -n "$OEM_IPMI_RETRIES" ] ; then
+         if [ "$OEM_IPMI_RETRIES" -gt "0" ] ; then
+            export CIM_IPMI_RETRIES=$OEM_IPMI_RETRIES
+         fi
+      fi
+      OEM_IPMI_RETRY_TIME="$(get_option 'CIMOemIpmiRetryTime' 2>/dev/null)"
+      if [ -n "$OEM_IPMI_RETRY_TIME" ] ; then
+         if [ "$OEM_IPMI_RETRY_TIME" -gt "0" ] ; then
+            export CIM_IPMI_RETRY_TIME=$OEM_IPMI_RETRY_TIME
+         fi
+      fi
+      # PR 1081044 temp workaround for HP gen8, cayman_omc reads this file
+      cache_sys_type
+      ulimit -s unlimited
+      ulimit -c unlimited
+      export LD_LIBRARY_PATH=/usr/lib/cim:/usr/lib/vmware/sfcb/lib
+      ${RP_PGM} setRPMemMaxSizeFromList ${SFCB_MEM_RES},${SFCB_AUX_MEM_RES}
+      if [ $? != 0 ]; then
+         logger sfcb_log_err "Resource pool allocations request failed, see log files."
+         SFCBD_RC=1
+      else
+          ${SFCBD} ${SFCB_UW_PARAM} > /dev/null 2>&1 &
+      fi
+   else
+      SFCBD_RC=1
+   fi
+   return ${SFCBD_RC}
+}
+
+start_app() {
+   sfcbd_log "starting sfcbd"
+   SFCB_SECURITY_DOM=$(${SECPOLICYTOOLS} -D ${SFCB_SECURITY_DOM_NAME})
+   SFCB_SECURITY_DOM_PARAM="securitydom=${SFCB_SECURITY_DOM}"
+   SFCB_UW_PARAM="++${SFCBD_SCHED_PARAM},${SFCB_SECURITY_DOM_PARAM}"
+   sfcbd_start
+   if [ $? -eq 0 ]; then
+       wait_for_start
+   fi
+   RC=$?
+}
+
+kill_app() {
+    # locate main program
+    local pid=$(ps -Cc | grep sfcb-ProviderMa | grep -v grep | awk '{print $1}')
+    if [ "${pid}" = "" ]; then
+       local fragments=$(pidof sfcbd)
+       if [ "${fragments}" != "" ]; then
+          sfcbd_log_err "kill_app unable to find sfcb-ProviderMa, cleaning up fragments."
+          pkill -9 -f /bin/sfcbd
+       fi
+       return
+    fi
+    kill "${pid}"
+    sfcbd_log "Invoked kill ${pid} $!"
+    # return only after sfcbd is down
+    running=$(pidof sfcbd)
+    cnt=0
+    while [ "${running}" != "" ];
+    do
+       sleep 1
+       running=$(pidof sfcbd)
+       if [ "${running}" != "" ]; then
+          cnt=$((cnt + 1))
+          if [ "${cnt}" -ge 10 ]; then
+            logger -p daemon.err -t sfcbd-watchdog "sfcbd slow to stop, hard stop invoked."
+            pkill -9 -f /bin/sfcbd
+          fi
+       fi
+    done
+    sfcbd_log "stop sfcbd process completed."
+}
+
+is_world_name_alive() {
+   local worldName="$1" worldId=
+   worldId=$(ps | awk '/'"${worldName}"'/ { print $1 }')
+   if [ -n "${worldId}" ]; then
+      return 0
+   fi
+   return 1
+}
+
+check_component() {
+   is_world_name_alive "${1}"
+   if [ $? -eq 0 ]; then
+      [ -n "${DISPLAY_STATUS}" ] &&  sfcbd_log "Component ${1} is running."
+      return 0
+   else
+      sfcbd_log_err "Component $1 not running, Restarting sfcbd. $2"
+      hangup
+      return 1
+   fi
+}
+
+check_core_components() {
+    check_component "${SFCB_PM}"
+    check_component "${SFCB_HTTP}"
+    check_component "${SFCB_HTTPS}"
+}
+
+restart_https_adapter() {
+   local pid=$(ps -Cc | grep ${SFCB_HTTPS} | grep -v grep | awk '{print $1}')
+   if [ -n "${pid}" ]; then
+      kill "${pid}"
+      if [ $? != 0 ]; then
+         logger -p daemon.err -t sfcbd-watchdog "ssl reset request failed, restart ${SFCB_HTTPS},$!."
+      fi
+   else
+      logger -p daemon.info -t sfcbd-watchdog "ssl reset completed yet https adapter is not running."
+   fi
+}
+
+
+
+singleton_instance() {
+   # block for up to 10 seconds then fail
+   sfcbd_log "Getting Exclusive access, please wait..."
+   lockfile -10 -r 1 ${SFCBD_INIT_LOCK}
+   if [ $? != 0 ]; then
+       sfcbd_log "ERROR: another instance of sfcbd-watchdog is still running, exiting."
+       exit 1
+   fi
+   sfcbd_log "Exclusive access granted."
+   trap "[ -f ${SFCBD_INIT_LOCK}  ] && rm -f ${SFCBD_INIT_LOCK} > /dev/null 2>&1; exit ${RC}" INT TERM EXIT
+}
+
+install_config() {
+   cp "${SFCBD_CFG}.new" "${SFCBD_CFG}"
+   if [ $? -ne 0 ]; then
+       sfcbd_log_err "Install default config failed, err=!$ file: ${SFCBD_CFG}."
+   else
+       sfcbd_log  "${SFCBD_CFG} set to default factory settings."
+   fi
+}
+
+update_config() {
+   VMWARE_VERSION=$(/bin/vmware -v)
+   grep "${VMWARE_VERSION}" "${SFCBD_CFG}" > /dev/null 2>&1
+   if [ $? -ne 0 ]; then
+      /usr/lib/vmware/sfcb/bin/sfcb-config.py --config-stage / > /dev/null 2>&1
+      if [ $? -ne 0 ]; then
+         sfcbd_log_err "Upgrade existing ${SFCBD_CFG} has failed."
+         install_config
+      fi
+   fi
+}
+
+case  $1 in
+    start)
+       singleton_instance
+       sfcbd_log "Request to start $(basename $0), pid $$"
+       if [ ! -f "${SFCBD_CFG}" ]; then
+           sfcbd_log_err "Missing configuration file ${SFCBD_CFG}"
+           # run sfcbd to generate stock config
+           exit 1
+       fi
+       # stateless boot/config file is empty
+       if [ ! -s ${SFCBD_CFG} ]; then
+           install_config
+       fi
+       # check for 3rd party vibs, auto-enable wbem services if found
+       /usr/lib/vmware/sfcb/bin/sfcb-config.py --check-enable
+       DISABLED=$(egrep -i "^\s*enabled\s*:\s*false\s*$" ${SFCBD_CFG})
+       if [ "${DISABLED}" = "" ]; then
+          running=$(pidof sfcbd)
+          if [ "${running}" = "" ]; then
+             update_config
+             hhrc_sampleinterval_option
+             start_app
+          else
+             sfcbd_log "${ISRUNNING}"
+          fi
+       else
+          sfcbd_log "sfcbd not started, administratively disabled."
+       fi
+    ;;
+    stop)
+        singleton_instance
+        sfcbd_log "Request to stop $(basename $0), pid $$"
+        kill_app
+        ${RP_PGM} decreaseSetRPMemMaxSizeWithRetry 2 ${SFCB_MEM_RES},${SFCB_AUX_MEM_RES}
+    ;;
+    restart)
+        singleton_instance
+        sfcbd_log "Request to restart $(basename $0), pid $$"
+        DISABLED=$(egrep -i "^\s*enabled\s*:\s*false\s*$" ${SFCBD_CFG})
+        if [ "${DISABLED}" = "" ] ; then
+           kill_app
+           start_app
+        else
+           sfcbd_log "restart request in disabled state, safely ignored."
+        fi
+    ;;
+    restartrequest)
+        sfcbd_log "administrative request to restart via signal file received."
+        touch ${SFCB_RESTART_REQ}
+    ;;
+    status)
+        report_status
+        exit $?
+    ;;
+    test)
+        if [ "$(pidof sfcbd)" != "" ] ; then
+            sfcbd_log "Checking core components of sfcbd are running..."
+            DISPLAY_STATUS=1
+            check_core_components && sfcbd_log "All components are running."
+        else
+            sfcbd_log "${ISNOTRUNNING}"
+        fi
+    ;;
+    ssl_reset)
+        singleton_instance
+        # send cmd to sfcbd on its control channel to restart the subprocess $SFCB_HTTPS
+        if [ "$(pidof sfcbd)" != "" ]; then
+           restart_https_adapter
+        else
+            sfcbd_log "${ISNOTRUNNING}"
+            exit 3
+        fi
+    ;;
+    *)
+        usage
+        exit 1
+    ;;
+esac
+exit ${RC}

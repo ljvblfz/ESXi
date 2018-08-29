@@ -1,0 +1,317 @@
+<div class="vui-stack-view">
+   <div class="stack-view-table">
+
+      <div vui-stack-block="portgroupBlock">
+         <span
+            vui-sb-label>{{'network.vmknic.settings.portGroup.label' | translate}}</span>
+         <div vui-sb-content>
+            <label style="padding-left: 0px;"
+               title="{{'network.vmknic.settings.portGroup.label' | translate}}">
+               <div class="stack-dropdown inline" vui-dropdown="portgroup"></div>
+            </label>
+         </div>
+      </div>
+
+      <div ng-if="newPortGroup" vui-stack-block="newPortgroupBlock"
+         ng-class="{'stack-remove': portgroupExists,
+                    'stack-new': !portGroupExists}">
+         <span vui-sb-label>{{'network.vmknic.settings.portGroup.newPortGroup' | translate}}</span>
+         <div vui-sb-content>
+            <input type="text"
+               ng-pattern="SANITIZE_INPUT_REGEX"
+               ng-model="data.portgroupName"
+               focus-me="'select'"
+               style="width: 200px;"
+               class="inline"
+               title="{{'network.vmknic.settings.portGroup.label' | translate}}"/>
+            <span ng-if="edit" class="vui-icon-info vui-icon-info-inline"  vui-sign-post="{
+               title: 'Port group label',
+               height: '115px',
+               message: 'You can\'t change the name of the portgroup'
+            }"></span>
+         </div>
+      </div>
+
+      <div ng-if="newPortGroup" class="stack-new" vui-stack-block="vswitchBlock">
+         <span
+            vui-sb-label>{{'network.vmknic.settings.portGroup.ipv6.vSwitch.label' | translate}}</span>
+         <div vui-sb-content>
+            <label
+               style="padding-left: 0px;"
+               title="{{'network.vmknic.settings.portGroup.ipv6.vSwitch.label' | translate}}">
+               <div class="stack-dropdown inline" vui-dropdown="vswitch"></div>
+            </label>
+         </div>
+      </div>
+
+      <div ng-if="newPortGroup" class="stack-new" vui-stack-block="vlanBlock" ng-class="{'stack-warning' : data.vlanIdInvalid}">
+         <span vui-sb-label>{{'network.vmknic.settings.portGroup.vlandId'
+            | translate}}</span>
+         <div vui-sb-content>
+            <input
+               type="number"
+               ng-model="data.vlanId"
+               min="0"
+               max="4095"
+               style="width: 60px; padding: 0 0 0 5px;"
+               title="{{'network.vmknic.settings.portGroup.vlandId' | translate}}"/>
+         </div>
+      </div>
+
+      <div vui-stack-block="mtuBlock" ng-class="{'stack-warning' : data.mtuInvalid}">
+         <span vui-sb-label>
+            {{'network.vswitch.settings.mtu' | translate}}
+         </span>
+         <div vui-sb-content>
+            <input
+               type="number"
+               max="9000"
+               min="1280"
+               ng-model="data.mtu"
+               ng-model-options="{
+                  'updateOn': 'default blur'
+               }"
+               style="width: 60px; padding: 0 0 0 5px;"
+               title="{{'network.vswitch.settings.mtu' | translate}}"/>
+         </div>
+      </div>
+
+      <div vui-stack-block="ipBlock">
+         <span
+            vui-sb-label>{{'network.vmknic.settings.portGroup.ipVersion.label'
+            | translate}}</span>
+         <div vui-sb-content>
+            <label
+               style="padding-left: 0px;"
+               title="{{'network.vmknic.settings.portGroup.ipVersion.label' | translate}}">
+               <div class="stack-dropdown inline" vui-dropdown="ip"></div>
+            </label>
+         </div>
+      </div>
+
+      <div vui-stack-block="ipv4settingsBlock" class="stack-view-row" ng-show="ip.selectedValue === 'ipv4' || ip.selectedValue === 'both'">
+         <span vui-sb-label>{{'network.vmknic.settings.portGroup.ipv4.label'
+            | translate}}</span>
+         <div vui-sb-content>
+            <label>
+               <input type="radio" ng-model="data.ipv4dhcp" ng-value="true"/>
+               {{'network.vmknic.settings.portGroup.ipv4.dhcp.dhcp'
+               | translate}}
+            </label>
+            <label>
+               <input type="radio" ng-model="data.ipv4dhcp" ng-value="false"/>
+               {{'network.vmknic.settings.portGroup.ipv4.dhcp.static'
+               | translate}}
+            </label>
+         </div>
+
+         <div vui-sb-content-expanded></div>
+
+         <!-- children -->
+         <div vui-stack-block>
+            <span
+               vui-sb-label>{{'network.vmknic.settings.portGroup.ipv4.dhcp.label'
+               | translate}}</span>
+            <div vui-sb-content>
+               <label>
+                  <input type="radio" ng-model="data.ipv4dhcp" ng-value="true"/> {{'network.vmknic.settings.portGroup.ipv4.dhcp.dhcp'
+                  | translate}}
+               </label>
+               <label>
+                  <input type="radio" ng-model="data.ipv4dhcp" ng-value="false"/>
+                  {{'network.vmknic.settings.portGroup.ipv4.dhcp.static'
+                  | translate}}
+               </label>
+            </div>
+         </div>
+
+         <div vui-stack-block ng-show="!data.ipv4dhcp">
+            <!-- Label -->
+            <span
+               vui-sb-label>{{'network.vmknic.settings.portGroup.ipv4.address'
+                  | translate}}</span>
+            <!-- content -->
+            <div vui-sb-content>
+               <input type="text"
+                  ng-model="data.ipv4address"
+                  class="form-control"
+                  placeholder="___.___.___.___"
+                  style="width: 110px;"
+                  title="{{'network.vmknic.settings.portGroup.ipv4.address' | translate}}"/>
+            </div>
+         </div>
+
+         <div vui-stack-block ng-show="!data.ipv4dhcp">
+            <!-- Label -->
+            <span
+               vui-sb-label>{{'network.vmknic.settings.portGroup.ipv4.subnetMask' | translate}}</span>
+            <!-- content -->
+            <div vui-sb-content>
+               <input type="text"
+                  ng-model="data.ipv4subnet"
+                  class="form-control"
+                  placeholder="___.___.___.___"
+                  style="width: 110px;"
+                  title="{{'network.vmknic.settings.portGroup.ipv4.subnetMask' | translate}}"/>
+            </div>
+         </div>
+      </div>
+
+      <div vui-stack-block="ipv6settingsBlock" class="stack-view-row" ng-show="ip.selectedValue === 'both'">
+         <span
+            vui-sb-label>{{'network.vmknic.settings.portGroup.ipv6.label'
+            | translate}}</span>
+         <div vui-sb-content>
+            {{'network.vmknic.settings.portGroup.ipv6.clickExpand'
+            | translate}}
+         </div>
+
+         <div vui-sb-content-expanded></div>
+
+         <!-- children -->
+         <div vui-stack-block>
+            <span
+               vui-sb-label>{{'network.vmknic.settings.portGroup.ipv6.dhcpv6.label'
+            | translate}}</span>
+            <div vui-sb-content>
+               <label>
+                  <input type="radio" ng-model="data.ipv6dhcp"
+                         ng-value="true"/>
+                  {{'network.vmknic.settings.portGroup.ipv6.dhcpv6.enabled'
+                  | translate}}
+               </label>
+               <label>
+                  <input type="radio" ng-model="data.ipv6dhcp"
+                         ng-value="false"/>
+                  {{'network.vmknic.settings.portGroup.ipv6.dhcpv6.disabled'
+                  | translate}}
+               </label>
+            </div>
+         </div>
+
+         <div vui-stack-block>
+            <span
+               vui-sb-label>{{'network.vmknic.settings.portGroup.ipv6.autoConfig.label'
+                  | translate}}</span>
+            <div vui-sb-content>
+               <label>
+                  <input type="radio" ng-model="data.ipv6rad"
+                         ng-value="true"/>
+                  {{'network.vmknic.settings.portGroup.ipv6.autoConfig.yes'
+                  | translate}}
+               </label>
+               <label>
+                  <input type="radio" ng-model="data.ipv6rad"
+                         ng-value="false"/>
+                  {{'network.vmknic.settings.portGroup.ipv6.autoConfig.no'
+                  | translate}}
+               </label>
+            </div>
+         </div>
+
+         <div vui-stack-block>
+            <span
+               vui-sb-label>{{'network.vmknic.settings.portGroup.ipv6.staticAddresses.label'
+                  | translate}}</span>
+            <div vui-sb-content>
+               <ul style="list-style: none; margin: 0;">
+                  <li ng-repeat="address in data.ipv6static" style="margin-bottom: 3px;">
+                     <input type="text" ng-model="address.address" class="inline" style="width: 200px;"
+                        placeholder="{{'network.vmknic.settings.portGroup.ipv6.staticAddresses.placeholder.address' | translate}}"/>
+                     / <input type="text" ng-model="address.prefix" class="inline" style="width: 50px;"
+                        placeholder="{{'network.vmknic.settings.portGroup.ipv6.staticAddresses.placeholder.prefix' | translate}}" />
+                  </li>
+               </ul>
+               <button
+                  ng-click="addStaticIPv6Address()">{{'network.vmknic.settings.portGroup.ipv6.staticAddresses.addAddress'
+                  | translate}}</button>
+            </div>
+         </div>
+
+      </div>
+
+      <div vui-stack-block="netstackBlock">
+         <span
+            vui-sb-label>{{'network.vmknic.settings.portGroup.ipv6.tcpip.label'
+                  | translate}}</span>
+         <div vui-sb-content>
+            <label style="padding-left: 0px;" title="{{'network.vmknic.settings.portGroup.ipv6.tcpip.label'
+                  | translate}}"><div class="stack-dropdown inline" vui-dropdown="netstack"></div></label>
+         </div>
+      </div>
+
+      <div vui-stack-block="servicesBlock">
+         <span
+            vui-sb-label>{{'network.vmknic.settings.portGroup.ipv6.services.label' | translate}}</span>
+
+         <div vui-sb-content class="checkbox-table">
+            <ul>
+               <li>
+                  <label
+                     ng-class="{'disabled': netstack.selectedValue === 'vmotion'}">
+                     <input type="checkbox"
+                        ng-disabled="netstack.selectedValue === 'vmotion'"
+                        ng-model="data.services.vmotion"
+                        value="vMotion"/> {{'network.vmknic.settings.services.vMotion.label' | translate}}
+                  </label>
+               </li>
+
+               <li ng-if="isDefined(data.services.vSphereProvisioning)">
+                  <label
+                     ng-class="{'disabled': netstack.selectedValue === 'vmotion'}">
+                     <input
+                        ng-disabled="netstack.selectedValue === 'vmotion'"
+                        type="checkbox"
+                        ng-model="data.services.vSphereProvisioning"
+                        value="vSphereProvisioning"/> {{'network.vmknic.settings.services.vSphereProvisioning.label' | translate}}
+                  </label>
+               </li>
+
+               <li>
+                  <label
+                     ng-class="{'disabled': netstack.selectedValue === 'vmotion'}">
+                     <input
+                        ng-disabled="netstack.selectedValue === 'vmotion'"
+                        type="checkbox"
+                        ng-model="data.services.faultToleranceLogging"
+                        value="faultToleranceLogging"/> {{'network.vmknic.settings.services.faultToleranceLogging.label' | translate}}
+                  </label>
+               </li>
+
+               <li>
+                  <label
+                     ng-class="{'disabled': netstack.selectedValue === 'vmotion'}">
+                     <input
+                        ng-disabled="netstack.selectedValue === 'vmotion'"
+                        type="checkbox"
+                        ng-model="data.services.management"
+                        value="management"/> {{'network.vmknic.settings.services.management.label' | translate}}
+                  </label>
+               </li>
+
+               <li>
+                  <label
+                     ng-class="{'disabled': netstack.selectedValue === 'vmotion'}">
+                     <input
+                        ng-disabled="netstack.selectedValue === 'vmotion'"
+                        type="checkbox"
+                        ng-model="data.services.vSphereReplication"
+                        value="vSphereReplication"/> {{'network.vmknic.settings.services.vSphereReplication.label' | translate}}
+                  </label>
+               </li>
+
+               <li>
+                  <label
+                     ng-class="{'disabled': netstack.selectedValue === 'vmotion'}">
+                     <input
+                        ng-disabled="netstack.selectedValue === 'vmotion'"
+                        type="checkbox"
+                        ng-model="data.services.vSphereReplicationNFC"
+                        value="vSphereReplicationNFC"/> {{'network.vmknic.settings.services.vSphereReplicationNFC.label' | translate}}
+                  </label>
+               </li>
+            </ul>
+         </div>
+      </div>
+   </div>
+</div>

@@ -1,0 +1,813 @@
+# This message file defines all of labels, descriptions in vSAN performance test result showing in UI
+
+#
+# ClusterDomClient
+#
+com.vmware.vsan.perf.entity.cluster-domclient.description = VM 사용량의 관점에서 클러스터에 대한 메트릭입니다.
+
+#
+# ClusterDomClientGraphs
+#
+cluster-domclient.iops.name = IOPS
+cluster-domclient.iops.description = 클러스터의 모든 vSAN 클라이언트(가상 시스템, 통계 개체 등)에 의해 사용되는 IOPS입니다.
+cluster-domclient.iops.metrics.iopsRead.name = 읽기 IOPS
+cluster-domclient.iops.metrics.iopsRead.description = 클러스터의 모든 vSAN 클라이언트(가상 시스템, 통계 개체 등)에 의해 사용되는 읽기 IOPS입니다.
+cluster-domclient.iops.metrics.iopsWrite.name = 쓰기 IOPS
+cluster-domclient.iops.metrics.iopsWrite.description = 클러스터의 모든 vSAN 클라이언트(가상 시스템, 통계 개체 등)에 의해 사용되는 쓰기 IOPS입니다.
+
+cluster-domclient.throughput.name = 처리량
+cluster-domclient.throughput.description = 클러스터의 모든 vSAN 클라이언트(가상 시스템, 통계 개체 등)에 의해 사용되는 처리량입니다.
+cluster-domclient.throughput.metrics.throughputRead.name = 읽기 처리량
+cluster-domclient.throughput.metrics.throughputRead.description = 클러스터의 모든 vSAN 클라이언트(가상 시스템, 통계 개체 등)에 의해 사용되는 읽기 처리량입니다.
+cluster-domclient.throughput.metrics.throughputWrite.name = 쓰기 처리량
+cluster-domclient.throughput.metrics.throughputWrite.description = 클러스터의 모든 vSAN 클라이언트(가상 시스템, 통계 개체 등)에 의해 사용되는 쓰기 처리량입니다.
+
+cluster-domclient.latency.name = 지연 시간
+cluster-domclient.latency.description = 클러스터의 모든 vSAN 클라이언트(가상 시스템, 통계 개체 등)에 의해 생성되는 IO의 평균 지연 시간입니다.
+cluster-domclient.latency.metrics.latencyAvgRead.name = 읽기 지연 시간
+cluster-domclient.latency.metrics.latencyAvgRead.description = 클러스터의 모든 vSAN 클라이언트(가상 시스템, 통계 개체 등)에 의해 생성되는 IO의 평균 읽기 지연 시간입니다.
+cluster-domclient.latency.metrics.latencyAvgWrite.name = 쓰기 지연 시간
+cluster-domclient.latency.metrics.latencyAvgWrite.description = 클러스터의 모든 vSAN 클라이언트(가상 시스템, 통계 개체 등)에 의해 생성되는 IO의 평균 쓰기 지연 시간입니다.
+
+cluster-domclient.congestion.name = 정체
+cluster-domclient.congestion.description = 클러스터의 모든 vSAN 클라이언트(가상 시스템, 통계 개체 등)에 의해 생성되는 IO의 정체입니다.
+cluster-domclient.congestion.metrics.congestion.name = 정체
+cluster-domclient.congestion.metrics.congestion.description = 클러스터의 모든 vSAN 클라이언트(가상 시스템, 통계 개체 등)에 의해 생성되는 IO의 정체입니다.
+
+cluster-domclient.oio.name = 미결 IO
+cluster-domclient.oio.description = 클러스터의 모든 vSAN 클라이언트(가상 시스템, 통계 개체 등)의 미결 IO입니다.
+cluster-domclient.oio.metrics.oio.name = 미결 IO
+cluster-domclient.oio.metrics.oio.description = 클러스터의 모든 vSAN 클라이언트(가상 시스템, 통계 개체 등)의 미결 IO입니다.
+
+#
+# ClusterDomCompMgr
+#
+com.vmware.vsan.perf.entity.cluster-domcompmgr.description = vSAN 백엔드의 관점에서 클러스터에 대한 메트릭입니다.
+
+#
+# ClusterDomCompMgrGraphs
+#
+
+cluster-domcompmgr.iops.name = IOPS
+cluster-domcompmgr.iops.description = vSAN 클러스터 백엔드 IOPS
+cluster-domcompmgr.iops.metrics.iopsRead.name = 읽기 IOPS
+cluster-domcompmgr.iops.metrics.iopsRead.description = vSAN 백엔드의 관점에서 vSAN 클러스터 읽기 IOPS입니다.
+cluster-domcompmgr.iops.metrics.iopsResyncRead.name = 다시 동기화 읽기 IOPS
+cluster-domcompmgr.iops.metrics.iopsResyncRead.description = 다시 동기화 트래픽의 vSAN 클러스터 읽기 IOPS로, vSAN 백엔드의 관점에서 개체 다시 동기화로 인한 정책 변경, 복구, 유지 보수 모드/제거 및 재조정을 포함합니다.
+cluster-domcompmgr.iops.metrics.iopsWrite.name = 쓰기 IOPS
+cluster-domcompmgr.iops.metrics.iopsWrite.description = vSAN 백엔드의 관점에서 vSAN 클러스터 쓰기 IOPS입니다.
+cluster-domcompmgr.iops.metrics.iopsRecWrite.name = 복구 쓰기 IOPS
+cluster-domcompmgr.iops.metrics.iopsRecWrite.description = vSAN 백엔드의 관점에서 vSAN 클러스터 복구 쓰기 IOPS입니다.
+
+cluster-domcompmgr.throughput.name = 처리량
+cluster-domcompmgr.throughput.description = vSAN 클러스터 백엔드 처리량
+cluster-domcompmgr.throughput.metrics.throughputRead.name = 읽기 처리량
+cluster-domcompmgr.throughput.metrics.throughputRead.description = vSAN 백엔드의 관점에서 vSAN 클러스터 읽기 처리량입니다.
+cluster-domcompmgr.throughput.metrics.tputResyncRead.name = 다시 동기화 읽기 처리량
+cluster-domcompmgr.throughput.metrics.tputResyncRead.description = 다시 동기화 트래픽의 vSAN 클러스터 읽기 처리량으로, vSAN 백엔드의 관점에서 개체 다시 동기화로 인한 정책 변경, 복구, 유지 보수 모드/제거 및 재조정을 포함합니다.
+cluster-domcompmgr.throughput.metrics.throughputWrite.name = 쓰기 처리량
+cluster-domcompmgr.throughput.metrics.throughputWrite.description = vSAN 백엔드의 관점에서 vSAN 클러스터 쓰기 처리량입니다.
+cluster-domcompmgr.throughput.metrics.throughputRecWrite.name = 복구 쓰기 처리량
+cluster-domcompmgr.throughput.metrics.throughputRecWrite.description = vSAN 백엔드의 관점에서 vSAN 클러스터 복구 쓰기 처리량입니다.
+
+cluster-domcompmgr.latency.name = 지연 시간
+cluster-domcompmgr.latency.description = vSAN 클러스터 백엔드 지연 시간
+cluster-domcompmgr.latency.metrics.latencyAvgRead.name = 읽기 지연 시간
+cluster-domcompmgr.latency.metrics.latencyAvgRead.description = vSAN 백엔드의 관점에서 vSAN 클러스터 평균 읽기 지연 시간입니다.
+cluster-domcompmgr.latency.metrics.latAvgResyncRead.name = 다시 동기화 읽기 지연 시간
+cluster-domcompmgr.latency.metrics.latAvgResyncRead.description = 다시 동기화 트래픽의 vSAN 클러스터 읽기 평균 지연 시간으로, vSAN 백엔드의 관점에서 개체 다시 동기화로 인한 정책 변경, 복구, 유지 보수 모드/제거 및 재조정을 포함합니다.
+cluster-domcompmgr.latency.metrics.latencyAvgWrite.name = 쓰기 지연 시간
+cluster-domcompmgr.latency.metrics.latencyAvgWrite.description = vSAN 백엔드의 관점에서 vSAN 클러스터 평균 쓰기 지연 시간입니다.
+cluster-domcompmgr.latency.metrics.latencyAvgRecWrite.name = 복구 쓰기 지연 시간
+cluster-domcompmgr.latency.metrics.latencyAvgRecWrite.description = vSAN 백엔드의 관점에서 vSAN 클러스터 복구 쓰기 평균 지연 시간입니다.
+
+cluster-domcompmgr.congestion.name = 정체
+cluster-domcompmgr.congestion.description = vSAN 클러스터 백엔드 정체
+cluster-domcompmgr.congestion.metrics.congestion.name = 정체
+cluster-domcompmgr.congestion.metrics.congestion.description = vSAN 백엔드의 관점에서 vSAN 클러스터 정체입니다.
+
+cluster-domcompmgr.oio.name = 미결 IO
+cluster-domcompmgr.oio.description = vSAN 클러스터 백엔드 미결 IO
+cluster-domcompmgr.oio.metrics.oio.name = 미결 IO
+cluster-domcompmgr.oio.metrics.oio.description = vSAN 백엔드의 관점에서 vSAN 클러스터 미결 IO입니다.
+
+#
+# HostDomClient
+#
+com.vmware.vsan.perf.entity.host-domclient.description = VM 사용량의 관점에서 호스트에 대한 메트릭
+
+#
+# HostDomClientGraphs
+#
+host-domclient.iops.name = IOPS
+host-domclient.iops.description = 호스트의 모든 vSAN 클라이언트(가상 시스템, 통계 개체 등)에 의해 사용되는 IOPS입니다.
+host-domclient.iops.metrics.iopsRead.name = 읽기 IOPS
+host-domclient.iops.metrics.iopsRead.description = 호스트의 모든 vSAN 클라이언트(가상 시스템, 통계 개체 등)에 의해 사용되는 읽기 IOPS입니다.
+host-domclient.iops.metrics.iopsWrite.name =  쓰기 IOPS
+host-domclient.iops.metrics.iopsWrite.description = 호스트의 모든 vSAN 클라이언트(가상 시스템, 통계 개체 등)에 의해 사용되는 쓰기 IOPS입니다.
+
+host-domclient.throughput.name = 처리량
+host-domclient.throughput.description = 호스트의 모든 vSAN 클라이언트(가상 시스템, 통계 개체 등)에 의해 사용되는 처리량입니다.
+host-domclient.throughput.metrics.throughputRead.name = 읽기 처리량
+host-domclient.throughput.metrics.throughputRead.description = 호스트의 모든 vSAN 클라이언트(가상 시스템, 통계 개체 등)에 의해 사용되는 읽기 처리량입니다.
+host-domclient.throughput.metrics.throughputWrite.name = 쓰기 처리량
+host-domclient.throughput.metrics.throughputWrite.description = 호스트의 모든 vSAN 클라이언트(가상 시스템, 통계 개체 등)에 의해 사용되는 쓰기 처리량입니다.
+
+host-domclient.latency.name = 지연 시간
+host-domclient.latency.description = 호스트의 모든 vSAN 클라이언트(가상 시스템, 통계 개체 등)에 의해 생성되는 IO의 평균 지연 시간입니다.
+host-domclient.latency.metrics.latencyAvgRead.name = 읽기 지연 시간
+host-domclient.latency.metrics.latencyAvgRead.description = 호스트의 모든 vSAN 클라이언트(가상 시스템, 통계 개체 등)에 의해 생성되는 IO의 평균 읽기 지연 시간입니다.
+host-domclient.latency.metrics.latencyAvgWrite.name = 쓰기 지연 시간
+host-domclient.latency.metrics.latencyAvgWrite.description = 호스트의 모든 vSAN 클라이언트(가상 시스템, 통계 개체 등)에 의해 생성되는 IO의 평균 쓰기 지연 시간입니다.
+
+host-domclient.clientCacheHits.name = 로컬 클라이언트 캐시 적중 IOPS
+host-domclient.clientCacheHits.description = 로컬 클라이언트의 평균 캐시 읽기 IOPS입니다.
+host-domclient.clientCacheHits.metrics.clientCacheHits.name = 로컬 클라이언트 캐시 적중 IOPS
+host-domclient.clientCacheHits.metrics.clientCacheHits.description = 로컬 클라이언트의 평균 캐시 읽기 IOPS입니다.
+
+host-domclient.clientCacheHitRate.name = 로컬 클라이언트 캐시 적중률
+host-domclient.clientCacheHitRate.description = 로컬 클라이언트 캐시로 충족될 수 있는 읽기 IO의 백분율입니다.
+host-domclient.clientCacheHitRate.metrics.clientCacheHitRate.name = 로컬 클라이언트 캐시 적중률
+host-domclient.clientCacheHitRate.metrics.clientCacheHitRate.description = 로컬 클라이언트 캐시로 충족될 수 있는 읽기 IO의 백분율입니다.
+
+host-domclient.congestion.name = 정체
+host-domclient.congestion.description = 호스트의 모든 vSAN 클라이언트(가상 시스템, 통계 개체 등)에 의해 생성되는 IO의 정체입니다.
+host-domclient.congestion.metrics.congestion.name = 정체
+host-domclient.congestion.metrics.congestion.description = 호스트의 모든 vSAN 클라이언트(가상 시스템, 통계 개체 등)에 의해 생성되는 IO의 정체입니다.
+
+host-domclient.oio.name = 미결 IO
+host-domclient.oio.description = 호스트의 모든 vSAN 클라이언트(가상 시스템, 통계 개체 등)의 미결 IO입니다.
+host-domclient.oio.metrics.oio.name = 미결 IO
+host-domclient.oio.metrics.oio.description = 호스트의 모든 vSAN 클라이언트(가상 시스템, 통계 개체 등)의 미결 IO입니다.
+
+#
+# HostDomCompMgr
+#
+com.vmware.vsan.perf.entity.host-domcompmgr.description = vSAN 백엔드의 관점에서 호스트에 대한 메트릭입니다.
+#
+# HostDomCompMgrGraphs
+#
+host-domcompmgr.iops.name = IOPS
+host-domcompmgr.iops.description = vSAN 백엔드 호스트 IOPS
+host-domcompmgr.iops.metrics.iopsRead.name = 읽기 IOPS
+host-domcompmgr.iops.metrics.iopsRead.description = vSAN 백엔드의 관점에서 vSAN 호스트 읽기 IOPS입니다.
+host-domcompmgr.iops.metrics.iopsWrite.name = 쓰기 IOPS
+host-domcompmgr.iops.metrics.iopsWrite.description = vSAN 백엔드의 관점에서 vSAN 호스트 쓰기 IOPS입니다.
+
+host-domcompmgr.throughput.name = 처리량
+host-domcompmgr.throughput.description = vSAN 백엔드 호스트 처리량
+host-domcompmgr.throughput.metrics.throughputRead.name = 읽기 처리량
+host-domcompmgr.throughput.metrics.throughputRead.description = vSAN 백엔드의 관점에서 vSAN 호스트 읽기 처리량입니다.
+host-domcompmgr.throughput.metrics.throughputWrite.name = 쓰기 처리량
+host-domcompmgr.throughput.metrics.throughputWrite.description = vSAN 백엔드의 관점에서 vSAN 호스트 쓰기 처리량입니다.
+
+host-domcompmgr.latency.name = 지연 시간
+host-domcompmgr.latency.description = vSAN 백엔드 호스트 지연 시간
+host-domcompmgr.latency.metrics.latencyAvgRead.name = 읽기 지연 시간
+host-domcompmgr.latency.metrics.latencyAvgRead.description = vSAN 백엔드의 관점에서 vSAN 호스트 읽기 IO 평균 지연 시간입니다.
+host-domcompmgr.latency.metrics.latencyAvgWrite.name = 쓰기 지연 시간
+host-domcompmgr.latency.metrics.latencyAvgWrite.description = vSAN 백엔드의 관점에서 vSAN 호스트 쓰기 IO 평균 지연 시간입니다.
+
+
+host-domcompmgr.resyncIOPS.name = 다시 동기화 IOPS
+host-domcompmgr.resyncIOPS.description = vSAN 백엔드 호스트 다시 동기화 IOPS
+host-domcompmgr.resyncIOPS.metrics.iopsResyncRead.name = 다시 동기화 읽기 IOPS
+host-domcompmgr.resyncIOPS.metrics.iopsResyncRead.description = 다시 동기화 트래픽의 vSAN 호스트 읽기 IOPS로, vSAN 백엔드의 관점에서 개체 다시 동기화로 인한 정책 변경, 복구, 유지 보수 모드/제거 및 재조정을 포함합니다.
+host-domcompmgr.resyncIOPS.metrics.iopsRecWrite.name = 복구 쓰기 IOPS
+host-domcompmgr.resyncIOPS.metrics.iopsRecWrite.description = vSAN 백엔드의 관점에서 vSAN 호스트 복구 쓰기 IOPS입니다.
+
+
+host-domcompmgr.resyncThroughput.name = 다시 동기화 처리량
+host-domcompmgr.resyncThroughput.description = vSAN 백엔드 호스트 다시 동기화 처리량
+host-domcompmgr.resyncThroughput.metrics.tputResyncRead.name = 다시 동기화 읽기 처리량
+host-domcompmgr.resyncThroughput.metrics.tputResyncRead.description = 다시 동기화 트래픽의 vSAN 호스트 읽기 처리량으로, vSAN 백엔드의 관점에서 개체 다시 동기화로 인한 정책 변경, 복구, 유지 보수 모드/제거 및 재조정을 포함합니다.
+host-domcompmgr.resyncThroughput.metrics.throughputRecWrite.name = 복구 쓰기 처리량
+host-domcompmgr.resyncThroughput.metrics.throughputRecWrite.description = vSAN 백엔드의 관점에서 vSAN 호스트 복구 쓰기 처리량입니다.
+
+
+host-domcompmgr.resyncLatency.name = 다시 동기화 지연 시간
+host-domcompmgr.resyncLatency.description = vSAN 백엔드 호스트 다시 동기화 지연 시간
+host-domcompmgr.resyncLatency.metrics.latAvgResyncRead.name = 다시 동기화 읽기 지연 시간
+host-domcompmgr.resyncLatency.metrics.latAvgResyncRead.description = 다시 동기화 트래픽의 vSAN 호스트 읽기 평균 지연 시간으로, vSAN 백엔드의 관점에서 개체 다시 동기화로 인한 정책 변경, 복구, 유지 보수 모드/제거 및 재조정을 포함합니다.
+host-domcompmgr.resyncLatency.metrics.latencyAvgRecWrite.name = 복구 쓰기 지연 시간
+host-domcompmgr.resyncLatency.metrics.latencyAvgRecWrite.description = vSAN 백엔드의 관점에서 vSAN 호스트 복구 쓰기 IO 평균 지연 시간입니다.
+
+
+host-domcompmgr.congestion.name = 정체
+host-domcompmgr.congestion.description = vSAN 백엔드 호스트 정체
+host-domcompmgr.congestion.metrics.congestion.name = 정체
+host-domcompmgr.congestion.metrics.congestion.description = vSAN 백엔드의 관점에서 vSAN 호스트 정체입니다.
+
+
+host-domcompmgr.oio.name = 미결 IO
+host-domcompmgr.oio.description = vSAN 백엔드 호스트 미결 IO
+host-domcompmgr.oio.metrics.oio.name = 미결 IO
+host-domcompmgr.oio.metrics.oio.description = vSAN 백엔드의 관점에서 vSAN 호스트 미결 IO입니다.
+
+#
+# CacheDisk
+#
+com.vmware.vsan.perf.entity.cache-disk.description = 캐시 계층 디스크에 대한 메트릭
+
+#
+# CacheDiskGraphs
+#
+cache-disk.iopsDev.name = 물리적/펌웨어 계층 IOPS
+cache-disk.iopsDev.description = vSAN 캐시 계층 디스크 물리적/펌웨어 계층 IOPS
+cache-disk.iopsDev.metrics.iopsDevRead.name = 물리적 계층 읽기 IOPS
+cache-disk.iopsDev.metrics.iopsDevRead.description = vSAN 디스크 물리적/펌웨어 계층 읽기 IOPS입니다.
+cache-disk.iopsDev.metrics.iopsDevWrite.name = 물리적 계층 쓰기 IOPS
+cache-disk.iopsDev.metrics.iopsDevWrite.description = vSAN 디스크 물리적/펌웨어 계층 쓰기 IOPS입니다.
+
+
+cache-disk.throughputDev.name = 물리적/펌웨어 계층 처리량
+cache-disk.throughputDev.description = vSAN 캐시 계층 디스크 물리적/펌웨어 계층 처리량
+cache-disk.throughputDev.metrics.throughputDevRead.name = 물리적 계층 읽기 처리량
+cache-disk.throughputDev.metrics.throughputDevRead.description = vSAN 디스크 물리적/펌웨어 계층 읽기 처리량입니다.
+cache-disk.throughputDev.metrics.throughputDevWrite.name = 물리적 계층 쓰기 처리량
+cache-disk.throughputDev.metrics.throughputDevWrite.description = vSAN 디스크 물리적/펌웨어 계층 쓰기 처리량입니다.
+
+
+cache-disk.latencyDev.name = 물리적/펌웨어 계층 지연 시간
+cache-disk.latencyDev.description = vSAN 캐시 계층 디스크 물리적/펌웨어 계층 지연 시간입니다.
+cache-disk.latencyDev.metrics.latencyDevRead.name = 물리적 계층 읽기 지연 시간
+cache-disk.latencyDev.metrics.latencyDevRead.description = vSAN 디스크 물리적/펌웨어 계층 읽기 지연 시간입니다.
+cache-disk.latencyDev.metrics.latencyDevWrite.name = 물리적 계층 쓰기 지연 시간
+cache-disk.latencyDev.metrics.latencyDevWrite.description = vSAN 디스크 물리적/펌웨어 계층 쓰기 지연 시간입니다.
+cache-disk.latencyDev.metrics.latencyDevGAvg.name = 게스트 평균 지연 시간
+cache-disk.latencyDev.metrics.latencyDevGAvg.description = vSAN 디스크 게스트 IO 지연 시간(총 지연 시간)입니다.
+cache-disk.latencyDev.metrics.latencyDevDAvg.name = 디바이스 평균 지연 시간
+cache-disk.latencyDev.metrics.latencyDevDAvg.description = vSAN 디스크 IO 디바이스 지연 시간(HBA에서 백엔드 스토리지까지)입니다.
+
+#
+# CapacityDisk
+#
+com.vmware.vsan.perf.entity.capacity-disk.description = 용량 계층 디스크에 대한 메트릭
+
+#
+# CapacityDiskGraphs
+#
+capacity-disk.iopsDev.name = 물리적/펌웨어 계층 IOPS
+capacity-disk.iopsDev.description = vSAN 용량 계층 디스크 물리적/펌웨어 계층 IOPS
+capacity-disk.iopsDev.metrics.iopsDevRead.name = 물리적 계층 읽기 IOPS
+capacity-disk.iopsDev.metrics.iopsDevRead.description = vSAN 디스크 물리적/펌웨어 계층 읽기 IOPS입니다.
+capacity-disk.iopsDev.metrics.iopsDevWrite.name = 물리적 계층 쓰기 IOPS
+capacity-disk.iopsDev.metrics.iopsDevWrite.description = vSAN 디스크 물리적/펌웨어 계층 쓰기 IOPS입니다.
+
+capacity-disk.throughputDev.name = 물리적/펌웨어 계층 처리량
+capacity-disk.throughputDev.description = vSAN 용량 계층 디스크 물리적/펌웨어 계층 처리량
+capacity-disk.throughputDev.metrics.throughputDevRead.name = 물리적 계층 읽기 처리량
+capacity-disk.throughputDev.metrics.throughputDevRead.description = vSAN 디스크 물리적/펌웨어 계층 읽기 처리량입니다.
+capacity-disk.throughputDev.metrics.throughputDevWrite.name = 물리적 계층 쓰기 처리량
+capacity-disk.throughputDev.metrics.throughputDevWrite.description = vSAN 디스크 물리적/펌웨어 계층 쓰기 처리량입니다.
+
+
+
+capacity-disk.latencyDev.name = 물리적/펌웨어 계층 지연 시간
+capacity-disk.latencyDev.description = vSAN 용량 계층 디스크 물리적/펌웨어 계층 지연 시간입니다.
+capacity-disk.latencyDev.metrics.latencyDevRead.name = 물리적 계층 읽기 지연 시간
+capacity-disk.latencyDev.metrics.latencyDevRead.description = vSAN 디스크 물리적/펌웨어 계층 읽기 지연 시간입니다.
+capacity-disk.latencyDev.metrics.latencyDevWrite.name = 물리적 계층 쓰기 지연 시간
+capacity-disk.latencyDev.metrics.latencyDevWrite.description = vSAN 디스크 물리적/펌웨어 계층 쓰기 지연 시간입니다.
+capacity-disk.latencyDev.metrics.latencyDevGAvg.name = 게스트 평균 지연 시간
+capacity-disk.latencyDev.metrics.latencyDevGAvg.description = vSAN 디스크 게스트 IO 지연 시간(총 지연 시간)입니다.
+capacity-disk.latencyDev.metrics.latencyDevDAvg.name = 디바이스 평균 지연 시간
+capacity-disk.latencyDev.metrics.latencyDevDAvg.description = vSAN 디스크 IO 디바이스 지연 시간(HBA에서 백엔드 스토리지까지)입니다.
+
+
+capacity-disk.iops.name = vSAN 계층 IOPS
+capacity-disk.iops.description = 용량 계층 디스크 vSAN 계층 IOPS입니다.
+capacity-disk.iops.metrics.iopsRead.name = vSAN 계층 읽기 IOPS
+capacity-disk.iops.metrics.iopsRead.description = 디스크 vSAN 계층 읽기 IOPS입니다.
+capacity-disk.iops.metrics.iopsWrite.name = vSAN 계층 쓰기 IOPS
+capacity-disk.iops.metrics.iopsWrite.description = 디스크 vSAN 계층 쓰기 IOPS입니다.
+
+
+capacity-disk.latency.name = vSAN 계층 지연 시간
+capacity-disk.latency.description = 용량 계층 디스크 vSAN 계층 지연 시간입니다.
+capacity-disk.latency.metrics.latencyRead.name = vSAN 계층 읽기 지연 시간
+capacity-disk.latency.metrics.latencyRead.description = 디스크 vSAN 계층 읽기 지연 시간입니다.
+capacity-disk.latency.metrics.latencyWrite.name = vSAN 계층 쓰기 지연 시간
+capacity-disk.latency.metrics.latencyWrite.description = 디스크 vSAN 계층 쓰기 지연 시간입니다.
+
+#
+# DiskGroup
+#
+com.vmware.vsan.perf.entity.disk-group.description = 디스크 그룹에 대한 메트릭입니다.
+
+#
+# DiskGroupGraphs
+#
+disk-group.iopsFrontend.name = 프런트 엔드(게스트) IOPS
+disk-group.iopsFrontend.description = vSAN 디스크 그룹(캐시 계층 디스크) 프런트 엔드(게스트) IOPS입니다.
+disk-group.iopsFrontend.metrics.iopsRead.name = 프런트 엔드 읽기 IOPS
+disk-group.iopsFrontend.metrics.iopsRead.description = RC 읽기 누락을 포함한 vSAN 디스크 그룹(캐시 계층 디스크) 프런트 엔드 읽기 IOPS입니다.
+disk-group.iopsFrontend.metrics.iopsWrite.name = 프런트 엔드 쓰기 IOPS
+disk-group.iopsFrontend.metrics.iopsWrite.description = vSAN 디스크 그룹(캐시 계층 디스크) 프런트 엔드 쓰기 IOPS입니다.
+disk-group.iopsFrontend.metrics.iopsRcRead.name = 읽기 캐시 읽기 IOPS
+disk-group.iopsFrontend.metrics.iopsRcRead.description = vSAN 디스크 그룹(캐시 계층 디스크) 읽기 캐시 읽기 IOPS입니다.
+disk-group.iopsFrontend.metrics.iopsWbWrite.name = 쓰기 버퍼 쓰기 IOPS
+disk-group.iopsFrontend.metrics.iopsWbWrite.description = vSAN 디스크 그룹(캐시 계층 디스크) 쓰기 버퍼 쓰기 IOPS입니다.
+
+
+disk-group.throughputFrontend.name = 프런트 엔드(게스트) 처리량
+disk-group.throughputFrontend.description = vSAN 디스크 그룹(캐시 계층 디스크) 프런트 엔드(게스트) 처리량입니다.
+disk-group.throughputFrontend.metrics.throughputRead.name = 프런트 엔드 읽기 처리량
+disk-group.throughputFrontend.metrics.throughputRead.description = vSAN 디스크 그룹(캐시 계층 디스크) 프런트 엔드 읽기 처리량입니다.
+disk-group.throughputFrontend.metrics.throughputWrite.name = 프런트 엔드 쓰기 처리량
+disk-group.throughputFrontend.metrics.throughputWrite.description = vSAN 디스크 그룹(캐시 계층 디스크) 프런트 엔드 쓰기 처리량입니다.
+
+
+disk-group.latencyFrontend.name = 프런트 엔드(게스트) 지연 시간
+disk-group.latencyFrontend.description = vSAN 디스크 그룹(캐시 계층 디스크) 프런트 엔드(게스트) 지연 시간입니다.
+disk-group.latencyFrontend.metrics.latencyAvgRead.name = 프런트 엔드 읽기 지연 시간
+disk-group.latencyFrontend.metrics.latencyAvgRead.description = vSAN 디스크 그룹(캐시 계층 디스크) 프런트 엔드 읽기 지연 시간입니다.
+disk-group.latencyFrontend.metrics.latencyAvgWrite.name = 프런트 엔드 쓰기 지연 시간
+disk-group.latencyFrontend.metrics.latencyAvgWrite.description = vSAN 디스크 그룹(캐시 계층 디스크) 프런트 엔드 쓰기 지연 시간입니다.
+disk-group.latencyFrontend.metrics.latencyRcRead.name = 읽기 캐시 읽기 지연 시간
+disk-group.latencyFrontend.metrics.latencyRcRead.description = vSAN 디스크 그룹(캐시 계층 디스크) 읽기 캐시 읽기 지연 시간입니다.
+disk-group.latencyFrontend.metrics.latencyWbWrite.name = 쓰기 버퍼 쓰기 지연 시간
+disk-group.latencyFrontend.metrics.latencyWbWrite.description = vSAN 디스크 그룹(캐시 계층 디스크) 쓰기 버퍼 쓰기 지연 시간입니다.
+
+
+disk-group.iopsOverhead.name = 오버헤드 IOPS
+disk-group.iopsOverhead.description = vSAN 디스크 그룹(캐시 계층 디스크) 오버헤드 IOPS입니다.
+disk-group.iopsOverhead.metrics.iopsRcWrite.name = 읽기 캐시 쓰기 IOPS
+disk-group.iopsOverhead.metrics.iopsRcWrite.description = vSAN 디스크 그룹(캐시 계층 디스크) 읽기 캐시 쓰기 IOPS입니다.
+disk-group.iopsOverhead.metrics.iopsWbRead.name = 쓰기 버퍼 읽기 IOPS
+disk-group.iopsOverhead.metrics.iopsWbRead.description = vSAN 디스크 그룹(캐시 계층 디스크) 쓰기 버퍼 읽기 IOPS입니다.
+
+
+disk-group.latencyOverhead.name = 오버헤드 IO 지연 시간
+disk-group.latencyOverhead.description = vSAN 디스크 그룹(캐시 계층 디스크) 오버헤드 IO 지연 시간입니다.
+disk-group.latencyOverhead.metrics.latencyRcWrite.name = 읽기 캐시 쓰기 지연 시간
+disk-group.latencyOverhead.metrics.latencyRcWrite.description = vSAN 디스크 그룹(캐시 계층 디스크) 읽기 캐시 쓰기 지연 시간입니다.
+disk-group.latencyOverhead.metrics.latencyWbRead.name = 쓰기 버퍼 읽기 지연 시간
+disk-group.latencyOverhead.metrics.latencyWbRead.description = vSAN 디스크 그룹(캐시 계층 디스크) 쓰기 버퍼 읽기 지연 시간입니다.
+
+
+disk-group.rcHitRate.name = 읽기 캐시 적중률
+disk-group.rcHitRate.description = vSAN 디스크 그룹(캐시 계층 디스크) 읽기 캐시 적중률입니다.
+disk-group.rcHitRate.metrics.rcHitRate.name = 읽기 캐시 적중률
+disk-group.rcHitRate.metrics.rcHitRate.description = vSAN 디스크 그룹(캐시 계층 디스크) 읽기 캐시 적중률입니다.
+
+
+disk-group.evictions.name = 축출
+disk-group.evictions.description = vSAN 디스크 그룹(캐시 계층 디스크) 축출입니다.
+disk-group.evictions.metrics.warEvictions.name = 캐시 무효화
+disk-group.evictions.metrics.warEvictions.description = 덮어쓰기로 인해 무효화된 캐시 행입니다.
+disk-group.evictions.metrics.quotaEvictions.name = 축출
+disk-group.evictions.metrics.quotaEvictions.description = 읽기 캐시 경합으로 인한 축출입니다.
+
+
+disk-group.wbFreePct.name = 쓰기 버퍼 해제 백분율
+disk-group.wbFreePct.description = vSAN 디스크 그룹(캐시 계층 디스크) 쓰기 버퍼 해제 백분율
+disk-group.wbFreePct.metrics.wbFreePct.name = 쓰기 버퍼 해제 백분율
+disk-group.wbFreePct.metrics.wbFreePct.description = vSAN 디스크 그룹(캐시 계층 디스크) 쓰기 버퍼 해제 백분율입니다.
+
+disk-group.capacity.name = 용량 및 사용량
+disk-group.capacity.description = vSAN 디스크 그룹 용량 및 사용량
+disk-group.capacity.metrics.capacity.name = 용량
+disk-group.capacity.metrics.capacity.description = vSAN 디스크 그룹 용량입니다.
+disk-group.capacity.metrics.capacityUsed.name = 사용된 용량
+disk-group.capacity.metrics.capacityUsed.description = vSAN 디스크 그룹 사용된 용량입니다.
+disk-group.capacity.metrics.capacityReserved.name = 예약된 용량
+disk-group.capacity.metrics.capacityReserved.description = vSAN 디스크 그룹 예약된 용량입니다.
+disk-group.capacity.metrics.rcSize.name = 읽기 캐시 크기
+disk-group.capacity.metrics.rcSize.description = vSAN 디스크 그룹 읽기 캐시 크기입니다.
+disk-group.capacity.metrics.wbSize.name = 쓰기 버퍼 크기
+disk-group.capacity.metrics.wbSize.description = vSAN 디스크 그룹 쓰기 버퍼 크기입니다.
+
+
+disk-group.destage.name = 캐시 디스크 스테이징 해제율
+disk-group.destage.description = 캐시 디스크에서 용량 디스크로 데이터 스테이징 해제의 처리량
+disk-group.destage.metrics.ssdBytesDrained.name = SSD에서 바이트 스테이징 해제
+disk-group.destage.metrics.ssdBytesDrained.description = 캐시 디스크에서 용량 디스크로 스테이징 해제된 SSD 바이트의 처리량
+disk-group.destage.metrics.zeroBytesDrained.name = 0바이트 스테이징 해제
+disk-group.destage.metrics.zeroBytesDrained.description = 용량 디스크로 스테이징 해제된 0바이트의 처리량
+
+disk-group.congestions.name = 정체
+disk-group.congestions.description = vSAN 디스크 그룹 정체입니다.
+disk-group.congestions.metrics.memCongestion.name = 메모리 정체
+disk-group.congestions.metrics.memCongestion.description = vSAN 디스크 그룹 메모리 정체입니다.
+disk-group.congestions.metrics.slabCongestion.name = 슬래브 정체
+disk-group.congestions.metrics.slabCongestion.description = vSAN 디스크 그룹 슬래브 정체입니다.
+disk-group.congestions.metrics.ssdCongestion.name = SSD 정체
+disk-group.congestions.metrics.ssdCongestion.description = vSAN 디스크 그룹 SSD 정체입니다.
+disk-group.congestions.metrics.iopsCongestion.name = IOPS 정체
+disk-group.congestions.metrics.iopsCongestion.description = vSAN 디스크 그룹 IOPS 정체입니다.
+disk-group.congestions.metrics.logCongestion.name = 로그 정체
+disk-group.congestions.metrics.logCongestion.description = vSAN 디스크 그룹 로그 정체입니다.
+disk-group.congestions.metrics.compCongestion.name = Comp 정체
+disk-group.congestions.metrics.compCongestion.description = vSAN 디스크 그룹 Comp 정체입니다.
+
+
+disk-group.oio.name = 미결 IO
+disk-group.oio.description = 디스크 그룹의 미결 쓰기 IO
+disk-group.oio.metrics.oioWrite.name = 미결 쓰기 OP
+disk-group.oio.metrics.oioWrite.description = 디스크 그룹의 미결 쓰기 작업 수
+disk-group.oio.metrics.oioRecWrite.name = 미결 복구 쓰기 OP
+disk-group.oio.metrics.oioRecWrite.description = 디스크 그룹의 미결 복구 쓰기 작업 수
+
+
+disk-group.oioSize.name = 미결 IO 크기
+disk-group.oioSize.description = 디스크 그룹의 미결 쓰기 IO 크기
+disk-group.oioSize.metrics.oioWriteSize.name = 미결 쓰기 IO 크기
+disk-group.oioSize.metrics.oioWriteSize.description = 디스크 그룹의 미결 쓰기 IO 크기
+disk-group.oioSize.metrics.oioRecWriteSize.name = 미결 복구 쓰기 IO 크기
+disk-group.oioSize.metrics.oioRecWriteSize.description = 디스크 그룹의 미결 복구 쓰기 IO 크기
+
+
+disk-group.schedulerIOPct.name = 지연된 IO 백분율
+disk-group.schedulerIOPct.description = vSAN 내부 대기열을 통과하는 IO 백분율입니다.
+disk-group.schedulerIOPct.metrics.iopsDelayPctSched.name = 지연된 IO 백분율
+disk-group.schedulerIOPct.metrics.iopsDelayPctSched.description = vSAN 내부 대기열을 통과하는 IO 백분율입니다.
+
+disk-group.schedulerLatency.name = 지연된 IO 평균 지연 시간
+disk-group.schedulerLatency.description = vSAN 내부 대기열을 통과하는 IO의 평균 지연 시간입니다.
+disk-group.schedulerLatency.metrics.latencyDelaySched.name = 지연된 IO 평균 지연 시간
+disk-group.schedulerLatency.metrics.latencyDelaySched.description = vSAN 내부 대기열을 통과하는 총 IO의 평균 지연 시간입니다.
+disk-group.schedulerLatency.metrics.latencySchedQueueNS.name = 네임스페이스 대기열의 지연 시간
+disk-group.schedulerLatency.metrics.latencySchedQueueNS.description = vSAN 내부 스케줄러의 네임스페이스 IO 대기열 지연 시간입니다.
+disk-group.schedulerLatency.metrics.latencySchedQueueRec.name = 복구 대기열의 지연 시간
+disk-group.schedulerLatency.metrics.latencySchedQueueRec.description = vSAN 내부 스케줄러의 복구 IO 대기열 지연 시간입니다.
+disk-group.schedulerLatency.metrics.latencySchedQueueVM.name = VM 대기열의 지연 시간
+disk-group.schedulerLatency.metrics.latencySchedQueueVM.description = vSAN 내부 스케줄러의 VM IO 대기열 지연 시간입니다.
+disk-group.schedulerLatency.metrics.latencySchedQueueMeta.name = 메타 대기열의 지연 시간
+disk-group.schedulerLatency.metrics.latencySchedQueueMeta.description = vSAN 내부 스케줄러의 메타 IO 대기열 지연 시간입니다.
+
+
+disk-group.schedulerIOPS.name = 지연된 IOPS
+disk-group.schedulerIOPS.description = vSAN 내부 대기열을 통과하는 지연된 IO의 IOPS입니다.
+disk-group.schedulerIOPS.metrics.iopsSched.name = 총 지연된 IOPS
+disk-group.schedulerIOPS.metrics.iopsSched.description = vSAN 내부 대기열을 통과하는 총 IO의 IOPS입니다.
+disk-group.schedulerIOPS.metrics.iopsSchedQueueNS.name = 네임스페이스 대기열의 IOPS
+disk-group.schedulerIOPS.metrics.iopsSchedQueueNS.description = vSAN 내부 스케줄러의 네임스페이스 IO 대기열 IOPS입니다.
+disk-group.schedulerIOPS.metrics.iopsSchedQueueRec.name = 복구 대기열의 IOPS
+disk-group.schedulerIOPS.metrics.iopsSchedQueueRec.description = vSAN 내부 스케줄러의 복구 IO 대기열 IOPS입니다.
+disk-group.schedulerIOPS.metrics.iopsSchedQueueVM.name = VM 대기열의 IOPS
+disk-group.schedulerIOPS.metrics.iopsSchedQueueVM.description = vSAN 내부 스케줄러의 VM IO 대기열 IOPS입니다.
+disk-group.schedulerIOPS.metrics.iopsSchedQueueMeta.name = 메타 대기열의 IOPS
+disk-group.schedulerIOPS.metrics.iopsSchedQueueMeta.description = vSAN 내부 스케줄러의 메타 IO 대기열 IOPS입니다.
+
+
+disk-group.schedulerTput.name = 지연된 IO 처리량
+disk-group.schedulerTput.description = vSAN 내부 대기열을 통과하는 지연된 IO의 처리량입니다.
+disk-group.schedulerTput.metrics.throughputSched.name = 총 대기열 처리량
+disk-group.schedulerTput.metrics.throughputSched.description = vSAN 내부 스케줄러의 총 지연된 IO 처리량입니다.
+disk-group.schedulerTput.metrics.throughputSchedQueueNS.name = 네임스페이스 대기열의 처리량
+disk-group.schedulerTput.metrics.throughputSchedQueueNS.description = vSAN 내부 스케줄러의 네임스페이스 IO 대기열 처리량입니다.
+disk-group.schedulerTput.metrics.throughputSchedQueueRec.name = 복구 대기열의 처리량
+disk-group.schedulerTput.metrics.throughputSchedQueueRec.description = vSAN 내부 스케줄러의 복구 IO 대기열 처리량입니다.
+disk-group.schedulerTput.metrics.throughputSchedQueueVM.name = VM 대기열의 처리량
+disk-group.schedulerTput.metrics.throughputSchedQueueVM.description = vSAN 내부 스케줄러의 VM IO 대기열 처리량입니다.
+disk-group.schedulerTput.metrics.throughputSchedQueueMeta.name = 메타 대기열의 처리량
+disk-group.schedulerTput.metrics.throughputSchedQueueMeta.description = vSAN 내부 스케줄러의 메타 IO 대기열 처리량입니다.
+
+
+disk-group.iopsResync.name = 다시 동기화 IOPS
+disk-group.iopsResync.description = 다시 동기화 트래픽의 vSAN 디스크 그룹 수준 IOPS로, 개체 다시 동기화로 인한 정책 변경, 복구, 유지 보수 모드/제거 및 재조정을 포함합니다.
+disk-group.iopsResync.metrics.iopsResyncReadPolicy.name = 정책 변경 읽기
+disk-group.iopsResync.metrics.iopsResyncReadPolicy.description = 정책 변경에 의해 유발된 다시 동기화 트래픽에 대한 vSAN 디스크 그룹 수준 읽기 IOPS입니다.
+disk-group.iopsResync.metrics.iopsResyncReadDecom.name = 제거 읽기
+disk-group.iopsResync.metrics.iopsResyncReadDecom.description = 유지 보수 모드 및 개체 제거에 의해 유발된 다시 동기화 트래픽에 대한 vSAN 디스크 그룹 수준 읽기 IOPS입니다.
+disk-group.iopsResync.metrics.iopsResyncReadRebalance.name = 재조정 읽기
+disk-group.iopsResync.metrics.iopsResyncReadRebalance.description = 개체 재조정에 의해 유발된 다시 동기화 트래픽에 대한 vSAN 디스크 그룹 수준 읽기 IOPS입니다.
+disk-group.iopsResync.metrics.iopsResyncReadFixComp.name = 복구 읽기
+disk-group.iopsResync.metrics.iopsResyncReadFixComp.description = 개체 복구에 의해 유발된 다시 동기화 트래픽에 대한 vSAN 디스크 그룹 수준 읽기 IOPS입니다.
+disk-group.iopsResync.metrics.iopsResyncWritePolicy.name = 정책 변경 쓰기
+disk-group.iopsResync.metrics.iopsResyncWritePolicy.description = 정책 변경에 의해 유발된 다시 동기화 트래픽에 대한 vSAN 디스크 그룹 수준 쓰기 IOPS입니다.
+disk-group.iopsResync.metrics.iopsResyncWriteDecom.name = 제거 쓰기
+disk-group.iopsResync.metrics.iopsResyncWriteDecom.description = 유지 보수 모드 및 개체 제거에 의해 유발된 다시 동기화 트래픽에 대한 vSAN 디스크 그룹 수준 쓰기 IOPS입니다.
+disk-group.iopsResync.metrics.iopsResyncWriteRebalance.name = 재조정 쓰기
+disk-group.iopsResync.metrics.iopsResyncWriteRebalance.description = 개체 재조정에 의해 유발된 다시 동기화 트래픽에 대한 vSAN 디스크 그룹 수준 쓰기 IOPS입니다.
+disk-group.iopsResync.metrics.iopsResyncWriteFixComp.name = 복구 쓰기
+disk-group.iopsResync.metrics.iopsResyncWriteFixComp.description = 개체 복구에 의해 유발된 다시 동기화 트래픽에 대한 vSAN 디스크 그룹 수준 쓰기 IOPS입니다.
+
+disk-group.tputResync.name = 다시 동기화 처리량
+disk-group.tputResync.description = 다시 동기화 트래픽의 vSAN 디스크 그룹 수준 처리량으로, 개체 다시 동기화로 인한 정책 변경, 복구, 유지 보수 모드/제거 및 재조정을 포함합니다.
+disk-group.tputResync.metrics.tputResyncReadPolicy.name = 정책 변경 읽기
+disk-group.tputResync.metrics.tputResyncReadPolicy.description = 정책 변경에 의해 유발된 다시 동기화 트래픽에 대한 vSAN 디스크 그룹 수준 읽기 처리량입니다.
+disk-group.tputResync.metrics.tputResyncReadDecom.name = 제거 읽기
+disk-group.tputResync.metrics.tputResyncReadDecom.description = 유지 보수 모드 및 개체 제거에 의해 유발된 다시 동기화 트래픽에 대한 vSAN 디스크 그룹 수준 읽기 처리량입니다.
+disk-group.tputResync.metrics.tputResyncReadRebalance.name = 재조정 읽기
+disk-group.tputResync.metrics.tputResyncReadRebalance.description = 개체 재조정에 의해 유발된 다시 동기화 트래픽에 대한 vSAN 디스크 그룹 수준 읽기 처리량입니다.
+disk-group.tputResync.metrics.tputResyncReadFixComp.name = 복구 읽기
+disk-group.tputResync.metrics.tputResyncReadFixComp.description = 개체 복구에 의해 유발된 다시 동기화 트래픽에 대한 vSAN 디스크 그룹 수준 읽기 처리량입니다.
+disk-group.tputResync.metrics.tputResyncWritePolicy.name = 정책 변경 쓰기
+disk-group.tputResync.metrics.tputResyncWritePolicy.description = 정책 변경에 의해 유발된 다시 동기화 트래픽에 대한 vSAN 디스크 그룹 수준 쓰기 처리량입니다.
+disk-group.tputResync.metrics.tputResyncWriteDecom.name = 서비스 해제 쓰기
+disk-group.tputResync.metrics.tputResyncWriteDecom.description = 유지 보수 모드 및 개체 제거에 의해 유발된 다시 동기화 트래픽에 대한 vSAN 디스크 그룹 수준 쓰기 처리량입니다.
+disk-group.tputResync.metrics.tputResyncWriteRebalance.name = 재조정 쓰기
+disk-group.tputResync.metrics.tputResyncWriteRebalance.description = 개체 재조정에 의해 유발된 다시 동기화 트래픽에 대한 vSAN 디스크 그룹 수준 쓰기 처리량입니다.
+disk-group.tputResync.metrics.tputResyncWriteFixComp.name = 복구 쓰기
+disk-group.tputResync.metrics.tputResyncWriteFixComp.description = 개체 복구에 의해 유발된 다시 동기화 트래픽에 대한 vSAN 디스크 그룹 수준 쓰기 처리량입니다.
+
+disk-group.latResync.name = 다시 동기화 지연 시간
+disk-group.latResync.description = 다시 동기화 트래픽의 vSAN 디스크 그룹 수준 평균 지연 시간으로, 개체 다시 동기화로 인한 정책 변경, 복구, 유지 보수 모드/제거 및 재조정을 포함합니다.
+disk-group.latResync.metrics.latResyncReadPolicy.name = 정책 변경 읽기
+disk-group.latResync.metrics.latResyncReadPolicy.description = 정책 변경에 의해 유발된 다시 동기화 트래픽에 대한 vSAN 디스크 그룹 수준 읽기 지연 시간입니다.
+disk-group.latResync.metrics.latResyncReadDecom.name = 제거 읽기
+disk-group.latResync.metrics.latResyncReadDecom.description = 유지 보수 모드 및 개체 제거에 의해 유발된 다시 동기화 트래픽에 대한 vSAN 디스크 그룹 수준 읽기 지연 시간입니다.
+disk-group.latResync.metrics.latResyncReadRebalance.name = 재조정 읽기
+disk-group.latResync.metrics.latResyncReadRebalance.description = 개체 재조정에 의해 유발된 다시 동기화 트래픽에 대한 vSAN 디스크 그룹 수준 읽기 지연 시간입니다.
+disk-group.latResync.metrics.latResyncReadFixComp.name = 복구 읽기
+disk-group.latResync.metrics.latResyncReadFixComp.description = 개체 복구에 의해 유발된 다시 동기화 트래픽에 대한 vSAN 디스크 그룹 수준 읽기 지연 시간입니다.
+disk-group.latResync.metrics.latResyncWritePolicy.name = 정책 변경 쓰기
+disk-group.latResync.metrics.latResyncWritePolicy.description = 정책 변경에 의해 유발된 다시 동기화 트래픽에 대한 vSAN 디스크 그룹 수준 쓰기 지연 시간입니다.
+disk-group.latResync.metrics.latResyncWriteDecom.name = 제거 쓰기
+disk-group.latResync.metrics.latResyncWriteDecom.description = 유지 보수 모드 및 개체 제거에 의해 유발된 다시 동기화 트래픽에 대한 vSAN 디스크 그룹 수준 쓰기 지연 시간입니다.
+disk-group.latResync.metrics.latResyncWriteRebalance.name = 재조정 쓰기
+disk-group.latResync.metrics.latResyncWriteRebalance.description = 개체 재조정에 의해 유발된 다시 동기화 트래픽에 대한 vSAN 디스크 그룹 수준 쓰기 지연 시간입니다.
+disk-group.latResync.metrics.latResyncWriteFixComp.name = 복구 쓰기
+disk-group.latResync.metrics.latResyncWriteFixComp.description = 개체 복구에 의해 유발된 다시 동기화 트래픽에 대한 vSAN 디스크 그룹 수준 쓰기 지연 시간입니다.
+
+#
+# VirtualSCSI
+#
+com.vmware.vsan.perf.entity.vscsi.description = 가상 시스템의 가상 SCSI에 대한 메트릭
+
+#
+# VirtualSCSIGraphs
+#
+vscsi.iops.name = 가상 SCSI IOPS
+vscsi.iops.description = 가상 시스템 VSCSI IOPS입니다.
+vscsi.iops.metrics.iopsRead.name = 읽기 IOPS
+vscsi.iops.metrics.iopsRead.description = 가상 시스템 VSCSI 읽기 IOPS입니다.
+vscsi.iops.metrics.iopsWrite.name = 쓰기 IOPS
+vscsi.iops.metrics.iopsWrite.description = 가상 시스템 VSCSI 쓰기 IOPS입니다.
+
+
+vscsi.throughput.name = 가상 SCSI 처리량
+vscsi.throughput.description = 가상 시스템 VSCSI 처리량입니다.
+vscsi.throughput.metrics.throughputRead.name = 읽기 처리량
+vscsi.throughput.metrics.throughputRead.description = 가상 시스템 VSCSI 읽기 처리량입니다.
+vscsi.throughput.metrics.throughputWrite.name = 쓰기 처리량
+vscsi.throughput.metrics.throughputWrite.description = 가상 시스템 VSCSI 쓰기 처리량입니다.
+
+
+vscsi.latency.name = 가상 SCSI 지연 시간
+vscsi.latency.description = 가상 시스템 VSCSI 지연 시간입니다.
+vscsi.latency.metrics.latencyRead.name = 읽기 지연 시간
+vscsi.latency.metrics.latencyRead.description = 가상 시스템 VSCSI 읽기 지연 시간입니다.
+vscsi.latency.metrics.latencyWrite.name = 쓰기 지연 시간
+vscsi.latency.metrics.latencyWrite.description = 가상 시스템 VSCSI 쓰기 지연 시간입니다.
+
+
+#
+# VirtualMachine
+#
+com.vmware.vsan.perf.entity.vm.description = 가상 시스템에 대한 메트릭
+
+
+#
+# VirtualMachineGraphs
+#
+vm.iops.name = IOPS
+vm.iops.description = 가상 시스템 IOPS입니다.
+vm.iops.metrics.iopsRead.name = 읽기 IOPS
+vm.iops.metrics.iopsRead.description = 가상 시스템 읽기 IOPS입니다.
+vm.iops.metrics.iopsWrite.name = 쓰기 IOPS
+vm.iops.metrics.iopsWrite.description = 가상 시스템 쓰기 IOPS입니다.
+
+
+vm.throughput.name = 처리량
+vm.throughput.description = 가상 시스템 처리량입니다.
+vm.throughput.metrics.throughputRead.name = 읽기 처리량
+vm.throughput.metrics.throughputRead.description = 가상 시스템 읽기 처리량입니다.
+vm.throughput.metrics.throughputWrite.name = 쓰기 처리량
+vm.throughput.metrics.throughputWrite.description = 가상 시스템 쓰기 처리량입니다.
+
+
+vm.latency.name = 지연 시간
+vm.latency.description = 가상 시스템 지연 시간입니다.
+vm.latency.metrics.latencyRead.name = 읽기 지연 시간
+vm.latency.metrics.latencyRead.description = 가상 시스템 읽기 지연 시간입니다.
+vm.latency.metrics.latencyWrite.name = 쓰기 지연 시간
+vm.latency.metrics.latencyWrite.description = 가상 시스템 쓰기 지연 시간입니다.
+
+
+#
+# VirtualDisk
+#
+com.vmware.vsan.perf.entity.virtual-disk.description = 가상 디스크에 대한 메트릭입니다.
+
+
+#
+# VirtualDiskGraphs
+#
+virtual-disk.normalized-iops.name = IOPS 및 IOPS 제한
+virtual-disk.normalized-iops.description = 이 그래프는 가상 디스크에 대한 표준화된 IOPS를 보여 줍니다. IOPS 제한이 정책에 지정된 경우 이 그래프는 해당 제한도 표시합니다.
+virtual-disk.normalized-iops.metrics.iopsLimit.name = 표준화된 IOPS 제한
+virtual-disk.normalized-iops.metrics.iopsLimit.description = 적용된 IOPS 제한입니다.
+virtual-disk.normalized-iops.metrics.NIOPS.name = 표준화된 IOPS
+virtual-disk.normalized-iops.metrics.NIOPS.description = 이는 기본적으로 32KB의 가중 크기를 사용하여 표시되는 IOPS를 보여 줍니다. 즉, 64KB 읽기 또는 쓰기 작업은 2 표준화된 IO를 나타냅니다. 가중 크기는 구성 가능한 매개 변수입니다.
+
+
+virtual-disk.delayed-normalized-iops.name = 지연된 표준화된 IOPS
+virtual-disk.delayed-normalized-iops.description = 이 그래프는 IOPS 제한의 애플리케이션으로 인해 지연된 IO에 대한 표준화된 IOPS를 보여 줍니다.
+virtual-disk.delayed-normalized-iops.metrics.NIOPSDelayed.name = 지연된 표준화된 IOPS
+virtual-disk.delayed-normalized-iops.metrics.NIOPSDelayed.description = 이는 지연된 표준화된 IO에 대한 IOPS입니다.
+
+#
+# VMKNICNetStats
+#
+com.vmware.vsan.perf.entity.vsan-vnic-net.description = vSAN VMkernel 네트워크 어댑터의 메트릭
+
+#
+# VMKNICNetStatsGraphs
+#
+vsannic.network-bytes-metrics.name = VMkernel 네트워크 어댑터 처리량
+vsannic.network-bytes-metrics.description = VMkernel 네트워크 어댑터 네트워크 I/O 처리량입니다.
+vsannic.network-bytes-metrics.metrics.rxThroughput.name = 처리량 인바운드
+vsannic.network-bytes-metrics.metrics.rxThroughput.description = VMkernel 네트워크 어댑터 처리량 인바운드입니다.
+vsannic.network-bytes-metrics.metrics.txThroughput.name = 처리량 아웃바운드
+vsannic.network-bytes-metrics.metrics.txThroughput.description = VMkernel 네트워크 어댑터 처리량 아웃바운드입니다.
+vsannic.packets-metrics.name = 초당 VMkernel 네트워크 어댑터 패킷 수
+vsannic.packets-metrics.description = 초당 VMkernel 네트워크 어댑터 패킷 수입니다.
+vsannic.packets-metrics.metrics.rxPackets.name = 초당 인바운드 패킷 수
+vsannic.packets-metrics.metrics.rxPackets.description = 초당 VMkernel 네트워크 어댑터 인바운드 패킷 수입니다.
+vsannic.packets-metrics.metrics.txPackets.name = 초당 아웃바운드 패킷 수
+vsannic.packets-metrics.metrics.txPackets.description = 초당 VMkernel 네트워크 어댑터 아웃바운드 패킷 수입니다.
+vsannic.packets-loss-rate.name = VMkernel 네트워크 어댑터 패킷 손실률
+vsannic.packets-loss-rate.description = VMkernel 네트워크 어댑터 패킷 손실률(백분율)입니다.
+vsannic.packets-loss-rate.metrics.rxPacketsLossRate.name = 인바운드 패킷 손실률
+vsannic.packets-loss-rate.metrics.rxPacketsLossRate.description = VMkernel 네트워크 어댑터 인바운드 패킷 손실률(백분율)입니다.
+vsannic.packets-loss-rate.metrics.txPacketsLossRate.name = 아웃바운드 패킷 손실률
+vsannic.packets-loss-rate.metrics.txPacketsLossRate.description = VMkernel 네트워크 어댑터 아웃바운드 패킷 손실률(백분율)입니다.
+
+#
+# VsanHostNetStats
+#
+com.vmware.vsan.perf.entity.vsan-host-net.description = vSAN 호스트 네트워크의 메트릭
+
+#
+# VsanHostNetStatsGraphs
+#
+vsanhost.network-bytes-metrics.name = vSAN 호스트 네트워크 I/O 처리량
+vsanhost.network-bytes-metrics.description = VMkernel 네트워크 어댑터가 사용되도록 설정된 모든 vSAN 트래픽의 호스트 네트워크 I/O 처리량입니다.
+vsanhost.network-bytes-metrics.metrics.rxThroughput.name = 네트워크 인바운드 처리량
+vsanhost.network-bytes-metrics.metrics.rxThroughput.description = VMkernel 네트워크 어댑터가 사용되도록 설정된 모든 vSAN 트래픽의 호스트 처리량 인바운드입니다.
+vsanhost.network-bytes-metrics.metrics.txThroughput.name = 네트워크 아웃바운드 처리량
+vsanhost.network-bytes-metrics.metrics.txThroughput.description = VMkernel 네트워크 어댑터가 사용되도록 설정된 모든 vSAN 트래픽의 호스트 처리량 아웃바운드입니다.
+vsanhost.packets-metrics.name = 초당 vSAN 호스트 패킷 수
+vsanhost.packets-metrics.description = VMkernel 네트워크 어댑터가 사용되도록 설정된 모든 vSAN 트래픽의 초당 vSAN 호스트 패킷 수입니다.
+vsanhost.packets-metrics.metrics.rxPackets.name = 초당 네트워크 인바운드 패킷 수
+vsanhost.packets-metrics.metrics.rxPackets.description = VMkernel 네트워크 어댑터가 사용되도록 설정된 모든 vSAN 트래픽의 초당 호스트 네트워크 인바운드 패킷 수입니다.
+vsanhost.packets-metrics.metrics.txPackets.name = 초당 네트워크 아웃바운드 패킷 수
+vsanhost.packets-metrics.metrics.txPackets.description = VMkernel 네트워크 어댑터가 사용되도록 설정된 모든 vSAN 트래픽의 초당 호스트 네트워크 아웃바운드 패킷 수입니다.
+vsanhost.packets-loss-rate.name = vSAN 호스트 패킷 손실률
+vsanhost.packets-loss-rate.description = VMkernel 네트워크 어댑터가 사용되도록 설정된 모든 vSAN 트래픽의 호스트 패킷 손실률(백분율)입니다.
+vsanhost.packets-loss-rate.metrics.rxPacketsLossRate.name = 네트워크 인바운드 패킷 손실률
+vsanhost.packets-loss-rate.metrics.rxPacketsLossRate.description = VMkernel 네트워크 어댑터가 사용되도록 설정된 모든 vSAN 트래픽의 호스트 인바운드 패킷 손실률(백분율)입니다.
+vsanhost.packets-loss-rate.metrics.txPacketsLossRate.name = 네트워크 아웃바운드 패킷 손실률
+vsanhost.packets-loss-rate.metrics.txPacketsLossRate.description = VMkernel 네트워크 어댑터가 사용되도록 설정된 모든 vSAN 트래픽의 호스트 아웃바운드 패킷 손실률(백분율)입니다.
+
+#
+# pNICNetStats
+#
+com.vmware.vsan.perf.entity.vsan-pnic-net.description = vSAN 물리적 NIC의 메트릭
+
+#
+# pNICNetStatsGraphs
+#
+vsanpnic.network-bytes-metrics.name = 물리적 NIC 처리량
+vsanpnic.network-bytes-metrics.description = 물리적 NIC 네트워크 I/O 처리량입니다.
+vsanpnic.network-bytes-metrics.metrics.rxThroughput.name = 물리적 NIC 처리량 인바운드
+vsanpnic.network-bytes-metrics.metrics.rxThroughput.description = 물리적 NIC 처리량 인바운드입니다.
+vsanpnic.network-bytes-metrics.metrics.txThroughput.name = 물리적 NIC 처리량 아웃바운드
+vsanpnic.network-bytes-metrics.metrics.txThroughput.description = 물리적 NIC 처리량 아웃바운드입니다.
+vsanpnic.packets-metrics.name = 초당 물리적 NIC 패킷 수
+vsanpnic.packets-metrics.description = 초당 물리적 NIC 패킷 수입니다.
+vsanpnic.packets-metrics.metrics.rxPackets.name = 초당 물리적 NIC 인바운드 패킷 수
+vsanpnic.packets-metrics.metrics.rxPackets.description = 초당 물리적 NIC 인바운드 패킷 수입니다.
+vsanpnic.packets-metrics.metrics.txPackets.name = 초당 물리적 NIC 아웃바운드 패킷 수
+vsanpnic.packets-metrics.metrics.txPackets.description = 초당 물리적 NIC 아웃바운드 패킷 수입니다.
+vsanpnic.packets-loss-rate.name = 물리적 NIC 패킷 손실률
+vsanpnic.packets-loss-rate.description = 물리적 NIC 패킷 손실률(백분율)입니다.
+vsanpnic.packets-loss-rate.metrics.rxPacketsLossRate.name = 물리적 NIC 인바운드 패킷 손실률
+vsanpnic.packets-loss-rate.metrics.rxPacketsLossRate.description = 물리적 NIC 인바운드 패킷 손실률(백분율)입니다.
+vsanpnic.packets-loss-rate.metrics.txPacketsLossRate.name = 물리적 NIC 아웃바운드 패킷 손실률
+vsanpnic.packets-loss-rate.metrics.txPacketsLossRate.description = 물리적 NIC 아웃바운드 패킷 손실률(백분율)입니다.
+
+#
+# VsanIscsiHostStats
+#
+com.vmware.vsan.perf.entity.vsan-iscsi-host.description = ESXi 호스트에 있는 모든 vSAN iSCSI 대상의 메트릭
+
+#
+## VsanIscsiHostStatsGraphs
+#
+vsaniscsihost.iops.name = IOPS
+vsaniscsihost.iops.description = 이 ESXi 호스트의 모든 vSAN iSCSI 대상에 의해 사용되는 IOPS입니다.
+vsaniscsihost.iops.metrics.iopsRead.name = 읽기 IOPS
+vsaniscsihost.iops.metrics.iopsRead.description = 이 ESXi 호스트의 모든 vSAN iSCSI 대상에 의해 사용되는 읽기 IOPS입니다.
+vsaniscsihost.iops.metrics.iopsWrite.name = 쓰기 IOPS
+vsaniscsihost.iops.metrics.iopsWrite.description = 이 ESXi 호스트의 모든 vSAN iSCSI 대상에 의해 사용되는 쓰기 IOPS입니다.
+vsaniscsihost.iops.metrics.iopsTotal.name = 총 IOPS
+vsaniscsihost.iops.metrics.iopsTotal.description = 이 ESXi 호스트의 모든 vSAN iSCSI 대상에 의해 사용되는 총 IOPS입니다.
+
+vsaniscsihost.bandwidth.name = 대역폭
+vsaniscsihost.bandwidth.description = 이 ESXi 호스트의 모든 vSAN iSCSI 대상에 의해 사용되는 대역폭입니다.
+vsaniscsihost.bandwidth.metrics.bandwidthRead.name = 읽기 대역폭
+vsaniscsihost.bandwidth.metrics.bandwidthRead.description = 이 ESXi 호스트의 모든 vSAN iSCSI 대상에 의해 사용되는 읽기 대역폭입니다.
+vsaniscsihost.bandwidth.metrics.bandwidthWrite.name = 쓰기 대역폭
+vsaniscsihost.bandwidth.metrics.bandwidthWrite.description = 이 ESXi 호스트의 모든 vSAN iSCSI 대상에 의해 사용되는 쓰기 대역폭입니다.
+vsaniscsihost.bandwidth.metrics.bandwidthTotal.name = 총 대역폭
+vsaniscsihost.bandwidth.metrics.bandwidthTotal.description = 이 ESXi 호스트의 모든 vSAN iSCSI 대상에 의해 사용되는 총 대역폭입니다.
+
+vsaniscsihost.latency.name = 지연 시간
+vsaniscsihost.latency.description = 이 ESXi 호스트의 모든 vSAN iSCSI 대상에 의해 생성되는 IO의 평균 지연 시간입니다.
+vsaniscsihost.latency.metrics.latencyRead.name = 읽기 지연 시간
+vsaniscsihost.latency.metrics.latencyRead.description = 이 ESXi 호스트의 모든 vSAN iSCSI 대상에 의해 생성되는 IO의 평균 읽기 지연 시간입니다.
+vsaniscsihost.latency.metrics.latencyWrite.name = 쓰기 지연 시간
+vsaniscsihost.latency.metrics.latencyWrite.description = 이 ESXi 호스트의 모든 vSAN iSCSI 대상에 의해 생성되는 IO의 평균 쓰기 지연 시간입니다.
+vsaniscsihost.latency.metrics.latencyTotal.name = 총 지연 시간
+vsaniscsihost.latency.metrics.latencyTotal.description = 이 ESXi 호스트의 모든 vSAN iSCSI 대상에 의해 생성되는 IO의 평균 총 지연 시간입니다.
+
+vsaniscsihost.queue-depth.name = 미결 IO
+vsaniscsihost.queue-depth.description = 이 ESXi 호스트의 모든 vSAN iSCSI 대상의 미결 IO입니다.
+vsaniscsihost.queue-depth.metrics.queueDepth.name = 미결 IO
+vsaniscsihost.queue-depth.metrics.queueDepth.description = 이 ESXi 호스트의 모든 vSAN iSCSI 대상의 미결 IO입니다.
+
+#
+# VsanIscsiTargetStats
+#
+com.vmware.vsan.perf.entity.vsan-iscsi-target.description = vSAN iSCSI 대상에 있는 모든 LUN의 메트릭
+
+#
+## VsanIscsiTargetStatsGraphs
+#
+vsaniscsitarget.iops.name = IOPS
+vsaniscsitarget.iops.description = 이 대상의 모든 vSAN iSCSI LUN에 의해 사용되는 IOPS입니다.
+vsaniscsitarget.iops.metrics.iopsRead.name = 읽기 IOPS
+vsaniscsitarget.iops.metrics.iopsRead.description = 이 대상의 모든 vSAN iSCSI LUN에 의해 사용되는 읽기 IOPS입니다.
+vsaniscsitarget.iops.metrics.iopsWrite.name = 쓰기 IOPS
+vsaniscsitarget.iops.metrics.iopsWrite.description = 이 대상의 모든 vSAN iSCSI LUN에 의해 사용되는 쓰기 IOPS입니다.
+vsaniscsitarget.iops.metrics.iopsTotal.name = 총 IOPS
+vsaniscsitarget.iops.metrics.iopsTotal.description = 이 대상의 모든 vSAN iSCSI LUN에 의해 사용되는 총 IOPS입니다.
+
+vsaniscsitarget.bandwidth.name = 대역폭
+vsaniscsitarget.bandwidth.description = 이 대상의 모든 vSAN iSCSI LUN에 의해 사용되는 대역폭입니다.
+vsaniscsitarget.bandwidth.metrics.bandwidthRead.name = 읽기 대역폭
+vsaniscsitarget.bandwidth.metrics.bandwidthRead.description = 이 대상의 모든 vSAN iSCSI LUN에 의해 사용되는 읽기 대역폭입니다.
+vsaniscsitarget.bandwidth.metrics.bandwidthWrite.name = 쓰기 대역폭
+vsaniscsitarget.bandwidth.metrics.bandwidthWrite.description = 이 대상의 모든 vSAN iSCSI LUN에 의해 사용되는 쓰기 대역폭입니다.
+vsaniscsitarget.bandwidth.metrics.bandwidthTotal.name = 총 대역폭
+vsaniscsitarget.bandwidth.metrics.bandwidthTotal.description = 이 대상의 모든 vSAN iSCSI LUN에 의해 사용되는 총 대역폭입니다.
+
+vsaniscsitarget.latency.name = 지연 시간
+vsaniscsitarget.latency.description = 이 대상의 모든 vSAN iSCSI LUN에 의해 생성되는 IO의 평균 지연 시간입니다.
+vsaniscsitarget.latency.metrics.latencyRead.name = 읽기 지연 시간
+vsaniscsitarget.latency.metrics.latencyRead.description = 이 대상의 모든 vSAN iSCSI LUN에 의해 생성되는 IO의 평균 읽기 지연 시간입니다.
+vsaniscsitarget.latency.metrics.latencyWrite.name = 쓰기 지연 시간
+vsaniscsitarget.latency.metrics.latencyWrite.description = 이 대상의 모든 vSAN iSCSI LUN에 의해 생성되는 IO의 평균 쓰기 지연 시간입니다.
+vsaniscsitarget.latency.metrics.latencyTotal.name = 총 지연 시간
+vsaniscsitarget.latency.metrics.latencyTotal.description = 이 대상의 모든 vSAN iSCSI LUN에 의해 생성되는 IO의 평균 총 지연 시간입니다.
+
+vsaniscsitarget.queue-depth.name = 미결 IO
+vsaniscsitarget.queue-depth.description = 이 대상의 모든 vSAN iSCSI LUN의 미결 IO입니다.
+vsaniscsitarget.queue-depth.metrics.queueDepth.name = 미결 IO
+vsaniscsitarget.queue-depth.metrics.queueDepth.description = 이 대상의 모든 vSAN iSCSI LUN의 미결 IO입니다.
+
+#
+# VsanIscsiLunStats
+#
+com.vmware.vsan.perf.entity.vsan-iscsi-lun.description = vSAN iSCSI LUN의 메트릭
+
+#
+## VsanIscsiLunStatsGraphs
+#
+vsaniscsilun.iops.name = IOPS
+vsaniscsilun.iops.description = 이 vSAN iSCSI LUN에 의해 사용되는 IOPS입니다.
+vsaniscsilun.iops.metrics.iopsRead.name = 읽기 IOPS
+vsaniscsilun.iops.metrics.iopsRead.description = 이 vSAN iSCSI LUN에 의해 사용되는 읽기 IOPS입니다.
+vsaniscsilun.iops.metrics.iopsWrite.name = 쓰기 IOPS
+vsaniscsilun.iops.metrics.iopsWrite.description = 이 vSAN iSCSI LUN에 의해 사용되는 쓰기 IOPS입니다.
+vsaniscsilun.iops.metrics.iopsTotal.name = 총 IOPS
+vsaniscsilun.iops.metrics.iopsTotal.description = 이 vSAN iSCSI LUN에 의해 사용되는 총 IOPS입니다.
+
+vsaniscsilun.bandwidth.name = 대역폭
+vsaniscsilun.bandwidth.description = 이 vSAN iSCSI LUN에 의해 사용되는 대역폭입니다.
+vsaniscsilun.bandwidth.metrics.bandwidthRead.name = 읽기 대역폭
+vsaniscsilun.bandwidth.metrics.bandwidthRead.description = 이 vSAN iSCSI LUN에 의해 사용되는 읽기 대역폭입니다.
+vsaniscsilun.bandwidth.metrics.bandwidthWrite.name = 쓰기 대역폭
+vsaniscsilun.bandwidth.metrics.bandwidthWrite.description = 이 vSAN iSCSI LUN에 의해 사용되는 쓰기 대역폭입니다.
+vsaniscsilun.bandwidth.metrics.bandwidthTotal.name = 총 대역폭
+vsaniscsilun.bandwidth.metrics.bandwidthTotal.description = 이 vSAN iSCSI LUN에 의해 사용되는 총 대역폭입니다.
+
+vsaniscsilun.latency.name = 지연 시간
+vsaniscsilun.latency.description = 이 vSAN iSCSI LUN에 의해 생성되는 IO의 평균 지연 시간입니다.
+vsaniscsilun.latency.metrics.latencyRead.name = 읽기 지연 시간
+vsaniscsilun.latency.metrics.latencyRead.description = 이 vSAN iSCSI LUN에 의해 생성되는 IO의 평균 읽기 지연 시간입니다.
+vsaniscsilun.latency.metrics.latencyWrite.name = 쓰기 지연 시간
+vsaniscsilun.latency.metrics.latencyWrite.description = 이 vSAN iSCSI LUN에 의해 생성되는 IO의 평균 쓰기 지연 시간입니다.
+vsaniscsilun.latency.metrics.latencyTotal.name = 총 지연 시간
+vsaniscsilun.latency.metrics.latencyTotal.description = 이 vSAN iSCSI LUN에 의해 생성되는 IO의 평균 총 지연 시간입니다.
+
+vsaniscsilun.queue-depth.name = 미결 IO
+vsaniscsilun.queue-depth.description = 이 vSAN iSCSI LUN의 미결 IO입니다.
+vsaniscsilun.queue-depth.metrics.queueDepth.name = 미결 IO
+vsaniscsilun.queue-depth.metrics.queueDepth.description = 이 vSAN iSCSI LUN의 미결 IO입니다.
+
+

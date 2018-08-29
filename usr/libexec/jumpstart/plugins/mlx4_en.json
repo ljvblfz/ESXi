@@ -1,0 +1,17 @@
+{
+   "operations" :
+   {
+      "start" :
+      [
+          "boot networking load --mlx4-en"
+      ]
+   }
+   ,
+   "metadata" :
+   {
+      "version"  : 1,
+      "requires" : ["networking vmklinux drivers"],
+      "provides" : ["networking support", "mlx4_en"]
+   }
+}
+

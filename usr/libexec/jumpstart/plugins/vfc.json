@@ -1,0 +1,22 @@
+/***********************************************************
+ * Copyright 2012 VMware, Inc.  All rights reserved.
+ * VMware Confidential
+ ***********************************************************/
+
+{
+   "operations" :
+   {
+      "start" :
+      [
+         "system module load --module vfc"
+      ]
+   }
+   ,
+   "metadata" :
+   {
+      "version"  : 1,
+      "requires" : ["system configuration", "vmkdevmgr", "vmfs", "vflash"],
+      "provides" : ["vfc"]
+   }
+}
+

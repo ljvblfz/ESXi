@@ -1,0 +1,31 @@
+<div
+   class="content-padding vm-wizard"
+   ng-if="activeTab.id === 'hardware' || !activeTab || hardwareTab.loaded"
+   ng-controller="VMWizardHardwareVirtualHardwareController">
+
+   <div vui-action-bar="virtualHardwareActionBarOptions"></div>
+
+   <div class="vui-stack-view"
+      ng-if="!loading.hardware">
+      <div class="stack-view-table basic">
+
+         <ng-include src="'views/vms/wizard/hardware/cpu.html'"></ng-include>
+         <ng-include src="'views/vms/wizard/hardware/memory.html'"></ng-include>
+         <ng-include src="'views/vms/wizard/hardware/hard-drives.html'"></ng-include>
+         <ng-include src="'views/vms/wizard/hardware/scsi-controllers.html'"></ng-include>
+         <ng-include src="'views/vms/wizard/hardware/nvme-controllers.html'"></ng-include>
+         <ng-include src="'views/vms/wizard/hardware/sata-controllers.html'"></ng-include>
+         <ng-include src="'views/vms/wizard/hardware/usb-controllers.html'"></ng-include>
+         <ng-include src="'views/vms/wizard/hardware/serial-ports.html'"></ng-include>
+         <ng-include src="'views/vms/wizard/hardware/parallel-ports.html'"></ng-include>
+         <ng-include src="'views/vms/wizard/hardware/network-adapters.html'"></ng-include>
+         <ng-include src="'views/vms/wizard/hardware/floppy-drives.html'"></ng-include>
+         <ng-include src="'views/vms/wizard/hardware/cdrom-drives.html'"></ng-include>
+         <ng-include src="'views/vms/wizard/hardware/video-cards.html'"></ng-include>
+         <ng-include src="'views/vms/wizard/hardware/sound-controllers.html'"></ng-include>
+         <ng-include src="'views/vms/wizard/hardware/pci-devices.html'"></ng-include>
+         <ng-include src="'views/vms/wizard/hardware/usb-devices.html'"></ng-include>
+         <ng-include src="'views/vms/wizard/hardware/nvdimms.html'"></ng-include>
+         <ng-include src="'views/vms/wizard/hardware/tpm.html'"></ng-include>
+      </div>
+   </div>

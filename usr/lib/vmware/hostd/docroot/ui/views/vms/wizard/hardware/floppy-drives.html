@@ -1,0 +1,127 @@
+<!-- Floppy drives -->
+<div
+   ng-class="{
+      'stack-new': wizardOptions.data.floppys[_index]._operation === 'add' &&
+         wizardOptions.data.Type === 'edit',
+      'stack-warning': floppy.OutputFileInvalid
+   }"
+   ng-repeat="(_index, floppy) in floppys"
+   vui-stack-block="hardwareStackView.floppyBlock[_index]">
+
+   <!-- Icon -->
+   <span vui-sb-icon-class="icon-stackview-floppy" vui-sb-label>{{floppy.title}}</span>
+
+   <!-- content collapsed-->
+   <div vui-sb-content>
+      <label class="label-508" title="{{floppy.title}}">
+         <div class="inline stack-dropdown" vui-dropdown="floppy.Type"></div>
+      </label>
+
+      <div class="inline checkbox"
+         ng-show="floppys[_index].Type.selectedValue !== 'Unsupported'">
+         <label
+            class="esx-stack-valign-tall"
+            ng-class="{
+               'label-disabled': wizardOptions.data.general.state === 'suspended'
+            }"
+            title="{{'vm.wizard.hardware.virtualhardware.floppy.connect' | translate}}">
+            <input
+               ng-disabled="
+                  wizardOptions.data.general.state === 'suspended' ||
+                  (wizardOptions.data.floppys[_index].Type === 'VirtualFloppyDeviceBackingInfo' &&
+                   wizardOptions.data.general.state === 'poweredOn')"
+               ng-model="wizardOptions.data.floppys[_index].Status"
+               type="checkbox"/>
+            {{'vm.wizard.hardware.virtualhardware.floppy.connect' |translate}}
+         </label>
+      </div>
+
+      <span class="esx-icon-close vui-icon-info-inline esx-stack-valign-tall esx-close-right"
+         ng-click="removeFloppyDrive(_index)"
+         ng-show="wizardOptions.data.general.state === 'poweredOff'"></span>
+   </div>
+
+   <!-- content expanded -->
+   <div vui-sb-content-expanded>
+      <label class="label-508" title="{{floppy.title}}">
+         <div class="inline stack-dropdown"
+            vui-dropdown="floppy.Type"></div>
+      </label>
+      <span class="esx-icon-close vui-icon-info-inline esx-stack-valign-tall esx-close-right"
+         ng-click="removeFloppyDrive(_index)"
+         ng-show="wizardOptions.data.general.state === 'poweredOff'"></span>
+   </div>
+
+   <!-- children -->
+   <div vui-stack-block
+      ng-show="floppys[_index].Type.selectedValue === 'Unsupported'">
+      <span vui-sb-label>
+         {{'vm.wizard.hardware.virtualhardware.floppy.unsupportedLabel' | translate}}</span>
+      <div vui-sb-content
+         ng-bind-html="'vm.wizard.hardware.virtualhardware.floppy.unsupported' | translate | linebreak">
+      </div>
+   </div>
+
+   <div vui-stack-block
+      ng-show="floppys[_index].Type.selectedValue !== 'Unsupported'">
+
+      <!-- Label -->
+      <span vui-sb-label>{{'vm.wizard.hardware.virtualhardware.floppy.status' | translate}}</span>
+
+      <!-- content -->
+      <div vui-sb-content>
+         <label
+            ng-class="{
+               'label-disabled': wizardOptions.data.general.state === 'suspended'}
+            "
+            title="{{'vm.wizard.hardware.virtualhardware.floppy.status' | translate}}">
+            <input
+               ng-disabled="
+                  wizardOptions.data.general.state === 'suspended' ||
+                  (wizardOptions.data.floppys[_index].Type === 'VirtualFloppyDeviceBackingInfo' &&
+                  wizardOptions.data.general.state === 'poweredOn')
+               "
+               ng-model="wizardOptions.data.floppys[_index].Status"
+               type="checkbox"/>
+            {{'vm.wizard.hardware.virtualhardware.floppy.connectAt' | translate}}
+         </label>
+      </div>
+   </div>
+
+   <div vui-stack-block
+      ng-show="floppys[_index].Type.selectedValue !== 'Unsupported'">
+
+      <!-- Label -->
+      <span vui-sb-label>{{'vm.wizard.hardware.virtualhardware.floppy.media.label' | translate}}</span>
+
+      <!-- content -->
+      <div vui-sb-content>
+         <div class="row no-margin"
+            ng-if="wizardOptions.data.floppys[_index].Type === 'VirtualFloppyImageBackingInfo'">
+            <div class="col-sm-12 no-padding">
+               <input
+                  class="inline"
+                  ng-class="{
+                     'invalid': floppy.OutputFileInvalid
+                  }"
+                  ng-model-options="{
+                     updateOn: 'blur'
+                  }"
+                  ng-model="wizardOptions.data.floppys[_index].OutputFile"
+                  title="{{'vm.wizard.hardware.virtualhardware.floppy.media.label' | translate}}"
+                  type="text"/>
+                  <button class="stack-spacer"
+                     ng-click="selectFloppyFile(_index)">{{'vm.wizard.hardware.virtualhardware.floppy.browse' | translate}}
+               </button>
+            </div>
+         </div>
+         <div class="row no-margin"
+            ng-if="wizardOptions.data.floppys[_index].Type === 'VirtualFloppyDeviceBackingInfo'">
+            <div class="col-sm-12 no-padding">
+               <p>{{'vm.wizard.hardware.virtualhardware.floppy.media.desc' | translate}}</p>
+            </div>
+         </div>
+      </div>
+   </div>
+</div>
+

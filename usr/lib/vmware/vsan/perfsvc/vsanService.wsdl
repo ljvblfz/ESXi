@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+   Copyright 2005-2018 VMware, Inc.  All rights reserved.
+-->
+<definitions targetNamespace="urn:vsanService"
+   xmlns="http://schemas.xmlsoap.org/wsdl/"
+   xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+   xmlns:interface="urn:vsan"
+>
+   <import location="vsan.wsdl" namespace="urn:vsan" />
+   <service name="VsanhealthService">
+      <port binding="interface:VsanhealthBinding" name="VsanhealthPort">
+         <soap:address location="https://localhost/sdk/vsanhealthService" />
+      </port>
+   </service>
+</definitions>

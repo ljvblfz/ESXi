@@ -1,0 +1,72 @@
+#
+# vSAN Build Recommendation messages
+#
+com.vmware.vsan.vum.enum.supported = 支持的硬件
+com.vmware.vsan.vum.enum.sameSupport = 支持的硬件未减少
+com.vmware.vsan.vum.enum.lessSupport = 支持的硬件已减少
+
+com.vmware.vsan.vum.enum.incompleteSupport = 部分支持的硬件
+com.vmware.vsan.vum.enum.noSupport = 不支持的硬件
+com.vmware.vsan.vum.enum.vcNoSupport = 不支持 vCenter
+com.vmware.vsan.vum.enum.incompatibleBuildType = 不兼容的内部版本类型
+com.vmware.vsan.vum.enum.missingBuild = 版本数据库中缺少内部版本
+com.vmware.vsan.vum.enum.sameSupportNotOnHcl = 现有版本和建议版本均不受 HCL 支持
+com.vmware.vsan.vum.enum.invalidEsxUpgradePath = 非官方支持的升级途径
+
+com.vmware.vsan.vum.note.notRecommended = 建议不要使用版本 {evalRelease}，因为与当前安装的版本相比，支持的硬件较少。
+com.vmware.vsan.vum.note.recommended = 建议使用 {evalRelease}，因为它支持所有硬件，而 {existingRelease} 则不能
+com.vmware.vsan.vum.note.vcNotSupported = 建议不要使用版本 {evalRelease}，因为 vCenter {vcVersion} 不支持将此群集中的部分主机升级到 {evalRelease}。
+com.vmware.vsan.vum.note.notFullySupport = 注意: 根据 vSAN HCL，所选版本 ({chosenRelease}) 不 (完全) 支持此硬件。但仍然选择此版本，因为其支持状况并不比当前安装的版本差。
+com.vmware.vsan.vum.note.fullySupport = 此硬件完全支持所选版本 {chosenRelease}。此版本是建议使用的最新 vSAN 版本。
+com.vmware.vsan.vum.note.notSupported = 根据 vSAN HCL，最新版本 ({chosenRelease}) 和当前安装的版本均不支持此硬件。
+com.vmware.vsan.vum.note.incompatibleBuildType = 不建议使用 {chosenRelease}，因为源内部版本类型 {srcType} 不兼容。
+com.vmware.vsan.vum.note.mixVersionInstalled = 群集混合安装了以下版本: {releases}
+com.vmware.vsan.vum.note.mixBldTypeInstalled = 群集混合安装了以下内部版本类型: {buildTypes}
+com.vmware.vsan.vum.note.upgradeToHclEnabledVersion = vSAN 无法评估硬件的 HCL 兼容性，因为已安装的 ESXi 版本低于 6.0 U2。vSAN 建议升级到最新 ESXi 版本，但是用户应当手动再次确认没有任何以前受支持的硬件在最新版本上变得不受支持。
+com.vmware.vsan.vum.note.driverManualUpgradeNeeded = 设备 ({device}) 的驱动程序 {driverName} 存在支持 vSAN HCL 的更新版本 {version}，需要手动进行升级。
+com.vmware.vsan.vum.note.noDriverUpgradeNeeded = 在此情况下，不涉及任何驱动程序升级/更新。
+com.vmware.vsan.vum.note.updateTime = 上次更新时间: {updateTime}。
+com.vmware.vsan.vum.note.invalidEsxUpgradePath = 从 {existingRelease} 到 {evalRelease} 的升级途径未获得官方支持。
+
+com.vmware.vsan.vum.patchName = vSAN 建议在 {chosenRelease} 上使用的修补程序
+#
+# vSAN Build Recommendation health check
+#
+com.vmware.vsan.health.test.vum = vSAN 内部版本建议
+
+com.vmware.vsan.health.test.vum.vumconfig =  vSAN 内部版本建议引擎需要依靠《VMware 兼容性指南》和 VMware 版本元数据来提供建议。此外，它还要求启用 VMware Update Manager 服务并设置 Internet 连接以及有效的 my.vmware.com 凭据来提供内部版本建议。此运行状况检查可确保满足这些依赖关系并确保此建议引擎正常运行。
+com.vmware.vsan.health.test.vum.vumconfig.short = 检查此内部版本建议引擎是否满足其所有依赖关系并能按预期运行
+com.vmware.vsan.health.test.vum.vumconfig.testName = vSAN 内部版本建议引擎运行状况
+
+com.vmware.vsan.health.test.vum.vumconfig.testResult.label = 问题
+com.vmware.vsan.health.test.vum.vumconfig.testResult.columnIssue = 问题信息
+
+com.vmware.vsan.health.test.vum.internetDisconnected = 无法访问 Internet。请恢复 Internet 连接，以便 vSAN 能够提供内部版本建议。
+com.vmware.vsan.health.test.vum.vumDisabled = VMware Update Manager (VUM) 已禁用或未安装。请确保 VUM 已安装且正常运行。
+com.vmware.vsan.health.test.vum.vumNotResponsive = VMware Update Manager (VUM) 无响应。请确保 VUM 服务可用且正常运行。
+com.vmware.vsan.health.test.vum.metadataOutdated = vSAN 版本元数据已过期。请确保 Internet 连接可用且 vSAN 能够访问 VMware 的最新版本元数据。
+com.vmware.vsan.health.test.vum.isoDepotCookieNotSet = 未设置 my.vmware.com 登录凭据。请使用正确的凭据进行登录。如果适用，系统将在大约 1 分钟后生成基准。
+com.vmware.vsan.health.test.vum.isoDepotAuthenticationFailed = my.vmware.com 身份验证失败。请使用正确的凭据重试登录。如果适用，系统将在大约 1 分钟后生成基准。
+com.vmware.vsan.health.test.vum.createBaselineFailed = VMware Update Manager (VUM) 基准创建意外失败。请检查 vSAN 和 VUM 日志了解详细信息。
+com.vmware.vsan.health.test.vum.isoDepotIsDown = VMware ISO 下载站点已关闭。
+
+com.vmware.vsan.health.test.vum.vumrecommendation = vSAN 内部版本建议。根据硬件及其在《VMware 兼容性指南》中的兼容性以及 VMware 已推出的版本，这是 vSAN 所建议的最合适的 ESXi 内部版本。
+com.vmware.vsan.health.test.vum.vumrecommendation.short =  根据已推出的版本以及 VCG 兼容性指南提供的 vSAN 内部版本建议
+com.vmware.vsan.health.test.vum.vumrecommendation.testName = vSAN 内部版本建议
+com.vmware.vsan.health.test.vum.vumrecommendation.testResult.label = vSAN 内部版本建议
+com.vmware.vsan.health.test.vum.vumrecommendation.testResult.columnCluster = 群集
+com.vmware.vsan.health.test.vum.vumrecommendation.testResult.columnRecommendation = 建议
+com.vmware.vsan.health.test.vum.vumrecommendation.recommendationAvailable = 群集 {cluster} 的建议版本: {release}
+
+com.vmware.vsan.vum.error.incorrectCredential = my.vmware.com 登录凭据不正确。请使用正确的凭据重试登录。如果适用，系统将在大约 1 分钟后生成基准。
+com.vmware.vsan.vum.error.isoDepotIsDown = VMware ISO 下载站点已关闭，请稍后重试。
+
+
+# FW checks
+com.vmware.vsan.health.test.fwupdate.fwrecommendation = vSAN 固件建议。这是基于当前主机软件版本、硬件驱动程序版本及其在《VMware 兼容性指南》中的兼容性给出的固件建议。
+com.vmware.vsan.health.test.fwupdate.fwrecommendation.short = 基于 VCG 的 vSAN 固件建议。
+com.vmware.vsan.health.test.fwupdate.fwrecommendation.testName = vSAN 固件版本建议
+com.vmware.vsan.health.test.fwupdate.fwrecommendation.testResult.label = vSAN 固件版本建议
+com.vmware.vsan.health.test.fwupdate.fwrecommendation.testResult.columnHost = 主机
+com.vmware.vsan.health.test.fwupdate.fwrecommendation.testResult.columnRecommendation = 建议
+com.vmware.vsan.health.test.fwupdate.fwrecommendation.recommendationAvailable = 主机 {host} 需要固件更新: {recommendations}
